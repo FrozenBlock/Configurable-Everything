@@ -30,7 +30,7 @@ public class BiomeConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			BiomeConfig.class,
-			ConfigurableEverythingUtils.makePath("main", true),
+			ConfigurableEverythingUtils.makePath("biome", true),
 			true,
 			new GsonBuilder()
 		)
