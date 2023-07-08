@@ -4,6 +4,7 @@
   "package": "net.frozenblock.configurableeverything.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MultiNoiseBiomeSourceParameterListMixin"
   ],
   "client": [
   ],
