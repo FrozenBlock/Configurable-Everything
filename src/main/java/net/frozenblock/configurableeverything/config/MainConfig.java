@@ -8,12 +8,12 @@ import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 
-public class ConfigurableEverythingMainConfig {
+public class MainConfig {
 
-	private static final Config<ConfigurableEverythingMainConfig> INSTANCE = ConfigRegistry.register(
+	private static final Config<MainConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
-			ConfigurableEverythingMainConfig.class,
+			MainConfig.class,
 			ConfigurableEverythingUtils.makePath("main", true),
 			true,
 			new GsonBuilder()
@@ -27,7 +27,7 @@ public class ConfigurableEverythingMainConfig {
 	)
 	public int testValue = 69;
 
-	public static ConfigurableEverythingMainConfig get() {
+	public static MainConfig get() {
 		return INSTANCE.config();
 	}
 }

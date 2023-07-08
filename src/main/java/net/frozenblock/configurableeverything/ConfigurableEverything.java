@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.ModContainer;
-import net.frozenblock.configurableeverything.config.ConfigurableEverythingMainConfig;
+import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
@@ -18,7 +18,7 @@ public class ConfigurableEverything implements ModInitializer {
 		applyDataFixes(ConfigurableEverythingSharedConstants.MOD_CONTAINER);
 
 		ConfigurableEverythingIntegrations.init();
-		ConfigurableEverythingMainConfig.get();
+		MainConfig.get();
 
 		ConfigurableEverythingUtils.stopMeasuring(this);
 	}
