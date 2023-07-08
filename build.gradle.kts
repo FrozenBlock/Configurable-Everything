@@ -53,6 +53,7 @@ val fabric_version: String by project
 val fabric_kotlin_version: String by project
 val fabric_asm_version: String by project
 val frozenlib_version: String by project
+val jankson_version: String by project
 
 val betterend_version: String by project
 val betternether_version: String by project
@@ -235,6 +236,9 @@ dependencies {
     } else {
         modImplementation("maven.modrinth:frozenlib:${frozenlib_version}")?.let { include(it) }
     }
+
+    // Jankson
+    implementation("blue.endless:jankson:$jankson_version")
 
     // CaffeineConfig
     //include(modImplementation("net.caffeinemc:mixin-config:1.0.0+1.17"))

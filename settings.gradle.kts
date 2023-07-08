@@ -25,7 +25,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Template Mod"
+rootProject.name = "Configurable Everything"
 
 localRepository("FrozenLib", "maven.modrinth:frozenlib", true)
 

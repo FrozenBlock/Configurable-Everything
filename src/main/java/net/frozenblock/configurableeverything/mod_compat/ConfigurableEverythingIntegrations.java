@@ -1,31 +1,31 @@
-package net.frozenblock.template.mod_compat;
+package net.frozenblock.configurableeverything.mod_compat;
 
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.lib.integration.api.ModIntegration;
 import net.frozenblock.lib.integration.api.ModIntegrationSupplier;
 import net.frozenblock.lib.integration.api.ModIntegrations;
-import net.frozenblock.template.util.TemplateModSharedConstants;
 import java.util.function.Supplier;
 
-public final class TemplateModIntegrations {
+public final class ConfigurableEverythingIntegrations {
 
 	public static final ModIntegration FROZENLIB_INTEGRATION = registerAndGet(FrozenLibIntegration::new, "frozenlib");
 
-	private TemplateModIntegrations() {
-		throw new UnsupportedOperationException("TemplateModIntegrations contains only static declarations.");
+	private ConfigurableEverythingIntegrations() {
+		throw new UnsupportedOperationException("ConfigurableEverythingIntegrations contains only static declarations.");
 	}
 
 	public static void init() {
 	}
 
 	public static ModIntegrationSupplier<? extends ModIntegration> register(Supplier<? extends ModIntegration> integration, String modID) {
-		return ModIntegrations.register(integration, TemplateModSharedConstants.MOD_ID, modID);
+		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstants.MOD_ID, modID);
 	}
 
 	public static <T extends ModIntegration> ModIntegrationSupplier<T> register(Supplier<T> integration, Supplier<T> unloadedIntegration, String modID) {
-		return ModIntegrations.register(integration, unloadedIntegration, TemplateModSharedConstants.MOD_ID, modID);
+		return ModIntegrations.register(integration, unloadedIntegration, ConfigurableEverythingSharedConstants.MOD_ID, modID);
 	}
 
 	public static <T extends ModIntegration> ModIntegration registerAndGet(Supplier<T> integration, String modID) {
-		return ModIntegrations.register(integration, TemplateModSharedConstants.MOD_ID, modID).getIntegration();
+		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstants.MOD_ID, modID).getIntegration();
 	}
 }

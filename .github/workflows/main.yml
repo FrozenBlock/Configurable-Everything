@@ -50,5 +50,5 @@ jobs:
       - name: Capture Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: TemplateMod-Artifacts-${{ steps.ref.outputs.branch }}
+          name: ConfigurableEverything-Artifacts-${{ steps.ref.outputs.branch }}
           path: build/libs/

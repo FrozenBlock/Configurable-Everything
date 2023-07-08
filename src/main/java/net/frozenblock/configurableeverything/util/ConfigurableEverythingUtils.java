@@ -1,16 +1,22 @@
-package net.frozenblock.template.util;
+package net.frozenblock.configurableeverything.util;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import static net.frozenblock.template.util.TemplateModSharedConstants.*;
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants.*;
 
-public final class TemplateModUtils {
-	private TemplateModUtils() {
-		throw new UnsupportedOperationException("TemplateModUtils contains only static declarations.");
+public final class ConfigurableEverythingUtils {
+	private ConfigurableEverythingUtils() {
+		throw new UnsupportedOperationException("ConfigurableEverythingUtils contains only static declarations.");
+	}
+
+	// CONFIG
+	public static Path makePath(String name, boolean json5) {
+		return Path.of("./config/" + MOD_ID + "/" + name + "." + (json5 ? "json5" : "json"));
 	}
 
 	// LOGGING
