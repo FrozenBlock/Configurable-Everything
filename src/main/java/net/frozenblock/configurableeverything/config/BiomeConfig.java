@@ -51,7 +51,7 @@ public class BiomeConfig {
 
 	@Comment(
 		"""
-		Add any biome registered in the game to worldgen, with the parameters set.
+		Add any biome to worldgen, with the parameters set.
 		"""
 	)
 	public TypedEntry<List<BiomeList>> addedBiomes = new TypedEntry<>(
