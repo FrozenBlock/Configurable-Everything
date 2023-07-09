@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.config;
 import blue.endless.jankson.Comment;
 import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Pair;
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.BiomeList;
 import net.frozenblock.configurableeverything.util.BiomeParameters;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
@@ -50,7 +51,7 @@ public class BiomeConfig {
 
 	@Comment(
 		"""
-		This does not currently work with datapacks
+		Add any biome registered in the game to worldgen, with the parameters set.
 		"""
 	)
 	public TypedEntry<List<BiomeList>> addedBiomes = new TypedEntry<>(
@@ -60,13 +61,13 @@ public class BiomeConfig {
 				BuiltinDimensionTypes.OVERWORLD,
 				List.of(
 					new BiomeParameters(
-						Biomes.CHERRY_GROVE,
+						ConfigurableEverythingDataGenerator.BLANK_BIOME,
 						Climate.parameters(
 							Climate.Parameter.span(-1F, 1F),
-							Climate.Parameter.span(-1F, 1F),
-							Climate.Parameter.span(-1F, 1F),
-							Climate.Parameter.span(-1F, 1F),
-							Climate.Parameter.span(-1F, 1F),
+							Climate.Parameter.span(0F, 1F),
+							Climate.Parameter.span(-0.3F, 0.1666667F),
+							Climate.Parameter.span(-1F, -1F),
+							Climate.Parameter.point(-0.5F),
 							Climate.Parameter.span(-1F, 1F),
 							0F
 						)
@@ -78,13 +79,14 @@ public class BiomeConfig {
 
 	@Comment(
 		"""
-		This does not currently work with datapacks
+		Remove any biome from worldgen
+		Note: This can remove biomes added from "addedBiomes"
 		"""
 	)
 	public TypedEntry<List<ResourceKey<Biome>>> removedBiomes = new TypedEntry<>(
 		BIOME_LIST,
 		List.of(
-			ResourceKey.create(Registries.BIOME, new ResourceLocation("mangrove_swamp"))
+			ConfigurableEverythingDataGenerator.BLANK_BIOME
 		)
 	);
 

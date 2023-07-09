@@ -23,11 +23,10 @@ public class BiomeSourceMixin implements BiomeSourceExtension {
 
 	@Override
 	public void updateBiomesList(List<Holder<Biome>> biomesToAdd, List<Holder<Biome>> biomesToRemove) {
-
 		List<Holder<Biome>> biomeList = new ArrayList<>(this.possibleBiomes.get());
 
-		biomeList.removeAll(biomesToRemove);
 		biomeList.addAll(biomesToAdd);
+		biomeList.removeAll(biomesToRemove);
 
 		this.possibleBiomes = () -> new ObjectLinkedOpenHashSet<>(biomeList);
 	}

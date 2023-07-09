@@ -39,13 +39,12 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 			var biomeValues = (List<Pair<Climate.ParameterPoint, Holder<Biome>>>) (List) this.values;
 			List<Pair<Climate.ParameterPoint, Holder<Biome>>> newParameters = new ArrayList<>(biomeValues);
 
+			newParameters.addAll(addedBiomes);
 			newParameters.removeAll(
 				newParameters.stream().filter(pair ->
 					removedBiomes.contains(pair.getSecond().unwrapKey().orElseThrow())
 				).toList()
 			);
-
-			newParameters.addAll(addedBiomes);
 
 			this.values = List.copyOf((List<Pair<Climate.ParameterPoint, T>>) (List) newParameters);
 			this.index = Climate.RTree.create(this.values);
