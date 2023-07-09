@@ -3,6 +3,8 @@ package net.frozenblock.configurableeverything.mixin;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.configurableeverything.config.BiomeConfig;
 import net.frozenblock.configurableeverything.util.BiomeParameters;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.resources.ResourceKey;
@@ -44,7 +46,12 @@ public class MultiNoiseBiomeSourceParameterListMixin {
 
 		if (addedBiomes != null && addedBiomes.value() != null) {
 			for (BiomeParameters parameters : addedBiomes.value()) {
-				newParameters.add(Pair.of(parameters.parameters(), biomeProvider.getOrThrow(parameters.biome())));
+				var optionalHolder = biomeProvider.get(parameters.biome());
+				if (optionalHolder.isPresent()) {
+					newParameters.add(Pair.of(parameters.parameters(), optionalHolder.get()));
+				} else {
+					ConfigurableEverythingSharedConstants.LOGGER.error("Invalid biome id in biome config: " + parameters.biome().location());
+				}
 			}
 		}
 
