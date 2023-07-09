@@ -43,6 +43,9 @@ public class BiomeConfig {
 		)
 	);
 
+	@Comment("Enables or disables this feature")
+	public boolean enabled = true;
+
 	@Comment(
 		"""
 		Add any biome to worldgen, with the parameters set.

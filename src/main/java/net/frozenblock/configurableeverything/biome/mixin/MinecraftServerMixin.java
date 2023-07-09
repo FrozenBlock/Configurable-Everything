@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.biome.mixin;
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.configurableeverything.biome.util.BiomeSourceExtension;
+import net.frozenblock.configurableeverything.config.BiomeConfig;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.configurableeverything.biome.util.ParameterListExtension;
 import net.minecraft.core.Holder;
@@ -38,33 +39,35 @@ public abstract class MinecraftServerMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Thread serverThread, LevelStorageSource.LevelStorageAccess storageSource, PackRepository packRepository, WorldStem worldStem, Proxy proxy, DataFixer fixerUpper, Services services, ChunkProgressListenerFactory progressListenerFactory, CallbackInfo ci) {
-		var registryAccess = this.registryAccess();
-		var levelStemRegistry = this.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
+		if (BiomeConfig.get().enabled) {
+			var registryAccess = this.registryAccess();
+			var levelStemRegistry = this.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
 
-		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : levelStemRegistry.entrySet()) {
-			var stem = entry.getValue();
-			var dimension = stem.type().unwrapKey().orElseThrow();
-			var chunkGenerator = stem.generator();
-			if (chunkGenerator instanceof NoiseBasedChunkGenerator noiseChunkGenerator) {
-				var biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME);
-				var biomeSource = noiseChunkGenerator.getBiomeSource();
-				if (biomeSource instanceof MultiNoiseBiomeSource multiNoiseBiomeSource) {
-					BiomeSourceExtension extended = (BiomeSourceExtension) multiNoiseBiomeSource;
+			for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : levelStemRegistry.entrySet()) {
+				var stem = entry.getValue();
+				var dimension = stem.type().unwrapKey().orElseThrow();
+				var chunkGenerator = stem.generator();
+				if (chunkGenerator instanceof NoiseBasedChunkGenerator noiseChunkGenerator) {
+					var biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME);
+					var biomeSource = noiseChunkGenerator.getBiomeSource();
+					if (biomeSource instanceof MultiNoiseBiomeSource multiNoiseBiomeSource) {
+						BiomeSourceExtension extended = (BiomeSourceExtension) multiNoiseBiomeSource;
 
-					var parameters = multiNoiseBiomeSource.parameters();
-					((ParameterListExtension) parameters).updateBiomesList(registryAccess, dimension);
+						var parameters = multiNoiseBiomeSource.parameters();
+						((ParameterListExtension) parameters).updateBiomesList(registryAccess, dimension);
 
-					List<Pair<Climate.ParameterPoint, Holder<Biome>>> addedBiomes = ConfigurableEverythingUtils.biomeAdditions(biomeRegistry, dimension);
-					List<Holder<Biome>> addedBiomeHolders = new ArrayList<>();
-					for (Pair<Climate.ParameterPoint, Holder<Biome>> pair : addedBiomes) {
-						addedBiomeHolders.add(pair.getSecond());
+						List<Pair<Climate.ParameterPoint, Holder<Biome>>> addedBiomes = ConfigurableEverythingUtils.biomeAdditions(biomeRegistry, dimension);
+						List<Holder<Biome>> addedBiomeHolders = new ArrayList<>();
+						for (Pair<Climate.ParameterPoint, Holder<Biome>> pair : addedBiomes) {
+							addedBiomeHolders.add(pair.getSecond());
+						}
+						List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
+						for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension)) {
+							removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
+						}
+
+						extended.updateBiomesList(addedBiomeHolders, removedBiomeHolders);
 					}
-					List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
-					for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension)) {
-						removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
-					}
-
-					extended.updateBiomesList(addedBiomeHolders, removedBiomeHolders);
 				}
 			}
 		}
