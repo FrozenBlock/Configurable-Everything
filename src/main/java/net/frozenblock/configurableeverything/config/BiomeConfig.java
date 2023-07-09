@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.config;
 
 import blue.endless.jankson.Comment;
 import com.google.gson.GsonBuilder;
-import com.mojang.datafixers.util.Pair;
+import java.util.List;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.BiomeList;
 import net.frozenblock.configurableeverything.util.BiomeParameters;
@@ -15,13 +15,9 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
-import net.minecraft.world.level.dimension.DimensionType;
-import java.util.List;
 
 public class BiomeConfig {
 
@@ -52,6 +48,7 @@ public class BiomeConfig {
 	@Comment(
 		"""
 		Add any biome to worldgen, with the parameters set.
+		Supports: Vanilla biomes, datapack biomes
 		"""
 	)
 	public TypedEntry<List<BiomeList>> addedBiomes = new TypedEntry<>(
@@ -80,7 +77,7 @@ public class BiomeConfig {
 	@Comment(
 		"""
 		Remove any biome from worldgen
-		Note: This can remove biomes added from "addedBiomes"
+		Supports: Vanilla biomes, datapack biomes, biomes from "addedBiomes"
 		"""
 	)
 	public TypedEntry<List<ResourceKey<Biome>>> removedBiomes = new TypedEntry<>(

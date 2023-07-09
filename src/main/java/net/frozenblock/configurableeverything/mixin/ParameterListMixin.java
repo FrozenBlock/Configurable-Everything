@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Mixin(value = Climate.ParameterList.class, priority = 993)
+@Mixin(value = Climate.ParameterList.class, priority = 997)
 public class ParameterListMixin<T> implements ParameterListExtension {
 	@Mutable
 	@Shadow
