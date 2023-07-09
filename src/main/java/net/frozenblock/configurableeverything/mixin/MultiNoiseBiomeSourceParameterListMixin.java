@@ -32,12 +32,12 @@ public class MultiNoiseBiomeSourceParameterListMixin {
 		var biomeConfig = BiomeConfig.get();
 		var addedBiomes = biomeConfig.addedBiomes;
 		var removedBiomes = biomeConfig.removedBiomes;
-		List<Pair<Climate.ParameterPoint, Holder<Biome>>> newParameters = new ArrayList<>();
+		List<Pair<Climate.ParameterPoint, Holder<Biome>>> newParameters = new ArrayList<>(this.parameters.values());
 
 		if (removedBiomes != null && removedBiomes.value() != null) {
-			newParameters.addAll(
+			newParameters.removeAll(
 				this.parameters.values().stream().filter(pair ->
-					!removedBiomes.value().contains(pair.getSecond().unwrapKey().orElseThrow())
+					removedBiomes.value().contains(pair.getSecond().unwrapKey().orElseThrow())
 				).toList()
 			);
 		}
