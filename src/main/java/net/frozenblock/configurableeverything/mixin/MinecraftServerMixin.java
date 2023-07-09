@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Mixin(value = MinecraftServer.class, priority = 997)
+@Mixin(value = MinecraftServer.class, priority = 993)
 public abstract class MinecraftServerMixin {
 
 	@Shadow

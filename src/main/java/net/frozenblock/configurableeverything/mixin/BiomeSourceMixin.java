@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-@Mixin(value = BiomeSource.class, priority = 997)
+@Mixin(value = BiomeSource.class, priority = 993)
 public class BiomeSourceMixin implements BiomeSourceExtension {
 	@Mutable
 	@Shadow
