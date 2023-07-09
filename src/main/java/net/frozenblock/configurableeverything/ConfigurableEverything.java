@@ -2,8 +2,10 @@ package net.frozenblock.configurableeverything;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.ModContainer;
-import net.frozenblock.configurableeverything.config.BiomeConfig;
+import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil;
+import net.frozenblock.configurableeverything.config.BiomePlacementConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
+import net.frozenblock.configurableeverything.config.BiomeConfig;
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
@@ -20,7 +22,8 @@ public class ConfigurableEverything implements ModInitializer {
 
 		ConfigurableEverythingIntegrations.init();
 		MainConfig.get();
-		BiomeConfig.get();
+		BiomeConfigUtil.init();
+		BiomePlacementConfig.get();
 
 		ConfigurableEverythingUtils.stopMeasuring(this);
 	}

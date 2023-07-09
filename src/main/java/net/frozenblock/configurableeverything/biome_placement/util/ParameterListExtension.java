@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.biome.util;
+package net.frozenblock.configurableeverything.biome_placement.util;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;

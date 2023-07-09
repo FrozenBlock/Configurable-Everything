@@ -1,10 +1,10 @@
 package net.frozenblock.configurableeverything.util;
 
 import com.mojang.datafixers.util.Pair;
-import net.frozenblock.configurableeverything.config.BiomeConfig;
-import net.frozenblock.configurableeverything.biome.util.BiomeParameters;
-import net.frozenblock.configurableeverything.biome.util.DimensionBiomeKeyList;
-import net.frozenblock.configurableeverything.biome.util.DimensionBiomeList;
+import net.frozenblock.configurableeverything.config.BiomePlacementConfig;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters;
+import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList;
+import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -35,7 +35,7 @@ public final class ConfigurableEverythingUtils {
 	// BIOME PARAMETERS
 	public static List<Pair<Climate.ParameterPoint, Holder<Biome>>> biomeAdditions(HolderGetter<Biome> registryAccess, ResourceKey<DimensionType> dimension) {
 		List<Pair<Climate.ParameterPoint, Holder<Biome>>> biomeAdditions = new ArrayList<>();
-		var addedBiomes = BiomeConfig.get().addedBiomes;
+		var addedBiomes = BiomePlacementConfig.get().addedBiomes;
 		if (addedBiomes != null && addedBiomes.value() != null) {
 			var dimensionBiomes = addedBiomes.value().stream().filter(list -> list.dimension().equals(dimension)).toList();
 			for (DimensionBiomeList list : dimensionBiomes) {
@@ -49,7 +49,7 @@ public final class ConfigurableEverythingUtils {
 
 	public static List<ResourceKey<Biome>> biomeRemovals(ResourceKey<DimensionType> dimension) {
 		List<ResourceKey<Biome>> biomeRemovals = new ArrayList<>();
-		var removedBiomes = BiomeConfig.get().removedBiomes;
+		var removedBiomes = BiomePlacementConfig.get().removedBiomes;
 		if (removedBiomes != null && removedBiomes.value() != null) {
 			var dimensionBiomes = removedBiomes.value().stream().filter(list -> list.dimension().equals(dimension)).toList();
 			for (DimensionBiomeKeyList list : dimensionBiomes) {

@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.biome.util;
+package net.frozenblock.configurableeverything.biome_placement.util;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

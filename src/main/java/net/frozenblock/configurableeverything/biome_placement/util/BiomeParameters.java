@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.biome.util;
+package net.frozenblock.configurableeverything.biome_placement.util;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,7 +11,7 @@ public record BiomeParameters(ResourceKey<Biome> biome, Climate.ParameterPoint p
 
 	public static final Codec<BiomeParameters> CODEC = RecordCodecBuilder.create(instance ->
 		instance.group(
-			ResourceKey.codec(Registries.BIOME).fieldOf("biome").forGetter(BiomeParameters::biome),
+			ResourceKey.codec(Registries.BIOME).fieldOf("biome_placement").forGetter(BiomeParameters::biome),
 			Climate.ParameterPoint.CODEC.fieldOf("parameters").forGetter(BiomeParameters::parameters)
 		).apply(instance, BiomeParameters::new)
 	);

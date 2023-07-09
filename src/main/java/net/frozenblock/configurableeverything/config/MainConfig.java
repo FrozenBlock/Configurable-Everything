@@ -23,7 +23,10 @@ public class MainConfig {
 	);
 
 	@Comment("Enabled features")
+
 	public boolean biome = true;
+
+	public boolean biome_placement = true;
 
 	public static MainConfig get() {
 		return INSTANCE.config();

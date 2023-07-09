@@ -1,7 +1,7 @@
-package net.frozenblock.configurableeverything.biome.mixin;
+package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
-import net.frozenblock.configurableeverything.biome.util.BiomeSourceExtension;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomeSourceExtension;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;

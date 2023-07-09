@@ -1,12 +1,11 @@
-package net.frozenblock.configurableeverything.biome.mixin;
+package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
-import net.frozenblock.configurableeverything.biome.util.BiomeSourceExtension;
-import net.frozenblock.configurableeverything.config.BiomeConfig;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomeSourceExtension;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
-import net.frozenblock.configurableeverything.biome.util.ParameterListExtension;
+import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -40,16 +39,16 @@ public abstract class MinecraftServerMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Thread serverThread, LevelStorageSource.LevelStorageAccess storageSource, PackRepository packRepository, WorldStem worldStem, Proxy proxy, DataFixer fixerUpper, Services services, ChunkProgressListenerFactory progressListenerFactory, CallbackInfo ci) {
-		if (MainConfig.get().biome) {
-			var registryAccess = this.registryAccess();
-			var levelStemRegistry = this.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
+		var registryAccess = this.registryAccess();
+		var biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME);
+		var levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
 
+		if (MainConfig.get().biome_placement) {
 			for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : levelStemRegistry.entrySet()) {
 				var stem = entry.getValue();
 				var dimension = stem.type().unwrapKey().orElseThrow();
 				var chunkGenerator = stem.generator();
 				if (chunkGenerator instanceof NoiseBasedChunkGenerator noiseChunkGenerator) {
-					var biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME);
 					var biomeSource = noiseChunkGenerator.getBiomeSource();
 					if (biomeSource instanceof MultiNoiseBiomeSource multiNoiseBiomeSource) {
 						BiomeSourceExtension extended = (BiomeSourceExtension) multiNoiseBiomeSource;
