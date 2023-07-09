@@ -30,7 +30,7 @@
     ]
   },
   "mixins": [
-    "configurable_everything.mixins.json"
+    "configurable_everything_biome.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 

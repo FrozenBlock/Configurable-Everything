@@ -1,8 +1,8 @@
-package net.frozenblock.configurableeverything.mixin;
+package net.frozenblock.configurableeverything.biome.mixin;
 
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
-import net.frozenblock.configurableeverything.util.ParameterListExtension;
+import net.frozenblock.configurableeverything.biome.util.ParameterListExtension;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Mixin(value = Climate.ParameterList.class, priority = 993)

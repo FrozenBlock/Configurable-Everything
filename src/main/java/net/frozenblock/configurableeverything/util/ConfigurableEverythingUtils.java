@@ -2,6 +2,9 @@ package net.frozenblock.configurableeverything.util;
 
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.configurableeverything.config.BiomeConfig;
+import net.frozenblock.configurableeverything.biome.util.BiomeParameters;
+import net.frozenblock.configurableeverything.biome.util.DimensionBiomeKeyList;
+import net.frozenblock.configurableeverything.biome.util.DimensionBiomeList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;

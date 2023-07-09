@@ -1,10 +1,10 @@
-package net.frozenblock.configurableeverything.mixin;
+package net.frozenblock.configurableeverything.biome.mixin;
 
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
-import net.frozenblock.configurableeverything.util.BiomeSourceExtension;
+import net.frozenblock.configurableeverything.biome.util.BiomeSourceExtension;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
-import net.frozenblock.configurableeverything.util.ParameterListExtension;
+import net.frozenblock.configurableeverything.biome.util.ParameterListExtension;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
