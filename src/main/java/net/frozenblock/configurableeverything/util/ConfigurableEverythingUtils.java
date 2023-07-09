@@ -1,11 +1,22 @@
 package net.frozenblock.configurableeverything.util;
 
+import com.mojang.datafixers.util.Pair;
+import net.frozenblock.configurableeverything.config.BiomeConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.dimension.DimensionType;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants.*;
 
@@ -17,6 +28,29 @@ public final class ConfigurableEverythingUtils {
 	// CONFIG
 	public static Path makePath(String name, boolean json5) {
 		return Path.of("./config/" + MOD_ID + "/" + name + "." + (json5 ? "json5" : "json"));
+	}
+
+	// BIOME PARAMETERS
+	public static List<Pair<Climate.ParameterPoint, Holder<Biome>>> biomeAdditions(HolderGetter<Biome> registryAccess, ResourceKey<DimensionType> dimension) {
+		List<Pair<Climate.ParameterPoint, Holder<Biome>>> biomeAdditions = new ArrayList<>();
+		var addedBiomes = BiomeConfig.get().addedBiomes;
+		if (addedBiomes != null && addedBiomes.value() != null) {
+			var dimensionBiomes = addedBiomes.value().stream().filter(list -> list.dimension().equals(dimension)).toList();
+			for (BiomeList list : dimensionBiomes) {
+				for (BiomeParameters parameters : list.biomes()) {
+					biomeAdditions.add(Pair.of(parameters.parameters(), registryAccess.getOrThrow(parameters.biome())));
+				}
+			}
+		}
+		return biomeAdditions;
+	}
+
+	public static List<ResourceKey<Biome>> biomeRemovals() {
+		var removedBiomes = BiomeConfig.get().removedBiomes;
+		if (removedBiomes != null && removedBiomes.value() != null) {
+			return removedBiomes.value();
+		}
+		return List.of();
 	}
 
 	// LOGGING
