@@ -4,6 +4,7 @@ import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
 import net.frozenblock.configurableeverything.biome.util.BiomeSourceExtension;
 import net.frozenblock.configurableeverything.config.BiomeConfig;
+import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.configurableeverything.biome.util.ParameterListExtension;
 import net.minecraft.core.Holder;
@@ -39,7 +40,7 @@ public abstract class MinecraftServerMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Thread serverThread, LevelStorageSource.LevelStorageAccess storageSource, PackRepository packRepository, WorldStem worldStem, Proxy proxy, DataFixer fixerUpper, Services services, ChunkProgressListenerFactory progressListenerFactory, CallbackInfo ci) {
-		if (BiomeConfig.get().enabled) {
+		if (MainConfig.get().biome) {
 			var registryAccess = this.registryAccess();
 			var levelStemRegistry = this.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
 
