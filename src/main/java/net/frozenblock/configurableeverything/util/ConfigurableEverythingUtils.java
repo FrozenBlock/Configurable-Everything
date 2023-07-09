@@ -5,7 +5,6 @@ import net.frozenblock.configurableeverything.config.BiomeConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -36,7 +35,7 @@ public final class ConfigurableEverythingUtils {
 		var addedBiomes = BiomeConfig.get().addedBiomes;
 		if (addedBiomes != null && addedBiomes.value() != null) {
 			var dimensionBiomes = addedBiomes.value().stream().filter(list -> list.dimension().equals(dimension)).toList();
-			for (BiomeList list : dimensionBiomes) {
+			for (DimensionBiomeList list : dimensionBiomes) {
 				for (BiomeParameters parameters : list.biomes()) {
 					biomeAdditions.add(Pair.of(parameters.parameters(), registryAccess.getOrThrow(parameters.biome())));
 				}
@@ -45,12 +44,16 @@ public final class ConfigurableEverythingUtils {
 		return biomeAdditions;
 	}
 
-	public static List<ResourceKey<Biome>> biomeRemovals() {
+	public static List<ResourceKey<Biome>> biomeRemovals(ResourceKey<DimensionType> dimension) {
+		List<ResourceKey<Biome>> biomeRemovals = new ArrayList<>();
 		var removedBiomes = BiomeConfig.get().removedBiomes;
 		if (removedBiomes != null && removedBiomes.value() != null) {
-			return removedBiomes.value();
+			var dimensionBiomes = removedBiomes.value().stream().filter(list -> list.dimension().equals(dimension)).toList();
+			for (DimensionBiomeKeyList list : dimensionBiomes) {
+				biomeRemovals.addAll(list.biomes());
+			}
 		}
-		return List.of();
+		return biomeRemovals;
 	}
 
 	// LOGGING

@@ -60,7 +60,7 @@ public abstract class MinecraftServerMixin {
 						addedBiomeHolders.add(pair.getSecond());
 					}
 					List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
-					for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals()) {
+					for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension)) {
 						removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
 					}
 

@@ -32,8 +32,8 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 
 	@Override
 	public void updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
-		var removedBiomes = ConfigurableEverythingUtils.biomeRemovals();
 		var addedBiomes = ConfigurableEverythingUtils.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
+		var removedBiomes = ConfigurableEverythingUtils.biomeRemovals(dimension);
 
 		try {
 			var biomeValues = (List<Pair<Climate.ParameterPoint, Holder<Biome>>>) (List) this.values;

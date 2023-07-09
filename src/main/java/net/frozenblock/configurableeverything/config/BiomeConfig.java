@@ -4,34 +4,32 @@ import blue.endless.jankson.Comment;
 import com.google.gson.GsonBuilder;
 import java.util.List;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
-import net.frozenblock.configurableeverything.util.BiomeList;
+import net.frozenblock.configurableeverything.util.DimensionBiomeList;
 import net.frozenblock.configurableeverything.util.BiomeParameters;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.DimensionBiomeKeyList;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 
 public class BiomeConfig {
 
-	private static final TypedEntryType<List<ResourceKey<Biome>>> BIOME_LIST = ConfigRegistry.register(
+	private static final TypedEntryType<List<DimensionBiomeKeyList>> BIOME_KEY_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
-			ResourceKey.codec(Registries.BIOME).listOf()
+			DimensionBiomeKeyList.CODEC.listOf()
 		)
 	);
 
-	private static TypedEntryType<List<BiomeList>> BIOME_PARAMETERS = ConfigRegistry.register(
+	private static final TypedEntryType<List<DimensionBiomeList>> BIOME_PARAMETER_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
-			BiomeList.CODEC.listOf()
+			DimensionBiomeList.CODEC.listOf()
 		)
 	);
 
@@ -51,10 +49,10 @@ public class BiomeConfig {
 		Supports: Vanilla biomes, datapack biomes
 		"""
 	)
-	public TypedEntry<List<BiomeList>> addedBiomes = new TypedEntry<>(
-		BIOME_PARAMETERS,
+	public TypedEntry<List<DimensionBiomeList>> addedBiomes = new TypedEntry<>(
+		BIOME_PARAMETER_LIST,
 		List.of(
-			new BiomeList(
+			new DimensionBiomeList(
 				BuiltinDimensionTypes.OVERWORLD,
 				List.of(
 					new BiomeParameters(
@@ -70,6 +68,23 @@ public class BiomeConfig {
 						)
 					)
 				)
+			),
+			new DimensionBiomeList(
+				BuiltinDimensionTypes.NETHER,
+				List.of(
+					new BiomeParameters(
+						ConfigurableEverythingDataGenerator.BLANK_BIOME,
+						Climate.parameters(
+							Climate.Parameter.span(-1F, 1F),
+							Climate.Parameter.span(-1F, 1F),
+							Climate.Parameter.span(-1F, 1F),
+							Climate.Parameter.span(-1F, 1F),
+							Climate.Parameter.span(-1F, 1F),
+							Climate.Parameter.span(-1F, 1F),
+							0F
+						)
+					)
+				)
 			)
 		)
 	);
@@ -80,10 +95,21 @@ public class BiomeConfig {
 		Supports: Vanilla biomes, datapack biomes, biomes from "addedBiomes"
 		"""
 	)
-	public TypedEntry<List<ResourceKey<Biome>>> removedBiomes = new TypedEntry<>(
-		BIOME_LIST,
+	public TypedEntry<List<DimensionBiomeKeyList>> removedBiomes = new TypedEntry<>(
+		BIOME_KEY_LIST,
 		List.of(
-			ConfigurableEverythingDataGenerator.BLANK_BIOME
+			new DimensionBiomeKeyList(
+				BuiltinDimensionTypes.OVERWORLD,
+				List.of(
+					ConfigurableEverythingDataGenerator.BLANK_BIOME
+				)
+			),
+			new DimensionBiomeKeyList(
+				BuiltinDimensionTypes.NETHER,
+				List.of(
+					ConfigurableEverythingDataGenerator.BLANK_BIOME
+				)
+			)
 		)
 	);
 
