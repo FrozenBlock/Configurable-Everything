@@ -19,8 +19,8 @@ public final class BiomeConfigUtil {
 
 	// TODO: fix impl
 	public static void init() {
+		var config = BiomeConfig.get();
 		if (MainConfig.get().biome) {
-			var config = BiomeConfig.get();
 			var modification = BiomeModifications.create(ConfigurableEverythingUtils.id("feature_modifications"));
 
 			initAddedFeatures(config, modification);
