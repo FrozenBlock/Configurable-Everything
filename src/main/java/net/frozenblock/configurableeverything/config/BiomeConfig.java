@@ -49,12 +49,12 @@ public class BiomeConfig {
 		BIOME_PLACED_FEATURE_LIST,
 		List.of(
 			new BiomePlacedFeatureList(
-				Either.right(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				ConfigurableEverythingDataGenerator.BLANK_BIOME,
 				List.of(
 					new DecorationStepPlacedFeature(
 						GenerationStep.Decoration.VEGETAL_DECORATION,
 						List.of(
-							VegetationPlacements.TREES_MANGROVE
+							ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE
 						)
 					)
 				)
@@ -66,12 +66,12 @@ public class BiomeConfig {
 		BIOME_PLACED_FEATURE_LIST,
 		List.of(
 			new BiomePlacedFeatureList(
-				Either.right(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				ConfigurableEverythingDataGenerator.BLANK_BIOME,
 				List.of(
 					new DecorationStepPlacedFeature(
 						GenerationStep.Decoration.VEGETAL_DECORATION,
 						List.of(
-							VegetationPlacements.TREES_MANGROVE
+							ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE
 						)
 					)
 				)
@@ -83,14 +83,14 @@ public class BiomeConfig {
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		List.of(
 			new BiomePlacedFeatureReplacementList(
-				Either.right(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				ConfigurableEverythingDataGenerator.BLANK_BIOME,
 				List.of(
 					new PlacedFeatureReplacement(
-						VegetationPlacements.TREES_MANGROVE,
+						ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE,
 						new DecorationStepPlacedFeature(
 							GenerationStep.Decoration.VEGETAL_DECORATION,
 							List.of(
-								VegetationPlacements.TREES_MANGROVE
+								ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE
 							)
 						)
 					)

@@ -5,19 +5,30 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.VegetationFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.SurfaceWaterDepthFilter;
 import java.util.concurrent.CompletableFuture;
 
 public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypoint {
 
 	public static final ResourceKey<Biome> BLANK_BIOME = ResourceKey.create(Registries.BIOME, ConfigurableEverythingUtils.id("blank_biome"));
+	public static final ResourceKey<PlacedFeature> BLANK_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, ConfigurableEverythingUtils.id("blank_placed_feature"));
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
@@ -26,25 +37,34 @@ public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypo
 
 	@Override
 	public void buildRegistry(RegistrySetBuilder registryBuilder) {
-		registryBuilder.add(Registries.BIOME, context -> {
-			context.register(
-				BLANK_BIOME,
-				new Biome.BiomeBuilder()
-					.temperature(0f)
-					.downfall(0f)
-					.specialEffects(
-						new BiomeSpecialEffects.Builder()
-							.fogColor(0)
-							.waterColor(0)
-							.waterFogColor(0)
-							.skyColor(0)
-							.build()
-					)
-					.mobSpawnSettings(MobSpawnSettings.EMPTY)
-					.generationSettings(BiomeGenerationSettings.EMPTY)
-					.build()
-			);
-		});
+		registryBuilder.add(Registries.BIOME, context -> context.register(
+			BLANK_BIOME,
+			new Biome.BiomeBuilder()
+				.temperature(0f)
+				.downfall(0f)
+				.specialEffects(
+					new BiomeSpecialEffects.Builder()
+						.fogColor(0)
+						.waterColor(0)
+						.waterFogColor(0)
+						.skyColor(0)
+						.build()
+				)
+				.mobSpawnSettings(MobSpawnSettings.EMPTY)
+				.generationSettings(BiomeGenerationSettings.EMPTY)
+				.build()
+		));
+
+		registryBuilder.add(Registries.PLACED_FEATURE, context -> PlacementUtils.register(
+			context,
+			BLANK_PLACED_FEATURE,
+			context.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(VegetationFeatures.MANGROVE_VEGETATION),
+			CountPlacement.of(25),
+			SurfaceWaterDepthFilter.forMaxDepth(5),
+			PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+			BiomeFilter.biome(),
+			BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(Blocks.MANGROVE_PROPAGULE.defaultBlockState(), BlockPos.ZERO))
+		));
 	}
 
 	private static class WorldgenProvider extends FabricDynamicRegistryProvider {
@@ -56,6 +76,7 @@ public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypo
 		@Override
 		protected void configure(HolderLookup.Provider registries, Entries entries) {
 			entries.addAll(registries.lookupOrThrow(Registries.BIOME));
+			entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
 		}
 
 		@Override

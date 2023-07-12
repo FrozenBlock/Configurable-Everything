@@ -4,13 +4,8 @@ import net.fabricmc.fabric.api.biome.v1.*
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils
-import net.minecraft.resources.ResourceKey
-import net.minecraft.tags.TagKey
-import net.minecraft.world.level.biome.Biome
-import java.util.function.Consumer
 
 object BiomeConfigUtil {
-    // TODO: fix impl
 	@JvmStatic
 	fun init() {
         val config = BiomeConfig.get()
@@ -28,15 +23,13 @@ object BiomeConfigUtil {
             for (list in addedFeatures.value()!!) {
                 val biome = list.biome
                 val features = list.features
-                val biomeModifyContext = Consumer { context: BiomeModificationContext ->
+                modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(biome)) { context ->
                     for (decorationFeature in features) {
                         for (placedFeature in decorationFeature.placedFeatures) {
                             context.generationSettings.addFeature(decorationFeature.decoration, placedFeature)
                         }
                     }
                 }
-                biome.ifLeft { tag: TagKey<Biome?>? -> modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.tag(tag), biomeModifyContext) }
-                biome.ifRight { biomeKey: ResourceKey<Biome>? -> modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(biomeKey), biomeModifyContext) }
             }
         }
     }
@@ -47,15 +40,13 @@ object BiomeConfigUtil {
             for (list in removedFeatures.value()!!) {
                 val biome = list.biome
                 val features = list.features
-                val biomeModifyContext = Consumer { context: BiomeModificationContext ->
+                modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(biome)) { context ->
                     for (decorationFeature in features) {
                         for (placedFeature in decorationFeature.placedFeatures) {
                             context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
                         }
                     }
                 }
-                biome.ifLeft { tag: TagKey<Biome?>? -> modification.add(ModificationPhase.REMOVALS, BiomeSelectors.tag(tag), biomeModifyContext) }
-                biome.ifRight { biomeKey: ResourceKey<Biome>? -> modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(biomeKey), biomeModifyContext) }
             }
         }
     }
@@ -66,7 +57,7 @@ object BiomeConfigUtil {
             for (list in replacedFeatures.value()!!) {
                 val biome = list.biome
                 val replacements = list.replacements
-                val biomeModifyContext = Consumer { context: BiomeModificationContext ->
+                modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(biome)) { context ->
                     for (replacement in replacements) {
                         context.generationSettings.removeFeature(replacement.replacement.decoration, replacement.original)
                         for (placedFeature in replacement.replacement.placedFeatures) {
@@ -74,8 +65,6 @@ object BiomeConfigUtil {
                         }
                     }
                 }
-                biome.ifLeft { tag: TagKey<Biome?>? -> modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(tag), biomeModifyContext) }
-                biome.ifRight { biomeKey: ResourceKey<Biome>? -> modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(biomeKey), biomeModifyContext) }
             }
         }
     }

@@ -10,11 +10,11 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import java.util.List;
 
-public record BiomePlacedFeatureList(Either<TagKey<Biome>, ResourceKey<Biome>> biome, List<DecorationStepPlacedFeature> features) {
+public record BiomePlacedFeatureList(ResourceKey<Biome> biome, List<DecorationStepPlacedFeature> features) {
 
 	public static final Codec<BiomePlacedFeatureList> CODEC = RecordCodecBuilder.create(instance ->
 		instance.group(
-			Codec.either(TagKey.codec(Registries.BIOME), ResourceKey.codec(Registries.BIOME)).fieldOf("biome").forGetter(BiomePlacedFeatureList::biome),
+			ResourceKey.codec(Registries.BIOME).fieldOf("biome").forGetter(BiomePlacedFeatureList::biome),
 			DecorationStepPlacedFeature.CODEC.listOf().fieldOf("placed_features").forGetter(BiomePlacedFeatureList::features)
 		).apply(instance, BiomePlacedFeatureList::new)
 	);

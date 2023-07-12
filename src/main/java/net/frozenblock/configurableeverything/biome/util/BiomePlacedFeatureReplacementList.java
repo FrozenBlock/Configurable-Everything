@@ -9,11 +9,11 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import java.util.List;
 
-public record BiomePlacedFeatureReplacementList(Either<TagKey<Biome>, ResourceKey<Biome>> biome, List<PlacedFeatureReplacement> replacements) {
+public record BiomePlacedFeatureReplacementList(ResourceKey<Biome> biome, List<PlacedFeatureReplacement> replacements) {
 
 	public static final Codec<BiomePlacedFeatureReplacementList> CODEC = RecordCodecBuilder.create(instance ->
 		instance.group(
-			Codec.either(TagKey.codec(Registries.BIOME), ResourceKey.codec(Registries.BIOME)).fieldOf("biome").forGetter(BiomePlacedFeatureReplacementList::biome),
+			ResourceKey.codec(Registries.BIOME).fieldOf("biome").forGetter(BiomePlacedFeatureReplacementList::biome),
 			PlacedFeatureReplacement.CODEC.listOf().fieldOf("replacements").forGetter(BiomePlacedFeatureReplacementList::replacements)
 		).apply(instance, BiomePlacedFeatureReplacementList::new)
 	);
