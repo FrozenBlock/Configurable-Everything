@@ -6,6 +6,7 @@ import com.modrinth.minotaur.ModrinthExtension
 import groovy.xml.XmlSlurper
 import org.ajoberstar.grgit.Grgit
 import org.codehaus.groovy.runtime.ResourceGroovyMethods
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.util.Properties
@@ -25,7 +26,7 @@ buildscript {
 
 plugins {
     id("fabric-loom") version("+")
-    id("io.github.juuxel.loom-quiltflower") version("+")
+    id("io.github.juuxel.loom-vineflower") version("+")
     id("org.quiltmc.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
@@ -315,8 +316,8 @@ dependencies {
         }*/
 }
 
-quiltflower {
-    quiltflowerVersion.set("1.8.0")
+vineflower {
+    //toolVersion.set("1.8.0")
 }
 
 tasks {
@@ -332,6 +333,7 @@ tasks {
         filesNotMatching(
             listOf(
                 "**/*.java",
+                "**/*.kt",
                 "**/sounds.json",
                 "**/lang/*.json",
                 "**/.cache/*",
@@ -369,6 +371,13 @@ tasks {
         options.release.set(17)
         options.isFork = true
         options.isIncremental = true
+    }
+
+    withType(KotlinCompile::class) {
+        kotlinOptions {
+            // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+            jvmTarget = "17"
+        }
     }
 
     withType(Test::class) {

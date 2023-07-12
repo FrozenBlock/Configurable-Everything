@@ -28,6 +28,8 @@ public class MainConfig {
 
 	public boolean biome_placement = true;
 
+	public boolean surface_rule = true;
+
 	public static MainConfig get() {
 		return INSTANCE.config();
 	}
