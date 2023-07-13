@@ -111,7 +111,12 @@ public class BiomeConfig {
 		List.of(
 			new BiomeMusic(
 				ConfigurableEverythingDataGenerator.BLANK_BIOME,
-				new Music(SoundEvents.MUSIC_BIOME_DEEP_DARK, 0, 1, true)
+				new Music(
+					SoundEvents.MUSIC_BIOME_DEEP_DARK,
+					12000,
+					24000,
+					false
+				)
 			)
 		)
 	);
