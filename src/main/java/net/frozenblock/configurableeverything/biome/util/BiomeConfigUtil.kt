@@ -11,9 +11,14 @@ object BiomeConfigUtil {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome) {
             val modification = BiomeModifications.create(ConfigurableEverythingUtils.id("feature_modifications"))
+
+            // FEATURES
             initAddedFeatures(config, modification)
             initRemovedFeatures(config, modification)
             initReplacedFeatures(config, modification)
+
+            // EFFECTS
+            initReplacedMusic(config, modification)
         }
     }
 
@@ -64,6 +69,19 @@ object BiomeConfigUtil {
                             context.generationSettings.addFeature(replacement.replacement.decoration, placedFeature)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun initReplacedMusic(config: BiomeConfig, modification: BiomeModification) {
+        val replacedMusic = config.musicReplacements
+        if (replacedMusic?.value() != null) {
+            for (list in replacedMusic.value()!!) {
+                val biome = list.biome
+                val music = list.music
+                modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(biome)) { context ->
+                    context.effects.setMusic(music)
                 }
             }
         }

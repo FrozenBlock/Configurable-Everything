@@ -1,8 +1,7 @@
 package net.frozenblock.configurableeverything.config;
 
 import com.google.gson.GsonBuilder;
-import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
+import net.frozenblock.configurableeverything.biome.util.BiomeMusic;
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList;
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureReplacementList;
 import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFeature;
@@ -15,7 +14,8 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.sounds.Music;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import java.util.List;
 
@@ -32,6 +32,13 @@ public class BiomeConfig {
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			BiomePlacedFeatureReplacementList.CODEC.listOf()
+		)
+	);
+
+	private static final TypedEntryType<List<BiomeMusic>> BIOME_MUSIC_LIST = ConfigRegistry.register(
+		new TypedEntryType<>(
+			ConfigurableEverythingSharedConstants.MOD_ID,
+			BiomeMusic.CODEC.listOf()
 		)
 	);
 
@@ -95,6 +102,16 @@ public class BiomeConfig {
 						)
 					)
 				)
+			)
+		)
+	);
+
+	public TypedEntry<List<BiomeMusic>> musicReplacements = new TypedEntry<>(
+		BIOME_MUSIC_LIST,
+		List.of(
+			new BiomeMusic(
+				ConfigurableEverythingDataGenerator.BLANK_BIOME,
+				new Music(SoundEvents.MUSIC_BIOME_DEEP_DARK, 0, 1, true)
 			)
 		)
 	);
