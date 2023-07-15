@@ -11,14 +11,6 @@ import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource
 
 object SurfaceRuleConfigUtil {
 
-    @JvmField
-    val DIMENSION_SURFACE_RULE_CODEC: Codec<FrozenDimensionBoundRuleSource> = RecordCodecBuilder.create { instance ->
-        instance.group(
-            ResourceLocation.CODEC.fieldOf("dimension").forGetter(FrozenDimensionBoundRuleSource::dimension),
-            RuleSource.CODEC.fieldOf("rule").forGetter(FrozenDimensionBoundRuleSource::ruleSource)
-        ).apply(instance, ::FrozenDimensionBoundRuleSource)
-    };
-
     @JvmStatic
     fun init() {
         val config = SurfaceRuleConfig.get();

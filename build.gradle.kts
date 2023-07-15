@@ -57,12 +57,8 @@ val frozenlib_version: String by project
 val jankson_version: String by project
 
 val modmenu_version: String by project
-val cloth_config_version: String by project
-val copperpipes_version: String by project
-val nbtcrafting_version: String by project
 val terrablender_version: String by project
 val terralith_version: String by project
-val tomsstorage_version: String by project
 
 val sodium_version: String by project
 val iris_version: String by project
@@ -239,29 +235,11 @@ dependencies {
     // Jankson
     implementation("blue.endless:jankson:$jankson_version")
 
-    // CaffeineConfig
-    //include(modImplementation("net.caffeinemc:mixin-config:1.0.0+1.17"))
-
-    // Simple Copper Pipes
-    modCompileOnly("maven.modrinth:simple-copper-pipes:${copperpipes_version}")
+    // MixinExtras
+    modImplementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")
 
     // Mod Menu
     modCompileOnly("com.terraformersmc:modmenu:${modmenu_version}")
-
-    // Cloth Config
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
-        exclude(group = "net.fabricmc.fabric-api")
-        exclude(group = "com.terraformersmc")
-    }
-
-    // Brush Extender
-    modImplementation("com.github.Treetrain1:BrushExtender:main-SNAPSHOT")?.let { include(it) }
-
-    // NBT Crafting
-    modImplementation("com.github.Treetrain1:nbt-crafting:jitpack-1.20-SNAPSHOT")?.let { include(it) }
-
-    // CaffeineConfig
-    modImplementation("net.caffeinemc:mixin-config:1.0.0+1.17")?.let { include(it) }
 
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")

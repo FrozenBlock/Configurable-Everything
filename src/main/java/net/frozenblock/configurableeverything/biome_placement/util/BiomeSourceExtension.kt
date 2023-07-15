@@ -1,10 +1,8 @@
-package net.frozenblock.configurableeverything.biome_placement.util;
+package net.frozenblock.configurableeverything.biome_placement.util
 
-import net.minecraft.core.Holder;
-import net.minecraft.world.level.biome.Biome;
-import java.util.List;
+import net.minecraft.core.Holder
+import net.minecraft.world.level.biome.Biome
 
-public interface BiomeSourceExtension {
-
-	void updateBiomesList(List<Holder<Biome>> biomesToAdd, List<Holder<Biome>> biomesToRemove);
+fun interface BiomeSourceExtension {
+    fun updateBiomesList(biomesToAdd: List<Holder<Biome?>?>?, biomesToRemove: List<Holder<Biome?>?>?)
 }

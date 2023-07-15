@@ -23,7 +23,7 @@ public class SurfaceRuleConfig {
 	private static final TypedEntryType<List<FrozenDimensionBoundRuleSource>> SURFACE_RULE_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
-			SurfaceRuleConfigUtil.DIMENSION_SURFACE_RULE_CODEC.listOf()
+			FrozenDimensionBoundRuleSource.CODEC.listOf()
 		)
 	);
 
