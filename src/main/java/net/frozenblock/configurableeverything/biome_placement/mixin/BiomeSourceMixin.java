@@ -5,6 +5,7 @@ import net.frozenblock.configurableeverything.biome_placement.util.BiomeSourceEx
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -22,7 +23,7 @@ public class BiomeSourceMixin implements BiomeSourceExtension {
 	private Supplier<Set<Holder<Biome>>> possibleBiomes;
 
 	@Override
-	public void updateBiomesList(List<Holder<Biome>> biomesToAdd, List<Holder<Biome>> biomesToRemove) {
+	public void updateBiomesList(@NotNull List<? extends Holder<Biome>> biomesToAdd, @NotNull List<? extends Holder<Biome>> biomesToRemove) {
 		List<Holder<Biome>> biomeList = new ArrayList<>(this.possibleBiomes.get());
 
 		biomeList.addAll(biomesToAdd);
