@@ -56,8 +56,6 @@ val fabric_asm_version: String by project
 val frozenlib_version: String by project
 val jankson_version: String by project
 
-val betterend_version: String by project
-val betternether_version: String by project
 val modmenu_version: String by project
 val cloth_config_version: String by project
 val copperpipes_version: String by project
@@ -268,15 +266,6 @@ dependencies {
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
 
-    // Sodium
-    modCompileOnly("maven.modrinth:sodium:${sodium_version}")
-    modCompileOnly("org.anarres:jcpp:1.4.14")
-
-    // BetterEnd
-    modCompileOnly("maven.modrinth:betterend:${betterend_version}")
-
-    // BetterNether
-    modCompileOnly("maven.modrinth:betternether:${betternether_version}")
     /*
         // only affects runClient, does not affect gradlew build.
         // add -PuseThirdPartyMods=false to not use these

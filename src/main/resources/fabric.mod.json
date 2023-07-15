@@ -31,7 +31,8 @@
     ]
   },
   "mixins": [
-    "configurable_everything_biome.mixins.json"
+    "configurable_everything_biome.mixins.json",
+    "configurable_everything_fluid.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 
