@@ -1,4 +1,4 @@
-package TEMP_FILES_TO_REORGANIZE;
+package net.frozenblock.configurableeverything.screenshake.mixin;
 
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
 import net.minecraft.world.entity.monster.Ravager;

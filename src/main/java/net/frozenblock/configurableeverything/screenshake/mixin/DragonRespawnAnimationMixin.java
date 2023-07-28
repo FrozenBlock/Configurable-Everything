@@ -1,16 +1,18 @@
-package TEMP_FILES_TO_REORGANIZE;
+package net.frozenblock.configurableeverything.screenshake.mixin;
 
 import java.util.List;
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.level.dimension.end.DragonRespawnAnimation;
 import net.minecraft.world.level.dimension.end.EndDragonFight;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Mixin(DragonRespawnAnimation.class)
 public class DragonRespawnAnimationMixin {
 
 	@Mixin(targets = "net/minecraft/world/level/dimension/end/DragonRespawnAnimation$2")

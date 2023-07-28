@@ -35,8 +35,9 @@
   },
   "mixins": [
     "configurable_everything_biome.mixins.json",
-    "configurable_everything_zombie.mixins.json",
-    "configurable_everything_fluid.mixins.json"
+    "configurable_everything_fluid.mixins.json",
+    "configurable_everything_screenshake.mixins.json",
+    "configurable_everything_zombie.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 

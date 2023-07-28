@@ -1,4 +1,4 @@
-package TEMP_FILES_TO_REORGANIZE;
+package net.frozenblock.configurableeverything.screenshake.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

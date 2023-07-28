@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "net.frozenblock.configurableeverything.screenshake.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DragonRespawnAnimationMixin",
+    "EmergingMixin",
+    "EnderDragonMixin",
+    "ExplosionMixin",
+    "RavagerMixin",
+    "RoarMixin",
+    "SonicBoomMixin",
+    "WardenMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

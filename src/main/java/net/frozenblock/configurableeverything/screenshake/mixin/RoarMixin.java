@@ -16,7 +16,7 @@
  * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 
-package TEMP_FILES_TO_REORGANIZE;
+package net.frozenblock.configurableeverything.screenshake.mixin;
 
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
 import net.minecraft.server.level.ServerLevel;
