@@ -15,7 +15,7 @@ public class EnderDragonMixin {
 
 	@Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playLocalSound(DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", shift = At.Shift.AFTER, ordinal = 0))
 	public void mcFixes$growlScreenshake(CallbackInfo info) {
-		ScreenShaker.SCREEN_SHAKES.add(
+		/*ScreenShaker.SCREEN_SHAKES.add(
 			new ScreenShaker.ClientEntityScreenShake(
 				EnderDragon.class.cast(this),
 				2.5F,
@@ -24,12 +24,12 @@ public class EnderDragonMixin {
 				48,
 				0
 			)
-		);
+		);*/
 	}
 
 	@Inject(method = "onFlap", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playLocalSound(DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", shift = At.Shift.AFTER, ordinal = 0))
 	public void mcFixes$flapScreenshake(CallbackInfo info) {
-		ScreenShaker.SCREEN_SHAKES.add(
+		/*ScreenShaker.SCREEN_SHAKES.add(
 			new ScreenShaker.ClientEntityScreenShake(
 				EnderDragon.class.cast(this),
 				0.5F,
@@ -38,7 +38,7 @@ public class EnderDragonMixin {
 				26,
 				0
 			)
-		);
+		);*/
 	}
 
 }

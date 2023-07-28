@@ -15,7 +15,7 @@ public class SonicBoomMixin {
 
 	@Inject(method = {"m_ehrxwrfs","method_43265","lambda$tick$2"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/warden/Warden;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V", ordinal = 0), require = 1)
 	private static void startShaking(Warden warden, ServerLevel world, LivingEntity livingEntity, CallbackInfo ci) {
-		ScreenShakeManager.addScreenShake(world, 2F, 25, warden.getX(), warden.getY(), warden.getZ(), 18);
+		//ScreenShakeManager.addScreenShake(world, 2F, 25, warden.getX(), warden.getY(), warden.getZ(), 18);
 	}
 
 }

@@ -12,7 +12,7 @@ public class RavagerMixin {
 
 	@Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Ravager;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
 	private void startShaking(CallbackInfo ci) {
-		ScreenShakeManager.addEntityScreenShake(Ravager.class.cast(this), 1F, 17, 23);
+		//ScreenShakeManager.addEntityScreenShake(Ravager.class.cast(this), 1F, 17, 23F);
 	}
 
 }

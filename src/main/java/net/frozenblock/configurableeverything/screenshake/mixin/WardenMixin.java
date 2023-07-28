@@ -14,7 +14,7 @@ public class WardenMixin {
 	@Inject(method = "doHurtTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/warden/Warden;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
 	private void startShaking(Entity target, CallbackInfoReturnable<Boolean> cir) {
 		Warden warden = Warden.class.cast(this);
-		ScreenShakeManager.addScreenShake(warden.level(), 1F, 3, warden.getX(), warden.getY(), warden.getZ(), 2);
+		//ScreenShakeManager.addScreenShake(warden.level(), 1F, 3, warden.getX(), warden.getY(), warden.getZ(), 2);
 	}
 
 }

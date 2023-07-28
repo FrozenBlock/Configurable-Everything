@@ -39,7 +39,7 @@ public class RoarMixin {
 
 	@Inject(method = "tick(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/monster/warden/Warden;J)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/warden/Warden;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V", shift = At.Shift.AFTER))
 	private void startShaking(ServerLevel serverLevel, Warden warden, long l, CallbackInfo ci) {
-		ScreenShakeManager.addEntityScreenShake(warden, 1.5F, WardenAi.ROAR_DURATION - TICKS_BEFORE_PLAYING_ROAR_SOUND, 19);
+		//ScreenShakeManager.addEntityScreenShake(warden, 1.5F, WardenAi.ROAR_DURATION - TICKS_BEFORE_PLAYING_ROAR_SOUND, 19);
 	}
 
 }

@@ -28,7 +28,7 @@ public class MainConfig {
 
 	public boolean fluid = true;
 
-	public boolean screenShake = true;
+	public boolean screenShake = false;
 
 	public boolean surfaceRule = true;
 

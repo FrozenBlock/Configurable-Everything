@@ -306,7 +306,8 @@ tasks {
                 "**/*.accesswidener",
                 "**/*.nbt",
                 "**/*.png",
-                "**/*.ogg"
+                "**/*.ogg",
+                "**/*.mixins.json"
             )
         ) {
             expand(properties)

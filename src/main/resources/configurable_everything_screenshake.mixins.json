@@ -5,15 +5,19 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "DragonRespawnAnimationMixin",
+    "DragonRespawnAnimationMixin$PreparingPillarsMixin",
+    "DragonRespawnAnimationMixin$SpawningDragonMixin",
     "EmergingMixin",
     "EnderDragonMixin",
     "ExplosionMixin",
+    "LevelMixin",
     "RavagerMixin",
     "RoarMixin",
     "SonicBoomMixin",
     "WardenMixin"
   ],
   "client": [
+    "client.ClientLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
