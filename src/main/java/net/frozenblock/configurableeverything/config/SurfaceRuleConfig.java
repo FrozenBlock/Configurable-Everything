@@ -32,8 +32,7 @@ public class SurfaceRuleConfig {
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			SurfaceRuleConfig.class,
 			ConfigurableEverythingUtils.makePath("surface_rule", true),
-			true,
-			new GsonBuilder()
+			true
 		)
 	);
 

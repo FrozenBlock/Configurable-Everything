@@ -27,8 +27,7 @@ public class FluidConfig {
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			FluidConfig.class,
 			ConfigurableEverythingUtils.makePath("fluid", true),
-			true,
-			new GsonBuilder()
+			true
 		)
 	);
 

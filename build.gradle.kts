@@ -225,18 +225,17 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // FrozenLib
-    println("Using local FrozenLib: $local_frozenlib")
     if (local_frozenlib) {
-       implementation(project(path = ":FrozenLib", configuration = "dev"))?.let { include(it) }
+        api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     } else {
-        modImplementation("maven.modrinth:frozenlib:${frozenlib_version}")?.let { include(it) }
+        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
     }
 
     // Jankson
     implementation("blue.endless:jankson:$jankson_version")
 
     // MixinExtras
-    modImplementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")
+    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")?.let { annotationProcessor(it) }
 
     // Mod Menu
     modCompileOnly("com.terraformersmc:modmenu:${modmenu_version}")

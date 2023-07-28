@@ -15,8 +15,7 @@ public class MainConfig {
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			MainConfig.class,
 			ConfigurableEverythingUtils.makePath("main", true),
-			true,
-			new GsonBuilder()
+			true
 		)
 	);
 

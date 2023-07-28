@@ -38,8 +38,7 @@ public class BiomePlacementConfig {
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			BiomePlacementConfig.class,
 			ConfigurableEverythingUtils.makePath("biome_placement", true),
-			true,
-			new GsonBuilder()
+			true
 		)
 	);
 
