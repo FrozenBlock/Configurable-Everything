@@ -4,10 +4,13 @@
   "version": "${version}",
 
   "name": "Configurable Everything",
-  "description": "Adds configurability to many parts of the game",
+  "description": "Makes various aspects of Minecraft configurable while fleshing out the game.",
   "authors": [
-    "FrozenBlock",
-    "Treetrain1"
+    "FrozenBlock"
+  ],
+  "contributors": [
+    "Treetrain1",
+    "Lunade"
   ],
   "contact": {
     "homepage": "https://github.com/FrozenBlock/Configurable-Everything",
@@ -32,6 +35,7 @@
   },
   "mixins": [
     "configurable_everything_biome.mixins.json",
+    "configurable_everything_zombie.mixins.json",
     "configurable_everything_fluid.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
