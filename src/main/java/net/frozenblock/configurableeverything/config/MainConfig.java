@@ -30,13 +30,13 @@ public class MainConfig {
 
 	public boolean biome_placement = false;
 
-	public boolean entity = true;
+	public boolean entity = false;
 
 	public boolean fluid = true;
 
 	public boolean screen_shake = false;
 
-	public boolean surface_rule = true;
+	public boolean surface_rule = false;
 
 	public static MainConfig get() {
 		return INSTANCE.config();
