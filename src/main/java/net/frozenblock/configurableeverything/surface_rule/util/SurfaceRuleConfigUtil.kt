@@ -9,7 +9,7 @@ object SurfaceRuleConfigUtil {
     @JvmStatic
     fun init() {
         val config = SurfaceRuleConfig.get();
-        if (MainConfig.get().surfaceRule) {
+        if (MainConfig.get().surface_rule) {
             SurfaceRuleEvents.MODIFY_GENERIC.register { context ->
                 run {
                     if (config.addedSurfaceRule?.value != null) {

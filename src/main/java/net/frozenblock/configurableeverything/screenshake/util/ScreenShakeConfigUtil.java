@@ -17,7 +17,7 @@ public class ScreenShakeConfigUtil {
 
     public static void createScreenShake(Level level, double x, double y, double z, SoundEvent sound) {
         var config = ScreenShakeConfig.get();
-        if (MainConfig.get().screenShake) {
+        if (MainConfig.get().screen_shake) {
             double offset = 0.001;
             List<Entity> entities = level.getEntities(null, new AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset));
             if (config.soundScreenShakes != null && config.soundScreenShakes.value() != null) {

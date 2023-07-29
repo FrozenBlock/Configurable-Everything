@@ -18,19 +18,20 @@ public class MainConfig {
 		)
 	);
 
+	// the features may have weird casing because the goal is to match the config file name
 	@Comment("Enabled features")
 
 	public boolean biome = true;
 
-	public boolean biomePlacement = true;
+	public boolean biome_placement = true;
 
 	public boolean entity = true;
 
 	public boolean fluid = true;
 
-	public boolean screenShake = false;
+	public boolean screen_shake = false;
 
-	public boolean surfaceRule = true;
+	public boolean surface_rule = true;
 
 	public static MainConfig get() {
 		return INSTANCE.config();

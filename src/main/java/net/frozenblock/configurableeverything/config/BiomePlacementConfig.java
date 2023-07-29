@@ -46,6 +46,7 @@ public class BiomePlacementConfig {
 		"""
 		Add any biome_placement to worldgen, with the parameters set.
 		Supports: Vanilla biomes, datapack biomes
+		Does not support biomes added via TerraBlender
 		"""
 	)
 	public TypedEntry<List<DimensionBiomeList>> addedBiomes = new TypedEntry<>(
@@ -92,6 +93,7 @@ public class BiomePlacementConfig {
 		"""
 		Remove any biome_placement from worldgen
 		Supports: Vanilla biomes, datapack biomes, biomes from "addedBiomes"
+		Does not support biomes added via TerraBlender
 		"""
 	)
 	public TypedEntry<List<DimensionBiomeKeyList>> removedBiomes = new TypedEntry<>(

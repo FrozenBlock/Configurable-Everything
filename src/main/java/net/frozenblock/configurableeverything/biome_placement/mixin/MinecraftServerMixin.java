@@ -43,7 +43,7 @@ public abstract class MinecraftServerMixin {
 		var biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME);
 		var levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
 
-		if (MainConfig.get().biomePlacement) {
+		if (MainConfig.get().biome_placement) {
 			for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : levelStemRegistry.entrySet()) {
 				var stem = entry.getValue();
 				var dimension = stem.type().unwrapKey().orElseThrow();
