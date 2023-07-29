@@ -46,6 +46,8 @@ public class BiomePlacementConfig {
 	@Comment(
 		"""
 		Add any biome_placement to worldgen, with the parameters set.
+		Adds biomes after biomes are removed via "removedBiomes",
+		so replacing a biome's parameters is possible.
 		Supports: Vanilla biomes, datapack biomes
 		Does not support biomes added via TerraBlender
 		"""
@@ -93,6 +95,8 @@ public class BiomePlacementConfig {
 	@Comment(
 		"""
 		Remove any biome_placement from worldgen
+		Removes biomes before biomes are added via "addedBiomes",
+		so replacing a biome's parameters is possible.
 		Supports: Vanilla biomes, datapack biomes
 		Does not support biomes added via TerraBlender
 		"""
