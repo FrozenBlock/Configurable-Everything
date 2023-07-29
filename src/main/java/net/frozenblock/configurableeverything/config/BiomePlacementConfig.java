@@ -14,6 +14,7 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
+import net.frozenblock.lib.worldgen.biome.api.parameters.Continentalness;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 
@@ -60,8 +61,8 @@ public class BiomePlacementConfig {
 						Climate.parameters(
 							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.span(0F, 1F),
-							Climate.Parameter.span(-0.3F, 0.1666667F),
-							Climate.Parameter.span(-1F, -1F),
+							Continentalness.MUSHROOM_FIELDS,
+							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.point(-0.5F),
 							Climate.Parameter.span(-1F, 1F),
 							0F
@@ -77,7 +78,7 @@ public class BiomePlacementConfig {
 						Climate.parameters(
 							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.span(-1F, 1F),
-							Climate.Parameter.span(-1F, 1F),
+							Continentalness.MUSHROOM_FIELDS,
 							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.span(-1F, 1F),
@@ -92,7 +93,7 @@ public class BiomePlacementConfig {
 	@Comment(
 		"""
 		Remove any biome_placement from worldgen
-		Supports: Vanilla biomes, datapack biomes, biomes from "addedBiomes"
+		Supports: Vanilla biomes, datapack biomes
 		Does not support biomes added via TerraBlender
 		"""
 	)

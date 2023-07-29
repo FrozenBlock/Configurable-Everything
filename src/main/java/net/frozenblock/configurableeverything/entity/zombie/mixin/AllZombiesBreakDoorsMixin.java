@@ -18,7 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Zombie.class)
 public class AllZombiesBreakDoorsMixin {
 
-	@Shadow private boolean canBreakDoors;
+	@Shadow
+	public boolean canBreakDoors;
 
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;isUnderWaterConverting()Z", shift = At.Shift.BEFORE))
 	public void tick(CallbackInfo callbackInfo) {
@@ -50,7 +51,7 @@ public class AllZombiesBreakDoorsMixin {
 	}
 
 	@Shadow
-	protected boolean supportsBreakDoorGoal() {
+	public boolean supportsBreakDoorGoal() {
 		throw new AssertionError("Mixin injection failed - AllZombiesBreakDoorsMixin.");
 	}
 

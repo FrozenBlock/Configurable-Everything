@@ -56,14 +56,16 @@ public abstract class MinecraftServerMixin {
 						var parameters = multiNoiseBiomeSource.parameters();
 						((ParameterListExtension) parameters).updateBiomesList(registryAccess, dimension);
 
+						// remove biomes first to allow replacing biome parameters
+						List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
+						for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension)) {
+							removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
+						}
+
 						List<Pair<Climate.ParameterPoint, Holder<Biome>>> addedBiomes = ConfigurableEverythingUtils.biomeAdditions(biomeRegistry, dimension);
 						List<Holder<Biome>> addedBiomeHolders = new ArrayList<>();
 						for (Pair<Climate.ParameterPoint, Holder<Biome>> pair : addedBiomes) {
 							addedBiomeHolders.add(pair.getSecond());
-						}
-						List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
-						for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension)) {
-							removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
 						}
 
 						extended.updateBiomesList(addedBiomeHolders, removedBiomeHolders);
