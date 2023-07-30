@@ -1,8 +1,6 @@
 package net.frozenblock.configurableeverything.config;
 
-import com.google.gson.GsonBuilder;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
-import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
@@ -36,7 +34,7 @@ public class SurfaceRuleConfig {
 		)
 	);
 
-	public TypedEntry<List<FrozenDimensionBoundRuleSource>> addedSurfaceRule = new TypedEntry<>(
+	public TypedEntry<List<FrozenDimensionBoundRuleSource>> addedSurfaceRules = new TypedEntry<>(
 		SURFACE_RULE_LIST,
 		List.of(
 			new FrozenDimensionBoundRuleSource(
