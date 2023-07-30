@@ -63,32 +63,44 @@ object ConfigurableEverythingUtils {
         }
     }
 
+    @JvmStatic
     fun log(entity: Entity, string: String, shouldLog: Boolean) {
         if (shouldLog) {
             LOGGER.info(entity.toString() + " : " + string + " : " + entity.position())
         }
     }
 
+    @JvmStatic
     fun log(block: Block, string: String, shouldLog: Boolean) {
         if (shouldLog) {
             LOGGER.info("$block : $string : ")
         }
     }
 
+    @JvmStatic
     fun log(block: Block, pos: BlockPos, string: String, shouldLog: Boolean) {
         if (shouldLog) {
             LOGGER.info("$block : $string : $pos")
         }
     }
 
+    @JvmStatic
     fun logMod(string: String, shouldLog: Boolean) {
         if (shouldLog) {
             LOGGER.info("$string $MOD_ID")
         }
     }
 
+    @JvmStatic
+    fun error(string: String?, shouldLog: Boolean) {
+        if (shouldLog) {
+            LOGGER.error(string)
+        }
+    }
+
     // MEASURING
-    val INSTANT_MAP: MutableMap<Any, Long> = HashMap()
+    private val INSTANT_MAP: MutableMap<Any, Long> = HashMap()
+
     @JvmStatic
     fun startMeasuring(`object`: Any) {
         val started = System.nanoTime()

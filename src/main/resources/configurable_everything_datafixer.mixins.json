@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "net.frozenblock.configurableeverything.datafixer.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MappedRegistryMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
