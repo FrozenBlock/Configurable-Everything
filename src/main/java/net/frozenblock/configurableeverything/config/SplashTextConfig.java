@@ -7,6 +7,7 @@ import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.world.item.DyeColor;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SplashTextConfig {
@@ -20,11 +21,17 @@ public class SplashTextConfig {
 		)
 	);
 
-	public List<String> addedSplashes = List.of(
-		"Configurable Everything!"
+	public List<String> addedSplashes = new ArrayList<>(
+		List.of(
+			"Configurable Everything!"
+		)
 	);
 
-	public List<String> removedSplashes = List.of();
+	public List<String> removedSplashes = new ArrayList<>(
+		List.of(
+			"random splash text"
+		)
+	);
 
 	public int splashColor = DyeColor.YELLOW.getTextColor();
 
