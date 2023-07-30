@@ -38,6 +38,7 @@
     "configurable_everything_datafixer.mixins.json",
     "configurable_everything_fluid.mixins.json",
     "configurable_everything_screenshake.mixins.json",
+    "configurable_everything_splash_text.mixins.json",
     "configurable_everything_zombie.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
@@ -50,7 +51,8 @@
     "minecraft": ">=${minecraft_version}"
   },
   "breaks": {
-    "configurabledatafixers": "*"
+    "configurabledatafixers": "*",
+    "configurablesplashtexts": "*"
   },
   "custom": {
     "modmenu": {

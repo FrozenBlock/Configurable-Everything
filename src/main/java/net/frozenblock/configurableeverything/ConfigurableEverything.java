@@ -10,6 +10,7 @@ import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils;
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations;
+import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil;
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
@@ -30,8 +31,8 @@ public class ConfigurableEverything implements ModInitializer {
 		EntityConfig.get();
 		FluidConfig.get();
 		ScreenShakeConfig.get();
+		SplashTextConfigUtil.init();
 		SurfaceRuleConfigUtil.init();
-
 
 		ConfigurableEverythingUtils.stopMeasuring(this);
 	}

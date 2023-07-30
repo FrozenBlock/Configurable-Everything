@@ -26,7 +26,7 @@ public class MainConfig {
 		"""
 	)
 
-	public boolean biome = true;
+	public boolean biome = false;
 
 	public boolean biome_placement = false;
 
@@ -34,9 +34,11 @@ public class MainConfig {
 
 	public boolean entity = false;
 
-	public boolean fluid = true;
+	public boolean fluid = false;
 
 	public boolean screen_shake = false;
+
+	public boolean splash_text = false;
 
 	public boolean surface_rule = false;
 

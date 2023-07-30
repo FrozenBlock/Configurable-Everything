@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "net.frozenblock.configurableeverything.splash_text.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "SplashManagerMixin",
+    "SplashRendererMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
