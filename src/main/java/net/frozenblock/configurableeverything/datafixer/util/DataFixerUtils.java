@@ -4,6 +4,7 @@ import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
 import net.fabricmc.loader.api.ModContainer;
 import net.frozenblock.configurableeverything.config.DataFixerConfig;
+import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -44,53 +45,55 @@ public class DataFixerUtils {
 	}
 
 	public static void applyDataFixes(final @NotNull ModContainer mod) {
-		ConfigurableEverythingUtils.log("Applying configurable data fixes", ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING);
-		var config = DataFixerConfig.get();
-		var schemas = DataFixerUtils.getSchemas();
-		var dataVersion = config.dataVersion;
+		if (MainConfig.get().datafixer) {
+			ConfigurableEverythingUtils.log("Applying configurable data fixes", ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING);
+			var config = DataFixerConfig.get();
+			var schemas = DataFixerUtils.getSchemas();
+			var dataVersion = config.dataVersion;
 
-		var builder = new QuiltDataFixerBuilder(dataVersion);
+			var builder = new QuiltDataFixerBuilder(dataVersion);
 
-		var maxSchema = 0;
-		List<Schema> addedSchemas = new ArrayList<>();
-		if (schemas.size() > 0) {
-			var base = builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA);
-			addedSchemas.add(base);
-		}
-
-		for (var fix : schemas) {
-			var version = fix.version();
-			if (version > dataVersion) {
-				ConfigurableEverythingUtils.error("Data fix version " + version + " is higher than the current data version " + dataVersion, true);
-				continue;
+			var maxSchema = 0;
+			List<Schema> addedSchemas = new ArrayList<>();
+			if (schemas.size() > 0) {
+				var base = builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA);
+				addedSchemas.add(base);
 			}
 
-			if (version > maxSchema) {
-				var schema = builder.addSchema(version, NamespacedSchema::new);
-				addedSchemas.add(schema);
-				maxSchema = version;
-			}
-
-			try {
-				var schema = addedSchemas.get(version);
-
-				for (var entry : fix.entries()) {
-					for (var fixer : entry.fixers()) {
-						handleFixer(builder, schema, entry, fixer);
-					}
+			for (var fix : schemas) {
+				var version = fix.version();
+				if (version > dataVersion) {
+					ConfigurableEverythingUtils.error("Data fix version " + version + " is higher than the current data version " + dataVersion, true);
+					continue;
 				}
-			} catch (IndexOutOfBoundsException e) {
-				ConfigurableEverythingUtils.error("Invalid data fix version: " + version, true);
-			}
-		}
 
-		QuiltDataFixes.buildAndRegisterFixer(mod, builder);
-		ConfigurableEverythingUtils.log(
-			"Finished applying configurable data fixes"
-				+ "\nData Version: " + dataVersion
-				+ "\nMax schema: " + maxSchema,
-			ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING
-		);
+				if (version > maxSchema) {
+					var schema = builder.addSchema(version, NamespacedSchema::new);
+					addedSchemas.add(schema);
+					maxSchema = version;
+				}
+
+				try {
+					var schema = addedSchemas.get(version);
+
+					for (var entry : fix.entries()) {
+						for (var fixer : entry.fixers()) {
+							handleFixer(builder, schema, entry, fixer);
+						}
+					}
+				} catch (IndexOutOfBoundsException e) {
+					ConfigurableEverythingUtils.error("Invalid data fix version: " + version, true);
+				}
+			}
+
+			QuiltDataFixes.buildAndRegisterFixer(mod, builder);
+			ConfigurableEverythingUtils.log(
+				"Finished applying configurable data fixes"
+					+ "\nData Version: " + dataVersion
+					+ "\nMax schema: " + maxSchema,
+				ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING
+			);
+		}
 	}
 
 	private static void handleFixer(DataFixerBuilder builder, Schema schema, DataFixEntry entry, Fixer fixer) {

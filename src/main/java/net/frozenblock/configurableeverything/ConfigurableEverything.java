@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything;
 import net.fabricmc.api.ModInitializer;
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil;
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig;
+import net.frozenblock.configurableeverything.config.DataFixerConfig;
 import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.FluidConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
@@ -25,10 +26,11 @@ public class ConfigurableEverything implements ModInitializer {
 		MainConfig.get();
 		BiomeConfigUtil.init();
 		BiomePlacementConfig.get();
-		SurfaceRuleConfigUtil.init();
-		FluidConfig.get();
+		DataFixerConfig.get();
 		EntityConfig.get();
+		FluidConfig.get();
 		ScreenShakeConfig.get();
+		SurfaceRuleConfigUtil.init();
 
 
 		ConfigurableEverythingUtils.stopMeasuring(this);

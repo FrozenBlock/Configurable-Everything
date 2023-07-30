@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.datafixer.mixin;
 
+import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.MappedRegistry;
@@ -34,9 +35,11 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 			cancellable = true
 	)
 	private void fixedValue(@Nullable ResourceLocation name, CallbackInfoReturnable<@Nullable T> cir) {
-		if (name != null && cir.getReturnValue() == null) {
-			var fixed = RegistryFixer.getFixedValueInRegistry(this, name);
-			cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
+		if (MainConfig.get().datafixer
+			&& (name != null && cir.getReturnValue() == null)) {
+				var fixed = RegistryFixer.getFixedValueInRegistry(this, name);
+				cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
+
 		}
 	}
 
@@ -46,9 +49,11 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 			cancellable = true
 	)
 	private void fixedValue(@Nullable ResourceKey<T> key, CallbackInfoReturnable<@Nullable T> cir) {
-		if (key != null && cir.getReturnValue() == null) {
-			var fixed = RegistryFixer.getFixedValueInRegistry(this, key.location());
-			cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
+		if (MainConfig.get().datafixer
+			&& (key != null && cir.getReturnValue() == null)) {
+				var fixed = RegistryFixer.getFixedValueInRegistry(this, key.location());
+				cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
+
 		}
 	}
 }

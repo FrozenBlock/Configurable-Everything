@@ -30,6 +30,8 @@ public class MainConfig {
 
 	public boolean biome_placement = false;
 
+	public boolean datafixer = false;
+
 	public boolean entity = false;
 
 	public boolean fluid = true;
