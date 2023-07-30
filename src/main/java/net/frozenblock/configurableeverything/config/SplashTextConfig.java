@@ -21,17 +21,9 @@ public class SplashTextConfig {
 		)
 	);
 
-	public List<String> addedSplashes = new ArrayList<>(
-		List.of(
-			"Configurable Everything!"
-		)
-	);
+	public List<String> addedSplashes = new ArrayList<>();
 
-	public List<String> removedSplashes = new ArrayList<>(
-		List.of(
-			"random splash text"
-		)
-	);
+	public List<String> removedSplashes = new ArrayList<>();
 
 	public int splashColor = DyeColor.YELLOW.getTextColor();
 
