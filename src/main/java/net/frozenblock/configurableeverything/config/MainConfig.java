@@ -18,10 +18,10 @@ public class MainConfig {
 		)
 	);
 
-	// the features may have weird casing because the goal is to match the config file name
+	// the configs may have weird casing because the goal is to match the config file name
 	@Comment(
 		"""
-		Enabled features
+		Enabled configs
 		Warning: It is important to check the contents of each config before enabling them here.
 		"""
 	)
