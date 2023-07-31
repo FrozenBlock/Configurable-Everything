@@ -28,7 +28,7 @@ public final class EntityConfig {
 	}
 
 	public static class ZombieConfig {
-		public boolean babyZombieSprint = true;
+		public boolean babyZombieSprintParticles = true;
 		public boolean allZombiesBreakDoors = true;
 	}
 }
