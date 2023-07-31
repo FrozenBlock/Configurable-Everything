@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.sound.util;
+package net.frozenblock.configurableeverything.entity.util;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

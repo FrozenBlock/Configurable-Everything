@@ -1,19 +1,19 @@
-package net.frozenblock.configurableeverything.sound.util
+package net.frozenblock.configurableeverything.entity.util
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
+import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.config.SoundConfig
 import net.frozenblock.lib.sound.api.FlyBySoundHub
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 
-object SoundConfigUtil {
+object EntityConfigUtil {
 
     @JvmStatic
 	fun init() {
-        val config = SoundConfig.get()
+        val config = EntityConfig.get()
         // only run this on client
         if (MainConfig.get().sound && FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             if (config.entityFlyBySounds?.value != null) {
