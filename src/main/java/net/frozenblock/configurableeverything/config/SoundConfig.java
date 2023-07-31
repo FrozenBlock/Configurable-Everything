@@ -35,7 +35,7 @@ public final class SoundConfig {
 		ENTITY_FLYBY_SOUNDS,
 		List.of(
 				new EntityFlyBySound(
-						new ResourceLocation("minecraft:cow"),
+						new ResourceLocation("minecraft:arrow"),
 						new EntityFlyBySoundData(
 								"neutral",
 								new ResourceLocation("minecraft:entity.warden.roar"),
