@@ -26,8 +26,9 @@ public class BiomeSourceMixin implements BiomeSourceExtension {
 	public void updateBiomesList(@NotNull List<? extends Holder<Biome>> biomesToAdd, @NotNull List<? extends Holder<Biome>> biomesToRemove) {
 		List<Holder<Biome>> biomeList = new ArrayList<>(this.possibleBiomes.get());
 
-		biomeList.addAll(biomesToAdd);
+		// remove biomes first to allow replacing biome parameters
 		biomeList.removeAll(biomesToRemove);
+		biomeList.addAll(biomesToAdd);
 
 		this.possibleBiomes = () -> new ObjectLinkedOpenHashSet<>(biomeList);
 	}
