@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config;
 
 import com.google.gson.GsonBuilder;
+import com.mojang.datafixers.util.Either;
 import net.frozenblock.configurableeverything.biome.util.BiomeMusic;
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList;
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureReplacementList;
@@ -55,7 +56,18 @@ public class BiomeConfig {
 		BIOME_PLACED_FEATURE_LIST,
 		List.of(
 			new BiomePlacedFeatureList(
-				ConfigurableEverythingDataGenerator.BLANK_BIOME,
+				Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				List.of(
+					new DecorationStepPlacedFeature(
+						GenerationStep.Decoration.VEGETAL_DECORATION,
+						List.of(
+							ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE
+						)
+					)
+				)
+			),
+			new BiomePlacedFeatureList(
+				Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG),
 				List.of(
 					new DecorationStepPlacedFeature(
 						GenerationStep.Decoration.VEGETAL_DECORATION,
@@ -72,7 +84,18 @@ public class BiomeConfig {
 		BIOME_PLACED_FEATURE_LIST,
 		List.of(
 			new BiomePlacedFeatureList(
-				ConfigurableEverythingDataGenerator.BLANK_BIOME,
+				Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				List.of(
+					new DecorationStepPlacedFeature(
+						GenerationStep.Decoration.VEGETAL_DECORATION,
+						List.of(
+							ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE
+						)
+					)
+				)
+			),
+			new BiomePlacedFeatureList(
+				Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG),
 				List.of(
 					new DecorationStepPlacedFeature(
 						GenerationStep.Decoration.VEGETAL_DECORATION,
@@ -89,7 +112,21 @@ public class BiomeConfig {
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		List.of(
 			new BiomePlacedFeatureReplacementList(
-				ConfigurableEverythingDataGenerator.BLANK_BIOME,
+				Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				List.of(
+					new PlacedFeatureReplacement(
+						ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE,
+						new DecorationStepPlacedFeature(
+							GenerationStep.Decoration.VEGETAL_DECORATION,
+							List.of(
+								ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE
+							)
+						)
+					)
+				)
+			),
+			new BiomePlacedFeatureReplacementList(
+				Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG),
 				List.of(
 					new PlacedFeatureReplacement(
 						ConfigurableEverythingDataGenerator.BLANK_PLACED_FEATURE,
@@ -109,7 +146,16 @@ public class BiomeConfig {
 		BIOME_MUSIC_LIST,
 		List.of(
 			new BiomeMusic(
-				ConfigurableEverythingDataGenerator.BLANK_BIOME,
+				Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+				new Music(
+					SoundEvents.MUSIC_BIOME_DEEP_DARK,
+					12000,
+					24000,
+					false
+				)
+			),
+			new BiomeMusic(
+				Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG),
 				new Music(
 					SoundEvents.MUSIC_BIOME_DEEP_DARK,
 					12000,

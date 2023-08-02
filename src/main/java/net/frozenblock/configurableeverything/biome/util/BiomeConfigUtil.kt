@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.biome.v1.*
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils
+import java.util.function.Consumer
 
 object BiomeConfigUtil {
 	@JvmStatic
@@ -28,13 +29,15 @@ object BiomeConfigUtil {
             for (list in addedFeatures.value()!!) {
                 val biome = list.biome
                 val features = list.features
-                modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(biome)) { context ->
+                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
                         for (placedFeature in decorationFeature.placedFeatures) {
                             context.generationSettings.addFeature(decorationFeature.decoration, placedFeature)
                         }
                     }
                 }
+                biome.ifLeft { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(it), consumer) }
+                biome.ifRight { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
@@ -45,13 +48,15 @@ object BiomeConfigUtil {
             for (list in removedFeatures.value()!!) {
                 val biome = list.biome
                 val features = list.features
-                modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(biome)) { context ->
+                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
                         for (placedFeature in decorationFeature.placedFeatures) {
                             context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
                         }
                     }
                 }
+                biome.ifLeft { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(it), consumer) }
+                biome.ifRight { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
@@ -62,7 +67,7 @@ object BiomeConfigUtil {
             for (list in replacedFeatures.value()!!) {
                 val biome = list.biome
                 val replacements = list.replacements
-                modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(biome)) { context ->
+                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (replacement in replacements) {
                         context.generationSettings.removeFeature(replacement.replacement.decoration, replacement.original)
                         for (placedFeature in replacement.replacement.placedFeatures) {
@@ -70,6 +75,8 @@ object BiomeConfigUtil {
                         }
                     }
                 }
+                biome.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
+                biome.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
@@ -80,9 +87,11 @@ object BiomeConfigUtil {
             for (list in replacedMusic.value()!!) {
                 val biome = list.biome
                 val music = list.music
-                modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(biome)) { context ->
+                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     context.effects.setMusic(music)
                 }
+                biome.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
+                biome.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }

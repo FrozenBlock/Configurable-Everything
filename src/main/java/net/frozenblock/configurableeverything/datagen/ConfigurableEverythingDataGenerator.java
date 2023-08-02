@@ -100,8 +100,7 @@ public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypo
 
 		@Override
 		protected void addTags(HolderLookup.Provider arg) {
-			this.getOrCreateTagBuilder(BLANK_TAG)
-					.add(BLANK_BIOME);
+			this.getOrCreateTagBuilder(BLANK_TAG);
 		}
 	}
 }
