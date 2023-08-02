@@ -33,14 +33,14 @@ object ConfigurableEverythingUtils {
 
     // BIOME PARAMETERS
     @JvmStatic
-    fun biomeAdditions(registryAccess: HolderGetter<Biome>, dimension: ResourceKey<DimensionType?>): List<Pair<ParameterPoint, Holder<Biome>>> {
+    fun biomeAdditions(registryAccess: HolderGetter<Biome>?, dimension: ResourceKey<DimensionType?>): List<Pair<ParameterPoint, Holder<Biome>>> {
         val biomeAdditions: MutableList<Pair<ParameterPoint, Holder<Biome>>> = ArrayList()
         val addedBiomes = BiomePlacementConfig.get().addedBiomes
         if (addedBiomes?.value() != null) {
             val dimensionBiomes = addedBiomes.value()!!.stream().filter { list: DimensionBiomeList -> list.dimension == dimension }.toList()
             for (list in dimensionBiomes) {
                 for (parameters in list.biomes) {
-                    biomeAdditions.add(Pair.of(parameters.parameters, registryAccess.getOrThrow(parameters.biome)))
+                    biomeAdditions.add(Pair.of(parameters.parameters, registryAccess?.getOrThrow(parameters.biome)))
                 }
             }
         }

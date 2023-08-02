@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.util.Pair;
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
 import net.minecraft.core.Holder;
@@ -46,6 +47,15 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 			);
 
 			newParameters.addAll(addedBiomes);
+
+			if (newParameters.isEmpty()) {
+				newParameters.add(
+					Pair.of(
+						Climate.parameters(0F, 0F, 0F, 0F, 0F, 0F, 0F),
+						registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ConfigurableEverythingDataGenerator.BLANK_BIOME)
+					)
+				);
+			}
 
 			this.values = List.copyOf((List<Pair<Climate.ParameterPoint, T>>) (List) newParameters);
 			this.index = Climate.RTree.create(this.values);

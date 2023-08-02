@@ -68,7 +68,7 @@ public abstract class MinecraftServerMixin {
 							addedBiomeHolders.add(pair.getSecond());
 						}
 
-						extended.updateBiomesList(addedBiomeHolders, removedBiomeHolders);
+						extended.updateBiomesList(addedBiomeHolders, removedBiomeHolders, registryAccess);
 					}
 				}
 			}
