@@ -58,7 +58,7 @@ public abstract class MinecraftServerMixin {
 
 						// remove biomes first to allow replacing biome parameters
 						List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
-						for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension)) {
+						for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension, registryAccess)) {
 							removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
 						}
 

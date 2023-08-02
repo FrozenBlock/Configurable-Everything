@@ -1,8 +1,9 @@
 package net.frozenblock.configurableeverything.config;
 
 import blue.endless.jankson.Comment;
-import com.google.gson.GsonBuilder;
 import java.util.List;
+
+import com.mojang.datafixers.util.Either;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters;
@@ -48,8 +49,7 @@ public class BiomePlacementConfig {
 		Add any biome_placement to worldgen, with the parameters set.
 		Adds biomes after biomes are removed via "removedBiomes",
 		so replacing a biome's parameters is possible.
-		Supports: Vanilla biomes, datapack biomes
-		Does not support biomes added via TerraBlender
+		Supports: Vanilla biomes, datapack biomes, modded biomes
 		"""
 	)
 	public TypedEntry<List<DimensionBiomeList>> addedBiomes = new TypedEntry<>(
@@ -97,7 +97,7 @@ public class BiomePlacementConfig {
 		Remove any biome_placement from worldgen
 		Removes biomes before biomes are added via "addedBiomes",
 		so replacing a biome's parameters is possible.
-		Supports: Vanilla biomes, datapack biomes
+		Supports: Vanilla biomes, datapack biomes, Vanilla biome tags, datapack biome tags
 		Does not support biomes added via TerraBlender
 		"""
 	)
@@ -107,13 +107,14 @@ public class BiomePlacementConfig {
 			new DimensionBiomeKeyList(
 				BuiltinDimensionTypes.OVERWORLD,
 				List.of(
-					ConfigurableEverythingDataGenerator.BLANK_BIOME
+					Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+					Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG)
 				)
 			),
 			new DimensionBiomeKeyList(
 				BuiltinDimensionTypes.NETHER,
 				List.of(
-					ConfigurableEverythingDataGenerator.BLANK_BIOME
+					Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME)
 				)
 			)
 		)

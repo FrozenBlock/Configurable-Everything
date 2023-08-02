@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.util
 
+import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
@@ -9,8 +10,12 @@ import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedC
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
+import net.minecraft.core.HolderSet
+import net.minecraft.core.RegistryAccess
+import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate.ParameterPoint
@@ -43,13 +48,20 @@ object ConfigurableEverythingUtils {
     }
 
     @JvmStatic
-    fun biomeRemovals(dimension: ResourceKey<DimensionType?>): List<ResourceKey<Biome>> {
+    fun biomeRemovals(dimension: ResourceKey<DimensionType?>, registryAccess: RegistryAccess?): List<ResourceKey<Biome>> {
         val biomeRemovals: MutableList<ResourceKey<Biome>> = ArrayList()
         val removedBiomes = BiomePlacementConfig.get().removedBiomes
         if (removedBiomes?.value() != null) {
             val dimensionBiomes = removedBiomes.value()!!.stream().filter { list: DimensionBiomeKeyList -> list.dimension == dimension }.toList()
             for (list in dimensionBiomes) {
-                biomeRemovals.addAll(list.biomes)
+                val biomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>> = list.biomes
+                for (biome in biomes) {
+                    biome.ifLeft { biomeRemovals.add(it) }
+                    biome.ifRight { tag ->
+                        val biomeSet: HolderSet.Named<Biome>? = registryAccess?.lookupOrThrow(Registries.BIOME)?.getOrThrow(tag)
+                        biomeSet?.forEach { it?.unwrapKey()?.orElseThrow()?.let { it1 -> biomeRemovals.add(it1) } }
+                    }
+                }
             }
         }
         return biomeRemovals

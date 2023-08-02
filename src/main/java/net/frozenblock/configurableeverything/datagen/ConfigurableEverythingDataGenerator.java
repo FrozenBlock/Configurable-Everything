@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.lib.datagen.api.FrozenBiomeTagProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -12,6 +13,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.VegetationFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
@@ -30,9 +32,14 @@ public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypo
 	public static final ResourceKey<Biome> BLANK_BIOME = ResourceKey.create(Registries.BIOME, ConfigurableEverythingUtils.id("blank_biome"));
 	public static final ResourceKey<PlacedFeature> BLANK_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, ConfigurableEverythingUtils.id("blank_placed_feature"));
 
+	public static final TagKey<Biome> BLANK_TAG = TagKey.create(Registries.BIOME, ConfigurableEverythingUtils.id("blank_tag"));
+
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-		fabricDataGenerator.createPack().addProvider(WorldgenProvider::new);
+		var pack = fabricDataGenerator.createPack();
+
+		pack.addProvider(WorldgenProvider::new);
+		pack.addProvider(BiomeTagProvider::new);
 	}
 
 	@Override
@@ -82,6 +89,19 @@ public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypo
 		@Override
 		public String getName() {
 			return "Configurable Everything Dynamic Registries";
+		}
+	}
+
+	private static class BiomeTagProvider extends FrozenBiomeTagProvider {
+
+		public BiomeTagProvider(FabricDataOutput output, CompletableFuture registriesFuture) {
+			super(output, registriesFuture);
+		}
+
+		@Override
+		protected void addTags(HolderLookup.Provider arg) {
+			this.getOrCreateTagBuilder(BLANK_TAG)
+					.add(BLANK_BIOME);
 		}
 	}
 }
