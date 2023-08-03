@@ -1,8 +1,8 @@
 package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.util.Pair;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -32,8 +32,8 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 
 	@Override
 	public void updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
-		var addedBiomes = ConfigurableEverythingUtils.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
-		var removedBiomes = ConfigurableEverythingUtils.biomeRemovals(dimension, registryAccess);
+		var addedBiomes = BiomePlacementUtils.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
+		var removedBiomes = BiomePlacementUtils.biomeRemovals(dimension, registryAccess);
 
 		try {
 			var biomeValues = (List<Pair<Climate.ParameterPoint, Holder<Biome>>>) (List) this.values;

@@ -31,42 +31,6 @@ object ConfigurableEverythingUtils {
         return Path.of("./config/" + MOD_ID + "/" + name + "." + if (json5) "json5" else "json")
     }
 
-    // BIOME PARAMETERS
-    @JvmStatic
-    fun biomeAdditions(registryAccess: HolderGetter<Biome>?, dimension: ResourceKey<DimensionType?>): List<Pair<ParameterPoint, Holder<Biome>>> {
-        val biomeAdditions: MutableList<Pair<ParameterPoint, Holder<Biome>>> = ArrayList()
-        val addedBiomes = BiomePlacementConfig.get().addedBiomes
-        if (addedBiomes?.value() != null) {
-            val dimensionBiomes = addedBiomes.value()!!.stream().filter { list: DimensionBiomeList -> list.dimension == dimension }.toList()
-            for (list in dimensionBiomes) {
-                for (parameters in list.biomes) {
-                    biomeAdditions.add(Pair.of(parameters.parameters, registryAccess?.getOrThrow(parameters.biome)))
-                }
-            }
-        }
-        return biomeAdditions
-    }
-
-    @JvmStatic
-    fun biomeRemovals(dimension: ResourceKey<DimensionType?>, registryAccess: RegistryAccess?): List<ResourceKey<Biome>> {
-        val biomeRemovals: MutableList<ResourceKey<Biome>> = ArrayList()
-        val removedBiomes = BiomePlacementConfig.get().removedBiomes
-        if (removedBiomes?.value() != null) {
-            val dimensionBiomes = removedBiomes.value()!!.stream().filter { list: DimensionBiomeKeyList -> list.dimension == dimension }.toList()
-            for (list in dimensionBiomes) {
-                val biomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>> = list.biomes
-                for (biome in biomes) {
-                    biome.ifLeft { biomeRemovals.add(it) }
-                    biome.ifRight { tag ->
-                        val biomeSet: HolderSet.Named<Biome>? = registryAccess?.lookupOrThrow(Registries.BIOME)?.getOrThrow(tag)
-                        biomeSet?.forEach { it?.unwrapKey()?.orElseThrow()?.let { it1 -> biomeRemovals.add(it1) } }
-                    }
-                }
-            }
-        }
-        return biomeRemovals
-    }
-
     // LOGGING
     @JvmStatic
     fun log(string: String?, shouldLog: Boolean) {

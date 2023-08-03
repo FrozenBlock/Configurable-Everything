@@ -2,9 +2,9 @@ package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeSourceExtension;
 import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -58,11 +58,11 @@ public abstract class MinecraftServerMixin {
 
 						// remove biomes first to allow replacing biome parameters
 						List<Holder<Biome>> removedBiomeHolders = new ArrayList<>();
-						for (ResourceKey<Biome> biome : ConfigurableEverythingUtils.biomeRemovals(dimension, registryAccess)) {
+						for (ResourceKey<Biome> biome : BiomePlacementUtils.biomeRemovals(dimension, registryAccess)) {
 							removedBiomeHolders.add(biomeRegistry.getOrThrow(biome));
 						}
 
-						List<Pair<Climate.ParameterPoint, Holder<Biome>>> addedBiomes = ConfigurableEverythingUtils.biomeAdditions(biomeRegistry, dimension);
+						List<Pair<Climate.ParameterPoint, Holder<Biome>>> addedBiomes = BiomePlacementUtils.biomeAdditions(biomeRegistry, dimension);
 						List<Holder<Biome>> addedBiomeHolders = new ArrayList<>();
 						for (Pair<Climate.ParameterPoint, Holder<Biome>> pair : addedBiomes) {
 							addedBiomeHolders.add(pair.getSecond());
