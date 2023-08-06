@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.entity.zombie.mixin;
+package net.frozenblock.configurableeverything.entity.mixin.zombie;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.frozenblock.configurableeverything.config.EntityConfig;

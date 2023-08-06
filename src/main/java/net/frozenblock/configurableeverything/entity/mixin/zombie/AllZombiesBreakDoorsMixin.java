@@ -1,9 +1,9 @@
-package net.frozenblock.configurableeverything.entity.zombie.mixin;
+package net.frozenblock.configurableeverything.entity.mixin.zombie;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.entity.zombie.ai.NewZombieBreakDoorGoal;
+import net.frozenblock.configurableeverything.entity.util.zombie.ai.NewZombieBreakDoorGoal;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;

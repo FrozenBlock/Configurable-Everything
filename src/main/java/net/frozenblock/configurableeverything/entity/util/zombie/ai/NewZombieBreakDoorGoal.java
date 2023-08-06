@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.entity.zombie.ai;
+package net.frozenblock.configurableeverything.entity.util.zombie.ai;
 
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;

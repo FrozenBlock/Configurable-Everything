@@ -37,10 +37,10 @@
   "mixins": [
     "configurable_everything_biome.mixins.json",
     "configurable_everything_datafixer.mixins.json",
+    "configurable_everything_entity.mixins.json",
     "configurable_everything_fluid.mixins.json",
     "configurable_everything_screenshake.mixins.json",
-    "configurable_everything_splash_text.mixins.json",
-    "configurable_everything_zombie.mixins.json"
+    "configurable_everything_splash_text.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 

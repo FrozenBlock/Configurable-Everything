@@ -1,6 +1,6 @@
-package net.frozenblock.configurableeverything.entity.zombie.mixin;
+package net.frozenblock.configurableeverything.entity.mixin.zombie;
 
-import net.frozenblock.configurableeverything.entity.zombie.ai.NewZombieBreakDoorGoal;
+import net.frozenblock.configurableeverything.entity.util.zombie.ai.NewZombieBreakDoorGoal;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.ai.goal.DoorInteractGoal;
