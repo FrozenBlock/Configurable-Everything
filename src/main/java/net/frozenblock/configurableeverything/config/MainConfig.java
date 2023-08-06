@@ -38,8 +38,6 @@ public class MainConfig {
 
 	public boolean screen_shake = false;
 
-	public boolean sound = false;
-
 	public boolean splash_text = false;
 
 	public boolean surface_rule = false;

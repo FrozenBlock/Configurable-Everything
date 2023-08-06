@@ -15,7 +15,7 @@ object EntityConfigUtil {
 	fun init() {
         val config = EntityConfig.get()
         // only run this on client
-        if (MainConfig.get().sound && FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
+        if (MainConfig.get().entity && FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             if (config.entityFlyBySounds?.value != null) {
                 val flyBySounds: List<EntityFlyBySound> = config.entityFlyBySounds.value
                 for (sound in flyBySounds) {
