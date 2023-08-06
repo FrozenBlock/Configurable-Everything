@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory
 object ConfigurableEverythingSharedConstants {
 
     const val MOD_ID = "configurable_everything"
+
     @JvmField
     val LOGGER = LoggerFactory.getLogger(MOD_ID)
+
     var DEV_LOGGING = false
 
     /**
@@ -18,15 +20,7 @@ object ConfigurableEverythingSharedConstants {
      */
     @JvmField
     var UNSTABLE_LOGGING = FabricLoader.getInstance().isDevelopmentEnvironment
+
     @JvmField
     val MOD_CONTAINER = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow()
-    var areConfigsInit = false
-
-    /**
-     * Used for datafixers.
-     *
-     *
-     * Is not necessary for a normal mod, but can be useful in some cases.
-     */
-    const val DATA_VERSION = 0
 }
