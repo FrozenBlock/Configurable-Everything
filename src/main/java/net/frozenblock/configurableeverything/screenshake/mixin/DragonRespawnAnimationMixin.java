@@ -1,6 +1,8 @@
 package net.frozenblock.configurableeverything.screenshake.mixin;
 
 import java.util.List;
+import net.frozenblock.configurableeverything.config.MainConfig;
+import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -20,8 +22,11 @@ public class DragonRespawnAnimationMixin {
 
 		@Inject(method = "tick", at = @At("HEAD"))
 		private void startShaking(ServerLevel world, EndDragonFight fight, List<EndCrystal> crystals, int i, BlockPos pos, CallbackInfo ci) {
-			if (i == 0) {
-				ScreenShakeManager.addScreenShake(world, 0.9F, 60, 0, 130, 0, 180);
+			var config = ScreenShakeConfig.get();
+			if (MainConfig.get().screen_shake) {
+				if (i == 0 && config.dragonRespawnScreenShake) {
+					ScreenShakeManager.addScreenShake(world, 0.9F, 60, 0, 130, 0, 180);
+				}
 			}
 		}
 	}
@@ -31,8 +36,11 @@ public class DragonRespawnAnimationMixin {
 
 		@Inject(method = "tick", at = @At("TAIL"))
 		private void startShaking(ServerLevel world, EndDragonFight fight, List<EndCrystal> crystals, int i, BlockPos pos, CallbackInfo ci) {
-			if (i == 0) {
-				ScreenShakeManager.addScreenShake(world, 1.9F, 140, 0, 130, 0, 180);
+			var config = ScreenShakeConfig.get();
+			if (MainConfig.get().screen_shake) {
+				if (i == 0 && config.dragonRespawnScreenShake) {
+					ScreenShakeManager.addScreenShake(world, 1.9F, 140, 0, 130, 0, 180);
+				}
 			}
 		}
 	}

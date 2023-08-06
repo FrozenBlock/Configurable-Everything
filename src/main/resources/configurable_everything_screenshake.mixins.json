@@ -7,14 +7,8 @@
     "DragonRespawnAnimationMixin",
     "DragonRespawnAnimationMixin$PreparingPillarsMixin",
     "DragonRespawnAnimationMixin$SpawningDragonMixin",
-    "EmergingMixin",
-    "EnderDragonMixin",
     "ExplosionMixin",
     "LevelMixin",
-    "RavagerMixin",
-    "RoarMixin",
-    "SonicBoomMixin",
-    "WardenMixin"
   ],
   "client": [
     "client.ClientLevelMixin"

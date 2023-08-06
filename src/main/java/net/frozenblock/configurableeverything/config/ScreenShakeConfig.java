@@ -86,6 +86,10 @@ public final class ScreenShakeConfig {
 		)
 	);
 
+	public boolean dragonRespawnScreenShake = true;
+
+	public boolean explosionScreenShake = true;
+
 	public static ScreenShakeConfig get() {
 		return INSTANCE.config();
 	}
@@ -93,5 +97,4 @@ public final class ScreenShakeConfig {
 	public static Config<ScreenShakeConfig> getConfigInstance() {
 		return INSTANCE;
 	}
-
 }
