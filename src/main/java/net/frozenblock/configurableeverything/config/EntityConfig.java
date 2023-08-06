@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.config;
 
+import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier;
+import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
@@ -9,10 +11,19 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 public final class EntityConfig {
+
+	private static final TypedEntryType<List<EntityAttributeAmplifier>> ENTITY_ATTRIBUTE_AMPLIFIERS = ConfigRegistry.register(
+		new TypedEntryType<>(
+			ConfigurableEverythingSharedConstants.MOD_ID,
+			EntityAttributeAmplifier.CODEC.listOf()
+		)
+	);
 
 	private static final TypedEntryType<List<EntityFlyBySound>> ENTITY_FLYBY_SOUNDS = ConfigRegistry.register(
 		new TypedEntryType<>(
@@ -27,6 +38,21 @@ public final class EntityConfig {
 			EntityConfig.class,
 			ConfigurableEverythingUtils.makePath("entity", true),
 			true
+		)
+	);
+
+	public TypedEntry<List<EntityAttributeAmplifier>> entityAttributeAmplifiers = new TypedEntry<>(
+		ENTITY_ATTRIBUTE_AMPLIFIERS,
+		List.of(
+			new EntityAttributeAmplifier(
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("player")),
+				List.of(
+					new AttributeAmplifier(
+						ResourceKey.create(Registries.ATTRIBUTE, new ResourceLocation("generic.movement_speed")),
+						1.5
+					)
+				)
+			)
 		)
 	);
 
