@@ -225,11 +225,10 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // FrozenLib
-    if (local_frozenlib) {
+    if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
-    } else {
+    else
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
-    }
 
     // Jankson
     implementation("blue.endless:jankson:$jankson_version")
