@@ -71,6 +71,8 @@ public final class EntityConfig {
 		)
 	);
 
+	public double digSpeedAmplifier = 1.5;
+
 	public ZombieConfig zombie = new ZombieConfig();
 
 	public static EntityConfig get() {
