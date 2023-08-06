@@ -4,6 +4,7 @@ import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier;
 import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
+import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
@@ -29,6 +30,13 @@ public final class EntityConfig {
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			EntityFlyBySound.CODEC.listOf()
+		)
+	);
+
+	private static final TypedEntryType<List<EntitySpottingIcon>> SPOTTING_ICONS = ConfigRegistry.register(
+		new TypedEntryType<>(
+			ConfigurableEverythingSharedConstants.MOD_ID,
+			EntitySpottingIcon.CODEC.listOf()
 		)
 	);
 
@@ -67,6 +75,18 @@ public final class EntityConfig {
 					10F,
 					1F
 				)
+			)
+		)
+	);
+
+	public TypedEntry<List<EntitySpottingIcon>> entitySpottingIcons = new TypedEntry<>(
+		SPOTTING_ICONS,
+		List.of(
+			new EntitySpottingIcon(
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("creeper")),
+				ConfigurableEverythingUtils.id("textures/spotting_icon/icon.png"),
+				5F,
+				8F
 			)
 		)
 	);
