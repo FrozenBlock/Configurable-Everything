@@ -18,8 +18,10 @@ public class ServerConfig {
 		)
 	);
 
-	@Comment("Does not increase tick rate. Only increases daytime speed.")
+	@Comment("Does not modify tick rate. Only modifies daytime speed.")
 	public long dayTimeSpeedAmplifier = 3;
+
+	public boolean flameBowsLightFire = false;
 
 	public static ServerConfig get() {
 		return INSTANCE.config();

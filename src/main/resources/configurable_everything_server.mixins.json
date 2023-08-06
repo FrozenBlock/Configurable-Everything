@@ -4,6 +4,7 @@
   "package": "net.frozenblock.configurableeverything.server.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractArrowMixin",
     "ServerLevelMixin"
   ],
   "client": [
