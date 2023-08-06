@@ -40,6 +40,7 @@
     "configurable_everything_entity.mixins.json",
     "configurable_everything_fluid.mixins.json",
     "configurable_everything_screenshake.mixins.json",
+    "configurable_everything_server.mixins.json",
     "configurable_everything_splash_text.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",

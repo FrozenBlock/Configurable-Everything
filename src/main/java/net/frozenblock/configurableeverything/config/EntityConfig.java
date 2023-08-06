@@ -79,10 +79,6 @@ public final class EntityConfig {
 		return INSTANCE.config();
 	}
 
-	public static Config<EntityConfig> getConfigInstance() {
-		return INSTANCE;
-	}
-
 	public static class ZombieConfig {
 		public boolean babyZombieSprintParticles = true;
 		public boolean allZombiesBreakDoors = true;

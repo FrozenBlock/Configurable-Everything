@@ -27,6 +27,7 @@ public class ConfigurableEverything implements ModInitializer {
 		EntityConfigUtil.init();
 		FluidConfig.get();
 		ScreenShakeConfig.get();
+		ServerConfig.get();
 		SplashTextConfigUtil.init();
 		SurfaceRuleConfigUtil.init();
 
