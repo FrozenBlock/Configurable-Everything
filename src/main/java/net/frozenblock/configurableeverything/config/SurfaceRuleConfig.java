@@ -42,7 +42,10 @@ public class SurfaceRuleConfig {
 				SurfaceRules.sequence(
 					SurfaceRules.ifTrue(
 						SurfaceRules.isBiome(ConfigurableEverythingDataGenerator.BLANK_BIOME),
-						SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
+						SurfaceRules.ifTrue(
+							SurfaceRules.abovePreliminarySurface(),
+							SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
+						)
 					)
 				)
 			)
