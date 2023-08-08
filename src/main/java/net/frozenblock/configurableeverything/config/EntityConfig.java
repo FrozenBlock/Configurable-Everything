@@ -95,8 +95,12 @@ public final class EntityConfig {
 
 	public ZombieConfig zombie = new ZombieConfig();
 
+	public static Config<EntityConfig> getConfigInstance() {
+		return INSTANCE;
+	}
+
 	public static EntityConfig get() {
-		return INSTANCE.config();
+		return getConfigInstance().config();
 	}
 
 	public static class ZombieConfig {

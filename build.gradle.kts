@@ -56,6 +56,7 @@ val fabric_asm_version: String by project
 val frozenlib_version: String by project
 val jankson_version: String by project
 
+val cloth_config_version: String by project
 val modmenu_version: String by project
 val terrablender_version: String by project
 val terralith_version: String by project
@@ -236,49 +237,17 @@ dependencies {
     // MixinExtras
     implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")?.let { annotationProcessor(it) }
 
+    // Cloth Config
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+        exclude(group = "net.fabricmc.fabric-api")
+        exclude(group = "com.terraformersmc")
+    }
+
     // Mod Menu
     modCompileOnly("com.terraformersmc:modmenu:${modmenu_version}")
 
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
-
-    /*
-        // only affects runClient, does not affect gradlew build.
-        // add -PuseThirdPartyMods=false to not use these
-        if (findProperty("useThirdPartyMods") != "false") {
-            modRuntimeOnly("maven.modrinth:ferrite-core:${ferritecore_version}")
-            modRuntimeOnly("maven.modrinth:lazydfu:${lazydfu_version}")
-            modRuntimeOnly("maven.modrinth:starlight:${starlight_version}")
-            modRuntimeOnly("maven.modrinth:lithium:${lithium_version}")
-            modRuntimeOnly("maven.modrinth:fastanim:${fastanim_version}")
-
-            modRuntimeOnly("maven.modrinth:entityculling:${entityculling_version}")
-            modRuntimeOnly("maven.modrinth:memoryleakfix:${memoryleakfix_version}")
-            modRuntimeOnly("maven.modrinth:no-unused-chunks:${no_unused_chunks_version}")
-            //modRuntimeOnly("maven.modrinth:exordium:${exordium_version}")
-            //modRuntimeOnly("maven.modrinth:entity-collision-fps-fix:${entity_collision_fps_fix_version}")
-            //modRuntimeOnly("maven.modrinth:cull-less-leaves:${cull_less_leaves_version}")
-            //modRuntimeOnly("maven.modrinth:c2me-fabric:${c2me_version}")
-            //modRuntimeOnly("maven.modrinth:moreculling:${more_culling_version}")
-            //modRuntimeOnly("maven.modrinth:smoothboot-fabric:${smoothboot_version}")
-        }
-
-        // only affects runClient, does not affect gradlew build.
-        // add -PuseExperimentalThirdParty=true to the gradle runClient
-        // command to use these
-        if (findProperty("useExperimentalThirdParty") == "true") {
-            modRuntimeOnly("maven.modrinth:terralith:${terralith_version}")
-            modRuntimeOnly("maven.modrinth:sodium:${sodium_version}")
-            modRuntimeOnly("org.joml:joml:1.10.4")
-            modRuntimeOnly("org.anarres:jcpp:1.4.14")
-            //modRuntimeOnly "maven.modrinth:iris:${iris_version}"
-            modRuntimeOnly("maven.modrinth:indium:${indium_version}")
-            modRuntimeOnly("me.flashyreese.mods:reeses-sodium-options:${reeses_sodium_options_version}") {
-                exclude(group = "net.coderbot.iris_mc1_19", module = "iris")
-            }
-            modRuntimeOnly("me.flashyreese.mods:sodium-extra-fabric:${sodium_extra_version}")
-            modRuntimeOnly("io.github.douira:glsl-transformer:0.27.0")
-        }*/
 }
 
 vineflower {

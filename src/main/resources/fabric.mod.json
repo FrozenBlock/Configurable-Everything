@@ -32,6 +32,9 @@
     ],
     "fabric-datagen": [
       "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
+    ],
+    "modmenu": [
+     "net.frozenblock.configurableeverything.config.gui.ModMenuIntegration"
     ]
   },
   "mixins": [
