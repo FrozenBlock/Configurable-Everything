@@ -1,10 +1,11 @@
-package net.frozenblock.configurableeverything.config.gui;
+package net.frozenblock.configurableeverything.config.gui.main;
 
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.EntityConfig;
+import net.frozenblock.configurableeverything.config.gui.EntityConfigGui;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;

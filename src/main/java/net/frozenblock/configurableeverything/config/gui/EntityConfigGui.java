@@ -5,6 +5,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.EntityConfig;
+import net.frozenblock.configurableeverything.config.gui.main.ConfigurableEverythingConfigGui;
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig;
 
 @Environment(EnvType.CLIENT)
@@ -12,6 +13,19 @@ public final class EntityConfigGui {
 
 	public static void setupEntries(ConfigCategory category, ConfigEntryBuilder entryBuilder) {
 		var config = EntityConfig.get();
+
+		var player = config.player;
+		var digSpeedAmplifier = entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("dig_speed_amplifier"), player.digSpeedAmplifier, 1, 1000)
+			.setDefaultValue(100)
+			.setSaveConsumer(newValue -> player.digSpeedAmplifier = newValue)
+			.setTooltip(ConfigurableEverythingConfigGui.tooltip("dig_speed_amplifier"))
+			.build();
+
+		var playerCategory = FrozenClothConfig.createSubCategory(entryBuilder, category, ConfigurableEverythingConfigGui.text("player"),
+			false,
+			ConfigurableEverythingConfigGui.tooltip("player"),
+			digSpeedAmplifier
+		);
 
 		var zombie = config.zombie;
 		var babyZombieSprint = entryBuilder.startBooleanToggle(ConfigurableEverythingConfigGui.text("baby_zombie_sprint_particles"), zombie.babyZombieSprintParticles)

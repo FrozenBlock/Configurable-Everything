@@ -34,7 +34,7 @@
       "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
     ],
     "modmenu": [
-     "net.frozenblock.configurableeverything.config.gui.ModMenuIntegration"
+      "net.frozenblock.configurableeverything.config.gui.main.ModMenuIntegration"
     ]
   },
   "mixins": [

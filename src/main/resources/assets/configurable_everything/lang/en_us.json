@@ -4,6 +4,11 @@
   "option.configurable_everything.true": "§aEnabled",
   "option.configurable_everything.entity": "Entity",
 
+  "option.configurable_everything.player": "Player",
+  "tooltip.configurable_everything.player": "Contains options for the Player.",
+  "option.configurable_everything.dig_speed_amplifier": "Dig Speed Amplifier",
+  "tooltip.configurable_everything.dig_speed_amplifier": "Modifies the Player's dig speed.\nThis is a percentage.",
+
   "option.configurable_everything.zombie": "Zombie",
   "tooltip.configurable_everything.zombie": "Contains options for the Zombie.",
   "option.configurable_everything.baby_zombie_sprint_particles": "Baby Zombie Sprint Particles",
@@ -12,10 +17,5 @@
   "tooltip.configurable_everything.all_zombies_break_doors": "Whether or not all Zombies can Break Doors.",
 
   "option.configurable_everything.screenshake": "Screen Shaking",
-  "tooltip.configurable_everything.zombie": "Contains options for Screen Shaking.",
-
-  "option.configurable_everything.baby_zombie_sprint_particles": "Baby Zombie Sprint Particles",
-  "tooltip.configurable_everything.baby_zombie_sprint_particles": "Whether or not Baby Zombies spawn Sprint Particles.",
-  "option.configurable_everything.all_zombies_break_doors": "All Zombies Break Doors",
-  "tooltip.configurable_everything.all_zombies_break_doors": "Whether or not all Zombies can Break Doors."
+  "tooltip.configurable_everything.screenshake": "Contains options for Screen Shaking."
 }

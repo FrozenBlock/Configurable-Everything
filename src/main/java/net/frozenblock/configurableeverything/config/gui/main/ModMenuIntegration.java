@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.config.gui;
+package net.frozenblock.configurableeverything.config.gui.main;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

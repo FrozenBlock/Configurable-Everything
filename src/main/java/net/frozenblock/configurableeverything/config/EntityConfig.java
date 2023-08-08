@@ -91,10 +91,6 @@ public final class EntityConfig {
 		)
 	);
 
-	public double digSpeedAmplifier = 1.5;
-
-	public ZombieConfig zombie = new ZombieConfig();
-
 	public static Config<EntityConfig> getConfigInstance() {
 		return INSTANCE;
 	}
@@ -102,6 +98,17 @@ public final class EntityConfig {
 	public static EntityConfig get() {
 		return getConfigInstance().config();
 	}
+
+	public PlayerConfig player = new PlayerConfig();
+
+	public static class PlayerConfig {
+		public int digSpeedAmplifier = 100;
+		public double getDigSpeed() {
+			return ((double) this.digSpeedAmplifier) / 100D;
+		}
+	}
+
+	public ZombieConfig zombie = new ZombieConfig();
 
 	public static class ZombieConfig {
 		public boolean babyZombieSprintParticles = true;
