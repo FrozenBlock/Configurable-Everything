@@ -244,7 +244,7 @@ dependencies {
     }
 
     // Mod Menu
-    modCompileOnly("com.terraformersmc:modmenu:${modmenu_version}")
+    modImplementation("com.terraformersmc:modmenu:${modmenu_version}")
 
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
