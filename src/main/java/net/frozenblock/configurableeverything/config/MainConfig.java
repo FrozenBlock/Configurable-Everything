@@ -32,7 +32,7 @@ public class MainConfig {
 
 	public boolean datafixer = false;
 
-	public boolean entity = false;
+	public boolean entity = true;
 
 	public boolean fluid = false;
 
