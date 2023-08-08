@@ -15,7 +15,7 @@ public final class EntityConfigGui {
 		var config = EntityConfig.get();
 
 		var player = config.player;
-		var digSpeedAmplifier = entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("dig_speed_amplifier"), player.digSpeedAmplifier, 1, 1000)
+		var digSpeedAmplifier = entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("dig_speed_amplifier"), player.digSpeedAmplifier, 1, 5000)
 			.setDefaultValue(100)
 			.setSaveConsumer(newValue -> player.digSpeedAmplifier = newValue)
 			.setTooltip(ConfigurableEverythingConfigGui.tooltip("dig_speed_amplifier"))
