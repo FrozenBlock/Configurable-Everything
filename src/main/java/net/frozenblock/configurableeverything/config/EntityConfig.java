@@ -16,9 +16,13 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import java.util.List;
 
 public final class EntityConfig {
+
+	public SoundEvent configedSound = SoundEvents.ENDER_DRAGON_GROWL;
 
 	private static final TypedEntryType<List<EntityAttributeAmplifier>> ENTITY_ATTRIBUTE_AMPLIFIERS = ConfigRegistry.register(
 		new TypedEntryType<>(
