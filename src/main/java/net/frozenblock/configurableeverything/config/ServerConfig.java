@@ -21,6 +21,10 @@ public class ServerConfig {
 	@Comment("Does not modify tick rate. Only modifies daytime speed.")
 	public long dayTimeSpeedAmplifier = 3;
 
+	public float sunSize = 30.0F;
+
+	public float moonSize = 20.0F;
+
 	public boolean flameBowsLightFire = false;
 
 	public static ServerConfig get() {

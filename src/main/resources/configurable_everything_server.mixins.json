@@ -8,7 +8,8 @@
     "ServerLevelMixin"
   ],
   "client": [
-    "client.ClientLevelMixin"
+    "client.ClientLevelMixin",
+    "client.LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
