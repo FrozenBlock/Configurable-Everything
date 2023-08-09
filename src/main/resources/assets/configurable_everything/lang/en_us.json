@@ -17,5 +17,7 @@
   "tooltip.configurable_everything.all_zombies_break_doors": "Whether or not all Zombies can Break Doors.",
 
   "option.configurable_everything.screenshake": "Screen Shaking",
-  "tooltip.configurable_everything.screenshake": "Contains options for Screen Shaking."
+  "tooltip.configurable_everything.screenshake": "Contains options for Screen Shaking.",
+
+  "option.configurable_everything.sound_event": "Sound Event Selection Demo"
 }

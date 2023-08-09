@@ -35,9 +35,9 @@ public class DropdownBoxEntries {
 			return Component.literal(BuiltInRegistries.SOUND_EVENT.getKey(i).toString());
 		}) {
 			public void render(GuiGraphics graphics, int mouseX, int mouseY, int x, int y, int width, int height, float delta) {
-				this.textFieldWidget.setX(x + 4);
+				this.textFieldWidget.setX(x - 99);
 				this.textFieldWidget.setY(y + 6);
-				this.textFieldWidget.setWidth(width - 4 - 20);
+				this.textFieldWidget.setWidth(width + 99);
 				this.textFieldWidget.setEditable(this.getParent().isEditable());
 				this.textFieldWidget.setTextColor(this.getPreferredTextColor());
 				this.textFieldWidget.render(graphics, mouseX, mouseY, delta);
@@ -51,11 +51,11 @@ public class DropdownBoxEntries {
 
 
 	public static DropdownBoxEntry.SelectionCellCreator<SoundEvent> ofSoundEvent() {
-		return ofSoundEvent(20, 146, 7);
+		return ofSoundEvent(20, 246, 7);
 	}
 
 	public static DropdownBoxEntry.SelectionCellCreator<SoundEvent> ofSoundEvent(int maxItems) {
-		return ofSoundEvent(20, 146, maxItems);
+		return ofSoundEvent(20, 246, maxItems);
 	}
 
 	public static DropdownBoxEntry.SelectionCellCreator<SoundEvent> ofSoundEvent(final int cellHeight, final int cellWidth, final int maxItems) {
@@ -64,15 +64,15 @@ public class DropdownBoxEntries {
 				return new DropdownBoxEntry.DefaultSelectionCellElement<>(selection, this.toTextFunction) {
 					public void render(GuiGraphics graphics, int mouseX, int mouseY, int x, int y, int width, int height, float delta) {
 						this.rendering = true;
-						this.x = x;
+						this.x = x - 99;
 						this.y = y;
-						this.width = width;
+						this.width = width + 99;
 						this.height = height;
-						boolean b = mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+						boolean b = mouseX >= x - 99 && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
 						if (b) {
-							graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, -15132391);
+							graphics.fill(x - 129, y + 1, x + width - 1, y + height - 1, -15132391);
 						}
-						graphics.drawString(Minecraft.getInstance().font, this.toTextFunction.apply(this.r).getVisualOrderText(), x + 6 + 18, y + 6, b ? 16777215 : 8947848);
+						graphics.drawString(Minecraft.getInstance().font, this.toTextFunction.apply(this.r).getVisualOrderText(), x - 99 + 6 + 18, y + 6, b ? 16777215 : 8947848);
 					}
 				};
 			}

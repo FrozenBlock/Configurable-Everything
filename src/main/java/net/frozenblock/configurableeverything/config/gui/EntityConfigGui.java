@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.config.gui;
 import java.util.stream.Collectors;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.EntityConfig;
@@ -11,7 +10,6 @@ import net.frozenblock.configurableeverything.config.additions.DropdownBoxEntrie
 import net.frozenblock.configurableeverything.config.gui.main.ConfigurableEverythingConfigGui;
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 
 @Environment(EnvType.CLIENT)
@@ -21,7 +19,7 @@ public final class EntityConfigGui {
 		var config = EntityConfig.get();
 
 		var configedSound = entryBuilder.startDropdownMenu(
-				ConfigurableEverythingConfigGui.text("screen_shake"),
+				ConfigurableEverythingConfigGui.text("sound_event"),
 				DropdownBoxEntries.ofSoundEventObject(config.configedSound),
 				DropdownBoxEntries.ofSoundEvent()
 			)
