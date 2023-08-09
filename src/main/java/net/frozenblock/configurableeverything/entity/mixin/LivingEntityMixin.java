@@ -23,7 +23,7 @@ import java.util.List;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
-	public LivingEntityMixin(EntityType<?> entityType, Level level) {
+	private LivingEntityMixin(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 	}
 
