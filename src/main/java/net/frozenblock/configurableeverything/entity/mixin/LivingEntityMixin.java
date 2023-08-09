@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
@@ -50,5 +51,19 @@ public abstract class LivingEntityMixin extends Entity {
 				}
 			}
 		}
+	}
+
+	@ModifyArg(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"), index = 2)
+	private int dropExperience(int amount) {
+		var config = EntityConfig.get();
+		if (MainConfig.get().entity && config.experienceOverrides != null && config.experienceOverrides.value() != null) {
+			var experienceOverrides = config.experienceOverrides.value();
+			for (var override : experienceOverrides) {
+				if (override.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+					return override.amount();
+				}
+			}
+		}
+		return amount;
 	}
 }

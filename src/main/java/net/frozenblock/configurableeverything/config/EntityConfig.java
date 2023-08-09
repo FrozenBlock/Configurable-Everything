@@ -5,6 +5,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifi
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
 import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
+import net.frozenblock.configurableeverything.entity.util.ExperienceOverride;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
@@ -30,6 +31,13 @@ public final class EntityConfig {
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			EntityFlyBySound.CODEC.listOf()
+		)
+	);
+
+	private static final TypedEntryType<List<ExperienceOverride>> EXPERIENCE_OVERRIDES = ConfigRegistry.register(
+		new TypedEntryType<>(
+			ConfigurableEverythingSharedConstants.MOD_ID,
+			ExperienceOverride.CODEC.listOf()
 		)
 	);
 
@@ -60,6 +68,16 @@ public final class EntityConfig {
 						1.5
 					)
 				)
+			)
+		)
+	);
+
+	public TypedEntry<List<ExperienceOverride>> experienceOverrides = new TypedEntry<>(
+		EXPERIENCE_OVERRIDES,
+		List.of(
+			new ExperienceOverride(
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("cow")),
+				5000
 			)
 		)
 	);
