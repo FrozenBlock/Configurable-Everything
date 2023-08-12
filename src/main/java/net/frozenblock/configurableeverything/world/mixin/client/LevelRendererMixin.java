@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.server.mixin.client;
+package net.frozenblock.configurableeverything.world.mixin.client;
 
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.WorldConfig;

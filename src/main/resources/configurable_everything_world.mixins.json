@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8.5",
-  "package": "net.frozenblock.configurableeverything.server.mixin",
+  "package": "net.frozenblock.configurableeverything.world.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractArrowMixin",
