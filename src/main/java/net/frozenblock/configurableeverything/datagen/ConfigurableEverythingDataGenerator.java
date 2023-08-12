@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.datagen;
 
+import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.SurfaceWaterDepthFilter;
-import java.util.concurrent.CompletableFuture;
 
 public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypoint {
 

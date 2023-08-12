@@ -7,13 +7,13 @@ import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 
-public class ServerConfig {
+public class WorldConfig {
 
-	private static final Config<ServerConfig> INSTANCE = ConfigRegistry.register(
+	private static final Config<WorldConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
-			ServerConfig.class,
-			ConfigurableEverythingUtils.makePath("server", true),
+			WorldConfig.class,
+			ConfigurableEverythingUtils.makePath("world", true),
 			true
 		)
 	);
@@ -21,13 +21,23 @@ public class ServerConfig {
 	@Comment("Does not modify tick rate. Only modifies daytime speed.")
 	public long dayTimeSpeedAmplifier = 3;
 
-	public float sunSize = 30.0F;
+	public int sunSize = 30;
+	public float getSunSize() {
+		return ((float) this.sunSize) / 10F;
+	}
 
-	public float moonSize = 20.0F;
+	public int moonSize = 20;
+	public float getMoonSize() {
+		return ((float) this.moonSize) / 10F;
+	}
 
 	public boolean flameBowsLightFire = false;
 
-	public static ServerConfig get() {
-		return INSTANCE.config();
+	public static Config<WorldConfig> getConfigInstance() {
+		return INSTANCE;
+	}
+
+	public static WorldConfig get() {
+		return getConfigInstance().config();
 	}
 }

@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config;
 
+import java.util.List;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
@@ -12,7 +13,6 @@ import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.levelgen.SurfaceRules;
-import java.util.List;
 
 public class SurfaceRuleConfig {
 	public SurfaceRuleConfig() {

@@ -1,10 +1,10 @@
 package net.frozenblock.configurableeverything.mod_compat;
 
+import java.util.function.Supplier;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.lib.integration.api.ModIntegration;
 import net.frozenblock.lib.integration.api.ModIntegrationSupplier;
 import net.frozenblock.lib.integration.api.ModIntegrations;
-import java.util.function.Supplier;
 
 public final class ConfigurableEverythingIntegrations {
 

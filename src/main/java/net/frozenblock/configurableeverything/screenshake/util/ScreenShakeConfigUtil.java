@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.screenshake.util;
 
+import java.util.List;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
@@ -10,8 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class ScreenShakeConfigUtil {
 

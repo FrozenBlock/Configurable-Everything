@@ -2,6 +2,7 @@
   "option.configurable_everything.component.title": "Minecraft Fixes & Tweaks",
   "option.configurable_everything.false": "§cDisabled",
   "option.configurable_everything.true": "§aEnabled",
+
   "option.configurable_everything.entity": "Entity",
 
   "option.configurable_everything.player": "Player",
@@ -19,5 +20,11 @@
   "option.configurable_everything.screenshake": "Screen Shaking",
   "tooltip.configurable_everything.screenshake": "Contains options for Screen Shaking.",
 
-  "option.configurable_everything.sound_event": "Sound Event Selection Demo"
+  "option.configurable_everything.world": "World",
+  "option.configurable_everything.day_time_speed": "Day Time Speed",
+  "tooltip.configurable_everything.day_time_speed": "How fast the daytime progresses.",
+  "option.configurable_everything.sun_size": "Sun Size",
+  "tooltip.configurable_everything.sun_size": "How big the Sun is.",
+  "option.configurable_everything.moon_size": "Moon Size",
+  "tooltip.configurable_everything.moon_size": "How big the Moon is."
 }

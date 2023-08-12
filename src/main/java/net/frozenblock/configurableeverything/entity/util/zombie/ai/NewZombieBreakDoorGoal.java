@@ -1,10 +1,10 @@
 package net.frozenblock.configurableeverything.entity.util.zombie.ai;
 
+import java.util.function.Predicate;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.monster.Zombie;
-import java.util.function.Predicate;
 
 public class NewZombieBreakDoorGoal extends BreakDoorGoal {
 

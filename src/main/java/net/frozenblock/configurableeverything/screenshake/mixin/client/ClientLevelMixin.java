@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.screenshake.mixin.client;
 
+import java.util.function.Supplier;
 import net.frozenblock.configurableeverything.screenshake.util.ScreenShakeConfigUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
@@ -15,8 +16,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.function.Supplier;
 
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin extends Level {

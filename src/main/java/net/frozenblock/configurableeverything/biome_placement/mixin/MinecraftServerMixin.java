@@ -2,10 +2,14 @@ package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Pair;
+import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeSourceExtension;
-import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
+import net.frozenblock.configurableeverything.config.MainConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -26,10 +30,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import java.net.Proxy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Mixin(value = MinecraftServer.class, priority = 993)
 public abstract class MinecraftServerMixin {

@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config;
 
+import java.util.List;
 import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier;
 import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
@@ -18,7 +19,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import java.util.List;
 
 public final class EntityConfig {
 

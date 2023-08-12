@@ -1,18 +1,12 @@
 package net.frozenblock.configurableeverything.config;
 
-import java.util.List;
 import blue.endless.jankson.Comment;
 import com.mojang.serialization.Codec;
-import net.frozenblock.configurableeverything.biome.util.BiomeMusic;
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList;
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureReplacementList;
-import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFeature;
-import net.frozenblock.configurableeverything.biome.util.PlacedFeatureReplacement;
+import java.util.List;
 import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry;
 import net.frozenblock.configurableeverything.datafixer.util.Fixer;
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer;
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry;
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
@@ -22,9 +16,6 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.Music;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.levelgen.GenerationStep;
 
 public class DataFixerConfig {
 

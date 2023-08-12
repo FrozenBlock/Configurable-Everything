@@ -5,7 +5,9 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.EntityConfig;
+import net.frozenblock.configurableeverything.config.WorldConfig;
 import net.frozenblock.configurableeverything.config.gui.EntityConfigGui;
+import net.frozenblock.configurableeverything.config.gui.WorldConfigGui;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -16,12 +18,15 @@ public final class ConfigurableEverythingConfigGui {
 
 	public static Screen buildScreen(Screen parent) {
 		var configBuilder = ConfigBuilder.create().setParentScreen(parent).setTitle(ConfigurableEverythingConfigGui.text("component.title"));
-		configBuilder.setSavingRunnable(() -> {
-			EntityConfig.getConfigInstance().save();
-		});
-		var entity = configBuilder.getOrCreateCategory(ConfigurableEverythingConfigGui.text("entity"));
 		ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
+
+		configBuilder.setSavingRunnable(() -> EntityConfig.getConfigInstance().save());
+		var entity = configBuilder.getOrCreateCategory(ConfigurableEverythingConfigGui.text("entity"));
 		EntityConfigGui.setupEntries(entity, entryBuilder);
+
+		configBuilder.setSavingRunnable(() -> WorldConfig.getConfigInstance().save());
+		var world = configBuilder.getOrCreateCategory(ConfigurableEverythingConfigGui.text("world"));
+		WorldConfigGui.setupEntries(world, entryBuilder);
 		return configBuilder.build();
 	}
 

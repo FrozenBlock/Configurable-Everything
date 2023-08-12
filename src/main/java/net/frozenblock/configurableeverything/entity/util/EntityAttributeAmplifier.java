@@ -2,10 +2,10 @@ package net.frozenblock.configurableeverything.entity.util;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.List;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
-import java.util.List;
 
 public record EntityAttributeAmplifier(ResourceKey<EntityType<?>> entity, List<AttributeAmplifier> amplifiers) {
 

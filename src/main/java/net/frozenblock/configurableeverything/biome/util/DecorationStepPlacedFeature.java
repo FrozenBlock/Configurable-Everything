@@ -2,11 +2,11 @@ package net.frozenblock.configurableeverything.biome.util;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.List;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import java.util.List;
 
 public record DecorationStepPlacedFeature(GenerationStep.Decoration decoration, List<ResourceKey<PlacedFeature>> placedFeatures) {
 

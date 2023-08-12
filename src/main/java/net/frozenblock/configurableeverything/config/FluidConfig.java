@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.config;
 
-import com.google.gson.GsonBuilder;
+import java.util.List;
 import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
@@ -11,7 +11,6 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.material.Fluids;
-import java.util.List;
 
 public class FluidConfig {
 

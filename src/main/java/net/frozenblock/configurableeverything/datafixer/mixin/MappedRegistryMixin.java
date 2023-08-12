@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.datafixer.mixin;
 
+import java.util.Map;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer;
 import net.minecraft.core.Holder;
@@ -14,7 +15,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.util.Map;
 
 @Mixin(MappedRegistry.class)
 public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {

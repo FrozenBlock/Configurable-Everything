@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config;
 
+import java.util.List;
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
@@ -10,8 +11,6 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.monster.warden.WardenAi;
-
-import java.util.List;
 
 public final class ScreenShakeConfig {
 

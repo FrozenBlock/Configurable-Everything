@@ -1,9 +1,11 @@
 package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.util.Pair;
+import java.util.ArrayList;
+import java.util.List;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils;
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -15,8 +17,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import java.util.ArrayList;
-import java.util.List;
 
 @Mixin(value = Climate.ParameterList.class, priority = 993)
 public class ParameterListMixin<T> implements ParameterListExtension {

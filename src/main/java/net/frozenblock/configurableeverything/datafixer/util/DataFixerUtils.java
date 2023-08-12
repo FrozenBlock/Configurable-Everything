@@ -2,6 +2,9 @@ package net.frozenblock.configurableeverything.datafixer.util;
 
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import net.fabricmc.loader.api.ModContainer;
 import net.frozenblock.configurableeverything.config.DataFixerConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
@@ -13,10 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder;
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes;
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class DataFixerUtils {
 

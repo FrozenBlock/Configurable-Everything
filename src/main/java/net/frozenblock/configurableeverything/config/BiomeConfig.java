@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config;
 
-import com.google.gson.GsonBuilder;
 import com.mojang.datafixers.util.Either;
+import java.util.List;
 import net.frozenblock.configurableeverything.biome.util.BiomeMusic;
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList;
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureReplacementList;
@@ -18,7 +18,6 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import java.util.List;
 
 public class BiomeConfig {
 

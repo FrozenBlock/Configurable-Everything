@@ -1,14 +1,14 @@
 package net.frozenblock.configurableeverything.config;
 
 import blue.endless.jankson.Comment;
+import java.util.ArrayList;
+import java.util.List;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.world.item.DyeColor;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SplashTextConfig {
 

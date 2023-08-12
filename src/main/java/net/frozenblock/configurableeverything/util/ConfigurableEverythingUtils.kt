@@ -1,26 +1,11 @@
 package net.frozenblock.configurableeverything.util
 
-import com.mojang.datafixers.util.Either
-import com.mojang.datafixers.util.Pair
-import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
-import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
-import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants.LOGGER
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants.MOD_ID
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Holder
-import net.minecraft.core.HolderGetter
-import net.minecraft.core.HolderSet
-import net.minecraft.core.RegistryAccess
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.level.biome.Biome
-import net.minecraft.world.level.biome.Climate.ParameterPoint
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.dimension.DimensionType
 import java.nio.file.Path
 
 object ConfigurableEverythingUtils {
