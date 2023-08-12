@@ -19,14 +19,14 @@ public class WorldConfig {
 	);
 
 	@Comment("Does not modify tick rate. Only modifies daytime speed.")
-	public long dayTimeSpeedAmplifier = 3;
+	public long dayTimeSpeedAmplifier = 1;
 
-	public int sunSize = 30;
+	public int sunSize = 300;
 	public float getSunSize() {
 		return ((float) this.sunSize) / 10F;
 	}
 
-	public int moonSize = 20;
+	public int moonSize = 200;
 	public float getMoonSize() {
 		return ((float) this.moonSize) / 10F;
 	}

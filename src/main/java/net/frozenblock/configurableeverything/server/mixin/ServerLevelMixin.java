@@ -5,16 +5,18 @@ import net.frozenblock.configurableeverything.config.WorldConfig;
 import net.minecraft.server.level.ServerLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(ServerLevel.class)
 public class ServerLevelMixin {
 
-	@ModifyArg(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setDayTime(J)V"), index = 0)
-	private long tickTime(long time) {
+	@ModifyArgs(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setDayTime(J)V"))
+	private void tickTime(Args args) {
 		if (MainConfig.get().server) {
-			return (time - 1L) + WorldConfig.get().dayTimeSpeedAmplifier;
+			args.set(0, ((long)args.get(0) - 1L) + WorldConfig.get().dayTimeSpeedAmplifier);
+		} else {
+			args.get(0);
 		}
-		return time;
 	}
 }
