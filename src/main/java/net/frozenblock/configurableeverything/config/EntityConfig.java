@@ -66,6 +66,7 @@ public final class EntityConfig {
 		List.of(
 			new EntityAttributeAmplifier(
 				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("player")),
+				"",
 				List.of(
 					new AttributeAmplifier(
 						ResourceKey.create(Registries.ATTRIBUTE, new ResourceLocation("generic.movement_speed")),
