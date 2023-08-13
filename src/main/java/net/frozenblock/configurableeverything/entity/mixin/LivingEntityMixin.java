@@ -37,8 +37,9 @@ public abstract class LivingEntityMixin extends Entity {
 		if (MainConfig.get().entity && (config.entityAttributeAmplifiers != null && config.entityAttributeAmplifiers.value() != null)) {
 			List<EntityAttributeAmplifier> entityAttributeMultipliers = config.entityAttributeAmplifiers.value();
 			for (EntityAttributeAmplifier entityAttributeAmplifier : entityAttributeMultipliers) {
-				if (entityAttributeAmplifier.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))
-					&& Component.literal(entityAttributeAmplifier.entityName()).equals(this.getCustomName())) {
+				if (entityAttributeAmplifier.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+					Component entityName = Component.literal(entityAttributeAmplifier.entityName());
+					if (entityName.getString().equals("") || entityName.equals(this.getCustomName())) {
 						AttributeMap attributes = this.getAttributes();
 						for (AttributeAmplifier amplifier : entityAttributeAmplifier.amplifiers()) {
 							AttributeInstance attribute = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifier.attribute()));
@@ -50,6 +51,7 @@ public abstract class LivingEntityMixin extends Entity {
 								)
 							);
 						}
+					}
 				}
 			}
 		}
