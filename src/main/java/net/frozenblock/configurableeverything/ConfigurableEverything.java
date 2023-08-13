@@ -2,12 +2,8 @@ package net.frozenblock.configurableeverything;
 
 import net.fabricmc.api.ModInitializer;
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil;
-import net.frozenblock.configurableeverything.config.BiomePlacementConfig;
-import net.frozenblock.configurableeverything.config.DataFixerConfig;
-import net.frozenblock.configurableeverything.config.FluidConfig;
-import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
-import net.frozenblock.configurableeverything.config.WorldConfig;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils;
+import net.frozenblock.configurableeverything.config.*;
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils;
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil;
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations;
@@ -27,7 +23,7 @@ public class ConfigurableEverything implements ModInitializer {
 		// init configs
 		MainConfig.get();
 		BiomeConfigUtil.init();
-		BiomePlacementConfig.get();
+		BiomePlacementUtils.init();
 		DataFixerConfig.get();
 		EntityConfigUtil.init();
 		FluidConfig.get();

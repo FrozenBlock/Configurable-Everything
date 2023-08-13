@@ -38,13 +38,20 @@ public class MainConfig {
 
 	public boolean screen_shake = false;
 
-	public boolean server = false;
+	public boolean world = false;
 
 	public boolean splash_text = false;
 
 	public boolean surface_rule = false;
 
+	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
+	public DatapackConfig datapack = new DatapackConfig();
+
 	public static MainConfig get() {
 		return INSTANCE.config();
+	}
+
+	public static class DatapackConfig {
+		public boolean biome_placement = true;
 	}
 }
