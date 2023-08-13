@@ -40,6 +40,7 @@
   "mixins": [
     "configurable_everything_biome.mixins.json",
     "configurable_everything_datafixer.mixins.json",
+    "configurable_everything_datapack.mixins.json",
     "configurable_everything_entity.mixins.json",
     "configurable_everything_fluid.mixins.json",
     "configurable_everything_screenshake.mixins.json",

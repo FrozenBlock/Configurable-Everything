@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
 import org.slf4j.LoggerFactory
+import java.nio.file.Path
 
 object ConfigurableEverythingSharedConstants {
 
@@ -23,4 +24,7 @@ object ConfigurableEverythingSharedConstants {
 
     @JvmField
     val MOD_CONTAINER = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow()
+
+    @JvmField
+    val DATAPACKS_PATH = Path.of("./config/" + MOD_ID + "/datapacks")
 }

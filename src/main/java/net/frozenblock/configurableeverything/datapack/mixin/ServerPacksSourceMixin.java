@@ -1,0 +1,27 @@
+package net.frozenblock.configurableeverything.datapack.mixin;
+
+import net.frozenblock.configurableeverything.config.MainConfig;
+import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraft.server.packs.repository.ServerPacksSource;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Mixin(ServerPacksSource.class)
+public class ServerPacksSourceMixin {
+
+	@ModifyArg(method = "createPackRepository(Ljava/nio/file/Path;)Lnet/minecraft/server/packs/repository/PackRepository;", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/repository/PackRepository;<init>([Lnet/minecraft/server/packs/repository/RepositorySource;)V"))
+	private static RepositorySource[] createPackRepository(RepositorySource[] original) {
+		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
+
+		if (MainConfig.get().datapack.applyDatapacksFolder) {
+			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstants.DATAPACKS_PATH));
+		}
+		return newSources.toArray(new RepositorySource[]{});
+	}
+}

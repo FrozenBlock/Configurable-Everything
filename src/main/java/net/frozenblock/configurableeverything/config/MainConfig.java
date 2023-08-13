@@ -52,6 +52,8 @@ public class MainConfig {
 	}
 
 	public static class DatapackConfig {
+		public boolean applyDatapacksFolder = true;
+
 		public boolean biome_placement = true;
 	}
 }

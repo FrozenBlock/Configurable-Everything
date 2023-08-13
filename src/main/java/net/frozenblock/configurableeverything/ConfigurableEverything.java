@@ -11,6 +11,10 @@ import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigU
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.minecraft.FileUtil;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ConfigurableEverything implements ModInitializer {
 
@@ -31,6 +35,12 @@ public class ConfigurableEverything implements ModInitializer {
 		WorldConfig.get();
 		SplashTextConfigUtil.init();
 		SurfaceRuleConfigUtil.init();
+
+		try {
+			FileUtil.createDirectoriesSafe(ConfigurableEverythingSharedConstants.DATAPACKS_PATH);
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to create Configurable Everything datapacks folder", e);
+		}
 
 		ConfigurableEverythingUtils.stopMeasuring(this);
 	}
