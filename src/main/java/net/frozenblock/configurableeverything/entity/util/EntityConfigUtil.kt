@@ -8,6 +8,7 @@ import net.frozenblock.lib.sound.api.FlyBySoundHub
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
+import java.util.UUID
 
 object EntityConfigUtil {
 

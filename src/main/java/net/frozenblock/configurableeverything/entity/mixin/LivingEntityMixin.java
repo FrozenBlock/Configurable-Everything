@@ -7,6 +7,8 @@ import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier;
 import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,40 +23,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(LivingEntity.class)
+@Mixin(value = LivingEntity.class, priority = 1005)
 public abstract class LivingEntityMixin extends Entity {
 
 	private LivingEntityMixin(EntityType<?> entityType, Level level) {
 		super(entityType, level);
-	}
-
-	@Shadow
-	public abstract AttributeMap getAttributes();
-
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(EntityType entityType, Level level, CallbackInfo ci) {
-		var config = EntityConfig.get();
-		if (MainConfig.get().entity && (config.entityAttributeAmplifiers != null && config.entityAttributeAmplifiers.value() != null)) {
-			List<EntityAttributeAmplifier> entityAttributeMultipliers = config.entityAttributeAmplifiers.value();
-			for (EntityAttributeAmplifier entityAttributeAmplifier : entityAttributeMultipliers) {
-				if (entityAttributeAmplifier.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
-					Component entityName = Component.literal(entityAttributeAmplifier.entityName());
-					if (entityName.getString().equals("") || entityName.equals(this.getCustomName())) {
-						AttributeMap attributes = this.getAttributes();
-						for (AttributeAmplifier amplifier : entityAttributeAmplifier.amplifiers()) {
-							AttributeInstance attribute = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifier.attribute()));
-							attribute.addTransientModifier(
-								new AttributeModifier(
-									"Configurable Everything Entity Config " + amplifier.attribute().location() + " change",
-									amplifier.amplifier() - 1.0,
-									AttributeModifier.Operation.MULTIPLY_TOTAL
-								)
-							);
-						}
-					}
-				}
-			}
-		}
 	}
 
 	@ModifyArg(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"), index = 2)

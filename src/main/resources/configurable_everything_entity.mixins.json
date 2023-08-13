@@ -6,6 +6,7 @@
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
+    "PersistentEntitySectionManagerMixin",
     "PlayerMixin",
     "zombie.AllZombiesBreakDoorsMixin",
     "zombie.BabyZombieSprintMixin",
