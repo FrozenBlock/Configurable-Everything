@@ -13,7 +13,7 @@ public class ServerLevelMixin {
 
 	@ModifyArgs(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setDayTime(J)V"))
 	private void tickTime(Args args) {
-		if (MainConfig.get().server) {
+		if (MainConfig.get().world) {
 			args.set(0, ((long)args.get(0) - 1L) + WorldConfig.get().dayTimeSpeedAmplifier);
 		} else {
 			args.get(0);
