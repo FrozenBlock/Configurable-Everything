@@ -38,11 +38,11 @@ public class MainConfig {
 
 	public boolean screen_shake = false;
 
-	public boolean world = false;
-
 	public boolean splash_text = false;
 
 	public boolean surface_rule = false;
+
+	public boolean world = false;
 
 	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
 	public DatapackConfig datapack = new DatapackConfig();
