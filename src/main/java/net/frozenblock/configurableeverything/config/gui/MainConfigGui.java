@@ -89,10 +89,10 @@ public class MainConfigGui {
 			.build()
 		);
 
-		var applyDatapacksFolder = entryBuilder.startBooleanToggle(text("applyDatapacksFolder"), config.datapack.applyDatapacksFolder)
+		var applyDatapacksFolder = entryBuilder.startBooleanToggle(text("apply_datapacks_folder"), config.datapack.applyDatapacksFolder)
 			.setDefaultValue(true)
 			.setSaveConsumer(newValue -> config.datapack.applyDatapacksFolder = newValue)
-			.setTooltip(tooltip("applyDatapacksFolder"))
+			.setTooltip(tooltip("apply_datapacks_folder"))
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
 			.build();
 
