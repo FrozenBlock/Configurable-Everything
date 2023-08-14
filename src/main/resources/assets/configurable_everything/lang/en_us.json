@@ -42,6 +42,16 @@
   "option.configurable_everything.all_zombies_break_doors": "All Zombies Break Doors",
   "tooltip.configurable_everything.all_zombies_break_doors": "Whether or not all Zombies can Break Doors.",
 
+  "option.configurable_everything.added_splashes": "Added Splashes",
+  "option.configurable_everything.removed_splashes": "Removed Splashes",
+  "option.configurable_everything.splash_color": "Splash Text Color",
+  "option.configurable_everything.remove_vanilla": "Remove Vanilla",
+
+  "tooltip.configurable_everything.added_splashes": "Strings that should be added to the main menu's splash texts.",
+  "tooltip.configurable_everything.removed_splashes": "Strings representing splash texts that should be removed.\nMust be the exact text.",
+  "tooltip.configurable_everything.splash_color": "The color splash text should be displayed in",
+  "tooltip.configurable_everything.remove_vanilla": "Removes all vanilla splash texts.",
+
   "option.configurable_everything.screenshake": "Screen Shaking",
   "tooltip.configurable_everything.screenshake": "Contains options for Screen Shaking.",
 

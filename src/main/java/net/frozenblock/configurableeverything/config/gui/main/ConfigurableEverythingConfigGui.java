@@ -6,9 +6,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
+import net.frozenblock.configurableeverything.config.SplashTextConfig;
 import net.frozenblock.configurableeverything.config.WorldConfig;
 import net.frozenblock.configurableeverything.config.gui.EntityConfigGui;
 import net.frozenblock.configurableeverything.config.gui.MainConfigGui;
+import net.frozenblock.configurableeverything.config.gui.SplashTextConfigGui;
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.minecraft.client.gui.screens.Screen;
@@ -25,6 +27,7 @@ public final class ConfigurableEverythingConfigGui {
 		configBuilder.setSavingRunnable(() -> {
 			MainConfig.getConfigInstance().save();
 			EntityConfig.getConfigInstance().save();
+			SplashTextConfig.getConfigInstance().save();
 			WorldConfig.getConfigInstance().save();
 		});
 
@@ -33,6 +36,9 @@ public final class ConfigurableEverythingConfigGui {
 
 		var entity = configBuilder.getOrCreateCategory(ConfigurableEverythingConfigGui.text("entity"));
 		EntityConfigGui.setupEntries(entity, entryBuilder);
+
+		var splashText = configBuilder.getOrCreateCategory(text("splash_text"));
+		SplashTextConfigGui.setupEntries(splashText, entryBuilder);
 
 		var world = configBuilder.getOrCreateCategory(ConfigurableEverythingConfigGui.text("world"));
 		WorldConfigGui.setupEntries(world, entryBuilder);

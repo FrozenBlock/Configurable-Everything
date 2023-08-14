@@ -41,4 +41,8 @@ public class SplashTextConfig {
 	public static SplashTextConfig get() {
 		return INSTANCE.config();
 	}
+
+	public static Config<SplashTextConfig> getConfigInstance() {
+		return INSTANCE;
+	}
 }
