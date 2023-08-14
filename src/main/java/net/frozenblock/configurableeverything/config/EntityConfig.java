@@ -22,8 +22,6 @@ import net.minecraft.sounds.SoundEvents;
 
 public final class EntityConfig {
 
-	public SoundEvent configedSound = SoundEvents.ENDER_DRAGON_GROWL;
-
 	private static final TypedEntryType<List<EntityAttributeAmplifier>> ENTITY_ATTRIBUTE_AMPLIFIERS = ConfigRegistry.register(
 		new TypedEntryType<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
