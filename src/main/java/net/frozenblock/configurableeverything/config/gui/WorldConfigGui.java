@@ -31,7 +31,7 @@ public final class WorldConfigGui {
 				.build()
 		);
 		category.addEntry(
-			entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("moon_size"), config.moonSize, 100, 10000)
+			entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("moon_size"), config.moonSize, 100, 1000)
 				.setDefaultValue(200)
 				.setSaveConsumer(newValue -> config.moonSize = newValue)
 				.setTooltip(ConfigurableEverythingConfigGui.tooltip("moon_size"))
