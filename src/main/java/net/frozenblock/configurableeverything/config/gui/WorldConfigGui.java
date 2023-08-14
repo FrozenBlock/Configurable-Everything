@@ -16,7 +16,7 @@ public final class WorldConfigGui {
 		var config = WorldConfig.get();
 
 		category.addEntry(
-			entryBuilder.startLongSlider(ConfigurableEverythingConfigGui.text("day_time_speed"), config.dayTimeSpeedAmplifier, 1L, 5000L)
+			entryBuilder.startLongSlider(ConfigurableEverythingConfigGui.text("day_time_speed"), config.dayTimeSpeedAmplifier, 1L, 100L)
 				.setDefaultValue(1L)
 				.setSaveConsumer(newValue -> config.dayTimeSpeedAmplifier = newValue)
 				.setTooltip(ConfigurableEverythingConfigGui.tooltip("day_time_speed"))
@@ -24,14 +24,14 @@ public final class WorldConfigGui {
 		);
 
 		category.addEntry(
-			entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("sun_size"), config.sunSize, 1, 10000)
+			entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("sun_size"), config.sunSize, 100, 1000)
 				.setDefaultValue(300)
 				.setSaveConsumer(newValue -> config.sunSize = newValue)
 				.setTooltip(ConfigurableEverythingConfigGui.tooltip("sun_size"))
 				.build()
 		);
 		category.addEntry(
-			entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("moon_size"), config.moonSize, 1, 10000)
+			entryBuilder.startIntSlider(ConfigurableEverythingConfigGui.text("moon_size"), config.moonSize, 100, 10000)
 				.setDefaultValue(200)
 				.setSaveConsumer(newValue -> config.moonSize = newValue)
 				.setTooltip(ConfigurableEverythingConfigGui.tooltip("moon_size"))
