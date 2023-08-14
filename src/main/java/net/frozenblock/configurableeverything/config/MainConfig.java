@@ -51,6 +51,10 @@ public class MainConfig {
 		return INSTANCE.config();
 	}
 
+	public static Config<MainConfig> getConfigInstance() {
+		return INSTANCE;
+	}
+
 	public static class DatapackConfig {
 		public boolean applyDatapacksFolder = true;
 
