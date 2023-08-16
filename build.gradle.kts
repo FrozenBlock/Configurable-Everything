@@ -25,7 +25,7 @@ buildscript {
 }
 
 plugins {
-    id("fabric-loom") version("+")
+    id("fabric-loom") version("1.3.8")
     id("io.github.juuxel.loom-vineflower") version("+")
     id("org.quiltmc.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
