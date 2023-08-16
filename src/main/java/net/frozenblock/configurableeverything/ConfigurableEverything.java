@@ -11,6 +11,7 @@ import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigU
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.world.util.WorldConfigUtil;
 import net.minecraft.FileUtil;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,9 +33,9 @@ public class ConfigurableEverything implements ModInitializer {
 		EntityConfigUtil.init();
 		FluidConfig.get();
 		ScreenShakeConfig.get();
-		WorldConfig.get();
 		SplashTextConfigUtil.init();
 		SurfaceRuleConfigUtil.init();
+		WorldConfigUtil.init();
 
 		try {
 			FileUtil.createDirectoriesSafe(ConfigurableEverythingSharedConstants.DATAPACKS_PATH);

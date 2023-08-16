@@ -96,6 +96,13 @@ public class MainConfigGui {
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
 			.build();
 
+		var datapackBiome = entryBuilder.startBooleanToggle(text("datapack_biome"), config.datapack.biome)
+			.setDefaultValue(true)
+			.setSaveConsumer(newValue -> config.datapack.biome = newValue)
+			.setTooltip(tooltip("datapack_biome"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
+
 		var datapackBiomePlacement = entryBuilder.startBooleanToggle(text("datapack_biome_placement"), config.datapack.biome_placement)
 			.setDefaultValue(true)
 			.setSaveConsumer(newValue -> config.datapack.biome_placement = newValue)
@@ -105,7 +112,7 @@ public class MainConfigGui {
 
 		FrozenClothConfig.createSubCategory(
 			entryBuilder, category, text("datapack"), false, tooltip("datapack"),
-			applyDatapacksFolder, datapackBiomePlacement
+			applyDatapacksFolder, datapackBiome, datapackBiomePlacement
 		);
 	}
 }

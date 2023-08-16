@@ -1,32 +1,47 @@
 package net.frozenblock.configurableeverything.biome.util
 
 import net.fabricmc.fabric.api.biome.v1.*
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils
+import net.minecraft.server.packs.PackType
 import java.util.function.Consumer
 
 object BiomeConfigUtil {
+
 	@JvmStatic
 	fun init() {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome) {
-            val modification = BiomeModifications.create(ConfigurableEverythingUtils.id("feature_modifications"))
+            val biomeChange = BiomeChange(config.addedFeatures.value, config.removedFeatures.value, config.replacedFeatures.value, config.musicReplacements.value)
+            BiomeChanges.addChange(ConfigurableEverythingUtils.id("config"), biomeChange)
 
-            // FEATURES
-            initAddedFeatures(config, modification)
-            initRemovedFeatures(config, modification)
-            initReplacedFeatures(config, modification)
-
-            // EFFECTS
-            initReplacedMusic(config, modification)
+            val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
+            resourceLoader?.registerReloadListener(BiomeChangeManager.INSTANCE)
         }
     }
 
-    private fun initAddedFeatures(config: BiomeConfig, modification: BiomeModification) {
-        val addedFeatures = config.addedFeatures
-        if (addedFeatures?.value() != null) {
-            for (list in addedFeatures.value()!!) {
+    // should only be run if the config is enabled, since this is only called from the datapack manager
+    @JvmStatic
+    fun applyModifications(changes: Collection<BiomeChange>) {
+        val modification: BiomeModification = BiomeModifications.create(ConfigurableEverythingUtils.id("feature_modifications"))
+        for (change in changes) {
+
+            // FEATURES
+            initAddedFeatures(change, modification)
+            initRemovedFeatures(change, modification)
+            initReplacedFeatures(change, modification)
+
+            // EFFECTS
+            initReplacedMusic(change, modification)
+        }
+    }
+
+    private fun initAddedFeatures(change: BiomeChange, modification: BiomeModification) {
+        val addedFeatures = change.addedFeatures
+        if (addedFeatures != null) {
+            for (list in addedFeatures) {
                 val biome = list.biome
                 val features = list.features
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
@@ -42,10 +57,10 @@ object BiomeConfigUtil {
         }
     }
 
-    private fun initRemovedFeatures(config: BiomeConfig, modification: BiomeModification) {
-        val removedFeatures = config.removedFeatures
-        if (removedFeatures?.value() != null) {
-            for (list in removedFeatures.value()!!) {
+    private fun initRemovedFeatures(change: BiomeChange, modification: BiomeModification) {
+        val removedFeatures = change.removedFeatures
+        if (removedFeatures != null) {
+            for (list in removedFeatures) {
                 val biome = list.biome
                 val features = list.features
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
@@ -55,16 +70,16 @@ object BiomeConfigUtil {
                         }
                     }
                 }
-                biome.ifLeft { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(it), consumer) }
-                biome.ifRight { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.tag(it), consumer) }
+                biome?.ifLeft { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(it), consumer) }
+                biome?.ifRight { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
 
-    private fun initReplacedFeatures(config: BiomeConfig, modification: BiomeModification) {
-        val replacedFeatures = config.replacedFeatures
-        if (replacedFeatures?.value() != null) {
-            for (list in replacedFeatures.value()!!) {
+    private fun initReplacedFeatures(change: BiomeChange, modification: BiomeModification) {
+        val replacedFeatures = change.replacedFeatures
+        if (replacedFeatures != null) {
+            for (list in replacedFeatures) {
                 val biome = list.biome
                 val replacements = list.replacements
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
@@ -75,23 +90,23 @@ object BiomeConfigUtil {
                         }
                     }
                 }
-                biome.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
-                biome.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
+                biome?.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
+                biome?.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
 
-    private fun initReplacedMusic(config: BiomeConfig, modification: BiomeModification) {
-        val replacedMusic = config.musicReplacements
-        if (replacedMusic?.value() != null) {
-            for (list in replacedMusic.value()!!) {
+    private fun initReplacedMusic(change: BiomeChange, modification: BiomeModification) {
+        val replacedMusic = change.musicReplacements
+        if (replacedMusic != null) {
+            for (list in replacedMusic) {
                 val biome = list.biome
                 val music = list.music
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     context.effects.setMusic(music)
                 }
-                biome.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
-                biome.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
+                biome?.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
+                biome?.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }

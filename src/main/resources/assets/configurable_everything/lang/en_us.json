@@ -27,6 +27,8 @@
   "tooltip.configurable_everything.datapack": "Contains options related to datapacks",
   "option.configurable_everything.apply_datapacks_folder": "Apply Datapacks Folder",
   "tooltip.configurable_everything.apply_datapacks_folder": "Enable or disable the datapacks folder in config/configurable_everything.",
+  "option.configurable_everything.datapack_biome": "Biome",
+  "tooltip.configurable_everything.datapack_biome": "Enable or disable biome changes from datapacks.",
   "option.configurable_everything.datapack_biome_placement": "Biome Placement",
   "tooltip.configurable_everything.datapack_biome_placement": "Enable or disable biome placement changes from datapacks.",
 
@@ -60,5 +62,9 @@
   "option.configurable_everything.sun_size": "Sun Size",
   "tooltip.configurable_everything.sun_size": "How big the Sun is.",
   "option.configurable_everything.moon_size": "Moon Size",
-  "tooltip.configurable_everything.moon_size": "How big the Moon is."
+  "tooltip.configurable_everything.moon_size": "How big the Moon is.",
+  "option.configurable_everything.flame_bows_light_fire": "Flame Bows Light Fire",
+  "tooltip.configurable_everything.flame_bows_light_fire": "Enable or disable Flint & Steel functionality when an\narrow from a Flame bow hits a block or entity.",
+  "option.configurable_everything.disable_experimental_warning": "Disable Experimental Warning",
+  "tooltip.configurable_everything.disable_experimental_warning": "Enable or disable the experimental warning screen when creating or loading worlds."
 }

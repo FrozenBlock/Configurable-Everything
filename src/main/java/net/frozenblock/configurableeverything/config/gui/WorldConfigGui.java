@@ -39,6 +39,24 @@ public final class WorldConfigGui {
 				.setTooltip(tooltip("moon_size"))
 				.build()
 		);
+
+		category.addEntry(
+			entryBuilder.startBooleanToggle(text("flame_bows_light_fire"), config.flameBowsLightFire)
+				.setDefaultValue(false)
+				.setSaveConsumer(newValue -> config.flameBowsLightFire = newValue)
+				.setTooltip(tooltip("flame_bows_light_fire"))
+				.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+				.build()
+		);
+
+		category.addEntry(
+			entryBuilder.startBooleanToggle(text("disable_experimental_warning"), config.disableExperimentalWarning)
+				.setDefaultValue(false)
+				.setSaveConsumer(newValue -> config.disableExperimentalWarning = newValue)
+				.setTooltip(tooltip("disable_experimental_warning"))
+				.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+				.build()
+		);
 	}
 
 }
