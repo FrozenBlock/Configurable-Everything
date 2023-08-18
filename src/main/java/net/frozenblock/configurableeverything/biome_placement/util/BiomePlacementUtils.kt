@@ -16,7 +16,10 @@ import net.minecraft.server.packs.PackType
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
+import net.minecraft.world.level.biome.Climate.ParameterPoint
+import net.minecraft.world.level.biome.MultiNoiseBiomeSource
 import net.minecraft.world.level.dimension.DimensionType
+import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator
 
 object BiomePlacementUtils {
 
@@ -35,14 +38,47 @@ object BiomePlacementUtils {
     }
 
     @JvmStatic
-    fun biomeAdditions(registryAccess: HolderGetter<Biome>?, dimension: ResourceKey<DimensionType?>): List<Pair<Climate.ParameterPoint, Holder<Biome>>> {
-        val biomeAdditions: MutableList<Pair<Climate.ParameterPoint, Holder<Biome>>> = ArrayList()
+    fun serverInit(registryAccess: RegistryAccess) {
+        val biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME)
+        val levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM)
+
+        if (MainConfig.get().biome_placement) {
+            for ((_, stem) in levelStemRegistry.entrySet()) {
+                val dimension = stem.type().unwrapKey().orElseThrow()
+                val chunkGenerator = stem.generator()
+                if (chunkGenerator is NoiseBasedChunkGenerator) {
+                    val biomeSource = chunkGenerator.getBiomeSource()
+                    if (biomeSource is MultiNoiseBiomeSource) {
+                        val extended = biomeSource as BiomeSourceExtension
+                        val parameters: Climate.ParameterList<Holder<Biome>> = biomeSource.parameters()
+                        (parameters as? ParameterListExtension)?.updateBiomesList(registryAccess, dimension)
+
+                        // remove biomes first to allow replacing biome parameters
+                        val removedBiomeHolders: MutableList<Holder<Biome>> = java.util.ArrayList()
+                        for (biome in biomeRemovals(dimension, registryAccess)) {
+                            removedBiomeHolders.add(biomeRegistry.getOrThrow(biome))
+                        }
+                        val addedBiomes: List<Pair<ParameterPoint?, Holder<Biome>>> =
+                            biomeAdditions(biomeRegistry, dimension)
+                        val addedBiomeHolders: MutableList<Holder<Biome>> = java.util.ArrayList()
+                        for (pair in addedBiomes) {
+                            addedBiomeHolders.add(pair.second)
+                        }
+                        extended.updateBiomesList(addedBiomeHolders, removedBiomeHolders, registryAccess)
+
+                    }
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    fun biomeAdditions(registryAccess: HolderGetter<Biome>?, dimension: ResourceKey<DimensionType?>): List<Pair<ParameterPoint?, Holder<Biome>>> {
+        val biomeAdditions: MutableList<Pair<ParameterPoint?, Holder<Biome>>> = ArrayList()
         val changes: MutableList<BiomePlacementChange>? = BiomePlacementChanges.getChanges()
         val addedBiomes: MutableList<DimensionBiomeList> = ArrayList()
-        if (changes != null) {
-            for (change in changes) {
-                addedBiomes.addAll(change.addedBiomes)
-            }
+        changes?.forEach {
+            addedBiomes.addAll(it.addedBiomes)
         }
 
         val dimensionBiomes = addedBiomes.stream().filter { list: DimensionBiomeList -> list.dimension == dimension }.toList()
@@ -59,10 +95,8 @@ object BiomePlacementUtils {
         val biomeRemovals: MutableList<ResourceKey<Biome>> = ArrayList()
         val changes: MutableList<BiomePlacementChange>? = BiomePlacementChanges.getChanges()
         val removedBiomes: MutableList<DimensionBiomeKeyList> = ArrayList()
-        if (changes != null) {
-            for (change in changes) {
-                removedBiomes.addAll(change.removedBiomes)
-            }
+        changes?.forEach {
+            removedBiomes.addAll(it.removedBiomes)
         }
 
         val dimensionBiomes = removedBiomes.stream().filter { list: DimensionBiomeKeyList -> list.dimension == dimension }.toList()
