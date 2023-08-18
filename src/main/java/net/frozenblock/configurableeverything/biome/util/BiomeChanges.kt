@@ -1,32 +1,27 @@
-package net.frozenblock.configurableeverything.biome.util;
+package net.frozenblock.configurableeverything.biome.util
 
-import java.util.List;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.resources.ResourceLocation
 
-public class BiomeChanges {
+object BiomeChanges {
 
-	private BiomeChanges() {
-		throw new UnsupportedOperationException("BiomeChanges contains only static declarations.");
-	}
+    private val MANAGER = BiomeChangeManager.INSTANCE
+    val changes: List<BiomeChange?>? get() = MANAGER.getChanges()
 
-	private static final BiomeChangeManager MANAGER = BiomeChangeManager.INSTANCE;
+    fun getChange(id: ResourceLocation?): BiomeChange? {
+        return MANAGER.getChange(id)
+    }
 
-	@Nullable
-	public static List<BiomeChange> getChanges() {
-		return MANAGER.getChanges();
-	}
+    fun addChange(
+        key: ResourceLocation?,
+        addedFeatures: List<BiomePlacedFeatureList?>?,
+        removedFeatures: List<BiomePlacedFeatureList?>?,
+        replacedFeatures: List<BiomePlacedFeatureReplacementList?>?,
+        musicReplacements: List<BiomeMusic?>?
+    ) {
+        MANAGER.addChange(key, addedFeatures, removedFeatures, replacedFeatures, musicReplacements)
+    }
 
-	@Nullable
-	public static BiomeChange getChange(ResourceLocation id) {
-		return MANAGER.getChange(id);
-	}
-
-	public static void addChange(ResourceLocation key, List<BiomePlacedFeatureList> addedFeatures, List<BiomePlacedFeatureList> removedFeatures, List<BiomePlacedFeatureReplacementList> replacedFeatures, List<BiomeMusic> musicReplacements) {
-		MANAGER.addChange(key, addedFeatures, removedFeatures, replacedFeatures, musicReplacements);
-	}
-
-	public static void addChange(ResourceLocation key, BiomeChange change) {
-		MANAGER.addChange(key, change);
-	}
+    fun addChange(key: ResourceLocation?, change: BiomeChange?) {
+        MANAGER.addChange(key, change)
+    }
 }

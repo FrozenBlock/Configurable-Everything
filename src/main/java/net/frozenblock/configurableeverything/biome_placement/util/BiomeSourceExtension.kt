@@ -5,5 +5,5 @@ import net.minecraft.core.RegistryAccess
 import net.minecraft.world.level.biome.Biome
 
 fun interface BiomeSourceExtension {
-    fun updateBiomesList(biomesToAdd: List<Holder<Biome>>, biomesToRemove: List<Holder<Biome>>, registryAccess: RegistryAccess)
+    fun updateBiomesList(biomesToAdd: List<Holder<Biome>?>, biomesToRemove: List<Holder<Biome>?>, registryAccess: RegistryAccess)
 }

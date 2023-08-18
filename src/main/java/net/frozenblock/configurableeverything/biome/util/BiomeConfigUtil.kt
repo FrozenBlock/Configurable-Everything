@@ -24,17 +24,18 @@ object BiomeConfigUtil {
 
     // should only be run if the config is enabled, since this is only called from the datapack manager
     @JvmStatic
-    fun applyModifications(changes: Collection<BiomeChange>) {
+    fun applyModifications(changes: Collection<BiomeChange?>?) {
         val modification: BiomeModification = BiomeModifications.create(ConfigurableEverythingUtils.id("feature_modifications"))
-        for (change in changes) {
+        changes?.forEach { change ->
+            change?.let {
+                // FEATURES
+                initAddedFeatures(it, modification)
+                initRemovedFeatures(it, modification)
+                initReplacedFeatures(it, modification)
 
-            // FEATURES
-            initAddedFeatures(change, modification)
-            initRemovedFeatures(change, modification)
-            initReplacedFeatures(change, modification)
-
-            // EFFECTS
-            initReplacedMusic(change, modification)
+                // EFFECTS
+                initReplacedMusic(it, modification)
+            }
         }
     }
 

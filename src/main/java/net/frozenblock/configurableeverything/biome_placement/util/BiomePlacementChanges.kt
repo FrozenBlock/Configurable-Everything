@@ -1,32 +1,26 @@
-package net.frozenblock.configurableeverything.biome_placement.util;
+package net.frozenblock.configurableeverything.biome_placement.util
 
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import java.util.List;
+import net.minecraft.resources.ResourceLocation
 
-public class BiomePlacementChanges {
+object BiomePlacementChanges {
 
-	private BiomePlacementChanges() {
-		throw new UnsupportedOperationException("BiomePlacementChanges contains only static declarations.");
-	}
+    private val MANAGER = BiomePlacementChangeManager.INSTANCE
 
-	private static final BiomePlacementChangeManager MANAGER = BiomePlacementChangeManager.INSTANCE;
+    val changes: List<BiomePlacementChange?>? get() = MANAGER.getChanges()
 
-	@Nullable
-	public static List<BiomePlacementChange> getChanges() {
-		return MANAGER.getChanges();
-	}
+        fun getChange(id: ResourceLocation?): BiomePlacementChange? {
+            return MANAGER.getChange(id)
+        }
 
-	@Nullable
-	public static BiomePlacementChange getChange(ResourceLocation id) {
-		return MANAGER.getChange(id);
-	}
+        fun addChange(
+            key: ResourceLocation?,
+            addedBiomes: List<DimensionBiomeList?>?,
+            removedBiomes: List<DimensionBiomeKeyList?>?
+        ) {
+            MANAGER.addChange(key, addedBiomes, removedBiomes)
+        }
 
-	public static void addChange(ResourceLocation key, List<DimensionBiomeList> addedBiomes, List<DimensionBiomeKeyList> removedBiomes) {
-		MANAGER.addChange(key, addedBiomes, removedBiomes);
-	}
-
-	public static void addChange(ResourceLocation key, BiomePlacementChange change) {
-		MANAGER.addChange(key, change);
-	}
+        fun addChange(key: ResourceLocation?, change: BiomePlacementChange?) {
+            MANAGER.addChange(key, change)
+        }
 }
