@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(LevelTimeAccess.class)
-public class LevelTimeAccessMixin {
+public interface LevelTimeAccessMixin {
 
-	@ModifyReturnValue(method = "getTimeOfDay", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;timeOfDay(J)F"))
-	public float getTimeOfDay(float original, float partialTick) {
+	@ModifyReturnValue(method = "getTimeOfDay", at = @At("RETURN"))
+	default public float getTimeOfDay(float original, float partialTick) {
 		if (LevelTimeAccess.class.cast(this) instanceof ClientLevel clientLevel && MainConfig.get().world && WorldConfig.get().fixSunMoonRotating) {
 			return Mth.lerp(partialTick, clientLevel.dimensionType().timeOfDay(((ClientLevelDataInterface)clientLevel.getLevelData()).configurableEverything$getPreviousDayTime()), original);
 		}

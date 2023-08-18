@@ -5,16 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractArrowMixin",
-    "LevelDataMixin",
-    "LevelTimeAccessMixin",
-    "PrimaryLevelDataMixin",
-    "ServerLevelMixin",
-    "client.LevelTimeAccessMixin"
+    "ServerLevelMixin"
   ],
   "client": [
     "client.ClientLevelDataMixin",
     "client.ClientLevelMixin",
-    "client.LevelRendererMixin"
+    "client.LevelRendererMixin",
+    "client.LevelTimeAccessMixin"
   ],
   "injectors": {
     "defaultRequire": 1
