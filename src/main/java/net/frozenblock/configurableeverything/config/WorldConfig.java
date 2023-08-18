@@ -21,6 +21,8 @@ public class WorldConfig {
 	@Comment("Does not modify tick rate. Only modifies daytime speed.")
 	public long dayTimeSpeedAmplifier = 1;
 
+	public boolean fixSunMoonRotating = false;
+
 	public int sunSize = 300;
 	public static float getSunSize() {
 		return get().sunSize / 10F;

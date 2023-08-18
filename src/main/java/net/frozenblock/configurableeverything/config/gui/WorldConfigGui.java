@@ -26,14 +26,22 @@ public final class WorldConfigGui {
 		);
 
 		category.addEntry(
-			entryBuilder.startIntSlider(text("sun_size"), config.sunSize, 100, 1000)
+			entryBuilder.startBooleanToggle(text("fix_sun_moon_rotating"), config.fixSunMoonRotating)
+				.setDefaultValue(false)
+				.setSaveConsumer(newValue -> config.fixSunMoonRotating = newValue)
+				.setTooltip(tooltip("fix_sun_moon_rotating"))
+				.build()
+		);
+
+		category.addEntry(
+			entryBuilder.startIntSlider(text("sun_size"), config.sunSize, 10, 1000)
 				.setDefaultValue(300)
 				.setSaveConsumer(newValue -> config.sunSize = newValue)
 				.setTooltip(tooltip("sun_size"))
 				.build()
 		);
 		category.addEntry(
-			entryBuilder.startIntSlider(text("moon_size"), config.moonSize, 100, 1000)
+			entryBuilder.startIntSlider(text("moon_size"), config.moonSize, 10, 1000)
 				.setDefaultValue(200)
 				.setSaveConsumer(newValue -> config.moonSize = newValue)
 				.setTooltip(tooltip("moon_size"))
