@@ -83,7 +83,7 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         return CompletableFuture.runAsync {}
     }
 
-    override fun getFabricId(): ResourceLocation? {
+    override fun getFabricId(): ResourceLocation {
         return id("biome_placement_change_reloader")
     }
 

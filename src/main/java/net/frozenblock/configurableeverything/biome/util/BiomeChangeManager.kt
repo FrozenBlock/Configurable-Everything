@@ -78,7 +78,7 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         }
     }
 
-    override fun getFabricId(): ResourceLocation? {
+    override fun getFabricId(): ResourceLocation {
         return id("biome_change_reloader")
     }
 
