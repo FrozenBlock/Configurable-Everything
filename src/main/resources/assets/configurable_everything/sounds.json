@@ -1,0 +1,16 @@
+{
+	"flyby.arrow": {
+		"sounds": [
+			"configurable_everything:flyby/arrow/whoosh1",
+      "configurable_everything:flyby/arrow/whoosh2",
+      "configurable_everything:flyby/arrow/whoosh3",
+      "configurable_everything:flyby/arrow/whoosh4",
+      "configurable_everything:flyby/arrow/whoosh5",
+      "configurable_everything:flyby/arrow/whoosh6",
+      "configurable_everything:flyby/arrow/whoosh7",
+      "configurable_everything:flyby/arrow/whoosh8",
+      "configurable_everything:flyby/arrow/whoosh9",
+      "configurable_everything:flyby/arrow/whoosh10"
+		]
+	}
+}

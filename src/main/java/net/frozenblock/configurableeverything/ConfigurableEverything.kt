@@ -18,9 +18,14 @@ import net.frozenblock.configurableeverything.util.startMeasuring
 import net.frozenblock.configurableeverything.util.stopMeasuring
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.minecraft.FileUtil
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
 import java.io.IOException
 
 class ConfigurableEverything : ModInitializer {
+
     override fun onInitialize() {
         startMeasuring(this)
         applyDataFixes(MOD_CONTAINER)
@@ -44,6 +49,15 @@ class ConfigurableEverything : ModInitializer {
             throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
         }
 
+        registerSounds()
+
         stopMeasuring(this)
     }
+
+    val ARROW_WHOOSH_SOUND_EVENT = SoundEvent.createVariableRangeEvent(ResourceLocation("configurable_everything", "flyby.arrow"))
+
+    private fun registerSounds() {
+        Registry.register(BuiltInRegistries.SOUND_EVENT, ResourceLocation("configurable_everything", "flyby.arrow"), ARROW_WHOOSH_SOUND_EVENT)
+    }
+
 }
