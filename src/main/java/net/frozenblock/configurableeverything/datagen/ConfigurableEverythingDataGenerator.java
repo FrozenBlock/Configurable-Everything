@@ -47,7 +47,7 @@ public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypo
 		registryBuilder.add(Registries.BIOME, context -> context.register(
 			BLANK_BIOME,
 			new Biome.BiomeBuilder()
-				.temperature(0f)
+				.temperature(0.8F)
 				.downfall(0f)
 				.specialEffects(
 					new BiomeSpecialEffects.Builder()
