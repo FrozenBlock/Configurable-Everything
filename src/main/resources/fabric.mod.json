@@ -67,7 +67,8 @@
   },
   "breaks": {
     "configurabledatafixers": "*",
-    "configurablesplashtexts": "*"
+    "configurablesplashtexts": "*",
+    "bedrockify": "*"
   },
   "custom": {
     "modmenu": {
