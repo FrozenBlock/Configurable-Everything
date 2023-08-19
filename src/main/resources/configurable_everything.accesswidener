@@ -8,5 +8,6 @@ accessible class net/minecraft/world/level/biome/Climate$RTree
 accessible method net/minecraft/server/packs/repository/FolderRepositorySource nameFromPath (Ljava/nio/file/Path;)Ljava/lang/String;
 
 # Zombie
+accessible field net/minecraft/world/entity/Mob goalSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/world/entity/monster/Zombie canBreakDoors Z
 accessible method net/minecraft/world/entity/monster/Zombie supportsBreakDoorGoal ()Z
