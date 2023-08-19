@@ -31,7 +31,9 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 	private Climate.RTree<T> index;
 
 	@Override
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
+		if (registryAccess == null) return;
 		var addedBiomes = BiomePlacementUtils.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
 		var removedBiomes = BiomePlacementUtils.biomeRemovals(dimension, registryAccess);
 

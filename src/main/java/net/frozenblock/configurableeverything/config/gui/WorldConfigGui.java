@@ -4,11 +4,9 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.WorldConfig;
-import net.frozenblock.lib.config.clothconfig.FrozenClothConfig;
 
-import static net.frozenblock.configurableeverything.config.gui.main.ConfigurableEverythingConfigGui.*;
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.*;
 
 @Environment(EnvType.CLIENT)
 public final class WorldConfigGui {

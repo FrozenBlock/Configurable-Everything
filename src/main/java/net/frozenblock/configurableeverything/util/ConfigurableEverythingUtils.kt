@@ -73,12 +73,12 @@ fun stopMeasuring(`object`: Any) {
 
 // IDENTIFIERS
 
-fun id(path: String?): ResourceLocation {
-    return ResourceLocation(MOD_ID, path)
+fun id(path: String?): ResourceLocation? {
+    return path?.let { ResourceLocation(MOD_ID, it) }
 }
 
-fun vanillaId(path: String?): ResourceLocation {
-    return ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, path)
+fun vanillaId(path: String?): ResourceLocation? {
+    return path?.let { ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, it) }
 }
 
 fun string(path: String?): String {

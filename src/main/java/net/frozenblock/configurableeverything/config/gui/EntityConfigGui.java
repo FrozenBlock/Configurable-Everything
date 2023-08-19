@@ -7,7 +7,7 @@ import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig;
 
-import static net.frozenblock.configurableeverything.config.gui.main.ConfigurableEverythingConfigGui.*;
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.*;
 
 @Environment(EnvType.CLIENT)
 public final class EntityConfigGui {

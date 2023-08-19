@@ -70,7 +70,7 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         executor: Executor?
     ): CompletableFuture<Void> {
         changes = prepared?.changes
-        changes!!.putAll(queuedChanges)
+        changes?.putAll(queuedChanges)
         return CompletableFuture.runAsync {
             applyModifications(
                 changes?.values
@@ -78,7 +78,7 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         }
     }
 
-    override fun getFabricId(): ResourceLocation {
+    override fun getFabricId(): ResourceLocation? {
         return id("biome_change_reloader")
     }
 

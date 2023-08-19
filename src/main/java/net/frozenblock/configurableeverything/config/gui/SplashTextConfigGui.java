@@ -4,13 +4,11 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.SplashTextConfig;
-import net.frozenblock.lib.config.clothconfig.FrozenClothConfig;
 import net.minecraft.world.item.DyeColor;
 import java.util.ArrayList;
 import java.util.List;
-import static net.frozenblock.configurableeverything.config.gui.main.ConfigurableEverythingConfigGui.*;
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.*;
 
 @Environment(EnvType.CLIENT)
 public class SplashTextConfigGui {

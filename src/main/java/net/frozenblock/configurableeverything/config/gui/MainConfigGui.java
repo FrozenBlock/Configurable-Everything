@@ -6,9 +6,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig;
-import net.minecraft.network.chat.Component;
 
-import static net.frozenblock.configurableeverything.config.gui.main.ConfigurableEverythingConfigGui.*;
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.*;
 
 @Environment(EnvType.CLIENT)
 public class MainConfigGui {
