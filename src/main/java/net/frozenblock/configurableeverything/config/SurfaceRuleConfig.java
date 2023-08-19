@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.config;
 import java.util.List;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
@@ -29,7 +29,7 @@ public class SurfaceRuleConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			SurfaceRuleConfig.class,
-			ConfigurableEverythingUtils.makePath("surface_rule", true),
+			ConfigurableEverythingUtilsKt.makeConfigPath("surface_rule", true),
 			true
 		)
 	);

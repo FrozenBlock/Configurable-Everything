@@ -1,115 +1,125 @@
-package net.frozenblock.configurableeverything.datafixer.util;
+package net.frozenblock.configurableeverything.datafixer.util
 
-import com.mojang.datafixers.DataFixerBuilder;
-import com.mojang.datafixers.schemas.Schema;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import net.fabricmc.loader.api.ModContainer;
-import net.frozenblock.configurableeverything.config.DataFixerConfig;
-import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.datafix.schemas.NamespacedSchema;
-import org.jetbrains.annotations.NotNull;
-import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder;
-import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes;
-import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes;
+import com.mojang.datafixers.DataFixerBuilder
+import com.mojang.datafixers.schemas.Schema
+import net.fabricmc.loader.api.ModContainer
+import net.frozenblock.configurableeverything.config.DataFixerConfig
+import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants
+import net.frozenblock.configurableeverything.util.error
+import net.frozenblock.configurableeverything.util.log
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.datafix.schemas.NamespacedSchema
+import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder
+import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes
+import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
+import java.util.Map
+import java.util.function.BiFunction
 
-public class DataFixerUtils {
+object DataFixerUtils {
 
-	private static final List<SchemaEntry> SCHEMAS = new ArrayList<>();
+    private val SCHEMAS: MutableList<SchemaEntry> = ArrayList()
+    private val REGISTRY_FIXERS: MutableList<RegistryFixer> = ArrayList()
 
-	private static final List<RegistryFixer> REGISTRY_FIXERS = new ArrayList<>();
+    @JvmStatic
+    fun addSchema(schema: SchemaEntry?) {
+        if (schema != null) {
+            SCHEMAS.add(schema)
+        }
+    }
 
-	public static void addSchema(SchemaEntry schema) {
-		SCHEMAS.add(schema);
-	}
+    @JvmStatic
+    fun addRegistryFixer(fixer: RegistryFixer?) {
+        if (fixer != null) {
+            REGISTRY_FIXERS.add(fixer)
+        }
+    }
 
-	public static void addRegistryFixer(RegistryFixer fixer) {
-		REGISTRY_FIXERS.add(fixer);
-	}
+    @JvmStatic
+    val schemas: List<SchemaEntry> get() {
+            val list = ArrayList(SCHEMAS)
+            list.addAll(DataFixerConfig.get().schemas.value())
+            return list
+    }
 
-	public static List<SchemaEntry> getSchemas() {
-		var list = new ArrayList<>(SCHEMAS);
-		list.addAll(DataFixerConfig.get().schemas.value());
-		return list;
-	}
+    @JvmStatic
+	val registryFixers: List<RegistryFixer>
+        get() {
+            val list = ArrayList(REGISTRY_FIXERS)
+            list.addAll(DataFixerConfig.get().registryFixers.value())
+            return list
+        }
 
-	public static List<RegistryFixer> getRegistryFixers() {
-		var list = new ArrayList<>(REGISTRY_FIXERS);
-		list.addAll(DataFixerConfig.get().registryFixers.value());
-		return list;
-	}
+    // doesnt need jvmstatic because its never called in java
+	fun applyDataFixes(mod: ModContainer?) {
+        if (mod == null) return
+        val config = DataFixerConfig.get()
+        if (MainConfig.get().datafixer) {
+            log("Applying configurable data fixes", ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING)
+            val schemas = schemas
+            val dataVersion = config.dataVersion
+            val builder = QuiltDataFixerBuilder(dataVersion)
+            var maxSchema = 0
+            val addedSchemas: MutableList<Schema> = ArrayList()
+            if (schemas.isNotEmpty()) {
+                val base = builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA)
+                addedSchemas.add(base)
+            }
+            for (fix in schemas) {
+                val version = fix.version
+                if (version > dataVersion) {
+                    error("Data fix version $version is higher than the current data version $dataVersion", true)
+                    continue
+                }
+                if (version > maxSchema) {
+                    val schema = builder.addSchema(
+                        version
+                    ) { versionKey: Int, parent: Schema ->
+                        NamespacedSchema(
+                            versionKey,
+                            parent
+                        )
+                    }
+                    addedSchemas.add(schema)
+                    maxSchema = version
+                }
+                try {
+                    val schema = addedSchemas[version]
+                    for (entry in fix.entries) {
+                        for (fixer in entry.fixers) {
+                            handleFixer(builder, schema, entry, fixer)
+                        }
+                    }
+                } catch (e: IndexOutOfBoundsException) {
+                    error("Invalid data fix version: $version", true)
+                }
+            }
+            QuiltDataFixes.buildAndRegisterFixer(mod, builder)
+            log(
+                """
+                    Finished applying configurable data fixes
+                    Data Version: $dataVersion
+                    Max schema: $maxSchema
+                    """.trimIndent(),
+                ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING
+            )
+        }
+    }
 
-	public static void applyDataFixes(final @NotNull ModContainer mod) {
-		if (MainConfig.get().datafixer) {
-			ConfigurableEverythingUtils.log("Applying configurable data fixes", ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING);
-			var config = DataFixerConfig.get();
-			var schemas = DataFixerUtils.getSchemas();
-			var dataVersion = config.dataVersion;
+    private fun handleFixer(builder: DataFixerBuilder, schema: Schema, entry: DataFixEntry, fixer: Fixer) {
+        val oldId = fixer.oldId
+        val newId = fixer.newId
+        val fixName = "fix_" + oldId + "_to_" + newId
+        when (entry.type) {
+            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, Map.of(oldId, newId), schema)
+            "block" -> SimpleFixes.addBlockRenameFix(builder, fixName, oldId, newId, schema)
+            "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
+            "item" -> {
+                SimpleFixes.addItemRenameFix(builder, fixName, oldId, newId, schema)
+                addRegistryFixer(RegistryFixer(ResourceLocation("item"), java.util.List.of(Fixer(oldId, newId))))
+            }
 
-			var builder = new QuiltDataFixerBuilder(dataVersion);
-
-			var maxSchema = 0;
-			List<Schema> addedSchemas = new ArrayList<>();
-			if (schemas.size() > 0) {
-				var base = builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA);
-				addedSchemas.add(base);
-			}
-
-			for (var fix : schemas) {
-				var version = fix.version();
-				if (version > dataVersion) {
-					ConfigurableEverythingUtils.error("Data fix version " + version + " is higher than the current data version " + dataVersion, true);
-					continue;
-				}
-
-				if (version > maxSchema) {
-					var schema = builder.addSchema(version, NamespacedSchema::new);
-					addedSchemas.add(schema);
-					maxSchema = version;
-				}
-
-				try {
-					var schema = addedSchemas.get(version);
-
-					for (var entry : fix.entries()) {
-						for (var fixer : entry.fixers()) {
-							handleFixer(builder, schema, entry, fixer);
-						}
-					}
-				} catch (IndexOutOfBoundsException e) {
-					ConfigurableEverythingUtils.error("Invalid data fix version: " + version, true);
-				}
-			}
-
-			QuiltDataFixes.buildAndRegisterFixer(mod, builder);
-			ConfigurableEverythingUtils.log(
-				"Finished applying configurable data fixes"
-					+ "\nData Version: " + dataVersion
-					+ "\nMax schema: " + maxSchema,
-				ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING
-			);
-		}
-	}
-
-	private static void handleFixer(DataFixerBuilder builder, Schema schema, DataFixEntry entry, Fixer fixer) {
-		var oldId = fixer.oldId();
-		var newId = fixer.newId();
-
-		var fixName = "fix_" + oldId + "_to_" + newId;
-
-		switch (entry.type()) {
-			case "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, Map.of(oldId, newId), schema);
-			case "block" -> SimpleFixes.addBlockRenameFix(builder, fixName, oldId, newId, schema);
-			case "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema);
-			case "item" -> {
-				SimpleFixes.addItemRenameFix(builder, fixName, oldId, newId, schema);
-				DataFixerUtils.addRegistryFixer(new RegistryFixer(new ResourceLocation("item"), List.of(new Fixer(oldId, newId))));
-			}
-			default -> ConfigurableEverythingUtils.error("Invalid data fix type: " + entry.type(), true);
-		}
-	}
+            else -> error("Invalid data fix type: " + entry.type, true)
+        }
+    }
 }

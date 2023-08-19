@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementChangeManager.BiomePlacementChangeLoader
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils.id
+import net.frozenblock.configurableeverything.util.id
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager

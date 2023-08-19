@@ -9,7 +9,7 @@ import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFea
 import net.frozenblock.configurableeverything.biome.util.PlacedFeatureReplacement;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
@@ -46,7 +46,7 @@ public class BiomeConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			BiomeConfig.class,
-			ConfigurableEverythingUtils.makePath("biome", true),
+			ConfigurableEverythingUtilsKt.makeConfigPath("biome", true),
 			true
 		)
 	);

@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.datagen.api.FrozenBiomeTagProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -29,10 +29,10 @@ import net.minecraft.world.level.levelgen.placement.SurfaceWaterDepthFilter;
 
 public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypoint {
 
-	public static final ResourceKey<Biome> BLANK_BIOME = ResourceKey.create(Registries.BIOME, ConfigurableEverythingUtils.id("blank_biome"));
-	public static final ResourceKey<PlacedFeature> BLANK_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, ConfigurableEverythingUtils.id("blank_placed_feature"));
+	public static final ResourceKey<Biome> BLANK_BIOME = ResourceKey.create(Registries.BIOME, ConfigurableEverythingUtilsKt.id("blank_biome"));
+	public static final ResourceKey<PlacedFeature> BLANK_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, ConfigurableEverythingUtilsKt.id("blank_placed_feature"));
 
-	public static final TagKey<Biome> BLANK_TAG = TagKey.create(Registries.BIOME, ConfigurableEverythingUtils.id("blank_tag"));
+	public static final TagKey<Biome> BLANK_TAG = TagKey.create(Registries.BIOME, ConfigurableEverythingUtilsKt.id("blank_tag"));
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {

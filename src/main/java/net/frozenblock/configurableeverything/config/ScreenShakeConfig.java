@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.config;
 import java.util.List;
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
@@ -25,7 +25,7 @@ public final class ScreenShakeConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			ScreenShakeConfig.class,
-			ConfigurableEverythingUtils.makePath("screen_shake", true),
+			ConfigurableEverythingUtilsKt.makeConfigPath("screen_shake", true),
 			true
 		)
 	);

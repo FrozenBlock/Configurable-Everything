@@ -5,7 +5,7 @@ import com.mojang.datafixers.util.Pair
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils
+import net.frozenblock.configurableeverything.util.id
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
 import net.minecraft.core.HolderSet
@@ -29,7 +29,7 @@ object BiomePlacementUtils {
         if (MainConfig.get().biome_placement) {
             if (config.addedBiomes?.value != null && config.removedBiomes?.value != null) {
                 val placementChange = BiomePlacementChange(config.addedBiomes.value, config.removedBiomes.value)
-                BiomePlacementChanges.addChange(ConfigurableEverythingUtils.id("config"), placementChange)
+                BiomePlacementChanges.addChange(id("config"), placementChange)
             }
 
             val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)

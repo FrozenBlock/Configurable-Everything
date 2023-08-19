@@ -8,7 +8,7 @@ import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiom
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
@@ -43,7 +43,7 @@ public class BiomePlacementConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			BiomePlacementConfig.class,
-			ConfigurableEverythingUtils.makePath("biome_placement", true),
+			ConfigurableEverythingUtilsKt.makeConfigPath("biome_placement", true),
 			true
 		)
 	);

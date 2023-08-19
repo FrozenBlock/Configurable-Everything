@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.config;
 
 import blue.endless.jankson.Comment;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
@@ -13,7 +13,7 @@ public class WorldConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			WorldConfig.class,
-			ConfigurableEverythingUtils.makePath("world", true),
+			ConfigurableEverythingUtilsKt.makeConfigPath("world", true),
 			true
 		)
 	);

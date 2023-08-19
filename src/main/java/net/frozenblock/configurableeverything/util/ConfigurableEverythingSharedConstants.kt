@@ -7,6 +7,7 @@ import java.nio.file.Path
 object ConfigurableEverythingSharedConstants {
 
     const val MOD_ID = "configurable_everything"
+    const val MOD_NAME = "Configurable Everything"
 
     @JvmField
     val LOGGER = LoggerFactory.getLogger(MOD_ID)

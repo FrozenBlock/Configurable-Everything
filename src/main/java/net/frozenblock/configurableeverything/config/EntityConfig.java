@@ -8,7 +8,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
 import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
 import net.frozenblock.configurableeverything.entity.util.ExperienceOverride;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
@@ -17,8 +17,6 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 
 public final class EntityConfig {
 
@@ -54,7 +52,7 @@ public final class EntityConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstants.MOD_ID,
 			EntityConfig.class,
-			ConfigurableEverythingUtils.makePath("entity", true),
+			ConfigurableEverythingUtilsKt.makeConfigPath("entity", true),
 			true
 		)
 	);
@@ -105,7 +103,7 @@ public final class EntityConfig {
 		List.of(
 			new EntitySpottingIcon(
 				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("creeper")),
-				ConfigurableEverythingUtils.id("textures/spotting_icon/icon.png"),
+				ConfigurableEverythingUtilsKt.id("textures/spotting_icon/icon.png"),
 				5F,
 				8F
 			)

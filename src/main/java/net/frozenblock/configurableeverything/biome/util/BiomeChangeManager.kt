@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
 import net.frozenblock.configurableeverything.biome.util.BiomeChangeManager.BiomeChangeLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil.applyModifications
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils.id
+import net.frozenblock.configurableeverything.util.id
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +25,7 @@ public record RegistryFixer(ResourceLocation registryKey, List<Fixer> fixers) {
 				if (registryFixer.registryKey().equals(registry.key().location())) {
 					for (Fixer fixer : registryFixer.fixers()) {
 						if (fixer.oldId().equals(name)) {
-							ConfigurableEverythingUtils.log("Successfully changed old ID " + name + " to new ID " + fixer.newId(), ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING);
+							ConfigurableEverythingUtilsKt.log("Successfully changed old ID " + name + " to new ID " + fixer.newId(), ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING);
 							return fixer.newId();
 						}
 					}

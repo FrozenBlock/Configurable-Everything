@@ -25,16 +25,25 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.frozenblock.configurableeverything.ConfigurableEverything"
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.ConfigurableEverything"
+      }
     ],
     "client": [
-      "net.frozenblock.configurableeverything.ConfigurableEverythingClient"
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.ConfigurableEverythingClient"
+      }
     ],
     "fabric-datagen": [
       "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
     ],
     "modmenu": [
-      "net.frozenblock.configurableeverything.config.gui.main.ModMenuIntegration"
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.config.gui.main.ModMenuIntegration"
+      }
     ]
   },
   "mixins": [

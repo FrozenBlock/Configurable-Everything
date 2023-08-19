@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.splash_text.util;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.SplashTextConfig;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.menu.api.SplashTextAPI;
 
 public final class SplashTextConfigUtil {
@@ -16,10 +16,10 @@ public final class SplashTextConfigUtil {
 
 			if (ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING) {
 				for (var string : added) {
-					ConfigurableEverythingUtils.log("Added '" + string + "' to splash texts.", true);
+					ConfigurableEverythingUtilsKt.log("Added '" + string + "' to splash texts.", true);
 				}
 				for (var string : removed) {
-					ConfigurableEverythingUtils.log("Removed '" + string + "' from splash texts.", true);
+					ConfigurableEverythingUtilsKt.log("Removed '" + string + "' from splash texts.", true);
 				}
 			}
 

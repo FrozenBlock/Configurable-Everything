@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.biome.v1.*
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtils
+import net.frozenblock.configurableeverything.util.id
 import net.minecraft.server.packs.PackType
 import java.util.function.Consumer
 
@@ -15,7 +15,7 @@ object BiomeConfigUtil {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome) {
             val biomeChange = BiomeChange(config.addedFeatures.value, config.removedFeatures.value, config.replacedFeatures.value, config.musicReplacements.value)
-            BiomeChanges.addChange(ConfigurableEverythingUtils.id("config"), biomeChange)
+            BiomeChanges.addChange(id("config"), biomeChange)
 
             val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
             resourceLoader?.registerReloadListener(BiomeChangeManager.INSTANCE)
@@ -25,7 +25,7 @@ object BiomeConfigUtil {
     // should only be run if the config is enabled, since this is only called from the datapack manager
     @JvmStatic
     fun applyModifications(changes: Collection<BiomeChange?>?) {
-        val modification: BiomeModification = BiomeModifications.create(ConfigurableEverythingUtils.id("feature_modifications"))
+        val modification: BiomeModification = BiomeModifications.create(id("feature_modifications"))
         changes?.forEach { change ->
             change?.let {
                 // FEATURES
