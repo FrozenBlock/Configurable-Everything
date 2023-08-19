@@ -1,35 +1,28 @@
-package net.frozenblock.configurableeverything.splash_text.util;
+package net.frozenblock.configurableeverything.splash_text.util
 
-import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.config.SplashTextConfig;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
-import net.frozenblock.lib.menu.api.SplashTextAPI;
+import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.config.SplashTextConfig
+import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
+import net.frozenblock.configurableeverything.util.log
+import net.frozenblock.lib.menu.api.SplashTextAPI
 
-public final class SplashTextConfigUtil {
+object SplashTextConfigUtil {
 
-	public static void init() {
-		var config = SplashTextConfig.get();
-		if (MainConfig.get().splash_text) {
-			var added = config.addedSplashes;
-			var removed = config.removedSplashes;
+    @JvmStatic
+    fun init() {
+        val config = SplashTextConfig.get()
+        if (MainConfig.get().splash_text) {
+            val added = config.addedSplashes
+            val removed = config.removedSplashes
 
-			if (ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING) {
-				for (var string : added) {
-					ConfigurableEverythingUtilsKt.log("Added '" + string + "' to splash texts.", true);
-				}
-				for (var string : removed) {
-					ConfigurableEverythingUtilsKt.log("Removed '" + string + "' from splash texts.", true);
-				}
-			}
-
-			for (var string : added) {
-				SplashTextAPI.add(string);
-			}
-
-			for (var string : removed) {
-				SplashTextAPI.remove(string);
-			}
-		}
-	}
+            for (string in added) {
+                SplashTextAPI.add(string)
+                log("Added $string to splash texts.", UNSTABLE_LOGGING)
+            }
+            for (string in removed) {
+                SplashTextAPI.remove(string)
+                log("Removed $string from splash texts.", UNSTABLE_LOGGING)
+            }
+        }
+    }
 }

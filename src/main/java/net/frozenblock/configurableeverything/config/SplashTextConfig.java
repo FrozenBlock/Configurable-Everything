@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.config;
 import blue.endless.jankson.Comment;
 import java.util.ArrayList;
 import java.util.List;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
@@ -14,7 +14,7 @@ public class SplashTextConfig {
 
 	private static final Config<SplashTextConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			SplashTextConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("splash_text", true),
 			true

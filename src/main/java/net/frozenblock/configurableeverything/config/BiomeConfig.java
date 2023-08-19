@@ -8,7 +8,6 @@ import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureRepla
 import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFeature;
 import net.frozenblock.configurableeverything.biome.util.PlacedFeatureReplacement;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
@@ -18,33 +17,34 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 
 public class BiomeConfig {
 
 	private static final TypedEntryType<List<BiomePlacedFeatureList>> BIOME_PLACED_FEATURE_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomePlacedFeatureList.CODEC.listOf()
 		)
 	);
 
 	private static final TypedEntryType<List<BiomePlacedFeatureReplacementList>> BIOME_PLACED_FEATURE_REPLACEMENT_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomePlacedFeatureReplacementList.CODEC.listOf()
 		)
 	);
 
 	private static final TypedEntryType<List<BiomeMusic>> BIOME_MUSIC_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomeMusic.CODEC.listOf()
 		)
 	);
 
 	private static final Config<BiomeConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomeConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("biome", true),
 			true

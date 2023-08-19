@@ -7,7 +7,7 @@ import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry;
 import net.frozenblock.configurableeverything.datafixer.util.Fixer;
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer;
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
@@ -21,21 +21,21 @@ public class DataFixerConfig {
 
 	private static final TypedEntryType<List<SchemaEntry>> SCHEMA_ENTRY_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			Codec.list(SchemaEntry.CODEC)
 		)
 	);
 
 	private static final TypedEntryType<List<RegistryFixer>> REGISTRY_FIXER_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			Codec.list(RegistryFixer.CODEC)
 		)
 	);
 
 	private static final Config<DataFixerConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			DataFixerConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("datafixer", true),
 			true

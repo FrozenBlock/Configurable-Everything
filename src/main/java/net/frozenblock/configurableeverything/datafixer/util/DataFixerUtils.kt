@@ -5,7 +5,7 @@ import com.mojang.datafixers.schemas.Schema
 import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants
+import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
 import net.frozenblock.configurableeverything.util.error
 import net.frozenblock.configurableeverything.util.log
 import net.minecraft.resources.ResourceLocation
@@ -55,7 +55,7 @@ object DataFixerUtils {
         if (mod == null) return
         val config = DataFixerConfig.get()
         if (MainConfig.get().datafixer) {
-            log("Applying configurable data fixes", ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING)
+            log("Applying configurable data fixes", UNSTABLE_LOGGING)
             val schemas = schemas
             val dataVersion = config.dataVersion
             val builder = QuiltDataFixerBuilder(dataVersion)
@@ -101,7 +101,7 @@ object DataFixerUtils {
                     Data Version: $dataVersion
                     Max schema: $maxSchema
                     """.trimIndent(),
-                ConfigurableEverythingSharedConstants.UNSTABLE_LOGGING
+                UNSTABLE_LOGGING
             )
         }
     }

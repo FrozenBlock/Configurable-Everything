@@ -7,7 +7,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
 import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
 import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
 import net.frozenblock.configurableeverything.entity.util.ExperienceOverride;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
@@ -22,35 +22,35 @@ public final class EntityConfig {
 
 	private static final TypedEntryType<List<EntityAttributeAmplifier>> ENTITY_ATTRIBUTE_AMPLIFIERS = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			EntityAttributeAmplifier.CODEC.listOf()
 		)
 	);
 
 	private static final TypedEntryType<List<EntityFlyBySound>> ENTITY_FLYBY_SOUNDS = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			EntityFlyBySound.CODEC.listOf()
 		)
 	);
 
 	private static final TypedEntryType<List<ExperienceOverride>> EXPERIENCE_OVERRIDES = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			ExperienceOverride.CODEC.listOf()
 		)
 	);
 
 	private static final TypedEntryType<List<EntitySpottingIcon>> SPOTTING_ICONS = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			EntitySpottingIcon.CODEC.listOf()
 		)
 	);
 
 	private static final Config<EntityConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			EntityConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("entity", true),
 			true

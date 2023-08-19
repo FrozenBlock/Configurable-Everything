@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config;
 
 import blue.endless.jankson.Comment;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
@@ -11,7 +11,7 @@ public class WorldConfig {
 
 	private static final Config<WorldConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			WorldConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("world", true),
 			true

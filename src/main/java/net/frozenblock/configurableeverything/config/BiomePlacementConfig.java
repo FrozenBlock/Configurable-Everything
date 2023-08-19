@@ -7,7 +7,7 @@ import net.frozenblock.configurableeverything.biome_placement.util.BiomeParamete
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList;
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
@@ -27,21 +27,21 @@ public class BiomePlacementConfig {
 
 	private static final TypedEntryType<List<DimensionBiomeKeyList>> BIOME_KEY_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			DimensionBiomeKeyList.CODEC.listOf()
 		)
 	);
 
 	private static final TypedEntryType<List<DimensionBiomeList>> BIOME_PARAMETER_LIST = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			DimensionBiomeList.CODEC.listOf()
 		)
 	);
 
 	private static final Config<BiomePlacementConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomePlacementConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("biome_placement", true),
 			true

@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.datapack.mixin;
 
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.repository.ServerPacksSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ public class ServerPacksSourceMixin {
 		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
 
 		if (MainConfig.get().datapack.applyDatapacksFolder) {
-			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstants.DATAPACKS_PATH));
+			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstantsKt.DATAPACKS_PATH));
 		}
 		return newSources.toArray(new RepositorySource[]{});
 	}

@@ -12,7 +12,8 @@ import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants
+import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
+import net.frozenblock.configurableeverything.util.MOD_CONTAINER
 import net.frozenblock.configurableeverything.util.startMeasuring
 import net.frozenblock.configurableeverything.util.stopMeasuring
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
@@ -22,7 +23,7 @@ import java.io.IOException
 class ConfigurableEverything : ModInitializer {
     override fun onInitialize() {
         startMeasuring(this)
-        applyDataFixes(ConfigurableEverythingSharedConstants.MOD_CONTAINER)
+        applyDataFixes(MOD_CONTAINER)
 
         ConfigurableEverythingIntegrations.init()
         // init configs
@@ -38,7 +39,7 @@ class ConfigurableEverything : ModInitializer {
         WorldConfigUtil.init()
 
         try {
-            FileUtil.createDirectoriesSafe(ConfigurableEverythingSharedConstants.DATAPACKS_PATH)
+            FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
         } catch (e: IOException) {
             throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
         }

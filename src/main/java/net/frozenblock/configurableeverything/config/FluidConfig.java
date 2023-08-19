@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.config;
 
 import java.util.List;
 import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
@@ -16,14 +16,14 @@ public class FluidConfig {
 
 	private static final TypedEntryType<List<FluidFlowSpeed>> FLUID_FLOW_SPEEDS = ConfigRegistry.register(
 		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			FluidFlowSpeed.CODEC.listOf()
 		)
 	);
 
 	private static final Config<FluidConfig> INSTANCE = ConfigRegistry.register(
 		new JsonConfig<>(
-			ConfigurableEverythingSharedConstants.MOD_ID,
+			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			FluidConfig.class,
 			ConfigurableEverythingUtilsKt.makeConfigPath("fluid", true),
 			true
