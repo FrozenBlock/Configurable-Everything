@@ -35,6 +35,7 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
 
     private var changes: MutableMap<ResourceLocation?, BiomePlacementChange?>? = null
     private val queuedChanges: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
+
     fun getChanges(): MutableList<BiomePlacementChange?>? {
         return changes?.values?.stream()?.toList()
     }

@@ -6,21 +6,25 @@ object BiomePlacementChanges {
 
     private val MANAGER = BiomePlacementChangeManager.INSTANCE
 
+    @JvmStatic
     val changes: List<BiomePlacementChange?>? get() = MANAGER.getChanges()
 
-        fun getChange(id: ResourceLocation?): BiomePlacementChange? {
-            return MANAGER.getChange(id)
-        }
+    @JvmStatic
+    fun getChange(id: ResourceLocation?): BiomePlacementChange? {
+        return MANAGER.getChange(id)
+    }
 
-        fun addChange(
-            key: ResourceLocation?,
-            addedBiomes: List<DimensionBiomeList?>?,
-            removedBiomes: List<DimensionBiomeKeyList?>?
-        ) {
-            MANAGER.addChange(key, addedBiomes, removedBiomes)
-        }
+    @JvmStatic
+    fun addChange(
+        key: ResourceLocation?,
+        addedBiomes: List<DimensionBiomeList?>?,
+        removedBiomes: List<DimensionBiomeKeyList?>?
+    ) {
+        MANAGER.addChange(key, addedBiomes, removedBiomes)
+    }
 
-        fun addChange(key: ResourceLocation?, change: BiomePlacementChange?) {
-            MANAGER.addChange(key, change)
-        }
+    @JvmStatic
+    fun addChange(key: ResourceLocation?, change: BiomePlacementChange?) {
+        MANAGER.addChange(key, change)
+    }
 }
