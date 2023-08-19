@@ -90,8 +90,8 @@ public final class EntityConfig {
 				new ResourceLocation("minecraft:arrow"),
 				new EntityFlyBySoundData(
 					"neutral",
-					new ResourceLocation("configurable_everything:flyby.arrow"),
-					0.5F,
+					ConfigurableEverythingUtilsKt.id("flyby.arrow"),
+					1F,
 					1F
 				)
 			)

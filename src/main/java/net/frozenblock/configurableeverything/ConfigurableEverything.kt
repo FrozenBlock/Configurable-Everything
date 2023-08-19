@@ -12,10 +12,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
-import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
-import net.frozenblock.configurableeverything.util.MOD_CONTAINER
-import net.frozenblock.configurableeverything.util.startMeasuring
-import net.frozenblock.configurableeverything.util.stopMeasuring
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.minecraft.FileUtil
 import net.minecraft.core.Registry
@@ -54,10 +51,10 @@ class ConfigurableEverything : ModInitializer {
         stopMeasuring(this)
     }
 
-    val ARROW_WHOOSH_SOUND_EVENT = SoundEvent.createVariableRangeEvent(ResourceLocation("configurable_everything", "flyby.arrow"))
+    val ARROW_WHOOSH_SOUND_EVENT = SoundEvent.createVariableRangeEvent(id("flyby.arrow"))
 
     private fun registerSounds() {
-        Registry.register(BuiltInRegistries.SOUND_EVENT, ResourceLocation("configurable_everything", "flyby.arrow"), ARROW_WHOOSH_SOUND_EVENT)
+        Registry.register(BuiltInRegistries.SOUND_EVENT, id("flyby.arrow"), ARROW_WHOOSH_SOUND_EVENT)
     }
 
 }
