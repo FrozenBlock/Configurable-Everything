@@ -22,7 +22,7 @@ object EntityConfigUtil {
                 for (sound in flyBySounds) {
                     val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
                     if (optionalEntity.isPresent) {
-                        val entity = optionalEntity.get();
+                        val entity = optionalEntity.get()
                         val data = sound.sound
                         var category: SoundSource? = null
                         for (source in SoundSource.entries) {
