@@ -46,15 +46,12 @@ class ConfigurableEverything : ModInitializer {
             throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
         }
 
-        registerSounds()
-
         stopMeasuring(this)
     }
 
-    val ARROW_WHOOSH_SOUND_EVENT = SoundEvent.createVariableRangeEvent(id("flyby.arrow"))
+    val ARROW_WHOOSH_SOUND_EVENT = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
 
-    private fun registerSounds() {
-        Registry.register(BuiltInRegistries.SOUND_EVENT, id("flyby.arrow"), ARROW_WHOOSH_SOUND_EVENT)
-    }
+    private fun register(key: ResourceLocation, sound: SoundEvent) =
+        Registry.register(BuiltInRegistries.SOUND_EVENT, key, sound)
 
 }
