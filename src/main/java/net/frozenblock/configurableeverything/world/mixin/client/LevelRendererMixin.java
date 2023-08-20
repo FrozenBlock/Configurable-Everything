@@ -7,10 +7,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
-@Mixin(LevelRenderer.class)
+@Mixin(value = LevelRenderer.class, priority = 1500)
 public class LevelRendererMixin {
 
-	@ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 30.0F))
+	@ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 30.0F), require = 0)
 	private float changeSunSize(float original) {
 		if (MainConfig.get().world) {
 			return WorldConfig.getSunSize();
@@ -18,7 +18,7 @@ public class LevelRendererMixin {
 		return original;
 	}
 
-	@ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 20.0F))
+	@ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 20.0F), require = 0)
 	private float changeMoonSize(float original) {
 		if (MainConfig.get().world) {
 			return WorldConfig.getMoonSize();

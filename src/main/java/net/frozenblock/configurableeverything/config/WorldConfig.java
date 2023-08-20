@@ -23,11 +23,13 @@ public class WorldConfig {
 
 	public boolean fixSunMoonRotating = false;
 
+	@Comment("Incompatible with mod Bedrockify.")
 	public int sunSize = 300;
 	public static float getSunSize() {
 		return get().sunSize / 10F;
 	}
 
+	@Comment("Incompatible with mod Bedrockify.")
 	public int moonSize = 200;
 	public static float getMoonSize() {
 		return get().moonSize / 10F;
