@@ -5,6 +5,7 @@ import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.FluidConfig
+import net.frozenblock.configurableeverything.config.GameConfig;
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.applyDataFixes
@@ -35,6 +36,7 @@ class ConfigurableEverything : ModInitializer {
         DataFixerConfig.get()
         EntityConfigUtil.init()
         FluidConfig.get()
+        GameConfig.get()
         ScreenShakeConfig.get()
         SplashTextConfigUtil.init()
         SurfaceRuleConfigUtil.init()
