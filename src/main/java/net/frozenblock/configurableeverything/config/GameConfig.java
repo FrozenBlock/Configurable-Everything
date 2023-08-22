@@ -1,15 +1,11 @@
 package net.frozenblock.configurableeverything.config;
 
 import blue.endless.jankson.Comment;
-import java.util.List;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
-import net.frozenblock.lib.config.api.entry.TypedEntry;
-import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
-import net.minecraft.core.registries.BuiltInRegistries;
 
 public class GameConfig {
 
@@ -23,13 +19,13 @@ public class GameConfig {
 	);
 
 	@Comment("Changes the game window title. Change this from an empty string to apply.")
-	public String windowTtile = "";
+	public String windowTitle = "";
 
 	@Comment(
 		"""
-        Changes the version series. Change this from an empty string to apply.
+		Changes the version series. Change this from an empty string to apply.
 		The default version series is "main".
-        """
+		"""
 	)
 	public String versionSeries = "";
 

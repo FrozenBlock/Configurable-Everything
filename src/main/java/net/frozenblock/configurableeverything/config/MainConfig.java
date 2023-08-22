@@ -36,6 +36,8 @@ public class MainConfig {
 
 	public boolean fluid = false;
 
+	public boolean game = false;
+
 	public boolean screen_shake = false;
 
 	public boolean splash_text = false;

@@ -52,6 +52,7 @@
     "configurable_everything_datapack.mixins.json",
     "configurable_everything_entity.mixins.json",
     "configurable_everything_fluid.mixins.json",
+    "configurable_everything_game.mixins.json",
     "configurable_everything_screenshake.mixins.json",
     "configurable_everything_world.mixins.json",
     "configurable_everything_splash_text.mixins.json"
