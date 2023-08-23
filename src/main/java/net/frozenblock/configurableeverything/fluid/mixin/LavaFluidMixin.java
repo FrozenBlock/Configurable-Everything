@@ -17,7 +17,7 @@ public class LavaFluidMixin {
 	@Inject(method = "getTickDelay", at = @At("RETURN"), cancellable = true)
 	private void getTickDelay(LevelReader level, CallbackInfoReturnable<Integer> cir) {
 		var config = FluidConfig.get();
-		if (MainConfig.get().fluid) {
+		if (MainConfig.get().fluid == true) {
 			var flowSpeeds = config.flowSpeeds;
 			if (flowSpeeds != null && flowSpeeds.value() != null) {
 				for (var flowSpeed : flowSpeeds.value()) {
