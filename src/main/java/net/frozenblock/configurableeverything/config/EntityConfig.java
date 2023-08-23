@@ -1,12 +1,8 @@
 package net.frozenblock.configurableeverything.config;
 
 import java.util.List;
-import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier;
-import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier;
-import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
-import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
-import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
-import net.frozenblock.configurableeverything.entity.util.ExperienceOverride;
+
+import net.frozenblock.configurableeverything.entity.util.*;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
@@ -32,6 +28,13 @@ public final class EntityConfig {
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			EntityFlyBySound.CODEC.listOf()
 		)
+	);
+
+	private static final TypedEntryType<List<EntityHurtEffects>> ENTITY_HURT_EFFECTS = ConfigRegistry.register(
+			new TypedEntryType<>(
+					ConfigurableEverythingSharedConstantsKt.MOD_ID,
+					EntityHurtEffects.CODEC.listOf()
+			)
 	);
 
 	private static final TypedEntryType<List<ExperienceOverride>> EXPERIENCE_OVERRIDES = ConfigRegistry.register(
@@ -96,6 +99,26 @@ public final class EntityConfig {
 				)
 			)
 		)
+	);
+
+	public TypedEntry<List<EntityHurtEffects>> entityHurtEffects = new TypedEntry<>(
+			ENTITY_HURT_EFFECTS,
+			List.of(
+					new EntityHurtEffects(
+							ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("cow")),
+							"",
+							List.of(
+									new MobEffectHolder(
+											ResourceKey.create(Registries.MOB_EFFECT, new ResourceLocation("speed")),
+											5,
+											10,
+											true,
+											true,
+											true
+									)
+							)
+					)
+			)
 	);
 
 	public TypedEntry<List<EntitySpottingIcon>> entitySpottingIcons = new TypedEntry<>(

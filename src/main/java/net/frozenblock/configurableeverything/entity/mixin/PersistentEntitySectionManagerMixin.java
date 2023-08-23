@@ -31,7 +31,7 @@ public class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
 				for (EntityAttributeAmplifier entityAttributeAmplifier : entityAttributeMultipliers) {
 					if (entityAttributeAmplifier.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()))) {
 						Component entityName = Component.literal(entityAttributeAmplifier.entityName());
-						if (entityName.getString().equals("") || entityName.equals(entity.getName())) {
+						if (entityName.getString().isEmpty() || entityName.equals(entity.getName())) {
 							AttributeMap attributes = entity.getAttributes();
 							for (AttributeAmplifier amplifier : entityAttributeAmplifier.amplifiers()) {
 								AttributeInstance attribute = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifier.attribute()));
