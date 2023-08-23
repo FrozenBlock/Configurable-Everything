@@ -65,7 +65,7 @@ class MainConfig {
 
     @JvmField
 	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
-    val datapack = DatapackConfig()
+    val datapack: DatapackConfig? = DatapackConfig()
 
     class DatapackConfig {
         @JvmField

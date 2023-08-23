@@ -44,16 +44,17 @@ object BiomeConfigUtil {
         if (addedFeatures != null) {
             for (list in addedFeatures) {
                 val biome = list.biome
-                val features = list.features
+                val features = list.features ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
+                        if (decorationFeature == null) continue
                         for (placedFeature in decorationFeature.placedFeatures) {
                             context.generationSettings.addFeature(decorationFeature.decoration, placedFeature)
                         }
                     }
                 }
-                biome.ifLeft { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(it), consumer) }
-                biome.ifRight { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.tag(it), consumer) }
+                biome?.ifLeft { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(it), consumer) }
+                biome?.ifRight { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
@@ -63,9 +64,10 @@ object BiomeConfigUtil {
         if (removedFeatures != null) {
             for (list in removedFeatures) {
                 val biome = list.biome
-                val features = list.features
+                val features = list.features ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
+                        if (decorationFeature == null) continue
                         for (placedFeature in decorationFeature.placedFeatures) {
                             context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
                         }
