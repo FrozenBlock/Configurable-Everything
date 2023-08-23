@@ -13,7 +13,6 @@ import net.minecraft.util.datafix.schemas.NamespacedSchema
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
-import java.util.Map
 
 object DataFixerUtils {
 
@@ -95,7 +94,7 @@ object DataFixerUtils {
         val newId = fixer.newId
         val fixName = "fix_" + oldId + "_to_" + newId
         when (entry.type) {
-            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, Map.of(oldId, newId), schema)
+            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, mapOf(Pair(oldId, newId)), schema)
             "block" -> SimpleFixes.addBlockRenameFix(builder, fixName, oldId, newId, schema)
             "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
             "item" -> {

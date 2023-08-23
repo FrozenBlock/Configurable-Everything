@@ -1,6 +1,5 @@
 package net.frozenblock.configurableeverything.screenshake.util
 
-import java.util.List
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager
@@ -16,18 +15,18 @@ object ScreenShakeConfigUtil {
 
     @JvmStatic
     fun createScreenShake(level: Level?, x: Double?, y: Double?, z: Double?, sound: SoundEvent?) {
-        var config = ScreenShakeConfig.get()
+        val config = ScreenShakeConfig.get()
         if (MainConfig.get().screen_shake == true) {
             if (level == null || x == null || y == null || z == null || sound == null) return
-            val offset: Double = 0.001
-            val entities: List<Entity> = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))
+            val offset = 0.001
+            val entities: List<Entity>? = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))
             if (config.soundScreenShakes?.value != null) {
-                var shakes = config.soundScreenShakes.value
+                val shakes = config.soundScreenShakes.value
                 for (shake in shakes) {
-                    if (shake.sound().equals(sound.getLocation())) {
-                        if (entities.isEmpty()) { // apply to position if no entity is found
+                    if (shake.sound().equals(sound.location)) {
+                        if (entities?.isEmpty() == true) { // apply to position if no entity is found
                             if (level.isClientSide) {
-                                var client = level as ClientLevel
+                                val client = level as ClientLevel
                                 ScreenShaker.SCREEN_SHAKES.add(
                                         ScreenShaker.ClientScreenShake(
                                                 client, shake.intensity(), shake.duration(), shake.falloffStart(), Vec3(x, y, z), shake.maxDistance(), 0
@@ -37,7 +36,7 @@ object ScreenShakeConfigUtil {
                                 ScreenShakeManager.addScreenShake(level, shake.intensity(), shake.duration(), shake.falloffStart(), x, y, z, shake.maxDistance())
                             }
                         } else { // find an entity to apply the screen shake to
-                            var entity = entities.stream().findFirst().get();
+                            val entity: Entity = entities?.stream()?.findFirst()?.get() ?: return
                             if (level.isClientSide) {
                                 ScreenShaker.SCREEN_SHAKES.add(
                                         ScreenShaker.ClientEntityScreenShake(
