@@ -78,6 +78,7 @@ class MainConfig {
 		var biome_placement: Boolean? = true
 
         @JvmField
+        @Comment("Allows the usage of JSON5 files in datapacks.")
 		var json5Support: Boolean? = true
     }
 }
