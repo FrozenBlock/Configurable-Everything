@@ -103,7 +103,7 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         val changes: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
 
         init {
-            if (MainConfig.get().datapack.biome) {
+            if (MainConfig.get().datapack.biome == true) {
                 loadChanges(false)
                 loadChanges(true)
             }

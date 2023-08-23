@@ -9,7 +9,7 @@ object WorldConfigUtil {
     @JvmStatic
     fun init() {
         val config = WorldConfig.get()
-        if (MainConfig.get().world && config.disableExperimentalWarning)
+        if (MainConfig.get().world == true && config.disableExperimentalWarning)
             FrozenLibConfigOverrides.removeExperimentalWarning = true
     }
 }

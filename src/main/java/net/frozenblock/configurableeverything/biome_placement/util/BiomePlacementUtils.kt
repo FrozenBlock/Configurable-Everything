@@ -26,7 +26,7 @@ object BiomePlacementUtils {
     @JvmStatic
     fun init() {
         val config = BiomePlacementConfig.get()
-        if (MainConfig.get().biome_placement) {
+        if (MainConfig.get().biome_placement == true) {
             if (config.addedBiomes?.value != null && config.removedBiomes?.value != null) {
                 val placementChange = BiomePlacementChange(config.addedBiomes.value, config.removedBiomes.value)
                 BiomePlacementChanges.addChange(id("config"), placementChange)
@@ -42,7 +42,7 @@ object BiomePlacementUtils {
         val biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME)
         val levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM)
 
-        if (MainConfig.get().biome_placement) {
+        if (MainConfig.get().biome_placement == true) {
             for ((_, stem) in levelStemRegistry.entrySet()) {
                 val dimension = stem.type().unwrapKey().orElseThrow()
                 val chunkGenerator = stem.generator()

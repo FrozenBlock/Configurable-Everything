@@ -11,7 +11,7 @@ object SplashTextConfigUtil {
     @JvmStatic
     fun init() {
         val config = SplashTextConfig.get()
-        if (MainConfig.get().splash_text) {
+        if (MainConfig.get().splash_text == true) {
             val added = config.addedSplashes
             val removed = config.removedSplashes
 

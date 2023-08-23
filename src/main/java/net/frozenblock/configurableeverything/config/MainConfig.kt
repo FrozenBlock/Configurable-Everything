@@ -1,69 +1,83 @@
-package net.frozenblock.configurableeverything.config;
+package net.frozenblock.configurableeverything.config
 
-import blue.endless.jankson.Comment;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
-import net.frozenblock.lib.config.api.instance.Config;
-import net.frozenblock.lib.config.api.instance.json.JsonConfig;
-import net.frozenblock.lib.config.api.registry.ConfigRegistry;
+import blue.endless.jankson.Comment
+import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
-public class MainConfig {
+class MainConfig {
+    companion object {
+        private val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
+            JsonConfig(
+                MOD_ID,
+                MainConfig::class.java,
+                makeConfigPath("main", true),
+                true
+            )
+        )
 
-	private static final Config<MainConfig> INSTANCE = ConfigRegistry.register(
-		new JsonConfig<>(
-			ConfigurableEverythingSharedConstantsKt.MOD_ID,
-			MainConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("main", true),
-			true
-		)
-	);
+        @JvmStatic
+        fun get(): MainConfig = INSTANCE.config()
 
-	// the configs may have weird casing because the goal is to match the config file name
+        @JvmStatic
+        fun getConfigInstance(): Config<MainConfig> = INSTANCE
+    }
+
+    // the configs may have weird casing because the goal is to match the config file name
+    @JvmField
 	@Comment(
-		"""
+        """
 		Enabled configs
 		Warning: It is important to check the contents of each config before enabling them here.
+
 		"""
-	)
+    )
+    var biome: Boolean? = false
 
-	public boolean biome = false;
+    @JvmField
+	var biome_placement: Boolean? = false
 
-	public boolean biome_placement = false;
+    @JvmField
+	var datafixer: Boolean? = false
 
-	public boolean datafixer = false;
+    @JvmField
+	var entity: Boolean? = false
 
-	public boolean entity = true;
+    @JvmField
+	var fluid: Boolean? = false
 
-	public boolean fluid = false;
+    @JvmField
+	var game: Boolean? = false
 
-	public boolean game = false;
+    @JvmField
+	var screen_shake: Boolean? = false
 
-	public boolean screen_shake = false;
+    @JvmField
+	var splash_text: Boolean? = false
 
-	public boolean splash_text = false;
+    @JvmField
+	var surface_rule: Boolean? = false
 
-	public boolean surface_rule = false;
+    @JvmField
+	var world: Boolean? = false
 
-	public boolean world = false;
-
+    @JvmField
 	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
-	public DatapackConfig datapack = new DatapackConfig();
+    val datapack = DatapackConfig()
 
-	public static MainConfig get() {
-		return INSTANCE.config();
-	}
+    class DatapackConfig {
+        @JvmField
+		var applyDatapacksFolder: Boolean? = true
 
-	public static Config<MainConfig> getConfigInstance() {
-		return INSTANCE;
-	}
+        @JvmField
+		var biome: Boolean? = true
 
-	public static class DatapackConfig {
-		public boolean applyDatapacksFolder = true;
+        @JvmField
+		var biome_placement: Boolean? = true
 
-		public boolean biome = true;
-
-		public boolean biome_placement = true;
-
-		public boolean json5Support = true;
-	}
+        @JvmField
+		var json5Support: Boolean? = true
+    }
 }
