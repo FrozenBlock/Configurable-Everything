@@ -126,7 +126,6 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         }
 
         private fun loadChanges(json5: Boolean) = runBlocking {
-            profiler?.push("Load Biome Changes")
             val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(if (json5) ".json5" else ".json") }
             val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
             entrySet?.forEach { (key, value) ->
@@ -136,8 +135,6 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
                     }
                 }
             }
-
-            profiler?.pop()
         }
 
         private fun addBiomeChange(id: ResourceLocation, resource: Resource, isJson5: Boolean) {
