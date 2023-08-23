@@ -100,10 +100,6 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         init {
             if (MainConfig.get().datapack.biome_placement == true) {
                 loadPlacementChanges()
-                profiler?.push("Load Biome Placement Changes")
-                loadPlacementChanges(false)
-                loadPlacementChanges(true)
-                profiler?.pop()
             }
         }
 
