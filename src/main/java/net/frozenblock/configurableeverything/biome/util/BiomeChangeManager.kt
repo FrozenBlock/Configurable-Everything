@@ -104,18 +104,36 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
 
         init {
             if (MainConfig.get().datapack.biome == true) {
-                loadChanges(false)
-                loadChanges(true)
+                loadChanges()
             }
         }
 
-        private fun loadChanges(json5: Boolean) {
+        private fun loadChanges() = runBlocking {
+            profiler?.push("Load Biome Changes")
+
+            val loadJson = launch {
+                loadChanges(false)
+            }
+            val loadJson5 = launch {
+                loadChanges(true)
+            }
+
+            // make sure they finish
+            loadJson.join()
+            loadJson5.join()
+
+            profiler?.pop()
+        }
+
+        private fun loadChanges(json5: Boolean) = runBlocking {
             profiler?.push("Load Biome Changes")
             val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(if (json5) ".json5" else ".json") }
             val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
             entrySet?.forEach { (key, value) ->
-                if (key != null && value != null) {
-                    addBiomeChange(key, value, json5)
+                launch {
+                    if (key != null && value != null) {
+                        addBiomeChange(key, value, json5)
+                    }
                 }
             }
 

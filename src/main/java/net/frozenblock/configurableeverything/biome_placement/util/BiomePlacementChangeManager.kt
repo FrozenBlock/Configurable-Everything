@@ -99,20 +99,38 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
 
         init {
             if (MainConfig.get().datapack.biome_placement == true) {
+                loadPlacementChanges()
+                profiler?.push("Load Biome Placement Changes")
                 loadPlacementChanges(false)
                 loadPlacementChanges(true)
+                profiler?.pop()
             }
         }
 
-        private fun loadPlacementChanges(json5: Boolean) {
+        private fun loadPlacementChanges() = runBlocking {
             profiler?.push("Load Biome Placement Changes")
+
+            val loadJson = launch {
+                loadPlacementChanges(false)
+            }
+            val loadJson5 = launch {
+                loadPlacementChanges(true)
+            }
+
+            loadJson.join()
+            loadJson5.join()
+
+            profiler?.pop()
+        }
+
+        private fun loadPlacementChanges(json5: Boolean) = runBlocking {
             val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(if (json5) ".json5" else ".json") }
             val entrySet: Set<Map.Entry<ResourceLocation, Resource>>? = resources?.entries
             entrySet?.forEach { (key, value) ->
-                addPlacementChange(key, value, json5)
+                launch {
+                    addPlacementChange(key, value, json5)
+                }
             }
-
-            profiler?.pop()
         }
 
         private fun addPlacementChange(id: ResourceLocation, resource: Resource, isJson5: Boolean) {

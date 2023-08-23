@@ -21,34 +21,36 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import java.io.IOException
+import kotlin.system.measureNanoTime
 
 class ConfigurableEverything : ModInitializer {
 
     override fun onInitialize() {
-        startMeasuring(this)
-        applyDataFixes(MOD_CONTAINER)
+        val time = measureNanoTime {
+            applyDataFixes(MOD_CONTAINER)
 
-        ConfigurableEverythingIntegrations.init()
-        // init configs
-        MainConfig.get()
-        BiomeConfigUtil.init()
-        BiomePlacementUtils.init()
-        DataFixerConfig.get()
-        EntityConfigUtil.init()
-        FluidConfig.get()
-        GameConfig.get()
-        ScreenShakeConfig.get()
-        SplashTextConfigUtil.init()
-        SurfaceRuleConfigUtil.init()
-        WorldConfigUtil.init()
+            ConfigurableEverythingIntegrations.init()
+            // init configs
+            MainConfig.get()
+            BiomeConfigUtil.init()
+            BiomePlacementUtils.init()
+            DataFixerConfig.get()
+            EntityConfigUtil.init()
+            FluidConfig.get()
+            GameConfig.get()
+            ScreenShakeConfig.get()
+            SplashTextConfigUtil.init()
+            SurfaceRuleConfigUtil.init()
+            WorldConfigUtil.init()
 
-        try {
-            FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
-        } catch (e: IOException) {
-            throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
+            try {
+                FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
+            } catch (e: IOException) {
+                throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
+            }
         }
 
-        stopMeasuring(this)
+        log("Configurable Everything took $time nanoseconds")
     }
 
     val ARROW_WHOOSH_SOUND_EVENT = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
