@@ -14,39 +14,22 @@ import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
 import java.util.Map
-import java.util.function.BiFunction
 
 object DataFixerUtils {
 
-    private val SCHEMAS: MutableList<SchemaEntry> = ArrayList()
-    private val REGISTRY_FIXERS: MutableList<RegistryFixer> = ArrayList()
-
     @JvmStatic
-    fun addSchema(schema: SchemaEntry?) {
-        if (schema != null) {
-            SCHEMAS.add(schema)
-        }
-    }
-
-    @JvmStatic
-    fun addRegistryFixer(fixer: RegistryFixer?) {
-        if (fixer != null) {
-            REGISTRY_FIXERS.add(fixer)
-        }
-    }
-
-    @JvmStatic
-    val schemas: List<SchemaEntry> get() {
-            val list = ArrayList(SCHEMAS)
-            list.addAll(DataFixerConfig.get().schemas.value())
-            return list
-    }
-
-    @JvmStatic
-	val registryFixers: List<RegistryFixer>
+    val SCHEMAS: MutableList<SchemaEntry?> = ArrayList()
         get() {
-            val list = ArrayList(REGISTRY_FIXERS)
-            list.addAll(DataFixerConfig.get().registryFixers.value())
+            val list = ArrayList(field)
+            list.addAll(DataFixerConfig.get().schemas.value)
+            return list
+        }
+
+    @JvmStatic
+    val REGISTRY_FIXERS: MutableList<RegistryFixer?> = ArrayList()
+        get() {
+            val list = ArrayList(field)
+            list.addAll(DataFixerConfig.get().registryFixers.value)
             return list
         }
 
@@ -56,7 +39,7 @@ object DataFixerUtils {
         val config = DataFixerConfig.get()
         if (MainConfig.get().datafixer) {
             log("Applying configurable data fixes", UNSTABLE_LOGGING)
-            val schemas = schemas
+            val schemas = SCHEMAS
             val dataVersion = config.dataVersion
             val builder = QuiltDataFixerBuilder(dataVersion)
             var maxSchema = 0
@@ -66,6 +49,7 @@ object DataFixerUtils {
                 addedSchemas.add(base)
             }
             for (fix in schemas) {
+                if (fix == null) continue
                 val version = fix.version
                 if (version > dataVersion) {
                     error("Data fix version $version is higher than the current data version $dataVersion", true)
@@ -116,7 +100,7 @@ object DataFixerUtils {
             "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
             "item" -> {
                 SimpleFixes.addItemRenameFix(builder, fixName, oldId, newId, schema)
-                addRegistryFixer(RegistryFixer(ResourceLocation("item"), java.util.List.of(Fixer(oldId, newId))))
+                REGISTRY_FIXERS.add(RegistryFixer(ResourceLocation("item"), listOf(Fixer(oldId, newId))))
             }
 
             else -> error("Invalid data fix type: " + entry.type, true)

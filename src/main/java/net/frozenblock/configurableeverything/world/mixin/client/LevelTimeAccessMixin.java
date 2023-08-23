@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public interface LevelTimeAccessMixin {
 
 	@ModifyReturnValue(method = "getTimeOfDay", at = @At("RETURN"))
-	default public float getTimeOfDay(float original, float partialTick) {
+    default float getTimeOfDay(float original, float partialTick) {
 		if (LevelTimeAccess.class.cast(this) instanceof ClientLevel clientLevel && MainConfig.get().world && WorldConfig.get().fixSunMoonRotating) {
 			return Mth.lerp(partialTick, clientLevel.dimensionType().timeOfDay(((ClientLevelDataInterface)clientLevel.getLevelData()).configurableEverything$getPreviousDayTime()), original);
 		}

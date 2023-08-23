@@ -4,6 +4,7 @@
   "package": "net.frozenblock.configurableeverything.datapack.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "RegistryDataLoaderMixin",
     "ServerPacksSourceMixin"
   ],
   "client": [

@@ -1,11 +1,18 @@
 package net.frozenblock.configurableeverything.biome_placement.util
 
+import blue.endless.jankson.JsonObject
+import com.mojang.datafixers.util.Pair
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementChangeManager.BiomePlacementChangeLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.config.api.instance.ConfigSerialization
+import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
@@ -28,8 +35,8 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         val INSTANCE = BiomePlacementChangeManager()
 
         @JvmStatic
-        fun getPath(changeId: ResourceLocation): ResourceLocation {
-            return ResourceLocation(changeId.namespace, DIRECTORY + "/" + changeId.path + ".json")
+        fun getPath(changeId: ResourceLocation, json5: Boolean): ResourceLocation {
+            return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${if (json5) "json5" else "json"}")
         }
     }
 
@@ -96,25 +103,47 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
             }
         }
 
-        private fun loadPlacementChanges() {
+        private fun loadPlacementChanges() = runBlocking {
             profiler?.push("Load Biome Placement Changes")
-            val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json") }
-            val entrySet: Set<Map.Entry<ResourceLocation, Resource>>? = resources?.entries
-            entrySet?.forEach { (key, value) ->
-                addPlacementChange(key, value)
+
+            val json = launch {
+                val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json") }
+                val entrySet: Set<Map.Entry<ResourceLocation, Resource>>? = resources?.entries
+                entrySet?.forEach { (key, value) ->
+                    addPlacementChange(key, value, false)
+                }
             }
+            val json5 = launch {
+                val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json5") }
+                val entrySet: Set<Map.Entry<ResourceLocation, Resource>>? = resources?.entries
+                entrySet?.forEach { (key, value) ->
+                    addPlacementChange(key, value, true)
+                }
+            }
+
+            // wait for both to finish
+            json.join()
+            json5.join()
+
             profiler?.pop()
         }
 
-        private fun addPlacementChange(id: ResourceLocation, resource: Resource) {
+        private fun addPlacementChange(id: ResourceLocation, resource: Resource, isJson5: Boolean) {
             val reader: BufferedReader? = try {
                 resource.openAsReader()
             } catch (e: IOException) {
                 LOGGER.error(String.format("Unable to open BufferedReader for id %s", id), e)
                 return
             }
-            val json = reader?.let { GsonHelper.parse(it) }
-            val result = BiomePlacementChange.CODEC.decode(JsonOps.INSTANCE, json)
+
+            val result: DataResult<out Pair<BiomePlacementChange, *>> = if (isJson5) {
+                val json5: JsonObject? = reader?.let { ConfigSerialization.createJankson("").load(reader.readText()) }
+                BiomePlacementChange.CODEC.decode(JanksonOps.INSTANCE, json5)
+            } else {
+                val json = reader?.let { GsonHelper.parse(it) }
+                BiomePlacementChange.CODEC.decode(JsonOps.INSTANCE, json)
+            }
+
             if (result.error().isPresent) {
                 LOGGER.error(
                     String.format(
@@ -125,7 +154,7 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
                 )
                 return
             }
-            val changeId = ResourceLocation(id.namespace, id.path.substring((DIRECTORY + "/").length))
+            val changeId = ResourceLocation(id.namespace, id.path.substring(("$DIRECTORY/").length))
             changes[changeId] = result.result().orElseThrow().first
         }
     }

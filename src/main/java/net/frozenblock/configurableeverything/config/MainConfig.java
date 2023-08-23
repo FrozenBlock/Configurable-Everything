@@ -63,5 +63,7 @@ public class MainConfig {
 		public boolean biome = true;
 
 		public boolean biome_placement = true;
+
+		public boolean json5Support = true;
 	}
 }

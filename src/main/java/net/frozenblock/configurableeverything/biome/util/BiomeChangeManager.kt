@@ -1,13 +1,20 @@
 package net.frozenblock.configurableeverything.biome.util
 
 import com.google.gson.JsonObject
+import com.mojang.datafixers.util.Pair
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
 import net.frozenblock.configurableeverything.biome.util.BiomeChangeManager.BiomeChangeLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil.applyModifications
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementChange
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.config.api.instance.ConfigSerialization
+import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
@@ -22,6 +29,16 @@ import java.util.concurrent.Executor
 
 @ApiStatus.Internal
 internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")
+        private const val DIRECTORY = "biome_modifications"
+        val INSTANCE = BiomeChangeManager()
+        @JvmStatic
+        fun getPath(changeId: ResourceLocation, json5: Boolean): ResourceLocation {
+            return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${if (json5) "json5" else "json"}")
+        }
+    }
+
     private var changes: MutableMap<ResourceLocation?, BiomeChange?>? = null
     private val queuedChanges: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
     fun getChanges(): MutableList<BiomeChange?>? {
@@ -91,27 +108,47 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
             }
         }
 
-        private fun loadChanges() {
+        private fun loadChanges() = runBlocking {
             profiler?.push("Load Biome Changes")
-            val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json") }
-            val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
-            entrySet?.forEach { (key, value) ->
-                if (key != null && value != null) {
-                    addBiomeChange(key, value)
+
+            val json = launch {
+                val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json") }
+                val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
+                entrySet?.forEach { (key, value) ->
+                    if (key != null && value != null) {
+                        addBiomeChange(key, value, false)
+                    }
+                }
+            }
+
+            val json5 = launch {
+                val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json5") }
+                val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
+                entrySet?.forEach { (key, value) ->
+                    if (key != null && value != null) {
+                        addBiomeChange(key, value, true)
+                    }
                 }
             }
             profiler?.pop()
         }
 
-        private fun addBiomeChange(id: ResourceLocation, resource: Resource) {
+        private fun addBiomeChange(id: ResourceLocation, resource: Resource, isJson5: Boolean) {
             val reader: BufferedReader? = try {
                 resource.openAsReader()
             } catch (e: IOException) {
                 LOGGER.error(String.format("Unable to open BufferedReader for id %s", id), e)
                 return
             }
-            val json: JsonObject? = reader?.let { GsonHelper.parse(it) }
-            val result = BiomeChange.CODEC.decode(JsonOps.INSTANCE, json)
+
+            val result: DataResult<Pair<BiomeChange, *>> = if (isJson5) {
+                val json5 = reader?.let { ConfigSerialization.createJankson("").load(reader.readText()) }
+                BiomePlacementChange.CODEC.decode(JanksonOps.INSTANCE, json5) as DataResult<Pair<BiomeChange, *>>
+            } else {
+                val json = reader?.let { GsonHelper.parse(it) }
+                BiomePlacementChange.CODEC.decode(JsonOps.INSTANCE, json) as DataResult<Pair<BiomeChange, *>>
+            }
+
             if (result.error().isPresent) {
                 LOGGER.error(
                     String.format(
@@ -124,15 +161,6 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
             }
             val changeId = ResourceLocation(id.namespace, id.path.substring(("$DIRECTORY/").length))
             changes[changeId] = result.result().orElseThrow().first
-        }
-    }
-
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")
-        private const val DIRECTORY = "biome_modifications"
-        val INSTANCE = BiomeChangeManager()
-        fun getPath(changeId: ResourceLocation?): ResourceLocation? {
-            return changeId?.namespace?.let { ResourceLocation(it, DIRECTORY + "/" + changeId.path + ".json") }
         }
     }
 }
