@@ -15,13 +15,17 @@ object SplashTextConfigUtil {
             val added = config.addedSplashes
             val removed = config.removedSplashes
 
-            for (string in added) {
-                SplashTextAPI.add(string)
-                log("Added $string to splash texts.", UNSTABLE_LOGGING)
+            if (added != null) {
+                for (string in added) {
+                    SplashTextAPI.add(string)
+                    log("Added $string to splash texts.", UNSTABLE_LOGGING)
+                }
             }
-            for (string in removed) {
-                SplashTextAPI.remove(string)
-                log("Removed $string from splash texts.", UNSTABLE_LOGGING)
+            if (removed != null) {
+                for (string in removed) {
+                    SplashTextAPI.remove(string)
+                    log("Removed $string from splash texts.", UNSTABLE_LOGGING)
+                }
             }
         }
     }

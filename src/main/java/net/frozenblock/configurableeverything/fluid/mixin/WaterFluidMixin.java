@@ -16,13 +16,14 @@ public class WaterFluidMixin {
 
 	@Inject(method = "getTickDelay", at = @At("RETURN"), cancellable = true)
 	private void getTickDelay(LevelReader level, CallbackInfoReturnable<Integer> cir) {
-		if (MainConfig.get().fluid) {
-			var config = FluidConfig.get();
+		var config = FluidConfig.get();
+		if (MainConfig.get().fluid == true) {
 			var flowSpeeds = config.flowSpeeds;
 			if (flowSpeeds != null && flowSpeeds.value() != null) {
 				for (var flowSpeed : flowSpeeds.value()) {
-					if (flowSpeed.fluid().equals(BuiltInRegistries.FLUID.getResourceKey(Fluid.class.cast(this)).orElseThrow())) {
-						cir.setReturnValue(level.dimensionType().ultraWarm() ? flowSpeed.ultraWarmFlowTickDelay() : flowSpeed.flowTickDelay());
+					if (flowSpeed.fluid == null || flowSpeed.flowTickDelay == null || flowSpeed.ultraWarmFlowTickDelay == null) continue;
+					if (flowSpeed.fluid.equals(BuiltInRegistries.FLUID.getResourceKey(Fluid.class.cast(this)).orElseThrow())) {
+						cir.setReturnValue(level.dimensionType().ultraWarm() ? flowSpeed.ultraWarmFlowTickDelay : flowSpeed.flowTickDelay);
 					}
 				}
 			}

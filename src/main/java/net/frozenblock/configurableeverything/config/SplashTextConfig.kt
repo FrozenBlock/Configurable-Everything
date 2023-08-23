@@ -1,48 +1,47 @@
-package net.frozenblock.configurableeverything.config;
+package net.frozenblock.configurableeverything.config
 
-import blue.endless.jankson.Comment;
-import java.util.ArrayList;
-import java.util.List;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
-import net.frozenblock.lib.config.api.instance.Config;
-import net.frozenblock.lib.config.api.instance.json.JsonConfig;
-import net.frozenblock.lib.config.api.registry.ConfigRegistry;
-import net.minecraft.world.item.DyeColor;
+import blue.endless.jankson.Comment
+import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.minecraft.world.item.DyeColor
 
-public class SplashTextConfig {
+class SplashTextConfig {
+    companion object {
+        private val INSTANCE: Config<SplashTextConfig> = ConfigRegistry.register(
+            JsonConfig(
+                MOD_ID,
+                SplashTextConfig::class.java,
+                makeConfigPath("splash_text", true),
+                true
+            )
+        )
 
-	private static final Config<SplashTextConfig> INSTANCE = ConfigRegistry.register(
-		new JsonConfig<>(
-			ConfigurableEverythingSharedConstantsKt.MOD_ID,
-			SplashTextConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("splash_text", true),
-			true
-		)
-	);
+        @JvmStatic
+        fun get(): SplashTextConfig = INSTANCE.config()
 
-	public List<String> addedSplashes = new ArrayList<>(
-		List.of(
-			"Configurable Everything!"
-		)
-	);
+        @JvmStatic
+        fun getConfigInstance(): Config<SplashTextConfig> = INSTANCE
+    }
 
-	public List<String> removedSplashes = new ArrayList<>(
-		List.of(
-			"random splash text"
-		)
-	);
+    @JvmField
+	var addedSplashes: List<String?>? = ArrayList(
+        listOf(
+            "Configurable Everything!"
+        )
+    )
+    @JvmField
+	var removedSplashes: List<String?>? = ArrayList(
+        listOf(
+            "random splash text"
+        )
+    )
+    @JvmField
+	var splashColor: Int? = DyeColor.YELLOW.textColor
 
-	public int splashColor = DyeColor.YELLOW.getTextColor();
-
+    @JvmField
 	@Comment("Removes all vanilla splashes.")
-	public boolean removeVanilla = true;
-
-	public static SplashTextConfig get() {
-		return INSTANCE.config();
-	}
-
-	public static Config<SplashTextConfig> getConfigInstance() {
-		return INSTANCE;
-	}
+    var removeVanilla: Boolean? = true
 }

@@ -4,7 +4,7 @@ import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.frozenblock.configurableeverything.config.MainConfig.Companion.get
+import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
@@ -13,8 +13,9 @@ import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
 @Environment(EnvType.CLIENT)
 object MainConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = get()
+        val config = MainConfig.get()
         category.background = id("textures/config/main.png")
+
         category.addEntry(entryBuilder.startBooleanToggle(text("biome"), config.biome == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.biome = newValue }
@@ -22,6 +23,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("biome_placement"), config.biome_placement == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.biome_placement = newValue }
@@ -29,6 +31,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("datafixer"), config.datafixer == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.datafixer = newValue }
@@ -36,6 +39,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("entity"), config.entity == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.entity = newValue }
@@ -43,6 +47,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("fluid"), config.fluid == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.fluid = newValue }
@@ -50,6 +55,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("screen_shake"), config.screen_shake == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.screen_shake = newValue }
@@ -57,6 +63,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("splash_text"), config.splash_text == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.splash_text = newValue }
@@ -64,6 +71,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("surface_rule"), config.surface_rule == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.surface_rule = newValue }
@@ -71,6 +79,7 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("world"), config.world == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.world = newValue }
@@ -78,25 +87,28 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
+
         val applyDatapacksFolder = entryBuilder.startBooleanToggle(text("apply_datapacks_folder"), config.datapack?.applyDatapacksFolder == true)
             .setDefaultValue(true)
             .setSaveConsumer { newValue: Boolean? -> config.datapack?.applyDatapacksFolder = newValue }
             .setTooltip(tooltip("apply_datapacks_folder"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
-        val datapackBiome =
-            entryBuilder.startBooleanToggle(text("datapack_biome"), config.datapack?.biome == true)
+
+        val datapackBiome = entryBuilder.startBooleanToggle(text("datapack_biome"), config.datapack?.biome == true)
                 .setDefaultValue(true)
                 .setSaveConsumer { newValue: Boolean? -> config.datapack?.biome = newValue }
                 .setTooltip(tooltip("datapack_biome"))
                 .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
                 .build()
+
         val datapackBiomePlacement = entryBuilder.startBooleanToggle(text("datapack_biome_placement"), config.datapack?.biome_placement == true)
             .setDefaultValue(true)
             .setSaveConsumer { newValue: Boolean? -> config.datapack?.biome_placement = newValue }
             .setTooltip(tooltip("datapack_biome_placement"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
+
         FrozenClothConfig.createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
             applyDatapacksFolder, datapackBiome, datapackBiomePlacement

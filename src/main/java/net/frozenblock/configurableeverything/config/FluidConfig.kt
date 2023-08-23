@@ -1,52 +1,51 @@
-package net.frozenblock.configurableeverything.config;
+package net.frozenblock.configurableeverything.config
 
-import java.util.List;
-import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
-import net.frozenblock.lib.config.api.entry.TypedEntry;
-import net.frozenblock.lib.config.api.entry.TypedEntryType;
-import net.frozenblock.lib.config.api.instance.Config;
-import net.frozenblock.lib.config.api.instance.json.JsonConfig;
-import net.frozenblock.lib.config.api.registry.ConfigRegistry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.material.Fluids;
+import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
+import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.entry.TypedEntry
+import net.frozenblock.lib.config.api.entry.TypedEntryType
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.world.level.material.Fluids
 
-public class FluidConfig {
+class FluidConfig {
+    companion object {
+        private val FLUID_FLOW_SPEEDS = ConfigRegistry.register(
+            TypedEntryType<List<FluidFlowSpeed?>>(
+                MOD_ID,
+                FluidFlowSpeed.CODEC.listOf()
+            )
+        )
 
-	private static final TypedEntryType<List<FluidFlowSpeed>> FLUID_FLOW_SPEEDS = ConfigRegistry.register(
-		new TypedEntryType<>(
-			ConfigurableEverythingSharedConstantsKt.MOD_ID,
-			FluidFlowSpeed.CODEC.listOf()
-		)
-	);
+        private val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
+            JsonConfig(
+                MOD_ID,
+                FluidConfig::class.java,
+                makeConfigPath("fluid", true),
+                true
+            )
+        )
 
-	private static final Config<FluidConfig> INSTANCE = ConfigRegistry.register(
-		new JsonConfig<>(
-			ConfigurableEverythingSharedConstantsKt.MOD_ID,
-			FluidConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("fluid", true),
-			true
-		)
-	);
-
-	public TypedEntry<List<FluidFlowSpeed>> flowSpeeds = new TypedEntry<>(
-		FLUID_FLOW_SPEEDS,
-		List.of(
-			new FluidFlowSpeed(
-				BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow(),
-				5,
-				5
-			),
-			new FluidFlowSpeed(
-				BuiltInRegistries.FLUID.getResourceKey(Fluids.LAVA).orElseThrow(),
-				10,
-				30
-			)
-		)
-	);
-
-	public static FluidConfig get() {
-		return INSTANCE.config();
-	}
+        @JvmStatic
+        fun get(): FluidConfig = INSTANCE.config()
+    }
+    @JvmField
+	var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
+        FLUID_FLOW_SPEEDS,
+        listOf(
+            FluidFlowSpeed(
+                BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow(),
+                5,
+                5
+            ),
+            FluidFlowSpeed(
+                BuiltInRegistries.FLUID.getResourceKey(Fluids.LAVA).orElseThrow(),
+                10,
+                30
+            )
+        )
+    )
 }
