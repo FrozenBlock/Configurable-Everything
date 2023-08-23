@@ -104,32 +104,21 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
 
         init {
             if (MainConfig.get().datapack.biome) {
-                loadChanges()
+                loadChanges(false)
+                loadChanges(true)
             }
         }
 
-        private fun loadChanges() = runBlocking {
+        private fun loadChanges(json5: Boolean) {
             profiler?.push("Load Biome Changes")
-
-            val json = launch {
-                val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json") }
-                val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
-                entrySet?.forEach { (key, value) ->
-                    if (key != null && value != null) {
-                        addBiomeChange(key, value, false)
-                    }
+            val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(if (json5) ".json5" else ".json") }
+            val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
+            entrySet?.forEach { (key, value) ->
+                if (key != null && value != null) {
+                    addBiomeChange(key, value, json5)
                 }
             }
 
-            val json5 = launch {
-                val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(".json5") }
-                val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
-                entrySet?.forEach { (key, value) ->
-                    if (key != null && value != null) {
-                        addBiomeChange(key, value, true)
-                    }
-                }
-            }
             profiler?.pop()
         }
 
@@ -141,12 +130,12 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
                 return
             }
 
-            val result: DataResult<Pair<BiomeChange, *>> = if (isJson5) {
+            val result: DataResult<out Pair<BiomeChange, *>> = if (isJson5) {
                 val json5 = reader?.let { ConfigSerialization.createJankson("").load(reader.readText()) }
-                BiomePlacementChange.CODEC.decode(JanksonOps.INSTANCE, json5) as DataResult<Pair<BiomeChange, *>>
+                BiomeChange.CODEC.decode(JanksonOps.INSTANCE, json5)
             } else {
                 val json = reader?.let { GsonHelper.parse(it) }
-                BiomePlacementChange.CODEC.decode(JsonOps.INSTANCE, json) as DataResult<Pair<BiomeChange, *>>
+                BiomeChange.CODEC.decode(JsonOps.INSTANCE, json)
             }
 
             if (result.error().isPresent) {

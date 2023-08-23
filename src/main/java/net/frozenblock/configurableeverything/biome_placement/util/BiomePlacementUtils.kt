@@ -54,14 +54,12 @@ object BiomePlacementUtils {
                         (parameters as? ParameterListExtension)?.updateBiomesList(registryAccess, dimension)
 
                         // remove biomes first to allow replacing biome parameters
-                        val removedBiomeHolders: MutableList<Holder<Biome>?> = java.util.ArrayList()
-                        biomeRemovals(dimension, registryAccess)
+                        val removedBiomeHolders: MutableList<Holder<Biome>?> = ArrayList()
                         for (biome in biomeRemovals(dimension, registryAccess)) {
                             removedBiomeHolders.add(biome?.let { biomeRegistry.getOrThrow(it) })
                         }
-                        val addedBiomes: List<Pair<ParameterPoint?, Holder<Biome>>> =
-                            biomeAdditions(biomeRegistry, dimension)
-                        val addedBiomeHolders: MutableList<Holder<Biome>?> = java.util.ArrayList()
+                        val addedBiomes: List<Pair<ParameterPoint?, Holder<Biome>>> = biomeAdditions(biomeRegistry, dimension)
+                        val addedBiomeHolders: MutableList<Holder<Biome>?> = ArrayList()
                         for (pair in addedBiomes) {
                             addedBiomeHolders.add(pair.second)
                         }

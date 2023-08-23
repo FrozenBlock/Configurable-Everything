@@ -11,7 +11,7 @@ public record BiomeParameters(ResourceKey<Biome> biome, Climate.ParameterPoint p
 
 	public static final Codec<BiomeParameters> CODEC = RecordCodecBuilder.create(instance ->
 		instance.group(
-			ResourceKey.codec(Registries.BIOME).fieldOf("biome_placement").forGetter(BiomeParameters::biome),
+			ResourceKey.codec(Registries.BIOME).fieldOf("biome").forGetter(BiomeParameters::biome),
 			Climate.ParameterPoint.CODEC.fieldOf("parameters").forGetter(BiomeParameters::parameters)
 		).apply(instance, BiomeParameters::new)
 	);

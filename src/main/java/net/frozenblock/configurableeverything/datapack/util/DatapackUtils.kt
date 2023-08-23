@@ -18,7 +18,7 @@ import java.util.*
 object DatapackUtils {
 
     @JvmStatic
-    fun <E> loadJsonContents(
+    fun <E : Any> loadJson5Contents(
         lookup: RegistryInfoLookup,
         manager: ResourceManager,
         registryKey: ResourceKey<out Registry<E>>,
@@ -26,7 +26,7 @@ object DatapackUtils {
         decoder: Decoder<E>,
         exceptions: MutableMap<ResourceKey<*>, Exception>,
         directory: String
-    ) = runBlocking {
+    ) {
         val fileToIdConverter = FileToIdConverter(directory, ".json5")
         val registryOps = RegistryOps.create(JanksonOps.INSTANCE, lookup)
 
@@ -37,9 +37,9 @@ object DatapackUtils {
                 try {
                     val jsonElement: JsonElement = ConfigSerialization.createJankson("").load(reader.readText())
                     val dataResult = decoder.parse(registryOps, jsonElement)
-                    val `object` = dataResult.getOrThrow(
+                    val `object`: E = dataResult.getOrThrow(
                         false
-                    ) { stringx: String? -> }
+                    ) {}
                     registry.register(
                         resourceKey,
                         `object`,

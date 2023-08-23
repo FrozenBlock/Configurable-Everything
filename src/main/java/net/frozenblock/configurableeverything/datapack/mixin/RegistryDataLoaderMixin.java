@@ -35,7 +35,7 @@ public abstract class RegistryDataLoaderMixin {
     ) {
         if (MainConfig.get().datapack.json5Support) {
             String directory = registryDirPath(registryKey.location());
-            DatapackUtils.loadJsonContents(lookup, manager, registryKey, registry, decoder, exceptions, directory);
+            DatapackUtils.loadJson5Contents(lookup, manager, registryKey, registry, decoder, exceptions, directory);
         }
     }
 }
