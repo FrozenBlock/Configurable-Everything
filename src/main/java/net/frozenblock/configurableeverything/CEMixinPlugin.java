@@ -45,19 +45,19 @@ public class CEMixinPlugin implements IMixinConfigPlugin {
 			return config.game == true;
 
 		if (mixinClassName.contains("screenshake.mixin.client"))
-			return config.screenshake_client;
+			return config.screenshake_client == true;
 
 		if (mixinClassName.contains("screenshake.mixin"))
-			return config.screenshake;
+			return config.screenshake == true;
 
 		if (mixinClassName.contains("splash_text.mixin"))
-			return config.splash_text;
+			return config.splash_text == true;
 
 		if (mixinClassName.contains("world.mixin.client"))
-			return config.world_client;
+			return config.world_client == true;
 
 		if (mixinClassName.contains("world.mixin"))
-			return config.world;
+			return config.world == true;
 		return true;
 	}
 
