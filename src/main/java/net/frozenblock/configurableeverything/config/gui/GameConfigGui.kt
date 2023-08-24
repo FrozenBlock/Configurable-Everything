@@ -18,7 +18,7 @@ object GameConfigGui {
 
         category.addEntry(entryBuilder.startStrField(text("windowTitle"), config.windowTitle ?: "")
             .setDefaultValue("")
-            .setSaveConsumer { newValue: String? -> config.biome = newValue }
+            .setSaveConsumer { newValue: String? -> config.windowTitle = newValue }
             .setTooltip(tooltip("windowTitle"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
