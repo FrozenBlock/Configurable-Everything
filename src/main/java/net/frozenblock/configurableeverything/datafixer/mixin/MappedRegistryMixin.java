@@ -35,11 +35,10 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 			cancellable = true
 	)
 	private void fixedValue(@Nullable ResourceLocation name, CallbackInfoReturnable<@Nullable T> cir) {
-		if (MainConfig.get().datafixer
-			&& (name != null && cir.getReturnValue() == null)) {
-				var fixed = RegistryFixer.getFixedValueInRegistry(this, name);
+		if (MainConfig.get().datafixer == true
+			&& name != null) {
+				var fixed = RegistryFixer.getFixedValueInRegistry(this, name, cir.getReturnValue());
 				cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
-
 		}
 	}
 
@@ -49,7 +48,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 			cancellable = true
 	)
 	private void fixedValue(@Nullable ResourceKey<T> key, CallbackInfoReturnable<@Nullable T> cir) {
-		if (MainConfig.get().datafixer
+		if (MainConfig.get().datafixer == true
 			&& (key != null && cir.getReturnValue() == null)) {
 				var fixed = RegistryFixer.getFixedValueInRegistry(this, key.location());
 				cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));

@@ -44,6 +44,15 @@ public class DataFixerConfig {
 
 	@Comment(
 		"""
+		Allows registry fixers (not schemas) to convert all IDs
+		whether or not a valid entry exists
+		By default, registry fixers will only run if the entry with the ID is missing.
+		"""
+	)
+	public boolean overrideRealEntries = false;
+
+	@Comment(
+		"""
 		The data fixer's main data version. Increment this when you add a new schema.
 		Any schemas with a data version higher than this will be ignored.
 		"""
@@ -58,7 +67,7 @@ public class DataFixerConfig {
 		The four types are "biome", "block", "entity", and "item".
 		Although, it is recommended to use a registry fixer for items instead of a schema fixer.
 		Each fixer contains an old id and a new id, and will replace all instances of the old id with the new id.
-		However, if the old id is still found in the registry, it will not be replaced.
+		However, if the old id is still found in the registry, it will not be replaced (unless the overrideRealEntries option is set to true).
 		"""
 	)
 	public TypedEntry<List<SchemaEntry>> schemas = new TypedEntry<>(

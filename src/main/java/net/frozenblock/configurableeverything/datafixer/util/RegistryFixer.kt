@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.datafixer.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.REGISTRY_FIXERS
 import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
 import net.frozenblock.configurableeverything.util.log
@@ -20,7 +21,9 @@ data class RegistryFixer(val registryKey: ResourceLocation?, val fixers: List<Fi
         }
 
         @JvmStatic
-        fun getFixedValueInRegistry(registry: Registry<*>?, name: ResourceLocation?): ResourceLocation? {
+        fun getFixedValueInRegistry(registry: Registry<*>?, name: ResourceLocation?, original: Any?): ResourceLocation? {
+            if (original != null && !DataFixerConfig.get().overrideRealEntries)
+                return null
             if (name != null) {
                 val registryFixers: List<RegistryFixer?> = REGISTRY_FIXERS
                 for (registryFixer in registryFixers) {
