@@ -16,11 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DetectedVersionMixin {
 
     @Mutable
-    @Shadow
-    @Final
-    private String name;
-
-    @Mutable
     @Shadow @Final private DataVersion worldVersion;
 
     @Inject(method = "<init>*", at = @At("TAIL"))
