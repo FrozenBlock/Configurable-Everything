@@ -56,6 +56,14 @@ object MainConfigGui {
             .build()
         )
 
+        category.addEntry(entryBuilder.startBooleanToggle(text("game"), config.game == true)
+            .setDefaultValue(false)
+            .setSaveConsumer { newValue: Boolean? -> config.game = newValue }
+            .setTooltip(tooltip("game"))
+            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
+            .build()
+        )
+
         category.addEntry(entryBuilder.startBooleanToggle(text("screen_shake"), config.screen_shake == true)
             .setDefaultValue(false)
             .setSaveConsumer { newValue: Boolean? -> config.screen_shake = newValue }
@@ -109,9 +117,16 @@ object MainConfigGui {
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
 
+        val json5Support = entryBuilder.startBooleanToggle(text("json5_support"), config.datapack?.json5Support == true)
+            .setDefaultValue(true)
+            .setSaveConsumer { newValue: Boolean? -> config.datapack?.json5Support = newValue }
+            .setTooltip(tooltip("json5_support"))
+            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
+            .build()
+
         FrozenClothConfig.createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
-            applyDatapacksFolder, datapackBiome, datapackBiomePlacement
+            applyDatapacksFolder, datapackBiome, datapackBiomePlacement, json5Support
         )
     }
 }

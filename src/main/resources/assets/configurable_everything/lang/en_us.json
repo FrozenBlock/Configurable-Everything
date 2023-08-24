@@ -14,6 +14,8 @@
   "tooltip.configurable_everything.entity": "Enable or disable the Entity config.",
   "option.configurable_everything.fluid": "Fluid",
   "tooltip.configurable_everything.fluid": "Enable or disable the Fluid config.",
+  "option.configurable_everything.game": "Game",
+  "tooltip.configurable_everything.game": "Enable or disable the Game config.",
   "option.configurable_everything.screen_shake": "Screen Shake",
   "tooltip.configurable_everything.screen_shake": "Enable or disable the Screen Shake config.",
   "option.configurable_everything.splash_text": "Splash Text",
@@ -29,6 +31,8 @@
   "tooltip.configurable_everything.datapack_biome": "Enable or disable biome changes from datapacks.",
   "option.configurable_everything.datapack_biome_placement": "Biome Placement",
   "tooltip.configurable_everything.datapack_biome_placement": "Enable or disable biome placement changes from datapacks.",
+  "option.configurable_everything.json5_support": "JSON5 Support",
+  "tooltip.configurable_everything.json5_support": "Enable or disable support for JSON5 files in datapacks.",
 
   "option.configurable_everything.player": "Player",
   "tooltip.configurable_everything.player": "Contains options for the Player.",
