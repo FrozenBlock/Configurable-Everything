@@ -20,7 +20,6 @@ object GameConfigGui {
             .setDefaultValue("")
             .setSaveConsumer { newValue: String? -> config.windowTitle = newValue }
             .setTooltip(tooltip("windowTitle"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
 
@@ -28,7 +27,6 @@ object GameConfigGui {
             .setDefaultValue("")
             .setSaveConsumer { newValue: String? -> config.versionSeries = newValue }
             .setTooltip(tooltip("versionSeries"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
         )
     }
