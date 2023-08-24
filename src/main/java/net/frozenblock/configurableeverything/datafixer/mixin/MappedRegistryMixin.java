@@ -38,7 +38,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 		if (MainConfig.get().datafixer == true
 			&& name != null) {
 				var fixed = RegistryFixer.getFixedValueInRegistry(this, name, cir.getReturnValue());
-				if (fixed != null) // only override if the "fixed" version is misisng
+				if (fixed != null) // don't override if the "fixed" version is misisng
 					cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
 		}
 	}
@@ -52,7 +52,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 		if (MainConfig.get().datafixer == true
 			&& key != null) {
 				var fixed = RegistryFixer.getFixedValueInRegistry(this, key.location(), cir.getReturnValue());
-				if (fixed != null) // only override if the "fixed" version is missing
+				if (fixed != null) // don't override if the "fixed" version is missing
 					cir.setReturnValue(getValueFromNullable(this.byLocation.get(fixed)));
 
 		}
