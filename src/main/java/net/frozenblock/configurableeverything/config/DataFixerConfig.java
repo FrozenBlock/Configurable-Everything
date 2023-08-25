@@ -47,6 +47,7 @@ public class DataFixerConfig {
 		Allows registry fixers (not schemas) to convert all IDs
 		whether or not a valid entry exists
 		By default, registry fixers will only run if the entry with the ID is missing.
+		WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CAUTION
 		"""
 	)
 	public boolean overrideRealEntries = false;
