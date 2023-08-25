@@ -53,24 +53,6 @@ fun error(string: String?, shouldLog: Boolean) {
     }
 }
 
-// MEASURING
-private val INSTANT_MAP: MutableMap<Any, Long> = HashMap()
-
-fun startMeasuring(`object`: Any) {
-    val started = System.nanoTime()
-    val name: String = `object`.javaClass.name
-    LOGGER?.info("Started measuring {}", name.substring(name.lastIndexOf(".") + 1))
-    INSTANT_MAP[`object`] = started
-}
-
-fun stopMeasuring(`object`: Any) {
-    if (INSTANT_MAP.containsKey(`object`)) {
-        val name = `object`.javaClass.name
-        LOGGER?.info("{} took {} nanoseconds", name.substring(name.lastIndexOf(".") + 1), System.nanoTime() - INSTANT_MAP[`object`]!!)
-        INSTANT_MAP.remove(`object`)
-    }
-}
-
 // IDENTIFIERS
 
 fun id(path: String): ResourceLocation {
