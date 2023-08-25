@@ -44,15 +44,6 @@ public class DataFixerConfig {
 
 	@Comment(
 		"""
-		Allows registry fixers (not schemas) to convert all IDs
-		whether or not a valid entry exists
-		By default, registry fixers will only run if the entry with the ID is missing.
-		"""
-	)
-	public boolean overrideRealEntries = false;
-
-	@Comment(
-		"""
 		The data fixer's main data version. Increment this when you add a new schema.
 		Any schemas with a data version higher than this will be ignored.
 		"""
