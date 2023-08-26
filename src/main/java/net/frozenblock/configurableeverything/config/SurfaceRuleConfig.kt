@@ -1,12 +1,14 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator
+import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.world.level.block.Blocks
@@ -25,8 +27,8 @@ class SurfaceRuleConfig {
             JsonConfig(
                 MOD_ID,
                 SurfaceRuleConfig::class.java,
-                makeConfigPath("surface_rule", true),
-                true
+                makeConfigPath("surface_rule"),
+                CONFIG_JSONTYPE
             )
         )
 

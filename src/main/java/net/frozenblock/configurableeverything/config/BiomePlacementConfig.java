@@ -13,6 +13,7 @@ import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
+import net.frozenblock.lib.config.api.instance.json.JsonType;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.frozenblock.lib.worldgen.biome.api.parameters.Continentalness;
 import net.frozenblock.lib.worldgen.biome.api.parameters.Depth;
@@ -43,8 +44,8 @@ public class BiomePlacementConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomePlacementConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("biome_placement", true),
-			true
+			ConfigurableEverythingUtilsKt.makeConfigPath("biome_placement"),
+			ConfigurableEverythingSharedConstantsKt.CONFIG_JSONTYPE
 		)
 	);
 

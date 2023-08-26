@@ -8,6 +8,7 @@ import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
+import net.frozenblock.lib.config.api.instance.json.JsonType;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.monster.warden.WardenAi;
@@ -25,8 +26,8 @@ public final class ScreenShakeConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			ScreenShakeConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("screen_shake", true),
-			true
+			ConfigurableEverythingUtilsKt.makeConfigPath("screen_shake"),
+			ConfigurableEverythingSharedConstantsKt.CONFIG_JSONTYPE
 		)
 	);
 

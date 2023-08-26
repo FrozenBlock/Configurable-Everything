@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ModContainer
+import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -29,3 +30,6 @@ val MOD_CONTAINER: ModContainer = FabricLoader.getInstance().getModContainer(MOD
 
 @JvmField
 val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
+
+@JvmField
+val CONFIG_JSONTYPE: JsonType = JsonType.JSON5

@@ -1,12 +1,14 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
+import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.material.Fluids
@@ -24,8 +26,8 @@ class FluidConfig {
             JsonConfig(
                 MOD_ID,
                 FluidConfig::class.java,
-                makeConfigPath("fluid", true),
-                true
+                makeConfigPath("fluid"),
+                CONFIG_JSONTYPE
             )
         )
 

@@ -13,6 +13,7 @@ import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
+import net.frozenblock.lib.config.api.instance.json.JsonType;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
@@ -46,8 +47,8 @@ public class BiomeConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			BiomeConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("biome", true),
-			true
+			ConfigurableEverythingUtilsKt.makeConfigPath("biome"),
+			ConfigurableEverythingSharedConstantsKt.CONFIG_JSONTYPE
 		)
 	);
 

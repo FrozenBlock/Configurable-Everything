@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything;
 
-import net.frozenblock.configurableeverything.config.gui.MixinsConfig;
+import net.frozenblock.configurableeverything.config.MixinsConfig;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;

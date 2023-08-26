@@ -5,6 +5,7 @@ import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedC
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
+import net.frozenblock.lib.config.api.instance.json.JsonType;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 
 public class WorldConfig {
@@ -13,8 +14,8 @@ public class WorldConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			WorldConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("world", true),
-			true
+			ConfigurableEverythingUtilsKt.makeConfigPath("world"),
+			ConfigurableEverythingSharedConstantsKt.CONFIG_JSONTYPE
 		)
 	);
 

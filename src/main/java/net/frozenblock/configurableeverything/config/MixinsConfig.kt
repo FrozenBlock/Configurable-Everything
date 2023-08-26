@@ -1,10 +1,12 @@
-package net.frozenblock.configurableeverything.config.gui
+package net.frozenblock.configurableeverything.config
 
 import blue.endless.jankson.Comment
+import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class MixinsConfig {
@@ -13,8 +15,8 @@ class MixinsConfig {
             JsonConfig(
                 MOD_ID,
                 MixinsConfig::class.java,
-                makeConfigPath("mixins", true),
-                true
+                makeConfigPath("mixins"),
+                CONFIG_JSONTYPE
             )
         )
 
