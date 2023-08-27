@@ -46,7 +46,7 @@
   "option.configurable_everything.all_zombies_break_doors": "All Zombies Break Doors",
   "tooltip.configurable_everything.all_zombies_break_doors": "Whether or not all Zombies can Break Doors.",
 
-  "option.configurable_everything.flaming_arrows_light_fire": "Flaming Bows Light Fire",
+  "option.configurable_everything.flaming_arrows_light_fire": "Flaming Arrows Light Fire",
   "tooltip.configurable_everything.flaming_arrows_light_fire": "Enable or disable Flint & Steel functionality when a\nflaming Arrow hits a block or entity.",
 
   "option.configurable_everything.added_splashes": "Added Splashes",
