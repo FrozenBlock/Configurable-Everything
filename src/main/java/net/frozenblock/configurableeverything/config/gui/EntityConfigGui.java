@@ -31,27 +31,45 @@ public final class EntityConfigGui {
 
 		var zombie = config.zombie;
 		var babyZombieSprint = entryBuilder.startBooleanToggle(text("baby_zombie_sprint_particles"), zombie.babyZombieSprintParticles)
-			.setDefaultValue(true)
+			.setDefaultValue(false)
 			.setSaveConsumer(newValue -> zombie.babyZombieSprintParticles = newValue)
 			.setTooltip(tooltip("baby_zombie_sprint_particles"))
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
 			.build();
+		var ignoreZombieDoorBreakDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_door_break_difficulty"), zombie.ignoreDoorBreakDifficulty)
+			.setDefaultValue(false)
+			.setSaveConsumer(newValue -> zombie.ignoreDoorBreakDifficulty = newValue)
+			.setTooltip(tooltip("ignore_zombie_door_break_difficulty"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
 		var allZombiesBreakDoors = entryBuilder.startBooleanToggle(text("all_zombies_break_doors"), zombie.allZombiesBreakDoors)
-			.setDefaultValue(true)
+			.setDefaultValue(false)
 			.setSaveConsumer(newValue -> zombie.allZombiesBreakDoors = newValue)
 			.setTooltip(tooltip("all_zombies_break_doors"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
+		var ignoreZombieReinforcementDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_reinforcement_difficulty"), zombie.ignoreReinforcementDifficulty)
+			.setDefaultValue(false)
+			.setSaveConsumer(newValue -> zombie.ignoreReinforcementDifficulty = newValue)
+			.setTooltip(tooltip("ignore_zombie_reinforcement_difficulty"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
+		var fullZombieReinforcementChance = entryBuilder.startBooleanToggle(text("full_zombie_reinforcement_chance"), zombie.fullReinforcementChance)
+			.setDefaultValue(false)
+			.setSaveConsumer(newValue -> zombie.fullReinforcementChance = newValue)
+			.setTooltip(tooltip("full_zombie_reinforcement_chance"))
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
 			.build();
 
 		var zombieCategory = FrozenClothConfig.createSubCategory(entryBuilder, category, text("zombie"),
 			false,
 			tooltip("zombie"),
-			allZombiesBreakDoors, babyZombieSprint
+			babyZombieSprint, ignoreZombieDoorBreakDifficulty, allZombiesBreakDoors, ignoreZombieReinforcementDifficulty, fullZombieReinforcementChance
 		);
 
 		var flamingArrowsLightFire = category.addEntry(
 			entryBuilder.startBooleanToggle(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire)
-			.setDefaultValue(true)
+			.setDefaultValue(false)
 			.setSaveConsumer(newValue -> config.flamingArrowsLightFire = newValue)
 			.setTooltip(tooltip("flaming_arrows_light_fire"))
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))

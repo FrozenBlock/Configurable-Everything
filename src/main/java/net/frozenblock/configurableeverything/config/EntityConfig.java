@@ -232,8 +232,12 @@ public final class EntityConfig {
 	public ZombieConfig zombie = new ZombieConfig();
 
 	public static class ZombieConfig {
-		public boolean babyZombieSprintParticles = true;
-		public boolean allZombiesBreakDoors = true;
+		public boolean babyZombieSprintParticles = false;
+		public boolean ignoreDoorBreakDifficulty = false;
+		public boolean allZombiesBreakDoors = false;
+		public boolean ignoreReinforcementDifficulty = false;
+		public boolean fullReinforcementChance = false;
+
 	}
 
 	public boolean flamingArrowsLightFire = false;

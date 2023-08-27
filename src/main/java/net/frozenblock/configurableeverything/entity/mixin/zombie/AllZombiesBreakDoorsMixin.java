@@ -48,7 +48,7 @@ public class AllZombiesBreakDoorsMixin {
 	@Inject(method = "addBehaviourGoals", at = @At("TAIL"))
 	public void mcFixes$addBehaviourGoals(CallbackInfo info) {
 		if (MainConfig.get().entity) {
-			Mob.class.cast(this).goalSelector.addGoal(1, new NewZombieBreakDoorGoal(Mob.class.cast(this), difficulty -> EntityConfig.get().zombie.allZombiesBreakDoors || difficulty == Difficulty.HARD));
+			Mob.class.cast(this).goalSelector.addGoal(1, new NewZombieBreakDoorGoal(Mob.class.cast(this), difficulty -> (MainConfig.get().entity && EntityConfig.get().zombie.ignoreDoorBreakDifficulty) || difficulty == Difficulty.HARD));
 		}
 	}
 
