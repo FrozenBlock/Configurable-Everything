@@ -233,6 +233,7 @@ public final class EntityConfig {
 
 	public static class ZombieConfig {
 		public boolean babyZombieSprintParticles = false;
+		public boolean zombiesAvoidSun = false;
 		public boolean ignoreDoorBreakDifficulty = false;
 		public boolean allZombiesBreakDoors = false;
 		public boolean ignoreReinforcementDifficulty = false;

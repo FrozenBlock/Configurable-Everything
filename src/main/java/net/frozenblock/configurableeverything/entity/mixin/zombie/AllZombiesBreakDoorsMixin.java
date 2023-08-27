@@ -24,14 +24,18 @@ public class AllZombiesBreakDoorsMixin {
 
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;isUnderWaterConverting()Z", shift = At.Shift.BEFORE))
 	public void tick(CallbackInfo callbackInfo) {
+		Zombie zombie = Zombie.class.cast(this);
 		if (MainConfig.get().entity) {
-			Zombie zombie = Zombie.class.cast(this);
 			if (!EntityConfig.get().zombie.allZombiesBreakDoors) {
 				if (GoalUtils.hasGroundPathNavigation(zombie)) {
 					((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.canBreakDoors);
 				}
 			} else if (GoalUtils.hasGroundPathNavigation(zombie)) {
 				((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.supportsBreakDoorGoal());
+			}
+		} else {
+			if (GoalUtils.hasGroundPathNavigation(zombie)) {
+				((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.canBreakDoors);
 			}
 		}
 	}

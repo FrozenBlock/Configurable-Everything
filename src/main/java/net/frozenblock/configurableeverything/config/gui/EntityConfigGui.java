@@ -36,6 +36,12 @@ public final class EntityConfigGui {
 			.setTooltip(tooltip("baby_zombie_sprint_particles"))
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
 			.build();
+		var zombiesAvoidSun = entryBuilder.startBooleanToggle(text("zombies_avoid_sun"), zombie.zombiesAvoidSun)
+			.setDefaultValue(false)
+			.setSaveConsumer(newValue -> zombie.zombiesAvoidSun = newValue)
+			.setTooltip(tooltip("zombies_avoid_sun"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
 		var ignoreZombieDoorBreakDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_door_break_difficulty"), zombie.ignoreDoorBreakDifficulty)
 			.setDefaultValue(false)
 			.setSaveConsumer(newValue -> zombie.ignoreDoorBreakDifficulty = newValue)
@@ -64,7 +70,7 @@ public final class EntityConfigGui {
 		var zombieCategory = FrozenClothConfig.createSubCategory(entryBuilder, category, text("zombie"),
 			false,
 			tooltip("zombie"),
-			babyZombieSprint, ignoreZombieDoorBreakDifficulty, allZombiesBreakDoors, ignoreZombieReinforcementDifficulty, fullZombieReinforcementChance
+			babyZombieSprint, zombiesAvoidSun, ignoreZombieDoorBreakDifficulty, allZombiesBreakDoors, ignoreZombieReinforcementDifficulty, fullZombieReinforcementChance
 		);
 
 		var flamingArrowsLightFire = category.addEntry(

@@ -12,7 +12,8 @@
     "zombie.AllZombiesBreakDoorsMixin",
     "zombie.BabyZombieSprintMixin",
     "zombie.DoorBreakConfigGoalMixin",
-    "zombie.ZombieReinforcementMixin"
+    "zombie.ZombieReinforcementMixin",
+    "zombie.ZombiesAvoidSunMixin"
   ],
   "client": [
   ],
