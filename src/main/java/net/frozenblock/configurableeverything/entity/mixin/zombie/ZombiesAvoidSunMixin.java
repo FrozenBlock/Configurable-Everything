@@ -17,5 +17,5 @@ public class ZombiesAvoidSunMixin {
 		zombie.goalSelector.addGoal(2, new ZombieRestrictSunGoal(zombie));
 		zombie.goalSelector.addGoal(3, new ZombieFleeSunGoal(zombie, 1.0));
 	}
-	
+
 }

@@ -54,6 +54,11 @@
   "option.configurable_everything.full_zombie_reinforcement_chance": "100% Zombie Reinforcement Chance",
   "tooltip.configurable_everything.full_zombie_reinforcement_chance": "Whether or not Zombie reinforcements should spawn 100% of the time.",
 
+  "option.configurable_everything.skeleton": "Skeleton",
+  "tooltip.configurable_everything.skeleton": "Contains options for the Skeleton.",
+  "option.configurable_everything.skeleton_accuracy_ignores_difficulty": "Skeleton Accuracy Ignores Difficulty",
+  "tooltip.configurable_everything.skeleton_accuracy_ignores_difficulty": "Skeletons will ignore the game's difficulty when firing arrows.\nThis will be equivalent to Hard difficulty.",
+
   "option.configurable_everything.flaming_arrows_light_fire": "Flaming Arrows Light Fire",
   "tooltip.configurable_everything.flaming_arrows_light_fire": "Enable or disable Flint & Steel functionality when a\nflaming Arrow hits a block or entity.",
 

@@ -73,6 +73,20 @@ public final class EntityConfigGui {
 			babyZombieSprint, zombiesAvoidSun, ignoreZombieDoorBreakDifficulty, allZombiesBreakDoors, ignoreZombieReinforcementDifficulty, fullZombieReinforcementChance
 		);
 
+		var skeleton = config.skeleton;
+		var skeletonAccuracyIgnoresDifficulty = entryBuilder.startBooleanToggle(text("skeleton_accuracy_ignores_difficulty"), skeleton.skeletonAccuracyIgnoresDifficulty)
+			.setDefaultValue(false)
+			.setSaveConsumer(newValue -> skeleton.skeletonAccuracyIgnoresDifficulty = newValue)
+			.setTooltip(tooltip("skeleton_accuracy_ignores_difficulty"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
+
+		var skeletonCategory = FrozenClothConfig.createSubCategory(entryBuilder, category, text("skeleton"),
+			false,
+			tooltip("skeleton"),
+			skeletonAccuracyIgnoresDifficulty
+		);
+
 		var flamingArrowsLightFire = category.addEntry(
 			entryBuilder.startBooleanToggle(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire)
 			.setDefaultValue(false)

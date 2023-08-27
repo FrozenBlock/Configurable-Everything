@@ -9,6 +9,7 @@
     "LivingEntityMixin",
     "PersistentEntitySectionManagerMixin",
     "PlayerMixin",
+    "skeleton.SkeletonAccuracyMixin",
     "zombie.AllZombiesBreakDoorsMixin",
     "zombie.BabyZombieSprintMixin",
     "zombie.DoorBreakConfigGoalMixin",

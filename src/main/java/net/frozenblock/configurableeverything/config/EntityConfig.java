@@ -230,7 +230,6 @@ public final class EntityConfig {
 	}
 
 	public ZombieConfig zombie = new ZombieConfig();
-
 	public static class ZombieConfig {
 		public boolean babyZombieSprintParticles = false;
 		public boolean zombiesAvoidSun = false;
@@ -238,7 +237,11 @@ public final class EntityConfig {
 		public boolean allZombiesBreakDoors = false;
 		public boolean ignoreReinforcementDifficulty = false;
 		public boolean fullReinforcementChance = false;
+	}
 
+	public SkeletonConfig skeleton = new SkeletonConfig();
+	public static class SkeletonConfig {
+		public boolean skeletonAccuracyIgnoresDifficulty = false;
 	}
 
 	public boolean flamingArrowsLightFire = false;
