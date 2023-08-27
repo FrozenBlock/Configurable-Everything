@@ -81,7 +81,7 @@ public final class EntityConfig {
 		EXPERIENCE_OVERRIDES,
 		List.of(
 			new ExperienceOverride(
-				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("cow")),
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("example_cow")),
 				5000
 			)
 		)
@@ -95,7 +95,80 @@ public final class EntityConfig {
 				new EntityFlyBySoundData(
 					"neutral",
 					ConfigurableEverythingUtilsKt.id("flyby.arrow"),
-					1F,
+					0.6F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:tipped_arrow"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.arrow"),
+					0.6F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:spectral"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.arrow"),
+					0.6F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:trident"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.trident"),
+					0.7F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:egg"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.egg"),
+					0.4F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:snowball"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.snowball"),
+					0.4F,
+					1F
+				)
+			),
+			//TODO: Burning flyby sound
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:fireball"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.fireball"),
+					0.4F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:potion"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.potion"),
+					0.2F,
+					1F
+				)
+			),
+			new EntityFlyBySound(
+				new ResourceLocation("minecraft:experience_bottle"),
+				new EntityFlyBySoundData(
+					"neutral",
+					ConfigurableEverythingUtilsKt.id("flyby.experience_bottle"),
+					0.2F,
 					1F
 				)
 			)

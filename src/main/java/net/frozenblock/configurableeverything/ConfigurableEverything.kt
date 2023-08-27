@@ -53,7 +53,15 @@ class ConfigurableEverything : ModInitializer {
         log("Configurable Everything took $time nanoseconds", true)
     }
 
-    val ARROW_WHOOSH_SOUND_EVENT = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
+    val ARROW_FLYBY_SOUND_EVENT = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
+    val TIPPED_ARROW_FLYBY_SOUND_EVENT = register(id("flyby.tipped_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.tipped_arrow")))
+    val SPECTRAL_ARROW_FLYBY_SOUND_EVENT = register(id("flyby.spectral_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.spectral_arrow")))
+    val TRIDENT_FLYBY_SOUND_EVENT = register(id("flyby.trident"), SoundEvent.createVariableRangeEvent(id("flyby.trident")))
+    val EGG_FLYBY_SOUND_EVENT = register(id("flyby.egg"), SoundEvent.createVariableRangeEvent(id("flyby.egg")))
+    val SNOWBALL_FLYBY_SOUND_EVENT = register(id("flyby.snowball"), SoundEvent.createVariableRangeEvent(id("flyby.snowball")))
+    val FIREBALL_FLYBY_SOUND_EVENT = register(id("flyby.fireball"), SoundEvent.createVariableRangeEvent(id("flyby.fireball")))
+    val POTION_FLYBY_SOUND_EVENT = register(id("flyby.potion"), SoundEvent.createVariableRangeEvent(id("flyby.potion")))
+    val EXPERIENCE_BOTTLE_FLYBY_SOUND_EVENT = register(id("flyby.experience_bottle"), SoundEvent.createVariableRangeEvent(id("flyby.experience_bottle")))
 
     private fun register(key: ResourceLocation, sound: SoundEvent) =
         Registry.register(BuiltInRegistries.SOUND_EVENT, key, sound)
