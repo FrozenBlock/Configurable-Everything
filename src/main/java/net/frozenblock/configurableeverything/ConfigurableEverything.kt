@@ -50,7 +50,7 @@ class ConfigurableEverything : ModInitializer {
             }
         }
 
-        log("Configurable Everything took $time nanoseconds", true)
+        log("Configurable Everything took $time nanoseconds")
     }
 
     val ARROW_FLYBY_SOUND_EVENT = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
