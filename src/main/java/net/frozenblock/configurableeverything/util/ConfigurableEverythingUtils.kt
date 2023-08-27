@@ -23,37 +23,37 @@ fun text(key: String?): Component = Component.translatable("option.$MOD_ID.$key"
 fun tooltip(key: String?): Component = Component.translatable("tooltip.$MOD_ID.$key")
 
 // LOGGING
-fun log(string: String?, shouldLog: Boolean) {
+fun log(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info(string)
     }
 }
 
-fun log(entity: Entity, string: String, shouldLog: Boolean) {
+fun log(entity: Entity, string: String, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info(entity.toString() + " : " + string + " : " + entity.position())
     }
 }
 
-fun log(block: Block, string: String, shouldLog: Boolean) {
+fun log(block: Block, string: String, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info("$block : $string : ")
     }
 }
 
-fun log(block: Block, pos: BlockPos, string: String, shouldLog: Boolean) {
+fun log(block: Block, pos: BlockPos, string: String, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info("$block : $string : $pos")
     }
 }
 
-fun logMod(string: String, shouldLog: Boolean) {
+fun logMod(string: String, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info("$string $MOD_ID")
     }
 }
 
-fun error(string: String?, shouldLog: Boolean) {
+fun error(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.error(string)
     }
