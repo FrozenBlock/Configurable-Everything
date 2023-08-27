@@ -242,6 +242,7 @@ public final class EntityConfig {
 	public SkeletonConfig skeleton = new SkeletonConfig();
 	public static class SkeletonConfig {
 		public boolean skeletonAccuracyIgnoresDifficulty = false;
+		public boolean skeletonsAvoidSun = true;
 	}
 
 	public boolean flamingArrowsLightFire = false;

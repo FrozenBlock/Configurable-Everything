@@ -80,11 +80,17 @@ public final class EntityConfigGui {
 			.setTooltip(tooltip("skeleton_accuracy_ignores_difficulty"))
 			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
 			.build();
+		var skeletonsAvoidSun = entryBuilder.startBooleanToggle(text("skeletons_avoid_sun"), skeleton.skeletonsAvoidSun)
+			.setDefaultValue(true)
+			.setSaveConsumer(newValue -> skeleton.skeletonsAvoidSun = newValue)
+			.setTooltip(tooltip("skeletons_avoid_sun"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build();
 
 		var skeletonCategory = FrozenClothConfig.createSubCategory(entryBuilder, category, text("skeleton"),
 			false,
 			tooltip("skeleton"),
-			skeletonAccuracyIgnoresDifficulty
+			skeletonAccuracyIgnoresDifficulty, skeletonsAvoidSun
 		);
 
 		var flamingArrowsLightFire = category.addEntry(

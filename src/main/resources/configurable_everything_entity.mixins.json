@@ -10,6 +10,7 @@
     "PersistentEntitySectionManagerMixin",
     "PlayerMixin",
     "skeleton.SkeletonAccuracyMixin",
+    "skeleton.SkeletonsAvoidSunMixin",
     "zombie.AllZombiesBreakDoorsMixin",
     "zombie.BabyZombieSprintMixin",
     "zombie.DoorBreakConfigGoalMixin",
