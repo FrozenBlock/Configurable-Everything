@@ -43,8 +43,6 @@ class WorldConfig {
     var sunSize = 300
     @JvmField
 	var moonSize = 200
-    @JvmField
-	var flameBowsLightFire = false
 
     @JvmField
 	@Comment("Disables the experimental warning screen when creating or loading worlds.")

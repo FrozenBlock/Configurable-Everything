@@ -48,6 +48,16 @@ public final class EntityConfigGui {
 			tooltip("zombie"),
 			allZombiesBreakDoors, babyZombieSprint
 		);
+
+		var flamingArrowsLightFire = category.addEntry(
+			entryBuilder.startBooleanToggle(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire)
+			.setDefaultValue(true)
+			.setSaveConsumer(newValue -> config.flamingArrowsLightFire = newValue)
+			.setTooltip(tooltip("flaming_arrows_light_fire"))
+			.setYesNoTextSupplier(bool -> text(String.valueOf(bool)))
+			.build()
+		);
+
 	}
 
 }

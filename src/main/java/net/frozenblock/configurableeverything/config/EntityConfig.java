@@ -1,15 +1,20 @@
 package net.frozenblock.configurableeverything.config;
 
 import java.util.List;
-
-import net.frozenblock.configurableeverything.entity.util.*;
+import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier;
+import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier;
+import net.frozenblock.configurableeverything.entity.util.EntityFlyBySound;
+import net.frozenblock.configurableeverything.entity.util.EntityFlyBySoundData;
+import net.frozenblock.configurableeverything.entity.util.EntityHurtEffects;
+import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
+import net.frozenblock.configurableeverything.entity.util.ExperienceOverride;
+import net.frozenblock.configurableeverything.entity.util.MobEffectHolder;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
 import net.frozenblock.lib.config.api.instance.json.JsonConfig;
-import net.frozenblock.lib.config.api.instance.json.JsonType;
 import net.frozenblock.lib.config.api.registry.ConfigRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -230,4 +235,6 @@ public final class EntityConfig {
 		public boolean babyZombieSprintParticles = true;
 		public boolean allZombiesBreakDoors = true;
 	}
+
+	public boolean flamingArrowsLightFire = false;
 }
