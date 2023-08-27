@@ -10,8 +10,6 @@
   "tooltip.configurable_everything.biome_placement": "Enable or disable the Biome Placement config.",
   "option.configurable_everything.datafixer": "Datafixer",
   "tooltip.configurable_everything.datafixer": "Enable or disable the Datafixer config.",
-  "option.configurable_everything.entity": "Entity",
-  "tooltip.configurable_everything.entity": "Enable or disable the Entity config.",
   "option.configurable_everything.fluid": "Fluid",
   "tooltip.configurable_everything.fluid": "Enable or disable the Fluid config.",
   "option.configurable_everything.game": "Game",
@@ -33,6 +31,11 @@
   "tooltip.configurable_everything.datapack_biome_placement": "Enable or disable biome placement changes from datapacks.",
   "option.configurable_everything.json5_support": "JSON5 Support",
   "tooltip.configurable_everything.json5_support": "Enable or disable support for JSON5 files in datapacks.",
+
+  "option.configurable_everything.entity": "Entity",
+  "tooltip.configurable_everything.entity": "Enable or disable the Entity config.",
+  "option.configurable_everything.sound_event_flyby_sounds": "Sound Event-Linked Flyby Sounds",
+  "tooltip.configurable_everything.sound_event_flyby_sounds": "Enables Flyby sounds that are linked to different Sound Events.\nIndividual sounds can be controlled via config file.",
 
   "option.configurable_everything.player": "Player",
   "tooltip.configurable_everything.player": "Contains options for the Player.",

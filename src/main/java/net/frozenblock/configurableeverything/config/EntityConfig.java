@@ -70,7 +70,7 @@ public final class EntityConfig {
 		ENTITY_ATTRIBUTE_AMPLIFIERS,
 		List.of(
 			new EntityAttributeAmplifier(
-				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("player")),
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("example")),
 				"",
 				List.of(
 					new AttributeAmplifier(
@@ -86,7 +86,7 @@ public final class EntityConfig {
 		EXPERIENCE_OVERRIDES,
 		List.of(
 			new ExperienceOverride(
-				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("example_cow")),
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("example")),
 				5000
 			)
 		)
@@ -204,7 +204,7 @@ public final class EntityConfig {
 		SPOTTING_ICONS,
 		List.of(
 			new EntitySpottingIcon(
-				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("creeper")),
+				ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("example")),
 				ConfigurableEverythingUtilsKt.id("textures/spotting_icon/icon.png"),
 				5F,
 				8F
