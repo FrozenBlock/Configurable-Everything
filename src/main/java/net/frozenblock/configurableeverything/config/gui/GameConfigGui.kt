@@ -41,7 +41,7 @@ object GameConfigGui {
             false,
             Optional::empty,
             { newValue ->
-                val entry = defaultConfig.testing!!
+                var entry = defaultConfig.testing!!
                 entry = TypedEntry(entry.type(), newValue)
                 config.testing = entry
             },
