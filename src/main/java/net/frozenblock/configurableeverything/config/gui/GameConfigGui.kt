@@ -41,9 +41,7 @@ object GameConfigGui {
             false,
             Optional::empty,
             { newValue ->
-                var entry = defaultConfig.testing!!
-                entry = TypedEntry(entry.type(), newValue)
-                config.testing = entry
+                config.testing = TypedEntry(defaultConfig.testing.type, newValue)
             },
             { listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0))},
             entryBuilder.getResetButtonKey(),
