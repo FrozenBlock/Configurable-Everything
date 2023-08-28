@@ -10,6 +10,7 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
 import net.minecraft.network.chat.Component
+import net.minecraft.world.phys.Vec3
 
 @Environment(EnvType.CLIENT)
 object GameConfigGui {
