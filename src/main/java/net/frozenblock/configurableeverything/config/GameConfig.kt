@@ -56,9 +56,9 @@ class GameConfig {
     var testing: TypedEntry<List<Vec3>>? = TypedEntry(
         TEST,
         listOf(
-            Vec3(1, 1, 1),
-            Vec3(2, 2, 2),
-            Vec3(69, 420, 5)
+            Vec3(1.0, 1.0, 1.0),
+            Vec3(2.0, 2.0, 2.0),
+            Vec3(69.0, 420.0, 5.0)
         )
     )
 }
