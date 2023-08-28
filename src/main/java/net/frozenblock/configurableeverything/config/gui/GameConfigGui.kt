@@ -33,7 +33,7 @@ object GameConfigGui {
 
         category.addEntry(NestedListListEntry(
             Component.literal("Test"),
-            config.testing,
+            config.testing.value,
             false,
             Optional::empty,
             { newValue -> config.testing.value = newValue},
