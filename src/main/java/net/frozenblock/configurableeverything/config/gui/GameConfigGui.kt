@@ -18,7 +18,7 @@ import java.util.Optional
 object GameConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = GameConfig.get()
-        val defaultConfig = GameConfig.getConfigInstance().defaultConfig()
+        val defaultConfig = GameConfig.getConfigInstance().defaultInstance()
         category.background = id("textures/config/game.png")
 
         category.addEntry(entryBuilder.startStrField(text("windowTitle"), config.windowTitle ?: "")
