@@ -16,6 +16,7 @@ import net.minecraft.world.phys.Vec3
 object GameConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = GameConfig.get()
+        val defaultConfig = GameConfig.getConfigInstance().getDefaultConfig()
         category.background = id("textures/config/game.png")
 
         category.addEntry(entryBuilder.startStrField(text("windowTitle"), config.windowTitle ?: "")
@@ -37,7 +38,11 @@ object GameConfigGui {
             config.testing?.value ?: listOf(Vec3(1, 1, 1), Vec3(2, 2, 2), Vec3(69, 420, 5)),
             false,
             Optional::empty,
-            { newValue -> config.testing.value = newValue},
+            { newValue ->
+                val entry = defaultConfig.testing
+                entry.value = newValue
+                config.testing = entry
+            },
             { listOf(Vec3(1, 1, 1), Vec3(2, 2, 2), Vec3(69, 420, 5))},
             entryBuilder.getResetButtonKey(),
             true,
