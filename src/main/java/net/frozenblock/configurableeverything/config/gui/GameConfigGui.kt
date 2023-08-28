@@ -4,6 +4,7 @@ import me.shedaniel.clothconfig2.api.*
 import me.shedaniel.clothconfig2.gui.entries.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.configurableeverything.config.GameConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
@@ -11,6 +12,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
 import net.minecraft.network.chat.Component
 import net.minecraft.world.phys.Vec3
+import java.util.Optional
 
 @Environment(EnvType.CLIENT)
 object GameConfigGui {
@@ -35,12 +37,12 @@ object GameConfigGui {
 
         category.addEntry(NestedListListEntry(
             Component.literal("Test"),
-            config.testing?.value ?: listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0)),
+            config.testing?.value() ?: listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0)),
             false,
             Optional::empty,
             { newValue ->
                 val entry = defaultConfig.testing!!
-                entry.value = newValue
+                entry = TypedEntry(entry.type(), newValue)
                 config.testing = entry
             },
             { listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0))},
