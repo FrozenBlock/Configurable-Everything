@@ -34,7 +34,7 @@ object GameConfigGui {
 
         category.addEntry(NestedListListEntry(
             Component.literal("Test"),
-            config.testing.value,
+            config.testing.value ?: listOf(Vec3(1, 1, 1), Vec3(2, 2, 2), Vec3(69, 420, 5)),
             false,
             Optional::empty,
             { newValue -> config.testing.value = newValue},
