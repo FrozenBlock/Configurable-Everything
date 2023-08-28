@@ -39,7 +39,7 @@ object GameConfigGui {
             false,
             Optional::empty,
             { newValue ->
-                val entry = defaultConfig.testing
+                val entry = defaultConfig.testing!!
                 entry.value = newValue
                 config.testing = entry
             },
