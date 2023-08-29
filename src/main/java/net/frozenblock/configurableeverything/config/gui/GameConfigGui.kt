@@ -39,7 +39,7 @@ object GameConfigGui {
             Component.literal("Test"),
             config.testing?.value() ?: listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0)),
             false,
-            Optional::empty,
+            { Optional.empty() },
             { newValue ->
                 config.testing = TypedEntry(defaultConfig.testing!!.type, newValue)
             },
@@ -47,27 +47,16 @@ object GameConfigGui {
             entryBuilder.getResetButtonKey(),
             true,
             true,
-            { (elem, nestedListListEntry) ->
-                if (elem == null) {
-                    val newDefault = Vec3(1.0, 1.0, 1.0)
-                    return MultiElementListEntry(Component.literal("Vec3"), newDefault,
-                        listOf(
-                            entryBuilder.startDoubleField(Component.literal("x"), newDefault.x).setDefaultValue(1.0).build(),
-                            entryBuilder.startDoubleField(Component.literal("y"), newDefault.y).setDefaultValue(1.0).build()
-                            entryBuilder.startDoubleField(Component.literal("z"), newDefault.z).setDefaultValue(1.0).build()
-                        ),
-                        true
-                    )
-                } else {
-                    return MultiElementListEntry(Component.literal("Vec3"), elem,
-                        listOf(
-                            entryBuilder.startDoubleField(Component.literal("x"), elem.x).setDefaultValue(1.0).build(),
-                            entryBuilder.startDoubleField(Component.literal("y"), elem.y).setDefaultValue(1.0).build(),
-                            entryBuilder.startDoubleField(Component.literal("z"), elem.z).setDefaultValue(1.0).build()
-                        ),
-                        true
-                    )
-                }
+            { elem, nestedListListEntry ->
+                val newDefault = Vec3(1.0, 1.0, 1.0)
+                MultiElementListEntry(Component.literal("Vec3"), elem ?: newDefault,
+                    listOf(
+                        entryBuilder.startDoubleField(Component.literal("x"), newDefault.x).setDefaultValue(1.0).build(),
+                        entryBuilder.startDoubleField(Component.literal("y"), newDefault.y).setDefaultValue(1.0).build(),
+                        entryBuilder.startDoubleField(Component.literal("z"), newDefault.z).setDefaultValue(1.0).build()
+                    ),
+                    true
+                )
             }
         ))
     }
