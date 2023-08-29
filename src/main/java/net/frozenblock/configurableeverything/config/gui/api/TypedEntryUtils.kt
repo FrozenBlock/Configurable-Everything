@@ -44,8 +44,7 @@ object TypedEntryUtils {
             //New Cell Creation
             {
             element, nestedListListEntry ->
-                val newDefault = Vec3(1.0, 1.0, 1.0)
-                val usedValue = element ?: newDefault
+                val usedValue = element ?: Vec3(1.0, 1.0, 1.0)
                 MultiElementListEntry(
                     //Name
                     entryTitle,
