@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.minecraft.network.chat.Component
-import net.minecraft.world.phys.Vec3
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -15,12 +14,12 @@ import java.util.function.Supplier
 object TypedEntryUtils {
 
     @JvmStatic
-    fun setupVec3TypedEntries(entryBuilder: ConfigEntryBuilder, entrySupplier: Supplier<TypedEntry<List<Vec3>>>, setterConsumer: Consumer<TypedEntry<List<Vec3>>>, title: Component, entryTitle: Component): NestedListListEntry<Vec3, AbstractConfigListEntry<Vec3>> {
+    fun setupVec3TypedEntries(entryBuilder: ConfigEntryBuilder, entrySupplier: Supplier<TypedEntry<List<MutableVec3>>>, setterConsumer: Consumer<TypedEntry<List<MutableVec3>>>, title: Component, entryTitle: Component): NestedListListEntry<MutableVec3, AbstractConfigListEntry<MutableVec3>> {
         return NestedListListEntry(
             //Name
             title,
             //Value
-            entrySupplier.get()?.value() ?: listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0)),
+            entrySupplier.get()?.value() ?: listOf(MutableVec3(1.0, 1.0, 1.0), MutableVec3(2.0, 2.0, 2.0), MutableVec3(69.0, 420.0, 5.0)),
             //Expanded By Default
             false,
             //Tooltip Supplier
@@ -33,33 +32,38 @@ object TypedEntryUtils {
             },
             //Default Value
             {
-                listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0))
+                listOf(MutableVec3(1.0, 1.0, 1.0), MutableVec3(2.0, 2.0, 2.0), MutableVec3(69.0, 420.0, 5.0))
             },
             //Reset Button
             entryBuilder.resetButtonKey,
             //Delete Button Enabled
             true,
             //Insert In Front
-            true,
-            //New Cell Creation
-            {
-            element, nestedListListEntry ->
-                val usedValue = element ?: Vec3(1.0, 1.0, 1.0)
-                MultiElementListEntry(
-                    //Name
-                    entryTitle,
-                    //Default Value
-                    usedValue,
-                    listOf(
-                        entryBuilder.startDoubleField(Component.literal("x"), usedValue.x).setDefaultValue(1.0).build(),
-                        entryBuilder.startDoubleField(Component.literal("y"), usedValue.y).setDefaultValue(1.0).build(),
-                        entryBuilder.startDoubleField(Component.literal("z"), usedValue.z).setDefaultValue(1.0).build()
-                    ),
-                    //Expanded By Default
-                    true
-                )
-            }
+            true
         )
+        //New Cell Creation
+        { element, nestedListListEntry ->
+            val usedValue = element ?: MutableVec3(1.0, 1.0, 1.0)
+            MultiElementListEntry(
+                entryTitle,
+                usedValue, //Default Value
+                listOf(
+                    entryBuilder.startDoubleField(Component.literal("x"), usedValue.x)
+                        .setDefaultValue(1.0).setSaveConsumer { x ->
+                            usedValue.setX(x)
+                        }.build(),
+                    entryBuilder.startDoubleField(Component.literal("y"), usedValue.y)
+                        .setDefaultValue(1.0).setSaveConsumer { y ->
+                            usedValue.setY(y)
+                        }.build(),
+                    entryBuilder.startDoubleField(Component.literal("z"), usedValue.z)
+                        .setDefaultValue(1.0).setSaveConsumer { z ->
+                            usedValue.setZ(z)
+                        }.build()
+                ),
+                true
+            )
+        }
     }
 
 }
