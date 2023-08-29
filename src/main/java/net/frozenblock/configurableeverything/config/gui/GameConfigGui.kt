@@ -6,16 +6,18 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.configurableeverything.config.GameConfig
+import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
-import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
 import net.minecraft.network.chat.Component
 import net.minecraft.world.phys.Vec3
 import java.util.Optional
+import java.util.function.Supplier
 
 @Environment(EnvType.CLIENT)
 object GameConfigGui {
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = GameConfig.get()
         val defaultConfig = GameConfig.getConfigInstance().defaultInstance()
@@ -35,29 +37,20 @@ object GameConfigGui {
             .build()
         )
 
-        category.addEntry(NestedListListEntry(
-            Component.literal("Test"),
-            config.testing?.value() ?: listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0)),
-            false,
-            { Optional.empty() },
-            { newValue ->
-                config.testing = TypedEntry(defaultConfig.testing!!.type, newValue)
-            },
-            { listOf(Vec3(1.0, 1.0, 1.0), Vec3(2.0, 2.0, 2.0), Vec3(69.0, 420.0, 5.0))},
-            entryBuilder.getResetButtonKey(),
-            true,
-            true,
-            { elem, nestedListListEntry ->
-                val newDefault = Vec3(1.0, 1.0, 1.0)
-                MultiElementListEntry(Component.literal("Vec3"), elem ?: newDefault,
-                    listOf(
-                        entryBuilder.startDoubleField(Component.literal("x"), newDefault.x).setDefaultValue(1.0).build(),
-                        entryBuilder.startDoubleField(Component.literal("y"), newDefault.y).setDefaultValue(1.0).build(),
-                        entryBuilder.startDoubleField(Component.literal("z"), newDefault.z).setDefaultValue(1.0).build()
-                    ),
-                    true
-                )
-            }
-        ))
+        category.addEntry(
+            TypedEntryUtils.setupVec3TypedEntries(
+                entryBuilder,
+                {
+                    config.testing
+                },
+                {
+                    newValue -> config.testing = newValue
+                },
+                Component.literal("Test"),
+                Component.literal("Vec3")
+            )
+        )
+
     }
+
 }

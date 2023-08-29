@@ -53,7 +53,7 @@ class GameConfig {
 
     @JvmField
     @Comment("Im just testing Cloth Config typed entries")
-    var testing: TypedEntry<List<Vec3>>? = TypedEntry(
+    var testing: TypedEntry<List<Vec3>> = TypedEntry(
         TEST,
         listOf(
             Vec3(1.0, 1.0, 1.0),
