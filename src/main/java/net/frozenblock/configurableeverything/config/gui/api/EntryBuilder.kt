@@ -2,10 +2,13 @@ package net.frozenblock.configurableeverything.config.gui.api
 
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.network.chat.Component
 import java.util.function.Consumer
 
+@Environment(EnvType.CLIENT)
 data class EntryBuilder<T>(val title: Component, val value: T?, val defaultValue: T, val saveConsumer: Consumer<T> val tooltip: Component? = null) {
 
     fun build(entryBuilder: ConfigEntryBuilder): AbstractConfigListEntry<out Any>? {
