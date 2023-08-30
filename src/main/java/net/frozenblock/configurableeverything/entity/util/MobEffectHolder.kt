@@ -6,8 +6,14 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.effect.MobEffect
 
-@JvmRecord
-data class MobEffectHolder(val effect: ResourceKey<MobEffect>?, val duration: Int?, val amplifier: Int?, val ambient: Boolean?, val visible: Boolean?, val showIcon: Boolean?) {
+data class MobEffectHolder(
+    @JvmField var effect: ResourceKey<MobEffect>?,
+    @JvmField var duration: Int?,
+    @JvmField var amplifier: Int?,
+    @JvmField var ambient: Boolean?,
+    @JvmField var visible: Boolean?,
+    @JvmField var showIcon: Boolean?
+) {
     companion object {
         @JvmField
         val CODEC: Codec<MobEffectHolder> = RecordCodecBuilder.create { instance ->

@@ -6,8 +6,11 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.EntityType
 
-@JvmRecord
-data class EntityHurtEffects(val entity: ResourceKey<EntityType<*>>, val entityName: String, val effects: List<MobEffectHolder>) {
+data class EntityHurtEffects(
+    @JvmField var entity: ResourceKey<EntityType<*>>,
+    @JvmField var entityName: String,
+    @JvmField var effects: List<MobEffectHolder>
+) {
     companion object {
         @JvmField
         val CODEC: Codec<EntityHurtEffects> = RecordCodecBuilder.create { instance ->

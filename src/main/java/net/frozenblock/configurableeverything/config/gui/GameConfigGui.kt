@@ -6,15 +6,13 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.configurableeverything.config.GameConfig
+import net.frozenblock.configurableeverything.config.gui.api.EntryBuilder
 import net.frozenblock.configurableeverything.config.gui.api.MutableVec3
 import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.minecraft.network.chat.Component
-import net.minecraft.world.phys.Vec3
-import java.util.Optional
-import java.util.function.Supplier
 
 @Environment(EnvType.CLIENT)
 object GameConfigGui {
@@ -26,7 +24,7 @@ object GameConfigGui {
 
         category.addEntry(EntryBuilder(text("windowTitle"), config.windowTitle,
             defaultConfig.windowTitle,
-            { newValue: String? -> config.windowTitle = newValue }
+            { newValue: String? -> config.windowTitle = newValue },
             tooltip("windowTitle")
         ).build(entryBuilder))
 
@@ -41,8 +39,9 @@ object GameConfigGui {
             TypedEntryUtils.makeTypedEntryList(
                 entryBuilder,
                 Component.literal("Test"),
-                { config.testing },
-                { defaultConfig.testing },
+                config::testing,
+                defaultConfig::testing,
+                true,
                 Component.literal("Cool tooltip"),
                 { newValue -> config.testing = newValue },
                 { element, nestedListListEntry ->
@@ -56,7 +55,7 @@ object GameConfigGui {
                             usedValue::setX,
                             null
                         ).build(entryBuilder),
-                        EntryBuilder(Component.literal("y"), usedValue.y
+                        EntryBuilder(Component.literal("y"), usedValue.y,
                             0.0,
                             usedValue::setY,
                             null

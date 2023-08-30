@@ -9,48 +9,73 @@ import net.minecraft.network.chat.Component
 import java.util.function.Consumer
 
 @Environment(EnvType.CLIENT)
-data class EntryBuilder<T>(val title: Component, val value: T?, val defaultValue: T, val saveConsumer: Consumer<T> val tooltip: Component? = null) {
+data class EntryBuilder<T>(val title: Component, val value: T?, val defaultValue: T, val saveConsumer: Consumer<T>, val tooltip: Component? = null, val requiresRestart: Boolean? = false) {
 
-    fun build(entryBuilder: ConfigEntryBuilder): AbstractConfigListEntry<out Any>? {
+    fun build(entryBuilder: ConfigEntryBuilder): AbstractConfigListEntry<out Any> {
         val usedValue: T = value ?: defaultValue
         return when (usedValue) {
             is Boolean -> {
-                val field = entryBuilder.startBooleanToggle(title, usedValue)
+                entryBuilder.startBooleanToggle(title, usedValue)
                     .setDefaultValue(defaultValue as Boolean)
                     .setSaveConsumer(saveConsumer as Consumer<Boolean>)
                     .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-                tooltip?.let { field.setTooltip(it) }
-                field.build()
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
             }
             is Int -> {
-                val field = entryBuilder.startIntField(title, usedValue)
+                entryBuilder.startIntField(title, usedValue)
                     .setDefaultValue(defaultValue as Int)
                     .setSaveConsumer(saveConsumer as Consumer<Int>)
-                tooltip?.let { field.setTooltip(it) }
-                field.build()
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
             }
             is Float -> {
-                val field = entryBuilder.startFloatField(title, usedValue)
+                entryBuilder.startFloatField(title, usedValue)
                     .setDefaultValue(defaultValue as Float)
                     .setSaveConsumer(saveConsumer as Consumer<Float>)
-                tooltip?.let { field.setTooltip(it) }
-                field.build()
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
             }
             is Double -> {
-                val field = entryBuilder.startDoubleField(title, usedValue)
+                entryBuilder.startDoubleField(title, usedValue)
                     .setDefaultValue(defaultValue as Double)
                     .setSaveConsumer(saveConsumer as Consumer<Double>)
-                tooltip?.let { field.setTooltip(it) }
-                field.build()
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
             }
             is String -> {
-                val field = entryBuilder.startStrField(title, usedValue)
+                entryBuilder.startStrField(title, usedValue)
                     .setDefaultValue(defaultValue as String)
                     .setSaveConsumer(saveConsumer as Consumer<String>)
-                tooltip?.let { field.setTooltip(it) }
-                field.build()
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
             }
-            else -> throw IllegalArgumentException("Unsupported type: ${usedValue::class.java}")
+            is Color -> {
+                entryBuilder.startColorField(title, usedValue.color)
+                    .setDefaultValue((defaultValue as Color).color)
+                    .setSaveConsumer(saveConsumer as Consumer<Int>)
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
+            }
+            else -> throw IllegalArgumentException("Unsupported type: ${usedValue!!::class.java}")
         }
     }
 }

@@ -15,10 +15,10 @@ import java.util.function.Supplier
 object TypedEntryUtils {
 
     @JvmStatic
-    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
+    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>, requiresRestart: Boolean = false): NestedListListEntry<T, AbstractConfigListEntry<T>> {
         val typedEntry: TypedEntry<List<T>> = entrySupplier?.get() ?: defaultValue.get()
 
-        return NestedListListEntry(
+        val entry = NestedListListEntry(
             // Name
             title,
             // Value
@@ -44,6 +44,40 @@ object TypedEntryUtils {
             // New Cell Creation
             cellCreator
         )
+        if (requiresRestart) entry.isRequiresRestart = true
+        return entry
+    }
+
+    @JvmStatic
+    fun <T> makeNestedList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<List<T>?>?, defaultValue: Supplier<List<T>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<List<T>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>, requiresRestart: Boolean = false): NestedListListEntry<T, AbstractConfigListEntry<T>> {
+        val value: List<T> = entrySupplier?.get() ?: defaultValue.get()
+
+        return NestedListListEntry(
+            // Name
+            title,
+            // Value
+            value,
+            // Expanded By Default
+            expandedByDefault,
+            // Tooltip Supplier
+            {
+                Optional.of(arrayOf(tooltip))
+            },
+            // Save Consumer
+            {
+                    newValue -> setterConsumer.accept(value)
+            },
+            // Default Value
+            defaultValue::get,
+            // Reset Button
+            entryBuilder.resetButtonKey,
+            // Delete Button Enabled
+            true,
+            // Insert In Front
+            true,
+            // New Cell Creation
+            cellCreator
+        ).let {it.isRequiresRestart = requiresRestart; it}
     }
 
     @JvmStatic
@@ -71,11 +105,11 @@ object TypedEntryUtils {
         )
     }
 
-    fun <T> makeMultiElementEntry(title: Component, value: T, defaultExpanded: Boolean = true, vararg entries: AbstractConfigListEntry<out Any>): MultiElementListEntry<T> =
+    fun <T> makeMultiElementEntry(title: Component, value: T, defaultExpanded: Boolean = true, vararg entries: AbstractConfigListEntry<out Any>, requiresRestart: Boolean = false): MultiElementListEntry<T> =
         MultiElementListEntry(
             title,
             value, // Default Value
             entries.asList(),
             defaultExpanded
-        )
+        ).let { it.isRequiresRestart = requiresRestart; it }
 }

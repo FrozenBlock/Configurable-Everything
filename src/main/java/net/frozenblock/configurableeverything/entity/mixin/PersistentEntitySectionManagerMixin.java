@@ -29,16 +29,16 @@ public class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
 			&& (MainConfig.get().entity && (config.entityAttributeAmplifiers != null && config.entityAttributeAmplifiers.value() != null))) {
 				List<EntityAttributeAmplifier> entityAttributeMultipliers = config.entityAttributeAmplifiers.value();
 				for (EntityAttributeAmplifier entityAttributeAmplifier : entityAttributeMultipliers) {
-					if (entityAttributeAmplifier.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()))) {
-						Component entityName = Component.literal(entityAttributeAmplifier.entityName());
+					if (entityAttributeAmplifier.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()))) {
+						Component entityName = Component.literal(entityAttributeAmplifier.entityName);
 						if (entityName.getString().isEmpty() || entityName.equals(entity.getName())) {
 							AttributeMap attributes = entity.getAttributes();
-							for (AttributeAmplifier amplifier : entityAttributeAmplifier.amplifiers()) {
-								AttributeInstance attribute = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifier.attribute()));
+							for (AttributeAmplifier amplifier : entityAttributeAmplifier.amplifiers) {
+								AttributeInstance attribute = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifier.attribute));
 								attribute.addTransientModifier(
 									new AttributeModifier(
-										"Configurable Everything Entity Config " + amplifier.attribute().location() + " change to " + entity.getName(),
-										amplifier.amplifier() - 1.0,
+										"Configurable Everything Entity Config " + amplifier.attribute.location() + " change to " + entity.getName(),
+										amplifier.amplifier - 1.0,
 										AttributeModifier.Operation.MULTIPLY_TOTAL
 									)
 								);

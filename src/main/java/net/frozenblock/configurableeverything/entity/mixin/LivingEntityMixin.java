@@ -30,8 +30,8 @@ public abstract class LivingEntityMixin extends Entity {
 		if (MainConfig.get().entity == true && config.experienceOverrides != null && config.experienceOverrides.value() != null) {
 			var experienceOverrides = config.experienceOverrides.value();
 			for (var override : experienceOverrides) {
-				if (override.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
-					return override.amount();
+				if (override.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+					return override.amount;
 				}
 			}
 		}
@@ -46,14 +46,14 @@ public abstract class LivingEntityMixin extends Entity {
 				if (config.entityHurtEffects != null && config.entityHurtEffects.value() != null) {
 					var entityHurtEffects = config.entityHurtEffects.value();
 					for (EntityHurtEffects hurtEffects : entityHurtEffects) {
-						if (hurtEffects.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
-							var name = hurtEffects.entityName();
+						if (hurtEffects.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+							var name = hurtEffects.entityName;
 							if (name.isEmpty() || livingEntity.getName().getString().equals(name)) {
-								List<MobEffectHolder> effects = hurtEffects.effects();
+								List<MobEffectHolder> effects = hurtEffects.effects;
 								for (MobEffectHolder effect : effects) {
-									var mobEffect = BuiltInRegistries.MOB_EFFECT.getOrThrow(effect.effect());
-									var duration = effect.duration();
-									livingEntity.addEffect(new MobEffectInstance(mobEffect, duration == -1 ? duration : duration * 20, effect.amplifier(), effect.ambient(), effect.visible(), effect.showIcon()), this);
+									var mobEffect = BuiltInRegistries.MOB_EFFECT.getOrThrow(effect.effect);
+									var duration = effect.duration;
+									livingEntity.addEffect(new MobEffectInstance(mobEffect, duration == -1 ? duration : duration * 20, effect.amplifier, effect.ambient, effect.visible, effect.showIcon), this);
 								}
 							}
 						}

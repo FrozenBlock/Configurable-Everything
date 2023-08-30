@@ -25,9 +25,9 @@ public abstract class EntityMixin {
 			if (config.entitySpottingIcons != null && config.entitySpottingIcons.value() != null) {
 				var entitySpottingIcons = config.entitySpottingIcons.value();
 				for (EntitySpottingIcon spottingIcon : entitySpottingIcons) {
-					if (spottingIcon.entity().location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
+					if (spottingIcon.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
 						((EntitySpottingIconInterface) Entity.class.cast(this)).getSpottingIconManager()
-							.setIcon(spottingIcon.texture(), spottingIcon.startFade(), spottingIcon.endFade(), SpottingIconPredicate.DEFAULT_ID);
+							.setIcon(spottingIcon.texture, spottingIcon.startFade, spottingIcon.endFade, SpottingIconPredicate.DEFAULT_ID);
 					}
 				}
 			}
