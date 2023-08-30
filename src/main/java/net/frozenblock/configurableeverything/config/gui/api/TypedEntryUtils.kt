@@ -15,7 +15,7 @@ import java.util.function.Supplier
 object TypedEntryUtils {
 
     @JvmStatic
-    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
+    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
         val typedEntry: TypedEntry<T> = entrySupplier?.get() ?: defaultValue.get()
 
         return NestedListListEntry(
@@ -34,9 +34,7 @@ object TypedEntryUtils {
                 newValue -> setterConsumer.accept(TypedEntry(typedEntry.type, newValue))
             },
             // Default Value
-            {
-                defaultValue.get().value
-            },
+            defaultValue.get()::value,
             // Reset Button
             entryBuilder.resetButtonKey,
             // Delete Button Enabled
