@@ -49,27 +49,25 @@ object TypedEntryUtils {
     @JvmStatic
     fun vec3Element(entryBuilder: ConfigEntryBuilder, title: Component, value: MutableVec3?, defaultValue: MutableVec3, expandedByDefault: Boolean = true): AbstractConfigListEntry<MutableVec3> {
         val usedValue = value ?: defaultValue
-        return MultiElementListEntry(
+        return makeMultiElementEntry(
             title,
-            usedValue, // Default Value
-            listOf(
-                EntryBuilder(Component.literal("x"), usedValue.x,
-                    0.0,
-                    null,
-                    usedValue::setX
-                ).build(entryBuilder),
-                EntryBuilder(Component.literal("y"), usedValue.y,
-                    0.0,
-                    null,
-                    usedValue::setY
-                ).build(entryBuilder),
-                EntryBuilder(Component.literal("z"), usedValue.z
-                    0.0,
-                    null,
-                    usedValue::setZ
-                ).build(entryBuilder)
-            ),
-            expandedByDefault
+            usedValue,
+            expandedByDefault,
+            EntryBuilder(Component.literal("x"), usedValue.x,
+                0.0,
+                null,
+                usedValue::setX
+            ).build(entryBuilder),
+            EntryBuilder(Component.literal("y"), usedValue.y,
+                0.0,
+                null,
+                usedValue::setY
+            ).build(entryBuilder),
+            EntryBuilder(Component.literal("z"), usedValue.z,
+                0.0,
+                null,
+                usedValue::setZ
+            ).build(entryBuilder)
         )
     }
 
@@ -104,37 +102,33 @@ object TypedEntryUtils {
         //New Cell Creation
         { element, nestedListListEntry ->
             val usedValue = element ?: MutableVec3(1.0, 1.0, 1.0)
-            MultiElementListEntry(
+            makeMultiElementEntry(
                 entryTitle,
-                usedValue, //Default Value
-                listOf(
-                    EntryBuilder(Component.literal("x"), usedValue.x,
-                        1.0,
-                        null,
-                        usedValue::setX
-                    ).build(entryBuilder),
-                    EntryBuilder(Component.literal("y"), usedValue.y,
-                        1.0,
-                            null,
-                        usedValue::setY
-                    ).build(entryBuilder),
-                    EntryBuilder(Component.literal("z"), usedValue.z,
-                        1.0,
-                        null,
-                        usedValue::setZ
-                    ).build(entryBuilder),
-                ),
-                true
+                usedValue,
+                true,
+                EntryBuilder(Component.literal("x"), usedValue.x,
+                    1.0,
+                    null,
+                    usedValue::setX
+                ).build(entryBuilder),
+                EntryBuilder(Component.literal("y"), usedValue.y,
+                    1.0,
+                    null,
+                    usedValue::setY
+                ).build(entryBuilder),
+                EntryBuilder(Component.literal("z"), usedValue.z,
+                    1.0,
+                    null,
+                    usedValue::setZ
+                ).build(entryBuilder),
             )
         }
     }
 
-    fun <T> makeMultiElementEntry(title: Component, value: T, defaultValue: T, list: List<AbstractConfigListEntry<out Any>>, defaultExpanded: Boolean = true): MultiElementListEntry<T> {
-        val usedEntry = value ?: defaultValue
-
+    fun <T> makeMultiElementEntry(title: Component, value: T, defaultExpanded: Boolean = true, vararg entries: AbstractConfigListEntry<out Any>): MultiElementListEntry<T> {
         return MultiElementListEntry(
             title,
-            defaultValue, // Default Value
+            value, // Default Value
             list,
             defaultExpanded
         )
