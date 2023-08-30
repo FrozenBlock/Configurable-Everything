@@ -48,18 +48,21 @@ object TypedEntryUtils {
                 entryTitle,
                 usedValue, //Default Value
                 listOf(
-                    entryBuilder.startDoubleField(Component.literal("x"), usedValue.x)
-                        .setDefaultValue(1.0).setSaveConsumer { x ->
-                            usedValue.setX(x)
-                        }.build(),
-                    entryBuilder.startDoubleField(Component.literal("y"), usedValue.y)
-                        .setDefaultValue(1.0).setSaveConsumer { y ->
-                            usedValue.setY(y)
-                        }.build(),
-                    entryBuilder.startDoubleField(Component.literal("z"), usedValue.z)
-                        .setDefaultValue(1.0).setSaveConsumer { z ->
-                            usedValue.setZ(z)
-                        }.build()
+                    EntryBuilder(Component.literal("x"), usedValue.x,
+                        1.0,
+                        null,
+                        usedValue::setX
+                    ).build(entryBuilder),
+                    EntryBuilder(Component.literal("y"), usedValue.y,
+                        1.0,
+                            null,
+                        usedValue::setY
+                    ).build(entryBuilder),
+                    EntryBuilder(Component.literal("z"), usedValue.z,
+                        1.0,
+                        null,
+                        usedValue::setZ
+                    ).build(entryBuilder),
                 ),
                 true
             )
