@@ -38,19 +38,38 @@ object GameConfigGui {
         )
 
         category.addEntry(
-            TypedEntryUtils.setupVec3TypedEntries(
+            TypedEntryUtils.makeTypedEntryList(
                 entryBuilder,
-                {
-                    config.testing
-                },
-                {
-                    newValue -> config.testing = newValue
-                },
                 Component.literal("Test"),
-                Component.literal("Vec3")
+                { config.testing },
+                { defaultConfig.testing },
+                Component.literal("Cool tooltip"),
+                { newValue -> config.testing = newValue },
+                { element, nestedListListEntry ->
+                    val usedValue = element ?: MutableVec3(1.0, 1.0, 1.0)
+                    TypedEntryUtils.makeMultiElementEntry(
+                        Component.literal("Vec3"),
+                        usedValue,
+                        true,
+                        EntryBuilder(Component.literal("x"), usedValue.x,
+                            0.0,
+                            null,
+                            usedValue::setX
+                        ).build(entryBuilder),
+                        EntryBuilder(Component.literal("y"), usedValue.y
+                            0.0,
+                            null,
+                            usedValue::setY
+                        ).build(entryBuilder),
+                        EntryBuilder(Component.literal("z"), usedValue.z,
+                            0.0,
+                            null,
+                            usedValue::setZ
+                        ).build(entryBuilder)
+                    )
+                }
             )
         )
-
     }
 
 }
