@@ -16,7 +16,7 @@ object TypedEntryUtils {
 
     @JvmStatic
     fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
-        val typedEntry: TypedEntry<T> = entrySupplier?.get() ?: defaultValue.get()
+        val typedEntry: TypedEntry<List<T>> = entrySupplier?.get() ?: defaultValue.get()
 
         return NestedListListEntry(
             // Name
