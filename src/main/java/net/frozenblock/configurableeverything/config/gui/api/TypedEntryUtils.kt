@@ -67,7 +67,7 @@ object TypedEntryUtils {
                     0.0,
                     null,
                     usedValue::setZ
-                )
+                ).build(entryBuilder)
             ),
             expandedByDefault
         )
