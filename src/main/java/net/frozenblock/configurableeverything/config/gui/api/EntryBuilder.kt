@@ -12,12 +12,35 @@ data class EntryBuilder<T>(val title: Component, val value: T, val defaultValue:
     fun build(entryBuilder: ConfigEntryBuilder): AbstractConfigListEntry<out Any>? {
         if (value == null) return null
         return when (value) {
-            is Boolean -> entryBuilder.startBooleanToggle(title, value)
-                .setDefaultValue(defaultValue as Boolean)
-                .setTooltip(tooltip)
-                .setSaveConsumer(saveConsumer as Consumer<Boolean>)
-                .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-                .build()
+            is Boolean -> {
+                val field = entryBuilder.startBooleanToggle(title, value)
+                    .setDefaultValue(defaultValue as Boolean)
+                    .setSaveConsumer(saveConsumer as Consumer<Boolean>)
+                    .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
+                tooltip?.let { field.setTooltip(it) }
+                field.build()
+            }
+            is Int -> {
+                val field = entryBuilder.startIntSlider(title, value, 0, 100)
+                    .setDefaultValue(defaultValue as Int)
+                    .setSaveConsumer(saveConsumer as Consumer<Int>)
+                tooltip?.let { field.setTooltip(it) }
+                field.build()
+            }
+            is Float -> {
+                val field = entryBuilder.startFloatField(title, value)
+                    .setDefaultValue(defaultValue as Float)
+                    .setSaveConsumer(saveConsumer as Consumer<Float>)
+                tooltip?.let { field.setTooltip(it) }
+                field.build()
+            }
+            is Double -> {
+                val field = entryBuilder.startDoubleField(title, value)
+                    .setDefaultValue(defaultValue as Double)
+                    .setSaveConsumer(saveConsumer as Consumer<Double>)
+                tooltip?.let { field.setTooltip(it) }
+                field.build()
+            }
             is String -> {
                 val field = entryBuilder.startStrField(title, value)
                     .setDefaultValue(defaultValue as String)
