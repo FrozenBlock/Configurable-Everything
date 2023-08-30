@@ -21,7 +21,7 @@ data class EntryBuilder<T>(val title: Component, val value: T, val defaultValue:
                 field.build()
             }
             is Int -> {
-                val field = entryBuilder.startIntSlider(title, value, 0, 100)
+                val field = entryBuilder.startIntField(title, value)
                     .setDefaultValue(defaultValue as Int)
                     .setSaveConsumer(saveConsumer as Consumer<Int>)
                 tooltip?.let { field.setTooltip(it) }
