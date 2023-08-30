@@ -7,11 +7,46 @@ import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.minecraft.network.chat.Component
 import java.util.*
+import java.util.function.BiFunction
 import java.util.function.Consumer
 import java.util.function.Supplier
 
 @Environment(EnvType.CLIENT)
 object TypedEntryUtils {
+
+    @JvmStatic
+    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<T>?>?, defaultValue: Supplier<TypedEntry<T>>, expandedByDefault: Boolean, tooltip: Component, setterConsumer: Consumer<TypedEntry<T>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
+        val typedEntry: TypedEntry<T> = entrySupplier?.get() ?: defaultValue.get()
+
+        return NestedListListEntry(
+            // Name
+            title,
+            // Value
+            typedEntry.value,
+            // Expanded By Default
+            expandedByDefault,
+            // Tooltip Supplier
+            {
+                Optional.of(tooltip)
+            },
+            // Save Consumer
+            {
+                newValue -> setterConsumer.accept(TypedEntry(typedEntry.type, newValue))
+            },
+            // Default Value
+            {
+                defaultValue.get().value
+            },
+            // Reset Button
+            entryBuilder.resetButtonKey,
+            // Delete Button Enabled
+            true,
+            // Insert In Front
+            true,
+            // New Cell Creation
+            cellCreator
+        )
+    }
 
     @JvmStatic
     fun setupVec3TypedEntries(entryBuilder: ConfigEntryBuilder, entrySupplier: Supplier<TypedEntry<List<MutableVec3>>?>?, setterConsumer: Consumer<TypedEntry<List<MutableVec3>>>, title: Component, entryTitle: Component): NestedListListEntry<MutableVec3, AbstractConfigListEntry<MutableVec3>> {
