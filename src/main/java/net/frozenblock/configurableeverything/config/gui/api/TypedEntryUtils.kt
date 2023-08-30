@@ -55,18 +55,18 @@ object TypedEntryUtils {
             expandedByDefault,
             EntryBuilder(Component.literal("x"), usedValue.x,
                 0.0,
-                null,
-                usedValue::setX
+                usedValue::setX,
+                null
             ).build(entryBuilder),
             EntryBuilder(Component.literal("y"), usedValue.y,
                 0.0,
-                null,
-                usedValue::setY
+                usedValue::setY,
+                null
             ).build(entryBuilder),
             EntryBuilder(Component.literal("z"), usedValue.z,
                 0.0,
-                null,
-                usedValue::setZ
+                usedValue::setZ,
+                null
             ).build(entryBuilder)
         )
     }

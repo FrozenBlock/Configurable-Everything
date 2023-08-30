@@ -24,12 +24,11 @@ object GameConfigGui {
         val defaultConfig = GameConfig.getConfigInstance().defaultInstance()
         category.background = id("textures/config/game.png")
 
-        category.addEntry(entryBuilder.startStrField(text("windowTitle"), config.windowTitle ?: "")
-            .setDefaultValue("")
-            .setSaveConsumer { newValue: String? -> config.windowTitle = newValue }
-            .setTooltip(tooltip("windowTitle"))
-            .build()
-        )
+        category.addEntry(EntryBuilder(text("windowTitle"), config.windowTitle,
+            defaultConfig.windowTitle,
+            { newValue: String? -> config.windowTitle = newValue }
+            tooltip("windowTitle")
+        ).build(entryBuilder))
 
         category.addEntry(entryBuilder.startStrField(text("versionSeries"), config.versionSeries ?: "")
             .setDefaultValue("")
@@ -54,18 +53,18 @@ object GameConfigGui {
                         true,
                         EntryBuilder(Component.literal("x"), usedValue.x,
                             0.0,
-                            null,
-                            usedValue::setX
+                            usedValue::setX,
+                            null
                         ).build(entryBuilder),
                         EntryBuilder(Component.literal("y"), usedValue.y
                             0.0,
-                            null,
-                            usedValue::setY
+                            usedValue::setY,
+                            null
                         ).build(entryBuilder),
                         EntryBuilder(Component.literal("z"), usedValue.z,
                             0.0,
-                            null,
-                            usedValue::setZ
+                            usedValue::setZ,
+                            null
                         ).build(entryBuilder)
                     )
                 }
