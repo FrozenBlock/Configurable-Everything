@@ -14,12 +14,12 @@ import java.util.function.Supplier
 object TypedEntryUtils {
 
     @JvmStatic
-    fun setupVec3TypedEntries(entryBuilder: ConfigEntryBuilder, entrySupplier: Supplier<TypedEntry<List<MutableVec3>>>, setterConsumer: Consumer<TypedEntry<List<MutableVec3>>>, title: Component, entryTitle: Component): NestedListListEntry<MutableVec3, AbstractConfigListEntry<MutableVec3>> {
+    fun setupVec3TypedEntries(entryBuilder: ConfigEntryBuilder, entrySupplier: Supplier<TypedEntry<List<MutableVec3>>?>?, setterConsumer: Consumer<TypedEntry<List<MutableVec3>>>, title: Component, entryTitle: Component): NestedListListEntry<MutableVec3, AbstractConfigListEntry<MutableVec3>> {
         return NestedListListEntry(
             //Name
             title,
             //Value
-            entrySupplier.get()?.value() ?: listOf(MutableVec3(1.0, 1.0, 1.0), MutableVec3(2.0, 2.0, 2.0), MutableVec3(69.0, 420.0, 5.0)),
+            entrySupplier?.get()?.value() ?: listOf(MutableVec3(1.0, 1.0, 1.0), MutableVec3(2.0, 2.0, 2.0), MutableVec3(69.0, 420.0, 5.0)),
             //Expanded By Default
             false,
             //Tooltip Supplier
