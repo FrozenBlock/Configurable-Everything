@@ -6,7 +6,6 @@ import net.frozenblock.configurableeverything.util.text
 import net.minecraft.network.chat.Component
 import java.util.function.Consumer
 
-@JvmRecord
 data class EntryBuilder<T>(val title: Component, val value: T, val defaultValue: T, val tooltip: Component?, val saveConsumer: Consumer<T>) {
 
     fun build(entryBuilder: ConfigEntryBuilder): AbstractConfigListEntry<out Any>? {
