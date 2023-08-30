@@ -27,7 +27,7 @@ object TypedEntryUtils {
             expandedByDefault,
             // Tooltip Supplier
             {
-                Optional.of(tooltip)
+                Optional.of(arrayOf(tooltip))
             },
             // Save Consumer
             {
