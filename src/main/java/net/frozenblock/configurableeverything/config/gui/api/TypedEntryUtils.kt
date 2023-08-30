@@ -15,7 +15,7 @@ import java.util.function.Supplier
 object TypedEntryUtils {
 
     @JvmStatic
-    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<T>?>?, defaultValue: Supplier<TypedEntry<T>>, expandedByDefault: Boolean, tooltip: Component, setterConsumer: Consumer<TypedEntry<T>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
+    fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>): NestedListListEntry<T, AbstractConfigListEntry<T>> {
         val typedEntry: TypedEntry<T> = entrySupplier?.get() ?: defaultValue.get()
 
         return NestedListListEntry(
@@ -45,6 +45,33 @@ object TypedEntryUtils {
             true,
             // New Cell Creation
             cellCreator
+        )
+    }
+
+    @JvmStatic
+    fun vec3Element(entryBuilder: ConfigEntryBuilder, title: Component, value: MutableVec3?, defaultValue: MutableVec3, expandedByDefault: Boolean = true): AbstractConfigListEntry<MutableVec3> {
+        val usedValue = value ?: defaultValue
+        return MultiElementBuilder(
+            title,
+            usedValue, // Default Value
+            listOf(
+                EntryBuilder(Component.literal("x"), usedValue.x,
+                    0.0,
+                    null,
+                    usedValue::setX
+                ).build(entryBuilder),
+                EntryBuilder(Component.literal("y"), usedValue.y,
+                    0.0,
+                    null,
+                    usedValue::setY
+                ).build(entryBuilder),
+                EntryBuilder(Component.literal("z"), usedValue.z
+                    0.0,
+                    null,
+                    usedValue::setZ
+                )
+            ),
+            expandedByDefault
         )
     }
 
