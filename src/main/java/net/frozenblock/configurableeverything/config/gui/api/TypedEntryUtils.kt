@@ -104,4 +104,14 @@ object TypedEntryUtils {
         }
     }
 
+    fun <T> makeMultiElementEntry(title: Component, value: T, defaultValue: T, list: List<AbstractConfigListEntry<out Any>, defaultExpanded: Boolean = true): MultiElementListEntry<T> {
+        val usedEntry = value ?: defaultValue
+
+        return MultiElementListEntry(
+            title,
+            defaultValue, // Default Value
+            list,
+            defaultExpanded
+        )
+    }
 }
