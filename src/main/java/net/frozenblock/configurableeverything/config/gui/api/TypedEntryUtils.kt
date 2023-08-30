@@ -28,7 +28,7 @@ object TypedEntryUtils {
             },
             //Save Consumer
             {
-                newValue -> setterConsumer.accept(TypedEntry(entrySupplier.get().type, newValue))
+                newValue -> setterConsumer.accept(TypedEntry(entrySupplier?.get()?.type, newValue))
             },
             //Default Value
             {
