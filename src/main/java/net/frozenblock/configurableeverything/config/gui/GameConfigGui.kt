@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.configurableeverything.config.GameConfig
+import net.frozenblock.configurableeverything.config.api.MutableVec3
 import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
@@ -46,7 +47,7 @@ object GameConfigGui {
                 Component.literal("Cool tooltip"),
                 { newValue -> config.testing = newValue },
                 { element, nestedListListEntry ->
-                    val usedValue = element ?: MutableVec3(1.0, 1.0, 1.0)
+                    val usedValue: MutableVec3 = element ?: MutableVec3(1.0, 1.0, 1.0)
                     TypedEntryUtils.makeMultiElementEntry(
                         Component.literal("Vec3"),
                         usedValue,
