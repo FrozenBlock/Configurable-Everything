@@ -49,7 +49,7 @@ object TypedEntryUtils {
     @JvmStatic
     fun vec3Element(entryBuilder: ConfigEntryBuilder, title: Component, value: MutableVec3?, defaultValue: MutableVec3, expandedByDefault: Boolean = true): AbstractConfigListEntry<MutableVec3> {
         val usedValue = value ?: defaultValue
-        return MultiElementBuilder(
+        return MultiElementListEntry(
             title,
             usedValue, // Default Value
             listOf(
