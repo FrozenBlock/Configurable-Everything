@@ -71,12 +71,11 @@ object TypedEntryUtils {
         )
     }
 
-    fun <T> makeMultiElementEntry(title: Component, value: T, defaultExpanded: Boolean = true, vararg entries: AbstractConfigListEntry<out Any>): MultiElementListEntry<T> {
-        return MultiElementListEntry(
+    fun <T> makeMultiElementEntry(title: Component, value: T, defaultExpanded: Boolean = true, vararg entries: AbstractConfigListEntry<out Any>): MultiElementListEntry<T> =
+        MultiElementListEntry(
             title,
             value, // Default Value
-            list,
+            entries.asList(),
             defaultExpanded
         )
-    }
 }
