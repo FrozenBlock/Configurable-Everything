@@ -134,8 +134,8 @@
 
   "option.configurable_everything.entity_spotting_icons": "Entity Spotting Icons",
   "tooltip.configurable_everything.entity_spotting_icons": "A list of entities and spotting icons associated with them.",
-  "option.configurable_everything.entity_spotting_icons.spotting icon": "Spotting Icon",
-  "tooltip.configurable_everything.entity_spotting_icons.spotting icon": "An icon that displays above an entity.",
+  "option.configurable_everything.entity_spotting_icons.spotting_icon": "Spotting Icon",
+  "tooltip.configurable_everything.entity_spotting_icons.spotting_icon": "An icon that displays above an entity.",
   "option.configurable_everything.entity_spotting_icons.entity": "Entity Type",
   "tooltip.configurable_everything.entity_spotting_icons.entity": "The type of entity to add a spotting icon to.",
   "option.configurable_everything.entity_spotting_icons.texture": "Icon texture",
