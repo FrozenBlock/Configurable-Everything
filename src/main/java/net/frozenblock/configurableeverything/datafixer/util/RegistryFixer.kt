@@ -9,8 +9,10 @@ import net.frozenblock.configurableeverything.util.log
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceLocation
 
-@JvmRecord
-data class RegistryFixer(val registryKey: ResourceLocation?, val fixers: List<Fixer?>?) {
+data class RegistryFixer(
+    @JvmField var registryKey: ResourceLocation?,
+    @JvmField var fixers: List<Fixer?>?
+) {
     companion object {
         @JvmField
 		val CODEC: Codec<RegistryFixer> = RecordCodecBuilder.create { instance ->
@@ -29,7 +31,7 @@ data class RegistryFixer(val registryKey: ResourceLocation?, val fixers: List<Fi
                 for (registryFixer in registryFixers) {
                     if (registryFixer?.registryKey == registry?.key()?.location()) {
                         if (registryFixer?.fixers == null) continue
-                        for (fixer in registryFixer.fixers) {
+                        for (fixer in registryFixer.fixers!!) {
                             if (fixer?.oldId == name) {
                                 log(
                                     "Successfully changed old ID " + name + " to new ID " + fixer.newId,

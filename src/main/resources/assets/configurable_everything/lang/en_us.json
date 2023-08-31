@@ -32,6 +32,8 @@
   "option.configurable_everything.json5_support": "JSON5 Support",
   "tooltip.configurable_everything.json5_support": "Enable or disable support for JSON5 files in datapacks.",
 
+  "option.configurable_everything.datafixer": "DataFixer",
+
   "option.configurable_everything.entity": "Entity",
   "tooltip.configurable_everything.entity": "Enable or disable the Entity config.",
   "option.configurable_everything.sound_event_flyby_sounds": "Sound Event-Linked Flyby Sounds",

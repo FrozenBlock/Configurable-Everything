@@ -3,16 +3,13 @@ package net.frozenblock.configurableeverything.config.gui.main
 import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.GameConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.SplashTextConfig
 import net.frozenblock.configurableeverything.config.WorldConfig
-import net.frozenblock.configurableeverything.config.gui.EntityConfigGui
-import net.frozenblock.configurableeverything.config.gui.GameConfigGui
-import net.frozenblock.configurableeverything.config.gui.MainConfigGui
-import net.frozenblock.configurableeverything.config.gui.SplashTextConfigGui
-import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
+import net.frozenblock.configurableeverything.config.gui.*
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
 
@@ -26,6 +23,7 @@ object ConfigurableEverythingConfigGui {
 
         configBuilder.setSavingRunnable {
             MainConfig.getConfigInstance().save()
+            DataFixerConfig.getConfigInstance().save()
             EntityConfig.getConfigInstance().save()
             GameConfig.getConfigInstance().save()
             SplashTextConfig.getConfigInstance().save()
@@ -34,6 +32,9 @@ object ConfigurableEverythingConfigGui {
 
         val main = configBuilder.getOrCreateCategory(text("main"))
         MainConfigGui.setupEntries(main, entryBuilder)
+
+        val datafixer = configBuilder.getOrCreateCategory(text("datafixer"))
+        DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
 
         val entity = configBuilder.getOrCreateCategory(text("entity"))
         EntityConfigGui.setupEntries(entity, entryBuilder)

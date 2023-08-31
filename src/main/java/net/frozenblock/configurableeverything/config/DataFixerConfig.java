@@ -84,10 +84,6 @@ public class DataFixerConfig {
 							new Fixer(
 								new ResourceLocation("examplemod:example_biome"),
 								new ResourceLocation("minecraft:forest")
-							),
-							new Fixer(
-								new ResourceLocation("examplemod:swampy_biome"),
-								new ResourceLocation("minecraft:swamp")
 							)
 						)
 					),
@@ -180,5 +176,9 @@ public class DataFixerConfig {
 
 	public static DataFixerConfig get() {
 		return INSTANCE.config();
+	}
+
+	public static Config<DataFixerConfig> getConfigInstance() {
+		return INSTANCE;
 	}
 }

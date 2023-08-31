@@ -1,15 +1,18 @@
-package net.frozenblock.configurableeverything.datafixer.util;
+package net.frozenblock.configurableeverything.datafixer.util
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.List;
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 
-public record DataFixEntry(String type, List<Fixer> fixers) {
-
-	public static final Codec<DataFixEntry> CODEC = RecordCodecBuilder.create(instance ->
-			instance.group(
-					Codec.STRING.fieldOf("type").forGetter(DataFixEntry::type),
-					Codec.list(Fixer.CODEC).fieldOf("fixers").forGetter(DataFixEntry::fixers)
-			).apply(instance, DataFixEntry::new)
-	);
+data class DataFixEntry(
+    @JvmField var type: String,
+    @JvmField var fixers: List<Fixer>
+) {
+    companion object {
+        val CODEC: Codec<DataFixEntry> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Codec.STRING.fieldOf("type").forGetter(DataFixEntry::type),
+                Codec.list(Fixer.CODEC).fieldOf("fixers").forGetter(DataFixEntry::fixers)
+            ).apply(instance, ::DataFixEntry)
+        }
+    }
 }
