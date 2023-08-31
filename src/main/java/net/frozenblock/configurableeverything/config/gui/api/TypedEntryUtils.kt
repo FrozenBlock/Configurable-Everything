@@ -18,7 +18,7 @@ object TypedEntryUtils {
     fun <T> makeTypedEntryList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<TypedEntry<List<T>>?>?, defaultValue: Supplier<TypedEntry<List<T>>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<TypedEntry<List<T>>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>, requiresRestart: Boolean = false): NestedListListEntry<T, AbstractConfigListEntry<T>> {
         val typedEntry: TypedEntry<List<T>> = entrySupplier?.get() ?: defaultValue.get()
 
-        val entry = NestedListListEntry(
+        return NestedListListEntry(
             // Name
             title,
             // Value
@@ -43,9 +43,7 @@ object TypedEntryUtils {
             true,
             // New Cell Creation
             cellCreator
-        )
-        if (requiresRestart) entry.isRequiresRestart = true
-        return entry
+        ).let {it.isRequiresRestart = requiresRestart; it}
     }
 
     @JvmStatic

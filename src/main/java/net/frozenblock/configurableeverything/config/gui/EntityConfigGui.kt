@@ -8,8 +8,7 @@ import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.gui.api.EntryBuilder
 import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
-import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier
-import net.frozenblock.configurableeverything.entity.util.MobEffectHolder
+import net.frozenblock.configurableeverything.entity.util.*
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
@@ -203,32 +202,34 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entityAttributeAmplifiers = newValue},
             { element, _ ->
+                val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity Attribute Amplifier"),
-                    element,
+                    entityAttributeAmplifier,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), element.entity.location().toString(),
+                    EntryBuilder(Component.literal("Entity"), entityAttributeAmplifier.entity.location().toString(),
                         "",
-                        { newValue -> element.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
+                        { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
                         Component.literal("awesome entity bro")
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Entity Name"), element.entityName,
+                    EntryBuilder(Component.literal("Entity Name"), entityAttributeAmplifier.entityName,
                         "",
-                        { newValue-> element.entityName = newValue },
+                        { newValue-> entityAttributeAmplifier.entityName = newValue },
                         Component.literal("awesome name bro")
                     ).build(entryBuilder),
 
                     TypedEntryUtils.makeNestedList(
                         entryBuilder,
                         Component.literal("Amplifiers"),
-                        element::amplifiers,
+                        entityAttributeAmplifier::amplifiers,
                         { listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)) },
                         true,
                         Component.literal("Cool amplifiers!!"),
-                        { newValue -> element.amplifiers = newValue },
-                        { amplifier, _ ->
+                        { newValue -> entityAttributeAmplifier.amplifiers = newValue },
+                        { element, _ ->
+                            val amplifier = element ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)
                             TypedEntryUtils.makeMultiElementEntry(
                                 Component.literal("Attribute Amplifier"),
                                 amplifier,
@@ -267,20 +268,21 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.experienceOverrides = newValue},
             { element, _ ->
+                val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), 0)
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Experience Override"),
-                    element,
+                    experienceOverride,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), element.entity.location().toString(),
+                    EntryBuilder(Component.literal("Entity"), experienceOverride.entity.location().toString(),
                         "",
-                        { newValue -> element.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
+                        { newValue -> experienceOverride.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
                         Component.literal("Entity ResourceKey")
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Amount"), element.amount,
+                    EntryBuilder(Component.literal("Amount"), experienceOverride.amount,
                         0,
-                        { newValue -> element.amount = newValue },
+                        { newValue -> experienceOverride.amount = newValue },
                         Component.literal("the amount of xp to drop")
                     ).build(entryBuilder)
                 )
@@ -302,40 +304,41 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entityFlyBySounds = newValue},
             { element, _ ->
+                val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation("example"), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity FlyBy Sound"),
-                    element,
+                    entityFlyBySound,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), element.entity.toString(),
+                    EntryBuilder(Component.literal("Entity"), entityFlyBySound.entity.toString(),
                         "",
-                        { newValue -> element.entity = ResourceLocation(newValue) },
+                        { newValue -> entityFlyBySound.entity = ResourceLocation(newValue) },
                         Component.literal("COOL ENTITY NGL"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
                     TypedEntryUtils.makeMultiElementEntry(
                         Component.literal("Entity FlyBy Sound Data"),
-                        element.sound,
+                        entityFlyBySound.sound,
                         true,
 
-                        EntryBuilder(Component.literal("Category"), element.sound.category,
+                        EntryBuilder(Component.literal("Category"), entityFlyBySound.sound.category,
                             "",
-                            { newValue -> element.sound.category = newValue },
+                            { newValue -> entityFlyBySound.sound.category = newValue },
                             Component.literal("The category the sound is played in"),
                             requiresRestart = true
                         ).build(entryBuilder),
 
-                        EntryBuilder(Component.literal("Sound"), element.sound.sound.toString(),
+                        EntryBuilder(Component.literal("Sound"), entityFlyBySound.sound.sound.toString(),
                             "",
-                            { newValue -> element.sound.sound = ResourceLocation(newValue) },
+                            { newValue -> entityFlyBySound.sound.sound = ResourceLocation(newValue) },
                             Component.literal("The sound to play"),
                             requiresRestart = true
                         ).build(entryBuilder),
 
-                        EntryBuilder(Component.literal("Volume"), element.sound.volume,
+                        EntryBuilder(Component.literal("Volume"), entityFlyBySound.sound.volume,
                             0.6F,
-                            { newValue -> element.sound.volume = newValue },
+                            { newValue -> entityFlyBySound.sound.volume = newValue },
                             Component.literal("The volume of the sound"),
                             requiresRestart = true
                         ).build(entryBuilder),
@@ -361,30 +364,31 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entityHurtEffects = newValue},
             { element, _ ->
+                val entityHurtEffect = element ?: EntityHurtEffects(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")), 5, 10, true, true, true)))
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity Hurt Effects"),
-                    element,
+                    entityHurtEffect,
                     true,
-                    EntryBuilder(Component.literal("Entity"), element.entity.location().toString(),
+                    EntryBuilder(Component.literal("Entity"), entityHurtEffect.entity.location().toString(),
                         "",
-                        { newValue -> element.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
+                        { newValue -> entityHurtEffect.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
                         Component.literal("Entity ResourceKey")
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Entity Name"), element.entityName,
+                    EntryBuilder(Component.literal("Entity Name"), entityHurtEffect.entityName,
                         "",
-                        { newValue-> element.entityName = newValue },
+                        { newValue-> entityHurtEffect.entityName = newValue },
                         Component.literal("awesome name bro")
                     ).build(entryBuilder),
 
                     TypedEntryUtils.makeNestedList(
                         entryBuilder,
                         Component.literal("Hurt Effects"),
-                        element::effects,
+                        entityHurtEffect::effects,
                         { listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")), 5, 10, true, true, true)) },
                         true,
                         Component.literal("Cool effects!!"),
-                        { newValue -> element.effects = newValue },
+                        { newValue -> entityHurtEffect.effects = newValue },
                         { effect, _ ->
                             TypedEntryUtils.makeMultiElementEntry(
                                 Component.literal("Hurt Effect"),
@@ -448,35 +452,36 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entitySpottingIcons = newValue},
             { element, _ ->
+                val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), ResourceLocation("icon"), 5F, 8F)
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity Spotting Icon"),
-                    element,
+                    entitySpottingIcon,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), element.entity.location().toString(),
+                    EntryBuilder(Component.literal("Entity"), entitySpottingIcon.entity.location().toString(),
                         "",
-                        { newValue -> element.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
+                        { newValue -> entitySpottingIcon.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
                         Component.literal("COOL ENTITY NGL"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Texture"), element.texture.toString(),
+                    EntryBuilder(Component.literal("Texture"), entitySpottingIcon.texture.toString(),
                         "",
-                        { newValue -> element.texture = ResourceLocation(newValue) },
+                        { newValue -> entitySpottingIcon.texture = ResourceLocation(newValue) },
                         Component.literal("The icon to display"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Start Fade"), element.startFade,
+                    EntryBuilder(Component.literal("Start Fade"), entitySpottingIcon.startFade,
                         5F,
-                        { newValue -> element.startFade = newValue },
+                        { newValue -> entitySpottingIcon.startFade = newValue },
                         Component.literal("The distance at which the icon starts to fade"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("End Fade"), element.endFade,
+                    EntryBuilder(Component.literal("End Fade"), entitySpottingIcon.endFade,
                         8F,
-                        { newValue -> element.endFade = newValue },
+                        { newValue -> entitySpottingIcon.endFade = newValue },
                         Component.literal("The distance at which the icon is fully faded"),
                         requiresRestart = true
                     ).build(entryBuilder),
