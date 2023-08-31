@@ -1,10 +1,12 @@
-package net.frozenblock.configurableeverything.biome_placement.util;
+package net.frozenblock.configurableeverything.biome_placement.util
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.List;
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import java.util.List
 
-public record BiomePlacementChange(List<DimensionBiomeList> addedBiomes, List<DimensionBiomeKeyList> removedBiomes) {
+data class BiomePlacementChange(
+	@JvmField var addedBiomes: List<DimensionBiomeList>,
+	@JvmField var removedBiomes: List<DimensionBiomeKeyList>) {
 
 	public static final Codec<BiomePlacementChange> CODEC = RecordCodecBuilder.create(instance ->
 		instance.group(
