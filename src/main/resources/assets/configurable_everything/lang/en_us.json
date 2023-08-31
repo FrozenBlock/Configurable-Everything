@@ -130,6 +130,12 @@
   "tooltip.configurable_everything.sound_screen_shakes.duration": "The duration of the screen shake in ticks.",
   "option.configurable_everything.sound_screen_shakes.fall_off_start": "Fall-Off Start",
   "tooltip.configurable_everything.sound_screen_shakes.fall_off_start": "How many ticks after starting the screen shake should begin to soften.",
+  "option.configurable_everything.sound_screen_shakes.max_distance": "Distance",
+  "tooltip.configurable_everything.sound_screen_shakes.max_distance": "How far away the screen shake can be felt.\nThe screen shake will become less intense the closer you get to this distance.",
+  "option.configurable_everything.dragon_respawn_screen_shake": "Ender Dragon Respawn Screen Shaking",
+  "tooltip.configurable_everything.dragon_respawn_screen_shake": "Whether or not the Ender Dragon's respawning will cause the screen to shake.",
+  "option.configurable_everything.explosion_screen_shake": "Explosion Screen Shaking",
+  "tooltip.configurable_everything.explosion_screen_shake": "Whether or not explosions will cause the screen to shake.",
 
   "option.configurable_everything.splash_text": "Splash Text",
   "tooltip.configurable_everything.splash_text": "Enable or disable the Splash Text config.",

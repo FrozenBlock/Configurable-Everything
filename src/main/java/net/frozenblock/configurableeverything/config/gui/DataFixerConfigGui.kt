@@ -54,7 +54,7 @@ private fun schemas(
             "biome",
             listOf(
                 Fixer(
-                    ResourceLocation("examplemod:example_biome"),
+                    ResourceLocation("example:example"),
                     ResourceLocation("minecraft:forest")
                 )
             )
@@ -63,7 +63,7 @@ private fun schemas(
             "block",
             listOf(
                 Fixer(
-                    ResourceLocation("examplemod:dark_stone"),
+                    ResourceLocation("example:example"),
                     ResourceLocation("minecraft:deepslate")
                 )
             )
@@ -72,7 +72,7 @@ private fun schemas(
             "entity",
             listOf(
                 Fixer(
-                    ResourceLocation("examplemod:example_entity"),
+                    ResourceLocation("example:example"),
                     ResourceLocation("minecraft:cow")
                 )
             )
@@ -81,7 +81,7 @@ private fun schemas(
             "item",
             listOf(
                 Fixer(
-                    ResourceLocation("examplemod:example_item"),
+                    ResourceLocation("example:example"),
                     ResourceLocation("minecraft:stone")
                 )
             )
