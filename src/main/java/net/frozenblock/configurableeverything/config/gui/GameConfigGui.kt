@@ -17,16 +17,16 @@ object GameConfigGui {
         val defaultConfig = GameConfig.getConfigInstance().defaultInstance()
         category.background = id("textures/config/game.png")
 
-        category.addEntry(EntryBuilder(text("windowTitle"), config.windowTitle,
+        category.addEntry(EntryBuilder(text("window_title"), config.windowTitle,
             defaultConfig.windowTitle,
             { newValue: String? -> config.windowTitle = newValue },
-            tooltip("windowTitle")
+            tooltip("window_title")
         ).build(entryBuilder))
 
-        category.addEntry(entryBuilder.startStrField(text("versionSeries"), config.versionSeries ?: "")
+        category.addEntry(entryBuilder.startStrField(text("version_series"), config.versionSeries ?: "")
             .setDefaultValue("")
             .setSaveConsumer { newValue: String? -> config.versionSeries = newValue }
-            .setTooltip(tooltip("versionSeries"))
+            .setTooltip(tooltip("version_series"))
             .build()
         )
     }
