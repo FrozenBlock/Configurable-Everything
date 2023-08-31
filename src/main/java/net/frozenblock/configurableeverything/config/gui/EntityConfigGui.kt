@@ -311,7 +311,7 @@ object EntityConfigGui {
                     true,
 
                     EntryBuilder(Component.literal("Entity"), entityFlyBySound.entity.toString(),
-                        "",
+                        "minecraft:",
                         { newValue -> entityFlyBySound.entity = ResourceLocation(newValue) },
                         Component.literal("COOL ENTITY NGL"),
                         requiresRestart = true
@@ -371,14 +371,14 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entityHurtEffects = newValue},
             { element, _ ->
-                val entityHurtEffect = element ?: EntityHurtEffects(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
+                val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity Hurt Effects"),
                     entityHurtEffect,
                     true,
-                    EntryBuilder(Component.literal("Entity"), entityHurtEffect.entity.location().toString(),
-                        "",
-                        { newValue -> entityHurtEffect.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
+                    EntryBuilder(Component.literal("Entity"), entityHurtEffect.entity.toString(),
+                        "minecraft:",
+                        { newValue -> entityHurtEffect.entity = ResourceLocation(newValue) },
                         Component.literal("Entity ResourceKey")
                     ).build(entryBuilder),
 

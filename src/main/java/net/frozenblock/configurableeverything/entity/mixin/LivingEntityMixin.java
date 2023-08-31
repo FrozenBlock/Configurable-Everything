@@ -46,7 +46,7 @@ public abstract class LivingEntityMixin extends Entity {
 				if (config.entityHurtEffects != null && config.entityHurtEffects.value() != null) {
 					var entityHurtEffects = config.entityHurtEffects.value();
 					for (EntityHurtEffects hurtEffects : entityHurtEffects) {
-						if (hurtEffects.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+						if (hurtEffects.entity.equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
 							var name = hurtEffects.entityName;
 							if (name.isEmpty() || livingEntity.getName().getString().equals(name)) {
 								List<MobEffectHolder> effects = hurtEffects.effects;

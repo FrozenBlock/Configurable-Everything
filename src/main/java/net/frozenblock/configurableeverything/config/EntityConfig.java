@@ -184,7 +184,7 @@ public final class EntityConfig {
 			ENTITY_HURT_EFFECTS,
 			List.of(
 					new EntityHurtEffects(
-							ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation("cow")),
+							new ResourceLocation("cow"),
 							"",
 							List.of(
 									new MobEffectHolder(
