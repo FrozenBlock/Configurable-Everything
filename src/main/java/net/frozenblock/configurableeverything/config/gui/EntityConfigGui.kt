@@ -208,29 +208,28 @@ object EntityConfigGui {
     ): AbstractConfigListEntry<*> {
         return TypedEntryUtils.makeTypedEntryList(
             entryBuilder,
-            Component.literal("Experience Overrides"),
+            text("entity_xp_overrides"),
             config::experienceOverrides,
             defaultConfig::experienceOverrides,
             false,
-            Component.literal("Awesome"),
+            text("entity_xp_overrides"),
             { newValue -> config.experienceOverrides = newValue},
             { element, _ ->
                 val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), 0)
                 TypedEntryUtils.makeMultiElementEntry(
-                    Component.literal("Experience Override"),
+                    text("entity_xp_override"),
                     experienceOverride,
                     true,
-
-                    EntryBuilder(Component.literal("Entity"), experienceOverride.entity.location().toString(),
+                    EntryBuilder(text("entity_xp_override.entity"), experienceOverride.entity.location().toString(),
                         "",
                         { newValue -> experienceOverride.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
-                        Component.literal("Entity ResourceKey")
+                        text("entity_xp_override.entity")
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Amount"), experienceOverride.amount,
+                    EntryBuilder(text("entity_xp_override.amount"), experienceOverride.amount,
                         0,
                         { newValue -> experienceOverride.amount = newValue },
-                        Component.literal("the amount of xp to drop")
+                        text("entity_xp_override.amount")
                     ).build(entryBuilder)
                 )
             }
@@ -244,56 +243,56 @@ object EntityConfigGui {
     ): AbstractConfigListEntry<*> {
         return TypedEntryUtils.makeTypedEntryList(
             entryBuilder,
-            Component.literal("Entity FlyBy Sounds"),
+            text("entity_flyby_sounds"),
             config::entityFlyBySounds,
             defaultConfig::entityFlyBySounds,
             false,
-            Component.literal("Awesome"),
+            text("entity_flyby_sounds"),
             { newValue -> config.entityFlyBySounds = newValue},
             { element, _ ->
                 val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
                 TypedEntryUtils.makeMultiElementEntry(
-                    Component.literal("Entity FlyBy Sound"),
+                    text("entity_flyby_sound"),
                     entityFlyBySound,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), entityFlyBySound.entity.toString(),
+                    EntryBuilder(text("entity_flyby_sound.entity"), entityFlyBySound.entity.toString(),
                         "minecraft:",
                         { newValue -> entityFlyBySound.entity = ResourceLocation(newValue) },
-                        Component.literal("COOL ENTITY NGL"),
+                        text("entity_flyby_sound.entity"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
                     TypedEntryUtils.makeMultiElementEntry(
-                        Component.literal("Entity FlyBy Sound Data"),
+                        text("entity_flyby_sound.data"),
                         entityFlyBySound.sound,
                         true,
 
-                        EntryBuilder(Component.literal("Category"), entityFlyBySound.sound.category,
+                        EntryBuilder(text("entity_flyby_sound.category"), entityFlyBySound.sound.category,
                             "neutral",
                             { newValue -> entityFlyBySound.sound.category = newValue },
-                            Component.literal("The category the sound is played in"),
+                            tooltip("entity_flyby_sound.category"),
                             requiresRestart = true
                         ).build(entryBuilder),
 
-                        EntryBuilder(Component.literal("Sound"), entityFlyBySound.sound.sound.toString(),
+                        EntryBuilder(text("entity_flyby_sound.sound"), entityFlyBySound.sound.sound.toString(),
                             string("flyby.arrow"),
                             { newValue -> entityFlyBySound.sound.sound = ResourceLocation(newValue) },
-                            Component.literal("The sound to play"),
+                            tooltip("entity_flyby_sound.sound"),
                             requiresRestart = true
                         ).build(entryBuilder),
 
-                        EntryBuilder(Component.literal("Volume"), entityFlyBySound.sound.volume,
+                        EntryBuilder(text("entity_flyby_sound.volume"), entityFlyBySound.sound.volume,
                             0.6F,
                             { newValue -> entityFlyBySound.sound.volume = newValue },
-                            Component.literal("The volume of the sound"),
+                            tooltip("entity_flyby_sound.volume"),
                             requiresRestart = true
                         ).build(entryBuilder),
 
-                        EntryBuilder(Component.literal("Pitch"), entityFlyBySound.sound.pitch,
+                        EntryBuilder(text("entity_flyby_sound.pitch"), entityFlyBySound.sound.pitch,
                             1.0F,
                             { newValue -> entityFlyBySound.sound.pitch = newValue },
-                            Component.literal("The pitch of the sound"),
+                            tooltip("entity_flyby_sound.pitch"),
                             requiresRestart = true
                         ).build(entryBuilder),
                     ),
@@ -320,69 +319,69 @@ object EntityConfigGui {
             { element, _ ->
                 val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
                 TypedEntryUtils.makeMultiElementEntry(
-                    Component.literal("Entity Hurt Effects"),
+                    text("entity_hurt_effects.dropdown"),
                     entityHurtEffect,
                     true,
-                    EntryBuilder(Component.literal("Entity"), entityHurtEffect.entity.toString(),
+                    EntryBuilder(text("entity_hurt_effects.entity"), entityHurtEffect.entity.toString(),
                         "minecraft:",
                         { newValue -> entityHurtEffect.entity = ResourceLocation(newValue) },
-                        Component.literal("Entity ResourceKey")
+                        tooltip("entity_hurt_effects.entity")
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Entity Name"), entityHurtEffect.entityName,
+                    EntryBuilder(text("entity_hurt_effects.entity_name"), entityHurtEffect.entityName,
                         "",
                         { newValue-> entityHurtEffect.entityName = newValue },
-                        Component.literal("awesome name bro")
+                        tooltip("entity_hurt_effects.entity_name")
                     ).build(entryBuilder),
 
                     TypedEntryUtils.makeNestedList(
                         entryBuilder,
-                        Component.literal("Hurt Effects"),
+                        text("entity_hurt_effects.hurt_effects"),
                         entityHurtEffect::effects,
                         { listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")), 5, 10, true, true, true)) },
                         true,
-                        Component.literal("Cool effects!!"),
+                        tooltip("entity_hurt_effects.hurt_effects"),
                         { newValue -> entityHurtEffect.effects = newValue },
                         { effect, _ ->
                             TypedEntryUtils.makeMultiElementEntry(
-                                Component.literal("Hurt Effect"),
+                                text("entity_hurt_effects.hurt_effect"),
                                 effect,
                                 true,
 
-                                EntryBuilder(Component.literal("Effect"), effect.effect?.location().toString(),
+                                EntryBuilder(text("entity_hurt_effects.effect"), effect.effect?.location().toString(),
                                     "minecraft:speed",
                                     { newValue -> effect.effect = ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation(newValue)) },
-                                    Component.literal("Mob Effect ID")
+                                    tooltip("entity_hurt_effects.effect")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(Component.literal("Duration"), effect.duration ?: 0,
+                                EntryBuilder(text("entity_hurt_effects.duration"), effect.duration ?: 0,
                                     0,
                                     { newValue -> effect.duration = newValue },
-                                    Component.literal("nice duration bro")
+                                    tooltip("entity_hurt_effects.duration")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(Component.literal("Amplifier"), effect.amplifier ?: 0,
+                                EntryBuilder(text("entity_hurt_effects.amplifier"), effect.amplifier ?: 0,
                                     0,
                                     { newValue -> effect.amplifier = newValue },
-                                    Component.literal("nice amplifier bro")
+                                    tooltip("entity_hurt_effects.amplifier")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(Component.literal("Ambient"), effect.ambient ?: false,
+                                EntryBuilder(text("entity_hurt_effects.ambient"), effect.ambient ?: false,
                                     true,
                                     { newValue -> effect.ambient = newValue },
-                                    Component.literal("nice ambient bro")
+                                    tooltip("entity_hurt_effects.ambient")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(Component.literal("Visible"), effect.visible ?: false,
+                                EntryBuilder(text("entity_hurt_effects.visible"), effect.visible ?: false,
                                     true,
                                     { newValue -> effect.visible = newValue },
-                                    Component.literal("nice visible bro")
+                                    tooltip("entity_hurt_effects.visible")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(Component.literal("Show Icon"), effect.showIcon ?: false,
+                                EntryBuilder(text("entity_hurt_effects.show_icon"), effect.showIcon ?: false,
                                     true,
                                     { newValue -> effect.showIcon = newValue },
-                                    Component.literal("nice show icon bro"),
+                                    tooltip("entity_hurt_effects.show_icon")
                                 ).build(entryBuilder),
                             )
                         },
@@ -399,44 +398,44 @@ object EntityConfigGui {
     ): AbstractConfigListEntry<*> {
         return TypedEntryUtils.makeTypedEntryList(
             entryBuilder,
-            Component.literal("Entity Spotting Icons"),
+            text("entity_spotting_icons"),
             config::entitySpottingIcons,
             defaultConfig::entitySpottingIcons,
             false,
-            Component.literal("Awesome"),
+            tooltip("entity_spotting_icons"),
             { newValue -> config.entitySpottingIcons = newValue},
             { element, _ ->
                 val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), ResourceLocation("icon"), 5F, 8F)
                 TypedEntryUtils.makeMultiElementEntry(
-                    Component.literal("Entity Spotting Icon"),
+                    text("entity_spotting_icons.spotting_icon"),
                     entitySpottingIcon,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), entitySpottingIcon.entity.location().toString(),
+                    EntryBuilder(text("entity_spotting_icons.entity"), entitySpottingIcon.entity.location().toString(),
                         "",
                         { newValue -> entitySpottingIcon.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
-                        Component.literal("COOL ENTITY NGL"),
+                        tooltip("entity_spotting_icons.entity"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Texture"), entitySpottingIcon.texture.toString(),
+                    EntryBuilder(text("entity_spotting_icons.texture"), entitySpottingIcon.texture.toString(),
                         "",
                         { newValue -> entitySpottingIcon.texture = ResourceLocation(newValue) },
-                        Component.literal("The icon to display"),
+                        tooltip("entity_spotting_icons.texture"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Start Fade"), entitySpottingIcon.startFade,
+                    EntryBuilder(text("entity_spotting_icons.start_fade"), entitySpottingIcon.startFade,
                         5F,
                         { newValue -> entitySpottingIcon.startFade = newValue },
-                        Component.literal("The distance at which the icon starts to fade"),
+                        tooltip("entity_spotting_icons.start_fade"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("End Fade"), entitySpottingIcon.endFade,
+                    EntryBuilder(text("entity_spotting_icons.end_fade"), entitySpottingIcon.endFade,
                         8F,
                         { newValue -> entitySpottingIcon.endFade = newValue },
-                        Component.literal("The distance at which the icon is fully faded"),
+                        tooltip("entity_spotting_icons.end_fade"),
                         requiresRestart = true
                     ).build(entryBuilder),
                     requiresRestart = true
