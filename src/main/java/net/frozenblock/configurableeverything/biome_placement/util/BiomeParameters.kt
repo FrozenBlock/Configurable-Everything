@@ -8,8 +8,8 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
 
 data class BiomeParameters(
-	@JvmField var biome: ResourceKey<Biome>,
-	@JvmField var parameters: Climate.ParameterPoint
+	@JvmField var biome: ResourceKey<Biome>?,
+	@JvmField var parameters: Climate.ParameterPoint?
 ) {
 	companion object {
 		val CODEC: Codec<BiomeParameters> = RecordCodecBuilder.create { instance ->

@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
 data class BiomePlacementChange(
-	@JvmField var addedBiomes: List<DimensionBiomeList>,
-	@JvmField var removedBiomes: List<DimensionBiomeKeyList>
+	@JvmField var addedBiomes: List<DimensionBiomeList?>?,
+	@JvmField var removedBiomes: List<DimensionBiomeKeyList?>?
 ) {
 	companion object {
 		val CODEC: Codec<BiomePlacementChange> = RecordCodecBuilder.create { instance ->
