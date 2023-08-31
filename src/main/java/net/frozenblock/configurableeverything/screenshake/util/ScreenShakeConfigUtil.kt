@@ -23,28 +23,28 @@ object ScreenShakeConfigUtil {
             if (config.soundScreenShakes?.value != null) {
                 val shakes = config.soundScreenShakes.value
                 for (shake in shakes) {
-                    if (shake.sound().equals(sound.location)) {
+                    if (shake.sound == sound.location) {
                         if (entities?.isEmpty() == true) { // apply to position if no entity is found
                             if (level.isClientSide) {
                                 val client = level as ClientLevel
                                 ScreenShaker.SCREEN_SHAKES.add(
                                         ScreenShaker.ClientScreenShake(
-                                                client, shake.intensity(), shake.duration(), shake.falloffStart(), Vec3(x, y, z), shake.maxDistance(), 0
+                                                client, shake.intensity, shake.duration, shake.falloffStart, Vec3(x, y, z), shake.maxDistance, 0
                                         )
                                 )
                             } else {
-                                ScreenShakeManager.addScreenShake(level, shake.intensity(), shake.duration(), shake.falloffStart(), x, y, z, shake.maxDistance())
+                                ScreenShakeManager.addScreenShake(level, shake.intensity, shake.duration, shake.falloffStart, x, y, z, shake.maxDistance)
                             }
                         } else { // find an entity to apply the screen shake to
                             val entity: Entity = entities?.stream()?.findFirst()?.get() ?: return
                             if (level.isClientSide) {
                                 ScreenShaker.SCREEN_SHAKES.add(
                                         ScreenShaker.ClientEntityScreenShake(
-                                                entity, shake.intensity(), shake.duration(), shake.falloffStart(), shake.maxDistance(), 0
+                                                entity, shake.intensity, shake.duration, shake.falloffStart, shake.maxDistance, 0
                                         )
                                 )
                             } else {
-                                ScreenShakeManager.addEntityScreenShake(entity, shake.intensity(), shake.duration(), shake.falloffStart(), shake.maxDistance())
+                                ScreenShakeManager.addEntityScreenShake(entity, shake.intensity, shake.duration, shake.falloffStart, shake.maxDistance)
                             }
                         }
                     }

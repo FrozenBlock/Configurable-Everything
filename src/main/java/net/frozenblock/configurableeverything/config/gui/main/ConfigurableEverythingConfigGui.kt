@@ -7,6 +7,7 @@ import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.GameConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.configurableeverything.config.SplashTextConfig
 import net.frozenblock.configurableeverything.config.WorldConfig
 import net.frozenblock.configurableeverything.config.gui.*
@@ -26,6 +27,7 @@ object ConfigurableEverythingConfigGui {
             DataFixerConfig.getConfigInstance().save()
             EntityConfig.getConfigInstance().save()
             GameConfig.getConfigInstance().save()
+            ScreenShakeConfig.getConfigInstance().save()
             SplashTextConfig.getConfigInstance().save()
             WorldConfig.getConfigInstance().save()
         }
@@ -41,6 +43,9 @@ object ConfigurableEverythingConfigGui {
 
         val game = configBuilder.getOrCreateCategory(text("game"))
         GameConfigGui.setupEntries(game, entryBuilder)
+
+        val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
+        ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)
