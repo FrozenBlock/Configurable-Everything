@@ -6,12 +6,16 @@ import java.util.List
 
 data class BiomePlacementChange(
 	@JvmField var addedBiomes: List<DimensionBiomeList>,
-	@JvmField var removedBiomes: List<DimensionBiomeKeyList>) {
+	@JvmField var removedBiomes: List<DimensionBiomeKeyList>
+) {
+	companion object {
+		val CODEC: Codec<BiomePlacementChange> = RecordCodecBuilder.create { instance ->
+			instance.group(
+				DimensionBiomeList.CODEC.listOf().fieldOf("addedBiomes").forGetter(BiomePlacementChange::addedBiomes),
+				DimensionBiomeKeyList.CODEC.listOf().fieldOf("removedBiomes").forGetter(BiomePlacementChange::removedBiomes)
+			).apply(instance, ::BiomePlacementChange)
+		}
+	}
 
-	public static final Codec<BiomePlacementChange> CODEC = RecordCodecBuilder.create(instance ->
-		instance.group(
-			DimensionBiomeList.CODEC.listOf().fieldOf("addedBiomes").forGetter(BiomePlacementChange::addedBiomes),
-			DimensionBiomeKeyList.CODEC.listOf().fieldOf("removedBiomes").forGetter(BiomePlacementChange::removedBiomes)
-		).apply(instance, BiomePlacementChange::new)
-	);
+	override fun toString(): String = "BiomePlacementChange[$addedBiomes, $removedBiomes]"
 }

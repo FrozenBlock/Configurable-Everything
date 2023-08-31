@@ -10,7 +10,7 @@ import net.minecraft.world.level.biome.Climate
 data class BiomeParameters(
 	@JvmField var biome: ResourceKey<Biome,
 	@JvmField var parameters: Climate.ParameterPoint
-	) {
+) {
 	companion object {
 		val CODEC: Codec<BiomeParameters> = RecordCodecBuilder.create { instance ->
 			instance.group(
@@ -19,4 +19,6 @@ data class BiomeParameters(
 			).apply(instance, ::BiomeParameters)
 		}
 	}
+
+	override fun toString(): String = "BiomeParameters[$biome, $parameters]"
 }

@@ -22,4 +22,6 @@ data class DimensionBiomeKeyList(
 			).apply(instance, ::DimensionBiomeKeyList)
 		}
 	}
+
+	override fun toString(): String = "DimensionBiomeKeyList[$dimension, $biomes]"
 }
