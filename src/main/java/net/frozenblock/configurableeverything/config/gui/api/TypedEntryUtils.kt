@@ -78,31 +78,6 @@ object TypedEntryUtils {
         ).let {it.isRequiresRestart = requiresRestart; it}
     }
 
-    @JvmStatic
-    fun vec3Element(entryBuilder: ConfigEntryBuilder, title: Component, value: MutableVec3?, defaultValue: MutableVec3, expandedByDefault: Boolean = true): AbstractConfigListEntry<MutableVec3> {
-        val usedValue = value ?: defaultValue
-        return makeMultiElementEntry(
-            title,
-            usedValue,
-            expandedByDefault,
-            EntryBuilder(Component.literal("x"), usedValue.x,
-                0.0,
-                usedValue::setX,
-                null
-            ).build(entryBuilder),
-            EntryBuilder(Component.literal("y"), usedValue.y,
-                0.0,
-                usedValue::setY,
-                null
-            ).build(entryBuilder),
-            EntryBuilder(Component.literal("z"), usedValue.z,
-                0.0,
-                usedValue::setZ,
-                null
-            ).build(entryBuilder)
-        )
-    }
-
     fun <T> makeMultiElementEntry(title: Component, value: T, defaultExpanded: Boolean = true, vararg entries: AbstractConfigListEntry<out Any>, requiresRestart: Boolean = false): MultiElementListEntry<T> =
         MultiElementListEntry(
             title,
