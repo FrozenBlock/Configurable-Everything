@@ -2,7 +2,6 @@ package net.frozenblock.configurableeverything.biome_placement.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import java.util.List
 
 data class BiomePlacementChange(
 	@JvmField var addedBiomes: List<DimensionBiomeList>,
