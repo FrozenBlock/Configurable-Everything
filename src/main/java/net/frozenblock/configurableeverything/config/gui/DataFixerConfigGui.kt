@@ -131,7 +131,7 @@ private fun schemas(
 
                             TypedEntryUtils.makeNestedList(
                                 entryBuilder,
-                                text("schemas.fixers"),
+                                text("datafixer.fixers"),
                                 entry::fixers,
                                 { listOf(Fixer(ResourceLocation(""), ResourceLocation(""))) },
                                 true,

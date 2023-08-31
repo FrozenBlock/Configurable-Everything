@@ -136,7 +136,7 @@ public class DataFixerConfig {
 	@Comment(
 		"""
 		The list of registry fixers to use for data fixing.
-		Each registry fixer contains the id of the registry and a list of fixers.
+		Each registry fixer contains a registry key and a list of fixers.
 		Each fixer contains an old id and a new id, and will replace all instances of the old id with the new id.
 		However, if the old id is still found in the registry, it will not be replaced (unless the overrideRealEntries option is set to true).
 		"""
