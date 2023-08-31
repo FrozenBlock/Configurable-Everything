@@ -10,6 +10,7 @@ import net.frozenblock.configurableeverything.config.gui.api.EntryBuilder
 import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
 import net.frozenblock.configurableeverything.entity.util.*
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.configurableeverything.util.string
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
@@ -224,12 +225,11 @@ object EntityConfigGui {
                         entryBuilder,
                         Component.literal("Amplifiers"),
                         entityAttributeAmplifier::amplifiers,
-                        { listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)) },
+                        { listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("minecraft:generic.movement_speed")), 1.0)) },
                         true,
                         Component.literal("Cool amplifiers!!"),
                         { newValue -> entityAttributeAmplifier.amplifiers = newValue },
-                        { element, _ ->
-                            val amplifier = element ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)
+                        { amplifier, _ ->
                             TypedEntryUtils.makeMultiElementEntry(
                                 Component.literal("Attribute Amplifier"),
                                 amplifier,
@@ -268,7 +268,7 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.experienceOverrides = newValue},
             { element, _ ->
-                val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), 0)
+                val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), 0)
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Experience Override"),
                     experienceOverride,
@@ -304,7 +304,7 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entityFlyBySounds = newValue},
             { element, _ ->
-                val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation("example"), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
+                val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity FlyBy Sound"),
                     entityFlyBySound,
@@ -323,14 +323,14 @@ object EntityConfigGui {
                         true,
 
                         EntryBuilder(Component.literal("Category"), entityFlyBySound.sound.category,
-                            "",
+                            "neutral",
                             { newValue -> entityFlyBySound.sound.category = newValue },
                             Component.literal("The category the sound is played in"),
                             requiresRestart = true
                         ).build(entryBuilder),
 
                         EntryBuilder(Component.literal("Sound"), entityFlyBySound.sound.sound.toString(),
-                            "",
+                            string("flyby.arrow"),
                             { newValue -> entityFlyBySound.sound.sound = ResourceLocation(newValue) },
                             Component.literal("The sound to play"),
                             requiresRestart = true
@@ -340,6 +340,13 @@ object EntityConfigGui {
                             0.6F,
                             { newValue -> entityFlyBySound.sound.volume = newValue },
                             Component.literal("The volume of the sound"),
+                            requiresRestart = true
+                        ).build(entryBuilder),
+
+                        EntryBuilder(Component.literal("Pitch"), entityFlyBySound.sound.pitch,
+                            1.0F,
+                            { newValue -> entityFlyBySound.sound.pitch = newValue },
+                            Component.literal("The pitch of the sound"),
                             requiresRestart = true
                         ).build(entryBuilder),
                     ),
@@ -364,7 +371,7 @@ object EntityConfigGui {
             Component.literal("Awesome"),
             { newValue -> config.entityHurtEffects = newValue},
             { element, _ ->
-                val entityHurtEffect = element ?: EntityHurtEffects(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")), 5, 10, true, true, true)))
+                val entityHurtEffect = element ?: EntityHurtEffects(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
                 TypedEntryUtils.makeMultiElementEntry(
                     Component.literal("Entity Hurt Effects"),
                     entityHurtEffect,
@@ -396,7 +403,7 @@ object EntityConfigGui {
                                 true,
 
                                 EntryBuilder(Component.literal("Effect"), effect.effect?.location().toString(),
-                                    "minecraft:generic.movement_speed",
+                                    "minecraft:speed",
                                     { newValue -> effect.effect = ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation(newValue)) },
                                     Component.literal("Mob Effect ID")
                                 ).build(entryBuilder),
@@ -414,19 +421,19 @@ object EntityConfigGui {
                                 ).build(entryBuilder),
 
                                 EntryBuilder(Component.literal("Ambient"), effect.ambient ?: false,
-                                    false,
+                                    true,
                                     { newValue -> effect.ambient = newValue },
                                     Component.literal("nice ambient bro")
                                 ).build(entryBuilder),
 
                                 EntryBuilder(Component.literal("Visible"), effect.visible ?: false,
-                                    false,
+                                    true,
                                     { newValue -> effect.visible = newValue },
                                     Component.literal("nice visible bro")
                                 ).build(entryBuilder),
 
                                 EntryBuilder(Component.literal("Show Icon"), effect.showIcon ?: false,
-                                    false,
+                                    true,
                                     { newValue -> effect.showIcon = newValue },
                                     Component.literal("nice show icon bro"),
                                 ).build(entryBuilder),
