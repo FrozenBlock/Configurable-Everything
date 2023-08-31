@@ -23,10 +23,10 @@ object GameConfigGui {
             tooltip("window_title")
         ).build(entryBuilder))
 
-        category.addEntry(entryBuilder.startStrField(text("version_series"), config.versionSeries ?: "")
+        category.addEntry(entryBuilder.startStrField(text("game_series"), config.versionSeries ?: "")
             .setDefaultValue("")
             .setSaveConsumer { newValue: String? -> config.versionSeries = newValue }
-            .setTooltip(tooltip("version_series"))
+            .setTooltip(tooltip("game_series"))
             .build()
         )
     }
