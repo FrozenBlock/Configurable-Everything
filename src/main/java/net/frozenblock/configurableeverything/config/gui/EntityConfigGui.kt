@@ -259,7 +259,7 @@ object EntityConfigGui {
                     EntryBuilder(text("entity_flyby_sound.entity"), entityFlyBySound.entity.toString(),
                         "minecraft:",
                         { newValue -> entityFlyBySound.entity = ResourceLocation(newValue) },
-                        text("entity_flyby_sound.entity"),
+                        tooltip("entity_flyby_sound.entity"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
