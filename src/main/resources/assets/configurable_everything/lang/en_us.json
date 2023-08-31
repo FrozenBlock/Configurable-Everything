@@ -174,8 +174,8 @@
   "tooltip.configurable_everything.game": "Enable or disable the Game config.",
   "option.configurable_everything.window_title": "Window Title",
   "tooltip.configurable_everything.window_title": "The text displayed on Minecraft's window.\nLeave field empty to ignore.",
-  "option.configurable_everything.game_series": "Game Series",
-  "tooltip.configurable_everything.game_series": "Changes Minecraft's game series. Is 'main' by default.\nLeave field empty to ignore.",
+  "option.configurable_everything.version_series": "Version Series",
+  "tooltip.configurable_everything.version_series": "Changes Minecraft's version series. Is 'main' by default.\nLeave field empty to ignore.",
 
   "option.configurable_everything.screen_shake": "Screen Shake",
   "tooltip.configurable_everything.screen_shake": "Enable or disable the Screen Shake config.",
