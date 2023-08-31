@@ -134,59 +134,6 @@ object EntityConfigGui {
                 .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
                 .build()
         )
-
-        /*category.addEntry(NestedListListEntry<EntityAttributeAmplifier, MultiElementListEntry<EntityAttributeAmplifier>>(
-            Component.literal("Test"),
-            config.entityAttributeAmplifiers?.value ?: defaultConfig.entityAttributeAmplifiers!!.value,
-            false,
-            { Optional.empty() },
-            { newValue ->
-                config.entityAttributeAmplifiers = TypedEntry(defaultConfig.entityAttributeAmplifiers!!.type, newValue)
-            },
-            { defaultConfig.entityAttributeAmplifiers!!.value },
-            entryBuilder.getResetButtonKey(),
-            true,
-            true,
-            { elem, nestedListListEntry ->
-                val newDefault = EntityAttributeAmplifier(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), "", listOf(
-                    AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)
-                ))
-                MultiElementListEntry(
-                    Component.literal("EntityAttributeAmplifier"), elem ?: newDefault,
-                    listOf(
-                        MultiElementListEntry(
-                            Component.literal("Entity ResourceKey"), ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")),
-                            listOf(
-                                MultiElementListEntry(
-                                    Component.literal("Namespace"), ResourceLocation("example").namespace(),
-                                    listOf(
-                                        entryBuilder.startStrField(Component.literal("Namespace"), ResourceLocation("example").namespace()).setDefaultValue("example").build(),
-                                        entryBuilder.startStrField(Component.literal("Path"), ResourceLocation("example").path()).setDefaultValue("example").build()
-                                    ),
-                                    true
-                                )
-                            ),
-                            true
-                        ),
-                        entryBuilder.startStrField(Component.literal("Entity Name"), "").setDefaultValue("").build(),
-                        NestedListListEntry(
-                            Component.literal("Attribute Amplifiers"),
-                            elem?.amplifiers ?: listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)),
-                            false,
-                            { Optional.empty() },
-                            { newValue ->
-                                elem?.amplifiers = newValue
-                            },
-                            { listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("example")), 1.5)) },
-                            entryBuilder.getResetButtonKey(),
-                            true,
-
-                            )
-                        )
-                    )
-                )
-            }
-        ))*/
     }
 
     private fun entityAttributeAmplifiers(
@@ -196,55 +143,55 @@ object EntityConfigGui {
     ): AbstractConfigListEntry<*> {
         return TypedEntryUtils.makeTypedEntryList(
             entryBuilder,
-            Component.literal("Entity Attribute Amplifiers"),
+            text("entity_attribute_amplifiers"),
             config::entityAttributeAmplifiers,
             defaultConfig::entityAttributeAmplifiers,
             false,
-            Component.literal("Awesome"),
+            tooltip("entity_attribute_amplifiers"),
             { newValue -> config.entityAttributeAmplifiers = newValue},
             { element, _ ->
                 val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
                 TypedEntryUtils.makeMultiElementEntry(
-                    Component.literal("Entity Attribute Amplifier"),
+                    text("entity_attribute_amplifiers.entity_attribute_amplifier"),
                     entityAttributeAmplifier,
                     true,
 
-                    EntryBuilder(Component.literal("Entity"), entityAttributeAmplifier.entity.location().toString(),
+                    EntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.location().toString(),
                         "",
                         { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
-                        Component.literal("awesome entity bro")
+                        tooltip("entity_attribute_amplifiers.entity")
                     ).build(entryBuilder),
 
-                    EntryBuilder(Component.literal("Entity Name"), entityAttributeAmplifier.entityName,
+                    EntryBuilder(text("entity_attribute_amplifiers.entity_name"), entityAttributeAmplifier.entityName,
                         "",
                         { newValue-> entityAttributeAmplifier.entityName = newValue },
-                        Component.literal("awesome name bro")
+                        tooltip("entity_attribute_amplifiers.entity_name")
                     ).build(entryBuilder),
 
                     TypedEntryUtils.makeNestedList(
                         entryBuilder,
-                        Component.literal("Amplifiers"),
+                        text("entity_attribute_amplifiers.amplifiers"),
                         entityAttributeAmplifier::amplifiers,
                         { listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("minecraft:generic.movement_speed")), 1.0)) },
                         true,
-                        Component.literal("Cool amplifiers!!"),
+                        tooltip("entity_attribute_amplifiers.amplifiers"),
                         { newValue -> entityAttributeAmplifier.amplifiers = newValue },
                         { amplifier, _ ->
                             TypedEntryUtils.makeMultiElementEntry(
-                                Component.literal("Attribute Amplifier"),
+                                text("entity_attribute_amplifiers.attribute_amplifier"),
                                 amplifier,
                                 true,
 
-                                EntryBuilder(Component.literal("Attribute"), amplifier.attribute.location().toString(),
+                                EntryBuilder(text("entity_attribute_amplifiers.attribute"), amplifier.attribute.location().toString(),
                                     "minecraft:generic.movement_speed",
                                     { newValue -> amplifier.attribute = ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation(newValue)) },
-                                    Component.literal("Attribute ResourceKey")
+                                    tooltip("entity_attribute_amplifiers.attribute")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(Component.literal("Amplifier"), amplifier.amplifier,
+                                EntryBuilder(text("entity_attribute_amplifiers.amplifier"), amplifier.amplifier,
                                     1.0,
                                     { newValue -> amplifier.amplifier = newValue },
-                                    Component.literal("Amplifier")
+                                    text("entity_attribute_amplifiers.amplifier")
                                 ).build(entryBuilder)
                             )
                         }
@@ -364,11 +311,11 @@ object EntityConfigGui {
     ): AbstractConfigListEntry<*> {
         return TypedEntryUtils.makeTypedEntryList(
             entryBuilder,
-            Component.literal("Entity Hurt Effects"),
+            text("entity_hurt_effects"),
             config::entityHurtEffects,
             defaultConfig::entityHurtEffects,
             false,
-            Component.literal("Awesome"),
+            tooltip("entity_hurt_effects"),
             { newValue -> config.entityHurtEffects = newValue},
             { element, _ ->
                 val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
