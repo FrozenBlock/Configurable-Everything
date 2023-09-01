@@ -102,9 +102,9 @@ object BiomeConfigUtil {
     private fun initReplacedMusic(change: BiomeChange, modification: BiomeModification) {
         val replacedMusic = change.musicReplacements
         if (replacedMusic != null) {
-            for (list in replacedMusic) {
-                val biome = list?.biome ?: continue
-                val music = list?.music ?: continue
+            for (musicReplacement in replacedMusic) {
+                val biome = musicReplacement?.biome ?: continue
+                val music = musicReplacement?.music ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     context.effects.setMusic(music)
                 }
