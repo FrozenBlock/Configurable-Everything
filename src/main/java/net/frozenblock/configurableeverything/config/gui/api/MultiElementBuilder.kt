@@ -5,4 +5,8 @@ import net.fabricmc.api.Environment
 import net.minecraft.network.chat.Component
 
 @Environment(EnvType.CLIENT)
-data class MultiElementBuilder<T>(val title: Component, val value: T, val defaultValue: T)
+data class MultiElementBuilder<T>(
+    @JvmField val title: Component,
+    @JvmField val value: T,
+    @JvmField val defaultValue: T
+)

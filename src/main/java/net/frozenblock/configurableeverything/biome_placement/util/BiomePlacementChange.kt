@@ -8,6 +8,7 @@ data class BiomePlacementChange(
 	@JvmField var removedBiomes: List<DimensionBiomeKeyList?>?
 ) {
 	companion object {
+        @JvmField
 		val CODEC: Codec<BiomePlacementChange> = RecordCodecBuilder.create { instance ->
 			instance.group(
 				DimensionBiomeList.CODEC.listOf().fieldOf("addedBiomes").forGetter(BiomePlacementChange::addedBiomes),

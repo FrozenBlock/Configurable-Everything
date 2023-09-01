@@ -6,7 +6,10 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.EntityType
 
-data class ExperienceOverride(@JvmField var entity: ResourceKey<EntityType<*>>, @JvmField var amount: Int) {
+data class ExperienceOverride(
+    @JvmField var entity: ResourceKey<EntityType<*>>,
+    @JvmField var amount: Int
+) {
     companion object {
         @JvmField
 		val CODEC: Codec<ExperienceOverride> = RecordCodecBuilder.create { instance ->

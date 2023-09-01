@@ -11,6 +11,7 @@ data class DimensionBiomeList(
 	@JvmField var biomes: List<BiomeParameters>
 ) {
 	companion object {
+        @JvmField
 		val CODEC: Codec<DimensionBiomeList> = RecordCodecBuilder.create { instance ->
 			instance.group(
 				ResourceKey.codec(Registries.DIMENSION_TYPE).fieldOf("dimension").forGetter(DimensionBiomeList::dimension),

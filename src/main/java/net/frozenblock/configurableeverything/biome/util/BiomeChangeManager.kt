@@ -15,6 +15,7 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
+import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
@@ -34,20 +35,15 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         private const val DIRECTORY = "biome_modifications"
         val INSTANCE = BiomeChangeManager()
         @JvmStatic
-        fun getPath(changeId: ResourceLocation, json5: Boolean): ResourceLocation {
-            return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${if (json5) "json5" else "json"}")
-        }
+        fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation =
+            ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
     }
 
     private var changes: MutableMap<ResourceLocation?, BiomeChange?>? = null
     private val queuedChanges: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
-    fun getChanges(): MutableList<BiomeChange?>? {
-        return changes?.values?.stream()?.toList()
-    }
+    fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.stream()?.toList()
 
-    fun getChange(id: ResourceLocation?): BiomeChange? {
-        return changes?.get(id)
-    }
+    fun getChange(id: ResourceLocation?): BiomeChange? = changes?.get(id)
 
     /**
      * Adds a biome change with the specified [ResourceLocation]
@@ -58,9 +54,7 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         removedFeatures: List<BiomePlacedFeatureList?>?,
         replacedFeatures: List<BiomePlacedFeatureReplacementList?>?,
         musicReplacements: List<BiomeMusic?>?
-    ) {
-        addChange(key, BiomeChange(addedFeatures, removedFeatures, replacedFeatures, musicReplacements))
-    }
+    ) = addChange(key, BiomeChange(addedFeatures, removedFeatures, replacedFeatures, musicReplacements))
 
     /**
      * Adds a biome change with the specified [ResourceLocation]
@@ -111,6 +105,8 @@ internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoad
         private fun loadChanges() = runBlocking {
             profiler?.push("Load Biome Changes")
 
+            // basically, this is a coroutine that loads the json and json5 files in parallel
+            // should speed it up a bit
             val loadJson = launch {
                 loadChanges(false)
             }

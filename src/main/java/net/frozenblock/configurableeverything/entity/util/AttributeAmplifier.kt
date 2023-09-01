@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute
 
 data class AttributeAmplifier(@JvmField var attribute: ResourceKey<Attribute>, @JvmField var amplifier: Double) {
     companion object {
+        @JvmField
         val CODEC: Codec<AttributeAmplifier> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ResourceKey.codec(Registries.ATTRIBUTE).fieldOf("attribute").forGetter(AttributeAmplifier::attribute),

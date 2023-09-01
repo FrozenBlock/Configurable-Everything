@@ -4,7 +4,10 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.resources.ResourceLocation
 
-data class EntityFlyBySound(var entity: ResourceLocation, var sound: EntityFlyBySoundData) {
+data class EntityFlyBySound(
+    @JvmField var entity: ResourceLocation,
+    @JvmField var sound: EntityFlyBySoundData
+) {
     companion object {
         @JvmField
 		val CODEC: Codec<EntityFlyBySound> = RecordCodecBuilder.create { instance ->

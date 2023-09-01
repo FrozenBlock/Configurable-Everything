@@ -6,8 +6,10 @@ import net.minecraft.resources.ResourceLocation
 
 data class Fixer(
     @JvmField var oldId: ResourceLocation,
-    @JvmField var newId: ResourceLocation) {
+    @JvmField var newId: ResourceLocation
+) {
     companion object {
+        @JvmField
         val CODEC: Codec<Fixer> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ResourceLocation.CODEC.fieldOf("old_id").forGetter(Fixer::oldId),

@@ -3,9 +3,8 @@ package net.frozenblock.configurableeverything.config;
 import blue.endless.jankson.Comment;
 import com.mojang.datafixers.util.Either;
 import java.util.List;
-import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters;
-import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList;
-import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList;
+
+import net.frozenblock.configurableeverything.biome_placement.util.*;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
@@ -64,8 +63,8 @@ public class BiomePlacementConfig {
 				BuiltinDimensionTypes.OVERWORLD,
 				List.of(
 					new BiomeParameters(
-						ConfigurableEverythingDataGenerator.BLANK_BIOME,
-						Climate.parameters(
+						ConfigurableEverythingDataGenerator.BLANK_BIOME.location(),
+						MutableParameterPointKt.mutable(Climate.parameters(
 							Temperature.FULL_RANGE,
 							Humidity.FULL_RANGE,
 							Continentalness.MUSHROOM_FIELDS,
@@ -73,7 +72,7 @@ public class BiomePlacementConfig {
 							Climate.Parameter.span(Depth.SURFACE, Depth.FLOOR),
 							Weirdness.FULL_RANGE,
 							0F
-						)
+						))
 					)
 				)
 			),
@@ -81,8 +80,8 @@ public class BiomePlacementConfig {
 				BuiltinDimensionTypes.NETHER,
 				List.of(
 					new BiomeParameters(
-						ConfigurableEverythingDataGenerator.BLANK_BIOME,
-						Climate.parameters(
+						ConfigurableEverythingDataGenerator.BLANK_BIOME.location(),
+						MutableParameterPointKt.mutable(Climate.parameters(
 							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.span(-1F, 1F),
 							Continentalness.MUSHROOM_FIELDS,
@@ -90,7 +89,7 @@ public class BiomePlacementConfig {
 							Climate.Parameter.span(-1F, 1F),
 							Climate.Parameter.span(-1F, 1F),
 							0F
-						)
+						))
 					)
 				)
 			)
@@ -127,5 +126,9 @@ public class BiomePlacementConfig {
 
 	public static BiomePlacementConfig get() {
 		return INSTANCE.config();
+	}
+
+	public static Config<BiomePlacementConfig> getConfigInstance() {
+		return INSTANCE;
 	}
 }

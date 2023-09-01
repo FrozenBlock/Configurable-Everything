@@ -11,6 +11,7 @@ data class EntityFlyBySoundData(
     @JvmField var pitch: Float
 ) {
     companion object {
+        @JvmField
         val CODEC: Codec<EntityFlyBySoundData> = RecordCodecBuilder.create { instance ->
             instance.group(
                 Codec.STRING.fieldOf("category").forGetter(EntityFlyBySoundData::category),

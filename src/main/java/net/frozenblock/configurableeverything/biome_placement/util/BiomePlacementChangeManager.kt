@@ -13,6 +13,7 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
+import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
@@ -35,21 +36,17 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         val INSTANCE = BiomePlacementChangeManager()
 
         @JvmStatic
-        fun getPath(changeId: ResourceLocation, json5: Boolean): ResourceLocation {
-            return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${if (json5) "json5" else "json"}")
+        fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation {
+            return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
         }
     }
 
     private var changes: MutableMap<ResourceLocation?, BiomePlacementChange?>? = null
     private val queuedChanges: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 
-    fun getChanges(): MutableList<BiomePlacementChange?>? {
-        return changes?.values?.stream()?.toList()
-    }
+    fun getChanges(): MutableList<BiomePlacementChange?>? = changes?.values?.stream()?.toList()
 
-    fun getChange(id: ResourceLocation?): BiomePlacementChange? {
-        return changes?.get(id)
-    }
+    fun getChange(id: ResourceLocation?): BiomePlacementChange? = changes?.get(id)
 
     /**
      * Adds a biome placement change with the specified [ResourceLocation]
@@ -58,9 +55,7 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         key: ResourceLocation?,
         addedBiomes: List<DimensionBiomeList?>?,
         removedBiomes: List<DimensionBiomeKeyList?>?
-    ) {
-        addChange(key, BiomePlacementChange(addedBiomes, removedBiomes))
-    }
+    ) = addChange(key, BiomePlacementChange(addedBiomes, removedBiomes))
 
     /**
      * Adds a biome placement change with the specified [ResourceLocation]
@@ -75,9 +70,8 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         manager: ResourceManager?,
         profiler: ProfilerFiller?,
         executor: Executor?
-    ): CompletableFuture<BiomePlacementChangeLoader> {
-        return CompletableFuture.supplyAsync({ BiomePlacementChangeLoader(manager, profiler) }, executor)
-    }
+    ): CompletableFuture<BiomePlacementChangeLoader> =
+        CompletableFuture.supplyAsync({ BiomePlacementChangeLoader(manager, profiler) }, executor)
 
     override fun apply(
         prepared: BiomePlacementChangeLoader?,
@@ -90,9 +84,7 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         return CompletableFuture.runAsync {}
     }
 
-    override fun getFabricId(): ResourceLocation {
-        return id("biome_placement_change_reloader")
-    }
+    override fun getFabricId(): ResourceLocation = id("biome_placement_change_reloader")
 
     class BiomePlacementChangeLoader(private val manager: ResourceManager?, private val profiler: ProfilerFiller?) {
         val changes: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
@@ -106,6 +98,8 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         private fun loadPlacementChanges() = runBlocking {
             profiler?.push("Load Biome Placement Changes")
 
+            // basically, this is a coroutine that loads the json and json5 files in parallel
+            // should speed it up a bit
             val loadJson = launch {
                 loadPlacementChanges(false)
             }

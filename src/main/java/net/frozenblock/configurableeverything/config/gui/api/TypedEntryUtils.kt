@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.minecraft.network.chat.Component
+import net.minecraft.world.level.biome.Climate
 import java.util.*
 import java.util.function.BiFunction
 import java.util.function.Consumer
@@ -47,7 +48,7 @@ object TypedEntryUtils {
     }
 
     @JvmStatic
-    fun <T> makeNestedList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<List<T>?>?, defaultValue: Supplier<List<T>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<List<T>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>, requiresRestart: Boolean = false): NestedListListEntry<T, AbstractConfigListEntry<T>> {
+    fun <T> makeNestedList(entryBuilder: ConfigEntryBuilder, title: Component, entrySupplier: Supplier<List<T>?>?, defaultValue: Supplier<List<T>>, expandedByDefault: Boolean = false, tooltip: Component, setterConsumer: Consumer<List<T>>, cellCreator: BiFunction<T, NestedListListEntry<T, AbstractConfigListEntry<T>>, AbstractConfigListEntry<T>>, requiresRestart: Boolean = false): NestedListListEntry<T, out AbstractConfigListEntry<T>> {
         val value: List<T> = entrySupplier?.get() ?: defaultValue.get()
 
         return NestedListListEntry(

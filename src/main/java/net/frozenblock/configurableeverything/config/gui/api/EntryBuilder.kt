@@ -9,7 +9,14 @@ import net.minecraft.network.chat.Component
 import java.util.function.Consumer
 
 @Environment(EnvType.CLIENT)
-data class EntryBuilder<T>(val title: Component, val value: T?, val defaultValue: T, val saveConsumer: Consumer<T>, val tooltip: Component? = null, val requiresRestart: Boolean? = false) {
+data class EntryBuilder<T>(
+    @JvmField val title: Component,
+    @JvmField val value: T?,
+    @JvmField val defaultValue: T,
+    @JvmField val saveConsumer: Consumer<T>,
+    @JvmField val tooltip: Component? = null,
+    @JvmField val requiresRestart: Boolean? = false
+) {
 
     fun build(entryBuilder: ConfigEntryBuilder): AbstractConfigListEntry<out Any> {
         val usedValue: T = value ?: defaultValue
@@ -29,6 +36,16 @@ data class EntryBuilder<T>(val title: Component, val value: T?, val defaultValue
                 entryBuilder.startIntField(title, usedValue)
                     .setDefaultValue(defaultValue as Int)
                     .setSaveConsumer(saveConsumer as Consumer<Int>)
+                    .let {
+                        tooltip?.let { tooltip -> it.setTooltip(tooltip) }
+                        requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
+                        it
+                    }.build()
+            }
+            is Long -> {
+                entryBuilder.startLongField(title, usedValue)
+                    .setDefaultValue(defaultValue as Long)
+                    .setSaveConsumer(saveConsumer as Consumer<Long>)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }

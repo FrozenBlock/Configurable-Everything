@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.config.gui.main
 import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.GameConfig
@@ -24,6 +25,7 @@ object ConfigurableEverythingConfigGui {
 
         configBuilder.setSavingRunnable {
             MainConfig.getConfigInstance().save()
+            BiomePlacementConfig.getConfigInstance().save()
             DataFixerConfig.getConfigInstance().save()
             EntityConfig.getConfigInstance().save()
             GameConfig.getConfigInstance().save()
@@ -34,6 +36,9 @@ object ConfigurableEverythingConfigGui {
 
         val main = configBuilder.getOrCreateCategory(text("main"))
         MainConfigGui.setupEntries(main, entryBuilder)
+
+        val biomePlacement = configBuilder.getOrCreateCategory(text("biome_placement"))
+        BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
 
         val datafixer = configBuilder.getOrCreateCategory(text("datafixer"))
         DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
