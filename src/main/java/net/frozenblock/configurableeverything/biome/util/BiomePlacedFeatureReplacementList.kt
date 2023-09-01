@@ -1,12 +1,12 @@
-package net.frozenblock.configurableeverything.biome.util;
+package net.frozenblock.configurableeverything.biome.util
 
-import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
+import com.mojang.datafixers.util.Either
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.biome.Biome
 
 data class BiomePlacedFeatureReplacementList(
 	@JvmField var biome: Either<ResourceKey<Biome>?, TagKey<Biome>?>?,

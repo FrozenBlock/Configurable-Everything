@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.biome.util
 
+import kotlinx.coroutines.*
 import net.fabricmc.fabric.api.biome.v1.*
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomeConfig
@@ -24,92 +25,116 @@ object BiomeConfigUtil {
 
     // should only be run if the config is enabled, since this is only called from the datapack manager
     @JvmStatic
-    fun applyModifications(changes: Collection<BiomeChange?>?) {
+    fun applyModifications(changes: Collection<BiomeChange?>?) = runBlocking {
         val modification: BiomeModification = BiomeModifications.create(id("feature_modifications"))
         changes?.forEach { change ->
-            change?.let {
-                // FEATURES
-                initAddedFeatures(it, modification)
-                initRemovedFeatures(it, modification)
-                initReplacedFeatures(it, modification)
+            launch {
+                change?.let {
+                    // FEATURES
+                    launch {
+                        initAddedFeatures(it, modification)
+                    }
+                    launch {
+                        initRemovedFeatures(it, modification)
+                    }
+                    launch {
+                        initReplacedFeatures(it, modification)
+                    }
 
-                // EFFECTS
-                initReplacedMusic(it, modification)
+                    // EFFECTS
+                    launch {
+                        initReplacedMusic(it, modification)
+                    }
+                }
             }
         }
     }
 
-    private fun initAddedFeatures(change: BiomeChange, modification: BiomeModification) {
+    private fun initAddedFeatures(change: BiomeChange, modification: BiomeModification) = runBlocking {
         val addedFeatures = change.addedFeatures
         if (addedFeatures != null) {
             for (list in addedFeatures) {
-                val biome = list?.biome ?: continue
-                val features = list?.features ?: continue
-                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
+                launch {
+                    val biome = list?.biome ?: continue
+                    val features = list?.features ?: continue
+                    val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
-                        if (decorationFeature == null) continue
-                        for (placedFeature in decorationFeature.placedFeatures) {
-                            context.generationSettings.addFeature(decorationFeature.decoration, placedFeature)
+                            if (decorationFeature == null) continue
+                            val placedFeatures = decorationFeature.placedFeatures ?: continue
+                            for (placedFeature in placedFeatures) {
+                                placedFeature?.let {
+                                    context.generationSettings.addFeature(decorationFeature.decoration, it)
+                                }
+                            }
                         }
                     }
+                    biome?.ifLeft { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(it), consumer) }
+                    biome?.ifRight { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.tag(it), consumer) }
                 }
-                biome?.ifLeft { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.includeByKey(it), consumer) }
-                biome?.ifRight { modification.add(ModificationPhase.ADDITIONS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
 
-    private fun initRemovedFeatures(change: BiomeChange, modification: BiomeModification) {
+    private fun initRemovedFeatures(change: BiomeChange, modification: BiomeModification) = runBlocking {
         val removedFeatures = change.removedFeatures
         if (removedFeatures != null) {
             for (list in removedFeatures) {
-                val biome = list?.biome ?: continue
-                val features = list.features ?: continue
-                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
-                    for (decorationFeature in features) {
-                        if (decorationFeature == null) continue
-                        for (placedFeature in decorationFeature.placedFeatures) {
-                            context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
+                launch {
+                    val biome = list?.biome ?: continue
+                    val features = list.features ?: continue
+                    val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
+                        for (decorationFeature in features) {
+                            if (decorationFeature == null) continue
+                            val placedFeatures = decorationFeature.placedFeatuers ?: continue
+                            for (placedFeature in placedFeatures) {
+                                placedFeature?.let {
+                                    context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
+                                }
+                            }
                         }
                     }
+                    biome?.ifLeft { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(it), consumer) }
+                    biome?.ifRight { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.tag(it), consumer) }
                 }
-                biome?.ifLeft { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.includeByKey(it), consumer) }
-                biome?.ifRight { modification.add(ModificationPhase.REMOVALS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
 
-    private fun initReplacedFeatures(change: BiomeChange, modification: BiomeModification) {
+    private fun initReplacedFeatures(change: BiomeChange, modification: BiomeModification) = runBlocking {
         val replacedFeatures = change.replacedFeatures
         if (replacedFeatures != null) {
             for (list in replacedFeatures) {
-                val biome = list?.biome ?: continue
-                val replacements = list?.replacements ?: continue
-                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
-                    for (replacement in replacements) {
-                        context.generationSettings.removeFeature(replacement.replacement.decoration, replacement.original)
-                        for (placedFeature in replacement.replacement.placedFeatures) {
-                            context.generationSettings.addFeature(replacement.replacement.decoration, placedFeature)
+                launch {
+                    val biome = list?.biome ?: continue
+                    val replacements = list?.replacements ?: continue
+                    val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
+                        for (replacement in replacements) {
+                            context.generationSettings.removeFeature(replacement.replacement.decoration, replacement.original)
+                            for (placedFeature in replacement.replacement.placedFeatures) {
+                                context.generationSettings.addFeature(replacement.replacement.decoration, placedFeature)
+                            }
                         }
                     }
+                    biome?.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
+                    biome?.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
                 }
-                biome?.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
-                biome?.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
 
-    private fun initReplacedMusic(change: BiomeChange, modification: BiomeModification) {
+    private fun initReplacedMusic(change: BiomeChange, modification: BiomeModification) = runBlocking {
         val replacedMusic = change.musicReplacements
         if (replacedMusic != null) {
             for (musicReplacement in replacedMusic) {
-                val biome = musicReplacement?.biome ?: continue
-                val music = musicReplacement?.music ?: continue
-                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
-                    context.effects.setMusic(music)
+                launch {
+                    val biome = musicReplacement?.biome ?: continue
+                    val music = musicReplacement?.music ?: continue
+                    val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
+                        context.effects.setMusic(music)
+                    }
+                    biome?.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
+                    biome?.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
                 }
-                biome?.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
-                biome?.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }
             }
         }
     }
