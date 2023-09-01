@@ -43,8 +43,8 @@ object BiomeConfigUtil {
         val addedFeatures = change.addedFeatures
         if (addedFeatures != null) {
             for (list in addedFeatures) {
-                val biome = list.biome
-                val features = list.features ?: continue
+                val biome = list?.biome ?: continue
+                val features = list?.features ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
                         if (decorationFeature == null) continue
@@ -63,7 +63,7 @@ object BiomeConfigUtil {
         val removedFeatures = change.removedFeatures
         if (removedFeatures != null) {
             for (list in removedFeatures) {
-                val biome = list.biome
+                val biome = list?.biome ?: continue
                 val features = list.features ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
@@ -83,8 +83,8 @@ object BiomeConfigUtil {
         val replacedFeatures = change.replacedFeatures
         if (replacedFeatures != null) {
             for (list in replacedFeatures) {
-                val biome = list.biome
-                val replacements = list.replacements
+                val biome = list?.biome ?: continue
+                val replacements = list?.replacements ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (replacement in replacements) {
                         context.generationSettings.removeFeature(replacement.replacement.decoration, replacement.original)
@@ -103,8 +103,8 @@ object BiomeConfigUtil {
         val replacedMusic = change.musicReplacements
         if (replacedMusic != null) {
             for (list in replacedMusic) {
-                val biome = list.biome
-                val music = list.music
+                val biome = list?.biome ?: continue
+                val music = list?.music ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     context.effects.setMusic(music)
                 }
