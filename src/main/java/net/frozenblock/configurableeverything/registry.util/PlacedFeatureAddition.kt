@@ -1,6 +1,5 @@
-package net.frozenblock.configurableeverything.biome.util
+package net.frozenblock.configurableeverything.registry.util
 
-import net.frozenblock.configurableeverything.util.DynamicRegistryAddition
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 

@@ -54,6 +54,9 @@ class MainConfig {
 	var game: Boolean? = false
 
     @JvmField
+    var registry: Boolean? = false
+
+    @JvmField
 	var screen_shake: Boolean? = false
 
     @JvmField

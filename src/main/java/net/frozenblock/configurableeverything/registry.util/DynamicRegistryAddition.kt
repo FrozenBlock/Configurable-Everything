@@ -1,4 +1,4 @@
-package net.frozenblock.configurableverything.util
+package net.frozenblock.configurableverything.registry.util
 
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.minecraft.core.Registry

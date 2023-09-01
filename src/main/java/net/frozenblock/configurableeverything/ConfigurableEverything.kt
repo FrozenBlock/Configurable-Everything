@@ -11,6 +11,7 @@ import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.applyDataFixes
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations
+import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -38,6 +39,7 @@ class ConfigurableEverything : ModInitializer {
             EntityConfigUtil.init()
             FluidConfig.get()
             GameConfig.get()
+            RegistryConfigUtil.init()
             ScreenShakeConfig.get()
             SplashTextConfigUtil.init()
             SurfaceRuleConfigUtil.init()
