@@ -17,7 +17,7 @@ data class BiomeMusic(
 		@JvmField
 		val CODEC: Codec<BiomeMusic> = RecordCodecBuilder.create { instance ->
 			instance.group(
-				Codec.either(ResourceKey.codec(Registries.BIOME), TagKey.hashedCodec(REGISTRIES.BIOME)).fieldOf("biome").forGetter(BiomeMusic::biome),
+				Codec.either(ResourceKey.codec(Registries.BIOME), TagKey.hashedCodec(Registries.BIOME)).fieldOf("biome").forGetter(BiomeMusic::biome),
 				Music.CODEC.fieldOf("music").forGetter(BiomeMusic::music)
 			).apply(instance, ::BiomeMusic)
 		}

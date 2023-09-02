@@ -1,24 +1,18 @@
-package net.frozenblock.configurableverything.registry.util
+package net.frozenblock.configurableeverything.registry.util
 
-import net.fabricmc.fabric.api.event.registry.DynamicRegistries
 import net.minecraft.core.Registry
+import net.minecraft.core.RegistryAccess
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import org.quiltmc.qsl.frozenblock.core.registry.api.event.DynamicRegistryManagerSetupContext
 
-data class DynamicRegistryAddition<T>(registry: ResourceKey<out Registry<T>>, key: ResourceKey<T>, value: T) {
-    companion object {
-        @JvmStatic
-        fun <T> codec(registry: ResourceKey<out Registry<T>>, valueCodec: Codec<T>): Codec<DynamicRegistryAddition<T>> {
-            return RecordCodecBuilder.create { instance ->
-                instance.group(
-                    ResourceKey.codec(Registries.REGISTRY).fieldOf("registry").forGetter(DynamicRegistryAddition::registry),
-                    ResourceKey.codec(registry).fieldOf("key").forGetter(DynamicRegistryAddition::key),
-                    valueCodec.fieldOf("value").forGetter(DynamicRegistryAddition::value)
-                )
-            }
-        }
-    }
+open class DynamicRegistryAddition<T>(
+    @JvmField val registry: ResourceKey<out Registry<T>>,
+    open val key: ResourceLocation,
+    open val value: T & Any
+) {
 
-    fun register() {
-        TODO()
+    fun register(setupContext: DynamicRegistryManagerSetupContext) {
+        setupContext.register(registry, key) { value }
     }
 }

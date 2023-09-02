@@ -16,7 +16,7 @@ data class PlacedFeatureReplacement(
 			instance.group(
 				ResourceKey.codec(Registries.PLACED_FEATURE).fieldOf("original").forGetter(PlacedFeatureReplacement::original),
 				DecorationStepPlacedFeature.CODEC.fieldOf("replacement").forGetter(PlacedFeatureReplacement::replacement)
-			)
+			).apply(instance, ::PlacedFeatureReplacement)
 		}
 	}
 }

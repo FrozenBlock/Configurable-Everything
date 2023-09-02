@@ -30,11 +30,10 @@ class MainConfig {
     // the configs may have weird casing because the goal is to match the config file name
     @JvmField
 	@Comment(
-        """
-		Enabled configs
-		Warning: It is important to check the contents of each config before enabling them here.
-
-		"""
+"""
+Enabled configs
+Warning: It is important to check the contents of each config before enabling them here.
+"""
     )
     var biome: Boolean? = false
 
