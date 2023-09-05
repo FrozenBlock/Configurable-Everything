@@ -11,7 +11,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class MainConfig {
     companion object {
-        private val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 MainConfig::class.java,
@@ -22,9 +22,6 @@ class MainConfig {
 
         @JvmStatic
         fun get(): MainConfig = INSTANCE.config()
-
-        @JvmStatic
-        fun getConfigInstance(): Config<MainConfig> = INSTANCE
     }
 
     // the configs may have weird casing because the goal is to match the config file name

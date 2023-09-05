@@ -10,7 +10,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class WorldConfig {
     companion object {
-        val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 WorldConfig::class.java,
@@ -27,9 +27,6 @@ class WorldConfig {
 
         @JvmStatic
         fun get(): WorldConfig = INSTANCE.config()
-
-        @JvmStatic
-        fun getConfigInstance(): Config<WorldConfig> = INSTANCE
     }
 
     @JvmField

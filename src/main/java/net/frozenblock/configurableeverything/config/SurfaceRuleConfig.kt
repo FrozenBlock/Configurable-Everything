@@ -23,7 +23,8 @@ class SurfaceRuleConfig {
                 FrozenDimensionBoundRuleSource.CODEC.listOf()
             )
         )
-        private val INSTANCE: Config<SurfaceRuleConfig> = ConfigRegistry.register(
+
+        internal val INSTANCE: Config<SurfaceRuleConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 SurfaceRuleConfig::class.java,

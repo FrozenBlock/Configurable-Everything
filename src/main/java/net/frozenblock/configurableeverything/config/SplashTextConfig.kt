@@ -12,7 +12,7 @@ import net.minecraft.world.item.DyeColor
 
 class SplashTextConfig {
     companion object {
-        private val INSTANCE: Config<SplashTextConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<SplashTextConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 SplashTextConfig::class.java,
@@ -23,9 +23,6 @@ class SplashTextConfig {
 
         @JvmStatic
         fun get(): SplashTextConfig = INSTANCE.config()
-
-        @JvmStatic
-        fun getConfigInstance(): Config<SplashTextConfig> = INSTANCE
     }
 
     @JvmField

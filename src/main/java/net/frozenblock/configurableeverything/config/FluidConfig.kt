@@ -22,7 +22,7 @@ class FluidConfig {
             )
         )
 
-        private val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 FluidConfig::class.java,

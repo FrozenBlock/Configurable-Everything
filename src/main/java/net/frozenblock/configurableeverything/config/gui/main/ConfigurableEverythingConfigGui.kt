@@ -24,14 +24,14 @@ object ConfigurableEverythingConfigGui {
         val entryBuilder = configBuilder.entryBuilder()
 
         configBuilder.setSavingRunnable {
-            MainConfig.getConfigInstance().save()
+            MainConfig.INSTANCE.save()
             BiomePlacementConfig.getConfigInstance().save()
             DataFixerConfig.getConfigInstance().save()
             EntityConfig.getConfigInstance().save()
-            GameConfig.getConfigInstance().save()
+            GameConfig.INSTANCE.save()
             ScreenShakeConfig.getConfigInstance().save()
-            SplashTextConfig.getConfigInstance().save()
-            WorldConfig.getConfigInstance().save()
+            SplashTextConfig.INSTANCE.save()
+            WorldConfig.INSTANCE.save()
         }
 
         val main = configBuilder.getOrCreateCategory(text("main"))

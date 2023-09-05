@@ -27,7 +27,7 @@ class RegistryConfig {
             )
         )
 
-        private val INSTANCE: Config<RegistryConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<RegistryConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 RegistryConfig::class.java,
@@ -38,9 +38,6 @@ class RegistryConfig {
 
         @JvmStatic
         fun get(): RegistryConfig = INSTANCE.config()
-
-        @JvmStatic
-        fun getConfigInstance(): Config<RegistryConfig> = INSTANCE
     }
 
     @JvmField

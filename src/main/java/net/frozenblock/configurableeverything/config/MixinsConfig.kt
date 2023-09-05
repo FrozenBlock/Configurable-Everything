@@ -11,7 +11,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class MixinsConfig {
     companion object {
-        private val INSTANCE: Config<MixinsConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<MixinsConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 MixinsConfig::class.java,
@@ -22,9 +22,6 @@ class MixinsConfig {
 
         @JvmStatic
         fun get(): MixinsConfig = INSTANCE.config()
-
-        @JvmStatic
-        fun getConfigInstance(): Config<MixinsConfig> = INSTANCE
     }
 
     @Comment(

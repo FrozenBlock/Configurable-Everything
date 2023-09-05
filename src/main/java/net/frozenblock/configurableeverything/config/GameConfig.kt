@@ -10,8 +10,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class GameConfig {
     companion object {
-
-        private val INSTANCE: Config<GameConfig> = ConfigRegistry.register(
+        internal val INSTANCE: Config<GameConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 GameConfig::class.java,
@@ -22,9 +21,6 @@ class GameConfig {
 
         @JvmStatic
         fun get(): GameConfig = INSTANCE.config()
-
-        @JvmStatic
-        fun getConfigInstance(): Config<GameConfig> = INSTANCE
     }
 
     @JvmField
