@@ -58,7 +58,7 @@ public class BiomeConfig {
 	}
 
 	@JvmField
-	val addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
+	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -87,7 +87,7 @@ public class BiomeConfig {
 	)
 
 	@JvmField
-	val removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
+	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -116,7 +116,7 @@ public class BiomeConfig {
 	)
 
 	@JvmField
-	val replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry(
+	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
 			BiomePlacedFeatureReplacementList(
@@ -151,7 +151,7 @@ public class BiomeConfig {
 	)
 
 	@JvmField
-	val musicReplacements: TypedEntry<List<BiomeMusic>> = TypedEntry(
+	var musicReplacements: TypedEntry<List<BiomeMusic>> = TypedEntry(
 		BIOME_MUSIC_LIST,
 		listOf(
 			BiomeMusic(
