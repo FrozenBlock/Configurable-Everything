@@ -27,8 +27,10 @@ object BiomePlacementUtils {
     fun init() {
         val config = BiomePlacementConfig.get()
         if (MainConfig.get().biome_placement == true) {
-            if (config.addedBiomes?.value != null && config.removedBiomes?.value != null) {
-                val placementChange = BiomePlacementChange(config.addedBiomes.value, config.removedBiomes.value)
+            val addedBiomes = config.addedBiomes?.value
+            val removedBiomes = config.removedBiomes?.value
+            if (addedBiomes != null && removedBiomes != null) {
+                val placementChange = BiomePlacementChange(addedBiomes, removedBiomes)
                 BiomePlacementChanges.addChange(id("config"), placementChange)
             }
 

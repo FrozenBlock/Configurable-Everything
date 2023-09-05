@@ -44,10 +44,10 @@ public class BiomeConfig {
 		)
 
 		@JvmField
-		internal val INSTANCE: Condig<BiomeConfig> = ConfigRegistry.register(
+		internal val INSTANCE: Config<BiomeConfig> = ConfigRegistry.register(
 			JsonConfig(
 				MOD_ID,
-				BiomeConfig.class,
+				BiomeConfig::class.java,
 				makeConfigPath("biome"),
 				CONFIG_JSONTYPE
 			)
