@@ -2,6 +2,8 @@ package net.frozenblock.configurableeverything.util
 
 import java.nio.file.Path
 
+// dont initialize minecraft classes here
+
 /**
  * @return The path of the config file.
  */
