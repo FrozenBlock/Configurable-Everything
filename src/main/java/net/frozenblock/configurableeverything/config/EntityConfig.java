@@ -10,6 +10,7 @@ import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
 import net.frozenblock.configurableeverything.entity.util.ExperienceOverride;
 import net.frozenblock.configurableeverything.entity.util.MobEffectHolder;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingConfigUtilsKt;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
@@ -61,7 +62,7 @@ public final class EntityConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			EntityConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("entity"),
+			ConfigurableEverythingConfigUtilsKt.makeConfigPath("entity"),
 			ConfigurableEverythingSharedConstantsKt.CONFIG_JSONTYPE
 		)
 	);

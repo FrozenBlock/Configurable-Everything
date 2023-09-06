@@ -19,12 +19,9 @@ object BiomePlacementChanges {
         key: ResourceLocation?,
         addedBiomes: List<DimensionBiomeList?>?,
         removedBiomes: List<DimensionBiomeKeyList?>?
-    ) {
-        MANAGER.addChange(key, addedBiomes, removedBiomes)
-    }
+    ) = MANAGER.addChange(key, addedBiomes, removedBiomes)
 
     @JvmStatic
-    fun addChange(key: ResourceLocation?, change: BiomePlacementChange?) {
-        MANAGER.addChange(key, change)
-    }
+    fun addChange(key: ResourceLocation?, change: BiomePlacementChange?)
+        = MANAGER.addChange(key, change)
 }

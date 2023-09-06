@@ -8,7 +8,7 @@ import net.frozenblock.configurableeverything.datafixer.util.Fixer;
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer;
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingConfigUtilsKt;
 import net.frozenblock.lib.config.api.entry.TypedEntry;
 import net.frozenblock.lib.config.api.entry.TypedEntryType;
 import net.frozenblock.lib.config.api.instance.Config;
@@ -38,7 +38,7 @@ public class DataFixerConfig {
 		new JsonConfig<>(
 			ConfigurableEverythingSharedConstantsKt.MOD_ID,
 			DataFixerConfig.class,
-			ConfigurableEverythingUtilsKt.makeConfigPath("datafixer"),
+			ConfigurableEverythingConfigUtilsKt.makeConfigPath("datafixer"),
 			ConfigurableEverythingSharedConstantsKt.CONFIG_JSONTYPE
 		)
 	);

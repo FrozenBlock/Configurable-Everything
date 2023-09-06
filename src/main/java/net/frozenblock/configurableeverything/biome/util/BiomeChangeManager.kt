@@ -21,14 +21,12 @@ import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.GsonHelper
 import net.minecraft.util.profiling.ProfilerFiller
-import org.jetbrains.annotations.ApiStatus
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.IOException
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-@ApiStatus.Internal
 internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
     companion object {
         private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")

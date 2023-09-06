@@ -1,7 +1,6 @@
 package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
-import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,7 +10,7 @@ const val MOD_ID = "configurable_everything"
 const val MOD_NAME = "Configurable Everything"
 
 @JvmField
-val LOGGER: Logger? = LoggerFactory.getLogger(MOD_ID)
+val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
 
 @JvmField
 var DEV_LOGGING = false
@@ -24,9 +23,6 @@ var DEV_LOGGING = false
  */
 @JvmField
 var UNSTABLE_LOGGING: Boolean = FabricLoader.getInstance().isDevelopmentEnvironment
-
-@JvmField
-val MOD_CONTAINER: ModContainer = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow()
 
 @JvmField
 val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
