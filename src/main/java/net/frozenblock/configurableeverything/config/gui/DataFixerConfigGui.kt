@@ -26,14 +26,14 @@ object DataFixerConfigGui {
         category.background = id("textures/config/datafixer.png")
 
         category.addEntry(EntryBuilder(text("override_real_entries"), config.overrideRealEntries,
-            defaultConfig.overrideRealEntries,
+            defaultConfig.overrideRealEntries!!,
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("overrideRealEntries"),
             true
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("data_version"), config.dataVersion,
-            defaultConfig.dataVersion,
+            defaultConfig.dataVersion!!,
             { newValue -> config.dataVersion = newValue },
             tooltip("dataVersion"),
             true

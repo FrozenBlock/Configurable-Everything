@@ -24,13 +24,13 @@ object ScreenShakeConfigGui {
         category.addEntry(soundScreenShakes(entryBuilder, config, defaultConfig))
 
         category.addEntry(EntryBuilder(text("dragon_respawn_screen_shake"), config.dragonRespawnScreenShake,
-            defaultConfig.dragonRespawnScreenShake,
+            defaultConfig.dragonRespawnScreenShake!!,
             { newValue -> config.dragonRespawnScreenShake = newValue },
             tooltip("dragon_respawn_screen_shake")
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("explosion_screen_shake"), config.explosionScreenShake,
-            defaultConfig.explosionScreenShake,
+            defaultConfig.explosionScreenShake!!,
             { newValue -> config.explosionScreenShake = newValue },
             tooltip("explosion_screen_shake")
         ).build(entryBuilder))
