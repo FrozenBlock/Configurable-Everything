@@ -89,7 +89,7 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is Color -> {
-                val consumer = saveConsumer as? Consumer<Color> ?: throw IllegalArgumentException("Invalid consumer")
+                val consumer = saveConsumer as? Consumer<Int> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startColorField(title, usedValue.color)
                     .setDefaultValue((defaultValue as Color).color)
                     .setSaveConsumer(consumer)
