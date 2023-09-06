@@ -22,9 +22,10 @@ data class EntryBuilder<T>(
         val usedValue: T = value ?: defaultValue
         return when (usedValue) {
             is Boolean -> {
+                val consumer = saveConsumer as? Consumer<Boolean> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startBooleanToggle(title, usedValue)
                     .setDefaultValue(defaultValue as Boolean)
-                    .setSaveConsumer(saveConsumer as Consumer<Boolean>)
+                    .setSaveConsumer(consumer)
                     .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
@@ -33,9 +34,10 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is Int -> {
+                val consumer = saveConsumer as? Consumer<Int> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startIntField(title, usedValue)
                     .setDefaultValue(defaultValue as Int)
-                    .setSaveConsumer(saveConsumer as Consumer<Int>)
+                    .setSaveConsumer(consumer)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
@@ -43,9 +45,10 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is Long -> {
+                val consumer = saveConsumer as? Consumer<Long> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startLongField(title, usedValue)
                     .setDefaultValue(defaultValue as Long)
-                    .setSaveConsumer(saveConsumer as Consumer<Long>)
+                    .setSaveConsumer(consumer)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
@@ -53,9 +56,10 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is Float -> {
+                val consumer = saveConsumer as? Consumer<Float> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startFloatField(title, usedValue)
                     .setDefaultValue(defaultValue as Float)
-                    .setSaveConsumer(saveConsumer as Consumer<Float>)
+                    .setSaveConsumer(consumer)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
@@ -63,9 +67,10 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is Double -> {
+                val consumer = saveConsumer as? Consumer<Double> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startDoubleField(title, usedValue)
                     .setDefaultValue(defaultValue as Double)
-                    .setSaveConsumer(saveConsumer as Consumer<Double>)
+                    .setSaveConsumer(consumer)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
@@ -73,9 +78,10 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is String -> {
+                val consumer = saveConsumer as? Consumer<String> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startStrField(title, usedValue)
                     .setDefaultValue(defaultValue as String)
-                    .setSaveConsumer(saveConsumer as Consumer<String>)
+                    .setSaveConsumer(consumer)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
@@ -83,9 +89,10 @@ data class EntryBuilder<T>(
                     }.build()
             }
             is Color -> {
+                val consumer = saveConsumer as? Consumer<Color> ?: throw IllegalArgumentException("Invalid consumer")
                 entryBuilder.startColorField(title, usedValue.color)
                     .setDefaultValue((defaultValue as Color).color)
-                    .setSaveConsumer(saveConsumer as Consumer<Int>)
+                    .setSaveConsumer(consumer)
                     .let {
                         tooltip?.let { tooltip -> it.setTooltip(tooltip) }
                         requiresRestart?.let { requiresRestart -> it.requireRestart(requiresRestart) }
