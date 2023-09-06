@@ -17,9 +17,9 @@ object EntityConfigUtil {
         val config = EntityConfig.get()
         // only run this on client
         if (MainConfig.get().entity == true && FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
-            if (config.entityFlyBySounds?.value != null) {
-                val flyBySounds: List<EntityFlyBySound> = config.entityFlyBySounds.value
+            config.entityFlyBySounds?.value?.let { flyBySounds ->
                 for (sound in flyBySounds) {
+                    if (sound == null) continue
                     val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
                     if (optionalEntity.isPresent) {
                         val entity = optionalEntity.get()

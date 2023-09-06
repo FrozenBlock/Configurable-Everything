@@ -20,9 +20,9 @@ object ScreenShakeConfigUtil {
             if (level == null || x == null || y == null || z == null || sound == null) return
             val offset = 0.001
             val entities: List<Entity>? = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))
-            if (config.soundScreenShakes?.value != null) {
-                val shakes = config.soundScreenShakes.value
+            config.soundScreenShakes?.value?.let { shakes ->
                 for (shake in shakes) {
+                    if (shake == null) continue
                     if (shake.sound == sound.location) {
                         if (entities?.isEmpty() == true) { // apply to position if no entity is found
                             if (level.isClientSide) {

@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation
 object EntityConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = EntityConfig.get()
-        val defaultConfig = EntityConfig.getConfigInstance().defaultInstance()
+        val defaultConfig = EntityConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/entity.png")
 
         category.addEntry(entityAttributeAmplifiers(entryBuilder, config, defaultConfig))
@@ -32,9 +32,9 @@ object EntityConfigGui {
         category.addEntry(entitySpottingIcons(entryBuilder, config, defaultConfig))
 
         val player = config.player
-        val digSpeedAmplifier = entryBuilder.startIntSlider(text("dig_speed_amplifier"), player.digSpeedAmplifier, 1, 5000)
+        val digSpeedAmplifier = entryBuilder.startIntSlider(text("dig_speed_amplifier"), player?.digSpeedAmplifier ?: defaultConfig.player!!.digSpeedAmplifier!!, 1, 5000)
                 .setDefaultValue(100)
-                .setSaveConsumer { newValue: Int? -> player.digSpeedAmplifier = newValue!! }
+                .setSaveConsumer { newValue: Int? -> player?.digSpeedAmplifier = newValue!! }
                 .setTooltip(tooltip("dig_speed_amplifier"))
                 .build()
 
@@ -47,44 +47,44 @@ object EntityConfigGui {
 
         val zombie = config.zombie
         val babyZombieSprint =
-            entryBuilder.startBooleanToggle(text("baby_zombie_sprint_particles"), zombie.babyZombieSprintParticles)
+            entryBuilder.startBooleanToggle(text("baby_zombie_sprint_particles"), zombie?.babyZombieSprintParticles ?: defaultConfig.zombie!!.babyZombieSprintParticles!!)
                 .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> zombie.babyZombieSprintParticles = newValue!! }
+                .setSaveConsumer { newValue: Boolean? -> zombie?.babyZombieSprintParticles = newValue!! }
                 .setTooltip(tooltip("baby_zombie_sprint_particles"))
                 .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
                 .build()
 
-        val zombiesAvoidSun = entryBuilder.startBooleanToggle(text("zombies_avoid_sun"), zombie.zombiesAvoidSun)
+        val zombiesAvoidSun = entryBuilder.startBooleanToggle(text("zombies_avoid_sun"), zombie?.zombiesAvoidSun ?: defaultConfig.zombie!!.zombiesAvoidSun!!)
             .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> zombie.zombiesAvoidSun = newValue!! }
+            .setSaveConsumer { newValue: Boolean? -> zombie?.zombiesAvoidSun = newValue!! }
             .setTooltip(tooltip("zombies_avoid_sun"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
 
-        val ignoreZombieDoorBreakDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_door_break_difficulty"), zombie.ignoreDoorBreakDifficulty)
+        val ignoreZombieDoorBreakDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_door_break_difficulty"), zombie?.ignoreDoorBreakDifficulty ?: defaultConfig.zombie!!.ignoreDoorBreakDifficulty!!)
             .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> zombie.ignoreDoorBreakDifficulty = newValue!! }
+            .setSaveConsumer { newValue: Boolean? -> zombie?.ignoreDoorBreakDifficulty = newValue!! }
             .setTooltip(tooltip("ignore_zombie_door_break_difficulty"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
 
-        val allZombiesBreakDoors = entryBuilder.startBooleanToggle(text("all_zombies_break_doors"), zombie.allZombiesBreakDoors)
+        val allZombiesBreakDoors = entryBuilder.startBooleanToggle(text("all_zombies_break_doors"), zombie?.allZombiesBreakDoors ?: defaultConfig.zombie!!.allZombiesBreakDoors!!)
                 .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> zombie.allZombiesBreakDoors = newValue!! }
+                .setSaveConsumer { newValue: Boolean? -> zombie?.allZombiesBreakDoors = newValue!! }
                 .setTooltip(tooltip("all_zombies_break_doors"))
                 .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
                 .build()
 
-        val ignoreZombieReinforcementDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_reinforcement_difficulty"), zombie.ignoreReinforcementDifficulty)
+        val ignoreZombieReinforcementDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_reinforcement_difficulty"), zombie?.ignoreReinforcementDifficulty ?: defaultConfig.zombie!!.ignoreReinforcementDifficulty!!)
             .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> zombie.ignoreReinforcementDifficulty = newValue!! }
+            .setSaveConsumer { newValue: Boolean? -> zombie?.ignoreReinforcementDifficulty = newValue!! }
             .setTooltip(tooltip("ignore_zombie_reinforcement_difficulty"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
 
-        val fullZombieReinforcementChance = entryBuilder.startBooleanToggle(text("full_zombie_reinforcement_chance"), zombie.fullReinforcementChance)
+        val fullZombieReinforcementChance = entryBuilder.startBooleanToggle(text("full_zombie_reinforcement_chance"), zombie?.fullReinforcementChance ?: defaultConfig.zombie!!.fullReinforcementChance!!)
                 .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> zombie.fullReinforcementChance = newValue!! }
+                .setSaveConsumer { newValue: Boolean? -> zombie?.fullReinforcementChance = newValue!! }
                 .setTooltip(tooltip("full_zombie_reinforcement_chance"))
                 .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
                 .build()
@@ -104,16 +104,16 @@ object EntityConfigGui {
         )
 
         val skeleton = config.skeleton
-        val skeletonAccuracyIgnoresDifficulty = entryBuilder.startBooleanToggle(text("skeleton_accuracy_ignores_difficulty"), skeleton.skeletonAccuracyIgnoresDifficulty)
+        val skeletonAccuracyIgnoresDifficulty = entryBuilder.startBooleanToggle(text("skeleton_accuracy_ignores_difficulty"), skeleton?.skeletonAccuracyIgnoresDifficulty ?: defaultConfig.skeleton!!.skeletonAccuracyIgnoresDifficulty!!)
             .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> skeleton.skeletonAccuracyIgnoresDifficulty = newValue!! }
+            .setSaveConsumer { newValue: Boolean? -> skeleton?.skeletonAccuracyIgnoresDifficulty = newValue!! }
             .setTooltip(tooltip("skeleton_accuracy_ignores_difficulty"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
 
-        val skeletonsAvoidSun = entryBuilder.startBooleanToggle(text("skeletons_avoid_sun"), skeleton.skeletonsAvoidSun)
+        val skeletonsAvoidSun = entryBuilder.startBooleanToggle(text("skeletons_avoid_sun"), skeleton?.skeletonsAvoidSun ?: defaultConfig.skeleton!!.skeletonsAvoidSun!!)
             .setDefaultValue(true)
-            .setSaveConsumer { newValue: Boolean? -> skeleton.skeletonsAvoidSun = newValue!! }
+            .setSaveConsumer { newValue: Boolean? -> skeleton?.skeletonsAvoidSun = newValue!! }
             .setTooltip(tooltip("skeletons_avoid_sun"))
             .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
             .build()
@@ -126,7 +126,7 @@ object EntityConfigGui {
         )
 
         val flamingArrowsLightFire = category.addEntry(
-            entryBuilder.startBooleanToggle(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire)
+            entryBuilder.startBooleanToggle(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire ?: defaultConfig.flamingArrowsLightFire!!)
                 .setDefaultValue(false)
                 .setSaveConsumer { newValue: Boolean? -> config.flamingArrowsLightFire = newValue!! }
                 .setTooltip(tooltip("flaming_arrows_light_fire"))
@@ -144,7 +144,7 @@ object EntityConfigGui {
             entryBuilder,
             text("entity_attribute_amplifiers"),
             config::entityAttributeAmplifiers,
-            defaultConfig::entityAttributeAmplifiers,
+            {defaultConfig.entityAttributeAmplifiers!!},
             false,
             tooltip("entity_attribute_amplifiers"),
             { newValue -> config.entityAttributeAmplifiers = newValue},
@@ -209,7 +209,7 @@ object EntityConfigGui {
             entryBuilder,
             text("entity_xp_overrides"),
             config::experienceOverrides,
-            defaultConfig::experienceOverrides,
+            {defaultConfig.experienceOverrides!!},
             false,
             text("entity_xp_overrides"),
             { newValue -> config.experienceOverrides = newValue},
@@ -244,7 +244,7 @@ object EntityConfigGui {
             entryBuilder,
             text("entity_flyby_sounds"),
             config::entityFlyBySounds,
-            defaultConfig::entityFlyBySounds,
+            {defaultConfig.entityFlyBySounds!!},
             false,
             text("entity_flyby_sounds"),
             { newValue -> config.entityFlyBySounds = newValue},
@@ -311,7 +311,7 @@ object EntityConfigGui {
             entryBuilder,
             text("entity_hurt_effects"),
             config::entityHurtEffects,
-            defaultConfig::entityHurtEffects,
+            {defaultConfig.entityHurtEffects!!},
             false,
             tooltip("entity_hurt_effects"),
             { newValue -> config.entityHurtEffects = newValue},
@@ -399,7 +399,7 @@ object EntityConfigGui {
             entryBuilder,
             text("entity_spotting_icons"),
             config::entitySpottingIcons,
-            defaultConfig::entitySpottingIcons,
+            {defaultConfig.entitySpottingIcons!!},
             false,
             tooltip("entity_spotting_icons"),
             { newValue -> config.entitySpottingIcons = newValue},

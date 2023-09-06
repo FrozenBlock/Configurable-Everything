@@ -24,7 +24,7 @@ data class RegistryFixer(
 
         @JvmStatic
         fun getFixedValueInRegistry(registry: Registry<*>?, name: ResourceLocation?, original: Any?): ResourceLocation? {
-            if (original != null && !DataFixerConfig.get().overrideRealEntries)
+            if (original != null && DataFixerConfig.get().overrideRealEntries == false)
                 return null
             if (name != null) {
                 val registryFixers: List<RegistryFixer?> = REGISTRY_FIXERS

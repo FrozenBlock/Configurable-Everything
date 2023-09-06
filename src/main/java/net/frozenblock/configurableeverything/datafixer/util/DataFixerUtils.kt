@@ -20,7 +20,7 @@ object DataFixerUtils {
     val SCHEMAS: MutableList<SchemaEntry?> = ArrayList()
         get() {
             val list = ArrayList(field)
-            list.addAll(DataFixerConfig.get().schemas.value)
+            DataFixerConfig.get().schemas?.value?.let { list.addAll(it) }
             return list
         }
 
@@ -28,7 +28,7 @@ object DataFixerUtils {
     val REGISTRY_FIXERS: MutableList<RegistryFixer?> = ArrayList()
         get() {
             val list = ArrayList(field)
-            list.addAll(DataFixerConfig.get().registryFixers.value)
+            DataFixerConfig.get().registryFixers?.value?.let { list.addAll(it) }
             return list
         }
 
@@ -40,6 +40,10 @@ object DataFixerUtils {
             log("Applying Configurable Everything's data fixes", UNSTABLE_LOGGING)
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion
+            if (dataVersion == null) {
+                error("Data version is null", true)
+                return
+            }
             val builder = QuiltDataFixerBuilder(dataVersion)
             var maxSchema = 0
             val addedSchemas: MutableList<Schema> = ArrayList()

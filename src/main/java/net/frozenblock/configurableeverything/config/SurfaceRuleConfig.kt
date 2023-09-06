@@ -8,7 +8,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
-import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.world.level.block.Blocks
@@ -24,6 +23,7 @@ class SurfaceRuleConfig {
             )
         )
 
+        @JvmField
         internal val INSTANCE: Config<SurfaceRuleConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,

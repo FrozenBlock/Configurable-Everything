@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.config
 
 import blue.endless.jankson.Comment
 import net.frozenblock.configurableeverything.registry.util.BiomeAddition
+import net.frozenblock.configurableeverything.registry.util.PlacedFeatureAddition
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
@@ -11,8 +12,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.biome.Biome.BiomeBuilder
 import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
@@ -27,6 +26,14 @@ class RegistryConfig {
             )
         )
 
+        private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?>?>? = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                PlacedFeatureAddition.CODEC.listOf()
+            )
+        )
+
+        @JvmField
         internal val INSTANCE: Config<RegistryConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
@@ -67,5 +74,12 @@ class RegistryConfig {
                     .build()
             )
         )
+    )
+
+    @JvmField
+    @Comment("Adds these placed features to the placed feature registry on datapack load.")
+    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
+        PLACED_FEATURE_ADDITIONS,
+        listOf() // cant make an example bc it requires a holder and the registry is dynamic
     )
 }

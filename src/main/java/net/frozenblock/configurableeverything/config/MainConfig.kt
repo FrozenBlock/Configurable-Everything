@@ -11,6 +11,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class MainConfig {
     companion object {
+        @JvmField
         internal val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,

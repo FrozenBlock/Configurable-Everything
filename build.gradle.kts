@@ -251,7 +251,8 @@ dependencies {
 }
 
 vineflower {
-    //toolVersion.set("1.8.0")
+    toolVersion.set("1.9.2")
+    println("Vineflower: ${toolVersion.get()}")
 }
 
 tasks {

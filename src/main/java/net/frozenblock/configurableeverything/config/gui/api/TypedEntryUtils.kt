@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.minecraft.network.chat.Component
-import net.minecraft.world.level.biome.Climate
 import java.util.*
 import java.util.function.BiFunction
 import java.util.function.Consumer

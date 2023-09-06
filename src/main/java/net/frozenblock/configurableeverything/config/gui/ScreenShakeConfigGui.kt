@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation
 object ScreenShakeConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScreenShakeConfig.get()
-        val defaultConfig = ScreenShakeConfig.getConfigInstance().defaultInstance()
+        val defaultConfig = ScreenShakeConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/screen_shake.png")
 
         category.addEntry(soundScreenShakes(entryBuilder, config, defaultConfig))
@@ -46,7 +46,7 @@ private fun soundScreenShakes(
         entryBuilder,
         text("sound_screen_shakes"),
         config::soundScreenShakes,
-        defaultConfig::soundScreenShakes,
+        {defaultConfig.soundScreenShakes!!},
         false,
         tooltip("sound_screen_shakes"),
         { newValue -> config.soundScreenShakes = newValue},

@@ -10,6 +10,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 class WorldConfig {
     companion object {
+        @JvmField
         internal val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
@@ -20,10 +21,10 @@ class WorldConfig {
         )
 
         @JvmStatic
-        fun getSunSize(): Float = get().sunSize / 10F
+        val sunSize: Float? get() = get().sunSize?.div(10F)
 
         @JvmStatic
-        fun getMoonSize(): Float = get().moonSize / 10F
+        val moonSize: Float? get() = get().moonSize?.div(10F)
 
         @JvmStatic
         fun get(): WorldConfig = INSTANCE.config()
@@ -31,17 +32,19 @@ class WorldConfig {
 
     @JvmField
 	@Comment("Does not modify tick rate. Only modifies daytime speed.")
-    var dayTimeSpeedAmplifier: Long = 1
+    var dayTimeSpeedAmplifier: Long? = 1
+
     @JvmField
-	var fixSunMoonRotating = false
+	var fixSunMoonRotating: Boolean? = false
 
     @JvmField
 	@Comment("Incompatible with mod Bedrockify.")
-    var sunSize = 300
+    var sunSize: Int? = 300
+
     @JvmField
-	var moonSize = 200
+	var moonSize: Int? = 200
 
     @JvmField
 	@Comment("Disables the experimental warning screen when creating or loading worlds.")
-    var disableExperimentalWarning = false
+    var disableExperimentalWarning: Boolean? = false
 }

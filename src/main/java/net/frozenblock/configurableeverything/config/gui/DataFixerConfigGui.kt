@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = DataFixerConfig.get()
-        val defaultConfig = DataFixerConfig.getConfigInstance().defaultInstance()
+        val defaultConfig = DataFixerConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/datafixer.png")
 
         category.addEntry(EntryBuilder(text("override_real_entries"), config.overrideRealEntries,
@@ -92,7 +92,7 @@ private fun schemas(
         entryBuilder,
         text("schemas"),
         config::schemas,
-        defaultConfig::schemas,
+        {defaultConfig.schemas!!},
         false,
         tooltip("schemas"),
         { newValue -> config.schemas = newValue},
@@ -181,7 +181,7 @@ private fun registryFixers(
         entryBuilder,
         text("registry_fixers"),
         config::registryFixers,
-        defaultConfig::registryFixers,
+        {defaultConfig.registryFixers!!},
         false,
         tooltip("registry_fixers"),
         { newValue -> config.registryFixers = newValue},

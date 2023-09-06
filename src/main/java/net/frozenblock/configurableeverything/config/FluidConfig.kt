@@ -22,6 +22,7 @@ class FluidConfig {
             )
         )
 
+        @JvmField
         internal val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,

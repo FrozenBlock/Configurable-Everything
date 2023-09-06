@@ -1,7 +1,12 @@
 package net.frozenblock.configurableeverything.util
 
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import java.nio.file.Path
+
+// CONFIG
+fun text(key: String?): Component = Component.translatable("option.$MOD_ID.$key")
+
+fun tooltip(key: String?): Component = Component.translatable("tooltip.$MOD_ID.$key")
 
 // LOGGING
 fun log(string: String?, shouldLog: Boolean = true) {
