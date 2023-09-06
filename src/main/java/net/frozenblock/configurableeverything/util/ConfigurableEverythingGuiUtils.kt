@@ -1,4 +1,4 @@
-import net.frozenblock.configurableeverything.util
+package net.frozenblock.configurableeverything.util
 
 import net.minecraft.network.chat.Component
 

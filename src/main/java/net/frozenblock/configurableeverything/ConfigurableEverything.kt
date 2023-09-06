@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything
 
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
 import net.frozenblock.configurableeverything.config.DataFixerConfig
@@ -16,6 +17,7 @@ import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigU
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.minecraft.FileUtil
@@ -30,7 +32,7 @@ class ConfigurableEverything : ModInitializer {
 
     override fun onInitialize() {
         val time = measureNanoTime {
-            applyDataFixes(MOD_CONTAINER)
+            applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
 
             ConfigurableEverythingIntegrations.init()
             // init configs
