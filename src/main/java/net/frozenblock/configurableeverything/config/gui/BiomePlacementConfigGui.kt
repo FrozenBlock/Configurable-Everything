@@ -26,7 +26,7 @@ import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = BiomePlacementConfig.get()
-        val defaultConfig = BiomePlacementConfig.getConfigInstance().defaultInstance()
+        val defaultConfig = BiomePlacementConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/screen_shake.png")
 
         category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
