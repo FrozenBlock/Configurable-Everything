@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.WorldConfig;
 
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingConfigUtilsKt.*;
 import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.*;
 
 @Environment(EnvType.CLIENT)
