@@ -69,6 +69,9 @@ Warning: It is important to check the contents of each config before enabling th
 	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
     val datapack: DatapackConfig? = DatapackConfig()
 
+    @JvmField
+    val kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
+
     class DatapackConfig {
         @JvmField
 		var applyDatapacksFolder: Boolean? = true
@@ -82,5 +85,10 @@ Warning: It is important to check the contents of each config before enabling th
         @JvmField
         @Comment("Allows the usage of JSON5 files in datapacks.")
 		var json5Support: Boolean? = true
+    }
+
+    class KotlinScriptingConfig {
+        @JvmField
+        var applyKotlinScripts: Boolean? = true
     }
 }

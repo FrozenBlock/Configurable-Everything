@@ -225,6 +225,12 @@ dependencies {
     // Fabric Language Kotlin. Required for Kotlin support.
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
+    implementation("org.jetbrains.kotlin:kotlin-scripting-common")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-jvm")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-jvm-host")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-dependencies")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-dependencies-maven")
+
     // FrozenLib
     if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }

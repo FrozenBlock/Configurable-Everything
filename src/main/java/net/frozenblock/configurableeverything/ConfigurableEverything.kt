@@ -13,6 +13,7 @@ import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.appl
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
+import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
@@ -51,9 +52,11 @@ class ConfigurableEverything : ModInitializer {
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
+                FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
             }
+            ScriptingUtil.runScripts()
         }
 
         log("Configurable Everything took $time nanoseconds")
