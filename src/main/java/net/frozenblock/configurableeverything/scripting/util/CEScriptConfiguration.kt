@@ -27,7 +27,7 @@ object CEScriptConfiguration : ScriptCompilationConfiguration({
 
 internal class CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
     jvm {
-        baseClassLoader(Thread.currentThread().contextClassLoader)
+        baseClassLoader(javaClass.classLoader)
         loadDependencies(true)
         scriptsInstancesSharing(true)
     },
