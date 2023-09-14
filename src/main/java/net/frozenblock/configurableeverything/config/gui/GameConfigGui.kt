@@ -4,7 +4,7 @@ import me.shedaniel.clothconfig2.api.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.GameConfig
-import net.frozenblock.configurableeverything.config.gui.api.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip

@@ -6,8 +6,10 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.EntityConfig
-import net.frozenblock.configurableeverything.config.gui.api.EntryBuilder
-import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
+import net.frozenblock.lib.config.api.client.gui.makeNestedList
+import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
 import net.frozenblock.configurableeverything.entity.util.*
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.string
@@ -140,7 +142,7 @@ object EntityConfigGui {
         config: EntityConfig,
         defaultConfig: EntityConfig
     ): AbstractConfigListEntry<*> {
-        return TypedEntryUtils.makeTypedEntryList(
+        return makeTypedEntryList(
             entryBuilder,
             text("entity_attribute_amplifiers"),
             config::entityAttributeAmplifiers,
@@ -150,7 +152,7 @@ object EntityConfigGui {
             { newValue -> config.entityAttributeAmplifiers = newValue},
             { element, _ ->
                 val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
-                TypedEntryUtils.makeMultiElementEntry(
+                makeMultiElementEntry(
                     text("entity_attribute_amplifiers.entity_attribute_amplifier"),
                     entityAttributeAmplifier,
                     true,
@@ -167,7 +169,7 @@ object EntityConfigGui {
                         tooltip("entity_attribute_amplifiers.entity_name")
                     ).build(entryBuilder),
 
-                    TypedEntryUtils.makeNestedList(
+                    makeNestedList(
                         entryBuilder,
                         text("entity_attribute_amplifiers.amplifiers"),
                         entityAttributeAmplifier::amplifiers,
@@ -176,7 +178,7 @@ object EntityConfigGui {
                         tooltip("entity_attribute_amplifiers.amplifiers"),
                         { newValue -> entityAttributeAmplifier.amplifiers = newValue },
                         { amplifier, _ ->
-                            TypedEntryUtils.makeMultiElementEntry(
+                            makeMultiElementEntry(
                                 text("entity_attribute_amplifiers.attribute_amplifier"),
                                 amplifier,
                                 true,
@@ -205,7 +207,7 @@ object EntityConfigGui {
         config: EntityConfig,
         defaultConfig: EntityConfig
     ): AbstractConfigListEntry<*> {
-        return TypedEntryUtils.makeTypedEntryList(
+        return makeTypedEntryList(
             entryBuilder,
             text("entity_xp_overrides"),
             config::experienceOverrides,
@@ -215,7 +217,7 @@ object EntityConfigGui {
             { newValue -> config.experienceOverrides = newValue},
             { element, _ ->
                 val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), 0)
-                TypedEntryUtils.makeMultiElementEntry(
+                makeMultiElementEntry(
                     text("entity_xp_override"),
                     experienceOverride,
                     true,
@@ -240,7 +242,7 @@ object EntityConfigGui {
         config: EntityConfig,
         defaultConfig: EntityConfig
     ): AbstractConfigListEntry<*> {
-        return TypedEntryUtils.makeTypedEntryList(
+        return makeTypedEntryList(
             entryBuilder,
             text("entity_flyby_sounds"),
             config::entityFlyBySounds,
@@ -250,7 +252,7 @@ object EntityConfigGui {
             { newValue -> config.entityFlyBySounds = newValue},
             { element, _ ->
                 val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
-                TypedEntryUtils.makeMultiElementEntry(
+                makeMultiElementEntry(
                     text("entity_flyby_sound"),
                     entityFlyBySound,
                     true,
@@ -262,7 +264,7 @@ object EntityConfigGui {
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    TypedEntryUtils.makeMultiElementEntry(
+                    makeMultiElementEntry(
                         text("entity_flyby_sound.data"),
                         entityFlyBySound.sound,
                         true,
@@ -307,7 +309,7 @@ object EntityConfigGui {
         config: EntityConfig,
         defaultConfig: EntityConfig
     ): AbstractConfigListEntry<*> {
-        return TypedEntryUtils.makeTypedEntryList(
+        return makeTypedEntryList(
             entryBuilder,
             text("entity_hurt_effects"),
             config::entityHurtEffects,
@@ -317,7 +319,7 @@ object EntityConfigGui {
             { newValue -> config.entityHurtEffects = newValue},
             { element, _ ->
                 val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
-                TypedEntryUtils.makeMultiElementEntry(
+                makeMultiElementEntry(
                     text("entity_hurt_effects.dropdown"),
                     entityHurtEffect,
                     true,
@@ -333,7 +335,7 @@ object EntityConfigGui {
                         tooltip("entity_hurt_effects.entity_name")
                     ).build(entryBuilder),
 
-                    TypedEntryUtils.makeNestedList(
+                    makeNestedList(
                         entryBuilder,
                         text("entity_hurt_effects.hurt_effects"),
                         entityHurtEffect::effects,
@@ -342,7 +344,7 @@ object EntityConfigGui {
                         tooltip("entity_hurt_effects.hurt_effects"),
                         { newValue -> entityHurtEffect.effects = newValue },
                         { effect, _ ->
-                            TypedEntryUtils.makeMultiElementEntry(
+                            makeMultiElementEntry(
                                 text("entity_hurt_effects.hurt_effect"),
                                 effect,
                                 true,
@@ -395,7 +397,7 @@ object EntityConfigGui {
         config: EntityConfig,
         defaultConfig: EntityConfig
     ): AbstractConfigListEntry<*> {
-        return TypedEntryUtils.makeTypedEntryList(
+        return makeTypedEntryList(
             entryBuilder,
             text("entity_spotting_icons"),
             config::entitySpottingIcons,
@@ -405,7 +407,7 @@ object EntityConfigGui {
             { newValue -> config.entitySpottingIcons = newValue},
             { element, _ ->
                 val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), ResourceLocation("icon"), 5F, 8F)
-                TypedEntryUtils.makeMultiElementEntry(
+                makeMultiElementEntry(
                     text("entity_spotting_icons.spotting_icon"),
                     entitySpottingIcon,
                     true,

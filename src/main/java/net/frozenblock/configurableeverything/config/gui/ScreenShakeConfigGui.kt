@@ -6,8 +6,9 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
-import net.frozenblock.configurableeverything.config.gui.api.EntryBuilder
-import net.frozenblock.configurableeverything.config.gui.api.TypedEntryUtils
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
+import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
@@ -42,7 +43,7 @@ private fun soundScreenShakes(
     config: ScreenShakeConfig,
     defaultConfig: ScreenShakeConfig
 ): AbstractConfigListEntry<*> {
-    return TypedEntryUtils.makeTypedEntryList(
+    return makeTypedEntryList(
         entryBuilder,
         text("sound_screen_shakes"),
         config::soundScreenShakes,
@@ -52,7 +53,7 @@ private fun soundScreenShakes(
         { newValue -> config.soundScreenShakes = newValue},
         { element, _ ->
             val soundScreenShake = element ?: SoundScreenShake(ResourceLocation(""), 1F, 25, 1, 20F)
-            TypedEntryUtils.makeMultiElementEntry(
+            makeMultiElementEntry(
                 text("sound_screen_shakes.sound_screen_shake"),
                 soundScreenShake,
                 true,

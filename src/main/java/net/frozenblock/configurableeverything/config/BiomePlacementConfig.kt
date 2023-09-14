@@ -1,6 +1,5 @@
 package net.frozenblock.configurableeverything.config
 
-import blue.endless.jankson.Comment
 import com.mojang.datafixers.util.Either
 
 import net.frozenblock.configurableeverything.biome_placement.util.*
@@ -14,6 +13,7 @@ import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.reloc.blue.endless.jankson.Comment
 import net.frozenblock.lib.worldgen.biome.api.parameters.Continentalness
 import net.frozenblock.lib.worldgen.biome.api.parameters.Depth
 import net.frozenblock.lib.worldgen.biome.api.parameters.Erosion
