@@ -54,7 +54,6 @@ val fabric_version: String by project
 val fabric_kotlin_version: String by project
 val fabric_asm_version: String by project
 val frozenlib_version: String by project
-val jankson_version: String by project
 
 val cloth_config_version: String by project
 val modmenu_version: String by project
@@ -236,9 +235,6 @@ dependencies {
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     else
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
-
-    // Jankson
-    implementation("blue.endless:jankson:$jankson_version")
 
     // MixinExtras
     implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")?.let { annotationProcessor(it) }
