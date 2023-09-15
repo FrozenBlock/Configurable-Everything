@@ -90,5 +90,21 @@ Warning: It is important to check the contents of each config before enabling th
     class KotlinScriptingConfig {
         @JvmField
         var applyKotlinScripts: Boolean? = true
+
+        @JvmField
+        var defaultImports: List<String>? = ArrayList(
+            listOf(
+                "java.util.*",
+                "kotlinx.coroutines.*",
+                "net.frozenblock.configurableeverything.util.*",
+                "net.minecraft.core.registries.*",
+                "net.minecraft.core.registries.Registries.*",
+                "net.minecraft.resources.*",
+                "net.minecraft.server.*",
+                "net.minecraft.world.level.block.*",
+                "net.minecraft.world.level.block.state.*",
+                "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
+            )
+        )
     }
 }

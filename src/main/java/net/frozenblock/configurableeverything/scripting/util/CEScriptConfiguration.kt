@@ -17,19 +17,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import java.util.Optional
 import kotlin.script.experimental.dependencies.*
-
-private val DEFAULT_IMPORTS: List<String> = listOf(
-    "java.util.*",
-    "kotlinx.coroutines.*",
-    "net.frozenblock.configurableeverything.util.*",
-    "net.minecraft.core.registries.*",
-    "net.minecraft.core.registries.Registries.*",
-    "net.minecraft.resources.*",
-    "net.minecraft.server.*",
-    "net.minecraft.world.level.block.*",
-    "net.minecraft.world.level.block.state.*",
-    "net.minecraft.world.level.block.state.BlockBehaviour.Properties"
-)
+import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 
 @KotlinScript(
     fileExtension = KOTLIN_SCRIPT_EXTENSION,
@@ -41,10 +29,15 @@ abstract class CEScript {
         val realRegistry: Optional<Registry<T>>? = BuiltInRegistries.REGISTRY.getOptional(registry.location()) as? Optional<Registry<T>>
         if (realRegistry != null && realRegistry.isPresent) {
             return Registry.register(realRegistry.get(), path, value)
-        } else {
-            error("Registry ${registry.location()} does not exist")
         }
+        error("Registry ${registry.location()} does not exist in built in registries.")
         return null
+    }
+
+    fun <T> registerDynamic(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T) {
+        RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
+            DynamicRegistryAddition(registry, path, value).register(setupContext)
+        }
     }
 
     fun runEachTick(tickFun: (MinecraftServer) -> Unit) {
@@ -58,7 +51,7 @@ abstract class CEScript {
 }
 
 object CEScriptConfiguration : ScriptCompilationConfiguration({
-    defaultImports(DEFAULT_IMPORTS)
+    defaultImports(MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.INSTANCE.defaultInstance().kotlinScripting!!.defaultImports!!)
     baseClass(CEScript::class)
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)
