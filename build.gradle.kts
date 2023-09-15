@@ -130,19 +130,19 @@ loom {
     }
 }
 
-val includeModImplementation by configurations.creating
-val includeImplementation by configurations.creating
+val includeModApi: Configuration by configurations.creating
+val includeImplementation: Configuration by configurations.creating
 
 configurations {
     include {
         extendsFrom(includeImplementation)
-        extendsFrom(includeModImplementation)
+        extendsFrom(includeModApi)
     }
     implementation {
         extendsFrom(includeImplementation)
     }
-    modImplementation {
-        extendsFrom(includeModImplementation)
+    modApi {
+        extendsFrom(includeModApi)
     }
 }
 
@@ -224,11 +224,15 @@ dependencies {
     // Fabric Language Kotlin. Required for Kotlin support.
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
-    implementation("org.jetbrains.kotlin:kotlin-scripting-common")
-    implementation("org.jetbrains.kotlin:kotlin-scripting-jvm")
-    implementation("org.jetbrains.kotlin:kotlin-scripting-jvm-host")
-    implementation("org.jetbrains.kotlin:kotlin-scripting-dependencies")
-    implementation("org.jetbrains.kotlin:kotlin-scripting-dependencies-maven")
+    // these deps definitely needs to be put in another mod, 50MB is a lot.
+    includeModApi(kotlin("scripting-common"))
+    includeModApi(kotlin("scripting-jvm"))
+    includeModApi(kotlin("scripting-jsr223"))
+    includeModApi(kotlin("scripting-jvm-host"))
+    include(kotlin("script-runtime"))
+    include(kotlin("scripting-compiler-embeddable"))
+    include(kotlin("scripting-compiler-impl-embeddable"))
+    include(kotlin("compiler-embeddable"))
 
     // FrozenLib
     if (local_frozenlib)

@@ -17,16 +17,18 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import java.util.Optional
 import kotlin.script.experimental.dependencies.*
-import kotlin.script.experimental.dependencies.maven.MavenDependenciesResolver
-import kotlin.script.experimental.jvmhost.jsr223.importAllBindings
-import kotlin.script.experimental.jvmhost.jsr223.jsr223
 
 private val DEFAULT_IMPORTS: List<String> = listOf(
     "java.util.*",
     "kotlinx.coroutines.*",
     "net.frozenblock.configurableeverything.util.*",
     "net.minecraft.core.registries.*",
-    "net.minecraft.resources.*"
+    "net.minecraft.core.registries.Registries.*",
+    "net.minecraft.resources.*",
+    "net.minecraft.server.*",
+    "net.minecraft.world.level.block.*",
+    "net.minecraft.world.level.block.state.*",
+    "net.minecraft.world.level.block.state.BlockBehaviour.Properties"
 )
 
 @KotlinScript(
@@ -61,31 +63,30 @@ object CEScriptConfiguration : ScriptCompilationConfiguration({
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)
     }
-    jsr223 {
-        importAllBindings(true)
-    }
     jvm {
         dependenciesFromCurrentContext(wholeClasspath = true)
         dependenciesFromClassContext(CEScriptConfiguration::class)
     }
     compilerOptions(listOf("-jvm-target", "17"))
     refineConfiguration {
-        onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
+        //onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
     }
 }) {
     private fun readResolve(): Any = CEScriptConfiguration
 }
 
-internal class CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
+object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
     jvm {
         loadDependencies(true)
         scriptsInstancesSharing(true)
     }
-})
+}) {
+    private fun readResolve(): Any = CEScriptEvaluationConfig
+}
 
-private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
+//private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
 
-fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContext): ResultWithDiagnostics<ScriptCompilationConfiguration> {
+/*fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContext): ResultWithDiagnostics<ScriptCompilationConfiguration> {
     val annotations = context.collectedData?.get(ScriptCollectedData.collectedAnnotations)?.takeIf { it.isNotEmpty() }
         ?: return context.compilationConfiguration.asSuccess()
     return runBlocking {
@@ -96,3 +97,4 @@ fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContex
         }.asSuccess()
     }
 }
+*/

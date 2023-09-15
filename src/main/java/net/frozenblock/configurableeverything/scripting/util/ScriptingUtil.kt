@@ -5,8 +5,8 @@ import kotlin.script.experimental.api.*
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configureableeverything.scripting.util.CEScriptConfiguration
+import net.frozenblock.configureableeverything.scripting.util.CEScriptEvaluationConfig
 import java.io.File
-import kotlin.io.path.pathString
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 
@@ -14,7 +14,8 @@ object ScriptingUtil {
 
     private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
         val compilationConfiguration = CEScriptConfiguration
-        return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, null)
+        val evaluationConfiguration = CEScriptEvaluationConfig
+        return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
     }
 
     fun runScripts() {
