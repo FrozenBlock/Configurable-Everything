@@ -10,13 +10,13 @@ import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiom
 import net.frozenblock.configurableeverything.biome_placement.util.MutableParameter
 import net.frozenblock.configurableeverything.biome_placement.util.mutable
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig
-import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frzoenblock.lib.config.api.client.gui.makeTypedEntryList
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
+import net.frozenblock.lib.config.api.client.gui.makeNestedList
+import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey

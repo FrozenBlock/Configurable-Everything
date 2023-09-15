@@ -18,7 +18,7 @@ object GameConfigGui {
         category.background = id("textures/config/game.png")
 
         category.addEntry(EntryBuilder(text("window_title"), config.windowTitle,
-            defaultConfig.windowTitle,
+            defaultConfig.windowTitle!!,
             { newValue: String? -> config.windowTitle = newValue },
             tooltip("window_title")
         ).build(entryBuilder))

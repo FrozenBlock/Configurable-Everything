@@ -1,11 +1,10 @@
 package net.frozenblock.configurableeverything.datapack.util
 
-import blue.endless.jankson.JsonElement
 import com.mojang.serialization.Decoder
 import com.mojang.serialization.Lifecycle
-import kotlinx.coroutines.runBlocking
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
 import net.minecraft.core.Registry
 import net.minecraft.core.WritableRegistry
 import net.minecraft.resources.FileToIdConverter

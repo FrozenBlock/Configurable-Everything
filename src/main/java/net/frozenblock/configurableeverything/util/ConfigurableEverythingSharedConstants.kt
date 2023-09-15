@@ -28,10 +28,9 @@ var UNSTABLE_LOGGING: Boolean = FabricLoader.getInstance().isDevelopmentEnvironm
 val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
 
 @JvmField
-val KOTLIN_SCRIPT_PATH: Path = Path.of("./config/$MOD_ID/scripting")
+val KOTLIN_SCRIPT_PATH: Path = Path.of("./config/$MOD_ID/scripts/")
 
 // the idea is configurableeverything.kts but shorter
-@JvmField
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 
 @JvmField

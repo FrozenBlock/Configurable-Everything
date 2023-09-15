@@ -16,10 +16,7 @@ import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
-import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
-import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.log
-import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.minecraft.FileUtil
 import net.minecraft.core.Registry
@@ -58,6 +55,7 @@ class ConfigurableEverything : ModInitializer {
             }
             ScriptingUtil.runScripts()
         }
+
 
         log("Configurable Everything took $time nanoseconds")
     }
