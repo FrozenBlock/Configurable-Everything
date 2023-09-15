@@ -1,11 +1,8 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-import kotlin.script.experimental.*
 import kotlin.script.experimental.api.*
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.configureableeverything.scripting.util.CEScriptConfiguration
-import net.frozenblock.configureableeverything.scripting.util.CEScriptEvaluationConfig
 import java.io.File
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost

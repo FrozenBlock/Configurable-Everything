@@ -233,6 +233,7 @@ dependencies {
     include(kotlin("scripting-compiler-embeddable"))
     include(kotlin("scripting-compiler-impl-embeddable"))
     include(kotlin("compiler-embeddable"))
+    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
 
     // FrozenLib
     if (local_frozenlib)

@@ -1,11 +1,11 @@
-package net.frozenblock.configureableeverything.scripting.util
+package net.frozenblock.configurableeverything.scripting.util
 
-import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.StartTick
+import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.registry.util.DynamicRegistryAddition
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.jvm.*
@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import java.util.Optional
-import kotlin.script.experimental.dependencies.*
 import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 
 @KotlinScript(
@@ -25,7 +24,7 @@ import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
     evaluationConfiguration = CEScriptEvaluationConfig::class,
 )
 abstract class CEScript {
-    fun <T> register(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T): T? {
+    fun <T> register(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T & Any): T? {
         val realRegistry: Optional<Registry<T>>? = BuiltInRegistries.REGISTRY.getOptional(registry.location()) as? Optional<Registry<T>>
         if (realRegistry != null && realRegistry.isPresent) {
             return Registry.register(realRegistry.get(), path, value)
@@ -34,7 +33,7 @@ abstract class CEScript {
         return null
     }
 
-    fun <T> registerDynamic(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T) {
+    fun <T : Any> registerDynamic(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T) {
         RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
             DynamicRegistryAddition(registry, path, value).register(setupContext)
         }
@@ -60,7 +59,9 @@ object CEScriptConfiguration : ScriptCompilationConfiguration({
         dependenciesFromCurrentContext(wholeClasspath = true)
         dependenciesFromClassContext(CEScriptConfiguration::class)
     }
+
     compilerOptions(listOf("-jvm-target", "17"))
+    compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
     refineConfiguration {
         //onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
     }
