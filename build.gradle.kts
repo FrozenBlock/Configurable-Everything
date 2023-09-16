@@ -225,7 +225,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // these deps definitely needs to be put in another mod, 50MB is a lot.
-    includeModApi(kotlin("scripting-common"))
+    // disabled until later date
+    /*includeModApi(kotlin("scripting-common"))
     includeModApi(kotlin("scripting-jvm"))
     includeModApi(kotlin("scripting-jsr223"))
     includeModApi(kotlin("scripting-jvm-host"))
@@ -233,7 +234,7 @@ dependencies {
     include(kotlin("scripting-compiler-embeddable"))
     include(kotlin("scripting-compiler-impl-embeddable"))
     include(kotlin("compiler-embeddable"))
-    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
+    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")*/
 
     // FrozenLib
     if (local_frozenlib)
