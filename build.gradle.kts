@@ -238,10 +238,10 @@ dependencies {
 
     // remapping
     // required for running scripts in prod environment
-    modApi("net.fabricmc:tiny-remapper:0.8.7")?.let { include(it) }
-    modApi("net.fabricmc:mapping-io:0.2.1")?.let { include(it) }
-    modApi("net.fabricmc:lorenz-tiny:4.0.2")?.let { include(it) }
-    modApi("net.fabricmc:mercury:0.3.0")?.let { include(it) }
+    includeModApi("net.fabricmc:tiny-remapper:0.8.7")
+    includeModApi("net.fabricmc:mapping-io:0.2.1")
+    includeModApi("net.fabricmc:lorenz-tiny:4.0.2")
+    includeModApi("net.fabricmc:mercury:0.3.0")
 
     // FrozenLib
     if (local_frozenlib)

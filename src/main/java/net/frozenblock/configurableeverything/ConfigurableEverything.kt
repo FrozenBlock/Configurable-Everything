@@ -48,6 +48,11 @@ class ConfigurableEverything : ModInitializer {
             WorldConfigUtil.init()
 
             try {
+                for (file in REMAPPED_SCRIPT_SOURCES_PATH.toFile()) {
+                    // delete existing remapped files
+                    // so that new ones can be created
+                    file.delete()
+                }
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
                 FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
             } catch (e: IOException) {

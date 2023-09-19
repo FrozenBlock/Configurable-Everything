@@ -30,6 +30,9 @@ val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
 @JvmField
 val KOTLIN_SCRIPT_PATH: Path = Path.of("./config/$MOD_ID/scripts/")
 
+@JvmField
+val REMAPPED_SCRIPT_SOURCES_PATH: Path = Path.of("./.configurableeverything/remapped/")
+
 // the idea is configurableeverything.kts but shorter
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 
