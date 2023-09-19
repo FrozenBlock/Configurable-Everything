@@ -36,7 +36,7 @@ plugins {
     idea
     `java-library`
     java
-    kotlin("jvm") version("1.9.10")
+    kotlin("jvm") version("1.9.20-Beta")
 }
 
 val minecraft_version: String by project
@@ -243,7 +243,7 @@ dependencies {
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
 
     // MixinExtras
-    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")?.let { annotationProcessor(it) }
+    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-rc.2")?.let { annotationProcessor(it) }
 
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {

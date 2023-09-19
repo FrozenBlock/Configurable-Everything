@@ -25,7 +25,7 @@ import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
 public class BiomePlacementConfig {
 	companion object {
-		private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList>> = ConfigRegistry.register(
+		private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList?>> = ConfigRegistry.register(
 			TypedEntryType(
 				MOD_ID,
 				DimensionBiomeKeyList.CODEC.listOf()
@@ -110,7 +110,7 @@ public class BiomePlacementConfig {
 		Does not support biomes added via TerraBlender
 		"""
 	)
-	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList>> = TypedEntry(
+	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList?>>? = TypedEntry(
 		BIOME_KEY_LIST,
 		listOf(
 			DimensionBiomeKeyList(
