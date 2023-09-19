@@ -61,8 +61,8 @@ object ConfigurableEverythingConfigGui {
         val game = configBuilder.getOrCreateCategory(text("game"))
         GameConfigGui.setupEntries(game, entryBuilder)
 
-        //val mixins = configBuilder.getOrCreateCategory(text("mixins"))
-        //MixinsConfigGui.setupEntries(mixins, entryBuilder)
+        val mixins = configBuilder.getOrCreateCategory(text("mixins"))
+        MixinsConfigGui.setupEntries(mixins, entryBuilder)
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
         ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
