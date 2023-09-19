@@ -50,6 +50,7 @@ class ConfigurableEverything : ModInitializer {
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
                 FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
+                FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
                 FileUtil.createDirectoriesSafe(REMAPPED_SCRIPT_SOURCES_PATH)
 
                 for (file in REMAPPED_SCRIPT_SOURCES_PATH.toFile()) {
