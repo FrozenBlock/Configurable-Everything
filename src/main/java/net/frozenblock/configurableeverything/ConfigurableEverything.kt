@@ -48,13 +48,15 @@ class ConfigurableEverything : ModInitializer {
             WorldConfigUtil.init()
 
             try {
-                for (file in REMAPPED_SCRIPT_SOURCES_PATH.toFile()) {
-                    // delete existing remapped files
-                    // so that new ones can be created
-                    file.delete()
-                }
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
                 FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
+                FileUtil.createDirectoriesSafe(REMAPPED_SCRIPT_SOURCES_PATH)
+
+                for (file in REMAPPED_SCRIPT_SOURCES_PATH.toFile()) {
+                    // delete existing remapped files
+                    // so that new oens can be created
+                    file.delete()
+                }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
             }
