@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.dimension.DimensionType
 
 data class DimensionBiomeList(
-	@JvmField var dimension: ResourceKey<DimensionType>,
-	@JvmField var biomes: List<BiomeParameters>
+	@JvmField var dimension: ResourceKey<DimensionType>?,
+	@JvmField var biomes: List<BiomeParameters?>?
 ) {
 	companion object {
         @JvmField

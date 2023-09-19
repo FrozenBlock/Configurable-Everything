@@ -47,7 +47,7 @@ private fun addedBiomes(
         entryBuilder,
         text("added_biomes"),
         config::addedBiomes,
-        defaultConfig::addedBiomes,
+        {defaultConfig.addedBiomes!!},
         false,
         tooltip("added_biomes"),
         { newValue -> config.addedBiomes = newValue},
@@ -64,13 +64,13 @@ private fun addedBiomes(
                     0F
                 ).mutable()
             ))
-            val dimensionBiomeList = element ?: DimensionBiomeList(BuiltinDimensionTypes.OVERWORLD, defaultParameters)
+            val dimensionBiomeList: DimensionBiomeList = element ?: DimensionBiomeList(BuiltinDimensionTypes.OVERWORLD, defaultParameters)
             makeMultiElementEntry(
                 text("added_biomes.dimension_biome_list"),
                 dimensionBiomeList,
                 true,
 
-                EntryBuilder(text("added_biomes.dimension"), dimensionBiomeList.dimension.location().toString(),
+                EntryBuilder(text("added_biomes.dimension"), dimensionBiomeList.dimension?.location().toString(),
                     "",
                     { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation(newValue)) },
                     tooltip("added_biomes.dimension")
@@ -90,74 +90,74 @@ private fun addedBiomes(
                             biomeParameters,
                             true,
 
-                            EntryBuilder(text("added_biomes.biome"), biomeParameters.biome.toString(),
+                            EntryBuilder(text("added_biomes.biome"), biomeParameters?.biome.toString(),
                                 "",
-                                { newValue -> biomeParameters.biome = ResourceLocation(newValue) },
+                                { newValue -> biomeParameters?.biome = ResourceLocation(newValue) },
                                 tooltip("added_biomes.biome")
                             ).build(entryBuilder),
 
                             makeMultiElementEntry(
                                 text("added_biomes.parameters"),
-                                biomeParameters.parameters,
+                                biomeParameters?.parameters,
                                 true,
 
                                 makeMultiElementEntry(
                                     text("added_biomes.temperature"),
-                                    biomeParameters.parameters?.temperature,
+                                    biomeParameters?.parameters?.temperature,
                                     true,
 
-                                    makeParameter(biomeParameters.parameters?.temperature, true),
-                                    makeParameter(biomeParameters.parameters?.temperature, false),
+                                    makeParameter(biomeParameters?.parameters?.temperature, true),
+                                    makeParameter(biomeParameters?.parameters?.temperature, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
                                 makeMultiElementEntry(
                                     text("added_biomes.humidity"),
-                                    biomeParameters.parameters?.humidity,
+                                    biomeParameters?.parameters?.humidity,
                                     true,
 
-                                    makeParameter(biomeParameters.parameters?.humidity, true),
-                                    makeParameter(biomeParameters.parameters?.humidity, false),
+                                    makeParameter(biomeParameters?.parameters?.humidity, true),
+                                    makeParameter(biomeParameters?.parameters?.humidity, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
                                 makeMultiElementEntry(
                                     text("added_biomes.continentalness"),
-                                    biomeParameters.parameters?.continentalness,
+                                    biomeParameters?.parameters?.continentalness,
                                     true,
 
-                                    makeParameter(biomeParameters.parameters?.continentalness, true),
-                                    makeParameter(biomeParameters.parameters?.continentalness, false),
+                                    makeParameter(biomeParameters?.parameters?.continentalness, true),
+                                    makeParameter(biomeParameters?.parameters?.continentalness, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
                                 makeMultiElementEntry(
                                     text("added_biomes.erosion"),
-                                    biomeParameters.parameters?.erosion,
+                                    biomeParameters?.parameters?.erosion,
                                     true,
 
-                                    makeParameter(biomeParameters.parameters?.erosion, true),
-                                    makeParameter(biomeParameters.parameters?.erosion, false),
+                                    makeParameter(biomeParameters?.parameters?.erosion, true),
+                                    makeParameter(biomeParameters?.parameters?.erosion, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
                                 makeMultiElementEntry(
                                     text("added_biomes.depth"),
-                                    biomeParameters.parameters?.depth,
+                                    biomeParameters?.parameters?.depth,
                                     true,
 
-                                    makeParameter(biomeParameters.parameters?.depth, true),
-                                    makeParameter(biomeParameters.parameters?.depth, false),
+                                    makeParameter(biomeParameters?.parameters?.depth, true),
+                                    makeParameter(biomeParameters?.parameters?.depth, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
                                 makeMultiElementEntry(
                                     text("added_biomes.weirdness"),
-                                    biomeParameters.parameters?.weirdness,
+                                    biomeParameters?.parameters?.weirdness,
                                     true,
 
-                                    makeParameter(biomeParameters.parameters?.weirdness, true),
-                                    makeParameter(biomeParameters.parameters?.weirdness, false),
+                                    makeParameter(biomeParameters?.parameters?.weirdness, true),
+                                    makeParameter(biomeParameters?.parameters?.weirdness, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                EntryBuilder(text("added_biomes.offset"), biomeParameters.parameters?.offset,
+                                EntryBuilder(text("added_biomes.offset"), biomeParameters?.parameters?.offset,
                                     0L,
-                                    { newValue -> biomeParameters.parameters?.offset = newValue },
+                                    { newValue -> biomeParameters?.parameters?.offset = newValue },
                                     tooltip("added_biomes.offset")
                                 ).build(entryBuilder),
                             ) as AbstractConfigListEntry<out Any>

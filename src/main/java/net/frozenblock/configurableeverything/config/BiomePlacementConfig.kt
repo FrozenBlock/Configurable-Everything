@@ -32,7 +32,7 @@ public class BiomePlacementConfig {
 			)
 		)
 
-		private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList>> = ConfigRegistry.register(
+		private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = ConfigRegistry.register(
 			TypedEntryType(
 				MOD_ID,
 				DimensionBiomeList.CODEC.listOf()
@@ -61,7 +61,7 @@ public class BiomePlacementConfig {
 		Supports: Vanilla biomes, datapack biomes, modded biomes
 		"""
 	)
-	var addedBiomes: TypedEntry<List<DimensionBiomeList>> = TypedEntry(
+	var addedBiomes: TypedEntry<List<DimensionBiomeList?>>? = TypedEntry(
 		BIOME_PARAMETER_LIST,
 		listOf(
 			DimensionBiomeList(

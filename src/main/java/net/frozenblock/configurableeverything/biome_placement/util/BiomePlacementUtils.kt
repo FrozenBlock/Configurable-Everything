@@ -85,7 +85,7 @@ object BiomePlacementUtils {
         val dimensionBiomes = addedBiomes.stream().filter { list: DimensionBiomeList? -> list?.dimension == dimension }.toList()
         for (list in dimensionBiomes) {
             list?.biomes?.forEach { parameters ->
-                parameters.biome?.let { biome ->
+                parameters?.biome?.let { biome ->
                     parameters.parameters?.toImmutable()?.let {
                         biomeAdditions.add(
                             Pair.of(
