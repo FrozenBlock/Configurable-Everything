@@ -226,7 +226,7 @@ dependencies {
 
     // these deps definitely needs to be put in another mod, 50MB is a lot.
     // disabled until later date
-    /*includeModApi(kotlin("scripting-common"))
+    includeModApi(kotlin("scripting-common"))
     includeModApi(kotlin("scripting-jvm"))
     includeModApi(kotlin("scripting-jsr223"))
     includeModApi(kotlin("scripting-jvm-host"))
@@ -234,7 +234,14 @@ dependencies {
     include(kotlin("scripting-compiler-embeddable"))
     include(kotlin("scripting-compiler-impl-embeddable"))
     include(kotlin("compiler-embeddable"))
-    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")*/
+    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
+
+    // remapping
+    // required for running scripts in prod environment
+    modApi("net.fabricmc:tiny-remapper:0.8.7")?.let { include(it) }
+    modApi("net.fabricmc:mapping-io:0.2.1")?.let { include(it) }
+    modApi("net.fabricmc:lorenz-tiny:4.0.2")?.let { include(it) }
+    modApi("net.fabricmc:mercury:0.3.0")?.let { include(it) }
 
     // FrozenLib
     if (local_frozenlib)

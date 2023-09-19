@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-/*import net.fabricmc.api.EnvType
+import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
@@ -80,7 +80,7 @@ object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
 
 //private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
 
-fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContext): ResultWithDiagnostics<ScriptCompilationConfiguration> {
+/*fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContext): ResultWithDiagnostics<ScriptCompilationConfiguration> {
     val annotations = context.collectedData?.get(ScriptCollectedData.collectedAnnotations)?.takeIf { it.isNotEmpty() }
         ?: return context.compilationConfiguration.asSuccess()
     return runBlocking {
@@ -90,5 +90,4 @@ fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContex
             dependencies.append(JvmDependency(it))
         }.asSuccess()
     }
-}
-*/
+}*/

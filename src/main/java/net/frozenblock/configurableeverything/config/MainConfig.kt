@@ -69,8 +69,8 @@ Warning: It is important to check the contents of each config before enabling th
 	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
     val datapack: DatapackConfig? = DatapackConfig()
 
-    //@JvmField
-    //val kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
+    @JvmField
+    val kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
 
     class DatapackConfig {
         @JvmField
@@ -87,7 +87,7 @@ Warning: It is important to check the contents of each config before enabling th
 		var json5Support: Boolean? = true
     }
 
-    /*class KotlinScriptingConfig {
+    class KotlinScriptingConfig {
         @JvmField
         var applyKotlinScripts: Boolean? = true
 
@@ -106,5 +106,5 @@ Warning: It is important to check the contents of each config before enabling th
                 "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
             )
         )
-    }*/
+    }
 }

@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-/*import kotlin.script.experimental.api.*
+import kotlin.script.experimental.api.*
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
@@ -29,4 +29,3 @@ object ScriptingUtil {
         }
     }
 }
-*/
