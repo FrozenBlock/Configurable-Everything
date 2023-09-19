@@ -7,6 +7,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.level.validation.DirectoryValidator;
 import org.slf4j.Logger;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -19,8 +20,8 @@ public class CERepositorySource extends FolderRepositorySource {
 	private final PackType packType;
 	private final PackSource packSource;
 
-	public CERepositorySource(Path folder) {
-		super(folder, PackType.SERVER_DATA, PackSource.WORLD);
+	public CERepositorySource(Path folder, DirectoryValidator validator) {
+		super(folder, PackType.SERVER_DATA, PackSource.WORLD, validator);
 		this.folder = folder;
 		this.packType = PackType.SERVER_DATA;
 		this.packSource = PackSource.WORLD;
@@ -30,7 +31,7 @@ public class CERepositorySource extends FolderRepositorySource {
 	public void loadPacks(Consumer<Pack> onLoad) {
 		try {
 			FileUtil.createDirectoriesSafe(this.folder);
-			discoverPacks(this.folder, false, (packPath, packFactory) -> {
+			discoverPacks(this.folder, this.validator, false, (packPath, packFactory) -> {
 				String string = nameFromPath(packPath);
 				Pack pack = Pack.readMetaAndCreate("file/" + string, Component.literal(string), true, packFactory, this.packType, Pack.Position.TOP, this.packSource);
 				if (pack != null) {
