@@ -13,7 +13,10 @@ public class SkeletonFleeSunGoal extends FleeSunGoal {
 
 	@Override
 	public boolean canUse() {
-		if (!EntityConfig.get().skeleton.skeletonsAvoidSun && MainConfig.get().entity) {
+		var entity = MainConfig.get().entity
+		var skeleton = EntityConfig.get().skeleton
+		// null safety in java moment
+		if (entity != true || skeleton == null || skeleton.skeletonsAvoidSun != true) {
 			return false;
 		}
 		return super.canUse();

@@ -12,7 +12,7 @@ public class LevelRendererMixin {
 
 	@ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 30.0F))
 	private float changeSunSize(float original) {
-		if (MainConfig.get().world) {
+		if (MainConfig.get().world == true) {
 			var modified = WorldConfig.getSunSize();
 			if (modified != null) return modified;
 		}
@@ -21,7 +21,7 @@ public class LevelRendererMixin {
 
 	@ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 20.0F))
 	private float changeMoonSize(float original) {
-		if (MainConfig.get().world) {
+		if (MainConfig.get().world == true) {
 			var modified = WorldConfig.getMoonSize();
 			if (modified != null) return modified;
 		}

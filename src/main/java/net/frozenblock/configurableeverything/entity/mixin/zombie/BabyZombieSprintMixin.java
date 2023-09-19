@@ -15,8 +15,9 @@ public abstract class BabyZombieSprintMixin {
 	public boolean mcFixes$babyZombieSprint(boolean original) {
 		return original ||
 			(
-				MainConfig.get().entity
-				&& EntityConfig.get().zombie.babyZombieSprintParticles
+				MainConfig.get().entity == true
+				&& EntityConfig.get().zombie != null
+				&& EntityConfig.get().zombie.babyZombieSprintParticles == true
 				&& Entity.class.cast(this) instanceof Zombie zombie
 				&& zombie.isBaby()
 				&& (zombie.minorHorizontalCollision || !zombie.horizontalCollision)

@@ -21,7 +21,7 @@ public class DetectedVersionMixin {
     @Inject(method = "<init>*", at = @At("TAIL"))
     private void clinit(CallbackInfo ci) {
         var config = GameConfig.get();
-        if (MainConfig.get().game) {
+        if (MainConfig.get().game == true) {
             var series = config.versionSeries;
             if (series != null && !series.isEmpty()) {
                 this.worldVersion = new DataVersion(this.worldVersion.getVersion(), series);

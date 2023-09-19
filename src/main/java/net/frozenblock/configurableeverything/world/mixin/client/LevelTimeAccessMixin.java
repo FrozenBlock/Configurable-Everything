@@ -15,7 +15,7 @@ public interface LevelTimeAccessMixin {
 
 	@ModifyReturnValue(method = "getTimeOfDay", at = @At("RETURN"))
     default float getTimeOfDay(float original, float partialTick) {
-		if (LevelTimeAccess.class.cast(this) instanceof ClientLevel clientLevel && MainConfig.get().world && WorldConfig.get().fixSunMoonRotating) {
+		if (LevelTimeAccess.class.cast(this) instanceof ClientLevel clientLevel && MainConfig.get().world == true && WorldConfig.get().fixSunMoonRotating == true) {
 			return Mth.lerp(partialTick, clientLevel.dimensionType().timeOfDay(((ClientLevelDataInterface)clientLevel.getLevelData()).configurableEverything$getPreviousDayTime()), original);
 		}
 		return original;

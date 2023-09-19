@@ -13,7 +13,10 @@ public class SkeletonAccuracyMixin {
 
 	@ModifyExpressionValue(method = "performRangedAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/Difficulty;getId()I"))
 	public int configurableEverything$newDifficultyIdForFiring(int original) {
-		return MainConfig.get().entity && EntityConfig.get().skeleton.skeletonAccuracyIgnoresDifficulty ? Difficulty.HARD.getId() : original;
+		var skeleton = EntityConfig.get().skeleton
+		return MainConfig.get().entity == true && skeleton != null && skeleton.skeletonAccuracyIgnoresDifficulty == true
+			? Difficulty.HARD.getId()
+			: original;
 	}
 
 }

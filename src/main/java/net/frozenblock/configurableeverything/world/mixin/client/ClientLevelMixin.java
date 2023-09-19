@@ -21,22 +21,23 @@ public class ClientLevelMixin {
 
 	@ModifyExpressionValue(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
 	private boolean configurableEverything$tickTime(boolean original) {
-		if (!original && MainConfig.get().world && WorldConfig.get().fixSunMoonRotating) {
-			if (WorldConfig.get().fixSunMoonRotating) {
-				this.configurableEverything$setPreviousDayTime(this.clientLevelData.getDayTime());
-			}
+		if (!original && MainConfig.get().world == true && WorldConfig.get().fixSunMoonRotating == true) {
+			this.configurableEverything$setPreviousDayTime(this.clientLevelData.getDayTime());
 		}
 		return original;
 	}
 
 	@ModifyArgs(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;setDayTime(J)V"))
 	private void configurableEverything$tickTime(Args args) {
-		if (MainConfig.get().world) {
+		if (MainConfig.get().world == true) {
 			long prevTime = ((long)args.get(0) - 1L);
-			if (WorldConfig.get().fixSunMoonRotating) {
+			if (WorldConfig.get().fixSunMoonRotating == true) {
 				this.configurableEverything$setPreviousDayTime(prevTime);
 			}
-			args.set(0, prevTime + WorldConfig.get().dayTimeSpeedAmplifier);
+			var dayTimeSpeedAmplifier = WorldConfig.get().dayTimeSpeedAmplifier;
+			if (dayTimeSpeedAmplifier != null) {
+				args.set(0, prevTime + dayTimeSpeedAmplifier);
+			}
 		} else {
 			args.get(0);
 		}

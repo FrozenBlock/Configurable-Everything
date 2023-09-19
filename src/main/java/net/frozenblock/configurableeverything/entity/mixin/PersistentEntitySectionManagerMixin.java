@@ -26,7 +26,7 @@ public class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
 	private void addEntity(T entityAccess, boolean worldGenSpawned, CallbackInfoReturnable<Boolean> cir) {
 		var config = EntityConfig.get();
 		if (entityAccess instanceof LivingEntity entity
-			&& (MainConfig.get().entity && (config.entityAttributeAmplifiers != null && config.entityAttributeAmplifiers.value() != null))) {
+			&& (MainConfig.get().entity == true && (config.entityAttributeAmplifiers != null && config.entityAttributeAmplifiers.value() != null))) {
 				List<EntityAttributeAmplifier> entityAttributeMultipliers = config.entityAttributeAmplifiers.value();
 				for (EntityAttributeAmplifier entityAttributeAmplifier : entityAttributeMultipliers) {
 					if (entityAttributeAmplifier.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()))) {
