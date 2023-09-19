@@ -19,16 +19,17 @@ object GameConfigGui {
 
         category.addEntry(EntryBuilder(text("window_title"), config.windowTitle,
             defaultConfig.windowTitle!!,
-            { newValue: String? -> config.windowTitle = newValue },
-            tooltip("window_title")
+            { newValue -> config.windowTitle = newValue },
+            tooltip("window_title"),
+            true
         ).build(entryBuilder))
 
-        category.addEntry(entryBuilder.startStrField(text("version_series"), config.versionSeries ?: "")
-            .setDefaultValue("")
-            .setSaveConsumer { newValue: String? -> config.versionSeries = newValue }
-            .setTooltip(tooltip("version_series"))
-            .build()
-        )
+        category.addEntry(EntryBuilder(text("version_series"), config.versionSeries,
+            defaultConfig.versionSeries!!,
+            { newValue -> config.versionSeries = newValue },
+            tooltip("version_series"),
+            true
+        ).build(entryBuilder))
     }
 
 }
