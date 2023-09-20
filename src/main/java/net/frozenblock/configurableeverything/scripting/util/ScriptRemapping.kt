@@ -4,6 +4,7 @@ import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
 import net.fabricmc.mappingio.tree.MappingTree
 import net.fabricmc.mappingio.tree.MemoryMappingTree
+import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.MAPPINGS_PATH
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.logError
@@ -23,6 +24,7 @@ import kotlin.script.experimental.api.SourceCode
 import kotlin.script.experimental.host.StringScriptSource
 
 val manifestUri: URI = URI.create(System.getProperty("$MOD_ID.manifest-uri", "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"))
+var remappedDefaultImports: MutableList<String> = mutableListOf()
 
 fun SourceCode.remapMinecraft(): SourceCode {
     var remappedText = this.text
@@ -30,7 +32,17 @@ fun SourceCode.remapMinecraft(): SourceCode {
     if (mcVersion != null) {
         downloadIntermediary(mcVersion)
         downloadOfficialMojangMappings(mcVersion)
-        parseMappings(mcVersion)
+        val holder: MappingsHolder = MappingsHolder(mutableMapOf(), mutableMapOf(), mutableMapOf())
+        getMappings(mcVersion)?.let { mappings ->
+            mappings.accept(MappingVisitor(mappings, ParentMappingVisitor(holder.classes, holder.methods, holder.fields)))
+        }
+        val defaultImports: List<String>? = MainConfig.get().kotlinScripting?.defaultImports
+        if (defaultImports != null) {
+            for (import in defaultImports) {
+                val remappedImport = holder.remapString(import)
+                remappedDefaultImports.add(remappedImport)
+            }
+        }
     }
     return StringScriptSource(remappedText, this.name)
 }
@@ -86,7 +98,7 @@ fun downloadOfficialMojangMappings(mcVersion: MCVersion) {
     }
 }
 
-fun getMappingTree(mcVersion: MCVersion): MemoryMappingTree? {
+fun getMappings(mcVersion: MCVersion): MemoryMappingTree? {
     try {
         val mappings: MemoryMappingTree = MemoryMappingTree()
         Files.newInputStream(mappingsFile(mcVersion, "intermediary")).use { fileInput ->
@@ -104,7 +116,6 @@ fun getMappingTree(mcVersion: MCVersion): MemoryMappingTree? {
 
         val swapped: MemoryMappingTree = MemoryMappingTree()
         mappings.accept(MappingSourceNsSwitch(swapped, "official"))
-        mappings.accept(MappingVisitor(swapped, ParentMappingVisitor(mutableMapOf(), mutableMapOf(), mutableMapOf())))
         return swapped
     } catch (e: Exception) {
         logError("Unable to get mappings")
@@ -137,7 +148,7 @@ private class MappingVisitor(private val mappings: MemoryMappingTree, next: Mapp
 }
 
 private class ParentMappingVisitor(val classes: Map<Int, String>, val methods: Map<Int, String>, val fields: Map<Int, String) : MappingVisitor {
-    private var destinationNamespaceId = 0
+    private var destinationNamespaceId: Int = 0
     private var srcClass: String?
     private var srcMethod: String?
     private var srcField: String?
