@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
+import net.frozenblock.configurableeverything.scripting.util.MCVersion
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,13 +32,18 @@ val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
 val KOTLIN_SCRIPT_PATH: Path = Path.of("./config/$MOD_ID/scripts/")
 
 @JvmField
-val MAPPINGS_PATH: Path = Path.of("./.configurableeverything/mappings/")
+val MAPPINGS_PATH: Path = Path.of("./.$MOD_ID/.mappings/")
 
 @JvmField
-val REMAPPED_SCRIPT_SOURCES_PATH: Path = Path.of("./.configurableeverything/remapped/")
+val REMAPPED_SCRIPT_SOURCES_PATH: Path = Path.of("./.$MOD_ID/.remapped/")
 
 // the idea is configurableeverything.kts but shorter
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 
 @JvmField
 val CONFIG_JSONTYPE: JsonType = JsonType.JSON5
+
+fun mappingsFile(version: MCVersion?, type: String): Path? {
+    if (version != null) return MAPPINGS_PATH.resolve(Path.of("${type}_${version.id}.gz"))
+    return null
+}

@@ -12,7 +12,7 @@ object ScriptingUtil {
     private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
         val compilationConfiguration = CEScriptConfiguration
         val evaluationConfiguration = CEScriptEvaluationConfig
-        return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
+        return BasicJvmScriptingHost().eval(script.toScriptSource().remapMinecraft(), compilationConfiguration, evaluationConfiguration)
     }
 
     fun runScripts() {
@@ -23,7 +23,7 @@ object ScriptingUtil {
             val result = runScript(file)
             result.reports.forEach {
                 if (it.severity > ScriptDiagnostic.Severity.DEBUG) {
-                    error(" : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}")
+                    logError(" : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}")
                 }
             }
         }

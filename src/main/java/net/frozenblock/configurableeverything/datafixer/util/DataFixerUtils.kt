@@ -6,7 +6,7 @@ import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
-import net.frozenblock.configurableeverything.util.error
+import net.frozenblock.configurableeverything.util.logError
 import net.frozenblock.configurableeverything.util.log
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.datafix.schemas.NamespacedSchema
@@ -41,7 +41,7 @@ object DataFixerUtils {
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion
             if (dataVersion == null) {
-                error("Data version is null", true)
+                logError("Data version is null", true)
                 return
             }
             val builder = QuiltDataFixerBuilder(dataVersion)
@@ -55,7 +55,7 @@ object DataFixerUtils {
                 if (fix == null) continue
                 val version = fix.version
                 if (version > dataVersion) {
-                    error("Data fix version $version is higher than the current data version $dataVersion", true)
+                    logError("Data fix version $version is higher than the current data version $dataVersion", true)
                     continue
                 }
                 if (version > maxSchema) {
@@ -78,7 +78,7 @@ object DataFixerUtils {
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {
-                    error("Invalid data fix version: $version", true)
+                    logError("Invalid data fix version: $version", true)
                 }
             }
             QuiltDataFixes.buildAndRegisterFixer(mod, builder)
@@ -106,7 +106,7 @@ object DataFixerUtils {
                 REGISTRY_FIXERS.add(RegistryFixer(ResourceLocation("item"), listOf(Fixer(oldId, newId))))
             }
 
-            else -> error("Invalid data fix type: " + entry.type, true)
+            else -> logError("Invalid data fix type: " + entry.type, true)
         }
     }
 }

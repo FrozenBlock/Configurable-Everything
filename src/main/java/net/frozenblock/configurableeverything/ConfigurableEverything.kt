@@ -53,13 +53,15 @@ class ConfigurableEverything : ModInitializer {
                 FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
                 FileUtil.createDirectoriesSafe(REMAPPED_SCRIPT_SOURCES_PATH)
 
-                for (file in REMAPPED_SCRIPT_SOURCES_PATH.toFile()) {
-                    // delete existing remapped files
-                    // so that new oens can be created
-                    file.delete()
+                REMAPPED_SCRIPT_SOURCES_PATH.toFile().listFiles()?.let { files ->
+                    for (file in files) {
+                        // delete existing remapped files
+                        // so that new ones can be created
+                        file.delete()
+                    }
                 }
             } catch (e: IOException) {
-                throw RuntimeException("Unable to create Configurable Everything datapacks folder", e)
+                throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             ScriptingUtil.runScripts()
         }

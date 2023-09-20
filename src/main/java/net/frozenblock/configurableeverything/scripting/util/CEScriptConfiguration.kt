@@ -29,7 +29,7 @@ abstract class CEScript {
         if (realRegistry != null && realRegistry.isPresent) {
             return Registry.register(realRegistry.get(), path, value)
         }
-        error("Registry ${registry.location()} does not exist in built in registries.")
+        logError("Registry ${registry.location()} does not exist in built in registries.")
         return null
     }
 

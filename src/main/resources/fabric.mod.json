@@ -30,12 +30,6 @@
         "value": "net.frozenblock.configurableeverything.ConfigurableEverything"
       }
     ],
-    "client": [
-      {
-        "adapter": "kotlin",
-        "value": "net.frozenblock.configurableeverything.ConfigurableEverythingClient"
-      }
-    ],
     "fabric-datagen": [
       "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
     ],

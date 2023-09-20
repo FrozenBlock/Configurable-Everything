@@ -21,7 +21,7 @@ fun logMod(string: String, shouldLog: Boolean = true) {
     }
 }
 
-fun error(string: String?, shouldLog: Boolean = true) {
+fun logError(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.error(string)
     }
