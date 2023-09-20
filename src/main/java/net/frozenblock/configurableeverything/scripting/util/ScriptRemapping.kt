@@ -39,8 +39,9 @@ fun SourceCode.remapMinecraft(): SourceCode {
         val defaultImports: List<String>? = MainConfig.get().kotlinScripting?.defaultImports
         if (defaultImports != null) {
             for (import in defaultImports) {
-                val remappedImport = holder.remapString(import)
-                remappedDefaultImports.add(remappedImport)
+                holder.remapString(import)?.let { remappedImport ->
+                    remappedDefaultImports.add(remappedImport)
+                }
             }
         }
     }
