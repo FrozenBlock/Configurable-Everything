@@ -1,5 +1,9 @@
 package net.frozenblock.configurableeverything.scripting.util
 
+import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
+import net.fabricmc.mappingio.format.MappingFormat
+import net.fabricmc.mappingio.tree.MappingTree
+import net.fabricmc.mappingio.tree.MemoryMappingTree
 import net.frozenblock.configurableeverything.util.MAPPINGS_PATH
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.logError
@@ -82,8 +86,132 @@ fun downloadOfficialMojangMappings(mcVersion: MCVersion) {
     }
 }
 
-fun parseMappings(mcVersion: MCVersion) {
+fun getMappingTree(mcVersion: MCVersion): MemoryMappingTree? {
+    try {
+        val mappings: MemoryMappingTree = MemoryMappingTree()
+        Files.newInputStream(mappingsFile(mcVersion, "intermediary")).use { fileInput ->
+            val gzipInput = GZIPInputStream(fileInput)
+            val reader: Reader = InputStreamReader(gzipInput);
+            MappingReader.read(reader, MappingFormat.TINY_2, mappings)
+        }
+        Files.newInputStream(mappingsFile(mcVersion, "mojang")).use { fileInput ->
+            val gzipInput = GZIPInputStream(fileInput)
+            val reader: Reader = InputStreamReader(gzipInput)
+            MappingReader.read(reader, MappingFormat.PROGUARD, mappings)
+        }
+        mappings.setSrcNamespace("named")
+        mappings.setDstNamespaces(listOf("official"))
 
+        val swapped: MemoryMappingTree = MemoryMappingTree()
+        mappings.accept(MappingSourceNsSwitch(swapped, "official"))
+        mappings.accept(MappingVisitor(swapped, ParentMappingVisitor(mutableMapOf(), mutableMapOf(), mutableMapOf())))
+        return swapped
+    } catch (e: Exception) {
+        logError("Unable to get mappings")
+        e.printStackTrace()
+    }
+    return null
+}
+
+private class MappingVisitor(private val mappings: MemoryMappingTree, next: MappingVisitor) : ForwardingMappingVisitor(next) {
+
+    private var currentClass: MappingTree.ClassMapping?
+
+    override fun visitClass(srcName: String): Boolean {
+        this.currentClass = mappings.getClass(srcName)
+        if (this.currentClass == null) return false
+        return super.visitClass(this.currentClass.getDstName(0))
+    }
+
+    override fun visitMethod(srcName: String, srcDesc: String): Boolean {
+        val mapping = this.currentClass.getMethod(srcName, srcDesc)
+        if (mapping == null) return false
+        return super.visitMethod(mapping.getDstName(0), mapping.getDstDesc(0))
+    }
+
+    override fun visitField(srcName: String, srcDesc: String): Boolean {
+        val mapping = this.currentClass.getField(srcName, srcDesc)
+        if (mapping == null) return false
+        return super.visitField(mapping.getDstName(0), mapping.getDstDesc(0))
+    }
+}
+
+private class ParentMappingVisitor(val classes: Map<Int, String>, val methods: Map<Int, String>, val fields: Map<Int, String) : MappingVisitor {
+    private var destinationNamespaceId = 0
+    private var srcClass: String?
+    private var srcMethod: String?
+    private var srcField: String?
+
+    override fun visitNamespaces(srcNamespace: String, destinationNamespaces: List<String>) {
+        val index = destinationNamespaces.indexOf("named")
+        if (index != -1) this.destinationNamespaceId = index
+    }
+
+    override fun visitClass(srcName: String): Boolean {
+        this.srcClass = srcName
+        return true
+    }
+
+    override fun visitMethod(srcName: String, srcDesc: String): Boolean {
+        this.srcMethod = srcName
+        return true
+    }
+
+    override fun visitField(srcName: String, srcDesc: String): Boolean {
+        this.srcField = srcName
+        return true
+    }
+
+    override fun visitMethodArg(argPos: Int, lvIndex: Int, srcName: String): Boolean {
+        return false
+    }
+
+    override fun visitMethodVar(lvtRowIndex: Int, lvIndex: Int, startOpIdx: Int, srcName: String) {
+        return false
+    }
+
+    override fun visitDstName(targetKind: MappedElementKind, namespace: Int, name: String) {
+        if (this.destinationNamespaceId != namespace) return
+        var name1: String = name
+
+        when (targetKind) {
+            CLASS -> {
+                val srcName: String = this.srcClass
+                if (srcName == name1) return
+                var classId: String?
+                val separatorIndex = srcName.lastIndexOf('$')
+                if (separatorIndex != -1) {
+                    classId = srcName.substring(separatorIndex + 1)
+                    if (!classId.startsWith("class_")) return
+                    classId = classId.substring("class_".length())
+                } else {
+                    classId = srcName.substring("net/minecraft/class_".length())
+                }
+
+                separatorIndex = name1.indexOf('$')
+                if (separatorIndex != -1) {
+                    name1 = name1.substring(separatorIndex + 1)
+                } else {
+                    name1 = name1.replace('/', '.')
+                }
+                this.classes.put(Int.parseInt(classId), name1)
+            }
+            METHOD -> {
+                val srcName: String = this.srcMethod
+                if (srcName == name1) return
+                val methodId = Int.parseInt(srcName.substring("method_".length()))
+                this.methods.put(methodId, name1)
+            }
+            FIELD -> {
+                val srcName: String = this.srcField
+                if (srcName == name1) return
+                val fieldId = Int.parseInt(srcName.substring("field_".length()))
+                this.fields.put(fieldId, name1)
+            }
+        }
+    }
+
+    override fun visitComment(targetKind: MappedElementKind, comment: String) {}
 }
 
 fun getHttpResponse(uri: URI): HttpResponse<ByteArray> {
