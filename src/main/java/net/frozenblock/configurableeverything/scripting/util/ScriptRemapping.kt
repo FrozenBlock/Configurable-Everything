@@ -26,23 +26,34 @@ import kotlin.script.experimental.host.StringScriptSource
 val manifestUri: URI = URI.create(System.getProperty("$MOD_ID.manifest-uri", "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"))
 var remappedDefaultImports: MutableList<String> = mutableListOf()
 
+private var alreadyDownloaded: Boolean = false
+private var holder: MappingsHolder?
+
 fun SourceCode.remapMinecraft(): SourceCode {
     var remappedText = this.text
     val mcVersion: MCVersion? = MCVersion.makeFromResource()
     if (mcVersion != null) {
-        downloadIntermediary(mcVersion)
-        downloadOfficialMojangMappings(mcVersion)
-        val holder: MappingsHolder = MappingsHolder(mutableMapOf(), mutableMapOf(), mutableMapOf())
-        getMappings(mcVersion)?.let { mappings ->
-            mappings.accept(MappingVisitor(mappings, ParentMappingVisitor(holder.classes, holder.methods, holder.fields)))
+        if (!alreadyDownloaded) {
+            downloadIntermediary(mcVersion)
+            downloadOfficialMojangMappings(mcVersion)
         }
-        val defaultImports: List<String>? = MainConfig.get().kotlinScripting?.defaultImports
-        if (defaultImports != null) {
-            for (import in defaultImports) {
-                holder.remapString(import)?.let { remappedImport ->
-                    remappedDefaultImports.add(remappedImport)
+        alreadyDownloaded = true
+        if (holder == null) {
+            holder = MappingsHolder(mutableMapOf(), mutableMapOf(), mutableMapOf())
+            getMappings(mcVersion)?.let { mappings ->
+                mappings.accept(MappingVisitor(mappings, ParentMappingVisitor(holder.classes, holder.methods, holder.fields)))
+            }
+            val defaultImports: List<String>? = MainConfig.get().kotlinScripting?.defaultImports
+            if (defaultImports != null) {
+                for (import in defaultImports) {
+                    holder.remapString(import)?.let { remappedImport ->
+                        remappedDefaultImports.add(remappedImport)
+                    }
                 }
             }
+        }
+        holder!!.remapString(remappedText)?.let { remapped ->
+            remappedText = remapped
         }
     }
     return StringScriptSource(remappedText, this.name)
