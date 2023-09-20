@@ -23,18 +23,18 @@ data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: Mu
         return CLASS.matcher(string).replaceAll { result ->
             val id: Int = Int.parseInt(result.group(2))
             var name: String? = this.remapClass(id)
-            if (name == null) return Matcher.quoteReplacement(result.group())
+            if (name == null) return@replaceAll Matcher.quoteReplacement(result.group())
 
-            val package: String = result.group(1)
-            if (package != null) {
-                if (package.indexOf('.') == -1)
+            val `package`: String = result.group(1)
+            if (`package` != null) {
+                if (`package`.indexOf('.') == -1)
                     name = name.replace('.', '/')
             } else {
                 val index = name.lastIndexOf('.')
                 if (index != -1)
                     name = name.substring(index + 1)
             }
-            return Matcher.quoteReplacement(name)
+            return@replaceAll Matcher.quoteReplacement(name)
         }
     }
 
@@ -42,7 +42,7 @@ data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: Mu
         return METHOD.matcher(string).replaceAll { result ->
             val id: Int = Int.parseInt(result.group(1))
             val name: String? = this.remapMethod[id]
-            return Matcher.quoteReplacement(name ?: result.group())
+            return@replaceAll Matcher.quoteReplacement(name ?: result.group())
         }
     }
 
@@ -50,7 +50,7 @@ data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: Mu
         return FIELD.matcher(string).replaceAll { result ->
             val id: Int.parseInt(result.group(1))
             val name: String? = this.remapField(id)
-            return Matcher.quoteReplacement(name ?: result.group())
+            return@replaceAll Matcher.quoteReplacement(name ?: result.group())
         }
     }
 
