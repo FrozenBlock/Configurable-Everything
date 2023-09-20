@@ -38,28 +38,13 @@ fun downloadIntermediary(mcVersion: MCVersion) {
     mappingsFile(mcVersion, "intermediary")?.let { mappingsFile ->
         if (Files.exists(mappingsFile)) return
 
-        val versionStr: String = mcVersion.id
         val resp: HttpResponse<ByteArray> = getHttpResponse(intermediaryURI(mcVersion))
         try {
-            ByteArrayInputStream(resp.body()).use { input ->
-                val json: JsonObject = ConfigSerialization.createJankson(null).load(input)
-                val versions = json["versions"] as? JsonArray
-                if (versions != null) {
-                    for (element in versions.toArray()) {
-                        if (element is JsonObject) {
-                            if (versionStr != element["id"]!!.getAsString()) continue
-
-                            val mappingsUri = URI.create(element["url"]!!.getAsString()!!)
-                            val mappingsResponse: HttpResponse<ByteArray> = getHttpResponse(mappingsUri)
-
-                            Files.newOutputStream(mappingsFile).use { fileOutput ->
-                                val gzipOutput = GZIPOutputStream(fileOutput)
-                                gzipOutput.write(mappingsResponse.body())
-                            }
-                        }
-                    }
-                }
+            Files.newOutputStream(mappingsFile).use { fileOutput ->
+                val gzipOutput = GZIPOutputStream(fileOutput)
+                gzipOutput.write(resp.body())
             }
+
         } catch (e: Exception) {
             logError("Failed to download Intermediary Mappings")
             e.printStackTrace()
