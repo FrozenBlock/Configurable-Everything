@@ -31,9 +31,6 @@ fun SourceCode.remapMinecraft(): SourceCode {
     return StringScriptSource(remappedText, this.name)
 }
 
-/**
- * not functional yet
- */
 fun downloadIntermediary(mcVersion: MCVersion) {
     mappingsFile(mcVersion, "intermediary")?.let { mappingsFile ->
         if (Files.exists(mappingsFile)) return
