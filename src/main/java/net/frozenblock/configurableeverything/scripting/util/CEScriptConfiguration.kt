@@ -24,6 +24,7 @@ import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
     evaluationConfiguration = CEScriptEvaluationConfig::class,
 )
 abstract class CEScript {
+    @Suppress("unchecked")
     fun <T> register(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T & Any): T? {
         val realRegistry: Optional<Registry<T>>? = BuiltInRegistries.REGISTRY.getOptional(registry.location()) as? Optional<Registry<T>>
         if (realRegistry != null && realRegistry.isPresent) {

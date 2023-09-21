@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-import java.regex.Matcher
-import java.regex.Pattern
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: MutableMap<Int, String?>, val fields: MutableMap<Int, String?>) {
     companion object {
@@ -21,11 +21,10 @@ data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: Mu
 
     fun remapClass(string: String): String {
         return CLASS.matcher(string).replaceAll { result ->
-            val id: Int = Int.parseInt(result.group(2))
-            var name: String? = this.remapClass(id)
-            if (name == null) return@replaceAll Matcher.quoteReplacement(result.group())
+            val id: Int = Integer.parseInt(result.group(2))
+            var name: String = this.remapClass(id) ?: return@replaceAll Matcher.quoteReplacement(result.group())
 
-            val `package`: String = result.group(1)
+            val `package`: String? = result.group(1)
             if (`package` != null) {
                 if (`package`.indexOf('.') == -1)
                     name = name.replace('.', '/')
@@ -40,15 +39,15 @@ data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: Mu
 
     fun remapMethod(string: String): String {
         return METHOD.matcher(string).replaceAll { result ->
-            val id: Int = Int.parseInt(result.group(1))
-            val name: String? = this.remapMethod[id]
+            val id: Int = Integer.parseInt(result.group(1))
+            val name: String? = this.remapMethod(id)
             return@replaceAll Matcher.quoteReplacement(name ?: result.group())
         }
     }
 
     fun remapField(string: String): String {
         return FIELD.matcher(string).replaceAll { result ->
-            val id: Int.parseInt(result.group(1))
+            val id: Int = Integer.parseInt(result.group(1))
             val name: String? = this.remapField(id)
             return@replaceAll Matcher.quoteReplacement(name ?: result.group())
         }
@@ -56,9 +55,9 @@ data class MappingsHolder(val classes: MutableMap<Int, String?>, val methods: Mu
 
     fun remapString(string: String): String {
         var newString: String = string
-        if (newString.contains("class_")) remapClass(newString)
-        if (newString.contains("method_")) remapMethod(newString)
-        if (newString.contains("field_")) remapField(newString)
+        if (newString.contains("class_")) newString = remapClass(newString)
+        if (newString.contains("method_")) newString = remapMethod(newString)
+        if (newString.contains("field_")) newString = remapField(newString)
         return newString
     }
 }

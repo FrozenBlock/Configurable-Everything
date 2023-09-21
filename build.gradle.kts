@@ -239,7 +239,7 @@ dependencies {
     // remapping
     // required for running scripts in prod environment
     includeModApi("net.fabricmc:tiny-remapper:0.8.7")
-    includeModApi("net.fabricmc:mapping-io:0.2.1")
+    includeModApi("net.fabricmc:mapping-io:0.3.0")
     includeModApi("net.fabricmc:lorenz-tiny:4.0.2")
     includeModApi("net.fabricmc:mercury:0.4.0")
 

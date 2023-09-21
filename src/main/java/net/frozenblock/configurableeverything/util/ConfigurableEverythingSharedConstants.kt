@@ -44,6 +44,6 @@ const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 val CONFIG_JSONTYPE: JsonType = JsonType.JSON5
 
 fun mappingsFile(version: MCVersion?, type: String): Path? {
-    if (version != null) return MAPPINGS_PATH.resolve(Path.of("${type}_${version.id}.gz"))
+    if (version != null) return MAPPINGS_PATH.resolve("${type}_${version.id}.gz")
     return null
 }
