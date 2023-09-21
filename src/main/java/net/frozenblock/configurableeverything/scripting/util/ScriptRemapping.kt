@@ -75,11 +75,12 @@ fun SourceCode.remapMinecraft(): SourceCode {
 }
 
 fun downloadMappings(mcVersion: MCVersion): CompletableFuture<Void> {
-    return CompletableFuture.completedFuture(null)
-        .thenComposeAsync {
+    return CompletableFuture.supplyAsync {
+        run {
             downloadIntermediary(mcVersion)
             downloadOfficialMojangMappings(mcVersion)
-        }
+        }?.get()
+    }
 }
 
 fun downloadIntermediary(mcVersion: MCVersion): CompletableFuture<Void>? {
