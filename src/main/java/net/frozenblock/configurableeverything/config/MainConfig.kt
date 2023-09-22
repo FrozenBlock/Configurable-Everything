@@ -9,7 +9,54 @@ import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
-class MainConfig {
+data class MainConfig(
+    // the configs may have weird casing because the goal is to match the config file name
+    @JvmField
+    @Comment(
+"""
+Enabled configs
+Warning: It is important to check the contents of each config before enabling them here.
+"""
+    )
+    var biome: Boolean? = false
+
+    @JvmField
+    var biome_placement: Boolean? = false,
+
+    @JvmField
+    var block: Boolean? = false,
+
+    @JvmField
+    var datafixer: Boolean? = false,
+
+    @JvmField
+    var entity: Boolean? = false,
+
+    @JvmField
+    var fluid: Boolean? = false,
+
+    @JvmField
+    var game: Boolean? = false,
+
+    @JvmField
+    var registry: Boolean? = false,
+
+    @JvmField
+    var screen_shake: Boolean? = false,
+
+    @JvmField
+    var surface_rule: Boolean? = false,
+
+    @JvmField
+    var world: Boolean? = false,
+
+    @JvmField
+    @Comment("Datapack features will not apply unless the main toggle and datapack toggle are set to true.")
+    var datapack: DatapackConfig? = DatapackConfig(),
+
+    @JvmField
+    var kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
+) {
     companion object {
         @JvmField
         internal val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
@@ -25,69 +72,22 @@ class MainConfig {
         fun get(): MainConfig = INSTANCE.config()
     }
 
-    // the configs may have weird casing because the goal is to match the config file name
-    @JvmField
-	@Comment(
-"""
-Enabled configs
-Warning: It is important to check the contents of each config before enabling them here.
-"""
-    )
-    var biome: Boolean? = false
-
-    @JvmField
-	var biome_placement: Boolean? = false
-
-    @JvmField
-	var datafixer: Boolean? = false
-
-    @JvmField
-	var entity: Boolean? = false
-
-    @JvmField
-	var fluid: Boolean? = false
-
-    @JvmField
-	var game: Boolean? = false
-
-    @JvmField
-    var registry: Boolean? = false
-
-    @JvmField
-	var screen_shake: Boolean? = false
-
-    @JvmField
-	var splash_text: Boolean? = false
-
-    @JvmField
-	var surface_rule: Boolean? = false
-
-    @JvmField
-	var world: Boolean? = false
-
-    @JvmField
-	@Comment("Datapack features will not apply unless the main toggle and datapack toggle is set to true.")
-    val datapack: DatapackConfig? = DatapackConfig()
-
-    @JvmField
-    val kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
-
-    class DatapackConfig {
+    data class DatapackConfig(
         @JvmField
-		var applyDatapacksFolder: Boolean? = true
+        var applyDatapacksFolder: Boolean? = true,
 
         @JvmField
-		var biome: Boolean? = true
+        var biome: Boolean? = true,
 
         @JvmField
-		var biome_placement: Boolean? = true
+        var biome_placement: Boolean? = true,
 
         @JvmField
         @Comment("Allows the usage of JSON5 files in datapacks.")
-		var json5Support: Boolean? = true
-    }
+        var json5Support: Boolean? = true
+    )
 
-    class KotlinScriptingConfig {
+    data class KotlinScriptingConfig(
         @JvmField
         var applyKotlinScripts: Boolean? = true
 
@@ -106,5 +106,5 @@ Warning: It is important to check the contents of each config before enabling th
                 "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
             )
         )
-    }
+    )
 }

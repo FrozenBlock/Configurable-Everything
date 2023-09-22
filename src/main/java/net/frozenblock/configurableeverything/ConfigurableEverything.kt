@@ -4,7 +4,7 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
-import net.frozenblock.configurableeverything.config.BlockConfig
+import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.FluidConfig
 import net.frozenblock.configurableeverything.config.GameConfig;
@@ -38,7 +38,7 @@ class ConfigurableEverything : ModInitializer {
             MainConfig.get()
             BiomeConfigUtil.init()
             BiomePlacementUtils.init()
-            BlockConfig.get()
+            BlockConfigUtil.init()
             DataFixerConfig.get()
             EntityConfigUtil.init()
             FluidConfig.get()

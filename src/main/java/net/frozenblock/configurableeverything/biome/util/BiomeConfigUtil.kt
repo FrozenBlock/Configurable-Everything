@@ -15,7 +15,7 @@ object BiomeConfigUtil {
 	fun init() {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome == true) {
-            val biomeChange = BiomeChange(config.addedFeatures.value, config.removedFeatures.value, config.replacedFeatures.value, config.musicReplacements.value)
+            val biomeChange = BiomeChange(config.addedFeatures?.value, config.removedFeatures?.value, config.replacedFeatures?.value, config.musicReplacements?.value)
             BiomeChanges.addChange(id("config"), biomeChange)
 
             val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
