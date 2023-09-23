@@ -14,59 +14,9 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 
-class EntityConfig {
-    companion object {
-        private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntityAttributeAmplifier.CODEC.listOf()
-            )
-        )
-
-        private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntityFlyBySound.CODEC.listOf()
-            )
-        )
-
-        private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntityHurtEffects.CODEC.listOf()
-            )
-        )
-
-        private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                ExperienceOverride.CODEC.listOf()
-            )
-        )
-
-        private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntitySpottingIcon.CODEC.listOf()
-            )
-        )
-
-        @JvmField
-        internal val INSTANCE: Config<EntityConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                EntityConfig::class.java,
-                makeConfigPath("entity"),
-                CONFIG_JSONTYPE
-            )
-        )
-
-        @JvmStatic
-        fun get(): EntityConfig = INSTANCE.config()
-    }
-
+data class EntityConfig(
     @JvmField
-	var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
+    var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         listOf(
             EntityAttributeAmplifier(
@@ -80,10 +30,10 @@ class EntityConfig {
                 )
             )
         )
-    )
+    ),
 
     @JvmField
-	var experienceOverrides: TypedEntry<List<ExperienceOverride?>>? = TypedEntry(
+    var experienceOverrides: TypedEntry<List<ExperienceOverride?>>? = TypedEntry(
         EXPERIENCE_OVERRIDES,
         listOf(
             ExperienceOverride(
@@ -91,7 +41,7 @@ class EntityConfig {
                 5000
             )
         )
-    )
+    ),
 
     @JvmField
     var entityFlyBySounds: TypedEntry<List<EntityFlyBySound?>>? = TypedEntry(
@@ -179,10 +129,10 @@ class EntityConfig {
                 )
             )
         )
-    )
+    ),
 
     @JvmField
-	var entityHurtEffects: TypedEntry<List<EntityHurtEffects?>>? = TypedEntry(
+    var entityHurtEffects: TypedEntry<List<EntityHurtEffects?>>? = TypedEntry(
         ENTITY_HURT_EFFECTS,
         listOf(
             EntityHurtEffects(
@@ -200,10 +150,10 @@ class EntityConfig {
                 )
             )
         )
-    )
+    ),
 
     @JvmField
-	var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
+    var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
         SPOTTING_ICONS,
         listOf(
             EntitySpottingIcon(
@@ -213,15 +163,74 @@ class EntityConfig {
                 8f
             )
         )
-    )
+    ),
 
     @JvmField
-	var player: PlayerConfig? = PlayerConfig()
+    var flamingArrowsLightFire: Boolean? = false,
 
-    class PlayerConfig {
+    @JvmField
+    var player: PlayerConfig? = PlayerConfig(),
+
+    @JvmField
+    var zombie: ZombieConfig? = ZombieConfig(),
+
+    @JvmField
+    var skeleton: SkeletonConfig? = SkeletonConfig()
+) {
+    companion object {
+        private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                EntityAttributeAmplifier.CODEC.listOf()
+            )
+        )
+
+        private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                EntityFlyBySound.CODEC.listOf()
+            )
+        )
+
+        private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                EntityHurtEffects.CODEC.listOf()
+            )
+        )
+
+        private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                ExperienceOverride.CODEC.listOf()
+            )
+        )
+
+        private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                EntitySpottingIcon.CODEC.listOf()
+            )
+        )
+
+        @JvmField
+        internal val INSTANCE: Config<EntityConfig> = ConfigRegistry.register(
+            JsonConfig(
+                MOD_ID,
+                EntityConfig::class.java,
+                makeConfigPath("entity"),
+                CONFIG_JSONTYPE
+            )
+        )
+
+        @JvmStatic
+        fun get(): EntityConfig = INSTANCE.config()
+    }
+
+    data class PlayerConfig(
         @JvmField
         var digSpeedAmplifier: Int? = 100
-
+    ) {
         val digSpeed: Double // acts as a getter method
             get() {
                 val amplifier: Double = digSpeedAmplifier?.toDouble() ?: INSTANCE.defaultInstance().player!!.digSpeedAmplifier!!.toDouble()
@@ -229,40 +238,31 @@ class EntityConfig {
             }
     }
 
-    @JvmField
-	var zombie: ZombieConfig? = ZombieConfig()
-
-    class ZombieConfig {
+    data class ZombieConfig(
         @JvmField
-		var babyZombieSprintParticles: Boolean? = false
+		var babyZombieSprintParticles: Boolean? = false,
 
         @JvmField
-		var zombiesAvoidSun: Boolean? = false
+		var zombiesAvoidSun: Boolean? = false,
 
         @JvmField
-		var ignoreDoorBreakDifficulty: Boolean? = false
+		var ignoreDoorBreakDifficulty: Boolean? = false,
 
         @JvmField
-		var allZombiesBreakDoors: Boolean? = false
+		var allZombiesBreakDoors: Boolean? = false,
 
         @JvmField
-        var ignoreReinforcementDifficulty: Boolean? = false
+        var ignoreReinforcementDifficulty: Boolean? = false,
 
         @JvmField
 		var fullReinforcementChance: Boolean? = false
-    }
+    )
 
-    @JvmField
-	var skeleton: SkeletonConfig? = SkeletonConfig()
-
-    class SkeletonConfig {
+    data class SkeletonConfig(
         @JvmField
-		var skeletonAccuracyIgnoresDifficulty: Boolean? = false
+		var skeletonAccuracyIgnoresDifficulty: Boolean? = false,
 
         @JvmField
 		var skeletonsAvoidSun: Boolean? = true
-    }
-
-    @JvmField
-	var flamingArrowsLightFire: Boolean? = false
+    )
 }

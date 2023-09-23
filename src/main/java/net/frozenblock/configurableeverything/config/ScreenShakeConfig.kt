@@ -12,29 +12,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.monster.warden.WardenAi
 
-class ScreenShakeConfig {
-    companion object {
-        private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                SoundScreenShake.CODEC.listOf()
-            )
-        )
-
-        @JvmField
-        internal val INSTANCE: Config<ScreenShakeConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                ScreenShakeConfig::class.java,
-                makeConfigPath("screen_shake"),
-                CONFIG_JSONTYPE
-            )
-        )
-
-        @JvmStatic
-        fun get(): ScreenShakeConfig = INSTANCE.config()
-    }
-
+data class ScreenShakeConfig(
     @JvmField
     var soundScreenShakes: TypedEntry<List<SoundScreenShake?>>? = TypedEntry(
         SOUND_SCREEN_SHAKE,
@@ -89,11 +67,33 @@ class ScreenShakeConfig {
                 18f
             )
         )
-    )
+    ),
 
     @JvmField
-	var dragonRespawnScreenShake: Boolean? = true
+    var dragonRespawnScreenShake: Boolean? = true,
 
     @JvmField
-	var explosionScreenShake: Boolean? = true
+    var explosionScreenShake: Boolean? = true
+) {
+    companion object {
+        private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                SoundScreenShake.CODEC.listOf()
+            )
+        )
+
+        @JvmField
+        internal val INSTANCE: Config<ScreenShakeConfig> = ConfigRegistry.register(
+            JsonConfig(
+                MOD_ID,
+                ScreenShakeConfig::class.java,
+                makeConfigPath("screen_shake"),
+                CONFIG_JSONTYPE
+            )
+        )
+
+        @JvmStatic
+        fun get(): ScreenShakeConfig = INSTANCE.config()
+    }
 }

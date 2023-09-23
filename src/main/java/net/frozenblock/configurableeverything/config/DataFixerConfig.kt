@@ -17,35 +17,7 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 
-class DataFixerConfig {
-    companion object {
-        private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                Codec.list(SchemaEntry.CODEC)
-            )
-        )
-
-        private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                Codec.list(RegistryFixer.CODEC)
-            )
-        )
-
-        @JvmField
-        internal val INSTANCE: Config<DataFixerConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                DataFixerConfig::class.java,
-                makeConfigPath("datafixer"),
-                CONFIG_JSONTYPE
-            )
-        )
-
-        fun get(): DataFixerConfig = INSTANCE.config()
-    }
-
+data class DataFixerConfig(
     @JvmField
     @Comment(
 """
@@ -55,7 +27,7 @@ By default, registry fixers will only run if the entry with the ID is missing.
 WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CAUTION
 """
     )
-    var overrideRealEntries: Boolean? = false
+    var overrideRealEntries: Boolean? = false,
 
     @JvmField
     @Comment(
@@ -64,11 +36,11 @@ The data fixer's main data version. Increment this when you add a new schema.
 Any schemas with a data version higher than this will be ignored.
 """
     )
-    var dataVersion: Int? = 0
+    var dataVersion: Int? = 0,
 
     @JvmField
     @Comment(
-        """
+"""
 The list of schemas to use for data fixing.
 Each schema has a data version and a list of data fix entries.
 Each data fix entry has a type and a list of fixers.
@@ -137,11 +109,11 @@ However, if the old id is still found in the registry, it will not be replaced.
                 )
             )
         )
-    )
+    ),
 
     @JvmField
     @Comment(
-        """
+"""
 The list of registry fixers to use for data fixing.
 Each registry fixer contains a registry key and a list of fixers.
 Each fixer contains an old id and a new id, and will replace all instances of the old id with the new id.
@@ -179,5 +151,33 @@ However, if the old id is still found in the registry, it will not be replaced (
                 )
             )
         )
-    )
+)
+) {
+    companion object {
+        private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                Codec.list(SchemaEntry.CODEC)
+            )
+        )
+
+        private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRegistry.register(
+            TypedEntryType(
+                MOD_ID,
+                Codec.list(RegistryFixer.CODEC)
+            )
+        )
+
+        @JvmField
+        internal val INSTANCE: Config<DataFixerConfig> = ConfigRegistry.register(
+            JsonConfig(
+                MOD_ID,
+                DataFixerConfig::class.java,
+                makeConfigPath("datafixer"),
+                CONFIG_JSONTYPE
+            )
+        )
+
+        fun get(): DataFixerConfig = INSTANCE.config()
+    }
 }

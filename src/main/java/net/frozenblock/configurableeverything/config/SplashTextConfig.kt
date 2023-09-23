@@ -27,17 +27,15 @@ class SplashTextConfig {
     }
 
     @JvmField
-	var addedSplashes: List<String?>? = ArrayList(
-        listOf(
-            "Configurable Everything!"
-        )
+	var addedSplashes: List<String?>? = arrayListOf(
+        "Configurable Everything!"
     )
+
     @JvmField
-	var removedSplashes: List<String?>? = ArrayList(
-        listOf(
-            "random splash text"
-        )
+	var removedSplashes: List<String?>? = arrayListOf(
+        "random splash text"
     )
+
     @JvmField
 	var splashColor: Int? = DyeColor.YELLOW.textColor
 

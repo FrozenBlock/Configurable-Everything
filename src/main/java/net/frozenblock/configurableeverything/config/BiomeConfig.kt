@@ -22,7 +22,7 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 
 data class BiomeConfig(
 	@JvmField
-	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
+	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>?>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -51,7 +51,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
+	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList?>?>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -80,7 +80,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry(
+	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList?>?>? = TypedEntry(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
 			BiomePlacedFeatureReplacementList(

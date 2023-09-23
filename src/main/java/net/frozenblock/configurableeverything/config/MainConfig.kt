@@ -18,7 +18,7 @@ Enabled configs
 Warning: It is important to check the contents of each config before enabling them here.
 """
     )
-    var biome: Boolean? = false
+    var biome: Boolean? = false,
 
     @JvmField
     var biome_placement: Boolean? = false,
@@ -43,6 +43,9 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     var screen_shake: Boolean? = false,
+
+    @JvmField
+    var splash_text: Boolean? = false,
 
     @JvmField
     var surface_rule: Boolean? = false,
@@ -89,22 +92,20 @@ Warning: It is important to check the contents of each config before enabling th
 
     data class KotlinScriptingConfig(
         @JvmField
-        var applyKotlinScripts: Boolean? = true
+        var applyKotlinScripts: Boolean? = true,
 
         @JvmField
-        var defaultImports: List<String>? = ArrayList(
-            listOf(
-                "java.util.*",
-                "kotlinx.coroutines.*",
-                "net.frozenblock.configurableeverything.util.*",
-                "net.minecraft.core.registries.*",
-                "net.minecraft.core.registries.Registries.*",
-                "net.minecraft.resources.*",
-                "net.minecraft.server.*",
-                "net.minecraft.world.level.block.*",
-                "net.minecraft.world.level.block.state.*",
-                "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
-            )
+        var defaultImports: List<String>? = arrayListOf(
+            "java.util.*",
+            "kotlinx.coroutines.*",
+            "net.frozenblock.configurableeverything.util.*",
+            "net.minecraft.core.registries.*",
+            "net.minecraft.core.registries.Registries.*",
+            "net.minecraft.resources.*",
+            "net.minecraft.server.*",
+            "net.minecraft.world.level.block.*",
+            "net.minecraft.world.level.block.state.*",
+            "net.minecraft.world.level.block.state.BlockBehaviour.Properties"
         )
     )
 }

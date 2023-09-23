@@ -17,7 +17,43 @@ import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
 import net.minecraft.world.level.biome.MobSpawnSettings
 
-class RegistryConfig {
+data class RegistryConfig(
+    @JvmField
+    @Comment("Adds these biomes to the biome registry on datapack load.")
+    var biomeAdditions: TypedEntry<List<BiomeAddition?>?>? = TypedEntry(
+        BIOME_ADDITIONS,
+        listOf(
+            BiomeAddition(
+                id("example"),
+                // copy of blank biome
+                BiomeBuilder()
+                    .temperature(0.5f)
+                    .downfall(0f)
+                    .hasPrecipitation(false)
+                    .specialEffects(
+                        BiomeSpecialEffects.Builder()
+                            .grassColorOverride(8421504)
+                            .foliageColorOverride(8421504)
+                            .fogColor(0)
+                            .waterColor(0)
+                            .waterFogColor(0)
+                            .skyColor(0)
+                            .build()
+                    )
+                    .mobSpawnSettings(MobSpawnSettings.EMPTY)
+                    .generationSettings(BiomeGenerationSettings.EMPTY)
+                    .build()
+            )
+        )
+    ),
+
+    @JvmField
+    @Comment("Adds these placed features to the placed feature registry on datapack load.")
+    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
+        PLACED_FEATURE_ADDITIONS,
+        listOf() // cant make an example bc it requires a holder and the registry is dynamic
+    )
+) {
     companion object {
         private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition?>?>? = ConfigRegistry.register(
             TypedEntryType(
@@ -46,40 +82,4 @@ class RegistryConfig {
         @JvmStatic
         fun get(): RegistryConfig = INSTANCE.config()
     }
-
-    @JvmField
-    @Comment("Adds these biomes to the biome registry on datapack load.")
-    var biomeAdditions: TypedEntry<List<BiomeAddition?>?>? = TypedEntry(
-        BIOME_ADDITIONS,
-        listOf(
-            BiomeAddition(
-                id("example"),
-                // copy of blank biome
-                BiomeBuilder()
-                    .temperature(0.5f)
-                    .downfall(0f)
-                    .hasPrecipitation(false)
-                    .specialEffects(
-                        BiomeSpecialEffects.Builder()
-                            .grassColorOverride(8421504)
-                            .foliageColorOverride(8421504)
-                            .fogColor(0)
-                            .waterColor(0)
-                            .waterFogColor(0)
-                            .skyColor(0)
-                            .build()
-                    )
-                    .mobSpawnSettings(MobSpawnSettings.EMPTY)
-                    .generationSettings(BiomeGenerationSettings.EMPTY)
-                    .build()
-            )
-        )
-    )
-
-    @JvmField
-    @Comment("Adds these placed features to the placed feature registry on datapack load.")
-    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
-        PLACED_FEATURE_ADDITIONS,
-        listOf() // cant make an example bc it requires a holder and the registry is dynamic
-    )
 }

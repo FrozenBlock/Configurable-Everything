@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
@@ -15,23 +16,25 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.level.block.SoundType
 
 data class BlockConfig(
     @JvmField
     var soundGroupOverwrites: TypedEntry<List<BlockSoundGroupOverwrite?>?>? = TypedEntry(
-        SOUND_GROUP_OVERWRITE,
+        SOUND_GROUP_OVERWRITES,
         listOf(
-            vanillaId("grass_block"),
-            SoundType(
-                SoundEvents.ENTITY_HORSE_DEATH,
-                SoundEvents.ENTITY_HORSE_DEATH,
-                SoundEvents.ENTITY_HORSE_DEATH,
-                SoundEvents.ENTITY_HORSE_DEATH,
-                SoundEvents.ENTITY_HORSE_DEATH,
-                100F,
-                1F
-            ),
-            {true}
+            BlockSoundGroupOverwrite(
+                vanillaId("grass_block"),
+                SoundType(
+                    100F,
+                    1F,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH
+                )
+            ) { true }
         )
     )
 ) {

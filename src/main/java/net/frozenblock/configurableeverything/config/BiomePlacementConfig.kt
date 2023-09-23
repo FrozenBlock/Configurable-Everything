@@ -11,7 +11,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
-import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.frozenblock.lib.worldgen.biome.api.parameters.Continentalness
@@ -20,8 +19,8 @@ import net.frozenblock.lib.worldgen.biome.api.parameters.Erosion
 import net.frozenblock.lib.worldgen.biome.api.parameters.Humidity
 import net.frozenblock.lib.worldgen.biome.api.parameters.Temperature
 import net.frozenblock.lib.worldgen.biome.api.parameters.Weirdness
-import net.minecraft.world.level.biome.Climate.*
-import net.minecraft.net.minecraft.world.level.biome.Climate.Parameter.*
+import net.minecraft.world.level.biome.Climate.parameters
+import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
 data class BiomePlacementConfig(
@@ -63,7 +62,7 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 							Temperature.FULL_RANGE,
 							Humidity.FULL_RANGE,
 							Continentalness.MUSHROOM_FIELDS,
-							Erosion.FULL_RANGE
+							Erosion.FULL_RANGE,
 							span(Depth.SURFACE, Depth.FLOOR),
 							Weirdness.FULL_RANGE,
 							0F
@@ -130,6 +129,6 @@ Does not support biomes added via TerraBlender
 		)
 
 		@JvmStatic
-		fun get() = INSTANCE.config()
+		fun get(): BiomePlacementConfig = INSTANCE.config()
 	}
 }

@@ -14,7 +14,26 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
-class SurfaceRuleConfig {
+data class SurfaceRuleConfig(
+    @JvmField
+    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
+        SURFACE_RULE_LIST,
+        listOf(
+            FrozenDimensionBoundRuleSource(
+                BuiltinDimensionTypes.OVERWORLD.location(),
+                SurfaceRules.sequence(
+                    SurfaceRules.ifTrue(
+                        SurfaceRules.isBiome(ConfigurableEverythingDataGenerator.BLANK_BIOME),
+                        SurfaceRules.ifTrue(
+                            SurfaceRules.abovePreliminarySurface(),
+                            SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
+                        )
+                    )
+                )
+            )
+        )
+    )
+) {
     companion object {
         private val SURFACE_RULE_LIST = ConfigRegistry.register(
             TypedEntryType<List<FrozenDimensionBoundRuleSource>>(
@@ -35,22 +54,4 @@ class SurfaceRuleConfig {
 
         fun get(): SurfaceRuleConfig = INSTANCE.config()
     }
-
-    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
-        SURFACE_RULE_LIST,
-        listOf(
-            FrozenDimensionBoundRuleSource(
-                BuiltinDimensionTypes.OVERWORLD.location(),
-                SurfaceRules.sequence(
-                    SurfaceRules.ifTrue(
-                        SurfaceRules.isBiome(ConfigurableEverythingDataGenerator.BLANK_BIOME),
-                        SurfaceRules.ifTrue(
-                            SurfaceRules.abovePreliminarySurface(),
-                            SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
-                        )
-                    )
-                )
-            )
-        )
-    )
 }

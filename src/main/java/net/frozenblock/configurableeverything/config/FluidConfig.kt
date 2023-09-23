@@ -13,10 +13,27 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.material.Fluids
 
-class FluidConfig {
+data class FluidConfig(
+    @JvmField
+    var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
+        FLUID_FLOW_SPEEDS,
+        listOf(
+            FluidFlowSpeed(
+                BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow(),
+                5,
+                5
+            ),
+            FluidFlowSpeed(
+                BuiltInRegistries.FLUID.getResourceKey(Fluids.LAVA).orElseThrow(),
+                10,
+                30
+            )
+        )
+    )
+) {
     companion object {
-        private val FLUID_FLOW_SPEEDS = ConfigRegistry.register(
-            TypedEntryType<List<FluidFlowSpeed?>>(
+        private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigRegistry.register(
+            TypedEntryType(
                 MOD_ID,
                 FluidFlowSpeed.CODEC.listOf()
             )
@@ -35,20 +52,4 @@ class FluidConfig {
         @JvmStatic
         fun get(): FluidConfig = INSTANCE.config()
     }
-    @JvmField
-	var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
-        FLUID_FLOW_SPEEDS,
-        listOf(
-            FluidFlowSpeed(
-                BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow(),
-                5,
-                5
-            ),
-            FluidFlowSpeed(
-                BuiltInRegistries.FLUID.getResourceKey(Fluids.LAVA).orElseThrow(),
-                10,
-                30
-            )
-        )
-    )
 }

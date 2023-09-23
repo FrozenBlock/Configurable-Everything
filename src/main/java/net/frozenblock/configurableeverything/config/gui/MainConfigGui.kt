@@ -96,21 +96,21 @@ object MainConfigGui {
         ).build(entryBuilder)
 
         val datapackBiome = EntryBuilder(text("datapack_biome"), config.datapack?.biome,
-            defaultConfig.datapack.biome!!,
+            defaultConfig.datapack!!.biome!!,
             { newValue -> config.datapack?.biome = newValue },
             tooltip("datapack_biome"),
             true
         ).build(entryBuilder)
 
         val datapackBiomePlacement = EntryBuilder(text("datapack_biome_placement"), config.datapack?.biome_placement,
-            defaultConfig.datapack.biome_placement!!,
+            defaultConfig.datapack!!.biome_placement!!,
             { newValue -> config.datapack?.biome_placement = newValue },
             tooltip("datapack_biome_placement"),
             true
         ).build(entryBuilder)
 
         val json5Support = EntryBuilder(text("json5_support"), config.datapack?.json5Support,
-            defaultConfig.datapack.json5Support!!,
+            defaultConfig.datapack!!.json5Support!!,
             { newValue -> config.datapack?.json5Support = newValue },
             tooltip("json5_support"),
             true

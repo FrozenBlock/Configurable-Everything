@@ -8,7 +8,25 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
-class WorldConfig {
+data class WorldConfig(
+    @JvmField
+    @Comment("Does not modify tick rate. Only modifies daytime speed.")
+    var dayTimeSpeedAmplifier: Long? = 1,
+
+    @JvmField
+    var fixSunMoonRotating: Boolean? = false,
+
+    @JvmField
+    @Comment("Incompatible with mod Bedrockify.")
+    var sunSize: Int? = 300,
+
+    @JvmField
+    var moonSize: Int? = 200,
+
+    @JvmField
+    @Comment("Disables the experimental warning screen when creating or loading worlds.")
+    var disableExperimentalWarning: Boolean? = false,
+) {
     companion object {
         @JvmField
         internal val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
@@ -29,22 +47,4 @@ class WorldConfig {
         @JvmStatic
         fun get(): WorldConfig = INSTANCE.config()
     }
-
-    @JvmField
-	@Comment("Does not modify tick rate. Only modifies daytime speed.")
-    var dayTimeSpeedAmplifier: Long? = 1
-
-    @JvmField
-	var fixSunMoonRotating: Boolean? = false
-
-    @JvmField
-	@Comment("Incompatible with mod Bedrockify.")
-    var sunSize: Int? = 300
-
-    @JvmField
-	var moonSize: Int? = 200
-
-    @JvmField
-	@Comment("Disables the experimental warning screen when creating or loading worlds.")
-    var disableExperimentalWarning: Boolean? = false
 }
