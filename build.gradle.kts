@@ -235,13 +235,6 @@ dependencies {
     include(kotlin("compiler-embeddable"))
     include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
 
-    // remapping
-    // required for running scripts in prod environment
-    includeModApi("net.fabricmc:tiny-remapper:0.8.7")
-    includeModApi("net.fabricmc:mapping-io:0.3.0")
-    includeModApi("net.fabricmc:lorenz-tiny:4.0.2")
-    includeModApi("net.fabricmc:mercury:0.4.0")
-
     // FrozenLib
     if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
@@ -249,7 +242,7 @@ dependencies {
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
 
     // MixinExtras
-    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-rc.2")?.let { annotationProcessor(it) }
+    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-rc.4")?.let { annotationProcessor(it) }
 
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {

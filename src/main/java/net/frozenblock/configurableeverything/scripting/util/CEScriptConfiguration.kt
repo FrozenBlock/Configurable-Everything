@@ -51,7 +51,8 @@ abstract class CEScript {
 }
 
 object CEScriptConfiguration : ScriptCompilationConfiguration({
-    defaultImports(remappedDefaultImports)
+    val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.INSTANCE.defaultInstance().kotlinScripting!!.defaultImports!!
+    defaultImports(defaultImports)
     baseClass(CEScript::class)
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)

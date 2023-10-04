@@ -21,6 +21,14 @@ fun logMod(string: String, shouldLog: Boolean = true) {
     }
 }
 
+fun logDebug(string: String? shouldLog: Boolean = true) {
+    if (shouldLog) LOGGER?.debug(string)
+}
+
+fun logWarn(string: String?, shouldLog: Boolean = true) {
+    if (shouldLog) LOGGER?.warn(string)
+}
+
 fun logError(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.error(string)

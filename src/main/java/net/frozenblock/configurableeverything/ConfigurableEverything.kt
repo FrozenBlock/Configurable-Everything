@@ -52,16 +52,6 @@ class ConfigurableEverything : ModInitializer {
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
                 FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
-                FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
-                FileUtil.createDirectoriesSafe(REMAPPED_SCRIPT_SOURCES_PATH)
-
-                REMAPPED_SCRIPT_SOURCES_PATH.toFile().listFiles()?.let { files ->
-                    for (file in files) {
-                        // delete existing remapped files
-                        // so that new ones can be created
-                        file.delete()
-                    }
-                }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }

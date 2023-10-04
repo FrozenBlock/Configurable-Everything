@@ -99,13 +99,7 @@ Warning: It is important to check the contents of each config before enabling th
             "java.util.*",
             "kotlinx.coroutines.*",
             "net.frozenblock.configurableeverything.util.*",
-            "net.minecraft.core.registries.*",
-            "net.minecraft.core.registries.Registries.*",
-            "net.minecraft.resources.*",
-            "net.minecraft.server.*",
-            "net.minecraft.world.level.block.*",
-            "net.minecraft.world.level.block.state.*",
-            "net.minecraft.world.level.block.state.BlockBehaviour.Properties"
+            "net.frozenblock.configurableeverything.scripting.util.*"
         )
     )
 }

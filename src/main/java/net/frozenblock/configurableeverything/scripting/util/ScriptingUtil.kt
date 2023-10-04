@@ -7,12 +7,12 @@ import java.io.File
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 
-object ScriptingUtil {
+internal object ScriptingUtil {
 
     private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
         val compilationConfiguration = CEScriptConfiguration
         val evaluationConfiguration = CEScriptEvaluationConfig
-        return BasicJvmScriptingHost().eval(script.toScriptSource().remapMinecraft(), compilationConfiguration, evaluationConfiguration)
+        return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
     }
 
     fun runScripts() {
@@ -22,8 +22,13 @@ object ScriptingUtil {
         for (file in folder) {
             val result = runScript(file)
             result.reports.forEach {
-                if (it.severity > ScriptDiagnostic.Severity.DEBUG) {
-                    logError(" : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}")
+                val message = " : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}"
+                when (it.severity) {
+                    ScriptDiagnostic.Severity.DEBUG -> logDebug(message)
+                    ScriptDiagnostic.Severity.INFO -> log(message)
+                    ScriptDiagnostic.Severity.WARN -> logWarn(message)
+                    ScriptDiagnostic.Severity.ERROR -> logError(message)
+                    else -> logError(message)
                 }
             }
         }
