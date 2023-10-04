@@ -7,9 +7,9 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.EntityType
 
 data class EntityAttributeAmplifier(
-	@JvmField var entity: ResourceKey<EntityType<*>>,
-	@JvmField var entityName: String,
-	@JvmField var amplifiers: List<AttributeAmplifier>
+	@JvmField var entity: ResourceKey<EntityType<*>>?,
+	@JvmField var entityName: String?,
+	@JvmField var amplifiers: List<AttributeAmplifier?>?
 ) {
     companion object {
         @JvmField
