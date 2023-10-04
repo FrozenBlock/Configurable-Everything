@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.scripting.util
 import net.minecraft.core.Registry as VanillaRegistry
 import net.minecraft.core.registries.BuiltInRegistries as VanillaBuiltInRegistries
 import net.minecraft.core.registries.Registries as VanillaRegistries
-import net.minecraft.resources.ResourceKey as VanillaResourceKey
 import net.minecraft.resources.ResourceLocation as VanillaResourceLocation
 
 object Registries {
@@ -27,19 +26,8 @@ data class Registry<T : Any>(
         return value
     }
 
-    fun register(id: ResourceKey<T>, value: FakeObject<T>): FakeObject<T> {
-        VanillaRegistry.register(registry, id.value(), value.value())
-        return value
-    }
-
     override fun value(): VanillaRegistry<T> {
         return registry
-    }
-}
-
-data class ResourceKey<T : Any>(val registryKey: VanillaResourceKey<out Registry<T>>, val location: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
-    override fun value(): VanillaResourceKey<T> {
-        return VanillaResourceKey.create(registryKey, location.value())
     }
 }
 
