@@ -1,8 +1,8 @@
 package net.frozenblock.configurableeverything.scripting.util
 
 import net.minecraft.core.Registry as VanillaRegistry
-import net.minecraft.core.registry.BuiltInRegistries as VanillaBuiltInRegistries
-import net.minecraft.core.registry.Registries as VanillaRegistries
+import net.minecraft.core.registries.BuiltInRegistries as VanillaBuiltInRegistries
+import net.minecraft.core.registries.Registries as VanillaRegistries
 import net.minecraft.resources.ResourceKey as VanillaResourceKey
 import net.minecraft.resources.ResourceLocation as VanillaResourceLocation
 
