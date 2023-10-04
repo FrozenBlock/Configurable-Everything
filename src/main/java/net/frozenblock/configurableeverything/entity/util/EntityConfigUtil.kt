@@ -54,22 +54,21 @@ object EntityConfigUtil {
         config.entityAttributeAmplifiers?.value()?.let { entityAttributeAmplifiers ->
             (entityAccess as? LivingEntity)?.let { entity ->
                 for (entityAttributeAmplifier in entityAttributeAmplifiers) {
-                    if (entityAttributeAmplifier == null) continue
-                    val desiredEntity = entityAttributeAmplifier.entity
-                    val desiredEntityName = entityAttributeAmplifier.entityName
-                    val amplifiers = entityAttributeAmplifier.amplifiers
-                    if (desiredEntity == null || desiredEntityName == null || amplifiers == null) continue
+                    val desiredEntity = entityAttributeAmplifier?.entity ?: continue
+                    val desiredEntityName = entityAttributeAmplifier?.entityName ?: continue
+                    val amplifiers = entityAttributeAmplifier?.amplifiers ?: continue
                     if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())) return
                     val desEntityNameComponent: Component = Component.literal(desiredEntityName)
                     if (desEntityNameComponent.getString().isEmpty() || desEntityNameComponent == entity.getName()) {
                         val attributes: AttributeMap = entity.getAttributes()
                         for (amplifier in amplifiers) {
-                            if (amplifier == null || amplifier.attribute == null || amplifier.amplifier == null) continue
-                            val attribute: AttributeInstance = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifier.attribute))
-                            attribute.addTransientModifier(
+                            val amplifierAttribute = amplifier?.attribute ?: continue
+                            val amplifierAmplifier = amplifier?.amplifier ?: continue
+                            val attribute: AttributeInstance? = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute))
+                            attribute?.addTransientModifier(
                                 AttributeModifier(
-                                    "Configurable Everything Entity Config ${amplifier.attribute.location()} change to ${entity.getName()}",
-                                    amplifier.amplifier - 1.0,
+                                    "Configurable Everything Entity Config ${amplifierAttribute.location().toString()} change to ${entity.getName()}",
+                                    amplifierAmplifier - 1.0,
                                     AttributeModifier.Operation.MULTIPLY_TOTAL
                                 )
                             )

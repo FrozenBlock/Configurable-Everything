@@ -37,7 +37,7 @@ data class Registry<T>(
     }
 }
 
-data class ResourceKey<T>(val registry: ResourceKey<Registry<T>>?, id: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
+data class ResourceKey<T>(val registry: ResourceKey<out Registry<T>>?, val id: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
     override fun value(): VanillaResourceKey<T> {
         return VanillaResourceKey.create(registry?.value(), id.value())
     }

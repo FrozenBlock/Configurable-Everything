@@ -1,7 +1,6 @@
 package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
-import net.frozenblock.configurableeverything.scripting.util.MCVersion
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

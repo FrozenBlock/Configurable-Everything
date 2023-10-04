@@ -21,7 +21,7 @@ fun logMod(string: String, shouldLog: Boolean = true) {
     }
 }
 
-fun logDebug(string: String? shouldLog: Boolean = true) {
+fun logDebug(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) LOGGER?.debug(string)
 }
 

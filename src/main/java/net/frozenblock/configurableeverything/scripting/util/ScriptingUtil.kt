@@ -26,7 +26,7 @@ internal object ScriptingUtil {
                 when (it.severity) {
                     ScriptDiagnostic.Severity.DEBUG -> logDebug(message)
                     ScriptDiagnostic.Severity.INFO -> log(message)
-                    ScriptDiagnostic.Severity.WARN -> logWarn(message)
+                    ScriptDiagnostic.Severity.WARNING -> logWarn(message)
                     ScriptDiagnostic.Severity.ERROR -> logError(message)
                     else -> logError(message)
                 }
