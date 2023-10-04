@@ -26,7 +26,6 @@ buildscript {
 
 plugins {
     id("fabric-loom") version("+")
-    id("io.github.juuxel.loom-vineflower") version("+")
     id("org.quiltmc.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
@@ -36,7 +35,7 @@ plugins {
     idea
     `java-library`
     java
-    kotlin("jvm") version("1.9.20-Beta")
+    kotlin("jvm") version("1.9.20-Beta2")
 }
 
 val minecraft_version: String by project
@@ -263,11 +262,6 @@ dependencies {
 
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
-}
-
-vineflower {
-    toolVersion.set("1.9.3")
-    println("Vineflower: ${toolVersion.get()}")
 }
 
 tasks {
