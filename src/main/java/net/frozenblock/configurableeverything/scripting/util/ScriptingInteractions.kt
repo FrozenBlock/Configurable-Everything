@@ -18,7 +18,7 @@ object BuiltInRegistries {
     val ITEM = Registry(VanillaBuiltInRegistries.ITEM)
 }
 
-data class Registry<T>(
+data class Registry<T : Any>(
     val registry: VanillaRegistry<T>
 ) : FakeObject<VanillaRegistry<T>> {
 
@@ -37,9 +37,9 @@ data class Registry<T>(
     }
 }
 
-data class ResourceKey<T>(val registry: ResourceKey<out Registry<T>>?, val id: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
+data class ResourceKey<T : Any>(val registryKey: VanillaResourceKey<out Registry<T>>, val location: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
     override fun value(): VanillaResourceKey<T> {
-        return VanillaResourceKey.create(registry?.value(), id.value())
+        return VanillaResourceKey.create(registryKey, location.value())
     }
 }
 
