@@ -15,7 +15,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.level.entity.EntityAccess
 import net.frozenblock.lib.sound.api.FlyBySoundHub
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import java.util.UUID
@@ -56,11 +55,11 @@ object EntityConfigUtil {
             (entityAccess as? LivingEntity)?.let { entity ->
                 for (entityAttributeAmplifier in entityAttributeAmplifiers) {
                     if (entityAttributeAmplifier == null) continue
-
                     val desiredEntity = entityAttributeAmplifier.entity
                     val desiredEntityName = entityAttributeAmplifier.entityName
                     val amplifiers = entityAttributeAmplifier.amplifiers
-                    if (desiredEntity?.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())) return
+                    if (desiredEntity == null || desiredEntityName == null || amplifiers == null) continue
+                    if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())) return
                     val desEntityNameComponent: Component = Component.literal(desiredEntityName)
                     if (desEntityNameComponent.getString().isEmpty() || desEntityNameComponent == entity.getName()) {
                         val attributes: AttributeMap = entity.getAttributes()
