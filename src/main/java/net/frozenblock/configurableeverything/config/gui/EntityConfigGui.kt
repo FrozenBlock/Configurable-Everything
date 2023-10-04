@@ -151,13 +151,15 @@ object EntityConfigGui {
             tooltip("entity_attribute_amplifiers"),
             { newValue -> config.entityAttributeAmplifiers = newValue},
             { element, _ ->
-                val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
+                val defaultEntity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(""))
+                val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
+                val entity = entityAttributeAmplifier.entity ?: defaultEntity
                 makeMultiElementEntry(
                     text("entity_attribute_amplifiers.entity_attribute_amplifier"),
                     entityAttributeAmplifier,
                     true,
 
-                    EntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.location().toString(),
+                    EntryBuilder(text("entity_attribute_amplifiers.entity"), entity.location().toString(),
                         "",
                         { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
                         tooltip("entity_attribute_amplifiers.entity")
@@ -177,19 +179,23 @@ object EntityConfigGui {
                         true,
                         tooltip("entity_attribute_amplifiers.amplifiers"),
                         { newValue -> entityAttributeAmplifier.amplifiers = newValue },
-                        { amplifier, _ ->
+                        { amplifierElement, _ ->
+                            val defaultAttribute = ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation(""))
+                            val amplifier = amplifierElement ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)
+                            val attribute = amplifier.attribute ?: defaultAttribute
+                            val numAmplifier = amplifier.amplifier ?: 1.0
                             makeMultiElementEntry(
                                 text("entity_attribute_amplifiers.attribute_amplifier"),
                                 amplifier,
                                 true,
 
-                                EntryBuilder(text("entity_attribute_amplifiers.attribute"), amplifier.attribute.location().toString(),
+                                EntryBuilder(text("entity_attribute_amplifiers.attribute"), attribute.location().toString(),
                                     "minecraft:generic.movement_speed",
                                     { newValue -> amplifier.attribute = ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation(newValue)) },
                                     tooltip("entity_attribute_amplifiers.attribute")
                                 ).build(entryBuilder),
 
-                                EntryBuilder(text("entity_attribute_amplifiers.amplifier"), amplifier.amplifier,
+                                EntryBuilder(text("entity_attribute_amplifiers.amplifier"), numAmplifier,
                                     1.0,
                                     { newValue -> amplifier.amplifier = newValue },
                                     text("entity_attribute_amplifiers.amplifier")
