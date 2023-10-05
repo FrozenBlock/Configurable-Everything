@@ -33,17 +33,19 @@ data class Registry<T : Any>(
     }
 }
 
-data class ResourceLocation(val namespace: String = "minecraft", val path: String) : FakeObject<VanillaResourceLocation> {
-    override fun value(): VanillaResourceLocation = VanillaResourceLocation(namespace, path)
+data class ResourceLocation(val value: String) : FakeObject<VanillaResourceLocation> {
+    constructor(namespace: String, path: String) : this("$namespace:$path")
+
+    override fun value(): VanillaResourceLocation = VanillaResourceLocation(value)
 }
 
 data class Block(val block: VanillaBlock) : FakeObject<VanillaBlock> {
-    constructor(properties: Properties) {
-        this(VanillaBlock(properties))
-    }
+    constructor(properties: Properties) : this(VanillaBlock(properties.value()))
 
     override fun value(): VanillaBlock = block
 }
+
+fun blankProperties(): Properties = Properties(VanillaProperties.of())
 
 data class Properties(val properties: VanillaProperties) : FakeObject<VanillaProperties> {
     companion object {
