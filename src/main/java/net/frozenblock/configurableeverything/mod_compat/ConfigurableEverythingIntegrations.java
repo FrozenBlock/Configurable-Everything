@@ -1,10 +1,10 @@
 package net.frozenblock.configurableeverything.mod_compat;
 
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstants;
+import java.util.function.Supplier;
+import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.frozenblock.lib.integration.api.ModIntegration;
 import net.frozenblock.lib.integration.api.ModIntegrationSupplier;
 import net.frozenblock.lib.integration.api.ModIntegrations;
-import java.util.function.Supplier;
 
 public final class ConfigurableEverythingIntegrations {
 
@@ -18,14 +18,14 @@ public final class ConfigurableEverythingIntegrations {
 	}
 
 	public static ModIntegrationSupplier<? extends ModIntegration> register(Supplier<? extends ModIntegration> integration, String modID) {
-		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstants.MOD_ID, modID);
+		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstantsKt.MOD_ID, modID);
 	}
 
 	public static <T extends ModIntegration> ModIntegrationSupplier<T> register(Supplier<T> integration, Supplier<T> unloadedIntegration, String modID) {
-		return ModIntegrations.register(integration, unloadedIntegration, ConfigurableEverythingSharedConstants.MOD_ID, modID);
+		return ModIntegrations.register(integration, unloadedIntegration, ConfigurableEverythingSharedConstantsKt.MOD_ID, modID);
 	}
 
 	public static <T extends ModIntegration> ModIntegration registerAndGet(Supplier<T> integration, String modID) {
-		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstants.MOD_ID, modID).getIntegration();
+		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstantsKt.MOD_ID, modID).getIntegration();
 	}
 }

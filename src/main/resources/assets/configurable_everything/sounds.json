@@ -1,0 +1,100 @@
+{
+	"flyby.arrow": {
+		"sounds": [
+			"configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+		]
+	},
+  "flyby.trident": {
+    "sounds": [
+      "configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+    ]
+  },
+  "flyby.egg": {
+    "sounds": [
+      "configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+    ]
+  },
+  "flyby.snowball": {
+    "sounds": [
+      "configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+    ]
+  },
+  "flyby.fireball": {
+    "sounds": [
+      "configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+    ]
+  },
+  "flyby.potion": {
+    "sounds": [
+      "configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+    ]
+  },
+  "flyby.experience_bottle": {
+    "sounds": [
+      "configurable_everything:flyby/projectile/whoosh1",
+      "configurable_everything:flyby/projectile/whoosh2",
+      "configurable_everything:flyby/projectile/whoosh3",
+      "configurable_everything:flyby/projectile/whoosh4",
+      "configurable_everything:flyby/projectile/whoosh5",
+      "configurable_everything:flyby/projectile/whoosh6",
+      "configurable_everything:flyby/projectile/whoosh7",
+      "configurable_everything:flyby/projectile/whoosh8",
+      "configurable_everything:flyby/projectile/whoosh9",
+      "configurable_everything:flyby/projectile/whoosh10"
+    ]
+  }
+}

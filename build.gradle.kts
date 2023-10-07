@@ -20,13 +20,12 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath("org.kohsuke:github-api:1.313")
+        classpath("org.kohsuke:github-api:1.316")
     }
 }
 
 plugins {
     id("fabric-loom") version("+")
-    id("io.github.juuxel.loom-vineflower") version("+")
     id("org.quiltmc.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
@@ -36,7 +35,7 @@ plugins {
     idea
     `java-library`
     java
-    kotlin("jvm") version("1.9.0")
+    kotlin("jvm") version("1.9.20-Beta2")
 }
 
 val minecraft_version: String by project
@@ -54,8 +53,8 @@ val fabric_version: String by project
 val fabric_kotlin_version: String by project
 val fabric_asm_version: String by project
 val frozenlib_version: String by project
-val jankson_version: String by project
 
+val cloth_config_version: String by project
 val modmenu_version: String by project
 val terrablender_version: String by project
 val terralith_version: String by project
@@ -130,19 +129,19 @@ loom {
     }
 }
 
-val includeModImplementation by configurations.creating
-val includeImplementation by configurations.creating
+val includeModApi: Configuration by configurations.creating
+val includeImplementation: Configuration by configurations.creating
 
 configurations {
     include {
         extendsFrom(includeImplementation)
-        extendsFrom(includeModImplementation)
+        extendsFrom(includeModApi)
     }
     implementation {
         extendsFrom(includeImplementation)
     }
-    modImplementation {
-        extendsFrom(includeModImplementation)
+    modApi {
+        extendsFrom(includeModApi)
     }
 }
 
@@ -224,66 +223,38 @@ dependencies {
     // Fabric Language Kotlin. Required for Kotlin support.
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
-    // FrozenLib
-    if (local_frozenlib) {
-        api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
-    } else {
-        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
-    }
+    // these deps definitely needs to be put in another mod, 50MB is a lot.
+    // disabled until later date
+    includeModApi(kotlin("scripting-common"))
+    includeModApi(kotlin("scripting-jvm"))
+    includeModApi(kotlin("scripting-jsr223"))
+    includeModApi(kotlin("scripting-jvm-host"))
+    include(kotlin("script-runtime"))
+    include(kotlin("scripting-compiler-embeddable"))
+    include(kotlin("scripting-compiler-impl-embeddable"))
+    include(kotlin("compiler-embeddable"))
+    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
 
-    // Jankson
-    implementation("blue.endless:jankson:$jankson_version")
+    // FrozenLib
+    if (local_frozenlib)
+        api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
+    else
+        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
 
     // MixinExtras
-    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-beta.9")?.let { annotationProcessor(it) }
+    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-rc.4")?.let { annotationProcessor(it) }
+
+    // Cloth Config
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+        exclude(group = "net.fabricmc.fabric-api")
+        exclude(group = "com.terraformersmc")
+    }
 
     // Mod Menu
-    modCompileOnly("com.terraformersmc:modmenu:${modmenu_version}")
+    modImplementation("com.terraformersmc:modmenu:${modmenu_version}")
 
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
-
-    /*
-        // only affects runClient, does not affect gradlew build.
-        // add -PuseThirdPartyMods=false to not use these
-        if (findProperty("useThirdPartyMods") != "false") {
-            modRuntimeOnly("maven.modrinth:ferrite-core:${ferritecore_version}")
-            modRuntimeOnly("maven.modrinth:lazydfu:${lazydfu_version}")
-            modRuntimeOnly("maven.modrinth:starlight:${starlight_version}")
-            modRuntimeOnly("maven.modrinth:lithium:${lithium_version}")
-            modRuntimeOnly("maven.modrinth:fastanim:${fastanim_version}")
-
-            modRuntimeOnly("maven.modrinth:entityculling:${entityculling_version}")
-            modRuntimeOnly("maven.modrinth:memoryleakfix:${memoryleakfix_version}")
-            modRuntimeOnly("maven.modrinth:no-unused-chunks:${no_unused_chunks_version}")
-            //modRuntimeOnly("maven.modrinth:exordium:${exordium_version}")
-            //modRuntimeOnly("maven.modrinth:entity-collision-fps-fix:${entity_collision_fps_fix_version}")
-            //modRuntimeOnly("maven.modrinth:cull-less-leaves:${cull_less_leaves_version}")
-            //modRuntimeOnly("maven.modrinth:c2me-fabric:${c2me_version}")
-            //modRuntimeOnly("maven.modrinth:moreculling:${more_culling_version}")
-            //modRuntimeOnly("maven.modrinth:smoothboot-fabric:${smoothboot_version}")
-        }
-
-        // only affects runClient, does not affect gradlew build.
-        // add -PuseExperimentalThirdParty=true to the gradle runClient
-        // command to use these
-        if (findProperty("useExperimentalThirdParty") == "true") {
-            modRuntimeOnly("maven.modrinth:terralith:${terralith_version}")
-            modRuntimeOnly("maven.modrinth:sodium:${sodium_version}")
-            modRuntimeOnly("org.joml:joml:1.10.4")
-            modRuntimeOnly("org.anarres:jcpp:1.4.14")
-            //modRuntimeOnly "maven.modrinth:iris:${iris_version}"
-            modRuntimeOnly("maven.modrinth:indium:${indium_version}")
-            modRuntimeOnly("me.flashyreese.mods:reeses-sodium-options:${reeses_sodium_options_version}") {
-                exclude(group = "net.coderbot.iris_mc1_19", module = "iris")
-            }
-            modRuntimeOnly("me.flashyreese.mods:sodium-extra-fabric:${sodium_extra_version}")
-            modRuntimeOnly("io.github.douira:glsl-transformer:0.27.0")
-        }*/
-}
-
-vineflower {
-    //toolVersion.set("1.8.0")
 }
 
 tasks {
@@ -306,7 +277,8 @@ tasks {
                 "**/*.accesswidener",
                 "**/*.nbt",
                 "**/*.png",
-                "**/*.ogg"
+                "**/*.ogg",
+                "**/*.mixins.json"
             )
         ) {
             expand(properties)

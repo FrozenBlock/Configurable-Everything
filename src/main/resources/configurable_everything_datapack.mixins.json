@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "net.frozenblock.configurableeverything.datapack.mixin",
+  "plugin": "net.frozenblock.configurableeverything.CEMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "RegistryDataLoaderMixin",
+    "ServerPacksSourceMixin"
+  ],
+  "client": [
+    "CreateWorldScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

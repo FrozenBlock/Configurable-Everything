@@ -4,10 +4,14 @@
   "version": "${version}",
 
   "name": "Configurable Everything",
-  "description": "Adds configurability to many parts of the game",
+  "description": "Makes various aspects of Minecraft configurable while fleshing out the game.",
   "authors": [
-    "FrozenBlock",
-    "Treetrain1"
+    "FrozenBlock"
+  ],
+  "contributors": [
+    "Treetrain1",
+    "Lunade",
+    "Merp"
   ],
   "contact": {
     "homepage": "https://github.com/FrozenBlock/Configurable-Everything",
@@ -21,27 +25,44 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.frozenblock.configurableeverything.ConfigurableEverything"
-    ],
-    "client": [
-      "net.frozenblock.configurableeverything.ConfigurableEverythingClient"
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.ConfigurableEverything"
+      }
     ],
     "fabric-datagen": [
       "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
+    ],
+    "modmenu": [
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.config.gui.main.ModMenuIntegration"
+      }
     ]
   },
   "mixins": [
     "configurable_everything_biome.mixins.json",
-    "configurable_everything_fluid.mixins.json"
+    "configurable_everything_datafixer.mixins.json",
+    "configurable_everything_datapack.mixins.json",
+    "configurable_everything_entity.mixins.json",
+    "configurable_everything_fluid.mixins.json",
+    "configurable_everything_game.mixins.json",
+    "configurable_everything_screenshake.mixins.json",
+    "configurable_everything_world.mixins.json",
+    "configurable_everything_splash_text.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 
   "depends": {
-    "frozenlib": ">=1.3.2-",
+    "frozenlib": ">=1.3.7-",
     "fabric-language-kotlin": "${fabric_kotlin_version}",
     "fabricloader": ">=0.14.21",
     "fabric-api": ">=0.85.0",
-    "minecraft": ">=${minecraft_version}"
+    "minecraft": "${minecraft_version}"
+  },
+  "breaks": {
+    "configurabledatafixers": "*",
+    "configurablesplashtexts": "*"
   },
   "custom": {
     "modmenu": {
