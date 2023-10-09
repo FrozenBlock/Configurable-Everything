@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.registry.util
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 

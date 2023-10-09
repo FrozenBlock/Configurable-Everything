@@ -6,8 +6,8 @@ import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
-import net.frozenblock.configurableeverything.util.logError
 import net.frozenblock.configurableeverything.util.log
+import net.frozenblock.configurableeverything.util.logError
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.datafix.schemas.NamespacedSchema
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder

@@ -1,24 +1,19 @@
 package net.frozenblock.configurableeverything.config
 
 import com.mojang.datafixers.util.Either
-import net.frozenblock.configurableeverything.biome.util.BiomeMusic
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureReplacementList
-import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFeature
-import net.frozenblock.configurableeverything.biome.util.PlacedFeatureReplacement
+import net.frozenblock.configurableeverything.biome.util.*
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.*
+import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
-import net.frozenblock.lib.config.api.instance.json.JsonType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
-import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 
 data class BiomeConfig(
 	@JvmField

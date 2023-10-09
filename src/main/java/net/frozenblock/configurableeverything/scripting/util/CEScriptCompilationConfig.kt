@@ -6,21 +6,24 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.registry.util.DynamicRegistryAddition
-import kotlin.script.experimental.api.*
-import kotlin.script.experimental.annotations.KotlinScript
-import kotlin.script.experimental.jvm.*
-import net.frozenblock.configurableeverything.util.*
+import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
+import net.frozenblock.configurableeverything.util.logError
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-import java.util.Optional
 import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
+import java.util.*
+import kotlin.script.experimental.annotations.KotlinScript
+import kotlin.script.experimental.api.*
+import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
+import kotlin.script.experimental.jvm.jvm
+import kotlin.script.experimental.jvm.loadDependencies
 
 @KotlinScript(
     fileExtension = KOTLIN_SCRIPT_EXTENSION,
-    compilationConfiguration = CEScriptConfiguration::class,
+    compilationConfiguration = CEScriptCompilationConfig::class,
     evaluationConfiguration = CEScriptEvaluationConfig::class,
 )
 abstract class CEScript {
@@ -50,7 +53,7 @@ abstract class CEScript {
     }
 }
 
-object CEScriptConfiguration : ScriptCompilationConfiguration({
+object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.INSTANCE.defaultInstance().kotlinScripting!!.defaultImports!!
     defaultImports(defaultImports)
     baseClass(CEScript::class)
@@ -59,7 +62,6 @@ object CEScriptConfiguration : ScriptCompilationConfiguration({
     }
     jvm {
         dependenciesFromCurrentContext(wholeClasspath = true)
-        dependenciesFromClassContext(CEScriptConfiguration::class)
     }
 
     compilerOptions(listOf("-jvm-target", "17"))
@@ -68,7 +70,7 @@ object CEScriptConfiguration : ScriptCompilationConfiguration({
         //onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
     }
 }) {
-    private fun readResolve(): Any = CEScriptConfiguration
+    private fun readResolve(): Any = CEScriptCompilationConfig
 }
 
 object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({

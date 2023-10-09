@@ -2,6 +2,10 @@ package net.frozenblock.configurableeverything.datapack.mixin;
 
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
@@ -14,10 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Mixin(ServerPacksSource.class)
 public class ServerPacksSourceMixin {

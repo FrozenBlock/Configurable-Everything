@@ -1,16 +1,18 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-import kotlin.script.experimental.api.*
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
+import kotlin.script.experimental.api.EvaluationResult
+import kotlin.script.experimental.api.ResultWithDiagnostics
+import kotlin.script.experimental.api.ScriptDiagnostic
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 
 internal object ScriptingUtil {
 
     private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
-        val compilationConfiguration = CEScriptConfiguration
+        val compilationConfiguration = CEScriptCompilationConfig
         val evaluationConfiguration = CEScriptEvaluationConfig
         return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
     }

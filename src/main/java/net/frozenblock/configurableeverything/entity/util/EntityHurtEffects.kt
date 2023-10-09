@@ -2,10 +2,7 @@ package net.frozenblock.configurableeverything.entity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.EntityType
 
 data class EntityHurtEffects(
     @JvmField var entity: ResourceLocation,

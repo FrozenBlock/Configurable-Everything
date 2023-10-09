@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MixinsConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
-import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 
 @Environment(EnvType.CLIENT)

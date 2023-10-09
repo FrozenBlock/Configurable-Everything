@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.biome.util
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.biome.v1.*
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomeConfig
@@ -19,7 +20,7 @@ object BiomeConfigUtil {
             BiomeChanges.addChange(id("config"), biomeChange)
 
             val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-            resourceLoader?.registerReloadListener(BiomeChangeManager.INSTANCE)
+            resourceLoader?.registerReloadListener(BiomeChangeManager)
         }
     }
 
@@ -55,11 +56,10 @@ object BiomeConfigUtil {
         if (addedFeatures != null) {
             for (list in addedFeatures) {
                 val biome = list?.biome ?: continue
-                val features = list?.features ?: continue
-                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
+                val features = list.features ?: continue
+                val consumer = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
-                        if (decorationFeature == null) continue
-                        val placedFeatures = decorationFeature.placedFeatures ?: continue
+                        val placedFeatures = decorationFeature?.placedFeatures ?: continue
                         for (placedFeature in placedFeatures) {
                             placedFeature?.let {
                                 context.generationSettings.addFeature(decorationFeature.decoration, it)
@@ -79,10 +79,9 @@ object BiomeConfigUtil {
             for (list in removedFeatures) {
                 val biome = list?.biome ?: continue
                 val features = list.features ?: continue
-                val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
+                val consumer = Consumer<BiomeModificationContext> { context ->
                     for (decorationFeature in features) {
-                        if (decorationFeature == null) continue
-                        val placedFeatures = decorationFeature.placedFeatures ?: continue
+                        val placedFeatures = decorationFeature?.placedFeatures ?: continue
                         for (placedFeature in placedFeatures) {
                             placedFeature?.let {
                                 context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
@@ -101,7 +100,7 @@ object BiomeConfigUtil {
         if (replacedFeatures != null) {
             for (list in replacedFeatures) {
                 val biome = list?.biome ?: continue
-                val replacements = list?.replacements ?: continue
+                val replacements = list.replacements ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     for (replacement in replacements) {
                         val original = replacement?.original ?: continue
@@ -124,7 +123,7 @@ object BiomeConfigUtil {
         if (replacedMusic != null) {
             for (musicReplacement in replacedMusic) {
                 val biome = musicReplacement?.biome ?: continue
-                val music = musicReplacement?.music ?: continue
+                val music = musicReplacement.music ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     context.effects.setMusic(music)
                 }

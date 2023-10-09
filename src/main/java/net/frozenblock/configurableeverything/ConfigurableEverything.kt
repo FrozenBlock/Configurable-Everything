@@ -5,11 +5,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
 import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
-import net.frozenblock.configurableeverything.config.DataFixerConfig
-import net.frozenblock.configurableeverything.config.FluidConfig
-import net.frozenblock.configurableeverything.config.GameConfig;
-import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.config.ScreenShakeConfig
+import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.applyDataFixes
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations

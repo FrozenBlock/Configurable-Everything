@@ -1,6 +1,9 @@
 package net.frozenblock.configurableeverything.datapack.util;
 
 import com.mojang.logging.LogUtils;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.function.Consumer;
 import net.minecraft.FileUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
@@ -9,9 +12,6 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.level.validation.DirectoryValidator;
 import org.slf4j.Logger;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.function.Consumer;
 
 public class CERepositorySource extends FolderRepositorySource {
 	private static final Logger LOGGER = LogUtils.getLogger();

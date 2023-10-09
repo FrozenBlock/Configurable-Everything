@@ -1,6 +1,5 @@
 package net.frozenblock.configurableeverything.biome.util
 
-import com.google.gson.JsonObject
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
@@ -10,7 +9,6 @@ import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
 import net.frozenblock.configurableeverything.biome.util.BiomeChangeManager.BiomeChangeLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil.applyModifications
-import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementChange
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
@@ -27,15 +25,12 @@ import java.io.IOException
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-internal class BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")
-        private const val DIRECTORY = "biome_modifications"
-        val INSTANCE = BiomeChangeManager()
-        @JvmStatic
-        fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation =
-            ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
-    }
+object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
+    private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")
+    private const val DIRECTORY = "biome_modifications"
+    @JvmStatic
+    fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation =
+        ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
 
     private var changes: MutableMap<ResourceLocation?, BiomeChange?>? = null
     private val queuedChanges: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()

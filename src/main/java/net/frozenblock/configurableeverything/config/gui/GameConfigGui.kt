@@ -1,13 +1,14 @@
 package net.frozenblock.configurableeverything.config.gui
 
-import me.shedaniel.clothconfig2.api.*
+import me.shedaniel.clothconfig2.api.ConfigCategory
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.GameConfig
-import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 
 @Environment(EnvType.CLIENT)
 object GameConfigGui {

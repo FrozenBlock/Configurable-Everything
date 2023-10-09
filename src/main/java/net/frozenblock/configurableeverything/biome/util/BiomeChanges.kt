@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation
 
 object BiomeChanges {
 
-    private val MANAGER = BiomeChangeManager.INSTANCE
+    private val MANAGER = BiomeChangeManager
 
     @JvmStatic
     val changes: List<BiomeChange?>? get() = MANAGER.getChanges()

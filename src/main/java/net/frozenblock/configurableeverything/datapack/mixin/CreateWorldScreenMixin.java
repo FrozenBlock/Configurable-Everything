@@ -1,18 +1,17 @@
 package net.frozenblock.configurableeverything.datapack.mixin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.server.packs.repository.RepositorySource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Mixin(CreateWorldScreen.class)
 public class CreateWorldScreenMixin {

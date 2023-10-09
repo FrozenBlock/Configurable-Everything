@@ -4,20 +4,16 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.entity.util.AttributeAmplifier
-import net.frozenblock.configurableeverything.entity.util.EntityAttributeAmplifier
+import net.frozenblock.lib.sound.api.FlyBySoundHub
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
-import net.minecraft.world.entity.Entity
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeMap
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.level.entity.EntityAccess
-import net.frozenblock.lib.sound.api.FlyBySoundHub
-import net.minecraft.sounds.SoundEvent
-import net.minecraft.sounds.SoundSource
-import java.util.UUID
 
 object EntityConfigUtil {
 

@@ -6,10 +6,6 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.DataFixerConfig
-import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
 import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry
 import net.frozenblock.configurableeverything.datafixer.util.Fixer
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
@@ -17,6 +13,10 @@ import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
+import net.frozenblock.lib.config.api.client.gui.makeNestedList
+import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 

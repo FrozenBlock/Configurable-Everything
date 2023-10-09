@@ -40,16 +40,16 @@ data class ResourceLocation(val value: String) : FakeObject<VanillaResourceLocat
 }
 
 data class Block(val block: VanillaBlock) : FakeObject<VanillaBlock> {
-    constructor(properties: Properties) : this(VanillaBlock(properties.value()))
+    constructor(properties: BlockProperties) : this(VanillaBlock(properties.value()))
 
     override fun value(): VanillaBlock = block
 }
 
-fun blankProperties(): Properties = Properties(VanillaProperties.of())
+fun blankBlockProperties(): BlockProperties = BlockProperties(VanillaProperties.of())
 
-data class Properties(val properties: VanillaProperties) : FakeObject<VanillaProperties> {
+data class BlockProperties(val properties: VanillaProperties) : FakeObject<VanillaProperties> {
     companion object {
-        fun of(): Properties = Properties(VanillaProperties.of())
+        fun of(): BlockProperties = BlockProperties(VanillaProperties.of())
     }
 
     override fun value(): VanillaProperties = properties
