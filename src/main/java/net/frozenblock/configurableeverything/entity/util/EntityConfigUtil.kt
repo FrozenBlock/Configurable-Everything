@@ -51,15 +51,15 @@ object EntityConfigUtil {
             (entityAccess as? LivingEntity)?.let { entity ->
                 for (entityAttributeAmplifier in entityAttributeAmplifiers) {
                     val desiredEntity = entityAttributeAmplifier?.entity ?: continue
-                    val desiredEntityName = entityAttributeAmplifier?.entityName ?: continue
-                    val amplifiers = entityAttributeAmplifier?.amplifiers ?: continue
+                    val desiredEntityName = entityAttributeAmplifier.entityName ?: continue
+                    val amplifiers = entityAttributeAmplifier.amplifiers ?: continue
                     if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())) return
                     val desEntityNameComponent: Component = Component.literal(desiredEntityName)
-                    if (desEntityNameComponent.getString().isEmpty() || desEntityNameComponent == entity.getName()) {
+                    if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entity.getName()) {
                         val attributes: AttributeMap = entity.getAttributes()
                         for (amplifier in amplifiers) {
                             val amplifierAttribute = amplifier?.attribute ?: continue
-                            val amplifierAmplifier = amplifier?.amplifier ?: continue
+                            val amplifierAmplifier = amplifier.amplifier ?: continue
                             val attribute: AttributeInstance? = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute))
                             attribute?.addTransientModifier(
                                 AttributeModifier(
