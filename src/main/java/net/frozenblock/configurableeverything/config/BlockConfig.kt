@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
+import net.frozenblock.configurableeverything.block.util.*
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -10,19 +11,18 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.sound.api.block_sound_group.BlockSoundGroupOverwrite
 import net.frozenblock.lib.sound.api.block_sound_group.SoundCodecs
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.block.SoundType
 
 data class BlockConfig(
     @JvmField
-    var soundGroupOverwrites: TypedEntry<List<BlockSoundGroupOverwrite?>?>? = TypedEntry(
+    var soundGroupOverwrites: TypedEntry<List<MutableBlockSoundGroupOverwrite?>>? = TypedEntry(
         SOUND_GROUP_OVERWRITES,
         listOf(
-            BlockSoundGroupOverwrite(
+            MutableBlockSoundGroupOverwrite(
                 vanillaId("grass_block"),
-                SoundType(
+                MutableSoundType(
                     100F,
                     1F,
                     SoundEvents.HORSE_DEATH,
@@ -36,10 +36,10 @@ data class BlockConfig(
     )
 ) {
     companion object {
-        private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<BlockSoundGroupOverwrite?>?> = ConfigRegistry.register(
+        private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOverwrite?>?> = ConfigRegistry.register(
             TypedEntryType(
                 MOD_ID,
-                Codec.list(SoundCodecs.SOUND_GROUP_OVERWRITE)
+                Codec.list(MutableBlockSoundGroupOverwrite.CODEC)
             )
         )
 

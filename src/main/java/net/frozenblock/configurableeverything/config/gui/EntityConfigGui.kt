@@ -1,3 +1,5 @@
+@file:Environment(EnvType.CLIENT)
+
 package net.frozenblock.configurableeverything.config.gui
 
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry

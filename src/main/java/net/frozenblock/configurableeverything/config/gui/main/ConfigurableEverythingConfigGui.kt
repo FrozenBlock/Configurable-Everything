@@ -13,6 +13,9 @@ object ConfigurableEverythingConfigGui {
 
     @JvmStatic
     fun buildScreen(parent: Screen?): Screen {
+        if (parent == null)
+            throw IllegalStateException("Cannot build Configurable Everything config screen as the parent screen is null.")
+
         val configBuilder = ConfigBuilder.create().setParentScreen(parent).setTitle(text("component.title"))
         val entryBuilder = configBuilder.entryBuilder()
 
@@ -38,6 +41,9 @@ object ConfigurableEverythingConfigGui {
 
         val biomePlacement = configBuilder.getOrCreateCategory(text("biome_placement"))
         BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
+
+        val block = configBuilder.getOrCreateCategory(text("block"))
+        BlockConfigGui.setupEntries(block, entryBuilder)
 
         val datafixer = configBuilder.getOrCreateCategory(text("datafixer"))
         DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
