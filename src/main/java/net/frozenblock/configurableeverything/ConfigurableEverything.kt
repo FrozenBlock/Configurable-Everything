@@ -39,6 +39,7 @@ class ConfigurableEverything : ModInitializer {
             EntityConfigUtil.init()
             FluidConfig.get()
             GameConfig.get()
+            ItemConfig.get()
             RegistryConfigUtil.init()
             ScreenShakeConfig.get()
             SplashTextConfigUtil.init()
