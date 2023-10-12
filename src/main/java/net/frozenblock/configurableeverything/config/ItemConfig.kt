@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation
 
 data class ItemConfig(
     @JvmField
-    var soundGroupOverwrites: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
+    var itemReachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
         ITEM_REACH_OVERRIDES,
         listOf(
             ItemReachOverride(
