@@ -4,4 +4,4 @@ Make sure to clear after release
 
 Put changelog here:
 -----------------
-- Fixed horse death sounds upon walking on grass blocks
+- Fixed horse death sounds playing upon walking on grass blocks
