@@ -9,6 +9,12 @@ import kotlin.script.experimental.api.ScriptDiagnostic
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 
+private object InvalidChecker {
+    init {
+        if (!HAS_EXTENSIONS) throw IllegalStateException("Attempted to access scripting functionality without Fabric Kotlin Extensions mod!")
+    }
+}
+
 internal object ScriptingUtil {
 
     private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
