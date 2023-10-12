@@ -515,8 +515,9 @@ modrinth {
     loaders.set(listOf("fabric", "quilt"))
     dependencies {
         required.project("fabric-api")
-        embedded.project("frozenlib")
+        required.project("fabric-language-kotlin")
         optional.project("fabric-kotlin-extensions")
+        embedded.project("frozenlib")
     }
 }
 
