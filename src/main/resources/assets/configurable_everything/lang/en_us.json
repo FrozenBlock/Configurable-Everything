@@ -4,10 +4,13 @@
   "option.configurable_everything.true": "§aEnabled",
 
   "option.configurable_everything.main": "Main",
+  "option.configurable_everything.mixins": "Mixins",
   "option.configurable_everything.biome": "Biome",
   "tooltip.configurable_everything.biome": "Enable or disable the Biome config.",
   "option.configurable_everything.biome_placement": "Biome Placement",
   "tooltip.configurable_everything.biome_placement": "Enable or disable the Biome Placement config.",
+  "option.configurable_everything.block": "Block",
+  "tooltip.configurable_everything.block": "Enable or disable the Block Config.",
   "option.configurable_everything.datafixer": "Datafixer",
   "tooltip.configurable_everything.datafixer": "Enable or disable the Datafixer config.",
   "option.configurable_everything.fluid": "Fluid",
@@ -56,6 +59,27 @@
   "tooltip.configurable_everything.removed_biomes.dimension": "The dimension to remove biomes from.",
   "option.configurable_everything.removed_biomes.biomes": "Biomes",
   "tooltip.configurable_everything.removed_biomes.biomes": "A list of biomes to remove from the dimension.",
+
+  "option.configurable_everything.sound_group_overwrites": "Block Sound Group Overwrites",
+  "tooltip.configurable_everything.sound_group_overwrites": "A list of block sound groups to overwrite.",
+  "option.configurable_everything.sound_group_overwrites.sound_group_overwrite": "Sound Group Overwrite",
+  "option.configurable_everything.sound_group_overwrites.id": "Block ID",
+  "tooltip.configurable_everything.sound_group_overwrites.id": "The ID of the block that should have its sound type overwritten.",
+  "option.configurable_everything.sound_group_overwrites.sound_type": "Sound Type Overwrite",
+  "option.configurable_everything.sound_group_overwrites.volume": "Volume",
+  "tooltip.configurable_everything.sound_group_overwrites.volume": "The volume of the overwriting sound type.",
+  "option.configurable_everything.sound_group_overwrites.pitch": "Pitch",
+  "tooltip.configurable_everything.sound_group_overwrites.pitch": "The pitch of the overwriting sound type.",
+  "option.configurable_everything.sound_group_overwrites.break_sound": "Break Sound",
+  "tooltip.configurable_everything.sound_group_overwrites.break_sound": "The break sound of the overwriting sound type.",
+  "option.configurable_everything.sound_group_overwrites.step_sound": "Step Sound",
+  "tooltip.configurable_everything.sound_group_overwrites.step_sound": "The step sound of the overwriting sound type.",
+  "option.configurable_everything.sound_group_overwrites.place_sound": "Place Sound",
+  "tooltip.configurable_everything.sound_group_overwrites.place_sound": "The place sound of the overwriting sound type.",
+  "option.configurable_everything.sound_group_overwrites.hit_sound": "Hit Sound",
+  "tooltip.configurable_everything.sound_group_overwrites.hit_sound": "The hit sound of the overwriting sound type.",
+  "option.configurable_everything.sound_group_overwrites.fall_sound": "Fall Sound",
+  "tooltip.configurable_everything.sound_group_overwrites.fall_sound": "The fall sound of the overwriting sound type.",
 
   "option.configurable_everything.datapack": "Datapack",
   "tooltip.configurable_everything.datapack": "Contains options related to datapacks",
@@ -265,5 +289,10 @@
   "option.configurable_everything.moon_size": "Moon Size",
   "tooltip.configurable_everything.moon_size": "How big the Moon is.",
   "option.configurable_everything.disable_experimental_warning": "Disable Experimental Warning",
-  "tooltip.configurable_everything.disable_experimental_warning": "Enable or disable the experimental warning screen when creating or loading worlds."
+  "tooltip.configurable_everything.disable_experimental_warning": "Enable or disable the experimental warning screen when creating or loading worlds.",
+
+  "option.configurable_everything.entity_zombie": "Entity Zombie",
+  "option.configurable_everything.game_client": "Game Client",
+  "option.configurable_everything.screenshake_client": "Screen Shaking Client",
+  "option.configurable_everything.world_client": "World Client"
 }
