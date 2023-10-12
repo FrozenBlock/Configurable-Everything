@@ -36,7 +36,7 @@ data class BlockConfig(
     )
 ) {
     companion object {
-        private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOverwrite?>?> = ConfigRegistry.register(
+        private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOverwrite?>> = ConfigRegistry.register(
             TypedEntryType(
                 MOD_ID,
                 Codec.list(MutableBlockSoundGroupOverwrite.CODEC)

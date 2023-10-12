@@ -25,6 +25,9 @@ var DEV_LOGGING = false
 var UNSTABLE_LOGGING: Boolean = FabricLoader.getInstance().isDevelopmentEnvironment
 
 @JvmField
+val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
+
+@JvmField
 val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
 
 @JvmField

@@ -47,11 +47,11 @@ class ConfigurableEverything : ModInitializer {
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
-                FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
+                if (HAS_EXTENSIONS) FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
-            ScriptingUtil.runScripts()
+            if (HAS_EXTENSIONS) ScriptingUtil.runScripts()
         }
 
 

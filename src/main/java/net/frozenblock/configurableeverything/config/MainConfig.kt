@@ -57,6 +57,7 @@ Warning: It is important to check the contents of each config before enabling th
     var datapack: DatapackConfig? = DatapackConfig(),
 
     @JvmField
+    @Comment("Requires Fabric Kotlin Extensions")
     var kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
 ) {
     companion object {

@@ -60,6 +60,9 @@
     "fabric-api": ">=0.85.0",
     "minecraft": "${minecraft_version}"
   },
+  "suggests": {
+    "fabric_kotlin_extensions": "*"
+  },
   "breaks": {
     "configurabledatafixers": "*",
     "configurablesplashtexts": "*"

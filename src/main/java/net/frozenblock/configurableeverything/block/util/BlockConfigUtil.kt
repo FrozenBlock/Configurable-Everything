@@ -9,10 +9,13 @@ object BlockConfigUtil {
     fun init() {
         val config = BlockConfig.get()
         config.soundGroupOverwrites?.value?.let { overwrites ->
-            overwrites.forEach { overwrite ->
-                if (overwrite != null) {
-                    BlockSoundGroupOverwrites.addBlock(overwrite.blockId, overwrite.soundOverwrite, overwrite.condition)
-                }
+            for (overwrite in overwrites) {
+                val immutable = overwrite?.immutable() ?: continue
+                BlockSoundGroupOverwrites.addBlock(
+                    immutable.blockId,
+                    immutable.soundOverwrite,
+                    immutable.condition
+                )
             }
         }
     }

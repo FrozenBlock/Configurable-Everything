@@ -9,17 +9,17 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.BlockConfig
 import net.frozenblock.configurableeverything.block.util.*
-import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.string
-import net.frozenblock.configurableeverything.util.text
-import net.frozenblock.configurableeverything.util.tooltip
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
 import net.frozenblock.lib.config.api.client.gui.makeNestedList
 import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
 
 @Environment(EnvType.CLIENT)
 object BlockConfigGui {
@@ -45,20 +45,21 @@ object BlockConfigGui {
             tooltip("sound_group_overwrites"),
             { newValue -> config.soundGroupOverwrites = newValue},
             { element, _ ->
+                val defaultSoundOverwrite = MutableSoundType(
+                    100F,
+                    1F,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH
+                )
                 val defaultOverwrite = MutableBlockSoundGroupOverwrite(
                     vanillaId("grass_block"),
-                    MutableSoundType(
-                        100F,
-                        1F,
-                        SoundEvents.HORSE_DEATH,
-                        SoundEvents.HORSE_DEATH,
-                        SoundEvents.HORSE_DEATH,
-                        SoundEvents.HORSE_DEATH,
-                        SoundEvents.HORSE_DEATH
-                    )
+                    defaultSoundOverwrite
                 ) { true }
                 val overwrite: MutableBlockSoundGroupOverwrite = element ?: defaultOverwrite
-                val soundOverwrite = overwrite.soundOverwrite
+                val soundOverwrite = overwrite.soundOverwrite ?: defaultSoundOverwrite
                 makeMultiElementEntry(
                     text("sound_group_overwrites.sound_group_overwrite"),
                     overwrite,
@@ -68,12 +69,6 @@ object BlockConfigGui {
                         "",
                         { newValue -> overwrite.blockId = ResourceLocation(newValue) },
                         tooltip("sound_group_overwrites.id")
-                    ).build(entryBuilder),
-
-                    EntryBuilder(text("entity_attribute_amplifiers.entity_name"), entityAttributeAmplifier.entityName,
-                        "",
-                        { newValue-> entityAttributeAmplifier.entityName = newValue },
-                        tooltip("entity_attribute_amplifiers.entity_name")
                     ).build(entryBuilder),
 
                     makeMultiElementEntry(
@@ -89,7 +84,7 @@ object BlockConfigGui {
 
                         EntryBuilder(text("sound_group_overwrites.pitch"), soundOverwrite.pitch,
                             1F,
-                            { newValue -> soundOverwrite.pitch = newValue }
+                            { newValue -> soundOverwrite.pitch = newValue },
                             tooltip("sound_group_overwrites.pitch")
                         ).build(entryBuilder),
 
@@ -128,11 +123,12 @@ object BlockConfigGui {
         )
     }
 
-    private fun soundId(sound: SoundEvent): String {
-        return BuiltInRegistries.SOUND_EVENT.getKey(sound).location.toString()
+    private fun soundId(sound: SoundEvent?): String? {
+        if (sound == null) return null
+        return BuiltInRegistries.SOUND_EVENT.getKey(sound).toString()
     }
 
-    private fun sound(id: String): SoundEvent {
-        return BuiltInRegistries.SOUND_EVENT.get(ResourceLocation(id))
+    private fun sound(id: String): SoundEvent? {
+        return BuiltInRegistries.SOUND_EVENT[ResourceLocation(id)]
     }
 }

@@ -223,17 +223,11 @@ dependencies {
     // Fabric Language Kotlin. Required for Kotlin support.
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
-    // these deps definitely needs to be put in another mod, 50MB is a lot.
-    // disabled until later date
-    includeModApi(kotlin("scripting-common"))
-    includeModApi(kotlin("scripting-jvm"))
-    includeModApi(kotlin("scripting-jsr223"))
-    includeModApi(kotlin("scripting-jvm-host"))
-    include(kotlin("script-runtime"))
-    include(kotlin("scripting-compiler-embeddable"))
-    include(kotlin("scripting-compiler-impl-embeddable"))
-    include(kotlin("compiler-embeddable"))
-    include("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
+    // get deps manually because FKE cant give them to compile classpath without an error
+    modApi(kotlin("scripting-common"))
+    modApi(kotlin("scripting-jvm"))
+    modApi(kotlin("scripting-jsr223"))
+    modApi(kotlin("scripting-jvm-host"))
 
     // FrozenLib
     if (local_frozenlib)

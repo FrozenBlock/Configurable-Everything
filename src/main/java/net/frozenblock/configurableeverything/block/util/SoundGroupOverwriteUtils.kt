@@ -1,8 +1,13 @@
 package net.frozenblock.configurableeverything.block.util;
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.util.function.BooleanSupplier
 import net.frozenblock.lib.sound.api.block_sound_group.BlockSoundGroupOverwrite
+import net.frozenblock.lib.sound.api.block_sound_group.SoundCodecs
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.level.block.SoundType
 
 data class MutableBlockSoundGroupOverwrite(
@@ -28,7 +33,7 @@ data class MutableBlockSoundGroupOverwrite(
 }
 
 fun BlockSoundGroupOverwrite.mutable(): MutableBlockSoundGroupOverwrite
-    = MutableBlockSoundGroupOverwrite(blockId, soundOverwrite, condition)
+    = MutableBlockSoundGroupOverwrite(blockId, soundOverwrite.mutable(), condition)
 
 
 data class MutableSoundType(
@@ -50,7 +55,8 @@ data class MutableSoundType(
                 soundCodec.fieldOf("break_sound").forGetter(MutableSoundType::breakSound),
                 soundCodec.fieldOf("step_sound").forGetter(MutableSoundType::stepSound),
                 soundCodec.fieldOf("place_sound").forGetter(MutableSoundType::placeSound),
-                soundCodec.fieldOf("hit_sound").forGetter(MutableSoundType::hitSound)
+                soundCodec.fieldOf("hit_sound").forGetter(MutableSoundType::hitSound),
+                soundCodec.fieldOf("fall_sound").forGetter(MutableSoundType::fallSound)
             ).apply(instance, ::MutableSoundType)
         }
     }

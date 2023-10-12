@@ -1,9 +1,8 @@
 package net.frozenblock.configurableeverything.scripting.util
 
 import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.registry.util.DynamicRegistryAddition
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
@@ -12,7 +11,6 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 import java.util.*
 import kotlin.script.experimental.annotations.KotlinScript
@@ -26,6 +24,7 @@ import kotlin.script.experimental.jvm.loadDependencies
     compilationConfiguration = CEScriptCompilationConfig::class,
     evaluationConfiguration = CEScriptEvaluationConfig::class,
 )
+// dont use environment annotations anywhere
 abstract class CEScript {
     @Suppress("unchecked")
     fun <T> register(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T & Any): T? {
@@ -43,13 +42,13 @@ abstract class CEScript {
         }
     }
 
-    fun runEachTick(tickFun: (MinecraftServer) -> Unit) {
-        ServerTickEvents.START_SERVER_TICK.register(tickFun::invoke)
+    fun clientOnly(`fun`: () -> Unit) {
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+            `fun`.invoke()
     }
 
-    @Environment(EnvType.CLIENT)
-    fun runEachClientTick(tickFun: (MinecraftServer) -> Unit) {
-        ClientTickEvents.START_CLIENT_TICK.register { tickFun.run {  } }
+    fun runEachTick(tickFun: () -> Unit) {
+        ServerTickEvents.START_SERVER_TICK.register { tickFun.invoke() }
     }
 }
 
