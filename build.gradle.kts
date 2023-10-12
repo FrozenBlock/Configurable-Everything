@@ -517,6 +517,8 @@ modrinth {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")
         optional.project("fabric-kotlin-extensions")
+        optional.project("modmenu")
+        optional.project("cloth-config")
         embedded.project("frozenlib")
     }
 }
