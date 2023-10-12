@@ -33,7 +33,7 @@ object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = BiomePlacementConfig.get()
         val defaultConfig = BiomePlacementConfig.INSTANCE.defaultInstance()
-        category.background = id("textures/config/screen_shake.png")
+        category.background = id("textures/config/biome_placement.png")
 
         category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
         category.addEntry(removedBiomes(entryBuilder, config, defaultConfig))

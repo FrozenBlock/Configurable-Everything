@@ -1,19 +1,13 @@
-import com.matthewprenger.cursegradle.CurseArtifact
-import com.matthewprenger.cursegradle.CurseExtension
-import com.matthewprenger.cursegradle.CurseProject
-import com.matthewprenger.cursegradle.CurseRelation
-import com.modrinth.minotaur.ModrinthExtension
 import groovy.xml.XmlSlurper
-import org.ajoberstar.grgit.Grgit
 import org.codehaus.groovy.runtime.ResourceGroovyMethods
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.FileInputStream
-import java.nio.file.Files
-import java.util.Properties
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
+import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.net.URL
+import java.nio.file.Files
+import java.util.*
 
 buildscript {
     repositories {
@@ -29,7 +23,7 @@ plugins {
     id("org.quiltmc.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
-    id("com.matthewprenger.cursegradle") version("+")
+    //id("com.matthewprenger.cursegradle") version("+")
     `maven-publish`
     eclipse
     idea
@@ -484,7 +478,7 @@ fun getBranch(): String {
     return branch.substring(branch.lastIndexOf("/") + 1)
 }
 
-curseforge {
+/*curseforge {
     val token = System.getenv("CURSEFORGE_TOKEN")
     apiKey = if (token == null || token.isEmpty()) "unset" else token
     val gameVersion = if (curseforge_minecraft_version != "null") curseforge_minecraft_version else minecraft_version
@@ -507,7 +501,7 @@ curseforge {
         }
     })
     curseGradleOptions.forgeGradleIntegration = false
-}
+}*/
 
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
@@ -522,6 +516,7 @@ modrinth {
     dependencies {
         required.project("fabric-api")
         embedded.project("frozenlib")
+        optional.project("fabric-kotlin-extensions")
     }
 }
 
@@ -555,6 +550,6 @@ val github by tasks.register("github") {
 val publishMod by tasks.register("publishMod") {
     dependsOn(tasks.publish)
     dependsOn(github)
-    dependsOn(tasks.curseforge)
+    //dependsOn(tasks.curseforge)
     dependsOn(tasks.modrinth)
 }

@@ -34,6 +34,13 @@ object MainConfigGui {
             true
         ).build(entryBuilder))
 
+        category.addEntry(EntryBuilder(text("block"), config.block,
+            defaultConfig.block!!,
+            { newValue -> config.block = newValue },
+            tooltip("block"),
+            true
+        ).build(entryBuilder))
+
         category.addEntry(EntryBuilder(text("datafixer"), config.datafixer,
             defaultConfig.datafixer!!,
             { newValue -> config.datafixer = newValue },
@@ -121,6 +128,25 @@ object MainConfigGui {
         createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
             applyDatapacksFolder, datapackBiome, datapackBiomePlacement, json5Support
+        )
+
+        val applyKotlinScripts = EntryBuilder(text("apply_kotlin_scripts"), config.kotlinScripting?.applyKotlinScripts,
+            defaultConfig.kotlinScripting!!.applyKotlinScripts!!,
+            { newValue -> config.kotlinScripting?.applyKotlinScripts = newValue },
+            tooltip("apply_kotlin_scripts"),
+            true
+        ).build(entryBuilder)
+
+        val defaultImports = entryBuilder.startStrList(text("default_imports"), config.kotlinScripting?.defaultImports)
+            .setDefaultValue { defaultConfig.kotlinScripting!!.defaultImports!! }
+            .setSaveConsumer { newValue -> config.kotlinScripting?.defaultImports = newValue }
+            .setTooltip(tooltip("default_imports"))
+            .requireRestart()
+            .build()
+
+        createSubCategory(
+            entryBuilder, category, text("kotlin_scripting"), false, tooltip("kotlin_scripting"),
+            applyKotlinScripts, defaultImports
         )
     }
 }
