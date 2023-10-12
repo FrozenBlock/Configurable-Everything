@@ -20,8 +20,8 @@ public class CERepositorySource extends FolderRepositorySource {
 	private final PackType packType;
 	private final PackSource packSource;
 
-	public CERepositorySource(Path folder, DirectoryValidator validator) {
-		super(folder, PackType.SERVER_DATA, PackSource.WORLD, validator);
+	public CERepositorySource(Path folder) {
+		super(folder, PackType.SERVER_DATA, PackSource.WORLD);
 		this.folder = folder;
 		this.packType = PackType.SERVER_DATA;
 		this.packSource = PackSource.WORLD;
@@ -31,7 +31,7 @@ public class CERepositorySource extends FolderRepositorySource {
 	public void loadPacks(Consumer<Pack> onLoad) {
 		try {
 			FileUtil.createDirectoriesSafe(this.folder);
-			discoverPacks(this.folder, this.validator, false, (packPath, packFactory) -> {
+			discoverPacks(this.folder, false, (packPath, packFactory) -> {
 				String string = nameFromPath(packPath);
 				Pack pack = Pack.readMetaAndCreate("file/" + string, Component.literal(string), true, packFactory, this.packType, Pack.Position.TOP, this.packSource);
 				if (pack != null) {

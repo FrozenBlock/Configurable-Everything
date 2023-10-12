@@ -21,7 +21,7 @@ public class CreateWorldScreenMixin {
 		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
 
 		if (MainConfig.get().datapack.applyDatapacksFolder == true) {
-			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstantsKt.DATAPACKS_PATH, Minecraft.getInstance().directoryValidator()));
+			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstantsKt.DATAPACKS_PATH));
 		}
 		return newSources.toArray(new RepositorySource[]{});
 	}
