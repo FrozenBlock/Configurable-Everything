@@ -2,6 +2,8 @@ package net.frozenblock.configurableeverything.datapack.util
 
 import com.mojang.serialization.Decoder
 import com.mojang.serialization.Lifecycle
+import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
@@ -12,9 +14,28 @@ import net.minecraft.resources.RegistryOps
 import net.minecraft.resources.RegistryOps.RegistryInfoLookup
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.world.level.validation.DirectoryValidator
 import java.util.*
+import kotlin.io.path.Path
 
 object DatapackUtils {
+
+    @JvmStatic
+    fun addedRepositories(validator: DirectoryValidator?): List<CERepositorySource> {
+        val config = MainConfig.get().datapack
+        if (validator == null) return emptyList()
+        if (config?.applyDatapacksFolders == true) {
+            val list: MutableList<CERepositorySource> = arrayListOf()
+            config.datapacksFolders?.forEach {
+                it?.let { folder ->
+                    log("Adding datapack repository at $folder")
+                    list.add(CERepositorySource(Path(folder), validator))
+                }
+            }
+            return list
+        }
+        return emptyList()
+    }
 
     @JvmStatic
     fun <E : Any> loadJson5Contents(

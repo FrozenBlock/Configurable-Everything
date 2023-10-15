@@ -97,9 +97,9 @@ object MainConfigGui {
             true
         ).build(entryBuilder))
 
-        val applyDatapacksFolder = EntryBuilder(text("apply_datapacks_folder"), config.datapack?.applyDatapacksFolder,
-            defaultConfig.datapack!!.applyDatapacksFolder!!,
-            { newValue -> config.datapack?.applyDatapacksFolder = newValue },
+        val applyDatapacksFolder = EntryBuilder(text("apply_datapacks_folder"), config.datapack?.applyDatapacksFolders,
+            defaultConfig.datapack!!.applyDatapacksFolders!!,
+            { newValue -> config.datapack?.applyDatapacksFolders = newValue },
             tooltip("apply_datapacks_folder"),
             true
         ).build(entryBuilder)

@@ -1,12 +1,15 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import kotlin.io.path.name
+import kotlin.io.path.pathString
 
 data class MainConfig(
     // the configs may have weird casing because the goal is to match the config file name
@@ -77,7 +80,13 @@ Warning: It is important to check the contents of each config before enabling th
 
     data class DatapackConfig(
         @JvmField
-        var applyDatapacksFolder: Boolean? = true,
+        var applyDatapacksFolders: Boolean? = true,
+
+        @JvmField
+        var datapacksFolders: List<String?>? = arrayListOf(
+            DATAPACKS_PATH.pathString.replace('\\', '/'), // make it readable
+            "./datapacks"
+        ),
 
         @JvmField
         var biome: Boolean? = true,

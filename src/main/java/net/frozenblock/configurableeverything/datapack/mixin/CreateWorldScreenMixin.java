@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
+import net.frozenblock.configurableeverything.datapack.util.DatapackUtils;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
@@ -20,9 +21,7 @@ public class CreateWorldScreenMixin {
 	private static RepositorySource[] openFresh(RepositorySource[] original) {
 		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
 
-		if (MainConfig.get().datapack.applyDatapacksFolder == true) {
-			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstantsKt.DATAPACKS_PATH, Minecraft.getInstance().directoryValidator()));
-		}
+		newSources.addAll(DatapackUtils.addedRepositories(Minecraft.getInstance().directoryValidator()));
 		return newSources.toArray(new RepositorySource[]{});
 	}
 }
