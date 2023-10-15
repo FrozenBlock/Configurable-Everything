@@ -27,6 +27,8 @@ data class MutableParameter(
     }
 
     fun toImmutable(): Climate.Parameter? = if (min == null || max == null) null else Climate.Parameter(min!!, max!!)
+
+    override fun toString(): String = "MutableParameter[min=$min, max=$max]"
 }
 
 fun Climate.Parameter.mutable(): MutableParameter = MutableParameter(min, max)

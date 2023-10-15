@@ -19,4 +19,6 @@ data class EntityHurtEffects(
             ).apply(instance, ::EntityHurtEffects)
         }
     }
+
+    override fun toString(): String = "EntityHurtEffects[entity=$entity, entityName=$entityName, effects=$effects]"
 }

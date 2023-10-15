@@ -21,4 +21,6 @@ data class BiomePlacedFeatureList(val biome: Either<ResourceKey<Biome>?, TagKey<
             ).apply(instance, ::BiomePlacedFeatureList)
         }
     }
+
+    override fun toString(): String = "BiomePlacedFeatureList[biome=$biome, placed_features=$features]"
 }

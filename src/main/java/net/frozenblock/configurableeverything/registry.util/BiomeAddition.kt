@@ -9,8 +9,8 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.biome.Biome
 
 data class BiomeAddition(
-    override val key: ResourceLocation,
-    override val value: Biome
+    override var key: ResourceLocation,
+    override var value: Biome
 ) : DynamicRegistryAddition<Biome>(REGISTRY, key, value) {
     companion object {
         @JvmField
@@ -24,4 +24,6 @@ data class BiomeAddition(
             ).apply(instance, ::BiomeAddition)
         }
     }
+
+    override fun toString(): String = "BiomeAddition[key=$key, value=$value]"
 }

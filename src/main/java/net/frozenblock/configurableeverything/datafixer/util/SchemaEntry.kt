@@ -17,5 +17,5 @@ data class SchemaEntry(
         }
     }
 
-    override fun toString(): String = "SchemaEntry[$version, $entries]"
+    override fun toString(): String = "SchemaEntry[version=$version, data_fixes=$entries]"
 }

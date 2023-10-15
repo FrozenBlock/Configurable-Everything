@@ -24,4 +24,6 @@ data class EntitySpottingIcon(
             ).apply(instance, ::EntitySpottingIcon)
         }
     }
+
+    override fun toString(): String = "EntitySpottingIcon[entity=$entity, texture=$texture, startFade=$startFade, endFade=$endFade]"
 }

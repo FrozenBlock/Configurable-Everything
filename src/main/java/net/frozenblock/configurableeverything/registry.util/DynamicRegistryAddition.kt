@@ -14,4 +14,6 @@ open class DynamicRegistryAddition<T>(
     fun register(setupContext: DynamicRegistryManagerSetupContext) {
         setupContext.register(registry, key) { value }
     }
+
+    override fun toString(): String = "DynamicRegistryAddition[registry=$registry, key=$key, value=$value"
 }

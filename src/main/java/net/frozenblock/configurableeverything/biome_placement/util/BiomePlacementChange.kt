@@ -17,5 +17,5 @@ data class BiomePlacementChange(
 		}
 	}
 
-	override fun toString(): String = "BiomePlacementChange[$addedBiomes, $removedBiomes]"
+	override fun toString(): String = "BiomePlacementChange[addedBiomes=$addedBiomes, removedBiomes=$removedBiomes]"
 }

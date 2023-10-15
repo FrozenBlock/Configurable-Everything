@@ -17,5 +17,5 @@ data class DataFixEntry(
         }
     }
 
-    override fun toString(): String = "DataFixEntry[$type, $fixers]"
+    override fun toString(): String = "DataFixEntry[type=$type, fixers=$fixers]"
 }

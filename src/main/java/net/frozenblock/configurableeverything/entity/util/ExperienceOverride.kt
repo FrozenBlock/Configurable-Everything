@@ -19,4 +19,6 @@ data class ExperienceOverride(
             ).apply(instance, ::ExperienceOverride)
         }
     }
+
+    override fun toString(): String = "ExperienceOverride[entity=$entity, amount=$amount]"
 }
