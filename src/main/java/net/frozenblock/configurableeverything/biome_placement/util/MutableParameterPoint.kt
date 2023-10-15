@@ -31,7 +31,7 @@ data class MutableParameterPoint(
 
     fun toImmutable(): ParameterPoint = ParameterPoint(temperature.toImmutable(), humidity.toImmutable(), continentalness.toImmutable(), erosion.toImmutable(), depth.toImmutable(), weirdness.toImmutable(), offset)
 
-    override fun toString(): String = "MutableParameterPoint[temperature=$temperature, humidity=$humidity, continentalness=$continentalness, erosion=$erosion, depth=$depth, weirdness=$weirdness, offset=$offset"
+    override fun toString(): String = "MutableParameterPoint[temperature=$temperature, humidity=$humidity, continentalness=$continentalness, erosion=$erosion, depth=$depth, weirdness=$weirdness, offset=$offset]"
 }
 
 fun ParameterPoint.mutable(): MutableParameterPoint = MutableParameterPoint(temperature.mutable(), humidity.mutable(), continentalness.mutable(), erosion.mutable(), depth.mutable(), weirdness.mutable(), offset)

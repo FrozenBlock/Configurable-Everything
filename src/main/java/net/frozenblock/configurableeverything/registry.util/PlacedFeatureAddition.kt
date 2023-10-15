@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
 data class PlacedFeatureAddition(
-    override val key: ResourceLocation,
-    override val value: PlacedFeature
+    override var key: ResourceLocation,
+    override var value: PlacedFeature
 ) : DynamicRegistryAddition<PlacedFeature>(Registries.PLACED_FEATURE, key, value) {
     companion object {
         @JvmField
