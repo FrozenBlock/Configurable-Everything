@@ -83,8 +83,8 @@
 
   "option.configurable_everything.datapack": "Datapack",
   "tooltip.configurable_everything.datapack": "Contains options related to datapacks",
-  "option.configurable_everything.apply_datapacks_folder": "Apply Datapacks Folder",
-  "tooltip.configurable_everything.apply_datapacks_folder": "Enable or disable the datapacks folder in config/configurable_everything.",
+  "option.configurable_everything.apply_datapack_folders": "Apply Datapack Folders",
+  "tooltip.configurable_everything.apply_datapack_folders": "Enable or disable the custom datapack folders.",
   "option.configurable_everything.datapack_biome": "Biome",
   "tooltip.configurable_everything.datapack_biome": "Enable or disable biome changes from datapacks.",
   "option.configurable_everything.datapack_biome_placement": "Biome Placement",

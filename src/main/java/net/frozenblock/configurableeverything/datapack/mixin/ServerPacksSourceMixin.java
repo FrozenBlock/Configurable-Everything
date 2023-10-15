@@ -6,10 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
-import net.frozenblock.configurableeverything.datapack.util.DatapackUtils;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
+import net.frozenblock.configurableeverything.datapack.util.DatapackUtil;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.repository.ServerPacksSource;
@@ -32,7 +29,7 @@ public class ServerPacksSourceMixin {
 	private static RepositorySource[] createPackRepository(RepositorySource[] original, @Share("validator") LocalRef<DirectoryValidator> validator) {
 		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
 
-		newSources.addAll(DatapackUtils.addedRepositories(validator.get()));
+		newSources.addAll(DatapackUtil.addedRepositories(validator.get()));
 		return newSources.toArray(new RepositorySource[]{});
 	}
 }

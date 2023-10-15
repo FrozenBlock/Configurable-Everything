@@ -191,6 +191,12 @@ repositories {
         name = "Quilt"
         url = uri("https://maven.quiltmc.org/repository/release")
     }
+    maven {
+        url = uri("https://maven.jamieswhiteshirt.com/libs-release")
+        content {
+            includeGroup("com.jamieswhiteshirt")
+        }
+    }
 
     flatDir {
         dirs("libs")
@@ -228,6 +234,9 @@ dependencies {
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     else
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
+
+    // Reach Entity Attributes
+    modApi("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")?.let { include(it) }
 
     // MixinExtras
     implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-rc.4")?.let { annotationProcessor(it) }

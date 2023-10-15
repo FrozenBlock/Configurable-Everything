@@ -97,12 +97,19 @@ object MainConfigGui {
             true
         ).build(entryBuilder))
 
-        val applyDatapacksFolder = EntryBuilder(text("apply_datapacks_folder"), config.datapack?.applyDatapacksFolders,
-            defaultConfig.datapack!!.applyDatapacksFolders!!,
-            { newValue -> config.datapack?.applyDatapacksFolders = newValue },
-            tooltip("apply_datapacks_folder"),
+        val applyDatapackFolders = EntryBuilder(text("apply_datapack_folders"), config.datapack?.applyDatapackFolders,
+            defaultConfig.datapack!!.applyDatapackFolders!!,
+            { newValue -> config.datapack?.applyDatapackFolders = newValue },
+            tooltip("apply_datapack_folders"),
             true
         ).build(entryBuilder)
+
+        val datapackFolders = entryBuilder.startStrList(text("datapack_folders"), config.datapack?.datapackFolders ?: defaultConfig.datapack!!.datapackFolders!!)
+            .setDefaultValue(defaultConfig.datapack!!.datapackFolders!!)
+            .setSaveConsumer { newValue -> config.datapack?.datapackFolders = newValue }
+            .setTooltip(tooltip("datapack_folders"))
+            .requireRestart()
+            .build()
 
         val datapackBiome = EntryBuilder(text("datapack_biome"), config.datapack?.biome,
             defaultConfig.datapack!!.biome!!,
@@ -127,7 +134,7 @@ object MainConfigGui {
 
         createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
-            applyDatapacksFolder, datapackBiome, datapackBiomePlacement, json5Support
+            applyDatapackFolders, datapackFolders, datapackBiome, datapackBiomePlacement, json5Support
         )
 
         val applyKotlinScripts = EntryBuilder(text("apply_kotlin_scripts"), config.kotlinScripting?.applyKotlinScripts,

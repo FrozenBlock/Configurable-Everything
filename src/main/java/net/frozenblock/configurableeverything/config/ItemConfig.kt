@@ -10,15 +10,17 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.Items
 
 data class ItemConfig(
     @JvmField
-    var itemReachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
+    var reachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
         ITEM_REACH_OVERRIDES,
         listOf(
             ItemReachOverride(
-                ResourceLocation("minecraft:trident"),
+                BuiltInRegistries.ITEM.getKey(Items.TRIDENT),
                 100.0
             )
         )

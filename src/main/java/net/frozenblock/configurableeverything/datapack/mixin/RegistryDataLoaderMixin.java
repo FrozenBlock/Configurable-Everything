@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.datapack.mixin;
 import com.mojang.serialization.Decoder;
 import java.util.Map;
 import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.datapack.util.DatapackUtils;
+import net.frozenblock.configurableeverything.datapack.util.DatapackUtil;
 import net.minecraft.core.Registry;
 import net.minecraft.core.WritableRegistry;
 import net.minecraft.resources.RegistryDataLoader;
@@ -38,7 +38,7 @@ public abstract class RegistryDataLoaderMixin {
         var datapack = MainConfig.get().datapack;
         if (datapack != null && datapack.json5Support == true) {
             String directory = registryDirPath(registryKey.location());
-            DatapackUtils.loadJson5Contents(lookup, manager, registryKey, registry, decoder, exceptions, directory);
+            DatapackUtil.loadJson5Contents(lookup, manager, registryKey, registry, decoder, exceptions, directory);
         }
     }
 }

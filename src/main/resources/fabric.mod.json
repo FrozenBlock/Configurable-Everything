@@ -41,15 +41,16 @@
     ]
   },
   "mixins": [
-    "configurable_everything_biome.mixins.json",
-    "configurable_everything_datafixer.mixins.json",
-    "configurable_everything_datapack.mixins.json",
-    "configurable_everything_entity.mixins.json",
-    "configurable_everything_fluid.mixins.json",
-    "configurable_everything_game.mixins.json",
-    "configurable_everything_screenshake.mixins.json",
-    "configurable_everything_world.mixins.json",
-    "configurable_everything_splash_text.mixins.json"
+    "configurable_everything.biome.mixins.json",
+    "configurable_everything.datafixer.mixins.json",
+    "configurable_everything.datapack.mixins.json",
+    "configurable_everything.entity.mixins.json",
+    "configurable_everything.fluid.mixins.json",
+    "configurable_everything.game.mixins.json",
+    "configurable_everything.item.mixins.json",
+    "configurable_everything.screenshake.mixins.json",
+    "configurable_everything.splash_text.mixins.json",
+    "configurable_everything.world.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 
