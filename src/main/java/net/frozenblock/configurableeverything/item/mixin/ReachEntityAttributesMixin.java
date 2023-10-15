@@ -14,17 +14,13 @@ public class ReachEntityAttributesMixin {
 
 	@Inject(method = "getReachDistance", at = @At("HEAD"), cancellable = true)
 	private static void getReachDistance(LivingEntity entity, double baseAttackRange, CallbackInfoReturnable<Double> cir){
-		if (entity instanceof Player player) {
-			Double override = ItemConfigUtil.getReach(player);
-			if (override != null) cir.setReturnValue(override);
-		}
+		Double override = ItemConfigUtil.getReach(entity);
+		if (override != null) cir.setReturnValue(override);
 	}
 
 	@Inject(method = "getAttackRange", at = @At("HEAD"), cancellable = true)
 	private static void getAttackRange(LivingEntity entity, double baseAttackRange, CallbackInfoReturnable<Double> cir){
-		if (entity instanceof Player player) {
-			Double override = ItemConfigUtil.getReach(player);
-			if (override != null) cir.setReturnValue(override);
-		}
+		Double override = ItemConfigUtil.getReach(entity);
+		if (override != null) cir.setReturnValue(override);
 	}
 }

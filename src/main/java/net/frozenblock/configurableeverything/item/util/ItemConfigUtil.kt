@@ -7,14 +7,14 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.Item
 import kotlin.jvm.optionals.getOrNull
 
 object ItemConfigUtil {
 
     @JvmStatic
-    fun getReach(player: Player): Double? {
+    fun getReach(player: LivingEntity): Double? {
         val overrides = ItemConfig.get().reachOverrides?.value
         if (MainConfig.get().item == true && overrides != null) {
             val item = player.getItemInHand(InteractionHand.MAIN_HAND)
