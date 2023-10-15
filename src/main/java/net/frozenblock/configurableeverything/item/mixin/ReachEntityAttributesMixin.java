@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ReachEntityAttributes.class)
+@Mixin(value = ReachEntityAttributes.class, priority = 500)
 public class ReachEntityAttributesMixin {
 
 	@Inject(method = "getReachDistance", at = @At("HEAD"), cancellable = true)
