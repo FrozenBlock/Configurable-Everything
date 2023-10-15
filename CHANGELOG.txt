@@ -4,4 +4,8 @@ Make sure to clear after release
 
 Put changelog here:
 -----------------
-- Fixed horse death sounds playing upon walking on grass blocks
+- Added Item Config
+    - Contains item reach overrides
+- Added user specified datapack repository folders (`datapackFolders` in Main Config)
+- Renamed `applyDatapacksFolder` in Main Config to `applyDatapackFolders` (option will be reset)
+- Overrided `toString()` methods for most data classes
