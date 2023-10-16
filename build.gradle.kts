@@ -391,14 +391,18 @@ publishing {
         var publish = true
         if (publishingValid) {
             try {
-                val xml = ResourceGroovyMethods.getText(URL("$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"))
-                val metadata = XmlSlurper().parseText(xml)
+                try {
+                    val xml = ResourceGroovyMethods.getText(URL("$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"))
+                    val metadata = XmlSlurper().parseText(xml)
 
-                if (metadata.getProperty("hash").equals(hash)) {
-                    publish = false
+                    if (metadata.getProperty("hash").equals(hash)) {
+                        publish = false
+                    }
+                } catch (ignored: FileNotFoundException) {
+                    // No existing version was published, so we can publish
                 }
-            } catch (ignored: FileNotFoundException) {
-                // No existing version was published, so we can publish
+            } catch (e: Exception) {
+                publish = false
             }
         } else {
             publish = false
