@@ -6,7 +6,7 @@ import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
 import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.applyDataFixes
+import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
@@ -27,24 +27,23 @@ class ConfigurableEverything : ModInitializer {
 
     override fun onInitialize() {
         val time = measureNanoTime {
-            applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
-
             ConfigurableEverythingIntegrations.init()
+
             // init configs
             MainConfig.get()
-            BiomeConfigUtil.init()
-            BiomePlacementUtils.init()
-            BlockConfigUtil.init()
+            BiomeConfig.get()
+            BiomePlacementConfig.get()
+            BlockConfig.get()
             DataFixerConfig.get()
-            EntityConfigUtil.init()
+            EntityConfig.get()
             FluidConfig.get()
             GameConfig.get()
             ItemConfig.get()
-            RegistryConfigUtil.init()
+            RegistryConfig.get()
             ScreenShakeConfig.get()
-            SplashTextConfigUtil.init()
-            SurfaceRuleConfigUtil.init()
-            WorldConfigUtil.init()
+            SplashTextConfig.get()
+            SurfaceRuleConfig.get()
+            WorldConfig.get()
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
@@ -53,8 +52,19 @@ class ConfigurableEverything : ModInitializer {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             if (HAS_EXTENSIONS) ScriptingUtil.runScripts()
-        }
 
+            // init functionality AFTER scripts run
+            BiomeConfigUtil.init()
+            BiomePlacementUtils.init()
+            BlockConfigUtil.init()
+            DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
+            EntityConfigUtil.init()
+            BlockConfigUtil.init()
+            RegistryConfigUtil.init()
+            SplashTextConfigUtil.init()
+            SurfaceRuleConfigUtil.init()
+            WorldConfigUtil.init()
+        }
 
         log("Configurable Everything took $time nanoseconds")
     }
