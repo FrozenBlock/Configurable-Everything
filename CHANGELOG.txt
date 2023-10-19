@@ -5,6 +5,8 @@ Make sure to clear after release
 Future changelog items:
 - Added Item Config
     - Contains item reach overrides
+- Added config interactions for Kotlin Scripts
+    - Check the wiki for more information
 
 Put changelog here:
 -----------------

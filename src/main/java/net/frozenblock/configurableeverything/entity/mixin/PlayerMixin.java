@@ -20,8 +20,8 @@ public abstract class PlayerMixin extends LivingEntity {
 
 	@ModifyReturnValue(method = "getDestroySpeed", at = @At("RETURN"))
 	private float getDestroySpeed(float original, BlockState state) {
-		if (MainConfig.get().entity == true) {
-			return (float) (original * EntityConfig.get().player.getDigSpeed());
+		if (MainConfig.get(false).entity == true) {
+			return (float) (original * EntityConfig.get(false).player.getDigSpeed());
 		}
 		return original;
 	}

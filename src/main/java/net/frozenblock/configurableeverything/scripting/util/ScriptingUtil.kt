@@ -36,8 +36,10 @@ internal object ScriptingUtil {
                     ScriptDiagnostic.Severity.INFO -> log(message)
                     ScriptDiagnostic.Severity.WARNING -> logWarn(message)
                     ScriptDiagnostic.Severity.ERROR -> logError(message)
+                    ScriptDiagnostic.Severity.FATAL -> logError(message)
                     else -> logError(message)
                 }
+                it.exception?.printStackTrace()
             }
         }
     }

@@ -57,12 +57,13 @@ Warning: Functionality will be lost if these are disabled.
 ) {
     companion object {
         @JvmField
-        internal val INSTANCE: Config<MixinsConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<MixinsConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 MixinsConfig::class.java,
                 makeConfigPath("mixins"),
-                CONFIG_JSONTYPE
+                CONFIG_JSONTYPE,
+                false // horrible idea to support modification of this config
             )
         )
 

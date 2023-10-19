@@ -12,8 +12,8 @@ public class SplashRendererMixin {
 
     @ModifyConstant(method = "render", constant = @Constant(intValue = 16776960))
     private int changeColor(int original) {
-      var modified = SplashTextConfig.get().splashColor;
-		  return MainConfig.get().splash_text == true && modified != null
+      var modified = SplashTextConfig.get(false).splashColor;
+		  return MainConfig.get(false).splash_text == true && modified != null
         ? modified
         : original;
     }

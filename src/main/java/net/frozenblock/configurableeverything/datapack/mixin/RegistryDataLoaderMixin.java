@@ -35,7 +35,7 @@ public abstract class RegistryDataLoaderMixin {
             Map<ResourceKey<?>, Exception> exceptions,
             CallbackInfo ci
     ) {
-        var datapack = MainConfig.get().datapack;
+        var datapack = MainConfig.get(false).datapack;
         if (datapack != null && datapack.json5Support == true) {
             String directory = registryDirPath(registryKey.location());
             DatapackUtil.loadJson5Contents(lookup, manager, registryKey, registry, decoder, exceptions, directory);

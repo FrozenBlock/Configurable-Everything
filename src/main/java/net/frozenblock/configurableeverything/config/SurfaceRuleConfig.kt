@@ -43,7 +43,7 @@ data class SurfaceRuleConfig(
         )
 
         @JvmField
-        internal val INSTANCE: Config<SurfaceRuleConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<SurfaceRuleConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 SurfaceRuleConfig::class.java,
@@ -52,6 +52,6 @@ data class SurfaceRuleConfig(
             )
         )
 
-        fun get(): SurfaceRuleConfig = INSTANCE.config()
+        fun get(real: Boolean = false): SurfaceRuleConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

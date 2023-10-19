@@ -16,7 +16,7 @@ import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategor
 @Environment(EnvType.CLIENT)
 object MainConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = MainConfig.get()
+        val config = MainConfig.get(real = true)
         val defaultConfig = MainConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/main.png")
 

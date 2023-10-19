@@ -157,7 +157,7 @@ data class BiomeConfig(
 		)
 
 		@JvmField
-		internal val INSTANCE: Config<BiomeConfig> = ConfigRegistry.register(
+		val INSTANCE: Config<BiomeConfig> = ConfigRegistry.register(
 			JsonConfig(
 				MOD_ID,
 				BiomeConfig::class.java,
@@ -167,6 +167,6 @@ data class BiomeConfig(
 		)
 
 		@JvmStatic
-		fun get(): BiomeConfig = INSTANCE.config()
+		fun get(real: Boolean = false): BiomeConfig = if (real) INSTANCE.instance() else INSTANCE.config()
 	}
 }

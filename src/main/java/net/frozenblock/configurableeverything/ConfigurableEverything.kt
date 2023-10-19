@@ -54,13 +54,12 @@ class ConfigurableEverything : ModInitializer {
             }
             if (HAS_EXTENSIONS) ScriptingUtil.runScripts()
 
-            // init functionality AFTER scripts run
+            // run functionality AFTER scripts have run
             BiomeConfigUtil.init()
             BiomePlacementUtils.init()
             BlockConfigUtil.init()
             DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
             EntityConfigUtil.init()
-            BlockConfigUtil.init()
             RegistryConfigUtil.init()
             SplashTextConfigUtil.init()
             SurfaceRuleConfigUtil.init()

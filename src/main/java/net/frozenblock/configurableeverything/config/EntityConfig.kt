@@ -214,7 +214,7 @@ data class EntityConfig(
         )
 
         @JvmField
-        internal val INSTANCE: Config<EntityConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<EntityConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 EntityConfig::class.java,
@@ -224,7 +224,7 @@ data class EntityConfig(
         )
 
         @JvmStatic
-        fun get(): EntityConfig = INSTANCE.config()
+        fun get(real: Boolean = false): EntityConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 
     data class PlayerConfig(

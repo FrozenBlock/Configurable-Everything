@@ -92,6 +92,13 @@
   "option.configurable_everything.json5_support": "JSON5 Support",
   "tooltip.configurable_everything.json5_support": "Enable or disable support for JSON5 files in datapacks.",
 
+  "option.configurable_everything.kotlin_scripting": "Kotlin Scripting",
+  "tooltip.configurable_everything.kotlin_scripting": "Contains options related to Kotlin scripting\nOnly available with Fabric Kotlin Extensions",
+  "option.configurable_everything.apply_kotlin_scripts": "Apply Kotlin Scripts",
+  "tooltip.configurable_everything.apply_kotlin_scripts": "Enable or disable the custom Kotlin scripts.",
+  "option.configurable_everything.default_imports": "Default Imports",
+  "tooltip.configurable_everything.default_imports": "The default imports for Kotlin scripts.",
+
   "option.configurable_everything.datafixer": "DataFixer",
   "option.configurable_everything.datafixer.fixers": "Fixers",
   "tooltip.configurable_everything.datafixer.fixers": "The list of fixers to use for data fixing.\nEach fixer contains an old id and a new id, and will replace all instances of the old id with the new id.\nHowever, if the old id is still found in the registry, it will not be replaced.",

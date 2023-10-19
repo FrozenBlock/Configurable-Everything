@@ -8,12 +8,11 @@ import net.frozenblock.lib.config.frozenlib_config.FrozenLibConfig
 
 object WorldConfigUtil {
 
-    @JvmStatic
     fun init() {
         val config = WorldConfig.get()
-        if (MainConfig.get().world == true && config.disableExperimentalWarning == true)
+        if (MainConfig.get().world == true)
             ConfigRegistry.register(FrozenLibConfig.INSTANCE, ConfigModification { libConfig ->
-                libConfig.removeExperimentalWarning = true
+                libConfig.removeExperimentalWarning = config.disableExperimentalWarning == true
             })
     }
 }

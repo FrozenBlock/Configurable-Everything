@@ -13,8 +13,8 @@ public class SkeletonRestrictSunGoal extends RestrictSunGoal {
 
 	@Override
 	public boolean canUse() {
-		var entity = MainConfig.get().entity;
-		var skeleton = EntityConfig.get().skeleton;
+		var entity = MainConfig.get(false).entity;
+		var skeleton = EntityConfig.get(false).skeleton;
 		// null safety in java moment
 		if (entity != true || skeleton == null || skeleton.skeletonsAvoidSun != true) {
 			return false;

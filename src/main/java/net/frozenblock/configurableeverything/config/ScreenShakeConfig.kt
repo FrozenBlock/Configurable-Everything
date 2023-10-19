@@ -84,7 +84,7 @@ data class ScreenShakeConfig(
         )
 
         @JvmField
-        internal val INSTANCE: Config<ScreenShakeConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<ScreenShakeConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 ScreenShakeConfig::class.java,
@@ -94,6 +94,6 @@ data class ScreenShakeConfig(
         )
 
         @JvmStatic
-        fun get(): ScreenShakeConfig = INSTANCE.config()
+        fun get(real: Boolean = false): ScreenShakeConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

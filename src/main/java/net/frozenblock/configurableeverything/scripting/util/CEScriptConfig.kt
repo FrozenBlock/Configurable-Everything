@@ -5,8 +5,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
-import net.frozenblock.configurableeverything.util.logError
-import java.util.*
+import net.frozenblock.lib.config.api.instance.ConfigModification
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext

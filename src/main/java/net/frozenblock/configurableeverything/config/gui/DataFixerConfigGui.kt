@@ -25,7 +25,7 @@ import net.minecraft.resources.ResourceLocation
 @Environment(EnvType.CLIENT)
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = DataFixerConfig.get()
+        val config = DataFixerConfig.get(real = true)
         val defaultConfig = DataFixerConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/datafixer.png")
 

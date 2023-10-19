@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation
 @Environment(EnvType.CLIENT)
 object ScreenShakeConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = ScreenShakeConfig.get()
+        val config = ScreenShakeConfig.get(real = true)
         val defaultConfig = ScreenShakeConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/screen_shake.png")
 

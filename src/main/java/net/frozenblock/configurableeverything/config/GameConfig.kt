@@ -24,7 +24,7 @@ The default version series is "main".
 ) {
     companion object {
         @JvmField
-        internal val INSTANCE: Config<GameConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<GameConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 GameConfig::class.java,
@@ -34,6 +34,6 @@ The default version series is "main".
         )
 
         @JvmStatic
-        fun get(): GameConfig = INSTANCE.config()
+        fun get(real: Boolean = false): GameConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

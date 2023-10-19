@@ -35,7 +35,7 @@ data class ItemConfig(
         )
 
         @JvmField
-        internal val INSTANCE: Config<ItemConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<ItemConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 ItemConfig::class.java,
@@ -45,6 +45,6 @@ data class ItemConfig(
         )
 
         @JvmStatic
-        fun get(): ItemConfig = INSTANCE.config()
+        fun get(real: Boolean = false): ItemConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

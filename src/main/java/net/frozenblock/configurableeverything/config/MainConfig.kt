@@ -67,7 +67,7 @@ Warning: It is important to check the contents of each config before enabling th
 ) {
     companion object {
         @JvmField
-        internal val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 MainConfig::class.java,
@@ -77,7 +77,7 @@ Warning: It is important to check the contents of each config before enabling th
         )
 
         @JvmStatic
-        fun get(): MainConfig = INSTANCE.config()
+        fun get(real: Boolean = false): MainConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 
     data class DatapackConfig(
@@ -107,10 +107,10 @@ Warning: It is important to check the contents of each config before enabling th
 
         @JvmField
         var defaultImports: List<String>? = arrayListOf(
-            "java.util.*",
             "kotlinx.coroutines.*",
             "net.frozenblock.configurableeverything.util.*",
-            "net.frozenblock.configurableeverything.scripting.util.*"
+            "net.frozenblock.configurableeverything.scripting.util.*",
+            "net.frozenblock.lib.config.api.instance.ConfigModification"
         )
     )
 }
