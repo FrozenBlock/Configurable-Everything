@@ -14,22 +14,20 @@ import net.minecraft.resources.RegistryOps
 import net.minecraft.resources.RegistryOps.RegistryInfoLookup
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.packs.resources.ResourceManager
-import net.minecraft.world.level.validation.DirectoryValidator
 import java.util.*
 import kotlin.io.path.Path
 
 object DatapackUtil {
 
     @JvmStatic
-    fun addedRepositories(validator: DirectoryValidator?): List<CERepositorySource> {
+    fun addedRepositories(): List<CERepositorySource> {
         val config = MainConfig.get().datapack
-        if (validator == null) return emptyList()
         if (config?.applyDatapackFolders == true) {
             val list: MutableList<CERepositorySource> = arrayListOf()
             config.datapackFolders?.forEach {
                 it?.let { folder ->
                     log("Adding datapack repository at $folder")
-                    list.add(CERepositorySource(Path(folder), validator))
+                    list.add(CERepositorySource(Path(folder)))
                 }
             }
             return list
