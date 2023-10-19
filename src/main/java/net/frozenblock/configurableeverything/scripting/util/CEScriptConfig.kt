@@ -4,14 +4,8 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.registry.util.DynamicRegistryAddition
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
 import net.frozenblock.configurableeverything.util.logError
-import net.minecraft.core.Registry
-import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
-import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 import java.util.*
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
@@ -26,21 +20,6 @@ import kotlin.script.experimental.jvm.loadDependencies
 )
 // dont use environment annotations anywhere
 abstract class CEScript {
-    @Suppress("unchecked")
-    fun <T> register(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T & Any): T? {
-        val realRegistry: Optional<Registry<T>>? = BuiltInRegistries.REGISTRY.getOptional(registry.location()) as? Optional<Registry<T>>
-        if (realRegistry != null && realRegistry.isPresent) {
-            return Registry.register(realRegistry.get(), path, value)
-        }
-        logError("Registry ${registry.location()} does not exist in built in registries.")
-        return null
-    }
-
-    fun <T : Any> registerDynamic(registry: ResourceKey<Registry<T>>, path: ResourceLocation, value: T) {
-        RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
-            DynamicRegistryAddition(registry, path, value).register(setupContext)
-        }
-    }
 
     fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
