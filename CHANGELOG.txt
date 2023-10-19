@@ -2,10 +2,13 @@ Hello
 Put changelog in plain text please
 Make sure to clear after release
 
-Put changelog here:
------------------
+Future changelog items:
 - Added Item Config
     - Contains item reach overrides
+
+Put changelog here:
+-----------------
 - Added user specified datapack repository folders (`datapackFolders` in Main Config)
 - Renamed `applyDatapacksFolder` in Main Config to `applyDatapackFolders` (option will be reset)
 - Overrided `toString()` methods for most data classes
+- Updated embedded FrozenLib to 1.3.14

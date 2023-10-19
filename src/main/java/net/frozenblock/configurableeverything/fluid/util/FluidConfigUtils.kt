@@ -14,9 +14,11 @@ object FluidConfigUtils {
         if (MainConfig.get().fluid == true) {
             config.flowSpeeds?.value?.let { flowSpeeds ->
                 for (flowSpeed in flowSpeeds) {
-                    if (flowSpeed?.fluid == null || flowSpeed.flowTickDelay == null || flowSpeed.ultraWarmFlowTickDelay == null) continue
-                    if (flowSpeed.fluid == BuiltInRegistries.FLUID.getResourceKey(fluid).orElseThrow()) {
-                        return if (level.dimensionType().ultraWarm()) flowSpeed.ultraWarmFlowTickDelay else flowSpeed.flowTickDelay
+                    val fSfluid = flowSpeed?.fluid ?: continue
+                    val flowTickDelay = flowSpeed.flowTickDelay ?: continue
+                    val ultraWarmFlowTickDelay = flowSpeed.ultraWarmFlowTickDelay ?: continue
+                    if (fSfluid == BuiltInRegistries.FLUID.getResourceKey(fluid).orElseThrow()) {
+                        return if (level.dimensionType().ultraWarm()) ultraWarmFlowTickDelay else flowTickDelay
                     }
                 }
             }
