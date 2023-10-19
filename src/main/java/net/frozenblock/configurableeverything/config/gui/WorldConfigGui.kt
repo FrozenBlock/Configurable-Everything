@@ -14,7 +14,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 @Environment(EnvType.CLIENT)
 object WorldConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = WorldConfig.get()
+        val config = WorldConfig.get(real = true)
         val defaultConfig = WorldConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/world.png")
         category.addEntry(

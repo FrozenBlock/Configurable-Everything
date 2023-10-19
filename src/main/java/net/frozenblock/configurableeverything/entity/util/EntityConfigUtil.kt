@@ -55,7 +55,7 @@ object EntityConfigUtil {
                     val amplifiers = entityAttributeAmplifier.amplifiers ?: continue
                     if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())) return
                     val desEntityNameComponent: Component = Component.literal(desiredEntityName)
-                    if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entity.getName()) {
+                    if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entity.name) {
                         val attributes: AttributeMap = entity.getAttributes()
                         for (amplifier in amplifiers) {
                             val amplifierAttribute = amplifier?.attribute ?: continue
@@ -63,7 +63,7 @@ object EntityConfigUtil {
                             val attribute: AttributeInstance? = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute))
                             attribute?.addTransientModifier(
                                 AttributeModifier(
-                                    "Configurable Everything Entity Config ${amplifierAttribute.location().toString()} change to ${entity.getName()}",
+                                    "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${entity.name}",
                                     amplifierAmplifier - 1.0,
                                     AttributeModifier.Operation.MULTIPLY_TOTAL
                                 )

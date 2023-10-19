@@ -21,4 +21,6 @@ data class EntityAttributeAmplifier(
             ).apply(instance, ::EntityAttributeAmplifier)
         }
     }
+
+    override fun toString(): String = "EntityAttributeAmplifier[entity=$entity, entityName=$entityName, amplifiers=$amplifiers]"
 }

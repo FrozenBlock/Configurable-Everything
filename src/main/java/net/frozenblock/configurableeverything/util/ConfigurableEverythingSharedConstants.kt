@@ -5,9 +5,15 @@ import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
+import kotlin.io.path.Path
 
 const val MOD_ID = "configurable_everything"
 const val MOD_NAME = "Configurable Everything"
+
+/**
+ * Enables update 1.1
+ */
+const val ENABLE_EXPERIMENTAL_FEATURES = false
 
 @JvmField
 val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
@@ -28,10 +34,10 @@ var UNSTABLE_LOGGING: Boolean = FabricLoader.getInstance().isDevelopmentEnvironm
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
 
 @JvmField
-val DATAPACKS_PATH: Path = Path.of("./config/$MOD_ID/datapacks")
+val DATAPACKS_PATH: Path = Path("./config/$MOD_ID/datapacks")
 
 @JvmField
-val KOTLIN_SCRIPT_PATH: Path = Path.of("./config/$MOD_ID/scripts/")
+val KOTLIN_SCRIPT_PATH: Path = Path("./config/$MOD_ID/scripts/")
 
 // the idea is configurableeverything.kts but shorter
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"

@@ -29,7 +29,7 @@ data class WorldConfig(
 ) {
     companion object {
         @JvmField
-        internal val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 WorldConfig::class.java,
@@ -45,6 +45,6 @@ data class WorldConfig(
         val moonSize: Float? get() = get().moonSize?.div(10F)
 
         @JvmStatic
-        fun get(): WorldConfig = INSTANCE.config()
+        fun get(real: Boolean = false): WorldConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

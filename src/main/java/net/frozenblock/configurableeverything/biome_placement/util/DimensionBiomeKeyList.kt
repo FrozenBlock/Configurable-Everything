@@ -23,5 +23,5 @@ data class DimensionBiomeKeyList(
 		}
 	}
 
-	override fun toString(): String = "DimensionBiomeKeyList[$dimension, $biomes]"
+	override fun toString(): String = "DimensionBiomeKeyList[dimension=$dimension, biomes=$biomes]"
 }

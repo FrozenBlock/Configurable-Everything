@@ -3,9 +3,7 @@ package net.frozenblock.configurableeverything.datapack.mixin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.datapack.util.CERepositorySource;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
+import net.frozenblock.configurableeverything.datapack.util.DatapackUtil;
 import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.repository.ServerPacksSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,10 +17,7 @@ public class ServerPacksSourceMixin {
 	private static RepositorySource[] createPackRepository(RepositorySource[] original) {
 		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
 
-		var datapack = MainConfig.get().datapack;
-		if (datapack != null && Boolean.TRUE.equals(datapack.applyDatapacksFolder)) {
-			newSources.add(new CERepositorySource(ConfigurableEverythingSharedConstantsKt.DATAPACKS_PATH));
-		}
+		newSources.addAll(DatapackUtil.addedRepositories());
 		return newSources.toArray(new RepositorySource[]{});
 	}
 }

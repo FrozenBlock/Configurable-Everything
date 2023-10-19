@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything
 
 import net.frozenblock.configurableeverything.config.MixinsConfig
+import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo
@@ -19,6 +20,7 @@ class CEMixinPlugin : IMixinConfigPlugin {
         if (mixinClassName.contains("fluid.mixin")) return config.fluid == true
         if (mixinClassName.contains("game.mixin.client")) return config.game_client == true
         if (mixinClassName.contains("game.mixin")) return config.game == true
+        if (mixinClassName.contains("item.mixin")) return ENABLE_EXPERIMENTAL_FEATURES
         if (mixinClassName.contains("screenshake.mixin.client")) return config.screenshake_client == true
         if (mixinClassName.contains("screenshake.mixin")) return config.screenshake == true
         if (mixinClassName.contains("splash_text.mixin")) return config.splash_text == true

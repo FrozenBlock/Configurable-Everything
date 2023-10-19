@@ -6,7 +6,7 @@ import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
 import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.applyDataFixes
+import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.mod_compat.ConfigurableEverythingIntegrations
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
@@ -27,23 +27,24 @@ class ConfigurableEverything : ModInitializer {
 
     override fun onInitialize() {
         val time = measureNanoTime {
-            applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
-
             ConfigurableEverythingIntegrations.init()
+
             // init configs
-            MainConfig.get()
-            BiomeConfigUtil.init()
-            BiomePlacementUtils.init()
-            BlockConfigUtil.init()
-            DataFixerConfig.get()
-            EntityConfigUtil.init()
-            FluidConfig.get()
-            GameConfig.get()
-            RegistryConfigUtil.init()
-            ScreenShakeConfig.get()
-            SplashTextConfigUtil.init()
-            SurfaceRuleConfigUtil.init()
-            WorldConfigUtil.init()
+            MainConfig
+            BiomeConfig
+            BiomePlacementConfig
+            BlockConfig
+            DataFixerConfig
+            EntityConfig
+            FluidConfig
+            GameConfig
+            if (ENABLE_EXPERIMENTAL_FEATURES)
+                ItemConfig
+            RegistryConfig
+            ScreenShakeConfig
+            SplashTextConfig
+            SurfaceRuleConfig
+            WorldConfig
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
@@ -52,8 +53,18 @@ class ConfigurableEverything : ModInitializer {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             if (HAS_EXTENSIONS) ScriptingUtil.runScripts()
-        }
 
+            // run functionality AFTER scripts have run
+            BiomeConfigUtil.init()
+            BiomePlacementUtils.init()
+            BlockConfigUtil.init()
+            DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
+            EntityConfigUtil.init()
+            RegistryConfigUtil.init()
+            SplashTextConfigUtil.init()
+            SurfaceRuleConfigUtil.init()
+            WorldConfigUtil.init()
+        }
 
         log("Configurable Everything took $time nanoseconds")
     }

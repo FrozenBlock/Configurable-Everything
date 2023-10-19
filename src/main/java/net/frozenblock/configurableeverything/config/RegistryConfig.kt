@@ -70,7 +70,7 @@ data class RegistryConfig(
         )
 
         @JvmField
-        internal val INSTANCE: Config<RegistryConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<RegistryConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 RegistryConfig::class.java,
@@ -80,6 +80,6 @@ data class RegistryConfig(
         )
 
         @JvmStatic
-        fun get(): RegistryConfig = INSTANCE.config()
+        fun get(real: Boolean = false): RegistryConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

@@ -6,7 +6,10 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
-data class PlacedFeatureAddition(override val key: ResourceLocation, override val value: PlacedFeature) : DynamicRegistryAddition<PlacedFeature>(Registries.PLACED_FEATURE, key, value) {
+data class PlacedFeatureAddition(
+    override var key: ResourceLocation,
+    override var value: PlacedFeature
+) : DynamicRegistryAddition<PlacedFeature>(Registries.PLACED_FEATURE, key, value) {
     companion object {
         @JvmField
         val CODEC: Codec<PlacedFeatureAddition> = RecordCodecBuilder.create { instance ->
@@ -16,4 +19,6 @@ data class PlacedFeatureAddition(override val key: ResourceLocation, override va
             ).apply(instance, ::PlacedFeatureAddition)
         }
     }
+
+    override fun toString(): String = "PlacedFeatureAddition[key=$key, value=$value]"
 }

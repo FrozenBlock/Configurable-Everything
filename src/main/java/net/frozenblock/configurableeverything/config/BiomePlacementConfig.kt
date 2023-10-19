@@ -117,7 +117,7 @@ Does not support biomes added via TerraBlender
 		)
 
 		@JvmField
-		internal val INSTANCE: Config<BiomePlacementConfig> = ConfigRegistry.register(
+		val INSTANCE: Config<BiomePlacementConfig> = ConfigRegistry.register(
 			JsonConfig(
 				MOD_ID,
 				BiomePlacementConfig::class.java,
@@ -127,6 +127,6 @@ Does not support biomes added via TerraBlender
 		)
 
 		@JvmStatic
-		fun get(): BiomePlacementConfig = INSTANCE.config()
+		fun get(real: Boolean = false): BiomePlacementConfig = if (real) INSTANCE.instance() else INSTANCE.config()
 	}
 }

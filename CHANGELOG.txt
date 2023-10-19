@@ -2,6 +2,15 @@ Hello
 Put changelog in plain text please
 Make sure to clear after release
 
+Future changelog items:
+- Added Item Config
+    - Contains item reach overrides
+- Added config interactions for Kotlin Scripts
+    - Check the wiki for more information
+
 Put changelog here:
 -----------------
-- Fixed horse death sounds playing upon walking on grass blocks
+- Added user specified datapack repository folders (`datapackFolders` in Main Config)
+- Renamed `applyDatapacksFolder` in Main Config to `applyDatapackFolders` (option will be reset)
+- Overrided `toString()` methods for most data classes
+- Updated embedded FrozenLib to 1.3.14

@@ -31,7 +31,7 @@ import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 @Environment(EnvType.CLIENT)
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = BiomePlacementConfig.get()
+        val config = BiomePlacementConfig.get(real = true)
         val defaultConfig = BiomePlacementConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/biome_placement.png")
 

@@ -21,7 +21,7 @@ public class ClientLevelMixin {
 
 	@ModifyExpressionValue(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
 	private boolean configurableEverything$tickTime(boolean original) {
-		if (!original && MainConfig.get().world == true && WorldConfig.get().fixSunMoonRotating == true) {
+		if (!original && MainConfig.get(false).world == true && WorldConfig.get(false).fixSunMoonRotating == true) {
 			this.configurableEverything$setPreviousDayTime(this.clientLevelData.getDayTime());
 		}
 		return original;
@@ -29,12 +29,12 @@ public class ClientLevelMixin {
 
 	@ModifyArgs(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;setDayTime(J)V"))
 	private void configurableEverything$tickTime(Args args) {
-		if (MainConfig.get().world == true) {
+		if (MainConfig.get(false).world == true) {
 			long prevTime = ((long)args.get(0) - 1L);
-			if (WorldConfig.get().fixSunMoonRotating == true) {
+			if (WorldConfig.get(false).fixSunMoonRotating == true) {
 				this.configurableEverything$setPreviousDayTime(prevTime);
 			}
-			var dayTimeSpeedAmplifier = WorldConfig.get().dayTimeSpeedAmplifier;
+			var dayTimeSpeedAmplifier = WorldConfig.get(false).dayTimeSpeedAmplifier;
 			if (dayTimeSpeedAmplifier != null) {
 				args.set(0, prevTime + dayTimeSpeedAmplifier);
 			}

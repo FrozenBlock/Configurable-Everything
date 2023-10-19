@@ -25,7 +25,7 @@ import net.minecraft.resources.ResourceLocation
 @Environment(EnvType.CLIENT)
 object EntityConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = EntityConfig.get()
+        val config = EntityConfig.get(real = true)
         val defaultConfig = EntityConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/entity.png")
 

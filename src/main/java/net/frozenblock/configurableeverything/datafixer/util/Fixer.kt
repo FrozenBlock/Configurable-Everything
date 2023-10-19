@@ -18,5 +18,5 @@ data class Fixer(
         }
     }
 
-    override fun toString(): String = "Fixer[$oldId, $newId]"
+    override fun toString(): String = "Fixer[old_id=$oldId, new_id=$newId]"
 }

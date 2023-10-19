@@ -26,8 +26,8 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyArg(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"), index = 2)
 	private int dropExperience(int amount) {
-		var config = EntityConfig.get();
-		if (MainConfig.get().entity == true && config.experienceOverrides != null && config.experienceOverrides.value() != null) {
+		var config = EntityConfig.get(false);
+		if (MainConfig.get(false).entity == true && config.experienceOverrides != null && config.experienceOverrides.value() != null) {
 			var experienceOverrides = config.experienceOverrides.value();
 			for (var override : experienceOverrides) {
 				if (override.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
@@ -40,9 +40,9 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "setLastHurtMob", at = @At("TAIL"))
 	private void setLastHurtMob(Entity entity, CallbackInfo ci) {
-		var config = EntityConfig.get();
+		var config = EntityConfig.get(false);
 		if (entity instanceof LivingEntity livingEntity) {
-			if (MainConfig.get().entity == true) {
+			if (MainConfig.get(false).entity == true) {
 				if (config.entityHurtEffects != null && config.entityHurtEffects.value() != null) {
 					var entityHurtEffects = config.entityHurtEffects.value();
 					for (EntityHurtEffects hurtEffects : entityHurtEffects) {

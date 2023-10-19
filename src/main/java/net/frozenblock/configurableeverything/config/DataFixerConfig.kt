@@ -169,7 +169,7 @@ However, if the old id is still found in the registry, it will not be replaced (
         )
 
         @JvmField
-        internal val INSTANCE: Config<DataFixerConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<DataFixerConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 DataFixerConfig::class.java,
@@ -178,6 +178,7 @@ However, if the old id is still found in the registry, it will not be replaced (
             )
         )
 
-        fun get(): DataFixerConfig = INSTANCE.config()
+        @JvmStatic
+        fun get(real: Boolean = false): DataFixerConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

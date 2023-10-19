@@ -39,7 +39,7 @@ data class FluidConfig(
         )
 
         @JvmField
-        internal val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
+        val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
             JsonConfig(
                 MOD_ID,
                 FluidConfig::class.java,
@@ -49,6 +49,6 @@ data class FluidConfig(
         )
 
         @JvmStatic
-        fun get(): FluidConfig = INSTANCE.config()
+        fun get(real: Boolean = false): FluidConfig = if (real) INSTANCE.instance() else INSTANCE.config()
     }
 }

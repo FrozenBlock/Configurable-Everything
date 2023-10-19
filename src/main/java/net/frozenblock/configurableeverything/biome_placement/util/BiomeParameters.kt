@@ -18,5 +18,5 @@ data class BiomeParameters(
 		}
 	}
 
-	override fun toString(): String = "BiomeParameters[$biome, $parameters]"
+	override fun toString(): String = "BiomeParameters[biome=$biome, parameters=$parameters]"
 }

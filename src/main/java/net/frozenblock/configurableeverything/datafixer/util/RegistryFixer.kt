@@ -47,5 +47,5 @@ data class RegistryFixer(
         }
     }
 
-    override fun toString(): String = "RegistryFixer[$registryKey, $fixers]"
+    override fun toString(): String = "RegistryFixer[registry_key=$registryKey, fixers=$fixers]"
 }

@@ -16,7 +16,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 object GameConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = GameConfig.get()
+        val config = GameConfig.get(real = true)
         val defaultConfig = GameConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/game.png")
 

@@ -20,4 +20,6 @@ data class DecorationStepPlacedFeature(
 			).apply(instance, ::DecorationStepPlacedFeature)
 		}
 	}
+
+    override fun toString(): String = "DecorationStepPlacedFeature[decoration=$decoration, placed_features=$placedFeatures]"
 }

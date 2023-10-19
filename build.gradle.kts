@@ -191,6 +191,12 @@ repositories {
         name = "Quilt"
         url = uri("https://maven.quiltmc.org/repository/release")
     }
+    maven {
+        url = uri("https://maven.jamieswhiteshirt.com/libs-release")
+        content {
+            includeGroup("com.jamieswhiteshirt")
+        }
+    }
 
     flatDir {
         dirs("libs")
@@ -229,8 +235,11 @@ dependencies {
     else
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
 
+    // Reach Entity Attributes
+    modApi("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")?.let { include(it) }
+
     // MixinExtras
-    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0-rc.4")?.let { annotationProcessor(it) }
+    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0")?.let { annotationProcessor(it) }
 
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
@@ -382,14 +391,18 @@ publishing {
         var publish = true
         if (publishingValid) {
             try {
-                val xml = ResourceGroovyMethods.getText(URL("$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"))
-                val metadata = XmlSlurper().parseText(xml)
+                try {
+                    val xml = ResourceGroovyMethods.getText(URL("$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"))
+                    val metadata = XmlSlurper().parseText(xml)
 
-                if (metadata.getProperty("hash").equals(hash)) {
-                    publish = false
+                    if (metadata.getProperty("hash").equals(hash)) {
+                        publish = false
+                    }
+                } catch (ignored: FileNotFoundException) {
+                    // No existing version was published, so we can publish
                 }
-            } catch (ignored: FileNotFoundException) {
-                // No existing version was published, so we can publish
+            } catch (e: Exception) {
+                publish = false
             }
         } else {
             publish = false

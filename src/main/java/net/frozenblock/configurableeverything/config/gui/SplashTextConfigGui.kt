@@ -15,7 +15,7 @@ import net.minecraft.world.item.DyeColor
 @Environment(EnvType.CLIENT)
 object SplashTextConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = SplashTextConfig.get()
+        val config = SplashTextConfig.get(real = true)
         category.background = id("textures/config/splash_text.png")
 
         val added = entryBuilder.startStrList(text("added_splashes"), config.addedSplashes)

@@ -6,8 +6,11 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.material.Fluid
 
-@JvmRecord
-data class FluidFlowSpeed(@JvmField val fluid: ResourceKey<Fluid>?, @JvmField val ultraWarmFlowTickDelay: Int?, @JvmField val flowTickDelay: Int?) {
+data class FluidFlowSpeed(
+    @JvmField var fluid: ResourceKey<Fluid>?,
+    @JvmField var ultraWarmFlowTickDelay: Int?,
+    @JvmField var flowTickDelay: Int?
+) {
     companion object {
         @JvmField
 		val CODEC: Codec<FluidFlowSpeed> = RecordCodecBuilder.create { instance ->
@@ -18,4 +21,6 @@ data class FluidFlowSpeed(@JvmField val fluid: ResourceKey<Fluid>?, @JvmField va
             ).apply(instance, ::FluidFlowSpeed)
         }
     }
+
+    override fun toString(): String = "FluidFlowSpeed[fluid=$fluid, ultra_warm_flow_tick_delay=$ultraWarmFlowTickDelay, flow_tick_delay=$flowTickDelay]"
 }
