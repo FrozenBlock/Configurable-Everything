@@ -14,3 +14,6 @@ Put changelog here:
 -----------------
 - Fixed server crashes
 - Removed references to splash text config in server environment
+- Improved registry interactions in Kotlin Scripts
+    - Added `RegistryKey` and `ResourceKey` classes
+    - Values in `Registries` are now instances of `RegistryKey`
