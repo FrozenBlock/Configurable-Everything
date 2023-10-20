@@ -1,6 +1,8 @@
 package net.frozenblock.configurableeverything.splash_text.mixin;
 
 import java.util.List;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.SplashTextConfig;
 import net.minecraft.client.resources.SplashManager;
@@ -12,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = SplashManager.class, priority = 1) // mixin must run first to prevent removing modded splashes
+@Environment(EnvType.CLIENT)
 public class SplashManagerMixin {
 
     @Inject(method = "apply(Ljava/util/List;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("HEAD"))

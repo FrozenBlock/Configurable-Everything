@@ -1,11 +1,14 @@
 package net.frozenblock.configurableeverything.splash_text.util
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.SplashTextConfig
 import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.lib.menu.api.SplashTextAPI
 
+@Environment(EnvType.CLIENT)
 object SplashTextConfigUtil {
 
     @JvmStatic

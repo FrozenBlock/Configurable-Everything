@@ -42,5 +42,10 @@ internal object ScriptingUtil {
                 it.exception?.printStackTrace()
             }
         }
+        CEScript.POST_RUN_FUNS?.apply {
+            this.toSortedMap().forEach { (_, value) ->
+                value.invoke() // make sure to not use coroutines here
+            }
+        }
     }
 }
