@@ -3,14 +3,17 @@ package net.frozenblock.configurableeverything.scripting.util
 import net.minecraft.core.Registry as VanillaRegistry
 import net.minecraft.core.registries.BuiltInRegistries as VanillaBuiltInRegistries
 import net.minecraft.core.registries.Registries as VanillaRegistries
+import net.minecraft.resources.ResourceKey as VanillaResourceKey
 import net.minecraft.resources.ResourceLocation as VanillaResourceLocation
 import net.minecraft.world.level.block.Block as VanillaBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties as VanillaProperties
 
 object Registries {
-    val BLOCK = VanillaRegistries.BLOCK
-    val ENTITY_TYPE = VanillaRegistries.ENTITY_TYPE
-    val ITEM = VanillaRegistries.ITEM
+    val BIOME = RegistryKey(VanillaRegistries.BIOME)
+    val BLOCK = RegistryKey(VanillaRegistries.BLOCK)
+    val DIMENSION_TYPE = RegistryKey(VanillaRegistries.DIMENSION_TYPE)
+    val ENTITY_TYPE = RegistryKey(VanillaRegistries.ENTITY_TYPE)
+    val ITEM = RegistryKey(VanillaRegistries.ITEM)
 }
 
 object BuiltInRegistries {
@@ -33,10 +36,23 @@ data class Registry<T : Any>(
     }
 }
 
-data class ResourceLocation(val value: String) : FakeObject<VanillaResourceLocation> {
+data class ResourceLocation(val path: String) : FakeObject<VanillaResourceLocation> {
     constructor(namespace: String, path: String) : this("$namespace:$path")
+    constructor(resourceLocation: VanillaResourceLocation) : this(resourceLocation.toString())
 
-    override fun value(): VanillaResourceLocation = VanillaResourceLocation(value)
+    override fun value(): VanillaResourceLocation = VanillaResourceLocation(path)
+}
+
+data class RegistryKey<T : Any>(val key: ResourceLocation): FakeObject<VanillaResourceKey<VanillaRegistry<T>>> {
+    constructor(resourceKey: VanillaResourceKey<VanillaRegistry<T>>) : this(ResourceLocation(resourceKey.location()))
+
+    override fun value(): VanillaResourceKey<VanillaRegistry<T>> = VanillaResourceKey.createRegistryKey(key.value())
+}
+
+data class ResourceKey<T : Any>(val registry: RegistryKey<T>, val location: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
+    override fun value(): VanillaResourceKey<T> {
+        return VanillaResourceKey.create(registry.value(), location.value())
+    }
 }
 
 data class Block(val block: VanillaBlock) : FakeObject<VanillaBlock> {

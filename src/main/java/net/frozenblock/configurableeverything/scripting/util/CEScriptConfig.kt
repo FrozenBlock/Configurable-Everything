@@ -1,13 +1,18 @@
 package net.frozenblock.configurableeverything.scripting.util
 
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
-import net.frozenblock.lib.config.api.instance.ConfigModification
+import net.frozenblock.configurableeverything.util.experimental
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
+import kotlin.script.experimental.dependencies.*
+import kotlin.script.experimental.dependencies.maven.MavenDependenciesResolver
+import kotlin.script.experimental.jvm.JvmDependency
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvm.loadDependencies
@@ -19,10 +24,17 @@ import kotlin.script.experimental.jvm.loadDependencies
 )
 // dont use environment annotations anywhere
 abstract class CEScript {
+    companion object {
+        internal var POST_RUN_FUNS: MutableMap<Int, () -> Unit>? = mutableMapOf()
+    }
 
     fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             `fun`.invoke()
+    }
+
+    fun runLate(priority: Int, `fun`: () -> Unit) {
+        experimental { POST_RUN_FUNS!![priority] = `fun` }
     }
 
     fun runEachTick(tickFun: () -> Unit) {
@@ -33,18 +45,24 @@ abstract class CEScript {
 object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.INSTANCE.defaultInstance().kotlinScripting!!.defaultImports!!
     defaultImports(defaultImports)
+    if (ENABLE_EXPERIMENTAL_FEATURES) defaultImports(DependsOn::class, Repository::class)
     baseClass(CEScript::class)
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)
     }
     jvm {
+        // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
+        // and take jars with mentioned names to the compilation classpath via `dependencies` key.
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
 
     compilerOptions(listOf("-jvm-target", "17"))
     compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
+
     refineConfiguration {
-        //onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
+        // the callback called when any of the listed file-level annotations are encountered in the compiled script
+        // the processing is defined by the `handler`, that may return refined configuration depending on the annotations
+        if (ENABLE_EXPERIMENTAL_FEATURES) onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
     }
 }) {
     private fun readResolve(): Any = CEScriptCompilationConfig
@@ -59,9 +77,9 @@ object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
     private fun readResolve(): Any = CEScriptEvaluationConfig
 }
 
-//private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
+private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
 
-/*fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContext): ResultWithDiagnostics<ScriptCompilationConfiguration> {
+fun configureMavenDepsOnAnnotations(context: ScriptConfigurationRefinementContext): ResultWithDiagnostics<ScriptCompilationConfiguration> {
     val annotations = context.collectedData?.get(ScriptCollectedData.collectedAnnotations)?.takeIf { it.isNotEmpty() }
         ?: return context.compilationConfiguration.asSuccess()
     return runBlocking {
@@ -71,4 +89,4 @@ object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
             dependencies.append(JvmDependency(it))
         }.asSuccess()
     }
-}*/
+}

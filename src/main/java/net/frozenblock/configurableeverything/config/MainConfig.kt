@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -46,6 +48,7 @@ Warning: It is important to check the contents of each config before enabling th
     var screen_shake: Boolean? = false,
 
     @JvmField
+    @Environment(EnvType.CLIENT)
     var splash_text: Boolean? = false,
 
     @JvmField

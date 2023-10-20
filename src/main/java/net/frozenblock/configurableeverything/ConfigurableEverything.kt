@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything
 
+import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
@@ -42,7 +43,8 @@ class ConfigurableEverything : ModInitializer {
                 ItemConfig
             RegistryConfig
             ScreenShakeConfig
-            SplashTextConfig
+            if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+                SplashTextConfig
             SurfaceRuleConfig
             WorldConfig
 
@@ -61,7 +63,8 @@ class ConfigurableEverything : ModInitializer {
             DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
             EntityConfigUtil.init()
             RegistryConfigUtil.init()
-            SplashTextConfigUtil.init()
+            if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+                SplashTextConfigUtil.init()
             SurfaceRuleConfigUtil.init()
             WorldConfigUtil.init()
         }

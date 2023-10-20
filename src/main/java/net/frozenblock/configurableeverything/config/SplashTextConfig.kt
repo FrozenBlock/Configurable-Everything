@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -9,6 +11,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.item.DyeColor
 
+@Environment(EnvType.CLIENT)
 class SplashTextConfig {
     companion object {
         @JvmField
