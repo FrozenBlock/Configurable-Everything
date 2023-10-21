@@ -22,4 +22,6 @@ Put changelog here:
 - Improved logging in scripts
     - Added `log()`, `logWarning()`, and `logError()`
     - `println()` now states which script the message is sent from, redirects to `log()`
+- Updated minimum Fabric Kotlin Extensions version to 1.0.2
+    - Reminder that Fabric Kotlin Extensions is only required if you want to use Kotlin scripts
 - Updated embedded FrozenLib to 1.3.15
