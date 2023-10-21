@@ -1,109 +1,117 @@
-package net.frozenblock.configurableeverything.datagen;
+package net.frozenblock.configurableeverything.datagen
 
-import java.util.concurrent.CompletableFuture;
-import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
-import net.frozenblock.lib.datagen.api.FrozenBiomeTagProvider;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.features.VegetationFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeGenerationSettings;
-import net.minecraft.world.level.biome.BiomeSpecialEffects;
-import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.SurfaceWaterDepthFilter;
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
+import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.datagen.api.FrozenBiomeTagProvider
+import net.minecraft.core.BlockPos
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.RegistrySetBuilder
+import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.BootstapContext
+import net.minecraft.data.worldgen.features.VegetationFeatures
+import net.minecraft.data.worldgen.placement.PlacementUtils
+import net.minecraft.resources.ResourceKey
+import net.minecraft.tags.TagKey
+import net.minecraft.world.level.biome.Biome
+import net.minecraft.world.level.biome.Biome.BiomeBuilder
+import net.minecraft.world.level.biome.BiomeGenerationSettings
+import net.minecraft.world.level.biome.BiomeSpecialEffects
+import net.minecraft.world.level.biome.MobSpawnSettings
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate
+import net.minecraft.world.level.levelgen.placement.*
+import java.util.concurrent.CompletableFuture
 
-public class ConfigurableEverythingDataGenerator implements DataGeneratorEntrypoint {
+class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
+    companion object {
+        @JvmField
+        val BLANK_BIOME: ResourceKey<Biome> = ResourceKey.create(Registries.BIOME, id("blank_biome"))
+        @JvmField
+        val BLANK_PLACED_FEATURE: ResourceKey<PlacedFeature> = ResourceKey.create(Registries.PLACED_FEATURE, id("blank_placed_feature"))
+        @JvmField
+        val BLANK_TAG: TagKey<Biome> = TagKey.create(Registries.BIOME, id("blank_tag"))
+    }
 
-	public static final ResourceKey<Biome> BLANK_BIOME = ResourceKey.create(Registries.BIOME, ConfigurableEverythingUtilsKt.id("blank_biome"));
-	public static final ResourceKey<PlacedFeature> BLANK_PLACED_FEATURE = ResourceKey.create(Registries.PLACED_FEATURE, ConfigurableEverythingUtilsKt.id("blank_placed_feature"));
+    override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
+        val pack = fabricDataGenerator.createPack()
+        pack.addProvider { output: FabricDataOutput?, registriesFuture: CompletableFuture<HolderLookup.Provider?>? ->
+            WorldgenProvider(
+                output,
+                registriesFuture
+            )
+        }
+        pack.addProvider { output: FabricDataOutput?, registriesFuture: CompletableFuture<HolderLookup.Provider?>? ->
+            BiomeTagProvider(
+                output,
+                registriesFuture
+            )
+        }
+    }
 
-	public static final TagKey<Biome> BLANK_TAG = TagKey.create(Registries.BIOME, ConfigurableEverythingUtilsKt.id("blank_tag"));
+    @Suppress("unchecked_cast")
+    override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
+        registryBuilder.add(Registries.BIOME) { context: BootstapContext<Biome?> ->
+            context.register(
+                BLANK_BIOME as ResourceKey<Biome?>,
+                BiomeBuilder()
+                    .temperature(0.5f)
+                    .downfall(0f)
+                    .hasPrecipitation(false)
+                    .specialEffects(
+                        BiomeSpecialEffects.Builder()
+                            .grassColorOverride(8421504)
+                            .foliageColorOverride(8421504)
+                            .fogColor(0)
+                            .waterColor(0)
+                            .waterFogColor(0)
+                            .skyColor(0)
+                            .build()
+                    )
+                    .mobSpawnSettings(MobSpawnSettings.EMPTY)
+                    .generationSettings(BiomeGenerationSettings.EMPTY)
+                    .build()
+            )
+        }
+        registryBuilder.add(Registries.PLACED_FEATURE) { context: BootstapContext<PlacedFeature?> ->
+            PlacementUtils.register(
+                context,
+                BLANK_PLACED_FEATURE,
+                context.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(VegetationFeatures.MANGROVE_VEGETATION),
+                CountPlacement.of(25),
+                SurfaceWaterDepthFilter.forMaxDepth(5),
+                PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+                BiomeFilter.biome(),
+                BlockPredicateFilter.forPredicate(
+                    BlockPredicate.wouldSurvive(
+                        Blocks.MANGROVE_PROPAGULE.defaultBlockState(),
+                        BlockPos.ZERO
+                    )
+                )
+            )
+        }
+    }
 
-	@Override
-	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-		var pack = fabricDataGenerator.createPack();
+    private class WorldgenProvider(
+        output: FabricDataOutput?,
+        registriesFuture: CompletableFuture<HolderLookup.Provider?>?
+    ) : FabricDynamicRegistryProvider(output, registriesFuture) {
+        override fun configure(registries: HolderLookup.Provider, entries: Entries) {
+            entries.addAll(registries.lookupOrThrow(Registries.BIOME))
+            entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE))
+        }
 
-		pack.addProvider(WorldgenProvider::new);
-		pack.addProvider(BiomeTagProvider::new);
-	}
+        override fun getName(): String {
+            return "Configurable Everything Dynamic Registries"
+        }
+    }
 
-	@Override
-	public void buildRegistry(RegistrySetBuilder registryBuilder) {
-		registryBuilder.add(Registries.BIOME, context -> context.register(
-			BLANK_BIOME,
-			new Biome.BiomeBuilder()
-				.temperature(0.5F)
-				.downfall(0f)
-				.hasPrecipitation(false)
-				.specialEffects(
-					new BiomeSpecialEffects.Builder()
-						.grassColorOverride(8421504)
-						.foliageColorOverride(8421504)
-						.fogColor(0)
-						.waterColor(0)
-						.waterFogColor(0)
-						.skyColor(0)
-						.build()
-				)
-				.mobSpawnSettings(MobSpawnSettings.EMPTY)
-				.generationSettings(BiomeGenerationSettings.EMPTY)
-				.build()
-		));
-
-		registryBuilder.add(Registries.PLACED_FEATURE, context -> PlacementUtils.register(
-			context,
-			BLANK_PLACED_FEATURE,
-			context.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(VegetationFeatures.MANGROVE_VEGETATION),
-			CountPlacement.of(25),
-			SurfaceWaterDepthFilter.forMaxDepth(5),
-			PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
-			BiomeFilter.biome(),
-			BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(Blocks.MANGROVE_PROPAGULE.defaultBlockState(), BlockPos.ZERO))
-		));
-	}
-
-	private static class WorldgenProvider extends FabricDynamicRegistryProvider {
-
-		public WorldgenProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-			super(output, registriesFuture);
-		}
-
-		@Override
-		protected void configure(HolderLookup.Provider registries, Entries entries) {
-			entries.addAll(registries.lookupOrThrow(Registries.BIOME));
-			entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
-		}
-
-		@Override
-		public String getName() {
-			return "Configurable Everything Dynamic Registries";
-		}
-	}
-
-	private static class BiomeTagProvider extends FrozenBiomeTagProvider {
-
-		public BiomeTagProvider(FabricDataOutput output, CompletableFuture registriesFuture) {
-			super(output, registriesFuture);
-		}
-
-		@Override
-		protected void addTags(HolderLookup.Provider arg) {
-			this.getOrCreateTagBuilder(BLANK_TAG);
-		}
-	}
+    private class BiomeTagProvider(output: FabricDataOutput?, registriesFuture: CompletableFuture<*>?) :
+        FrozenBiomeTagProvider(output, registriesFuture) {
+        override fun addTags(arg: HolderLookup.Provider) {
+            getOrCreateTagBuilder(BLANK_TAG)
+        }
+    }
 }

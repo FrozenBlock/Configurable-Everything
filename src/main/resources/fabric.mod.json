@@ -31,7 +31,10 @@
       }
     ],
     "fabric-datagen": [
-      "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
+      }
     ],
     "modmenu": [
       {
