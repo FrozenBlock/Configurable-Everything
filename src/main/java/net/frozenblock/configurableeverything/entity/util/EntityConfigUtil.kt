@@ -60,7 +60,7 @@ object EntityConfigUtil {
                         for (amplifier in amplifiers) {
                             val amplifierAttribute = amplifier?.attribute ?: continue
                             val amplifierAmplifier = amplifier.amplifier ?: continue
-                            val attribute: AttributeInstance? = attributes.getInstance(BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute))
+                            val attribute: AttributeInstance? = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute)?.let(attributes::getInstance)
                             attribute?.addTransientModifier(
                                 AttributeModifier(
                                     "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${entity.name}",

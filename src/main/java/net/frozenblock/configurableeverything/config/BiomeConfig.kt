@@ -2,7 +2,9 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.datafixers.util.Either
 import net.frozenblock.configurableeverything.biome.util.*
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.*
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_PLACED_FEATURE
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
