@@ -65,12 +65,12 @@
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "fabric_kotlin_extensions": ">=1.0.1"
+    "fabric_kotlin_extensions": ">=1.0.2"
   },
   "breaks": {
     "configurabledatafixers": "*",
     "configurablesplashtexts": "*",
-    "fabric_kotlin_extensions": "<1.0.1"
+    "fabric_kotlin_extensions": "<1.0.2"
   },
   "custom": {
     "modmenu": {
