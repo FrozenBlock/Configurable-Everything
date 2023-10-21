@@ -17,3 +17,9 @@ Put changelog here:
 - Improved registry interactions in Kotlin Scripts
     - Added `RegistryKey` and `ResourceKey` classes
     - Values in `Registries` are now instances of `RegistryKey`
+- Added client only scripts
+    - Found in `./config/configurable_everything/scripts/client/`
+- Improved logging in scripts
+    - Added `log()`, `logWarning()`, and `logError()`
+    - `println()` now states which script the message is sent from, redirects to `log()`
+- Updated embedded FrozenLib to 1.3.15

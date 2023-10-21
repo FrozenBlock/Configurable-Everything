@@ -31,7 +31,10 @@
       }
     ],
     "fabric-datagen": [
-      "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator"
+      }
     ],
     "modmenu": [
       {
@@ -62,7 +65,7 @@
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "fabric_kotlin_extensions": "*"
+    "fabric_kotlin_extensions": ">=1.0.1"
   },
   "breaks": {
     "configurabledatafixers": "*",

@@ -5,8 +5,8 @@ import net.frozenblock.configurableeverything.biome_placement.util.BiomeParamete
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
 import net.frozenblock.configurableeverything.biome_placement.util.mutable
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.BLANK_BIOME
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.BLANK_TAG
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
+import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath

@@ -8,6 +8,8 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
 import net.frozenblock.configurableeverything.util.experimental
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.dependencies.*
@@ -28,6 +30,12 @@ abstract class CEScript {
         internal var POST_RUN_FUNS: MutableMap<Int, () -> Unit>? = mutableMapOf()
     }
 
+    /**
+     * The name of the script file.
+     */
+    private val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
+    private var logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
+
     fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             `fun`.invoke()
@@ -39,6 +47,22 @@ abstract class CEScript {
 
     fun runEachTick(tickFun: () -> Unit) {
         ServerTickEvents.START_SERVER_TICK.register { tickFun.invoke() }
+    }
+
+    fun println(message: Any?) {
+        log(message)
+    }
+
+    fun log(message: Any?) {
+        logger.info(message.toString())
+    }
+
+    fun logWarning(message: Any?) {
+        logger.warn(message.toString())
+    }
+
+    fun logError(message: Any?) {
+        logger.error(message.toString())
     }
 }
 

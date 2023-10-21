@@ -1,8 +1,11 @@
 package net.frozenblock.configurableeverything.scripting.util
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
+import java.nio.file.Path
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.ScriptDiagnostic
@@ -26,8 +29,21 @@ internal object ScriptingUtil {
     fun runScripts() {
         if (MainConfig.get().kotlinScripting?.applyKotlinScripts == false)
             return
-        val folder = File(KOTLIN_SCRIPT_PATH.toString()).listFiles() ?: return
+        runScripts(KOTLIN_SCRIPT_PATH)
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+            runScripts(KOTLIN_CLIENT_SCRIPT_PATH)
+
+        CEScript.POST_RUN_FUNS?.apply {
+            this.toSortedMap().forEach { (_, value) ->
+                value.invoke() // make sure to not use coroutines here
+            }
+        }
+    }
+
+    private fun runScripts(path: Path) {
+        val folder = path.toFile().listFiles() ?: return
         for (file in folder) {
+            if (file.isDirectory) continue
             val result = runScript(file)
             result.reports.forEach {
                 val message = " : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}"
@@ -40,11 +56,6 @@ internal object ScriptingUtil {
                     else -> logError(message)
                 }
                 it.exception?.printStackTrace()
-            }
-        }
-        CEScript.POST_RUN_FUNS?.apply {
-            this.toSortedMap().forEach { (_, value) ->
-                value.invoke() // make sure to not use coroutines here
             }
         }
     }

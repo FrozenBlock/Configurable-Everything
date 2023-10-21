@@ -24,11 +24,14 @@ import net.minecraft.sounds.SoundEvent
 import java.io.IOException
 import kotlin.system.measureNanoTime
 
+/**
+ * Mod initializer for Configurable Everything.
+ */
 class ConfigurableEverything : ModInitializer {
 
     override fun onInitialize() {
         val time = measureNanoTime {
-            ConfigurableEverythingIntegrations.init()
+            //ConfigurableEverythingIntegrations.init()
 
             // init configs
             MainConfig
@@ -50,7 +53,11 @@ class ConfigurableEverything : ModInitializer {
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
-                if (HAS_EXTENSIONS) FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
+                if (HAS_EXTENSIONS) {
+                    FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
+                    if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+                        FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
+                }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
@@ -74,31 +81,31 @@ class ConfigurableEverything : ModInitializer {
 
     companion object {
         @JvmField
-        val ARROW_FLYBY_SOUND_EVENT = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
+        val ARROW_FLYBY: SoundEvent = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
 
         @JvmField
-        val TIPPED_ARROW_FLYBY_SOUND_EVENT = register(id("flyby.tipped_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.tipped_arrow")))
+        val TIPPED_ARROW_FLYBY: SoundEvent = register(id("flyby.tipped_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.tipped_arrow")))
 
         @JvmField
-        val SPECTRAL_ARROW_FLYBY_SOUND_EVENT = register(id("flyby.spectral_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.spectral_arrow")))
+        val SPECTRAL_ARROW_FLYBY: SoundEvent = register(id("flyby.spectral_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.spectral_arrow")))
 
         @JvmField
-        val TRIDENT_FLYBY_SOUND_EVENT = register(id("flyby.trident"), SoundEvent.createVariableRangeEvent(id("flyby.trident")))
+        val TRIDENT_FLYBY: SoundEvent = register(id("flyby.trident"), SoundEvent.createVariableRangeEvent(id("flyby.trident")))
 
         @JvmField
-        val EGG_FLYBY_SOUND_EVENT = register(id("flyby.egg"), SoundEvent.createVariableRangeEvent(id("flyby.egg")))
+        val EGG_FLYBY: SoundEvent = register(id("flyby.egg"), SoundEvent.createVariableRangeEvent(id("flyby.egg")))
 
         @JvmField
-        val SNOWBALL_FLYBY_SOUND_EVENT = register(id("flyby.snowball"), SoundEvent.createVariableRangeEvent(id("flyby.snowball")))
+        val SNOWBALL_FLYBY: SoundEvent = register(id("flyby.snowball"), SoundEvent.createVariableRangeEvent(id("flyby.snowball")))
 
         @JvmField
-        val FIREBALL_FLYBY_SOUND_EVENT = register(id("flyby.fireball"), SoundEvent.createVariableRangeEvent(id("flyby.fireball")))
+        val FIREBALL_FLYBY: SoundEvent = register(id("flyby.fireball"), SoundEvent.createVariableRangeEvent(id("flyby.fireball")))
 
         @JvmField
-        val POTION_FLYBY_SOUND_EVENT = register(id("flyby.potion"), SoundEvent.createVariableRangeEvent(id("flyby.potion")))
+        val POTION_FLYBY: SoundEvent = register(id("flyby.potion"), SoundEvent.createVariableRangeEvent(id("flyby.potion")))
 
         @JvmField
-        val EXPERIENCE_BOTTLE_FLYBY_SOUND_EVENT = register(id("flyby.experience_bottle"), SoundEvent.createVariableRangeEvent(id("flyby.experience_bottle")))
+        val EXPERIENCE_BOTTLE_FLYBY: SoundEvent = register(id("flyby.experience_bottle"), SoundEvent.createVariableRangeEvent(id("flyby.experience_bottle")))
 
         private fun register(key: ResourceLocation, sound: SoundEvent) =
             Registry.register(BuiltInRegistries.SOUND_EVENT, key, sound)
