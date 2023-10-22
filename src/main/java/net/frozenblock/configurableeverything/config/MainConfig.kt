@@ -10,7 +10,7 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import kotlin.io.path.pathString
 
 data class MainConfig(
-    // the configs may have weird casing because the goal is to match the config file name
+    // ignore property name warnings because the goal is to match the config file name
     @JvmField
     @Comment(
 """
@@ -39,6 +39,7 @@ Warning: It is important to check the contents of each config before enabling th
     var game: Boolean? = false,
 
     @JvmField
+    @Comment("Not functional until 1.1")
     var item: Boolean? = false,
 
     @JvmField
@@ -49,10 +50,15 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @Environment(EnvType.CLIENT)
+    @Comment("Client only")
     var splash_text: Boolean? = false,
 
     @JvmField
     var surface_rule: Boolean? = false,
+
+    @JvmField
+    @Comment("Not functional until 1.1")
+    var structure: Boolean? = false,
 
     @JvmField
     var world: Boolean? = false,

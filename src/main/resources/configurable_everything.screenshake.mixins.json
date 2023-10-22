@@ -9,7 +9,7 @@
     "DragonRespawnAnimationMixin$PreparingPillarsMixin",
     "DragonRespawnAnimationMixin$SpawningDragonMixin",
     "ExplosionMixin",
-    "LevelMixin",
+    "LevelMixin"
   ],
   "client": [
     "client.ClientLevelMixin"

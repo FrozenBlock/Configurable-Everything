@@ -79,18 +79,19 @@ object BiomePlacementUtils {
         val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.changes
         val addedBiomes: MutableList<DimensionBiomeList?> = ArrayList()
         changes?.forEach {
-            it?.addedBiomes?.let { biomes -> addedBiomes.addAll(biomes) }
+            it?.addedBiomes?.apply { addedBiomes.addAll(this) }
         }
 
         val dimensionBiomes = addedBiomes.stream().filter { list: DimensionBiomeList? -> list?.dimension == dimension }.toList()
         for (list in dimensionBiomes) {
             list?.biomes?.forEach { parameters ->
-                parameters?.biome?.let { biome ->
-                    parameters.parameters?.toImmutable()?.let {
+                parameters?.biome?.apply {
+                    val location = this
+                    parameters.parameters?.toImmutable()?.apply {
                         biomeAdditions.add(
                             Pair.of(
-                                it,
-                                registryAccess?.getOrThrow(ResourceKey.create(Registries.BIOME, biome))
+                                this,
+                                registryAccess?.getOrThrow(ResourceKey.create(Registries.BIOME, location))
                             )
                         )
                     }

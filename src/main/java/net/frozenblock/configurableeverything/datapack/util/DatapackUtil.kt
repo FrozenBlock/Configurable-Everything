@@ -27,9 +27,9 @@ object DatapackUtil {
         if (config?.applyDatapackFolders == true) {
             val list: MutableList<CERepositorySource> = arrayListOf()
             config.datapackFolders?.forEach {
-                it?.let { folder ->
-                    log("Adding datapack repository at $folder")
-                    list.add(CERepositorySource(Path(folder), validator))
+                it?.apply {
+                    log("Adding datapack repository at $this")
+                    list.add(CERepositorySource(Path(this), validator))
                 }
             }
             return list

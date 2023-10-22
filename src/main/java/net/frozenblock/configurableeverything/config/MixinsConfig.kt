@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -40,6 +42,9 @@ Warning: Functionality will be lost if these are disabled.
     @JvmField
     var game_client: Boolean? = true,
 
+    //@JvmField
+    //var item: Boolean? = true,
+
     @JvmField
     var screenshake: Boolean? = true,
 
@@ -47,7 +52,12 @@ Warning: Functionality will be lost if these are disabled.
     var screenshake_client: Boolean? = true,
 
     @JvmField
+    @Environment(EnvType.CLIENT)
+    @Comment("Client only")
     var splash_text: Boolean? = true,
+
+    //@JvmField
+    //var structure: Boolean? = true,
 
     @JvmField
     var world: Boolean? = true,

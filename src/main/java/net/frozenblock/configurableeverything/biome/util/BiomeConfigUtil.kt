@@ -30,21 +30,21 @@ object BiomeConfigUtil {
         val modification: BiomeModification = BiomeModifications.create(id("feature_modifications"))
         changes?.forEach { change ->
             launch {
-                change?.let {
+                change?.apply {
                     // FEATURES
                     launch {
-                        initAddedFeatures(it, modification)
+                        initAddedFeatures(this@apply, modification)
                     }
                     launch {
-                        initRemovedFeatures(it, modification)
+                        initRemovedFeatures(this@apply, modification)
                     }
                     launch {
-                        initReplacedFeatures(it, modification)
+                        initReplacedFeatures(this@apply, modification)
                     }
 
                     // EFFECTS
                     launch {
-                        initReplacedMusic(it, modification)
+                        initReplacedMusic(this@apply, modification)
                     }
                 }
             }
@@ -61,8 +61,8 @@ object BiomeConfigUtil {
                     for (decorationFeature in features) {
                         val placedFeatures = decorationFeature?.placedFeatures ?: continue
                         for (placedFeature in placedFeatures) {
-                            placedFeature?.let {
-                                context.generationSettings.addFeature(decorationFeature.decoration, it)
+                            placedFeature?.apply {
+                                context.generationSettings.addFeature(decorationFeature.decoration, this)
                             }
                         }
                     }
@@ -83,8 +83,8 @@ object BiomeConfigUtil {
                     for (decorationFeature in features) {
                         val placedFeatures = decorationFeature?.placedFeatures ?: continue
                         for (placedFeature in placedFeatures) {
-                            placedFeature?.let {
-                                context.generationSettings.removeFeature(decorationFeature.decoration, placedFeature)
+                            placedFeature?.apply {
+                                context.generationSettings.removeFeature(decorationFeature.decoration, this)
                             }
                         }
                     }

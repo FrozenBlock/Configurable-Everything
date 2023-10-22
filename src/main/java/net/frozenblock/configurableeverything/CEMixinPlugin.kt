@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MixinsConfig
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import org.objectweb.asm.tree.ClassNode
@@ -12,6 +14,7 @@ class CEMixinPlugin : IMixinConfigPlugin {
 
     override fun shouldApplyMixin(targetClassName: String, mixinClassName: String): Boolean {
         val config = MixinsConfig.get()
+        val isClient = FabricLoader.getInstance().environmentType == EnvType.CLIENT
         if (mixinClassName.contains("biome_placement.mixin")) return config.biome_placement == true
         if (mixinClassName.contains("datafixer.mixin")) return config.datafixer == true
         if (mixinClassName.contains("datapack.mixin")) return config.datapack == true
@@ -23,7 +26,8 @@ class CEMixinPlugin : IMixinConfigPlugin {
         if (mixinClassName.contains("item.mixin")) return ENABLE_EXPERIMENTAL_FEATURES
         if (mixinClassName.contains("screenshake.mixin.client")) return config.screenshake_client == true
         if (mixinClassName.contains("screenshake.mixin")) return config.screenshake == true
-        if (mixinClassName.contains("splash_text.mixin")) return config.splash_text == true
+        if (mixinClassName.contains("splash_text.mixin")) return isClient && config.splash_text == true
+        if (mixinClassName.contains("structure.mixin")) return ENABLE_EXPERIMENTAL_FEATURES
         if (mixinClassName.contains("world.mixin.client")) return config.world_client == true
         if (mixinClassName.contains("world.mixin")) return config.world == true
         return true

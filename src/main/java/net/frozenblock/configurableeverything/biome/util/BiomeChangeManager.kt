@@ -135,7 +135,7 @@ object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
             }
 
             val result: DataResult<out Pair<BiomeChange, *>> = if (isJson5) {
-                val json5 = reader?.let { ConfigSerialization.createJankson("").load(reader.readText()) }
+                val json5 = reader?.let { ConfigSerialization.createJankson("").load(it.readText()) }
                 BiomeChange.CODEC.decode(JanksonOps.INSTANCE, json5)
             } else {
                 val json = reader?.let { GsonHelper.parse(it) }
