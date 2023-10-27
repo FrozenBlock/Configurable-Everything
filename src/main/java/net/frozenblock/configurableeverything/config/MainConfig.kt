@@ -38,15 +38,27 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     var game: Boolean? = false,
 
+		@JvmField
+		@Comment("Not functional until 1.1")
+		var gravity: Boolean? = false,
+
     @JvmField
     @Comment("Not functional until 1.1")
     var item: Boolean? = false,
+
+		@JvmField
+		@Comment("Not functional until 1.1")
+		var music: Boolean? = false,
 
     @JvmField
     var registry: Boolean? = false,
 
     @JvmField
     var screen_shake: Boolean? = false,
+
+		@JvmField
+		@Comment("Not functional until 1.1")
+		var sculk_spreading: Boolean? = false,
 
     @JvmField
     @Environment(EnvType.CLIENT)
