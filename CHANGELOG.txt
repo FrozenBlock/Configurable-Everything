@@ -14,7 +14,10 @@ Future changelog items:
 
 Put changelog here:
 -----------------
-- Added `structure` to Main Config
-- Marked `item` and `structure` in Main Config as not functional
+- Updated to Kotlin 1.9.20
+    - Scripts will run using 1.9.20 as well
+- Updated minimum Fabric Language Kotlin version to 1.10.11
+- Added `gravity`, `music`, `sculk_spreading`, and `structure` to Main Config
+- Marked `item`, `gravity`, `music`, `sculk_spreading`, and `structure` in Main Config as not functional
     - These options will not function or show in the Cloth Config GUI until 1.1
 - Includes internal changes
