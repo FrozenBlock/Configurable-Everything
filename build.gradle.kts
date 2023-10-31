@@ -29,7 +29,7 @@ plugins {
     idea
     `java-library`
     java
-    kotlin("jvm") version("1.9.10")
+    kotlin("jvm") version("1.9.20")
 }
 
 val minecraft_version: String by project
