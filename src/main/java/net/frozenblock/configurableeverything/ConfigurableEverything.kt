@@ -19,6 +19,7 @@ import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.minecraft.FileUtil
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.data.worldgen.StructureSets
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import java.io.IOException
@@ -49,6 +50,8 @@ class ConfigurableEverything : ModInitializer {
             if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
                 SplashTextConfig
             SurfaceRuleConfig
+            if (ENABLE_EXPERIMENTAL_FEATURES)
+                StructureConfig
             WorldConfig
 
             try {

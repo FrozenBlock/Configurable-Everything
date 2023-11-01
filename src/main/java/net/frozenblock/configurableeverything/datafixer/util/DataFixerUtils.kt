@@ -20,7 +20,7 @@ object DataFixerUtils {
     val SCHEMAS: MutableList<SchemaEntry?> = ArrayList()
         get() {
             val list = ArrayList(field)
-            DataFixerConfig.get().schemas?.value?.let { list.addAll(it) }
+            DataFixerConfig.get().schemas?.value?.apply { list.addAll(this) }
             return list
         }
 
@@ -28,7 +28,7 @@ object DataFixerUtils {
     val REGISTRY_FIXERS: MutableList<RegistryFixer?> = ArrayList()
         get() {
             val list = ArrayList(field)
-            DataFixerConfig.get().registryFixers?.value?.let { list.addAll(it) }
+            DataFixerConfig.get().registryFixers?.value?.apply { list.addAll(this) }
             return list
         }
 

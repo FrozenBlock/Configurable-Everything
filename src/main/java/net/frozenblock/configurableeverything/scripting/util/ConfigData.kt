@@ -26,6 +26,7 @@ sealed class ConfigData<T : Any?>(val config: Config<T>?) {
     data object REGISTRY : ConfigData<RegistryConfig>(RegistryConfig.INSTANCE)
     data object SCREENSHAKE : ConfigData<ScreenShakeConfig>(ScreenShakeConfig.INSTANCE)
     data object SPLASH_TEXT : ConfigData<SplashTextConfig>(if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) SplashTextConfig.INSTANCE else null)
+    data object STRUCTURE : ConfigData<StructureConfig>(StructureConfig.INSTANCE)
     data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig.INSTANCE)
     data object WORLD : ConfigData<WorldConfig>(WorldConfig.INSTANCE)
 

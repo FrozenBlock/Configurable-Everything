@@ -5,6 +5,8 @@ Make sure to clear after release
 Future changelog items:
 - Added Item Config
     - Contains item reach overrides
+- Added Structure Config
+    - Contains structure and structure set removals
 - Added config interactions for Kotlin Scripts
     - Check the wiki for more information
 - Added external dependency support for Kotlin Scripts
@@ -12,16 +14,11 @@ Future changelog items:
 
 Put changelog here:
 -----------------
-- Fixed server crashes
-- Removed references to splash text config in server environment
-- Improved registry interactions in Kotlin Scripts
-    - Added `RegistryKey` and `ResourceKey` classes
-    - Values in `Registries` are now instances of `RegistryKey`
-- Added client only scripts
-    - Found in `./config/configurable_everything/scripts/client/`
-- Improved logging in scripts
-    - Added `log()`, `logWarning()`, and `logError()`
-    - `println()` now states which script the message is sent from, redirects to `log()`
-- Updated minimum Fabric Kotlin Extensions version to 1.0.2
-    - Reminder that Fabric Kotlin Extensions is only required if you want to use Kotlin scripts
-- Updated embedded FrozenLib to 1.3.15
+- Updated to Kotlin 1.9.20
+    - Scripts will run using 1.9.20 as well
+- Updated minimum Fabric Language Kotlin version to 1.10.11
+- Added `gravity`, `music`, `sculk_spreading`, and `structure` to Main Config
+- Marked `item`, `gravity`, `music`, `sculk_spreading`, and `structure` in Main Config as not functional
+    - These options will not function or show in the Cloth Config GUI until 1.1
+- Updated embedded FrozenLib to 1.4
+- Includes internal changes

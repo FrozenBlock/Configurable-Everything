@@ -12,8 +12,8 @@ object SurfaceRuleConfigUtil {
         if (MainConfig.get().surface_rule == true) {
             SurfaceRuleEvents.MODIFY_GENERIC.register { context ->
                 run {
-                    config.addedSurfaceRules?.value?.let {
-                        context.addAll(it)
+                    config.addedSurfaceRules?.value?.apply {
+                        context.addAll(this)
                     }
                 }
             }

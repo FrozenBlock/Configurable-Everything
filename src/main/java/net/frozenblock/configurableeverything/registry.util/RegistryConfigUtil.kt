@@ -15,16 +15,16 @@ object RegistryConfigUtil {
             RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
                 runBlocking {
                     launch {
-                        config.placedFeatureAdditions?.value?.let { placedFeatureAdditions ->
-                            for (placedFeatureAddition in placedFeatureAdditions) {
+                        config.placedFeatureAdditions?.value?.apply {
+                            for (placedFeatureAddition in this) {
                                 placedFeatureAddition?.register(setupContext)
                             }
                         }
                     }
 
                     launch {
-                        config.biomeAdditions?.value?.let { biomeAdditions ->
-                            for (biomeAddition in biomeAdditions) {
+                        config.biomeAdditions?.value?.apply {
+                            for (biomeAddition in this) {
                                 biomeAddition?.register(setupContext)
                             }
                         }

@@ -25,9 +25,9 @@ object DatapackUtil {
         if (config?.applyDatapackFolders == true) {
             val list: MutableList<CERepositorySource> = arrayListOf()
             config.datapackFolders?.forEach {
-                it?.let { folder ->
-                    log("Adding datapack repository at $folder")
-                    list.add(CERepositorySource(Path(folder)))
+                it?.apply {
+                    log("Adding datapack repository at $this")
+                    list.add(CERepositorySource(Path(this)))
                 }
             }
             return list
@@ -63,23 +63,23 @@ object DatapackUtil {
                         `object`,
                         if (resource.isBuiltin) Lifecycle.stable() else dataResult.lifecycle()
                     )
-                } catch (e: java.lang.Exception) {
+                } catch (e: Exception) {
                     try {
                         reader.close()
-                    } catch (e1: java.lang.Exception) {
+                    } catch (e1: Exception) {
                         e.addSuppressed(e1)
                     }
                     throw e
                 }
                 reader.close()
-            } catch (var20: java.lang.Exception) {
+            } catch (e: Exception) {
                 exceptions[resourceKey] = IllegalStateException(
                     String.format(
                         Locale.ROOT,
                         "Failed to parse %s from pack %s",
                         resourceLocation,
                         resource.sourcePackId()
-                    ), var20
+                    ), e
                 )
             }
         }
