@@ -66,11 +66,11 @@ Warning: It is important to check the contents of each config before enabling th
     var splash_text: Boolean? = false,
 
     @JvmField
-    var surface_rule: Boolean? = false,
-
-    @JvmField
     @Comment("Not functional until 1.1")
     var structure: Boolean? = false,
+
+    @JvmField
+    var surface_rule: Boolean? = false,
 
     @JvmField
     var world: Boolean? = false,

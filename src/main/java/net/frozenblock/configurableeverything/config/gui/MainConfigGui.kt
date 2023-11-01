@@ -7,6 +7,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
@@ -69,6 +70,29 @@ object MainConfigGui {
             true
         ).build(entryBuilder))
 
+        if (ENABLE_EXPERIMENTAL_FEATURES) {
+            category.addEntry(EntryBuilder(text("gravity"), config.gravity,
+                defaultConfig.gravity!!,
+                { newValue -> config.gravity = newValue },
+                tooltip("gravity"),
+                true
+            ).build(entryBuilder))
+
+            category.addEntry(EntryBuilder(text("item"), config.item,
+                defaultConfig.item!!,
+                { newValue -> config.item = newValue },
+                tooltip("item"),
+                true
+            ).build(entryBuilder))
+
+            category.addEntry(EntryBuilder(text("music"), config.music,
+                defaultConfig.music!!,
+                { newValue -> config.music = newValue },
+                tooltip("music"),
+                true
+            ).build(entryBuilder))
+        }
+
         category.addEntry(EntryBuilder(text("screen_shake"), config.screen_shake,
             defaultConfig.screen_shake!!,
             { newValue -> config.screen_shake = newValue },
@@ -76,12 +100,28 @@ object MainConfigGui {
             true
         ).build(entryBuilder))
 
+        if (ENABLE_EXPERIMENTAL_FEATURES)
+            category.addEntry(EntryBuilder(text("sculk_spreading"), config.sculk_spreading,
+                defaultConfig.sculk_spreading!!,
+                { newValue -> config.sculk_spreading = newValue },
+                tooltip("sculk_spreading"),
+                true
+            ).build(entryBuilder))
+
         category.addEntry(EntryBuilder(text("splash_text"), config.splash_text,
             defaultConfig.splash_text!!,
             { newValue -> config.splash_text = newValue },
             tooltip("splash_text"),
             true
         ).build(entryBuilder))
+
+        if (ENABLE_EXPERIMENTAL_FEATURES)
+            category.addEntry(EntryBuilder(text("structrue"), config.structure,
+                defaultConfig.structure!!,
+                { newValue -> config.structure = newValue },
+                tooltip("structure"),
+                true
+            ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("surface_rule"), config.surface_rule,
             defaultConfig.surface_rule!!,
