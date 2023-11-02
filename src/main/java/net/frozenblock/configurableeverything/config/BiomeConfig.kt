@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 
 data class BiomeConfig(
 	@JvmField
-	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>?>? = TypedEntry(
+	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -48,7 +48,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList?>?>? = TypedEntry(
+	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -137,7 +137,7 @@ data class BiomeConfig(
 	)
 ) {
 	companion object {
-		private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList?>?> = ConfigRegistry.register(
+		private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList?>> = ConfigRegistry.register(
 			TypedEntryType(
 				MOD_ID,
 				BiomePlacedFeatureList.CODEC.listOf()
