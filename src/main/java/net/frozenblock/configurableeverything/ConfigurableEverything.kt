@@ -15,6 +15,7 @@ import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
+import net.frozenblock.configurableeverything.util.serialization.ResourceLocationSerializer
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.minecraft.FileUtil
 import net.minecraft.core.Registry
@@ -35,6 +36,7 @@ class ConfigurableEverything : ModInitializer {
             //ConfigurableEverythingIntegrations.init()
 
             // init configs
+            ResourceLocationSerializer
             MainConfig
             BiomeConfig
             BiomePlacementConfig

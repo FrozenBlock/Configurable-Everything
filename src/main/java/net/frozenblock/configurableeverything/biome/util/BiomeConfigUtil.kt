@@ -2,6 +2,10 @@ package net.frozenblock.configurableeverything.biome.util
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.plus
+import kotlinx.serialization.serializer
 import net.fabricmc.fabric.api.biome.v1.*
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomeConfig
@@ -9,6 +13,7 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
 import net.minecraft.server.packs.PackType
 import java.util.function.Consumer
+import kotlin.reflect.typeOf
 
 object BiomeConfigUtil {
 

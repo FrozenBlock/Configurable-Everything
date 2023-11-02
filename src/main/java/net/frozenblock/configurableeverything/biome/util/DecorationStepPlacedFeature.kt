@@ -2,14 +2,17 @@ package net.frozenblock.configurableeverything.biome.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
+@Serializable
 data class DecorationStepPlacedFeature(
 	@JvmField var decoration: GenerationStep.Decoration?,
-	@JvmField var placedFeatures: List<ResourceKey<PlacedFeature>?>?
+	@JvmField var placedFeatures: List<@Contextual ResourceKey<@Contextual PlacedFeature>?>?
 ) {
 	companion object {
 		@JvmField
