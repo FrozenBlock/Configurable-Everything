@@ -107,7 +107,7 @@ private fun biomePlacedFeaturesElement(entryBuilder: ConfigEntryBuilder, element
             text("features.biome"), biomePlacedFeatureList.biome.toStr(),
             "",
             { newValue -> biomePlacedFeatureList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
-            tooltip("added_features.biome"),
+            tooltip("features.biome"),
             requiresRestart = true
         ).build(entryBuilder),
 

@@ -69,7 +69,7 @@ private fun soundScreenShakes(
                 EntryBuilder(text("sound_screen_shakes.intensity"), soundScreenShake.intensity,
                     1F,
                     { newValue -> soundScreenShake.intensity = newValue },
-                    tooltip("sound_screen_shakes.sound")
+                    tooltip("sound_screen_shakes.intensity")
                 ).build(entryBuilder),
 
                 EntryBuilder(text("sound_screen_shakes.duration"), soundScreenShake.duration,

@@ -15,6 +15,8 @@ Future changelog items:
 Put changelog here:
 -----------------
 - Added a GUI for the Biome Config (when Cloth Config is installed)
+- Fixed some GUI language entries being empty
+- Fixed other GUI language issues
 - Updated to Kotlin 1.9.20
     - Scripts will run using 1.9.20 as well
 - Updated minimum Fabric Language Kotlin version to 1.10.11

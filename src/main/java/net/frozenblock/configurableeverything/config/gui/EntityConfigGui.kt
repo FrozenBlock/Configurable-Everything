@@ -200,7 +200,7 @@ object EntityConfigGui {
                                 EntryBuilder(text("entity_attribute_amplifiers.amplifier"), numAmplifier,
                                     1.0,
                                     { newValue -> amplifier.amplifier = newValue },
-                                    text("entity_attribute_amplifiers.amplifier")
+                                    tooltip("entity_attribute_amplifiers.amplifier")
                                 ).build(entryBuilder)
                             )
                         }
@@ -221,7 +221,7 @@ object EntityConfigGui {
             config::experienceOverrides,
             {defaultConfig.experienceOverrides!!},
             false,
-            text("entity_xp_overrides"),
+            tooltip("entity_xp_overrides"),
             { newValue -> config.experienceOverrides = newValue},
             { element, _ ->
                 val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), 0)
@@ -232,13 +232,13 @@ object EntityConfigGui {
                     EntryBuilder(text("entity_xp_override.entity"), experienceOverride.entity.location().toString(),
                         "",
                         { newValue -> experienceOverride.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
-                        text("entity_xp_override.entity")
+                        tooltip("entity_xp_override.entity")
                     ).build(entryBuilder),
 
                     EntryBuilder(text("entity_xp_override.amount"), experienceOverride.amount,
                         0,
                         { newValue -> experienceOverride.amount = newValue },
-                        text("entity_xp_override.amount")
+                        tooltip("entity_xp_override.amount")
                     ).build(entryBuilder)
                 )
             }
@@ -256,7 +256,7 @@ object EntityConfigGui {
             config::entityFlyBySounds,
             {defaultConfig.entityFlyBySounds!!},
             false,
-            text("entity_flyby_sounds"),
+            tooltip("entity_flyby_sounds"),
             { newValue -> config.entityFlyBySounds = newValue},
             { element, _ ->
                 val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
