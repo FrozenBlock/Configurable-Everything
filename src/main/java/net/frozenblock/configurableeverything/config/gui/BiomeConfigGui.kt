@@ -1,36 +1,27 @@
 package net.frozenblock.configurableeverything.config.gui
 
+import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
-import me.shedaniel.clothconfig2.gui.entries.MultiElementListEntry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList
 import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFeature
-import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
-import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
 import net.frozenblock.configurableeverything.config.BiomeConfig
-import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_PLACED_FEATURE
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.serialization.Either
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
 import net.frozenblock.lib.config.api.client.gui.makeNestedList
 import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
-import net.frozenblock.lib.util.mutable
-import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
-import net.minecraft.world.level.biome.Climate
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 

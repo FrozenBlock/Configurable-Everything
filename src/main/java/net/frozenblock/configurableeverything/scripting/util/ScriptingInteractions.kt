@@ -1,6 +1,5 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-import kotlinx.serialization.Serializable
 import net.minecraft.core.Registry as VanillaRegistry
 import net.minecraft.core.registries.BuiltInRegistries as VanillaBuiltInRegistries
 import net.minecraft.core.registries.Registries as VanillaRegistries
@@ -9,7 +8,6 @@ import net.minecraft.resources.ResourceLocation as VanillaResourceLocation
 import net.minecraft.world.level.block.Block as VanillaBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties as VanillaProperties
 
-@Serializable
 object Registries {
     val BIOME = RegistryKey(VanillaRegistries.BIOME)
     val BLOCK = RegistryKey(VanillaRegistries.BLOCK)
@@ -18,14 +16,12 @@ object Registries {
     val ITEM = RegistryKey(VanillaRegistries.ITEM)
 }
 
-@Serializable
 object BuiltInRegistries {
     val BLOCK = Registry(VanillaBuiltInRegistries.BLOCK)
     val ENTITY_TYPE = Registry(VanillaBuiltInRegistries.ENTITY_TYPE)
     val ITEM = Registry(VanillaBuiltInRegistries.ITEM)
 }
 
-@Serializable
 data class Registry<T : Any>(
     val registry: VanillaRegistry<T>
 ) : FakeObject<VanillaRegistry<T>> {
@@ -40,7 +36,6 @@ data class Registry<T : Any>(
     }
 }
 
-@Serializable
 data class ResourceLocation(val path: String) : FakeObject<VanillaResourceLocation> {
     constructor(namespace: String, path: String) : this("$namespace:$path")
     constructor(resourceLocation: VanillaResourceLocation) : this(resourceLocation.toString())
@@ -48,14 +43,12 @@ data class ResourceLocation(val path: String) : FakeObject<VanillaResourceLocati
     override fun value(): VanillaResourceLocation = VanillaResourceLocation(path)
 }
 
-@Serializable
 data class RegistryKey<T : Any>(val key: ResourceLocation): FakeObject<VanillaResourceKey<VanillaRegistry<T>>> {
     constructor(resourceKey: VanillaResourceKey<VanillaRegistry<T>>) : this(ResourceLocation(resourceKey.location()))
 
     override fun value(): VanillaResourceKey<VanillaRegistry<T>> = VanillaResourceKey.createRegistryKey(key.value())
 }
 
-@Serializable
 data class ResourceKey<T : Any>(val registry: RegistryKey<T>, val location: ResourceLocation) : FakeObject<VanillaResourceKey<T>> {
     override fun value(): VanillaResourceKey<T> {
         return VanillaResourceKey.create(registry.value(), location.value())

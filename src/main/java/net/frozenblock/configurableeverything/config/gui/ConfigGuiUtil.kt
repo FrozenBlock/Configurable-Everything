@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.config.gui
 
-import net.frozenblock.configurableeverything.util.serialization.Either
+import com.mojang.datafixers.util.Either
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation

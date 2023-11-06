@@ -2,9 +2,7 @@ package net.frozenblock.configurableeverything.biome.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class BiomeChange(
 	@JvmField var addedFeatures: List<BiomePlacedFeatureList?>?,
 	@JvmField var removedFeatures: List<BiomePlacedFeatureList?>?,

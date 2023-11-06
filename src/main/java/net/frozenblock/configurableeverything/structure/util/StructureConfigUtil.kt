@@ -4,15 +4,9 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.StructureConfig
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.minecraft.core.Holder
-import net.minecraft.core.RegistryAccess
-import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.core.registries.Registries
-import net.minecraft.data.registries.VanillaRegistries
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.levelgen.structure.StructureSet
 import net.minecraft.world.level.levelgen.structure.StructureSet.StructureSelectionEntry
-import java.util.ArrayList
-import java.util.Collections
+import java.util.*
 
 object StructureConfigUtil {
 

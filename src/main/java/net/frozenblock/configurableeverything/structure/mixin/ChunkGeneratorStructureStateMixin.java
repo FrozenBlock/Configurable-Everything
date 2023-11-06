@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.structure.mixin;
 
+import java.util.List;
 import net.frozenblock.configurableeverything.structure.util.StructureConfigUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -13,7 +14,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import java.util.List;
 
 @Mixin(ChunkGeneratorStructureState.class)
 public class ChunkGeneratorStructureStateMixin {

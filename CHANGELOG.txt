@@ -23,5 +23,5 @@ Put changelog here:
 - Added `gravity`, `music`, `sculk_spreading`, and `structure` to Main Config
 - Marked `item`, `gravity`, `music`, `sculk_spreading`, and `structure` in Main Config as not functional
     - These options will not function or show in the Cloth Config GUI until 1.1
-- Updated embedded FrozenLib to 1.4
+- Updated embedded FrozenLib to 1.4.1
 - Includes internal changes

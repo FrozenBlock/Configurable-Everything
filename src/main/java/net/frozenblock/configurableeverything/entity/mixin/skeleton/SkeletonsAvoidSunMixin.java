@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.entity.mixin.skeleton;
 import net.frozenblock.configurableeverything.entity.util.skeleton.ai.SkeletonFleeSunGoal;
 import net.frozenblock.configurableeverything.entity.util.skeleton.ai.SkeletonRestrictSunGoal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.monster.Skeleton;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
