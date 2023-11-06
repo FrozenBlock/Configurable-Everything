@@ -20,7 +20,7 @@ Put changelog here:
     - Scripts will run using 1.9.20 as well
 - Fixed some GUI language entries being empty
 - Fixed other GUI language issues
-- Updated minimum Fabric Language Kotlin version to 1.10.11
+- Updated minimum Fabric Language Kotlin version to 1.10.13
 - Added `gravity`, `music`, `sculk_spreading`, and `structure` to Main Config
 - Marked `item`, `gravity`, `music`, `sculk_spreading`, and `structure` in Main Config as not functional
     - These options will not function or show in the Cloth Config GUI until 1.1
