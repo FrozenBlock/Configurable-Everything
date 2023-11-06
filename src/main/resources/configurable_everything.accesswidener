@@ -3,6 +3,11 @@ accessWidener    v2    named
 # Biome
 accessible method net/minecraft/world/level/biome/MultiNoiseBiomeSource parameters ()Lnet/minecraft/world/level/biome/Climate$ParameterList;
 accessible class net/minecraft/world/level/biome/Climate$RTree
+accessible method net/minecraft/world/level/biome/Biome <init> (Lnet/minecraft/world/level/biome/Biome$ClimateSettings;Lnet/minecraft/world/level/biome/BiomeSpecialEffects;Lnet/minecraft/world/level/biome/BiomeGenerationSettings;Lnet/minecraft/world/level/biome/MobSpawnSettings;)V
+accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (ZFLnet/minecraft/world/level/biome/Biome$TemperatureModifier;F)V
+accessible method net/minecraft/world/level/biome/BiomeSpecialEffects <init> (IIIILjava/util/Optional;Ljava/util/Optional;Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;)V
+accessible method net/minecraft/world/level/biome/BiomeGenerationSettings <init> (Ljava/util/Map;Ljava/util/List;)V
+accessible method net/minecraft/world/level/biome/MobSpawnSettings <init> (FLjava/util/Map;Ljava/util/Map;)V
 
 # Datapack
 accessible method net/minecraft/server/packs/repository/FolderRepositorySource nameFromPath (Ljava/nio/file/Path;)Ljava/lang/String;

@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.item.mixin;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.frozenblock.configurableeverything.item.util.ItemConfigUtil;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

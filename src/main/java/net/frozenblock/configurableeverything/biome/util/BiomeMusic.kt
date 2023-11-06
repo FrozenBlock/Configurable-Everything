@@ -10,8 +10,8 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 
 data class BiomeMusic(
-	@JvmField var biome: Either<ResourceKey<Biome>?, TagKey<Biome>?>?,
-	@JvmField var music: Music?
+    @JvmField var biome: Either<ResourceKey<Biome>, TagKey<Biome>>?,
+    @JvmField var music: Music?
 ) {
 	companion object {
 		@JvmField

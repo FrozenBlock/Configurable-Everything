@@ -8,8 +8,9 @@ import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.frozenblock.configurableeverything.biome_placement.util.*
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
+import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
+import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator
 import net.frozenblock.configurableeverything.util.id

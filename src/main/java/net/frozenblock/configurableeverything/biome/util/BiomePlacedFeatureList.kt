@@ -8,8 +8,10 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 
-@JvmRecord
-data class BiomePlacedFeatureList(val biome: Either<ResourceKey<Biome>?, TagKey<Biome>?>?, val features: List<DecorationStepPlacedFeature?>?) {
+data class BiomePlacedFeatureList(
+    var biome: Either<ResourceKey<Biome>, TagKey<Biome>>?,
+    var features: List<DecorationStepPlacedFeature?>?
+) {
     companion object {
         @JvmField
 		val CODEC: Codec<BiomePlacedFeatureList> = RecordCodecBuilder.create { instance ->

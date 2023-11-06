@@ -32,14 +32,14 @@ object DataFixerConfigGui {
         category.addEntry(EntryBuilder(text("override_real_entries"), config.overrideRealEntries,
             defaultConfig.overrideRealEntries!!,
             { newValue -> config.overrideRealEntries = newValue },
-            tooltip("overrideRealEntries"),
+            tooltip("override_real_entries"),
             true
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("data_version"), config.dataVersion,
             defaultConfig.dataVersion!!,
             { newValue -> config.dataVersion = newValue },
-            tooltip("dataVersion"),
+            tooltip("data_version"),
             true
         ).build(entryBuilder))
 

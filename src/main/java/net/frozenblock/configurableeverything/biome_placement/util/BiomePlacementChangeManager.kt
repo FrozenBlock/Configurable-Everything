@@ -1,6 +1,5 @@
 package net.frozenblock.configurableeverything.biome_placement.util
 
-import net.frozenblock.lib.shadow.blue.endless.jankson.JsonObject
 import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
@@ -14,6 +13,7 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.frozenblock.lib.config.api.instance.json.JsonType
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonObject
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager

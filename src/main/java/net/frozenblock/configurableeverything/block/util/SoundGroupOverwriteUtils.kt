@@ -2,13 +2,12 @@ package net.frozenblock.configurableeverything.block.util;
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import java.util.function.BooleanSupplier
 import net.frozenblock.lib.sound.api.block_sound_group.BlockSoundGroupOverwrite
-import net.frozenblock.lib.sound.api.block_sound_group.SoundCodecs
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.level.block.SoundType
+import java.util.function.BooleanSupplier
 
 data class MutableBlockSoundGroupOverwrite(
     var blockId: ResourceLocation?,

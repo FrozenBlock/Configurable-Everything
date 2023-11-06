@@ -9,8 +9,8 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 
 data class BiomePlacedFeatureReplacementList(
-	@JvmField var biome: Either<ResourceKey<Biome>?, TagKey<Biome>?>?,
-	@JvmField var replacements: List<PlacedFeatureReplacement?>?
+    @JvmField var biome: Either<ResourceKey<Biome>, TagKey<Biome>>?,
+    @JvmField var replacements: List<PlacedFeatureReplacement?>?
 ) {
 	companion object {
 		@JvmField
