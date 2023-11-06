@@ -36,8 +36,8 @@ object ConfigurableEverythingConfigGui {
         val main = configBuilder.getOrCreateCategory(text("main"))
         MainConfigGui.setupEntries(main, entryBuilder)
 
-        val biome = configBuilder.getOrCreateCategory(text("biome"))
-        BiomeConfigGui.setupEntries(biome, entryBuilder)
+        //val biome = configBuilder.getOrCreateCategory(text("biome"))
+        //BiomeConfigGui.setupEntries(biome, entryBuilder)
 
         val biomePlacement = configBuilder.getOrCreateCategory(text("biome_placement"))
         BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
