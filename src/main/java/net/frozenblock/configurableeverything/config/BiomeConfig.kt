@@ -112,7 +112,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	var musicReplacements: TypedEntry<List<BiomeMusic?>?>? = TypedEntry(
+	var musicReplacements: TypedEntry<List<BiomeMusic?>>? = TypedEntry(
 		BIOME_MUSIC_LIST,
 		listOf(
 			BiomeMusic(
@@ -122,7 +122,7 @@ data class BiomeConfig(
 					12000,
 					24000,
 					false
-				)
+				).mutable()
 			),
 			BiomeMusic(
 				Either.right(BLANK_TAG),
@@ -131,7 +131,7 @@ data class BiomeConfig(
 					12000,
 					24000,
 					false
-				)
+				).mutable()
 			)
 		)
 	)
@@ -151,7 +151,7 @@ data class BiomeConfig(
 			)
 		)
 
-		private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>?> = ConfigRegistry.register(
+		private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry.register(
 			TypedEntryType(
 				MOD_ID,
 				BiomeMusic.CODEC.listOf()

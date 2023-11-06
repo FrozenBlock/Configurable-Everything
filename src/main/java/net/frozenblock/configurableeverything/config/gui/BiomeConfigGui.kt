@@ -35,6 +35,8 @@ object BiomeConfigGui {
 
         category.addEntry(addedFeatures(entryBuilder, config, defaultConfig))
         category.addEntry(removedFeatures(entryBuilder, config, defaultConfig))
+        category.addEntry(replacedFeatures(entryBuilder, config, defaultConfig))
+        category.addEntry(musicReplacements(entryBuilder, config, defaultConfig))
     }
 }
 
@@ -69,9 +71,192 @@ private fun removedFeatures(
         {defaultConfig.removedFeatures!!},
         false,
         tooltip("removed_features"),
-        { newValue -> config.removedFeatures = newValue},
+        { newValue -> config.removedFeatures = newValue },
         { element, _ ->
             biomePlacedFeaturesElement(entryBuilder, element)
+        }
+    )
+}
+
+private fun replacedFeatures(
+    entryBuilder: ConfigEntryBuilder,
+    config: BiomeConfig,
+    defaultConfig: BiomeConfig
+): AbstractConfigListEntry<*> {
+    return makeTypedEntryList(
+        entryBuilder,
+        text("replaced_features"),
+        config::replacedFeatures,
+        {defaultConfig.replacedFeatures!!},
+        false,
+        tooltip("replaced_features"),
+        { newValue -> config.replacedFeatures = newValue },
+        { element, _ ->
+            val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
+            val defaultOriginal: ResourceKey<PlacedFeature> = BLANK_PLACED_FEATURE
+            val defaultDecoration: Decoration = Decoration.VEGETAL_DECORATION
+            val defaultReplacement: ResourceKey<PlacedFeature> = BLANK_PLACED_FEATURE
+            val defaultReplacements = listOf(defaultReplacement)
+            val defaultDecorationFeature = DecorationStepPlacedFeature(
+                defaultDecoration,
+                defaultReplacements
+            )
+            val defaultReplacementFeature = PlacedFeatureReplacement(
+                defaultOriginal,
+                defaultDecorationFeature
+            )
+            val defaultReplacementFeatures = listOf(defaultReplacementFeature)
+            val biomeReplacementList = element ?: BiomePlacedFeatureReplacementList(
+                defaultBiome,
+                defaultReplacementFeatures
+            )
+
+            return makeMultiElementEntry(
+                text("replaced_features.biome_replacement_list"),
+                biomeReplacementList,
+                true,
+
+                EntryBuilder(text("replaced_features.biome"), biomeReplacementList.biome.toStr(),
+                    "",
+                    { newValue -> biomeReplacementList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
+                    tooltip("replaced_features.biome"),
+                    requiresRestart = true
+                ).build(entryBuilder),
+
+                makeNestedList(
+                    entryBuilder,
+                    text("replaced_features.replacement_list"),
+                    biomeReplacementList::replacements,
+                    { defaultReplacementFeatures },
+                    true,
+                    tooltip("replaced_features.replacement_list"),
+                    { newValue -> biomeReplacementList.replacements = newValue },
+                    { element, _ ->
+                        val featureReplacement: PlacedFeatureReplacement = element ?: defaultReplacementFeature
+                        val original: ResourceKey<PlacedFeature> = featureReplacement.original ?: defaultOriginal
+                        val replacement: DecorationStepPlacedFeature = featureReplacement.replacement ?: defaultDecorationFeature
+                        val decoration: Decoration = replacement.decoration ?: defaultDecoration
+                        val placedFeatures: List<ResourceKey<PlacedFeature>?> = replacement.placedFeatures ?: defaultReplacements
+
+                        makeMultiElementEntry(
+                            text("replaced_features.feature_replacement"),
+                            featureReplacement,
+                            true,
+
+                            EntryBuilder(text("replaced_features.original"), original.toStr(),
+                                "",
+                                { newValue -> featureReplacement.original = newValue.toKey(Registries.PLACED_FEATURE) },
+                                tooltip("replaced_features.original"),
+                                requiresRestart = true
+                            ).build(entryBuilder),
+
+                            makeMultiElementEntry(
+                                text("replaced_features.replacement"),
+                                replacement,
+                                true,
+
+                                entryBuilder.startEnumSelector(text("replaced_features.decoration"), Decoration::class.java, decoration)
+                                    .setDefaultValue(defaultDecoration)
+                                    .setSaveConsumer { newValue -> replacement.decoration = newValue }
+                                    .setTooltip(tooltip("replaced_features.decoration"))
+                                    .requireRestart()
+                                    .build(),
+
+                                entryBuilder.startStrList(text("replaced_features.placed_features"), placedFeatures.map { key -> key?.location().toString() })
+                                    .setDefaultValue(defaultReplacements)
+                                    .setSaveConsumer { newValue -> replacement.placedFeatures = newValue }
+                                    .setTooltip(tooltip("replaced_features.placed_features"))
+                                    .requireRestart()
+                                    .build()
+                            ),
+                            requiresRestart = true
+                        )
+                    },
+                    requiresRestart = true
+                ),
+                requiresRestart = true
+            )
+        }
+    )
+}
+
+private fun musicReplacements(
+    entryBuilder: ConfigEntryBuilder,
+    config: BiomeConfig,
+    defaultConfig: BiomeConfig
+): AbstractConfigListEntry<*> {
+    return makeTypedEntryList(
+        entryBuilder,
+        text("music_replacements"),
+        config::musicReplacements,
+        {defaultConfig.musicReplacements!!},
+        false,
+        tooltip("music_replacements"),
+        { newValue -> config.musicReplacements = newValue },
+        { element, _ ->
+            val defaultSound: Holder<SoundEvent> = SoundEvents.MUSIC_BIOME_DEEP_DARK
+            val defaultMinDelay: Int = 12000
+            val defaultMaxDelay: Int = 24000
+            val defaultReplaceCurrentMusic: Boolean = false
+            val defaultMusic: MutableMusic = MutableMusic(defaultSound, defaultMinDelay, defaultMaxDelay, defaultReplaceCurrentMusic)
+            val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
+            val biomeMusic: BiomeMusic = element ?: BiomeMusic(defaultBiome, defaultMusic)
+            val biome: Either<ResourceKey<Biome>, TagKey<Biome>> = biomeMusic.biome ?: defaultBiome
+            val music: MutableMusic = biomeMusic.music ?: defaultMusic
+            val sound: Holder<SoundEvent> = music.sound ?: defaultSound
+            val minDelay: Int = music.minDelay ?: defaultMinDelay
+            val maxDelay: Int = music.maxDelay ?: defaultMaxDelay
+            val replaceCurrentMusic: Boolean = music.replaceCurrentMusic ?: defaultReplaceCurrentMusic
+
+            makeMultiElementEntry(
+                text("music_replacements.replacement"),
+                biomeMusic,
+                true,
+
+                EntryBuilder(text("music_replacements.biome"), biome.toStr(),
+                    "",
+                    { newValue -> biomeMusic.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
+                    tooltip("music_replacements.biome"),
+                    requiresRestart = true
+                ).build(entryBuilder),
+
+                makeMultiElementEntry(
+                    text("music_replacements.music"),
+                    music,
+                    true,
+
+                    EntryBuilder(text("music_replacements.sound"), sound.toStr(),
+                        "",
+                        { newValue -> music.sound = newValue.toHolder(BuiltInRegistries.SOUND_EVENT) },
+                        tooltip("music_replacements.sound"),
+                        requiresRestart = true
+                    ).build(entryBuilder),
+
+                    EntryBuilder(text("music_replacements.min_delay"), minDelay,
+                        defaultMinDelay,
+                        { newValue -> music.minDelay = newValue },
+                        tooltip("music_replacements.min_delay"),
+                        requiresRestart = true
+                    ).build(entryBuilder),
+
+                    EntryBuilder(text("music_replacements.max_delay"), maxDelay,
+                        defaultMaxDelay,
+                        { newValue -> music.maxDelay = newValue },
+                        tooltip("music_replacements.max_delay"),
+                        requiresRestart = true
+                    ).build(entryBuilder)
+
+                    EntryBuilder(text("music_replacements.replace_current_music"), replaceCurrentMusic,
+                        defaultReplaceCurrentMusic,
+                        { newValue -> music.replaceCurrentMusic = newValue },
+                        tooltip("music_replacements.replace_current_music"),
+                        requiresRestart = true
+                    ).build(entryBuilder),
+                    requiresRestart = true
+                ),
+                requiresRestart = true
+            ),
+            requiresRestart = true
         }
     )
 }
@@ -95,8 +280,7 @@ private fun biomePlacedFeaturesElement(entryBuilder: ConfigEntryBuilder, element
         biomePlacedFeatureList,
         true,
 
-        EntryBuilder(
-            text("features.biome"), biomePlacedFeatureList.biome.toStr(),
+        EntryBuilder(text("features.biome"), biomePlacedFeatureList.biome.toStr(),
             "",
             { newValue -> biomePlacedFeatureList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
             tooltip("features.biome"),

@@ -23,3 +23,7 @@ fun <T : Any> Either<ResourceKey<T>, TagKey<T>>?.toStr(): String {
 fun <T : Any> String.toKey(registry: ResourceKey<Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, ResourceLocation(this))
 
 fun <T : Any> ResourceKey<T>.toStr(): String = this.location().toString()
+
+fun <T : Any> String.toHolder(registry: Registry<T>): Holder<T>? = registry.getHolder(this.toKey(registry.getKey()))
+
+fun <T : Any> Holder<T>.toStr(): String = this.unwrapKey().orElseThrow().toStr()
