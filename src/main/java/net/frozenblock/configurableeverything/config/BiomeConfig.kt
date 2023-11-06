@@ -77,7 +77,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList?>?>? = TypedEntry(
+	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
 			BiomePlacedFeatureReplacementList(
@@ -144,7 +144,7 @@ data class BiomeConfig(
 			)
 		)
 
-		private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList?>?> = ConfigRegistry.register(
+		private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList?>> = ConfigRegistry.register(
 			TypedEntryType(
 				MOD_ID,
 				BiomePlacedFeatureReplacementList.CODEC.listOf()

@@ -11,14 +11,15 @@ Future changelog items:
     - Check the wiki for more information
 - Added external dependency support for Kotlin Scripts
     - Check the wiki for more information
+- Added a GUI for the Biome Config (when Cloth Config is installed)
 
 Put changelog here:
+
 -----------------
-- Added a GUI for the Biome Config (when Cloth Config is installed)
-- Fixed some GUI language entries being empty
-- Fixed other GUI language issues
 - Updated to Kotlin 1.9.20
     - Scripts will run using 1.9.20 as well
+- Fixed some GUI language entries being empty
+- Fixed other GUI language issues
 - Updated minimum Fabric Language Kotlin version to 1.10.11
 - Added `gravity`, `music`, `sculk_spreading`, and `structure` to Main Config
 - Marked `item`, `gravity`, `music`, `sculk_spreading`, and `structure` in Main Config as not functional

@@ -28,6 +28,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature
 @Environment(EnvType.CLIENT)
 object BiomeConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
+        TODO("Finish the GUI, add replaced features and all that")
         val config = BiomeConfig.get(real = true)
         val defaultConfig = BiomeConfig.INSTANCE.defaultInstance()
         category.background = id("textures/config/biome.png")
