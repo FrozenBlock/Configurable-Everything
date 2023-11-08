@@ -65,19 +65,20 @@ Warning: Functionality will be lost if these are disabled.
     @JvmField
     var world_client: Boolean? = true
 ) {
-    companion object {
-        @JvmField
-        val INSTANCE: Config<MixinsConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                MixinsConfig::class.java,
-                makeConfigPath("mixins"),
-                CONFIG_JSONTYPE,
-                false // horrible idea to support modification of this config
-            )
-        )
+    companion object : JsonConfig<MixinsConfig>(
+        MOD_ID,
+        MixinsConfig::class.java,
+        makeConfigPath("mixins"),
+        CONFIG_JSONTYPE,
+        false // horrible idea to support modification of this config
+    ) {
+
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(): MixinsConfig = INSTANCE.config()
+        @JvmOverloads
+        fun get(): MixinsConfig = this.config()
     }
 }

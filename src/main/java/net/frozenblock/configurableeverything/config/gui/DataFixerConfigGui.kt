@@ -5,6 +5,10 @@ package net.frozenblock.configurableeverything.config.gui
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
+import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
+import me.shedaniel.clothconfig2.gui.entries.IntegerListEntry
+import me.shedaniel.clothconfig2.gui.entries.StringListEntry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.DataFixerConfig
@@ -26,24 +30,28 @@ import net.minecraft.resources.ResourceLocation
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = DataFixerConfig.get(real = true)
-        val defaultConfig = DataFixerConfig.INSTANCE.defaultInstance()
+        val defaultConfig = DataFixerConfig.defaultInstance()
         category.background = id("textures/config/datafixer.png")
 
-        category.addEntry(EntryBuilder(text("override_real_entries"), config.overrideRealEntries,
+        val overrideRealEntries = EntryBuilder(
+            text("override_real_entries"),
+            config.overrideRealEntries,
             defaultConfig.overrideRealEntries!!,
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
             true
-        ).build(entryBuilder))
+        ).build(entryBuilder).apply { category.addEntry(this) }
 
-        category.addEntry(EntryBuilder(text("data_version"), config.dataVersion,
+        val dataVersion = EntryBuilder(
+            text("data_version"),
+            config.dataVersion,
             defaultConfig.dataVersion!!,
             { newValue -> config.dataVersion = newValue },
             tooltip("data_version"),
             true
-        ).build(entryBuilder))
+        ).build(entryBuilder).apply { category.addEntry(this) }
 
-        category.addEntry(schemas(entryBuilder, config, defaultConfig))
+        category.addEntry(schemas(entryBuilder, config, defaultConfig, dataVersion as IntegerListEntry))
         category.addEntry(registryFixers(entryBuilder, config, defaultConfig))
     }
 }
@@ -51,7 +59,8 @@ object DataFixerConfigGui {
 private fun schemas(
     entryBuilder: ConfigEntryBuilder,
     config: DataFixerConfig,
-    defaultConfig: DataFixerConfig
+    defaultConfig: DataFixerConfig,
+    dataVersion: IntegerListEntry
 ): AbstractConfigListEntry<*> {
     val defaultFixEntryList = listOf(
         DataFixEntry(
@@ -96,22 +105,25 @@ private fun schemas(
         entryBuilder,
         text("schemas"),
         config::schemas,
-        {defaultConfig.schemas!!},
+        { defaultConfig.schemas!! },
         false,
         tooltip("schemas"),
-        { newValue -> config.schemas = newValue},
+        { newValue -> config.schemas = newValue },
         { element, _ ->
             val schema = element ?: defaultSchema
+            lateinit var versionEntry: IntegerListEntry
             makeMultiElementEntry(
                 text("schemas.schema"),
                 schema,
                 true,
 
-                EntryBuilder(text("schemas.version"), schema.version,
+                EntryBuilder(
+                    text("schemas.version"),
+                    schema.version,
                     0,
                     { newValue -> schema.version = newValue },
                     tooltip("schemas.version")
-                ).build(entryBuilder),
+                ).build(entryBuilder).apply { versionEntry = this as IntegerListEntry },
 
                 makeNestedList(
                     entryBuilder,
@@ -127,7 +139,9 @@ private fun schemas(
                             entry,
                             true,
 
-                            EntryBuilder(text("schemas.type"), entry.type,
+                            EntryBuilder(
+                                text("schemas.type"),
+                                entry.type,
                                 "",
                                 { newValue -> entry.type = newValue },
                                 tooltip("schemas.type")
@@ -147,13 +161,17 @@ private fun schemas(
                                         entry,
                                         true,
 
-                                        EntryBuilder(text("datafixer.old_id"), entry.oldId.toString(),
+                                        EntryBuilder(
+                                            text("datafixer.old_id"),
+                                            entry.oldId.toString(),
                                             "",
                                             { newValue -> entry.oldId = ResourceLocation(newValue) },
                                             tooltip("datafixer.old_id")
                                         ).build(entryBuilder),
 
-                                        EntryBuilder(text("datafixer.new_id"), entry.newId.toString(),
+                                        EntryBuilder(
+                                            text("datafixer.new_id"),
+                                            entry.newId.toString(),
                                             "",
                                             { newValue -> entry.newId = ResourceLocation(newValue) },
                                             tooltip("datafixer.new_id")
@@ -163,10 +181,21 @@ private fun schemas(
                             )
                         )
                     }
-                )
+                ).apply {
+                    this.requirement = Requirement.isTrue {
+                        val globalVersion: Int? = dataVersion.value
+                        val localVersion: Int? = versionEntry.value
+                        globalVersion != null && localVersion != null && localVersion > 0 && localVersion <= globalVersion
+                    }
+                }
             )
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue {
+            val dataVersionInt: Int? = dataVersion.value
+            dataVersionInt != null && dataVersionInt > 0
+        }
+    }
 }
 
 private fun registryFixers(
@@ -185,22 +214,25 @@ private fun registryFixers(
         entryBuilder,
         text("registry_fixers"),
         config::registryFixers,
-        {defaultConfig.registryFixers!!},
+        { defaultConfig.registryFixers!! },
         false,
         tooltip("registry_fixers"),
-        { newValue -> config.registryFixers = newValue},
+        { newValue -> config.registryFixers = newValue },
         { element, _ ->
             val registryFixer = element ?: defaultRegistryFixer
+            lateinit var registryKeyEntry: StringListEntry
             makeMultiElementEntry(
                 text("registry_fixers.registry_fixer"),
                 registryFixer,
                 true,
 
-                EntryBuilder(text("registry_fixers.registry_key"), registryFixer.registryKey.toString(),
+                EntryBuilder(
+                    text("registry_fixers.registry_key"),
+                    registryFixer.registryKey.toString(),
                     "",
                     { newValue -> registryFixer.registryKey = ResourceLocation(newValue) },
                     tooltip("registry_fixers.registry_key")
-                ).build(entryBuilder),
+                ).build(entryBuilder).apply { registryKeyEntry = this as StringListEntry },
 
                 makeNestedList(
                     entryBuilder,
@@ -212,21 +244,29 @@ private fun registryFixers(
                     { newValue -> registryFixer.fixers = newValue },
                     { element, _ ->
                         val entry = element ?: Fixer(ResourceLocation(""), ResourceLocation(""))
+                        lateinit var oldIdEntry: StringListEntry
                         makeMultiElementEntry(
                             text("datafixer.fixer"),
                             entry,
                             true,
 
-                            EntryBuilder(text("datafixer.old_id"), entry.oldId.toString(),
+                            EntryBuilder(
+                                text("datafixer.old_id"),
+                                entry.oldId.toString(),
                                 "",
                                 { newValue -> entry.oldId = ResourceLocation(newValue) },
                                 tooltip("datafixer.old_id")
-                            ).build(entryBuilder),
+                            ).build(entryBuilder).apply {
+                                oldIdEntry = this as StringListEntry
+                            },
 
-                            EntryBuilder(text("datafixer.new_id"), entry.newId.toString(),
+                            EntryBuilder(
+                                text("datafixer.new_id"),
+                                entry.newId.toString(),
                                 "",
                                 { newValue -> entry.newId = ResourceLocation(newValue) },
-                                tooltip("datafixer.new_id")
+                                tooltip("datafixer.new_id"),
+                                requirement = Requirement.none(Requirement.matches(oldIdEntry) { null }, Requirement.matches(oldIdEntry) { "" })
                             ).build(entryBuilder)
                         )
                     }

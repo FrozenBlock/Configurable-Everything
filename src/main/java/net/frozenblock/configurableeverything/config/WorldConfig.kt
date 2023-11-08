@@ -27,16 +27,16 @@ data class WorldConfig(
     @Comment("Disables the experimental warning screen when creating or loading worlds.")
     var disableExperimentalWarning: Boolean? = false,
 ) {
-    companion object {
-        @JvmField
-        val INSTANCE: Config<WorldConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                WorldConfig::class.java,
-                makeConfigPath("world"),
-                CONFIG_JSONTYPE
-            )
-        )
+    companion object : JsonConfig<WorldConfig>(
+        MOD_ID,
+        WorldConfig::class.java,
+        makeConfigPath("world"),
+        CONFIG_JSONTYPE
+    ) {
+
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
         val sunSize: Float? get() = get().sunSize?.div(10F)
@@ -45,6 +45,7 @@ data class WorldConfig(
         val moonSize: Float? get() = get().moonSize?.div(10F)
 
         @JvmStatic
-        fun get(real: Boolean = false): WorldConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): WorldConfig = if (real) this.instance() else this.config()
     }
 }

@@ -26,7 +26,7 @@ import net.minecraft.sounds.SoundEvents
 object BlockConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = BlockConfig.get(real = true)
-        val defaultConfig = BlockConfig.INSTANCE.defaultInstance()
+        val defaultConfig = BlockConfig.defaultInstance()
         category.background = id("textures/config/block.png")
 
         category.addEntry(soundGroupOverwrites(entryBuilder, config, defaultConfig))

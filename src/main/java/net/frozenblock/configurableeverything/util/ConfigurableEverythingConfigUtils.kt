@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.util
 
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import java.nio.file.Path
 import kotlin.io.path.Path
 

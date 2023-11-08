@@ -67,7 +67,7 @@ abstract class CEScript {
 }
 
 object CEScriptCompilationConfig : ScriptCompilationConfiguration({
-    val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.INSTANCE.defaultInstance().kotlinScripting!!.defaultImports!!
+    val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.defaultInstance().kotlinScripting!!.defaultImports!!
     defaultImports(defaultImports)
     if (ENABLE_EXPERIMENTAL_FEATURES) defaultImports(DependsOn::class, Repository::class)
     baseClass(CEScript::class)

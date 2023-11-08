@@ -31,11 +31,14 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
+/**
+ * An object representing the GUI for the [BiomePlacementConfig].
+ */
 @Environment(EnvType.CLIENT)
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = BiomePlacementConfig.get(real = true)
-        val defaultConfig = BiomePlacementConfig.INSTANCE.defaultInstance()
+        val defaultConfig = BiomePlacementConfig.defaultInstance()
         category.background = id("textures/config/biome_placement.png")
 
         category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
@@ -52,32 +55,37 @@ private fun addedBiomes(
         entryBuilder,
         text("added_biomes"),
         config::addedBiomes,
-        {defaultConfig.addedBiomes!!},
+        { defaultConfig.addedBiomes!! },
         false,
         tooltip("added_biomes"),
-        { newValue -> config.addedBiomes = newValue},
+        { newValue -> config.addedBiomes = newValue },
         { element, _ ->
-            val defaultParameters = listOf(BiomeParameters(
-                ResourceLocation(""),
-                Climate.parameters(
-                    Temperature.NEUTRAL,
-                    Humidity.NEUTRAL,
-                    Continentalness.INLAND,
-                    Erosion.FULL_RANGE,
-                    Climate.Parameter.span(Depth.SURFACE, Depth.FLOOR),
-                    Weirdness.FULL_RANGE,
-                    0F
-                ).mutable()
-            ))
-            val dimensionBiomeList: DimensionBiomeList = element ?: DimensionBiomeList(BuiltinDimensionTypes.OVERWORLD, defaultParameters)
+            val defaultParameters = listOf(
+                BiomeParameters(
+                    ResourceLocation(""),
+                    Climate.parameters(
+                        Temperature.NEUTRAL,
+                        Humidity.NEUTRAL,
+                        Continentalness.INLAND,
+                        Erosion.FULL_RANGE,
+                        Climate.Parameter.span(Depth.SURFACE, Depth.FLOOR),
+                        Weirdness.FULL_RANGE,
+                        0F
+                    ).mutable()
+                )
+            )
+            val dimensionBiomeList: DimensionBiomeList =
+                element ?: DimensionBiomeList(BuiltinDimensionTypes.OVERWORLD, defaultParameters)
             makeMultiElementEntry(
                 text("added_biomes.dimension_biome_list"),
                 dimensionBiomeList,
                 true,
 
-                EntryBuilder(text("added_biomes.dimension"), dimensionBiomeList.dimension?.location().toString(),
+                EntryBuilder(
+                    text("added_biomes.dimension"),
+                    dimensionBiomeList.dimension?.location().toString(),
                     "",
-                    { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation(newValue)) },
+                    { newValue -> dimensionBiomeList.dimension = newValue.toKey(Registries.DIMENSION_TYPE) },
                     tooltip("added_biomes.dimension")
                 ).build(entryBuilder),
 
@@ -95,10 +103,12 @@ private fun addedBiomes(
                             biomeParameters,
                             true,
 
-                            EntryBuilder(text("added_biomes.biome"), biomeParameters?.biome.toString(),
+                            EntryBuilder(
+                                text("added_biomes.biome"),
+                                biomeParameters?.biome.toString(),
                                 "",
                                 { newValue -> biomeParameters?.biome = ResourceLocation(newValue) },
-                                tooltip("added_biomes.biome")
+                                tooltip("added_biomes.biome"),
                             ).build(entryBuilder),
 
                             makeMultiElementEntry(
@@ -160,7 +170,9 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.weirdness, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                EntryBuilder(text("added_biomes.offset"), biomeParameters?.parameters?.offset,
+                                EntryBuilder(
+                                    text("added_biomes.offset"),
+                                    biomeParameters?.parameters?.offset,
                                     0L,
                                     { newValue -> biomeParameters?.parameters?.offset = newValue },
                                     tooltip("added_biomes.offset")
@@ -176,7 +188,9 @@ private fun addedBiomes(
 
 private fun makeParameter(parameter: MutableParameter?, min: Boolean): AbstractConfigListEntry<out Any> {
     val title = if (min) "added_biomes.min_value" else "added_biomes.max_value"
-    return EntryBuilder(text(title), (if (min) (parameter?.min ?: 0L) else (parameter?.max ?: 0L)),
+    return EntryBuilder(
+        text(title),
+        (if (min) (parameter?.min ?: 0L) else (parameter?.max ?: 0L)),
         0L,
         { newValue -> if (min) parameter?.min = newValue else parameter?.max = newValue },
         tooltip(title)
@@ -192,10 +206,10 @@ private fun removedBiomes(
         entryBuilder,
         text("removed_biomes"),
         config::removedBiomes,
-        {defaultConfig.removedBiomes!!},
+        { defaultConfig.removedBiomes!! },
         false,
         tooltip("removed_biomes"),
-        { newValue -> config.removedBiomes = newValue},
+        { newValue -> config.removedBiomes = newValue },
         { element, _ ->
             val defaultBiomes: List<Either<ResourceKey<Biome>?, TagKey<Biome>?>?> = listOf(
                 Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
@@ -207,13 +221,18 @@ private fun removedBiomes(
                 dimensionBiomeList,
                 true,
 
-                EntryBuilder(text("removed_biomes.dimension"), dimensionBiomeList.dimension?.location().toString(),
+                EntryBuilder(
+                    text("removed_biomes.dimension"),
+                    dimensionBiomeList.dimension?.location().toString(),
                     "",
                     { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation(newValue)) },
                     tooltip("removed_biomes.dimension")
                 ).build(entryBuilder),
 
-                entryBuilder.startStrList(text("removed_biomes.biomes"), dimensionBiomeList.biomes?.map { either -> convertEitherToString(either) })
+                entryBuilder.startStrList(
+                    text("removed_biomes.biomes"),
+                    dimensionBiomeList.biomes?.map { either -> convertEitherToString(either) }
+                )
                     .setDefaultValue(defaultBiomes.map { either -> convertEitherToString(either) })
                     .setSaveConsumer { newValue ->
                         dimensionBiomeList.biomes = newValue.map { string ->
@@ -234,6 +253,6 @@ private fun removedBiomes(
 private fun convertEitherToString(either: Either<ResourceKey<Biome>?, TagKey<Biome>?>?): String {
     var string = ""
     either?.ifLeft { key -> string = key?.location().toString() }
-    either?.ifRight { tag -> string = "#${tag?.location.toString()}" }
+    either?.ifRight { tag -> string = "#${tag?.location}" }
     return string
 }

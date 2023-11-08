@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
@@ -10,7 +11,16 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.resources.ResourceLocation
 
+private val RESOURCE_LIST: TypedEntryType<List<ResourceLocation?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        ResourceLocation.CODEC.listOf()
+    )
+)
+
 data class StructureConfig(
+
+    @JvmField
     var removedStructures: TypedEntry<List<ResourceLocation?>>? = TypedEntry(
         RESOURCE_LIST,
         listOf(
@@ -19,6 +29,7 @@ data class StructureConfig(
         )
     ),
 
+    @JvmField
     var removedStructureSets: TypedEntry<List<ResourceLocation?>>? = TypedEntry(
         RESOURCE_LIST,
         listOf(
@@ -26,25 +37,21 @@ data class StructureConfig(
         )
     )
 ) {
-	companion object {
-        private val RESOURCE_LIST: TypedEntryType<List<ResourceLocation?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                ResourceLocation.CODEC.listOf()
-            )
-        )
+	companion object : JsonConfig<StructureConfig>(
+        MOD_ID,
+        StructureConfig::class.java,
+        makeConfigPath("structure"),
+        CONFIG_JSONTYPE
+    ) {
 
-		@JvmField
-		val INSTANCE: Config<StructureConfig> = ConfigRegistry.register(
-			JsonConfig(
-				MOD_ID,
-				StructureConfig::class.java,
-				makeConfigPath("structure"),
-				CONFIG_JSONTYPE
-			)
-		)
+		init {
+            experimental {
+                ConfigRegistry.register(this)
+            }
+        }
 
 		@JvmStatic
-		fun get(real: Boolean = false): StructureConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+		fun get(real: Boolean = false): StructureConfig = if (real) this.instance() else this.config()
 	}
 }

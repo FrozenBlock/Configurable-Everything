@@ -1,13 +1,11 @@
 package net.frozenblock.configurableeverything.config.gui
 
 import com.mojang.datafixers.util.Either
-import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
-import me.shedaniel.clothconfig2.api.ConfigCategory
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.*
+import me.shedaniel.clothconfig2.gui.entries.StringListEntry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList
-import net.frozenblock.configurableeverything.biome.util.DecorationStepPlacedFeature
+import net.frozenblock.configurableeverything.biome.util.*
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_PLACED_FEATURE
@@ -18,8 +16,12 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
 import net.frozenblock.lib.config.api.client.gui.makeNestedList
 import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.minecraft.core.Holder
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
@@ -28,9 +30,8 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature
 @Environment(EnvType.CLIENT)
 object BiomeConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        TODO("Finish the GUI, add replaced features and all that")
         val config = BiomeConfig.get(real = true)
-        val defaultConfig = BiomeConfig.INSTANCE.defaultInstance()
+        val defaultConfig = BiomeConfig.defaultInstance()
         category.background = id("textures/config/biome.png")
 
         category.addEntry(addedFeatures(entryBuilder, config, defaultConfig))
@@ -54,9 +55,11 @@ private fun addedFeatures(
         tooltip("added_features"),
         { newValue -> config.addedFeatures = newValue},
         { element, _ ->
-            biomePlacedFeaturesElement(entryBuilder, element)
+            biomePlacedFeaturesElement(entryBuilder, element, "added")
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+    }
 }
 
 private fun removedFeatures(
@@ -73,7 +76,7 @@ private fun removedFeatures(
         tooltip("removed_features"),
         { newValue -> config.removedFeatures = newValue },
         { element, _ ->
-            biomePlacedFeaturesElement(entryBuilder, element)
+            biomePlacedFeaturesElement(entryBuilder, element, "removed")
         }
     )
 }
@@ -111,7 +114,7 @@ private fun replacedFeatures(
                 defaultReplacementFeatures
             )
 
-            return makeMultiElementEntry(
+            makeMultiElementEntry(
                 text("replaced_features.biome_replacement_list"),
                 biomeReplacementList,
                 true,
@@ -162,9 +165,9 @@ private fun replacedFeatures(
                                     .requireRestart()
                                     .build(),
 
-                                entryBuilder.startStrList(text("replaced_features.placed_features"), placedFeatures.map { key -> key?.location().toString() })
-                                    .setDefaultValue(defaultReplacements)
-                                    .setSaveConsumer { newValue -> replacement.placedFeatures = newValue }
+                                entryBuilder.startStrList(text("replaced_features.placed_features"), placedFeatures.map { key -> key?.toStr() })
+                                    .setDefaultValue(defaultReplacements.map { key -> key.toStr() })
+                                    .setSaveConsumer { newValue -> replacement.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) } }
                                     .setTooltip(tooltip("replaced_features.placed_features"))
                                     .requireRestart()
                                     .build()
@@ -203,7 +206,7 @@ private fun musicReplacements(
             val biomeMusic: BiomeMusic = element ?: BiomeMusic(defaultBiome, defaultMusic)
             val biome: Either<ResourceKey<Biome>, TagKey<Biome>> = biomeMusic.biome ?: defaultBiome
             val music: MutableMusic = biomeMusic.music ?: defaultMusic
-            val sound: Holder<SoundEvent> = music.sound ?: defaultSound
+            val sound: Holder<SoundEvent> = music.event ?: defaultSound
             val minDelay: Int = music.minDelay ?: defaultMinDelay
             val maxDelay: Int = music.maxDelay ?: defaultMaxDelay
             val replaceCurrentMusic: Boolean = music.replaceCurrentMusic ?: defaultReplaceCurrentMusic
@@ -227,7 +230,7 @@ private fun musicReplacements(
 
                     EntryBuilder(text("music_replacements.sound"), sound.toStr(),
                         "",
-                        { newValue -> music.sound = newValue.toHolder(BuiltInRegistries.SOUND_EVENT) },
+                        { newValue -> music.event = newValue.toHolder(BuiltInRegistries.SOUND_EVENT) },
                         tooltip("music_replacements.sound"),
                         requiresRestart = true
                     ).build(entryBuilder),
@@ -244,7 +247,7 @@ private fun musicReplacements(
                         { newValue -> music.maxDelay = newValue },
                         tooltip("music_replacements.max_delay"),
                         requiresRestart = true
-                    ).build(entryBuilder)
+                    ).build(entryBuilder),
 
                     EntryBuilder(text("music_replacements.replace_current_music"), replaceCurrentMusic,
                         defaultReplaceCurrentMusic,
@@ -255,13 +258,16 @@ private fun musicReplacements(
                     requiresRestart = true
                 ),
                 requiresRestart = true
-            ),
-            requiresRestart = true
+            )
         }
     )
 }
 
-private fun biomePlacedFeaturesElement(entryBuilder: ConfigEntryBuilder, element: BiomePlacedFeatureList?): AbstractConfigListEntry<BiomePlacedFeatureList?> {
+private fun biomePlacedFeaturesElement(
+    entryBuilder: ConfigEntryBuilder,
+    element: BiomePlacedFeatureList?,
+    lang: String
+): AbstractConfigListEntry<BiomePlacedFeatureList?> {
     val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
     val defaultDecoration = Decoration.VEGETAL_DECORATION
     val defaultPlacedFeature = BLANK_PLACED_FEATURE
@@ -275,46 +281,48 @@ private fun biomePlacedFeaturesElement(entryBuilder: ConfigEntryBuilder, element
         defaultBiome,
         defaultFeatures
     )
+
+    lateinit var biomeEntry: StringListEntry
     return makeMultiElementEntry(
-        text("features.feature_list"),
+        text("$`lang`_features.feature_list"),
         biomePlacedFeatureList,
         true,
 
-        EntryBuilder(text("features.biome"), biomePlacedFeatureList.biome.toStr(),
+        EntryBuilder(text("$`lang`_features.biome"), biomePlacedFeatureList.biome.toStr(),
             "",
             { newValue -> biomePlacedFeatureList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
-            tooltip("features.biome"),
+            tooltip("$`lang`_features.biome"),
             requiresRestart = true
-        ).build(entryBuilder),
+        ).build(entryBuilder).apply { biomeEntry = this as StringListEntry },
 
         makeNestedList(
             entryBuilder,
-            text("features.decoration_features"),
+            text("$`lang`_features.decoration_features"),
             biomePlacedFeatureList::features,
             { defaultFeatures },
             true,
-            tooltip("features.decoration_features"),
+            tooltip("$`lang`_features.decoration_features"),
             { newValue -> biomePlacedFeatureList.features = newValue },
             { element, _ ->
                 val decorationFeature: DecorationStepPlacedFeature = element ?: defaultFeature
                 val decoration: Decoration = decorationFeature.decoration ?: defaultDecoration
                 val placedFeatures: List<ResourceKey<PlacedFeature>?> = decorationFeature.placedFeatures ?: defaultPlacedFeatures
                 makeMultiElementEntry(
-                    text("features.decoration_feature"),
+                    text("$`lang`_features.decoration_feature"),
                     decorationFeature,
                     true,
 
-                    entryBuilder.startEnumSelector(text("features.decoration"), Decoration::class.java, decoration)
+                    entryBuilder.startEnumSelector(text("$`lang`_features.decoration"), Decoration::class.java, decoration)
                         .setDefaultValue(defaultDecoration)
                         .setSaveConsumer { newValue -> decorationFeature.decoration = newValue }
-                        .setTooltip(tooltip("features.decoration"))
+                        .setTooltip(tooltip("$`lang`_features.decoration"))
                         .requireRestart()
                         .build(),
 
-                    entryBuilder.startStrList(text("features.placed_features"), placedFeatures.map { key -> key?.location().toString() })
+                    entryBuilder.startStrList(text("$`lang`_features.placed_features"), placedFeatures.map { key -> key?.location().toString() })
                         .setDefaultValue(defaultPlacedFeatures.map { key -> key.location().toString() })
                         .setSaveConsumer { newValue -> decorationFeature.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) } }
-                        .setTooltip(tooltip("features.placed_features"))
+                        .setTooltip(tooltip("$`lang`_features.placed_features"))
                         .requireRestart()
                         .build()
                 )
@@ -322,5 +330,7 @@ private fun biomePlacedFeaturesElement(entryBuilder: ConfigEntryBuilder, element
             requiresRestart = true
         ),
         requiresRestart = true
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+    }
 }

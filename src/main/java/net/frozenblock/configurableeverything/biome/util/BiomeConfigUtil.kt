@@ -123,7 +123,7 @@ object BiomeConfigUtil {
         if (replacedMusic != null) {
             for (musicReplacement in replacedMusic) {
                 val biome = musicReplacement?.biome ?: continue
-                val music = musicReplacement.music.immutable() ?: continue
+                val music = musicReplacement.music?.immutable() ?: continue
                 val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                     context.effects.setMusic(music)
                 }

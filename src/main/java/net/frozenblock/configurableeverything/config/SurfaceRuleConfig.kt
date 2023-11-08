@@ -14,6 +14,13 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
+private val SURFACE_RULE_LIST = ConfigRegistry.register(
+    TypedEntryType<List<FrozenDimensionBoundRuleSource>>(
+        MOD_ID,
+        FrozenDimensionBoundRuleSource.CODEC.listOf()
+    )
+)
+
 data class SurfaceRuleConfig(
     @JvmField
     var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
@@ -34,24 +41,19 @@ data class SurfaceRuleConfig(
         )
     )
 ) {
-    companion object {
-        private val SURFACE_RULE_LIST = ConfigRegistry.register(
-            TypedEntryType<List<FrozenDimensionBoundRuleSource>>(
-                MOD_ID,
-                FrozenDimensionBoundRuleSource.CODEC.listOf()
-            )
-        )
+    companion object : JsonConfig<SurfaceRuleConfig>(
+        MOD_ID,
+        SurfaceRuleConfig::class.java,
+        makeConfigPath("surface_rule"),
+        CONFIG_JSONTYPE
+    ) {
 
-        @JvmField
-        val INSTANCE: Config<SurfaceRuleConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                SurfaceRuleConfig::class.java,
-                makeConfigPath("surface_rule"),
-                CONFIG_JSONTYPE
-            )
-        )
+        init {
+            ConfigRegistry.register(this)
+        }
 
-        fun get(real: Boolean = false): SurfaceRuleConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmStatic
+        @JvmOverloads
+        fun get(real: Boolean = false): SurfaceRuleConfig = if (real) this.instance() else this.config()
     }
 }

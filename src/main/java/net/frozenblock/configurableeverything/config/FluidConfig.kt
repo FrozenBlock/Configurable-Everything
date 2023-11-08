@@ -12,6 +12,13 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.material.Fluids
 
+private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        FluidFlowSpeed.CODEC.listOf()
+    )
+)
+
 data class FluidConfig(
     @JvmField
     var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
@@ -30,25 +37,19 @@ data class FluidConfig(
         )
     )
 ) {
-    companion object {
-        private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                FluidFlowSpeed.CODEC.listOf()
-            )
-        )
+    companion object : JsonConfig<FluidConfig>(
+        MOD_ID,
+        FluidConfig::class.java,
+        makeConfigPath("fluid"),
+        CONFIG_JSONTYPE
+    ) {
 
-        @JvmField
-        val INSTANCE: Config<FluidConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                FluidConfig::class.java,
-                makeConfigPath("fluid"),
-                CONFIG_JSONTYPE
-            )
-        )
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): FluidConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): FluidConfig = if (real) this.instance() else this.config()
     }
 }

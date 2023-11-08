@@ -21,7 +21,7 @@ import net.minecraft.resources.ResourceLocation
 object ScreenShakeConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScreenShakeConfig.get(real = true)
-        val defaultConfig = ScreenShakeConfig.INSTANCE.defaultInstance()
+        val defaultConfig = ScreenShakeConfig.defaultInstance()
         category.background = id("textures/config/screen_shake.png")
 
         category.addEntry(soundScreenShakes(entryBuilder, config, defaultConfig))

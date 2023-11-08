@@ -22,6 +22,20 @@ import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.biome.Climate.parameters
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
+private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        DimensionBiomeKeyList.CODEC.listOf()
+    )
+)
+
+private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        DimensionBiomeList.CODEC.listOf()
+    )
+)
+
 data class BiomePlacementConfig(
 	@JvmField
 	@Comment(
@@ -102,32 +116,19 @@ Does not support biomes added via TerraBlender
 		)
 	)
 ) {
-	companion object {
-		private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList?>> = ConfigRegistry.register(
-			TypedEntryType(
-				MOD_ID,
-				DimensionBiomeKeyList.CODEC.listOf()
-			)
-		)
+	companion object : JsonConfig<BiomePlacementConfig>(
+        MOD_ID,
+        BiomePlacementConfig::class.java,
+        makeConfigPath("biome_placement"),
+        CONFIG_JSONTYPE
+    ) {
 
-		private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = ConfigRegistry.register(
-			TypedEntryType(
-				MOD_ID,
-				DimensionBiomeList.CODEC.listOf()
-			)
-		)
-
-		@JvmField
-		val INSTANCE: Config<BiomePlacementConfig> = ConfigRegistry.register(
-			JsonConfig(
-				MOD_ID,
-				BiomePlacementConfig::class.java,
-				makeConfigPath("biome_placement"),
-				CONFIG_JSONTYPE
-			)
-		)
+        init {
+            ConfigRegistry.register(this)
+        }
 
 		@JvmStatic
-		fun get(real: Boolean = false): BiomePlacementConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+		fun get(real: Boolean = false): BiomePlacementConfig = if (real) this.instance() else this.config()
 	}
 }

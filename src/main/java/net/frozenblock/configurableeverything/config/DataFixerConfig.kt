@@ -17,6 +17,20 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 
+private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        Codec.list(SchemaEntry.CODEC)
+    )
+)
+
+private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        Codec.list(RegistryFixer.CODEC)
+    )
+)
+
 data class DataFixerConfig(
     @JvmField
     @Comment(
@@ -153,32 +167,19 @@ However, if the old id is still found in the registry, it will not be replaced (
         )
 )
 ) {
-    companion object {
-        private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                Codec.list(SchemaEntry.CODEC)
-            )
-        )
+    companion object : JsonConfig<DataFixerConfig>(
+        MOD_ID,
+        DataFixerConfig::class.java,
+        makeConfigPath("datafixer"),
+        CONFIG_JSONTYPE
+    ) {
 
-        private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                Codec.list(RegistryFixer.CODEC)
-            )
-        )
-
-        @JvmField
-        val INSTANCE: Config<DataFixerConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                DataFixerConfig::class.java,
-                makeConfigPath("datafixer"),
-                CONFIG_JSONTYPE
-            )
-        )
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): DataFixerConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): DataFixerConfig = if (real) this.instance() else this.config()
     }
 }
