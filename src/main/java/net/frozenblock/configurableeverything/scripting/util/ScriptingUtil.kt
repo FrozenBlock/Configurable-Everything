@@ -27,7 +27,7 @@ internal object ScriptingUtil {
     }
 
     fun runScripts() {
-        if (MainConfig.get().kotlinScripting?.applyKotlinScripts == false)
+        if (MainConfig.get().kotlinScripting?.applyKotlinScripts != true)
             return
         runScripts(KOTLIN_SCRIPT_PATH)
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
