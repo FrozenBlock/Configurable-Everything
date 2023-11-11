@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.datafixer.util
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.frozenblock.configurableeverything.config.DataFixerConfig
-import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils.REGISTRY_FIXERS
+import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil.REGISTRY_FIXERS
 import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
 import net.frozenblock.configurableeverything.util.log
 import net.minecraft.core.Registry

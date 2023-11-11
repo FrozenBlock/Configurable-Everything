@@ -11,7 +11,6 @@ import net.frozenblock.lib.menu.api.SplashTextAPI
 @Environment(EnvType.CLIENT)
 object SplashTextConfigUtil {
 
-    @JvmStatic
     fun init() {
         val config = SplashTextConfig.get()
         if (MainConfig.get().splash_text == true) {

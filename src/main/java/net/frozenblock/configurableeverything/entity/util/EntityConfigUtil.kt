@@ -17,7 +17,6 @@ import net.minecraft.world.level.entity.EntityAccess
 
 object EntityConfigUtil {
 
-    @JvmStatic
 	fun init() {
         val config = EntityConfig.get()
         // only run this on client

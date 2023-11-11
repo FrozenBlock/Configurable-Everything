@@ -6,7 +6,6 @@ import net.frozenblock.lib.worldgen.surface.api.SurfaceRuleEvents
 
 object SurfaceRuleConfigUtil {
 
-    @JvmStatic
     fun init() {
         val config = SurfaceRuleConfig.get();
         if (MainConfig.get().surface_rule == true) {

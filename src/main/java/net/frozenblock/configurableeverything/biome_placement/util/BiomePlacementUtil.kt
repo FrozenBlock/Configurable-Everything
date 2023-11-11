@@ -21,9 +21,8 @@ import net.minecraft.world.level.biome.MultiNoiseBiomeSource
 import net.minecraft.world.level.dimension.DimensionType
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator
 
-object BiomePlacementUtils {
+object BiomePlacementUtil {
 
-    @JvmStatic
     fun init() {
         val config = BiomePlacementConfig.get()
         if (MainConfig.get().biome_placement == true) {

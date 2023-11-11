@@ -14,7 +14,7 @@ import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
 
-object DataFixerUtils {
+object DataFixerUtil {
 
     @JvmStatic
     val SCHEMAS: MutableList<SchemaEntry?> = ArrayList()

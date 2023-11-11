@@ -12,7 +12,6 @@ import java.util.function.Consumer
 
 object BiomeConfigUtil {
 
-	@JvmStatic
 	fun init() {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome == true) {

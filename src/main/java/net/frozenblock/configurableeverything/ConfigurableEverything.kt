@@ -1,18 +1,16 @@
 package net.frozenblock.configurableeverything
 
-import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
-import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtil
 import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils
+import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
-import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -78,24 +76,24 @@ class ConfigurableEverything : ModInitializer {
             ifExtended {
                 // TODO: finish remapping
                 //ifExperimental(::remapCodebase)
-                ScriptingUtil.runScripts()
+                ScriptingUtil::runScripts
             }
 
             // run functionality AFTER scripts have run
-            BiomeConfigUtil.init()
-            BiomePlacementUtils.init()
-            BlockConfigUtil.init()
-            DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
-            EntityConfigUtil.init()
+            BiomeConfigUtil
+            BiomePlacementUtil
+            BlockConfigUtil
+            DataFixerUtil.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
+            EntityConfigUtil
             ifExperimental {
-                GravityConfigUtil.init()
+                GravityConfigUtil
             }
-            RegistryConfigUtil.init()
+            RegistryConfigUtil
             ifClient {
-                SplashTextConfigUtil.init()
+                SplashTextConfigUtil
             }
-            SurfaceRuleConfigUtil.init()
-            WorldConfigUtil.init()
+            SurfaceRuleConfigUtil
+            WorldConfigUtil
         }
 
         log("Configurable Everything took $time nanoseconds")

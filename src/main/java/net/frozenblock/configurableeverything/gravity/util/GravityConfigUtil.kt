@@ -12,7 +12,6 @@ import net.minecraft.world.level.dimension.DimensionType
 
 object GravityConfigUtil {
 
-    @JvmStatic
     fun init() {
         experimentalOrThrow()
 

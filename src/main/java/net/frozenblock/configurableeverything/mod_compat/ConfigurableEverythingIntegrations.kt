@@ -1,31 +1,32 @@
-package net.frozenblock.configurableeverything.mod_compat;
+package net.frozenblock.configurableeverything.mod_compat
 
-import java.util.function.Supplier;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
-import net.frozenblock.lib.integration.api.ModIntegration;
-import net.frozenblock.lib.integration.api.ModIntegrationSupplier;
-import net.frozenblock.lib.integration.api.ModIntegrations;
+import net.frozenblock.configurableeverything.mod_compat.FrozenLibIntegration
+import net.frozenblock.configurableeverything.util.MOD_ID
+import net.frozenblock.lib.integration.api.ModIntegration
+import net.frozenblock.lib.integration.api.ModIntegrationSupplier
+import net.frozenblock.lib.integration.api.ModIntegrations
+import java.util.function.Supplier
 
-public final class ConfigurableEverythingIntegrations {
+object ConfigurableEverythingIntegrations {
 
-	public static final ModIntegration FROZENLIB_INTEGRATION = registerAndGet(FrozenLibIntegration::new, "frozenlib");
+    val FROZENLIB_INTEGRATION: ModIntegration = registerAndGet({ FrozenLibIntegration }, "frozenlib")
 
-	private ConfigurableEverythingIntegrations() {
-		throw new UnsupportedOperationException("ConfigurableEverythingIntegrations contains only static declarations.");
-	}
+    fun register(
+        integration: Supplier<out ModIntegration?>?,
+        modID: String?
+    ): ModIntegrationSupplier<out ModIntegration> {
+        return ModIntegrations.register(integration, MOD_ID, modID)
+    }
 
-	public static void init() {
-	}
+    fun <T : ModIntegration?> register(
+        integration: Supplier<T>?,
+        unloadedIntegration: Supplier<T>?,
+        modID: String?
+    ): ModIntegrationSupplier<T> {
+        return ModIntegrations.register(integration, unloadedIntegration, MOD_ID, modID)
+    }
 
-	public static ModIntegrationSupplier<? extends ModIntegration> register(Supplier<? extends ModIntegration> integration, String modID) {
-		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstantsKt.MOD_ID, modID);
-	}
-
-	public static <T extends ModIntegration> ModIntegrationSupplier<T> register(Supplier<T> integration, Supplier<T> unloadedIntegration, String modID) {
-		return ModIntegrations.register(integration, unloadedIntegration, ConfigurableEverythingSharedConstantsKt.MOD_ID, modID);
-	}
-
-	public static <T extends ModIntegration> ModIntegration registerAndGet(Supplier<T> integration, String modID) {
-		return ModIntegrations.register(integration, ConfigurableEverythingSharedConstantsKt.MOD_ID, modID).getIntegration();
-	}
+    fun <T : ModIntegration?> registerAndGet(integration: Supplier<T>?, modID: String?): ModIntegration {
+        return ModIntegrations.register(integration, MOD_ID, modID).integration
+    }
 }

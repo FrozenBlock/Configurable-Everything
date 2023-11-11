@@ -29,7 +29,7 @@ object DatapackUtil {
             config.datapackFolders?.forEach {
                 it?.apply {
                     log("Adding datapack repository at $this")
-                    list.add(CERepositorySource(Path(this), validator))
+                    list.add(CERepositorySource(Path(this), validator = validator))
                 }
             }
             return list
