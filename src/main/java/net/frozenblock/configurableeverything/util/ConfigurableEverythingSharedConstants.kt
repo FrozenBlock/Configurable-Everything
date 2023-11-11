@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.util
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
+import net.frozenblock.lib.FrozenBools
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,7 +17,7 @@ internal const val MOD_NAME = "Configurable Everything"
 /**
  * Enables update 1.1
  */
-internal const val ENABLE_EXPERIMENTAL_FEATURES = false
+internal const val ENABLE_EXPERIMENTAL_FEATURES = true
 
 @JvmField
 internal val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
@@ -33,10 +34,31 @@ internal var DEV_LOGGING = false
 internal var UNSTABLE_LOGGING: Boolean = FabricLoader.getInstance().isDevelopmentEnvironment
 
 @JvmField
+internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
+
+@JvmField
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
 
 @JvmField
 val DATAPACKS_PATH: Path = Path("./config/$MOD_ID/datapacks")
+
+@JvmField
+val INTERMEDIARY_ROOT_CACHE_PATH: Path = if (FrozenBools.IS_QUILT) Path(".quilt/") else Path(".fabric/")
+
+@JvmField
+val INTERMEDIARY_GAME_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/remappedJars/minecraft-${modContainer("minecraft").version}-${modContainer("fabricloader").version}/")
+
+@JvmField
+val INTERMEDIARY_MOD_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/processedMods/")
+
+@JvmField
+val MAPPINGS_PATH: Path = Path("./.$MOD_ID/mappings/")
+
+@JvmField
+val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")
+
+@JvmField
+val REMAPPED_SOURCES_CACHE: Path = Path("./.$MOD_ID/remapped/")
 
 @JvmField
 val KOTLIN_SCRIPT_PATH: Path = Path("./config/$MOD_ID/scripts/")

@@ -9,8 +9,10 @@ import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
+import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
+import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -41,28 +43,43 @@ class ConfigurableEverything : ModInitializer {
             EntityConfig
             FluidConfig
             GameConfig
-            if (ENABLE_EXPERIMENTAL_FEATURES)
+            ifExperimental {
+                GravityConfig
                 ItemConfig
+            }
             RegistryConfig
             ScreenShakeConfig
-            if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+            ifClient {
                 SplashTextConfig
+            }
             SurfaceRuleConfig
-            if (ENABLE_EXPERIMENTAL_FEATURES)
+            ifExperimental {
                 StructureConfig
+            }
             WorldConfig
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
-                if (HAS_EXTENSIONS) {
+                ifExtended {
                     FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
-                    if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+                    ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
+                    }
+                }
+
+                ifExperimental {
+                    FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
+                    FileUtil.createDirectoriesSafe(OFFICIAL_SOURCES_CACHE)
+                    FileUtil.createDirectoriesSafe(REMAPPED_SOURCES_CACHE)
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
-            if (HAS_EXTENSIONS) ScriptingUtil.runScripts()
+            ifExtended {
+                // TODO: finish remapping
+                //ifExperimental(::remapCodebase)
+                ScriptingUtil.runScripts()
+            }
 
             // run functionality AFTER scripts have run
             BiomeConfigUtil.init()
@@ -70,9 +87,13 @@ class ConfigurableEverything : ModInitializer {
             BlockConfigUtil.init()
             DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
             EntityConfigUtil.init()
+            ifExperimental {
+                GravityConfigUtil.init()
+            }
             RegistryConfigUtil.init()
-            if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+            ifClient {
                 SplashTextConfigUtil.init()
+            }
             SurfaceRuleConfigUtil.init()
             WorldConfigUtil.init()
         }

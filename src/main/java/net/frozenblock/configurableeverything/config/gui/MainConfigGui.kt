@@ -9,10 +9,8 @@ import me.shedaniel.clothconfig2.gui.entries.StringListListEntry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
-import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.text
-import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategory
 
@@ -75,6 +73,15 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         tooltip("game"),
         true
     ).build(entryBuilder) as BooleanListEntry
+
+    val gravity: BooleanListEntry? = ifExperimental {
+        EntryBuilder(text("gravity"), config.gravity,
+            defaultConfig.gravity!!,
+            { newValue -> config.gravity = newValue },
+            tooltip("gravity"),
+            true
+        ).build(entryBuilder) as BooleanListEntry
+    }
 
     val screenShake: BooleanListEntry = EntryBuilder(text("screen_shake"), config.screen_shake,
         defaultConfig.screen_shake!!,
@@ -174,13 +181,8 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
 
         category.addEntry(game)
 
-        if (ENABLE_EXPERIMENTAL_FEATURES) {
-            category.addEntry(EntryBuilder(text("gravity"), config.gravity,
-                defaultConfig.gravity!!,
-                { newValue -> config.gravity = newValue },
-                tooltip("gravity"),
-                true
-            ).build(entryBuilder))
+        gravity?.apply { category.addEntry(this) }
+        ifExperimental {
 
             category.addEntry(EntryBuilder(text("item"), config.item,
                 defaultConfig.item!!,
@@ -199,23 +201,31 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
 
         category.addEntry(screenShake)
 
-        if (ENABLE_EXPERIMENTAL_FEATURES)
-            category.addEntry(EntryBuilder(text("sculk_spreading"), config.sculk_spreading,
-                defaultConfig.sculk_spreading!!,
-                { newValue -> config.sculk_spreading = newValue },
-                tooltip("sculk_spreading"),
-                true
-            ).build(entryBuilder))
+        ifExperimental {
+            category.addEntry(
+                EntryBuilder(
+                    text("sculk_spreading"), config.sculk_spreading,
+                    defaultConfig.sculk_spreading!!,
+                    { newValue -> config.sculk_spreading = newValue },
+                    tooltip("sculk_spreading"),
+                    true
+                ).build(entryBuilder)
+            )
+        }
 
         category.addEntry(splashText)
 
-        if (ENABLE_EXPERIMENTAL_FEATURES)
-            category.addEntry(EntryBuilder(text("structrue"), config.structure,
-                defaultConfig.structure!!,
-                { newValue -> config.structure = newValue },
-                tooltip("structure"),
-                true
-            ).build(entryBuilder))
+        ifExperimental {
+            category.addEntry(
+                EntryBuilder(
+                    text("structrue"), config.structure,
+                    defaultConfig.structure!!,
+                    { newValue -> config.structure = newValue },
+                    tooltip("structure"),
+                    true
+                ).build(entryBuilder)
+            )
+        }
 
         category.addEntry(surfaceRule)
 
