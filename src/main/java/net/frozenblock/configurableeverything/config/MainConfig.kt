@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.config
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment

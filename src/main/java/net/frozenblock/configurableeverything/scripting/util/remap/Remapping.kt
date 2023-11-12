@@ -5,8 +5,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.fabricmc.loader.impl.launch.MappingConfiguration
 import net.fabricmc.loader.impl.util.mappings.TinyRemapperMappingsHelper
-import net.fabricmc.lorenztiny.TinyMappingsLegacyWriter
 import net.fabricmc.lorenztiny.TinyMappingsReader
+import net.fabricmc.lorenztiny.TinyMappingsWriter
 import net.fabricmc.mapping.tree.TinyMappingFactory
 import net.fabricmc.mapping.tree.TinyTree
 import net.fabricmc.mappingio.MappingReader
@@ -17,6 +17,7 @@ import net.fabricmc.tinyremapper.InputTag
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.frozenblock.configurableeverything.util.*
+import org.cadixdev.lorenz.MappingSet
 import java.io.*
 import java.net.URI
 import java.net.http.HttpClient
@@ -105,7 +106,7 @@ private fun parseIntermediary() {
     val connection = url?.openConnection() ?: error("Intermediary location null")
 
     BufferedReader(InputStreamReader(connection.getInputStream())).use { reader ->
-        MappingReader.read(reader, MappingFormat.TINY_2_FILE, mappings)
+        MappingReader.read(reader, MappingFormat.TINY_2, mappings)
     }
 
     val switched = MemoryMappingTree()
@@ -121,7 +122,7 @@ private fun parseMojang() {
     Files.newInputStream(RAW_MAPPINGS_FILE_PATH).use { fileInput ->
         GZIPInputStream(fileInput).use { gzipInput ->
             InputStreamReader(gzipInput).use { reader ->
-                MappingReader.read(reader, MappingFormat.PROGUARD_FILE, mappings)
+                MappingReader.read(reader, MappingFormat.PROGUARD, mappings)
             }
         }
     }
@@ -140,10 +141,12 @@ private fun parseMojang() {
 
 
 private fun convertMappings() {
+    // mojangMappings is an instance of a MemoryMappingTree containing
+    // the official mojang mappings for 1.20.2
     FileWriter(TINY_MAPPINGS_FILE_PATH.toFile()).use { writer ->
         val reader = TinyMappingsReader(mojangMappings, "official", "named")
-        val mappings = reader.read()
-        TinyMappingsLegacyWriter(writer, "official", "named").write(mappings)
+        val mappings: MappingSet = reader.read()
+        TinyMappingsWriter(writer, "official", "named").write(mappings)
     }
 }
 
@@ -161,7 +164,7 @@ private val mojangMappingTree: TinyTree
     get() {
         FileInputStream(TINY_MAPPINGS_FILE_PATH.toFile()).use { input ->
             BufferedReader(InputStreamReader(input)).use { reader ->
-                return TinyMappingFactory.loadLegacy(reader)
+                return TinyMappingFactory.load(reader)
             }
         }
     }
