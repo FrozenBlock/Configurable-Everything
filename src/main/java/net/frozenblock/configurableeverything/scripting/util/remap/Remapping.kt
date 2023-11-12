@@ -3,25 +3,21 @@ package net.frozenblock.configurableeverything.scripting.util.remap
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.impl.launch.MappingConfiguration
+import net.fabricmc.loader.impl.util.mappings.TinyRemapperMappingsHelper
+import net.fabricmc.lorenztiny.TinyMappingsLegacyWriter
 import net.fabricmc.lorenztiny.TinyMappingsReader
+import net.fabricmc.mapping.tree.TinyMappingFactory
+import net.fabricmc.mapping.tree.TinyTree
 import net.fabricmc.mappingio.MappingReader
-import net.fabricmc.mappingio.MappingVisitor
-import net.fabricmc.mappingio.adapter.ForwardingMappingVisitor
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
-import net.fabricmc.mappingio.tree.MappingTree.ClassMapping
 import net.fabricmc.mappingio.tree.MemoryMappingTree
+import net.fabricmc.tinyremapper.InputTag
+import net.fabricmc.tinyremapper.OutputConsumerPath
+import net.fabricmc.tinyremapper.TinyRemapper
 import net.frozenblock.configurableeverything.util.*
-import net.minecraft.FileUtil
-import org.cadixdev.mercury.Mercury
-import org.cadixdev.mercury.remapper.MercuryRemapper
-import org.cadixdev.mercury.shadow.org.eclipse.jdt.core.JavaCore
-import java.io.BufferedReader
-import java.io.ByteArrayInputStream
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -37,14 +33,11 @@ private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
 private val GSON: Gson = Gson()
 private val CLIENT: HttpClient = HttpClient.newHttpClient()
-private val MAPPINGS_FILE_PATH: Path = Path(".$MOD_ID/mappings/mojang_${VERSION.id}.gz")
+private val RAW_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolve("mojang_${VERSION.id}.gz")//Path(".$MOD_ID/mappings/mojang_${VERSION.id}.gz")
+private val TINY_MAPPINGS_FILE_PATH: Path = TINY_MAPPINGS_PATH // TODO: use a better file
 
 private lateinit var intermediaryMappings: MemoryMappingTree
 private lateinit var mojangMappings: MemoryMappingTree
-private lateinit var mappingsHolder: MappingsHolder
-
-private val mojangMercury: Mercury = Mercury()
-private val intermediaryMercury: Mercury = Mercury()
 
 private val mappingsUri: URI?
     @Throws(IOException::class, IllegalStateException::class)
@@ -91,7 +84,7 @@ private fun downloadMappings() {
     }
     val response = httpReponse(uri)
 
-    Files.newOutputStream(MAPPINGS_FILE_PATH).use { fileOutput ->
+    Files.newOutputStream(RAW_MAPPINGS_FILE_PATH).use { fileOutput ->
         GZIPOutputStream(fileOutput).use { gzipOutput ->
             gzipOutput.write(response.body())
         }
@@ -112,11 +105,11 @@ private fun parseIntermediary() {
     val connection = url?.openConnection() ?: error("Intermediary location null")
 
     BufferedReader(InputStreamReader(connection.getInputStream())).use { reader ->
-        MappingReader.read(reader, MappingFormat.TINY_2, mappings)
+        MappingReader.read(reader, MappingFormat.TINY_2_FILE, mappings)
     }
 
-    //val switched = MemoryMappingTree()
-    //mappings.accept(MappingSourceNsSwitch(switched, "official"))
+    val switched = MemoryMappingTree()
+    mappings.accept(MappingSourceNsSwitch(switched, "official"))
 
     intermediaryMappings = mappings
 }
@@ -125,75 +118,91 @@ private fun parseIntermediary() {
 private fun parseMojang() {
     val mappings = MemoryMappingTree()
 
-    Files.newInputStream(MAPPINGS_FILE_PATH).use { fileInput ->
+    Files.newInputStream(RAW_MAPPINGS_FILE_PATH).use { fileInput ->
         GZIPInputStream(fileInput).use { gzipInput ->
             InputStreamReader(gzipInput).use { reader ->
-                MappingReader.read(reader, MappingFormat.PROGUARD, mappings)
+                MappingReader.read(reader, MappingFormat.PROGUARD_FILE, mappings)
             }
         }
     }
 
-    mappings.setSrcNamespace("named")
-    mappings.setDstNamespaces(listOf("official"))
+    mappings.setSrcNamespace("official")
+    mappings.setDstNamespaces(listOf("named"))
 
-    val switchedMappings = MemoryMappingTree()
-    mappings.accept(MappingSourceNsSwitch(switchedMappings, "official"))
-    mojangMappings = switchedMappings
+    mojangMappings = mappings
+    //mappings.setSrcNamespace("named")
+    //mappings.setDstNamespaces(listOf("official"))
+
+    //val switchedMappings = MemoryMappingTree()
+    //mappings.accept(MappingSourceNsSwitch(switchedMappings, "official"))
+    //mojangMappings = switchedMappings
 }
 
-private fun visitMappings(visitor: MappingVisitor) {
-    mojangMappings.accept(Visitor(visitor))
-}
 
-class Visitor(visitor: MappingVisitor) : ForwardingMappingVisitor(visitor) {
-
-    private var clazz: ClassMapping? = null
-
-    @Throws(IOException::class)
-    override fun visitClass(srcName: String): Boolean {
-        this.clazz = intermediaryMappings.getClass(srcName)
-        val clazz = this.clazz ?: return false
-        return super.visitClass(clazz.getDstName(0))
-    }
-
-    @Throws(IOException::class)
-    override fun visitMethod(srcName: String?, srcDesc: String?): Boolean {
-        val mapping = this.clazz?.getMethod(srcName, srcDesc) ?: return false
-        return super.visitMethod(mapping.getDstName(0), mapping.getDstDesc(0))
-    }
-
-    @Throws(IOException::class)
-    override fun visitField(srcName: String?, srcDesc: String?): Boolean {
-        val mapping = this.clazz?.getMethod(srcName, srcDesc) ?: return false
-        return super.visitField(mapping.getDstName(0), mapping.getDstDesc(0))
+private fun convertMappings() {
+    FileWriter(TINY_MAPPINGS_FILE_PATH.toFile()).use { writer ->
+        val reader = TinyMappingsReader(mojangMappings, "official", "named")
+        val mappings = reader.read()
+        TinyMappingsLegacyWriter(writer, "official", "named").write(mappings)
     }
 }
 
-@Throws(IllegalStateException::class)
-private fun setupMercury() {
-    setupIntMercury()
-    setupMojMercury()
-}
+private val intermediaryTree: TinyTree
+    get() {
+        val url = MappingConfiguration::class.java.classLoader.getResource("mappings/mappings.tiny")
+        val connection = url?.openConnection() ?: error("Intermediary location null")
 
-@Throws(IllegalStateException::class)
-private fun setupIntMercury() {
-    intermediaryMercury.sourceCompatibility = JavaCore.VERSION_17
-    intermediaryMercury.processors.add(MercuryRemapper.create(TinyMappingsReader(intermediaryMappings, "intermediary", "official").read()))
-    intermediaryMercury.isFlexibleAnonymousClassMemberLookups = true
+        BufferedReader(InputStreamReader(connection.getInputStream())).use { reader ->
+            return TinyMappingFactory.loadWithDetection(reader)
+        }
+    }
 
-    val modJars: List<Path> = INTERMEDIARY_MOD_CACHE_PATH.toFile().listFiles()?.filter { it.extension == "jar" }?.map { it.toPath() } ?: error("Mod jars are null")
-    intermediaryMercury.classPath.addAll(modJars)
-}
+private val mojangMappingTree: TinyTree
+    get() {
+        FileInputStream(TINY_MAPPINGS_FILE_PATH.toFile()).use { input ->
+            BufferedReader(InputStreamReader(input)).use { reader ->
+                return TinyMappingFactory.loadLegacy(reader)
+            }
+        }
+    }
 
-@Throws(IllegalStateException::class)
-@Suppress("unchecked")
-private fun setupMojMercury() {
-    mojangMercury.sourceCompatibility = JavaCore.VERSION_17
-    //mojangMercury.processors.add(MercuryRemapper.create(TinyMappingsReader(mojangMappings, "official", "named").read()))
-    mojangMercury.isFlexibleAnonymousClassMemberLookups = true
+private fun remap(
+    remapper: TinyRemapper,
+    filesArray: Array<File>,
+    newDir: String,
+    fileExtension: String
+) {
+    val files: MutableMap<Path, InputTag> = mutableMapOf()
+    for (file in filesArray) {
+        try {
+            if (file.extension == fileExtension) {
+                val name = file.name
+                val newFile = Path("$newDir$name")
+                Files.copy(file.toPath(), newFile)
+                files[newFile] = remapper.createInputTag()
+            }
+        } catch (e: IOException) {
+            logError("Error while copying $file", e)
+            continue
+        }
+    }
 
-    val gameJars: List<Path> = FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as? List<Path> ?: error("Input game jars is invalid")
-    //mojangMercury.classPath.addAll(gameJars)
+    for ((file, tag) in files) {
+        try {
+            remapper.readInputsAsync(tag, file)
+        } catch (e: IOException) {
+            logError("Error while reading $file", e)
+        }
+    }
+
+    try {
+        val consumer: OutputConsumerPath = OutputConsumerPath.Builder(Path(newDir)).build()
+        remapper.apply(consumer)
+    } catch (e: Exception) {
+        logError("Error while applying remapper", e)
+    } finally {
+        remapper.finish()
+    }
 }
 
 /**
@@ -207,26 +216,36 @@ fun remapCodebase() {
         // setup mappings
         downloadMappings()
         parseMappings()
-        mappingsHolder = MappingsHolder()
-        visitMappings(mappingsHolder)
-        setupMercury()
+        convertMappings()
 
         // actually remap stuff
 
-        //intermediaryMercury.rewrite(INTERMEDIARY_GAME_CACHE_PATH, OFFICIAL_SOURCES_CACHE)
-        val randomPath: Path = Path("coolmods/")
-        FileUtil.createDirectoriesSafe(randomPath)
+        val intermediaryRemapper: TinyRemapper = TinyRemapper.newRemapper()
+            .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "intermediary", "official"))
+            .rebuildSourceFilenames(false)
+            .build()
 
-        TODO("fix this stupid ass rewriting")
-        intermediaryMercury.rewrite(Path(".fabric/"), REMAPPED_SOURCES_CACHE)
-        intermediaryMercury.rewrite(INTERMEDIARY_MOD_CACHE_PATH, REMAPPED_SOURCES_CACHE)
-        mojangMercury.rewrite(INTERMEDIARY_GAME_CACHE_PATH, REMAPPED_SOURCES_CACHE)
-        mojangMercury.rewrite(INTERMEDIARY_MOD_CACHE_PATH, REMAPPED_SOURCES_CACHE)
+        val mojangRemapper: TinyRemapper = TinyRemapper.newRemapper()
+            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
+            .rebuildSourceFilenames(false)
+            .build()
+
+        remap(
+            intermediaryRemapper,
+            INTERMEDIARY_GAME_CACHE_PATH.toFile().listFiles()!! + INTERMEDIARY_MOD_CACHE_PATH.toFile().listFiles()!!,
+            ".$MOD_ID/official/",
+            "jar"
+        )
+        remap(
+            mojangRemapper,
+            File("./.$MOD_ID/official/").listFiles()!!,
+            ".$MOD_ID/remapped/",
+            "class"
+        )
 
         log("Successfully remapped the current codebase")
     } catch (e: Exception) {
-        log("Failed to remap codebase")
-        e.printStackTrace()
+        logError("Failed to remap codebase", e)
     }
 }
 

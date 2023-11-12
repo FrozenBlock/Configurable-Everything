@@ -32,9 +32,10 @@ fun logWarn(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) LOGGER?.warn(string)
 }
 
-fun logError(string: String?, shouldLog: Boolean = true) {
+@JvmOverloads
+fun logError(string: String?, error: Throwable? = null, shouldLog: Boolean = true) {
     if (shouldLog) {
-        LOGGER?.error(string)
+        LOGGER?.error(string, error)
     }
 }
 

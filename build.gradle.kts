@@ -231,7 +231,7 @@ dependencies {
     modApi(kotlin("scripting-dependencies"))
     modApi(kotlin("scripting-dependencies-maven"))
 
-    //modApi("net.fabricmc:mapping-io:0.5.0-beta.3")
+    modApi("net.fabricmc:mapping-io:0.5.0-beta.3")
     modApi("net.fabricmc:mercury:0.4.0")
     //modApi("org.cadixdev:lorenz-io-proguard:0.5.7")
     modApi("net.fabricmc:lorenz-tiny:4.0.2")

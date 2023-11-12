@@ -41,7 +41,7 @@ object DataFixerUtil {
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion
             if (dataVersion == null) {
-                logError("Data version is null", true)
+                logError("Data version is null")
                 return
             }
             val builder = QuiltDataFixerBuilder(dataVersion)
@@ -55,7 +55,7 @@ object DataFixerUtil {
                 if (fix == null) continue
                 val version = fix.version
                 if (version > dataVersion) {
-                    logError("Data fix version $version is higher than the current data version $dataVersion", true)
+                    logError("Data fix version $version is higher than the current data version $dataVersion")
                     continue
                 }
                 if (version > maxSchema) {
@@ -78,7 +78,7 @@ object DataFixerUtil {
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {
-                    logError("Invalid data fix version: $version", true)
+                    logError("Invalid data fix version: $version")
                 }
             }
             QuiltDataFixes.buildAndRegisterFixer(mod, builder)
@@ -106,7 +106,7 @@ object DataFixerUtil {
                 REGISTRY_FIXERS.add(RegistryFixer(ResourceLocation("item"), listOf(Fixer(oldId, newId))))
             }
 
-            else -> logError("Invalid data fix type: " + entry.type, true)
+            else -> logError("Invalid data fix type: " + entry.type)
         }
     }
 }

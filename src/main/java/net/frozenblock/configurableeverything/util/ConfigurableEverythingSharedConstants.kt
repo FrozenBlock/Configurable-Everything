@@ -52,7 +52,10 @@ val INTERMEDIARY_GAME_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pa
 val INTERMEDIARY_MOD_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/processedMods/")
 
 @JvmField
-val MAPPINGS_PATH: Path = Path("./.$MOD_ID/mappings/")
+val RAW_MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/raw/")
+
+@JvmField
+val TINY_MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/tiny/")
 
 @JvmField
 val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")

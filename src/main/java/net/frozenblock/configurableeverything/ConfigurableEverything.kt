@@ -11,6 +11,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
+import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -66,7 +67,7 @@ class ConfigurableEverything : ModInitializer {
                 }
 
                 ifExperimental {
-                    FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
+                    FileUtil.createDirectoriesSafe(RAW_MAPPINGS_PATH)
                     FileUtil.createDirectoriesSafe(OFFICIAL_SOURCES_CACHE)
                     FileUtil.createDirectoriesSafe(REMAPPED_SOURCES_CACHE)
                 }
@@ -75,7 +76,7 @@ class ConfigurableEverything : ModInitializer {
             }
             ifExtended {
                 // TODO: finish remapping
-                //ifExperimental(::remapCodebase)
+                ifExperimental(::remapCodebase)
                 ScriptingUtil::runScripts
             }
 
