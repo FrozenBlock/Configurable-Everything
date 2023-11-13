@@ -40,6 +40,9 @@ private val TINY_MAPPINGS_FILE_PATH: Path = TINY_MAPPINGS_PATH // TODO: use a be
 private lateinit var intermediaryMappings: MemoryMappingTree
 private lateinit var mojangMappings: MemoryMappingTree
 
+private lateinit var intermediaryRemapper: TinyRemapper
+private lateinit var mojangRemapper: TinyRemapper
+
 private val mappingsUri: URI?
     @Throws(IOException::class, IllegalStateException::class)
     get() {
@@ -146,7 +149,9 @@ private fun convertMappings() {
     FileWriter(TINY_MAPPINGS_FILE_PATH.toFile()).use { writer ->
         val reader = TinyMappingsReader(mojangMappings, "official", "named")
         val mappings: MappingSet = reader.read()
-        TinyMappingsWriter(writer, "official", "named").write(mappings)
+        TinyMappingsWriter(writer, "official", "named").use { mappingsWriter ->
+            mappingsWriter.write(mappings)
+        }
     }
 }
 
@@ -181,7 +186,7 @@ private fun remap(
             if (file.extension == fileExtension) {
                 val name = file.name
                 val newFile = Path("$newDir$name")
-                Files.copy(file.toPath(), newFile)
+                Files.copyRecursively(file.toPath(), newFile)
                 files[newFile] = remapper.createInputTag()
             }
         } catch (e: IOException) {
@@ -208,6 +213,59 @@ private fun remap(
     }
 }
 
+private fun remap(
+    remapper: TinyRemapper,
+    file: File,
+    newFile: File
+) {
+    try {
+        Files.copyRecursively(file.toPath(), newFile.toPath())
+        remapper.readInputsAsync(remapper.createInputTag(), newFile.toPath())
+
+        val consumer: OutputConsumerPath = OutputConsumerPath.Builder(newFile.toPath()).build()
+        remapper.apply(consumer)
+    } catch (e: Exception) {
+        throw RuntimeException(e)
+    } finally {
+        remapper.finish()
+    }
+}
+
+/**
+ * @param script The original script file
+ * @return The remapped script file
+ * @since 1.1
+ */
+fun remapScript(script: File): File {
+    if (!intermediaryRemapper.isInitialized) throw IOException("Intermediary remapper not initialized")
+    if (!::mojangRemapper.isInitialized) throw IOException("Mojang remapper not initialized")
+
+    val officialFile: File = File(".$MOD_ID/official_scripts/${script.name}")
+    val mojangFile: File = File(".MOD_ID/remapped_scripts/${script.name}")
+
+    try {
+        remap(
+            intermediaryRemapper,
+            script,
+            officialFile
+        )
+
+        remap(
+            mojangRemapper,
+            officialFile,
+            mojangFile
+        )
+
+        script.deleteRecursively()
+        officialFile.deleteRecursively()
+    } catch (e: Exception) {
+        logError("Error while remapping script $script", e)
+        return script
+    }
+
+    return mojangFile
+}
+
 /**
  * @since 1.1
  */
@@ -223,12 +281,12 @@ fun remapCodebase() {
 
         // actually remap stuff
 
-        val intermediaryRemapper: TinyRemapper = TinyRemapper.newRemapper()
+        intermediaryRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "intermediary", "official"))
             .rebuildSourceFilenames(false)
             .build()
 
-        val mojangRemapper: TinyRemapper = TinyRemapper.newRemapper()
+        mojangRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
             .rebuildSourceFilenames(false)
             .build()
@@ -245,6 +303,8 @@ fun remapCodebase() {
             ".$MOD_ID/remapped/",
             "class"
         )
+
+        File(".$MOD_ID/official/").deleteRecursively()
 
         log("Successfully remapped the current codebase")
     } catch (e: Exception) {

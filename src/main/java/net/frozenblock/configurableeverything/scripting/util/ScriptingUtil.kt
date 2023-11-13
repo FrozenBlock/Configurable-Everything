@@ -23,6 +23,17 @@ internal object ScriptingUtil {
     private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
         val compilationConfiguration = CEScriptCompilationConfig
         val evaluationConfiguration = CEScriptEvaluationConfig
+        if (ENABLE_EXPERIMENTAL_FEATURES) {
+            val compiledScript: KJvmCompiledScript = JvmScriptCompiler()(
+                script.toScriptSource(),
+                compilationConfiguration
+            ) as? KJvmCompiledScript ?: error("Compiled script is not java??")
+            val file = File(".$MOD_ID/original_scripts/${script.getName()}.jar")
+            compiledScript.saveToJar(file)
+            val remappedFile: File = remapScript(file)
+            val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
+            return BasicJvmScriptEvaluator()(remappedScript, evaluationConfiguration)
+        }
         return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
     }
 
@@ -44,18 +55,22 @@ internal object ScriptingUtil {
         val folder = path.toFile().listFiles() ?: return
         for (file in folder) {
             if (file.isDirectory) continue
-            val result = runScript(file)
-            result.reports.forEach {
-                val message = " : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}"
-                when (it.severity) {
-                    ScriptDiagnostic.Severity.DEBUG -> logDebug(message)
-                    ScriptDiagnostic.Severity.INFO -> log(message)
-                    ScriptDiagnostic.Severity.WARNING -> logWarn(message)
-                    ScriptDiagnostic.Severity.ERROR -> logError(message)
-                    ScriptDiagnostic.Severity.FATAL -> logError(message)
-                    else -> logError(message)
+            try {
+                val result = runScript(file)
+                result.reports.forEach {
+                    val message = " : ${it.message}" + if (it.exception == null) "" else ": ${it.exception}"
+                    when (it.severity) {
+                        ScriptDiagnostic.Severity.DEBUG -> logDebug(message)
+                        ScriptDiagnostic.Severity.INFO -> log(message)
+                        ScriptDiagnostic.Severity.WARNING -> logWarn(message)
+                        ScriptDiagnostic.Severity.ERROR -> logError(message)
+                        ScriptDiagnostic.Severity.FATAL -> logError(message)
+                        else -> logError(message)
+                    }
+                    it.exception?.printStackTrace()
                 }
-                it.exception?.printStackTrace()
+            } catch (e: Exception) {
+                logError("Error while running script $file", e)
             }
         }
     }

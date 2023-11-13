@@ -129,8 +129,11 @@ Warning: It is important to check the contents of each config before enabling th
             "net.frozenblock.configurableeverything.util.*",
             "net.frozenblock.configurableeverything.scripting.util.*",
         ).apply {
-            if (ENABLE_EXPERIMENTAL_FEATURES)
+            ifExperimental {
                 this.add("net.frozenblock.lib.config.api.instance.ConfigModification")
+                this.add("net.minecraft.core.*")
+                this.add("net.minecraft.core.registries.*")
+            }
         }
     )
 }
