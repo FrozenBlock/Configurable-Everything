@@ -220,7 +220,7 @@ private fun remap(
     newFile: File
 ) {
     try {
-        Files.copyRecursively(file.toPath(), newFile.toPath())
+        file.copyRecursively(newFile)
         remapper.readInputsAsync(remapper.createInputTag(), newFile.toPath())
 
         val consumer: OutputConsumerPath = OutputConsumerPath.Builder(newFile.toPath()).build()
