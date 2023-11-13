@@ -6,13 +6,12 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
 import java.nio.file.Path
-import kotlin.script.experimental.api.EvaluationResult
-import kotlin.script.experimental.api.ResultWithDiagnostics
-import kotlin.script.experimental.api.ScriptDiagnostic
-import kotlin.script.experimental.host.toScriptSource
+import kotlin.script.experimental.api.*
+import kotlin.script.experimental.host.*
 import kotlin.script.experimental.jvm.*
 import kotlin.script.experimental.jvm.impl.*
-import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
+import kotlin.script.experimental.jvmhost.*
+import kotlinx.coroutines.runBlocking
 
 private object InvalidChecker {
     init {
@@ -22,7 +21,7 @@ private object InvalidChecker {
 
 internal object ScriptingUtil {
 
-    private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
+    private fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> = runBlocking {
         val compilationConfiguration = CEScriptCompilationConfig
         val evaluationConfiguration = CEScriptEvaluationConfig
         if (ENABLE_EXPERIMENTAL_FEATURES) {
