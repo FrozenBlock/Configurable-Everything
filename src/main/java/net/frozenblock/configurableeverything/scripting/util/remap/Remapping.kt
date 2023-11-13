@@ -237,7 +237,7 @@ private fun remap(
  * @since 1.1
  */
 fun remapScript(script: File): File {
-    if (!intermediaryRemapper.isInitialized) throw IOException("Intermediary remapper not initialized")
+    if (!::intermediaryRemapper.isInitialized) throw IOException("Intermediary remapper not initialized")
     if (!::mojangRemapper.isInitialized) throw IOException("Mojang remapper not initialized")
 
     val officialFile: File = File(".$MOD_ID/official_scripts/${script.name}")
