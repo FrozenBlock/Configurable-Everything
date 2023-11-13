@@ -179,12 +179,12 @@ private fun remap(
     remapper: TinyRemapper,
     filesArray: Array<File>,
     newDir: String,
-    fileExtension: String
+    fileExtension: String?
 ) {
     val files: MutableMap<Path, InputTag> = mutableMapOf()
     for (file in filesArray) {
         try {
-            if (file.extension == fileExtension) {
+            if (fileExtension == null || file.extension == fileExtension) {
                 val name = file.name
                 val newFile = Path("$newDir$name")
                 file.copyRecursively(newFile.toFile())
@@ -313,7 +313,7 @@ fun remapCodebase() {
             mojangRemapper,
             File("./.$MOD_ID/official/").listFiles()!!,
             ".$MOD_ID/remapped/",
-            "class"
+            null
         )
 
         File(".$MOD_ID/official/").deleteRecursively()
