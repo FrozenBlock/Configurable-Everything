@@ -186,7 +186,7 @@ private fun remap(
             if (file.extension == fileExtension) {
                 val name = file.name
                 val newFile = Path("$newDir$name")
-                Files.copyRecursively(file.toPath(), newFile)
+                file.copyRecursively(newFile.toFile())
                 files[newFile] = remapper.createInputTag()
             }
         } catch (e: IOException) {

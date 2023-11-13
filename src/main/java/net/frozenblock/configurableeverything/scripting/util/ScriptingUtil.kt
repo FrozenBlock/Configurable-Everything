@@ -33,9 +33,9 @@ internal object ScriptingUtil {
             compiledScript.saveToJar(file)
             val remappedFile: File = remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
-            return BasicJvmScriptEvaluator()(remappedScript, evaluationConfiguration)
+            return@runBlocking BasicJvmScriptEvaluator()(remappedScript, evaluationConfiguration)
         }
-        return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
+        return@runBlocking BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
     }
 
     fun runScripts() {
