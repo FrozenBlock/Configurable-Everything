@@ -7,7 +7,6 @@ import net.frozenblock.configurableeverything.scripting.util.remap.*
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
 import java.nio.file.Path
-import kotlin.io.copy
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.*
 import kotlin.script.experimental.jvm.*
@@ -31,7 +30,7 @@ internal object ScriptingUtil {
                 script.toScriptSource(),
                 compilationConfiguration
             ) as? KJvmCompiledScript ?: error("Compiled script is not java??")
-            val file = File(".$MOD_ID/original_scripts/${script.getName()}.jar")
+            val file = File(".$MOD_ID/original_scripts/${script.name}.jar")
             compiledScript.saveToJar(file)
             val remappedFile: File = remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
