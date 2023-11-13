@@ -3,9 +3,11 @@ package net.frozenblock.configurableeverything.scripting.util
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.scripting.util.remap.*
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
 import java.nio.file.Path
+import kotlin.io.copy
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.*
 import kotlin.script.experimental.jvm.*

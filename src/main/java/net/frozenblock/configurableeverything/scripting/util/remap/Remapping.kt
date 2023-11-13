@@ -28,6 +28,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
+import kotlin.io.copyRecursively
 import kotlin.io.path.Path
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
@@ -269,17 +270,14 @@ fun remapScript(script: File): File {
 /**
  * @since 1.1
  */
-fun remapCodebase() {
+fun initialize() {
     experimentalOrThrow()
+    if (::mojangRemapper.isInitialized) return
 
-    log("Attempting to remap the current codebase")
     try {
-        // setup mappings
         downloadMappings()
         parseMappings()
         convertMappings()
-
-        // actually remap stuff
 
         intermediaryRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "intermediary", "official"))
@@ -290,6 +288,20 @@ fun remapCodebase() {
             .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
             .rebuildSourceFilenames(false)
             .build()
+    } catch (e: Exception) {
+        logError("Failed to initialize remapping", e)
+    }
+}
+
+/**
+ * @since 1.1
+ */
+fun remapCodebase() {
+    experimentalOrThrow()
+
+    log("Attempting to remap the current codebase")
+    try {
+        initialize()
 
         remap(
             intermediaryRemapper,
