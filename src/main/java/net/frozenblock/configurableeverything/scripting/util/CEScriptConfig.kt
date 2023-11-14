@@ -76,8 +76,10 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
         // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
         dependenciesFromCurrentContext(wholeClasspath = true)
-        val loader = URLClassLoader(arrayOf(File(".$MOD_ID/remapped.jar").toURI().toURL()))
-        dependenciesFromClassloader(classLoader = loader, wholeClasspath = true)
+        ifExperimental {
+            val loader = URLClassLoader(arrayOf(File(".$MOD_ID/remapped.jar").toURI().toURL()))
+            dependenciesFromClassloader(classLoader = loader, wholeClasspath = true)
+        }
     }
 
     compilerOptions(listOf("-jvm-target", "17"))

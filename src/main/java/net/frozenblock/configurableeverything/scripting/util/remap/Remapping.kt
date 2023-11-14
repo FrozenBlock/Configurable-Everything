@@ -42,8 +42,11 @@ private val TINY_MAPPINGS_FILE_PATH: Path = TINY_MAPPINGS_PATH // TODO: use a be
 private lateinit var intermediaryMappings: MemoryMappingTree
 private lateinit var mojangMappings: MemoryMappingTree
 
-private lateinit var intermediaryRemapper: TinyRemapper
-private lateinit var mojangRemapper: TinyRemapper
+private lateinit var intToOffRemapper: TinyRemapper
+private lateinit var offToIntRemapper: TinyRemapper
+
+private lateinit var offToMojRemapper: TinyRemapper
+private lateinit var mojToOffRemapper: TinyRemapper
 
 private val intermediaryUri: URI =
     URI.create("https://maven.fabricmc.net/net/fabricmc/intermediary/${VERSION.id}/intermediary-${VERSION.id}-v2.jar")
@@ -204,14 +207,14 @@ private val mojangMappingTree: TinyTree
 
 private fun remap(
     remapper: TinyRemapper,
-    filesArray: Array<File>,
+    filesArray: Array<File>?,
     newDir: String,
     fileExtension: String?
 ) {
     val files: MutableMap<Path, InputTag> = mutableMapOf()
     runBlocking {
         launch {
-            for (file in filesArray) {
+            filesArray?.forEach { file ->
                 launch {
                     try {
                         if (fileExtension == null || file.extension == fileExtension) {
@@ -280,16 +283,17 @@ fun remapScript(script: File): File {
     val mojangFile: File = File(".$MOD_ID/remapped_scripts/${script.name}")
 
     try {
+
         remap(
-            intermediaryRemapper,
-            script,
-            officialFile
+            mojToOffRemapper,
+            officialFile,
+            mojangFile
         )
 
         remap(
-            mojangRemapper,
-            officialFile,
-            mojangFile
+            offToIntRemapper,
+            script,
+            officialFile
         )
 
         script.deleteRecursively()
@@ -307,20 +311,30 @@ fun remapScript(script: File): File {
  */
 fun initialize() {
     experimentalOrThrow()
-    if (::mojangRemapper.isInitialized) return
+    if (::offToMojRemapper.isInitialized) return
 
     try {
         downloadMappings()
         parseMappings()
         convertMappings()
 
-        intermediaryRemapper = TinyRemapper.newRemapper()
+        intToOffRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "intermediary", "official"))
             .rebuildSourceFilenames(true)
             .build()
 
-        mojangRemapper = TinyRemapper.newRemapper()
+        offToIntRemapper = TinyRemapper.newRemapper()
+            .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "official", "intermediary"))
+            .rebuildSourceFilenames(true)
+            .build()
+
+        offToMojRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
+            .rebuildSourceFilenames(true)
+            .build()
+
+        mojToOffRemapper = TinyRemapper.newRemapper()
+            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "named", "official"))
             .rebuildSourceFilenames(true)
             .build()
     } catch (e: Exception) {
@@ -339,13 +353,13 @@ fun remapCodebase() {
         initialize()
 
         remap(
-            intermediaryRemapper,
+            intToOffRemapper,
             INTERMEDIARY_GAME_CACHE_PATH.toFile().listFiles()!! + INTERMEDIARY_MOD_CACHE_PATH.toFile().listFiles()!!,
             ".$MOD_ID/official/",
             "jar"
         )
         remap(
-            mojangRemapper,
+            offToMojRemapper,
             File("./.$MOD_ID/official/").listFiles()!!,
             ".$MOD_ID/remapped/",
             null
