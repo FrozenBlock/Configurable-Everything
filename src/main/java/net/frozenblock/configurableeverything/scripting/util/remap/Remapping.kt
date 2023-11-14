@@ -45,8 +45,8 @@ private lateinit var mojangMappings: MemoryMappingTree
 private lateinit var intToOffRemapper: TinyRemapper
 private lateinit var offToIntRemapper: TinyRemapper
 
-private lateinit var offToMojRemapper: TinyRemapper
 private lateinit var mojToOffRemapper: TinyRemapper
+private lateinit var offToMojRemapper: TinyRemapper
 
 private val intermediaryUri: URI =
     URI.create("https://maven.fabricmc.net/net/fabricmc/intermediary/${VERSION.id}/intermediary-${VERSION.id}-v2.jar")
@@ -328,13 +328,13 @@ fun initialize() {
             .rebuildSourceFilenames(true)
             .build()
 
-        offToMojRemapper = TinyRemapper.newRemapper()
-            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
+        mojToOffRemapper = TinyRemapper.newRemapper()
+            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "named", "official"))
             .rebuildSourceFilenames(true)
             .build()
 
-        mojToOffRemapper = TinyRemapper.newRemapper()
-            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "named", "official"))
+        offToMojRemapper = TinyRemapper.newRemapper()
+            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
             .rebuildSourceFilenames(true)
             .build()
     } catch (e: Exception) {
@@ -365,6 +365,10 @@ fun remapCodebase() {
             null
         )
 
+        REMAPPED_SOURCES_CACHE.toFile().listFiles()?.forEach { file ->
+            // should delete the leftover obfuscated files
+            if (!file.isDirectory) file.deleteRecursively()
+        }
         val jar = File(".$MOD_ID/remapped.jar")
         jar.deleteRecursively()
         REMAPPED_SOURCES_CACHE.toFile().addToJar(jar)
