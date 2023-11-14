@@ -28,7 +28,6 @@ import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
 import java.util.zip.*
-import kotlin.io.copyRecursively
 import kotlin.io.path.Path
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
@@ -175,8 +174,7 @@ private fun parseMojang() {
 
 
 private fun convertMappings() {
-    // mojangMappings is an instance of a MemoryMappingTree containing
-    // the official mojang mappings for 1.20.2
+    log("Converting Official Mojang Mappings")
     FileWriter(TINY_MAPPINGS_FILE_PATH.toFile()).use { writer ->
         val reader = TinyMappingsReader(mojangMappings, "official", "named")
         val mappings: MappingSet = reader.read()
@@ -186,24 +184,22 @@ private fun convertMappings() {
     }
 }
 
-private val intermediaryTree: TinyTree
-    get() {
-        val url = MappingConfiguration::class.java.classLoader.getResource("mappings/mappings.tiny")
-        val connection = url?.openConnection() ?: error("Intermediary location null")
+private val intermediaryTree: TinyTree by lazy {
+    val url = MappingConfiguration::class.java.classLoader.getResource("mappings/mappings.tiny")
+    val connection = url?.openConnection() ?: error("Intermediary location null")
 
-        BufferedReader(InputStreamReader(connection.getInputStream())).use { reader ->
-            return TinyMappingFactory.loadWithDetection(reader)
+    BufferedReader(InputStreamReader(connection.getInputStream())).use { reader ->
+        TinyMappingFactory.loadWithDetection(reader)
+    }
+}
+
+private val mojangMappingTree: TinyTree by lazy {
+    FileInputStream(TINY_MAPPINGS_FILE_PATH.toFile()).use { input ->
+        BufferedReader(InputStreamReader(input)).use { reader ->
+            TinyMappingFactory.loadWithDetection(reader)
         }
     }
-
-private val mojangMappingTree: TinyTree
-    get() {
-        FileInputStream(TINY_MAPPINGS_FILE_PATH.toFile()).use { input ->
-            BufferedReader(InputStreamReader(input)).use { reader ->
-                return TinyMappingFactory.loadWithDetection(reader)
-            }
-        }
-    }
+}
 
 private fun remap(
     remapper: TinyRemapper,
