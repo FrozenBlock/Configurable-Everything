@@ -133,6 +133,8 @@ Warning: It is important to check the contents of each config before enabling th
                 this.add("net.frozenblock.lib.config.api.instance.ConfigModification")
                 this.add("net.minecraft.core.*")
                 this.add("net.minecraft.core.registries.*")
+                this.add("net.minecraft.core.resources.ResourceKey")
+                this.add("net.minecraft.core.resources.ResourceLocation")
             }
         }
     )

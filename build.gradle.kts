@@ -228,6 +228,7 @@ dependencies {
     modApi(kotlin("scripting-jvm"))
     modApi(kotlin("scripting-jsr223"))
     modApi(kotlin("scripting-jvm-host"))
+    modApi(kotlin("scripting-compiler-embeddable"))
     modApi(kotlin("scripting-dependencies"))
     modApi(kotlin("scripting-dependencies-maven"))
 

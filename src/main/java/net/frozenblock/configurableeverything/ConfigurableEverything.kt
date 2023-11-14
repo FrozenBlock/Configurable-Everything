@@ -21,7 +21,9 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
+import java.io.File
 import java.io.IOException
+import kotlin.io.path.Path
 import kotlin.system.measureNanoTime
 
 /**
@@ -64,20 +66,25 @@ class ConfigurableEverything : ModInitializer {
                     ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
+                    File(".$MOD_ID/original_scripts/").recreateDir()
+                    File(".$MOD_ID/official_scripts/").recreateDir()
+                    File(".$MOD_ID/remapped_scripts/").recreateDir()
                 }
 
                 ifExperimental {
                     FileUtil.createDirectoriesSafe(RAW_MAPPINGS_PATH)
-                    FileUtil.createDirectoriesSafe(OFFICIAL_SOURCES_CACHE)
-                    FileUtil.createDirectoriesSafe(REMAPPED_SOURCES_CACHE)
+                    OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+                    REMAPPED_SOURCES_CACHE.toFile().recreateDir()
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             ifExtended {
                 // TODO: finish remapping
-                ifExperimental(::remapCodebase)
-                ScriptingUtil::runScripts
+                ifExperimental {
+                    remapCodebase()
+                }
+                ScriptingUtil.runScripts()
             }
 
             // run functionality AFTER scripts have run
