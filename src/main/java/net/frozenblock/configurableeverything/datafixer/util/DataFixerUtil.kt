@@ -2,6 +2,8 @@ package net.frozenblock.configurableeverything.datafixer.util
 
 import com.mojang.datafixers.DataFixerBuilder
 import com.mojang.datafixers.schemas.Schema
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.MainConfig
@@ -72,9 +74,13 @@ object DataFixerUtil {
                 }
                 try {
                     val schema = addedSchemas[version]
-                    for (entry in fix.entries) {
-                        for (fixer in entry.fixers) {
-                            handleFixer(builder, schema, entry, fixer)
+                    runBlocking {
+                        for (entry in fix.entries) {
+                            launch {
+                                for (fixer in entry.fixers) {
+                                    launch { handleFixer(builder, schema, entry, fixer) }
+                                }
+                            }
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {

@@ -12,22 +12,26 @@ fun text(key: String?): Component = Component.translatable("option.$MOD_ID.$key"
 fun tooltip(key: String?): Component = Component.translatable("tooltip.$MOD_ID.$key")
 
 // LOGGING
+@JvmOverloads
 fun log(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info(string)
     }
 }
 
+@JvmOverloads
 fun logMod(string: String, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info("$string $MOD_ID")
     }
 }
 
+@JvmOverloads
 fun logDebug(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) LOGGER?.debug(string)
 }
 
+@JvmOverloads
 fun logWarn(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) LOGGER?.warn(string)
 }

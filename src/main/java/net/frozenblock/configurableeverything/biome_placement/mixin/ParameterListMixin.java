@@ -34,8 +34,8 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
 		if (registryAccess == null) return;
-		var addedBiomes = BiomePlacementUtil.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
-		var removedBiomes = BiomePlacementUtil.biomeRemovals(dimension, registryAccess);
+		var addedBiomes = BiomePlacementUtil.biomeAdditionsJvm(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
+		var removedBiomes = BiomePlacementUtil.biomeRemovalsJvm(registryAccess, dimension);
 
 		try {
 			var biomeValues = (List<Pair<Climate.ParameterPoint, Holder<Biome>>>) (List) this.values;

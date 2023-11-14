@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.structure.util
 
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.StructureConfig
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
@@ -11,39 +13,40 @@ import java.util.*
 object StructureConfigUtil {
 
     @JvmStatic
-    fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> {
-        if (!ENABLE_EXPERIMENTAL_FEATURES) return original
+    fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
+        if (!ENABLE_EXPERIMENTAL_FEATURES) return@runBlocking original
         val config = StructureConfig.get()
-        if (MainConfig.get().structure == true) {
-            val newList: MutableList<StructureSelectionEntry> = mutableListOf()
-            newList.addAll(original)
+        if (MainConfig.get().structure != true) return@runBlocking original
+        val newList: MutableList<StructureSelectionEntry> = mutableListOf()
+        newList.addAll(original)
 
-            config.removedStructures?.value?.apply {
-                for (entry in original) {
+        config.removedStructures?.value?.apply {
+            for (entry in original) {
+                launch {
                     val key = entry.structure.unwrapKey().orElseThrow().location()
                     if (this.contains(key)) newList.remove(entry)
                 }
             }
-            return Collections.unmodifiableList(newList)
         }
-        return original
+        return Collections.unmodifiableList(newList)
     }
 
     @JvmStatic
-    fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> {
-        if (!ENABLE_EXPERIMENTAL_FEATURES) return original
+    fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
+        if (!ENABLE_EXPERIMENTAL_FEATURES) return@runBlocking original
         val config = StructureConfig.get()
-        if (MainConfig.get().structure == true) {
-            val newList: MutableList<Holder<StructureSet>> = mutableListOf()
-            newList.addAll(original)
+        if (MainConfig.get().structure != true) return@runBlocking original
+        val newList: MutableList<Holder<StructureSet>> = mutableListOf()
+        newList.addAll(original)
 
-            config.removedStructureSets?.value?.apply {
-                for (set in original) {
-                    if (this.contains(set.unwrapKey().orElseThrow().location())) newList.remove(set)
+        config.removedStructureSets?.value?.apply {
+            for (set in original) {
+                launch {
+                    if (this.contains(set.unwrapKey().orElseThrow().location()))
+                        newList.remove(set)
                 }
             }
-            return Collections.unmodifiableList(newList)
         }
-        return original
+        return Collections.unmodifiableList(newList)
     }
 }
