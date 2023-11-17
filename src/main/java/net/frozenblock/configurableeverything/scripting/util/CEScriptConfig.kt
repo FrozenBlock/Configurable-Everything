@@ -81,7 +81,7 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
         dependenciesFromCurrentContext(wholeClasspath = true)
         ifExperimental {
             val loader = URLClassLoader(arrayOf(File(".$MOD_ID/remapped.jar").toURI().toURL()))
-            dependenciesFromClassloader(classLoader = loader, wholeClasspath = true)
+            dependenciesFromClassloader(classLoader = loader, wholeClasspath = true, unpackJarCollections = true)
         }
     }
 

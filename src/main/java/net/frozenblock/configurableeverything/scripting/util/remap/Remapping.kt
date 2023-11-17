@@ -30,8 +30,6 @@ import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
 import java.util.zip.*
 import kotlin.io.path.Path
-import kotlin.io.path.deleteRecursively
-import kotlin.io.path.name
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
@@ -217,7 +215,7 @@ private fun remap(
                 if (fileExtension == null || file.extension == fileExtension) {
                     val name = file.name
                     val newFile = Path("$newDir$name")
-                    file.copyRecursively(newFile.toFile())
+                    file.copyRecursively(newFile.toFile(), onError = { file, e -> OnErrorAction.SKIP })
                     files[newFile] = remapper.createInputTag()
                 }
             } catch (e: IOException) {
@@ -275,35 +273,35 @@ private fun remap(
 )
 
 /**
- * @param script The original script file
+ * @param originalFile The original script file
  * @return The remapped script file
  * @since 1.1
  */
-fun remapScript(script: File): File {
+fun remapScript(originalFile: File): File {
     initialize()
 
-    val officialFile: File = File(".$MOD_ID/official_scripts/${script.name}")
-    val mojangFile: File = File(".$MOD_ID/remapped_scripts/${script.name}")
+    val officialFile = File(".$MOD_ID/official_scripts/${originalFile.name}")
+    val mojangFile = File(".$MOD_ID/remapped_scripts/${originalFile.name}")
 
     try {
 
         remap(
             mojToOffRemapper,
-            officialFile,
-            mojangFile
+            originalFile,
+            officialFile
         )
 
         remap(
             offToIntRemapper,
-            script,
-            officialFile
+            officialFile,
+            mojangFile
         )
 
-        script.deleteRecursively()
+        originalFile.deleteRecursively()
         officialFile.deleteRecursively()
     } catch (e: Exception) {
-        logError("Error while remapping script $script", e)
-        return script
+        logError("Error while remapping script $originalFile", e)
+        return originalFile
     }
 
     return mojangFile
@@ -375,7 +373,7 @@ fun remapCodebase() {
                 // TODO: Config options
                 val filterOption: FilterOption? = FilterOption.INCLUDED
                 val filter = listOf(
-                    "frozenlib"
+                    "configurable_everything"
                 )
                 when (filterOption) {
                     FilterOption.INCLUDED -> if (!filter.contains(id)) continue
@@ -406,12 +404,31 @@ fun remapCodebase() {
             logError("Failed to remap mods", e)
         }
 
-        remap(
-            offToMojRemapper,
-            INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
-            ".$MOD_ID/remapped/",
-            "jar"
-        )
+        // clear official dir before remapping the game jars
+        OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+
+        if (FabricLoader.getInstance().isDevelopmentEnvironment) {
+            remap(
+                offToMojRemapper,
+                INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
+                ".$MOD_ID/remapped/",
+                "jar"
+            )
+        } else {
+            remap(
+                intToOffRemapper,
+                INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
+                ".$MOD_ID/official/",
+                "jar"
+            )
+
+            remap(
+                offToMojRemapper,
+                OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
+                ".$MOD_ID/remapped/",
+                null
+            )
+        }
 
         REMAPPED_SOURCES_CACHE.toFile().listFiles()?.forEach { file ->
             // should delete the leftover obfuscated files
