@@ -28,8 +28,10 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
+import java.util.jar.*
 import java.util.zip.*
 import kotlin.io.path.Path
+import kotlin.io.path.pathString
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
@@ -280,31 +282,56 @@ private fun remap(
 fun remapScript(originalFile: File): File {
     initialize()
 
-    val officialFile = File(".$MOD_ID/official_scripts/${originalFile.name}")
-    val mojangFile = File(".$MOD_ID/remapped_scripts/${originalFile.name}")
+    val officialDir = ".$MOD_ID/official_scripts/"
+    val intermediaryDir = ".$MOD_ID/remapped_scripts/scripts/"
 
     try {
 
         remap(
             mojToOffRemapper,
-            originalFile,
-            officialFile
+            arrayOf(originalFile),
+            officialDir,
+            "jar"
         )
+
+        val officialList = File(officialDir).listFiles()!!
 
         remap(
             offToIntRemapper,
-            officialFile,
-            mojangFile
+            officialList,
+            intermediaryDir,
+            null
         )
 
-        originalFile.deleteRecursively()
-        officialFile.deleteRecursively()
+        val jar = File(".$MOD_ID/remapped_scripts/${originalFile.name}")
+        jar.deleteRecursively()
+        JarOutputStream(FileOutputStream(jar)).use { output ->
+            JarFile(originalFile).use { jarFile ->
+                for (entry in jarFile.entries()) {
+                    if (!entry.name.contains("META-INF")) continue
+
+                    jarFile.getInputStream(entry).use { input ->
+                        output.putNextEntry(entry)
+                        input.copyTo(output)
+                    }
+                }
+            }
+            File(intermediaryDir).listFiles()!!.forEach { file ->
+                FileInputStream(file).use { input ->
+                    output.putNextEntry(JarEntry(file.name))
+                    input.copyTo(output)
+                }
+            }
+        }
+
+        return jar
     } catch (e: Exception) {
         logError("Error while remapping script $originalFile", e)
         return originalFile
+    } finally {
+        File(officialDir).recreateDir()
+        File(intermediaryDir).recreateDir()
     }
-
-    return mojangFile
 }
 
 /**
@@ -434,9 +461,6 @@ fun remapCodebase() {
             // should delete the leftover obfuscated files
             if (!file.isDirectory) file.deleteRecursively()
         }
-        val jar = File(".$MOD_ID/remapped.jar")
-        jar.deleteRecursively()
-        REMAPPED_SOURCES_CACHE.toFile().addToJar(jar)
 
         for (file in OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!) {
             file.deleteRecursively()
