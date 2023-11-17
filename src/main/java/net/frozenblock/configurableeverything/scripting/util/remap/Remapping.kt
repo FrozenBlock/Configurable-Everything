@@ -5,6 +5,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.impl.launch.MappingConfiguration
 import net.fabricmc.loader.impl.util.mappings.TinyRemapperMappingsHelper
 import net.fabricmc.lorenztiny.TinyMappingsReader
@@ -29,6 +30,8 @@ import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
 import java.util.zip.*
 import kotlin.io.path.Path
+import kotlin.io.path.deleteRecursively
+import kotlin.io.path.name
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
@@ -209,23 +212,21 @@ private fun remap(
 ) {
     val files: MutableMap<Path, InputTag> = mutableMapOf()
     runBlocking {
-        launch {
-            filesArray?.forEach { file ->
-                launch {
-                    try {
-                        if (fileExtension == null || file.extension == fileExtension) {
-                            val name = file.name
-                            val newFile = Path("$newDir$name")
-                            file.copyRecursively(newFile.toFile())
-                            files[newFile] = remapper.createInputTag()
-                        }
-                    } catch (e: IOException) {
-                        logError("Error while copying $file", e)
-                    }
+        filesArray?.forEach { file -> launch {
+            try {
+                if (fileExtension == null || file.extension == fileExtension) {
+                    val name = file.name
+                    val newFile = Path("$newDir$name")
+                    file.copyRecursively(newFile.toFile())
+                    files[newFile] = remapper.createInputTag()
                 }
+            } catch (e: IOException) {
+                logError("Error while copying $file", e)
             }
-        }.join()
+        } }
+    }
 
+    runBlocking {
         for ((file, tag) in files) {
             launch {
                 try {
@@ -250,7 +251,15 @@ private fun remap(
                 logError("Error while deleting file $file", e)
             }
         }*/
-        remapper.finish()
+        //remapper.finish()
+    }
+
+    try {
+        File(newDir).walk().forEach { file ->
+            if (file.exists() && file.name.contains("package-info")) file.deleteRecursively()
+        }
+    } catch (e: IOException) {
+        logError("Could not delete all package-info classes", e)
     }
 }
 
@@ -258,14 +267,12 @@ private fun remap(
     remapper: TinyRemapper,
     file: File,
     newFile: File
-) {
-    remap(
-        remapper,
-        arrayOf(file),
-        "${newFile.parent}/",
-        file.extension
-    )
-}
+) = remap(
+    remapper,
+    arrayOf(file),
+    "${newFile.parent}/",
+    file.extension
+)
 
 /**
  * @param script The original script file
@@ -314,28 +321,39 @@ fun initialize() {
         parseMappings()
         convertMappings()
 
+        log("Building remappers")
+
         intToOffRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "intermediary", "official"))
             .rebuildSourceFilenames(true)
+            .keepInputData(true)
             .build()
 
         offToIntRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "official", "intermediary"))
             .rebuildSourceFilenames(true)
+            .keepInputData(true)
             .build()
 
         mojToOffRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "named", "official"))
             .rebuildSourceFilenames(true)
+            .keepInputData(true)
             .build()
 
         offToMojRemapper = TinyRemapper.newRemapper()
             .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
             .rebuildSourceFilenames(true)
+            .keepInputData(true)
             .build()
     } catch (e: Exception) {
         logError("Failed to initialize remapping", e)
     }
+}
+
+private enum class FilterOption {
+    INCLUDED,
+    EXCLUDED
 }
 
 /**
@@ -348,17 +366,51 @@ fun remapCodebase() {
     try {
         initialize()
 
-        remap(
-            intToOffRemapper,
-            INTERMEDIARY_GAME_CACHE_PATH.toFile().listFiles()!! + INTERMEDIARY_MOD_CACHE_PATH.toFile().listFiles()!!,
-            ".$MOD_ID/official/",
-            "jar"
-        )
+        // remap mods
+        log("Remapping mods")
+        try {
+            for (mod in FabricLoader.getInstance().allMods) {
+                val id = mod.metadata.id
+
+                // TODO: Config options
+                val filterOption: FilterOption? = FilterOption.INCLUDED
+                val filter = listOf(
+                    "frozenlib"
+                )
+                when (filterOption) {
+                    FilterOption.INCLUDED -> if (!filter.contains(id)) continue
+                    FilterOption.EXCLUDED -> if (filter.contains(id)) continue
+                    else -> continue
+                }
+
+                val file = getModFile(id)
+                if (file == null) {
+                    logError("File for mod id $id is null")
+                    continue
+                }
+                val officialFile = File(".$MOD_ID/official/${file.name}")
+                val remappedFile = File(".$MOD_ID/remapped/${file.name}")
+
+                remap(
+                    if (FabricLoader.getInstance().isDevelopmentEnvironment) mojToOffRemapper else intToOffRemapper,
+                    file,
+                    officialFile
+                )
+                remap(
+                    if (FabricLoader.getInstance().isDevelopmentEnvironment) mojToOffRemapper else intToOffRemapper,
+                    file,
+                    remappedFile
+                )
+            }
+        } catch (e: Exception) {
+            logError("Failed to remap mods", e)
+        }
+
         remap(
             offToMojRemapper,
-            File("./.$MOD_ID/official/").listFiles()!!,
+            INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
             ".$MOD_ID/remapped/",
-            null
+            "jar"
         )
 
         REMAPPED_SOURCES_CACHE.toFile().listFiles()?.forEach { file ->
@@ -369,12 +421,8 @@ fun remapCodebase() {
         jar.deleteRecursively()
         REMAPPED_SOURCES_CACHE.toFile().addToJar(jar)
 
-        runBlocking {
-            for (file in OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!) {
-                launch {
-                    file.deleteRecursively()
-                }
-            }
+        for (file in OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!) {
+            file.deleteRecursively()
         }
 
         log("Successfully remapped the current codebase")

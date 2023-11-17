@@ -56,6 +56,10 @@ Warning: It is important to check the contents of each config before enabling th
     var screen_shake: Boolean? = false,
 
     @JvmField
+    @Comment("Requires Fabric Kotlin Extensions")
+    var scripting: Boolean? = false,
+
+    @JvmField
     @Comment("Not functional until 1.1")
     var sculk_spreading: Boolean? = false,
 
@@ -77,10 +81,6 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     @Comment("Datapack features will not apply unless the main toggle and datapack toggle are set to true.")
     var datapack: DatapackConfig? = DatapackConfig(),
-
-    @JvmField
-    @Comment("Requires Fabric Kotlin Extensions")
-    var kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
 ) {
 
     companion object : JsonConfig<MainConfig>(
@@ -117,25 +117,5 @@ Warning: It is important to check the contents of each config before enabling th
         @JvmField
         @Comment("Allows the usage of JSON5 files in datapacks.")
         var json5Support: Boolean? = true
-    )
-
-    data class KotlinScriptingConfig(
-        @JvmField
-        var applyKotlinScripts: Boolean? = true,
-
-        @JvmField
-        var defaultImports: List<String>? = arrayListOf(
-            "kotlinx.coroutines.*",
-            "net.frozenblock.configurableeverything.util.*",
-            "net.frozenblock.configurableeverything.scripting.util.*",
-        ).apply {
-            ifExperimental {
-                this.add("net.frozenblock.lib.config.api.instance.ConfigModification")
-                this.add("net.minecraft.core.*")
-                this.add("net.minecraft.core.registries.*")
-                this.add("net.minecraft.core.resources.ResourceKey")
-                this.add("net.minecraft.core.resources.ResourceLocation")
-            }
-        }
     )
 }

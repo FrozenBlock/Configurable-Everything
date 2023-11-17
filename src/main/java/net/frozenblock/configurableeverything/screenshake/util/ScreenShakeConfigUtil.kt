@@ -85,7 +85,6 @@ object ScreenShakeConfigUtil {
                     shake.intensity,
                     shake.duration,
                     shake.falloffStart,
-                    pos,
                     shake.maxDistance,
                     0
                 )

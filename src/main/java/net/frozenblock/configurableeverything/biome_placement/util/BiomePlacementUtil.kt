@@ -2,6 +2,9 @@ package net.frozenblock.configurableeverything.biome_placement.util
 
 import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.MainConfig
@@ -58,7 +61,7 @@ object BiomePlacementUtil {
 
             // remove biomes first to allow replacing biome parameters
             val removedBiomeHolders: MutableList<Holder<Biome>?> = ArrayList()
-            removedBiomeHolders.addAll(biomeRemovals(dimension, registryAccess).map {
+            removedBiomeHolders.addAll(biomeRemovals(registryAccess, dimension).filterNotNull().map {
                 biomeRegistry.getOrThrow(it)
             })
 
@@ -74,7 +77,7 @@ object BiomePlacementUtil {
     @JvmStatic
     fun biomeAdditionsJvm(
         registryAccess: HolderGetter<Biome>?,
-        dimension: ResourceKEy<DimensionType>?
+        dimension: ResourceKey<DimensionType>?
     ) = runBlocking {
         biomeAdditions(registryAccess, dimension)
     }
@@ -82,7 +85,7 @@ object BiomePlacementUtil {
     suspend fun biomeAdditions(
         registryAccess: HolderGetter<Biome>?,
         dimension: ResourceKey<DimensionType>?
-    ): List<Pair<ParameterPoint?, Holder<Biome>>> {
+    ): List<Pair<ParameterPoint?, Holder<Biome>>> = coroutineScope {
         val biomeAdditions: MutableList<Pair<ParameterPoint?, Holder<Biome>>> = ArrayList()
         val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.changes
         val addedBiomes: MutableList<DimensionBiomeList?> = ArrayList()
@@ -110,7 +113,7 @@ object BiomePlacementUtil {
                 }
             } }
         } }
-        return biomeAdditions
+        return@coroutineScope biomeAdditions
     }
 
     @JvmStatic
@@ -124,7 +127,7 @@ object BiomePlacementUtil {
     suspend fun biomeRemovals(
         registryAccess: RegistryAccess?,
         dimension: ResourceKey<DimensionType>?
-    ): List<ResourceKey<Biome>?> {
+    ): List<ResourceKey<Biome>?> = coroutineScope {
         val biomeRemovals: MutableList<ResourceKey<Biome>?> = ArrayList()
         val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.changes
         val removedBiomes: MutableList<DimensionBiomeKeyList?> = ArrayList()
@@ -149,6 +152,6 @@ object BiomePlacementUtil {
                 }
             } }
         } }
-        return biomeRemovals
+        return@coroutineScope biomeRemovals
     }
 }

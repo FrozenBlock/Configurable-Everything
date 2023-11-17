@@ -26,7 +26,7 @@ object EntityConfigUtil {
             config.entityFlyBySounds?.value?.apply {
                 for (sound in this) {
                     launch {
-                        if (sound == null) continue
+                        if (sound == null) return@launch
                         val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
                         if (optionalEntity.isPresent) {
                             val entity = optionalEntity.get()
@@ -49,27 +49,27 @@ object EntityConfigUtil {
     @JvmStatic
     fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
         val config = EntityConfig.get()
-        if (MainConfig.get().entity != false) return
+        if (MainConfig.get().entity != false) return@runBlocking
         config.entityAttributeAmplifiers?.value()?.apply {
             val entityAttributeAmplifiers = this
             (entityAccess as? LivingEntity)?.apply {
                 for (entityAttributeAmplifier in entityAttributeAmplifiers) {
                     launch {
-                        val desiredEntity = entityAttributeAmplifier?.entity ?: continue
-                        val desiredEntityName = entityAttributeAmplifier.entityName ?: continue
-                        val amplifiers = entityAttributeAmplifier.amplifiers ?: continue
-                        if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(this.type)) return
+                        val desiredEntity = entityAttributeAmplifier?.entity ?: return@launch
+                        val desiredEntityName = entityAttributeAmplifier.entityName ?: return@launch
+                        val amplifiers = entityAttributeAmplifier.amplifiers ?: return@launch
+                        if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(this@apply.type)) return@launch
                         val desEntityNameComponent: Component = Component.literal(desiredEntityName)
-                        if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == this.name) {
-                            val attributes: AttributeMap = this.attributes
+                        if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == this@apply.name) {
+                            val attributes: AttributeMap = this@apply.attributes
                             for (amplifier in amplifiers) {
                                 launch {
-                                    val amplifierAttribute = amplifier?.attribute ?: continue
-                                    val amplifierAmplifier = amplifier.amplifier ?: continue
+                                    val amplifierAttribute = amplifier?.attribute ?: return@launch
+                                    val amplifierAmplifier = amplifier.amplifier ?: return@launch
                                     val attribute: AttributeInstance? = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute)?.let(attributes::getInstance)
                                     attribute?.addTransientModifier(
                                         AttributeModifier(
-                                            "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${this.name}",
+                                            "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${this@apply.name}",
                                             amplifierAmplifier - 1.0,
                                             AttributeModifier.Operation.MULTIPLY_TOTAL
                                         )

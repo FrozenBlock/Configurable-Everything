@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.biome.util
 
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.biome.v1.*
@@ -48,14 +49,14 @@ object BiomeConfigUtil {
         } }
     }
 
-    private suspend fun initAddedFeatures(change: BiomeChange, modification: BiomeModification) {
-        val addedFeatures = change.addedFeatures ?: return
+    private suspend fun initAddedFeatures(change: BiomeChange, modification: BiomeModification) = coroutineScope {
+        val addedFeatures = change.addedFeatures ?: return@coroutineScope
         for (list in addedFeatures) { launch {
-            val biome = list?.biome ?: continue
-            val features = list.features ?: continue
+            val biome = list?.biome ?: return@launch
+            val features = list.features ?: return@launch
             val consumer = Consumer<BiomeModificationContext> { context -> runBlocking {
                 for (decorationFeature in features) { launch {
-                    val placedFeatures = decorationFeature?.placedFeatures ?: continue
+                    val placedFeatures = decorationFeature?.placedFeatures ?: return@launch
                     for (placedFeature in placedFeatures) { launch {
                         placedFeature?.apply {
                             context.generationSettings.addFeature(
@@ -83,14 +84,14 @@ object BiomeConfigUtil {
         } }
     }
 
-    private suspend fun initRemovedFeatures(change: BiomeChange, modification: BiomeModification) {
-        val removedFeatures = change.removedFeatures ?: return
+    private suspend fun initRemovedFeatures(change: BiomeChange, modification: BiomeModification) = coroutineScope {
+        val removedFeatures = change.removedFeatures ?: return@coroutineScope
         for (list in removedFeatures) { launch {
             val biome = list?.biome ?: return@launch
             val features = list.features ?: return@launch
             val consumer = Consumer<BiomeModificationContext> { context -> runBlocking {
                 for (decorationFeature in features) { launch {
-                    val placedFeatures = decorationFeature?.placedFeatures ?: continue
+                    val placedFeatures = decorationFeature?.placedFeatures ?: return@launch
                     for (placedFeature in placedFeatures) { launch {
                         placedFeature?.apply {
                             context.generationSettings.removeFeature(
@@ -118,16 +119,16 @@ object BiomeConfigUtil {
         } }
     }
 
-    private suspend fun initReplacedFeatures(change: BiomeChange, modification: BiomeModification) {
-        val replacedFeatures = change.replacedFeatures ?: return
+    private suspend fun initReplacedFeatures(change: BiomeChange, modification: BiomeModification) = coroutineScope {
+        val replacedFeatures = change.replacedFeatures ?: return@coroutineScope
         for (list in replacedFeatures) { launch {
-            val biome = list?.biome ?: continue
-            val replacements = list.replacements ?: continue
+            val biome = list?.biome ?: return@launch
+            val replacements = list.replacements ?: return@launch
             val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context -> runBlocking {
                 for (replacement in replacements) { launch {
-                    val original = replacement?.original ?: continue
-                    val decoration = replacement.replacement?.decoration ?: continue
-                    val placedFeatures = replacement.replacement?.placedFeatures ?: continue
+                    val original = replacement?.original ?: return@launch
+                    val decoration = replacement.replacement?.decoration ?: return@launch
+                    val placedFeatures = replacement.replacement?.placedFeatures ?: return@launch
                     context.generationSettings.removeFeature(decoration, original)
                     for (placedFeature in placedFeatures) {
                         context.generationSettings.addFeature(decoration, placedFeature)
@@ -151,11 +152,11 @@ object BiomeConfigUtil {
         } }
     }
 
-    private suspend fun initReplacedMusic(change: BiomeChange, modification: BiomeModification) {
-        val replacedMusic = change.musicReplacements ?: return
+    private suspend fun initReplacedMusic(change: BiomeChange, modification: BiomeModification) = coroutineScope {
+        val replacedMusic = change.musicReplacements ?: return@coroutineScope
         for (musicReplacement in replacedMusic) { launch {
-            val biome = musicReplacement?.biome ?: continue
-            val music = musicReplacement.music?.immutable() ?: continue
+            val biome = musicReplacement?.biome ?: return@launch
+            val music = musicReplacement.music?.immutable() ?: return@launch
             val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                 context.effects.setMusic(music)
             }

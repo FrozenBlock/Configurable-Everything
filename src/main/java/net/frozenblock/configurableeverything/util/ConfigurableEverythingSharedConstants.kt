@@ -45,6 +45,12 @@ val DATAPACKS_PATH: Path = Path("./config/$MOD_ID/datapacks")
 @JvmField
 val INTERMEDIARY_ROOT_CACHE_PATH: Path = if (FrozenBools.IS_QUILT) Path(".quilt/") else Path(".fabric/")
 
+val INPUT_GAME_JARS: List<Path>
+    @Suppress("unchecked")
+    get() {
+        return FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as List<Path>
+    }
+
 @JvmField
 val INTERMEDIARY_GAME_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/remappedJars/minecraft-${modContainer("minecraft").version}-${modContainer("fabricloader").version}/")
 

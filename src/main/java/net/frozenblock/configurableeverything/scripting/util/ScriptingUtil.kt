@@ -4,6 +4,7 @@ import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.scripting.util.remap.remapScript
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
@@ -58,7 +59,7 @@ internal object ScriptingUtil {
 
     fun runScripts() {
         log("Running scripts")
-        if (MainConfig.get().kotlinScripting?.applyKotlinScripts != true)
+        if (MainConfig.get().scripting != true || ScriptingConfig.get().applyKotlinScripts != true)
             return
         runScripts(KOTLIN_SCRIPT_PATH)
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)

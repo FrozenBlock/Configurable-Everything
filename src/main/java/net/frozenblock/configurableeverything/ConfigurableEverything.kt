@@ -50,6 +50,7 @@ class ConfigurableEverything : ModInitializer {
             }
             RegistryConfig
             ScreenShakeConfig
+            ScriptingConfig
             ifClient {
                 SplashTextConfig
             }

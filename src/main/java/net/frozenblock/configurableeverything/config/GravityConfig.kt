@@ -10,8 +10,8 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.gravity.api.GravityAPI.AbsoluteGravityFunction
-import net.frozenblock.lib.gravity.api.GravityAPI.GravityBelt
+import net.frozenblock.lib.gravity.api.GravityBelt
+import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 

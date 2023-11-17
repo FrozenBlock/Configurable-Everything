@@ -2,8 +2,8 @@ package net.frozenblock.configurableeverything.gravity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.frozenblock.lib.gravity.api.GravityAPI.AbsoluteGravityFunction
-import net.frozenblock.lib.gravity.api.GravityAPI.GravityBelt
+import net.frozenblock.lib.gravity.api.GravityBelt
+import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.dimension.DimensionType

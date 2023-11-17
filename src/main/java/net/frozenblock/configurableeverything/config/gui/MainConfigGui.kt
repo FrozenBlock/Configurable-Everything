@@ -148,22 +148,6 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         true
     ).build(entryBuilder) as BooleanListEntry
 
-    // kotlin scripting
-
-    val applyKotlinScripts: BooleanListEntry = EntryBuilder(text("apply_kotlin_scripts"), config.kotlinScripting?.applyKotlinScripts,
-        defaultConfig.kotlinScripting!!.applyKotlinScripts!!,
-        { newValue -> config.kotlinScripting?.applyKotlinScripts = newValue },
-        tooltip("apply_kotlin_scripts"),
-        true
-    ).build(entryBuilder) as BooleanListEntry
-
-    val defaultImports: StringListListEntry = entryBuilder.startStrList(text("default_imports"), config.kotlinScripting?.defaultImports)
-        .setDefaultValue { defaultConfig.kotlinScripting!!.defaultImports!! }
-        .setSaveConsumer { newValue -> config.kotlinScripting?.defaultImports = newValue }
-        .setTooltip(tooltip("default_imports"))
-        .requireRestart()
-        .build()
-
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         category.background = id("textures/config/main.png")
 
@@ -234,11 +218,6 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
             applyDatapackFolders, datapackFolders, datapackBiome, datapackBiomePlacement, json5Support
-        )
-
-        createSubCategory(
-            entryBuilder, category, text("kotlin_scripting"), false, tooltip("kotlin_scripting"),
-            applyKotlinScripts, defaultImports
         )
     }
 }

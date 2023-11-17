@@ -37,6 +37,7 @@ object ConfigurableEverythingConfigGui {
             ifExperimental { ItemConfig.save() }
             MixinsConfig.save()
             ScreenShakeConfig.save()
+            ScriptingConfig.save()
             SplashTextConfig.save()
             ifExperimental { StructureConfig.save() }
             WorldConfig.save()
@@ -71,6 +72,9 @@ object ConfigurableEverythingConfigGui {
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
         ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
+
+        val scripting = configBuilder.getOrCreateCategory(text("scripting"))
+        ScriptingConfigGui.setupEntries(scripting, entryBuilder)
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)

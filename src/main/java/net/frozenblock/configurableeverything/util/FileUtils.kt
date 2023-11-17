@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.util
 
 import net.minecraft.FileUtil
 import java.io.*
+import java.net.URL
 import java.util.jar.JarEntry
 import java.util.jar.JarInputStream
 import java.util.jar.JarOutputStream
@@ -29,9 +30,15 @@ val File.asJarOutput: JarOutputStream
         return JarOutputStream(BufferedOutputStream(FileOutputStream(this)))
     }
 
+const val UTF8_BOM = 0xfeff.toChar().toString()
+
+fun File.readTextSkipUtf8Bom(): String = readText().removePrefix(UTF8_BOM)
+
+fun URL.readTextSkipUtf8Bom(): String = readText().removePrefix(UTF8_BOM)
+
 private fun addToJar(jarOut: JarOutputStream, sourceFile: File, parentDirPath: String) {
     val data = ByteArray(2048)
-    sourceFile.listFiles()?.forEach { f ->
+    (sourceFile.listFiles() ?: arrayOf(sourceFile)).forEach { f ->
         if (f.isDirectory) {
             val path = if (parentDirPath == "") {
                 f.name

@@ -4,7 +4,9 @@ import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.ObjectShare
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import org.slf4j.Logger
@@ -33,6 +35,7 @@ abstract class CEScript {
      */
     protected val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
     protected var logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
+    protected val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
 
     protected fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
@@ -65,7 +68,7 @@ abstract class CEScript {
 }
 
 object CEScriptCompilationConfig : ScriptCompilationConfiguration({
-    val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.defaultInstance().kotlinScripting!!.defaultImports!!
+    val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
     defaultImports(defaultImports)
     if (ENABLE_EXPERIMENTAL_FEATURES) defaultImports(DependsOn::class, Repository::class)
     baseClass(CEScript::class)
