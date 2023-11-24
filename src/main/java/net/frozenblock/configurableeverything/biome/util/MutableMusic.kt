@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.biome.util
 
 import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.Holder
 import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvent
@@ -13,7 +14,14 @@ data class MutableMusic(
 ) {
     companion object {
         @JvmField
-        val CODEC: Codec<MutableMusic> = Music.CODEC.xmap({ music -> music.mutable()}, { mutMusic -> mutMusic.immutable() })
+        val CODEC: Codec<MutableMusic> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                SoundEvent.CODEC.fieldOf("sound").forGetter(MutableMusic::event),
+                Codec.INT.fieldOf("min_delay").forGetter(MutableMusic::minDelay),
+                Codec.INT.fieldOf("max_delay").forGetter(MutableMusic::maxDelay),
+                Codec.BOOL.fieldOf("replace_current_music").forGetter(MutableMusic::replaceCurrentMusic)
+            ).apply(instance, ::MutableMusic)
+        }
     }
 }
 
