@@ -15,6 +15,7 @@ Future changelog items:
 Put changelog here:
 
 -----------------
+- Fixed compatibility issue with Create's List Filter
 - Moved `MainConfig.kotlinScripting` to `ScriptingConfig`
 - Added Scripting Config GUI
 - Added Biome Config GUI
