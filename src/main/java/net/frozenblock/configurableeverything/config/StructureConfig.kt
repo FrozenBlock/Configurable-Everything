@@ -41,7 +41,9 @@ data class StructureConfig(
         MOD_ID,
         StructureConfig::class.java,
         makeConfigPath("structure"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
 		init {

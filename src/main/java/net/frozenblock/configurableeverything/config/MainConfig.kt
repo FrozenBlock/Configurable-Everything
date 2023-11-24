@@ -87,7 +87,9 @@ Warning: It is important to check the contents of each config before enabling th
         MOD_ID,
         MainConfig::class.java,
         makeConfigPath("main"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
         init {
             ConfigRegistry.register(this)

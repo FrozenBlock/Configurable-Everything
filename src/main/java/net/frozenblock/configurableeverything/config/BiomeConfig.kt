@@ -161,7 +161,9 @@ data class BiomeConfig(
         MOD_ID,
         BiomeConfig::class.java,
         makeConfigPath("biome"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
 		init {

@@ -37,7 +37,9 @@ data class ItemConfig(
         MOD_ID,
         ItemConfig::class.java,
         makeConfigPath("item"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

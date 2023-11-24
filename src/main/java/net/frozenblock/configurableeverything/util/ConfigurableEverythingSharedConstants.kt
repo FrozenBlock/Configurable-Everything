@@ -17,7 +17,7 @@ internal const val MOD_NAME = "Configurable Everything"
 /**
  * Enables update 1.1
  */
-internal const val ENABLE_EXPERIMENTAL_FEATURES = true
+internal const val ENABLE_EXPERIMENTAL_FEATURES = false
 
 @JvmField
 internal val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)

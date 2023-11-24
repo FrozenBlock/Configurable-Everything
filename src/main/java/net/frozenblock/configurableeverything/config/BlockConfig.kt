@@ -45,7 +45,9 @@ data class BlockConfig(
         MOD_ID,
         BlockConfig::class.java,
         makeConfigPath("block"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

@@ -41,7 +41,9 @@ data class GravityConfig(
         MOD_ID,
         GravityConfig::class.java,
         makeConfigPath("gravity"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

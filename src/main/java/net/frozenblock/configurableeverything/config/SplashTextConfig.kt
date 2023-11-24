@@ -35,7 +35,9 @@ data class SplashTextConfig(
         MOD_ID,
         SplashTextConfig::class.java,
         makeConfigPath("splash_text"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

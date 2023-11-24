@@ -4,13 +4,13 @@ package net.frozenblock.configurableeverything.config.gui
 
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
 import me.shedaniel.clothconfig2.gui.entries.StringListListEntry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategory
 
@@ -88,6 +88,14 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         { newValue -> config.screen_shake = newValue },
         tooltip("screen_shake"),
         true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val scripting: BooleanListEntry = EntryBuilder(text("scripting"), config.scripting,
+        defaultConfig.scripting!!,
+        { newValue -> config.scripting = newValue },
+        tooltip("scripting"),
+        true,
+        requirement = Requirement.isTrue { HAS_EXTENSIONS }
     ).build(entryBuilder) as BooleanListEntry
 
     val splashText: BooleanListEntry = EntryBuilder(text("splash_text"), config.splash_text,
@@ -184,6 +192,8 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         }
 
         category.addEntry(screenShake)
+
+        category.addEntry(scripting)
 
         ifExperimental {
             category.addEntry(

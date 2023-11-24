@@ -34,12 +34,17 @@ object ConfigurableEverythingConfigGui {
             EntityConfig.save()
             FluidConfig.save()
             GameConfig.save()
-            ifExperimental { ItemConfig.save() }
+            ifExperimental {
+                GravityConfig.save()
+                ItemConfig.save()
+            }
             MixinsConfig.save()
             ScreenShakeConfig.save()
             ScriptingConfig.save()
             SplashTextConfig.save()
-            ifExperimental { StructureConfig.save() }
+            ifExperimental {
+                StructureConfig.save()
+            }
             WorldConfig.save()
         }
 
@@ -61,8 +66,8 @@ object ConfigurableEverythingConfigGui {
         val entity = configBuilder.getOrCreateCategory(text("entity"))
         EntityConfigGui.setupEntries(entity, entryBuilder)
 
-        val fluid = configBuilder.getOrCreateCategory(text("fluid"))
-        FluidConfigGui.setupEntries(fluid, entryBuilder)
+        //val fluid = configBuilder.getOrCreateCategory(text("fluid"))
+        //FluidConfigGui.setupEntries(fluid, entryBuilder)
 
         val game = configBuilder.getOrCreateCategory(text("game"))
         GameConfigGui.setupEntries(game, entryBuilder)

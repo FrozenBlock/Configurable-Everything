@@ -171,7 +171,9 @@ However, if the old id is still found in the registry, it will not be replaced (
         MOD_ID,
         DataFixerConfig::class.java,
         makeConfigPath("datafixer"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

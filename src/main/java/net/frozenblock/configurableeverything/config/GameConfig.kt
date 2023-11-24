@@ -26,7 +26,9 @@ The default version series is "main".
         MOD_ID,
         GameConfig::class.java,
         makeConfigPath("game"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

@@ -86,7 +86,9 @@ data class ScreenShakeConfig(
         MOD_ID,
         ScreenShakeConfig::class.java,
         makeConfigPath("screen_shake"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

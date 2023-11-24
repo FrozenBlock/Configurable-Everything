@@ -34,7 +34,9 @@ data class ScriptingConfig(
         MOD_ID,
         ScriptingConfig::class.java,
         makeConfigPath("scripting"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
         init {
             ConfigRegistry.register(this)

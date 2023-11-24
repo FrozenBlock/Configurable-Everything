@@ -216,7 +216,9 @@ data class EntityConfig(
         MOD_ID,
         EntityConfig::class.java,
         makeConfigPath("entity"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

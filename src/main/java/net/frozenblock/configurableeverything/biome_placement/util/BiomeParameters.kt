@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.biome_placement.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.frozenblock.lib.util.MutableParameterPoint
+import net.frozenblock.lib.worldgen.biome.api.MutableParameterPoint
 import net.minecraft.resources.ResourceLocation
 
 data class BiomeParameters(

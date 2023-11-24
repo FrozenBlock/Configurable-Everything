@@ -72,7 +72,9 @@ data class RegistryConfig(
         MOD_ID,
         RegistryConfig::class.java,
         makeConfigPath("registry"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

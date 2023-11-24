@@ -41,7 +41,9 @@ data class FluidConfig(
         MOD_ID,
         FluidConfig::class.java,
         makeConfigPath("fluid"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

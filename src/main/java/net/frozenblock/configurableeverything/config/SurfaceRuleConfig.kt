@@ -45,7 +45,9 @@ data class SurfaceRuleConfig(
         MOD_ID,
         SurfaceRuleConfig::class.java,
         makeConfigPath("surface_rule"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

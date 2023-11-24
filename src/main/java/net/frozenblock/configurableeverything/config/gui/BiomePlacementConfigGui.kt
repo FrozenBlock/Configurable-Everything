@@ -20,8 +20,8 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
 import net.frozenblock.lib.config.api.client.gui.makeNestedList
 import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
-import net.frozenblock.lib.util.MutableParameter
-import net.frozenblock.lib.util.mutable
+import net.frozenblock.lib.worldgen.biome.api.MutableParameter
+import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey

@@ -78,7 +78,9 @@ private fun removedFeatures(
         { element, _ ->
             biomePlacedFeaturesElement(entryBuilder, element, "removed")
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+    }
 }
 
 private fun replacedFeatures(
@@ -180,7 +182,9 @@ private fun replacedFeatures(
                 requiresRestart = true
             )
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+    }
 }
 
 private fun musicReplacements(
@@ -201,7 +205,7 @@ private fun musicReplacements(
             val defaultMinDelay: Int = 12000
             val defaultMaxDelay: Int = 24000
             val defaultReplaceCurrentMusic: Boolean = false
-            val defaultMusic: MutableMusic = MutableMusic(defaultSound, defaultMinDelay, defaultMaxDelay, defaultReplaceCurrentMusic)
+            val defaultMusic = MutableMusic(defaultSound, defaultMinDelay, defaultMaxDelay, defaultReplaceCurrentMusic)
             val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
             val biomeMusic: BiomeMusic = element ?: BiomeMusic(defaultBiome, defaultMusic)
             val biome: Either<ResourceKey<Biome>, TagKey<Biome>> = biomeMusic.biome ?: defaultBiome
@@ -260,7 +264,9 @@ private fun musicReplacements(
                 requiresRestart = true
             )
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+    }
 }
 
 private fun biomePlacedFeaturesElement(
@@ -281,10 +287,8 @@ private fun biomePlacedFeaturesElement(
         defaultBiome,
         defaultFeatures
     )
-
-    lateinit var biomeEntry: StringListEntry
     return makeMultiElementEntry(
-        text("$`lang`_features.feature_list"),
+        text("features.feature_list"),
         biomePlacedFeatureList,
         true,
 
@@ -293,7 +297,7 @@ private fun biomePlacedFeaturesElement(
             { newValue -> biomePlacedFeatureList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
             tooltip("$`lang`_features.biome"),
             requiresRestart = true
-        ).build(entryBuilder).apply { biomeEntry = this as StringListEntry },
+        ).build(entryBuilder),
 
         makeNestedList(
             entryBuilder,
@@ -327,7 +331,7 @@ private fun biomePlacedFeaturesElement(
                         .build()
                 )
             },
-            requiresRestart = true
+            requiresRestart = true,
         ),
         requiresRestart = true
     ).apply {

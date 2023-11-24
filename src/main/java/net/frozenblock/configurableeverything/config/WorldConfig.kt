@@ -31,7 +31,9 @@ data class WorldConfig(
         MOD_ID,
         WorldConfig::class.java,
         makeConfigPath("world"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {

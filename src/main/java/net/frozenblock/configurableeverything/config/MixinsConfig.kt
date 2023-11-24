@@ -70,7 +70,9 @@ Warning: Functionality will be lost if these are disabled.
         MixinsConfig::class.java,
         makeConfigPath("mixins"),
         CONFIG_JSONTYPE,
-        false // horrible idea to support modification of this config
+        false, // horrible idea to support modification of this config
+        null,
+        null
     ) {
 
         init {
@@ -78,7 +80,6 @@ Warning: Functionality will be lost if these are disabled.
         }
 
         @JvmStatic
-        @JvmOverloads
         fun get(): MixinsConfig = this.config()
     }
 }

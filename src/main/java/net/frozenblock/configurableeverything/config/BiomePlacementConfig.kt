@@ -16,7 +16,7 @@ import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
-import net.frozenblock.lib.util.mutable
+import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.biome.Climate.parameters
@@ -120,7 +120,9 @@ Does not support biomes added via TerraBlender
         MOD_ID,
         BiomePlacementConfig::class.java,
         makeConfigPath("biome_placement"),
-        CONFIG_JSONTYPE
+        CONFIG_JSONTYPE,
+        null,
+        null
     ) {
 
         init {
