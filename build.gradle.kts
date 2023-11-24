@@ -5,7 +5,6 @@ import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
 import java.io.FileInputStream
 import java.io.FileNotFoundException
-import java.net.URL
 import java.nio.file.Files
 import java.util.*
 
@@ -19,17 +18,17 @@ buildscript {
 }
 
 plugins {
-    id("fabric-loom") version("+")
-    id("org.quiltmc.gradle.licenser") version("+")
-    id("org.ajoberstar.grgit") version("+")
-    id("com.modrinth.minotaur") version("+")
-    //id("com.matthewprenger.cursegradle") version("+")
-    `maven-publish`
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.fabric.loom)
+    alias(libs.plugins.quilt.licenser)
+    alias(libs.plugins.grgit)
+    alias(libs.plugins.minotaur)
+    // id("com.matthewprenger.cursegradle") version("+")
     eclipse
     idea
     `java-library`
     java
-    kotlin("jvm") version("1.9.20")
+    `maven-publish`
 }
 
 val minecraft_version: String by project
@@ -77,7 +76,6 @@ group = maven_group
 val local_frozenlib = findProject(":FrozenLib") != null
 val release = findProperty("releaseType")?.equals("stable")
 
-
 loom {
     runtimeOnlyLog4j.set(true)
 
@@ -107,7 +105,7 @@ loom {
             name("Data Generation")
             vmArg("-Dfabric-api.datagen")
             vmArg("-Dfabric-api.datagen.output-dir=${file("src/main/generated")}")
-            //vmArg("-Dfabric-api.datagen.strict-validation")
+            // vmArg("-Dfabric-api.datagen.strict-validation")
             vmArg("-Dfabric-api.datagen.modid=$mod_id")
 
             ideConfigGenerated(true)
@@ -207,14 +205,16 @@ repositories {
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft("com.mojang:minecraft:${minecraft_version}")
-    mappings(loom.layered {
-        // please annoy treetrain if this doesnt work
-        mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
-        parchment("org.parchmentmc.data:parchment-${parchment_mappings}@zip")
-        officialMojangMappings {
-            nameSyntheticMembers = false
+    mappings(
+        loom.layered {
+            // please annoy treetrain if this doesnt work
+            mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
+            parchment("org.parchmentmc.data:parchment-${parchment_mappings}@zip")
+            officialMojangMappings {
+                nameSyntheticMembers = false
+            }
         }
-    })
+    )
     modImplementation("net.fabricmc:fabric-loader:${loader_version}")
 
     // Fabric API. This is technically optional, but you probably want it anyway.
@@ -228,8 +228,15 @@ dependencies {
     modApi(kotlin("scripting-jvm"))
     modApi(kotlin("scripting-jsr223"))
     modApi(kotlin("scripting-jvm-host"))
+    modApi(kotlin("scripting-compiler-embeddable"))
     modApi(kotlin("scripting-dependencies"))
     modApi(kotlin("scripting-dependencies-maven"))
+
+    //modApi("net.fabricmc:mapping-io:0.5.0-beta.3")
+    modApi("net.fabricmc:mapping-io:0.4.2")
+    modApi("net.fabricmc:mercury:0.4.0")
+    //modApi("org.cadixdev:lorenz-io-proguard:0.5.7")
+    modApi("net.fabricmc:lorenz-tiny:4.0.2")
 
     // FrozenLib
     if (local_frozenlib)
@@ -322,7 +329,6 @@ tasks {
     }
 }
 
-
 val test: Task by tasks
 val runClient: Task by tasks
 val runDatagen: Task by tasks
@@ -370,7 +376,7 @@ if (!(release == true || System.getenv("GITHUB_ACTIONS") == "true")) {
     runClient.dependsOn(runDatagen)
 }
 
-val env = System.getenv()
+val env: MutableMap<String, String> = System.getenv()
 
 publishing {
     val mavenUrl = env["MAVEN_URL"]
@@ -380,7 +386,10 @@ publishing {
     val release = mavenUrl?.contains("release")
     val snapshot = mavenUrl?.contains("snapshot")
 
-    val publishingValid = rootProject == project && !mavenUrl.isNullOrEmpty() && !mavenUsername.isNullOrEmpty() && !mavenPassword.isNullOrEmpty()
+    val publishingValid = rootProject == project &&
+        !mavenUrl.isNullOrEmpty() &&
+        !mavenUsername.isNullOrEmpty() &&
+        !mavenPassword.isNullOrEmpty()
 
     val publishVersion = makeModrinthVersion(mod_version)
     val snapshotPublishVersion = publishVersion + if (snapshot == true) "-SNAPSHOT" else ""
@@ -394,7 +403,11 @@ publishing {
         if (publishingValid) {
             try {
                 try {
-                    val xml = ResourceGroovyMethods.getText(URL("$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"))
+                    val xml = ResourceGroovyMethods.getText(
+                        uri(
+                            "$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"
+                        ).toURL()
+                    )
                     val metadata = XmlSlurper().parseText(xml)
 
                     if (metadata.getProperty("hash").equals(hash)) {
@@ -463,7 +476,7 @@ val display_name = makeName(mod_version)
 val changelog_text = getChangelog(file(changelog_file))
 
 fun makeName(version: String): String {
-    return "${version} (${minecraft_version})"
+    return "$version (${minecraft_version})"
 }
 
 fun makeModrinthVersion(version: String): String {
@@ -525,7 +538,7 @@ modrinth {
     versionName.set(display_name)
     versionType.set(release_type)
     changelog.set(changelog_text)
-    uploadFile.set(file("build/libs/${tasks.remapJar.get().archiveBaseName.get()}-${version}.jar"))
+    uploadFile.set(file("build/libs/${tasks.remapJar.get().archiveBaseName.get()}-$version.jar"))
     gameVersions.set(listOf(minecraft_version))
     loaders.set(listOf("fabric", "quilt"))
     dependencies {
@@ -537,7 +550,6 @@ modrinth {
         embedded.project("frozenlib")
     }
 }
-
 
 val github by tasks.register("github") {
     dependsOn(remapJar)

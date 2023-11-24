@@ -12,36 +12,40 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.item.DyeColor
 
 @Environment(EnvType.CLIENT)
-class SplashTextConfig {
-    companion object {
-        @JvmField
-        val INSTANCE: Config<SplashTextConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                SplashTextConfig::class.java,
-                makeConfigPath("splash_text"),
-                CONFIG_JSONTYPE
-            )
-        )
+data class SplashTextConfig(
+
+    @JvmField
+    var addedSplashes: List<String?>? = arrayListOf(
+        "Configurable Everything!"
+    ),
+
+    @JvmField
+    var removedSplashes: List<String?>? = arrayListOf(
+        "random splash text"
+    ),
+
+    @JvmField
+    var splashColor: Int? = DyeColor.YELLOW.textColor,
+
+    @JvmField
+    @Comment("Removes all vanilla splashes.")
+    var removeVanilla: Boolean? = true
+) {
+    companion object : JsonConfig<SplashTextConfig>(
+        MOD_ID,
+        SplashTextConfig::class.java,
+        makeConfigPath("splash_text"),
+        CONFIG_JSONTYPE,
+        null,
+        null
+    ) {
+
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): SplashTextConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): SplashTextConfig = if (real) this.instance() else this.config()
     }
-
-    @JvmField
-	var addedSplashes: List<String?>? = arrayListOf(
-        "Configurable Everything!"
-    )
-
-    @JvmField
-	var removedSplashes: List<String?>? = arrayListOf(
-        "random splash text"
-    )
-
-    @JvmField
-	var splashColor: Int? = DyeColor.YELLOW.textColor
-
-    @JvmField
-	@Comment("Removes all vanilla splashes.")
-    var removeVanilla: Boolean? = true
 }

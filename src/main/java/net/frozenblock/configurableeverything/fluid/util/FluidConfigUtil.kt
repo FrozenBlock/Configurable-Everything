@@ -6,7 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.material.Fluid
 
-object FluidConfigUtils {
+object FluidConfigUtil {
 
     @JvmStatic
     fun getTickDelay(original: Int, fluid: Fluid, level: LevelReader): Int {

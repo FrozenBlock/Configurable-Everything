@@ -14,6 +14,13 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.sounds.SoundEvents
 
+private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOverwrite?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        Codec.list(MutableBlockSoundGroupOverwrite.CODEC)
+    )
+)
+
 data class BlockConfig(
     @JvmField
     var soundGroupOverwrites: TypedEntry<List<MutableBlockSoundGroupOverwrite?>>? = TypedEntry(
@@ -34,25 +41,21 @@ data class BlockConfig(
         )
     )
 ) {
-    companion object {
-        private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOverwrite?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                Codec.list(MutableBlockSoundGroupOverwrite.CODEC)
-            )
-        )
+    companion object : JsonConfig<BlockConfig>(
+        MOD_ID,
+        BlockConfig::class.java,
+        makeConfigPath("block"),
+        CONFIG_JSONTYPE,
+        null,
+        null
+    ) {
 
-        @JvmField
-        val INSTANCE: Config<BlockConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                BlockConfig::class.java,
-                makeConfigPath("block"),
-                CONFIG_JSONTYPE
-            )
-        )
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): BlockConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): BlockConfig = if (real) this.instance() else this.config()
     }
 }

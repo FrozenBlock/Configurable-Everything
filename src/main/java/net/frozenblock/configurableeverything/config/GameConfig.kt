@@ -22,18 +22,21 @@ The default version series is "main".
     )
     var versionSeries: String? = ""
 ) {
-    companion object {
-        @JvmField
-        val INSTANCE: Config<GameConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                GameConfig::class.java,
-                makeConfigPath("game"),
-                CONFIG_JSONTYPE
-            )
-        )
+    companion object : JsonConfig<GameConfig>(
+        MOD_ID,
+        GameConfig::class.java,
+        makeConfigPath("game"),
+        CONFIG_JSONTYPE,
+        null,
+        null
+    ) {
+
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): GameConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): GameConfig = if (real) this.instance() else this.config()
     }
 }

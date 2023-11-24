@@ -1,5 +1,7 @@
 package net.frozenblock.configurableeverything.entity.util
 
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.EntityConfig
@@ -17,26 +19,27 @@ import net.minecraft.world.level.entity.EntityAccess
 
 object EntityConfigUtil {
 
-    @JvmStatic
-	fun init() {
+	fun init() = runBlocking {
         val config = EntityConfig.get()
         // only run this on client
         if (MainConfig.get().entity == true && FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             config.entityFlyBySounds?.value?.apply {
                 for (sound in this) {
-                    if (sound == null) continue
-                    val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
-                    if (optionalEntity.isPresent) {
-                        val entity = optionalEntity.get()
-                        val data = sound.sound
-                        var category: SoundSource? = null
-                        for (source in SoundSource.entries) {
-                            if (source.getName() == data.category) category = source
+                    launch {
+                        if (sound == null) return@launch
+                        val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
+                        if (optionalEntity.isPresent) {
+                            val entity = optionalEntity.get()
+                            val data = sound.sound
+                            var category: SoundSource? = null
+                            for (source in SoundSource.entries) {
+                                if (source.getName() == data.category) category = source
+                            }
+                            val soundEvent: SoundEvent? = BuiltInRegistries.SOUND_EVENT.get(data.sound)
+                            if (category != null && soundEvent != null)
+                                FlyBySoundHub.AUTO_ENTITIES_AND_SOUNDS[entity] =
+                                    FlyBySoundHub.FlyBySound(data.pitch, data.volume, category, soundEvent)
                         }
-                        val soundEvent: SoundEvent? = BuiltInRegistries.SOUND_EVENT.get(data.sound)
-                        if (category != null && soundEvent != null)
-                            FlyBySoundHub.AUTO_ENTITIES_AND_SOUNDS[entity] =
-                                FlyBySoundHub.FlyBySound(data.pitch, data.volume, category, soundEvent)
                     }
                 }
             }
@@ -44,31 +47,35 @@ object EntityConfigUtil {
     }
 
     @JvmStatic
-    fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) {
+    fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
         val config = EntityConfig.get()
-        if (MainConfig.get().entity != false) return
+        if (MainConfig.get().entity != false) return@runBlocking
         config.entityAttributeAmplifiers?.value()?.apply {
             val entityAttributeAmplifiers = this
             (entityAccess as? LivingEntity)?.apply {
                 for (entityAttributeAmplifier in entityAttributeAmplifiers) {
-                    val desiredEntity = entityAttributeAmplifier?.entity ?: continue
-                    val desiredEntityName = entityAttributeAmplifier.entityName ?: continue
-                    val amplifiers = entityAttributeAmplifier.amplifiers ?: continue
-                    if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(this.type)) return
-                    val desEntityNameComponent: Component = Component.literal(desiredEntityName)
-                    if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == this.name) {
-                        val attributes: AttributeMap = this.attributes
-                        for (amplifier in amplifiers) {
-                            val amplifierAttribute = amplifier?.attribute ?: continue
-                            val amplifierAmplifier = amplifier.amplifier ?: continue
-                            val attribute: AttributeInstance? = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute)?.let(attributes::getInstance)
-                            attribute?.addTransientModifier(
-                                AttributeModifier(
-                                    "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${this.name}",
-                                    amplifierAmplifier - 1.0,
-                                    AttributeModifier.Operation.MULTIPLY_TOTAL
-                                )
-                            )
+                    launch {
+                        val desiredEntity = entityAttributeAmplifier?.entity ?: return@launch
+                        val desiredEntityName = entityAttributeAmplifier.entityName ?: return@launch
+                        val amplifiers = entityAttributeAmplifier.amplifiers ?: return@launch
+                        if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(this@apply.type)) return@launch
+                        val desEntityNameComponent: Component = Component.literal(desiredEntityName)
+                        if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == this@apply.name) {
+                            val attributes: AttributeMap = this@apply.attributes
+                            for (amplifier in amplifiers) {
+                                launch {
+                                    val amplifierAttribute = amplifier?.attribute ?: return@launch
+                                    val amplifierAmplifier = amplifier.amplifier ?: return@launch
+                                    val attribute: AttributeInstance? = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute)?.let(attributes::getInstance)
+                                    attribute?.addTransientModifier(
+                                        AttributeModifier(
+                                            "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${this@apply.name}",
+                                            amplifierAmplifier - 1.0,
+                                            AttributeModifier.Operation.MULTIPLY_TOTAL
+                                        )
+                                    )
+                                }
+                            }
                         }
                     }
                 }

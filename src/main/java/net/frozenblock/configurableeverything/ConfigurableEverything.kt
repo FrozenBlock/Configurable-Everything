@@ -1,16 +1,17 @@
 package net.frozenblock.configurableeverything
 
-import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
-import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtil
 import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtils
+import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
+import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
+import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -20,7 +21,9 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
+import java.io.File
 import java.io.IOException
+import kotlin.io.path.Path
 import kotlin.system.measureNanoTime
 
 /**
@@ -41,40 +44,65 @@ class ConfigurableEverything : ModInitializer {
             EntityConfig
             FluidConfig
             GameConfig
-            if (ENABLE_EXPERIMENTAL_FEATURES)
+            ifExperimental {
+                GravityConfig
                 ItemConfig
+            }
             RegistryConfig
             ScreenShakeConfig
-            if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+            ScriptingConfig
+            ifClient {
                 SplashTextConfig
+            }
             SurfaceRuleConfig
-            if (ENABLE_EXPERIMENTAL_FEATURES)
+            ifExperimental {
                 StructureConfig
+            }
             WorldConfig
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
-                if (HAS_EXTENSIONS) {
+                ifExtended {
                     FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
-                    if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+                    ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
+                    }
+                    File(".$MOD_ID/original_scripts/").recreateDir()
+                    File(".$MOD_ID/official_scripts/").recreateDir()
+                    File(".$MOD_ID/remapped_scripts/").recreateDir()
+                }
+
+                ifExperimental {
+                    FileUtil.createDirectoriesSafe(RAW_MAPPINGS_PATH)
+                    OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+                    REMAPPED_SOURCES_CACHE.toFile().recreateDir()
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
-            if (HAS_EXTENSIONS) ScriptingUtil.runScripts()
+            ifExtended {
+                // TODO: finish remapping
+                ifExperimental {
+                    remapCodebase()
+                }
+                ScriptingUtil.runScripts()
+            }
 
             // run functionality AFTER scripts have run
-            BiomeConfigUtil.init()
-            BiomePlacementUtils.init()
-            BlockConfigUtil.init()
-            DataFixerUtils.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
-            EntityConfigUtil.init()
-            RegistryConfigUtil.init()
-            if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-                SplashTextConfigUtil.init()
-            SurfaceRuleConfigUtil.init()
-            WorldConfigUtil.init()
+            BiomeConfigUtil
+            BiomePlacementUtil
+            BlockConfigUtil
+            DataFixerUtil.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
+            EntityConfigUtil
+            ifExperimental {
+                GravityConfigUtil
+            }
+            RegistryConfigUtil
+            ifClient {
+                SplashTextConfigUtil
+            }
+            SurfaceRuleConfigUtil
+            WorldConfigUtil
         }
 
         log("Configurable Everything took $time nanoseconds")

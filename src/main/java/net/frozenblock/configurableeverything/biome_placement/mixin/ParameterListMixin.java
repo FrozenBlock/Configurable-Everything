@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.biome_placement.mixin;
 import com.mojang.datafixers.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
-import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtils;
+import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtil;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
 import net.minecraft.core.Holder;
@@ -34,8 +34,8 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
 		if (registryAccess == null) return;
-		var addedBiomes = BiomePlacementUtils.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
-		var removedBiomes = BiomePlacementUtils.biomeRemovals(dimension, registryAccess);
+		var addedBiomes = BiomePlacementUtil.biomeAdditionsJvm(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
+		var removedBiomes = BiomePlacementUtil.biomeRemovalsJvm(registryAccess, dimension);
 
 		try {
 			var biomeValues = (List<Pair<Climate.ParameterPoint, Holder<Biome>>>) (List) this.values;

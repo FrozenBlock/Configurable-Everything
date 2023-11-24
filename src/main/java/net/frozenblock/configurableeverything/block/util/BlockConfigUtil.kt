@@ -6,10 +6,9 @@ import net.frozenblock.lib.sound.api.block_sound_group.BlockSoundGroupOverwrites
 
 object BlockConfigUtil {
 
-    @JvmStatic
     fun init() {
         val config = BlockConfig.get()
-        if (MainConfig.get().block == false) return
+        if (MainConfig.get().block != true) return
         config.soundGroupOverwrites?.value?.apply {
             for (overwrite in this) {
                 val immutable = overwrite?.immutable() ?: continue

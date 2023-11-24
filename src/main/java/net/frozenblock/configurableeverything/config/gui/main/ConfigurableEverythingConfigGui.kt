@@ -5,39 +5,54 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.*
+import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
 
+/**
+ * A utility object for building Configurable Everything's config GUI.
+ */
 @Environment(EnvType.CLIENT)
 object ConfigurableEverythingConfigGui {
 
+    /**
+     * Builds the config screen.
+     */
     @JvmStatic
     fun buildScreen(parent: Screen?): Screen {
-        if (parent == null)
-            throw IllegalStateException("Cannot build Configurable Everything config screen as the parent screen is null.")
+        checkNotNull(parent) { "Cannot build Configurable Everything config screen as the parent screen is null." }
 
         val configBuilder = ConfigBuilder.create().setParentScreen(parent).setTitle(text("component.title"))
         val entryBuilder = configBuilder.entryBuilder()
 
         configBuilder.setSavingRunnable {
-            MainConfig.INSTANCE.save()
-            BiomeConfig.INSTANCE.save()
-            BiomePlacementConfig.INSTANCE.save()
-            DataFixerConfig.INSTANCE.save()
-            EntityConfig.INSTANCE.save()
-            FluidConfig.INSTANCE.save()
-            GameConfig.INSTANCE.save()
-            MixinsConfig.INSTANCE.save()
-            ScreenShakeConfig.INSTANCE.save()
-            SplashTextConfig.INSTANCE.save()
-            WorldConfig.INSTANCE.save()
+            MainConfigGui.INSTANCE = null
+            MainConfig.save()
+            BiomeConfig.save()
+            BiomePlacementConfig.save()
+            DataFixerConfig.save()
+            EntityConfig.save()
+            FluidConfig.save()
+            GameConfig.save()
+            ifExperimental {
+                GravityConfig.save()
+                ItemConfig.save()
+            }
+            MixinsConfig.save()
+            ScreenShakeConfig.save()
+            ScriptingConfig.save()
+            SplashTextConfig.save()
+            ifExperimental {
+                StructureConfig.save()
+            }
+            WorldConfig.save()
         }
 
         val main = configBuilder.getOrCreateCategory(text("main"))
-        MainConfigGui.setupEntries(main, entryBuilder)
+        MainConfigGui.createInstance(entryBuilder, MainConfig.get(true), MainConfig.defaultInstance()).setupEntries(main, entryBuilder)
 
-        //val biome = configBuilder.getOrCreateCategory(text("biome"))
-        //BiomeConfigGui.setupEntries(biome, entryBuilder)
+        val biome = configBuilder.getOrCreateCategory(text("biome"))
+        BiomeConfigGui.setupEntries(biome, entryBuilder)
 
         val biomePlacement = configBuilder.getOrCreateCategory(text("biome_placement"))
         BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
@@ -62,6 +77,9 @@ object ConfigurableEverythingConfigGui {
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
         ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
+
+        val scripting = configBuilder.getOrCreateCategory(text("scripting"))
+        ScriptingConfigGui.setupEntries(scripting, entryBuilder)
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)

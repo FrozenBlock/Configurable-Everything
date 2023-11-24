@@ -2,6 +2,8 @@ package net.frozenblock.configurableeverything.datafixer.util
 
 import com.mojang.datafixers.DataFixerBuilder
 import com.mojang.datafixers.schemas.Schema
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.MainConfig
@@ -14,7 +16,7 @@ import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes
 import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
 
-object DataFixerUtils {
+object DataFixerUtil {
 
     @JvmStatic
     val SCHEMAS: MutableList<SchemaEntry?> = ArrayList()
@@ -41,7 +43,7 @@ object DataFixerUtils {
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion
             if (dataVersion == null) {
-                logError("Data version is null", true)
+                logError("Data version is null")
                 return
             }
             val builder = QuiltDataFixerBuilder(dataVersion)
@@ -55,7 +57,7 @@ object DataFixerUtils {
                 if (fix == null) continue
                 val version = fix.version
                 if (version > dataVersion) {
-                    logError("Data fix version $version is higher than the current data version $dataVersion", true)
+                    logError("Data fix version $version is higher than the current data version $dataVersion")
                     continue
                 }
                 if (version > maxSchema) {
@@ -72,13 +74,17 @@ object DataFixerUtils {
                 }
                 try {
                     val schema = addedSchemas[version]
-                    for (entry in fix.entries) {
-                        for (fixer in entry.fixers) {
-                            handleFixer(builder, schema, entry, fixer)
+                    runBlocking {
+                        for (entry in fix.entries) {
+                            launch {
+                                for (fixer in entry.fixers) {
+                                    launch { handleFixer(builder, schema, entry, fixer) }
+                                }
+                            }
                         }
                     }
                 } catch (e: IndexOutOfBoundsException) {
-                    logError("Invalid data fix version: $version", true)
+                    logError("Invalid data fix version: $version")
                 }
             }
             QuiltDataFixes.buildAndRegisterFixer(mod, builder)
@@ -106,7 +112,7 @@ object DataFixerUtils {
                 REGISTRY_FIXERS.add(RegistryFixer(ResourceLocation("item"), listOf(Fixer(oldId, newId))))
             }
 
-            else -> logError("Invalid data fix type: " + entry.type, true)
+            else -> logError("Invalid data fix type: " + entry.type)
         }
     }
 }

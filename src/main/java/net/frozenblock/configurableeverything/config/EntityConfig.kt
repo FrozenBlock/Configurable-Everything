@@ -14,6 +14,41 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 
+private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        EntityAttributeAmplifier.CODEC.listOf()
+    )
+)
+
+private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        EntityFlyBySound.CODEC.listOf()
+    )
+)
+
+private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        EntityHurtEffects.CODEC.listOf()
+    )
+)
+
+private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        ExperienceOverride.CODEC.listOf()
+    )
+)
+
+private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        EntitySpottingIcon.CODEC.listOf()
+    )
+)
+
 data class EntityConfig(
     @JvmField
     var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
@@ -177,54 +212,22 @@ data class EntityConfig(
     @JvmField
     var skeleton: SkeletonConfig? = SkeletonConfig()
 ) {
-    companion object {
-        private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntityAttributeAmplifier.CODEC.listOf()
-            )
-        )
+    companion object : JsonConfig<EntityConfig>(
+        MOD_ID,
+        EntityConfig::class.java,
+        makeConfigPath("entity"),
+        CONFIG_JSONTYPE,
+        null,
+        null
+    ) {
 
-        private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntityFlyBySound.CODEC.listOf()
-            )
-        )
-
-        private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntityHurtEffects.CODEC.listOf()
-            )
-        )
-
-        private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                ExperienceOverride.CODEC.listOf()
-            )
-        )
-
-        private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRegistry.register(
-            TypedEntryType(
-                MOD_ID,
-                EntitySpottingIcon.CODEC.listOf()
-            )
-        )
-
-        @JvmField
-        val INSTANCE: Config<EntityConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                EntityConfig::class.java,
-                makeConfigPath("entity"),
-                CONFIG_JSONTYPE
-            )
-        )
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): EntityConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): EntityConfig = if (real) this.instance() else this.config()
     }
 
     data class PlayerConfig(
@@ -233,7 +236,7 @@ data class EntityConfig(
     ) {
         val digSpeed: Double // acts as a getter method
             get() {
-                val amplifier: Double = digSpeedAmplifier?.toDouble() ?: INSTANCE.defaultInstance().player!!.digSpeedAmplifier!!.toDouble()
+                val amplifier: Double = digSpeedAmplifier?.toDouble() ?: Companion.defaultInstance().player!!.digSpeedAmplifier!!.toDouble()
                 return amplifier / 100.0
             }
     }

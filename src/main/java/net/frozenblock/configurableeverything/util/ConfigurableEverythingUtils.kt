@@ -1,12 +1,10 @@
 package net.frozenblock.configurableeverything.util
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-
-fun <T : Any?> experimental(value: () -> T): T {
-    if (ENABLE_EXPERIMENTAL_FEATURES) return value.invoke()
-    throw UnsupportedOperationException("Experimental features are disabled")
-}
 
 // CONFIG
 fun text(key: String?): Component = Component.translatable("option.$MOD_ID.$key")
@@ -14,29 +12,34 @@ fun text(key: String?): Component = Component.translatable("option.$MOD_ID.$key"
 fun tooltip(key: String?): Component = Component.translatable("tooltip.$MOD_ID.$key")
 
 // LOGGING
+@JvmOverloads
 fun log(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info(string)
     }
 }
 
+@JvmOverloads
 fun logMod(string: String, shouldLog: Boolean = true) {
     if (shouldLog) {
         LOGGER?.info("$string $MOD_ID")
     }
 }
 
+@JvmOverloads
 fun logDebug(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) LOGGER?.debug(string)
 }
 
+@JvmOverloads
 fun logWarn(string: String?, shouldLog: Boolean = true) {
     if (shouldLog) LOGGER?.warn(string)
 }
 
-fun logError(string: String?, shouldLog: Boolean = true) {
+@JvmOverloads
+fun logError(string: String?, error: Throwable? = null, shouldLog: Boolean = true) {
     if (shouldLog) {
-        LOGGER?.error(string)
+        LOGGER?.error(string, error)
     }
 }
 

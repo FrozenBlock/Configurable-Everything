@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.config
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
@@ -38,17 +37,17 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     var game: Boolean? = false,
 
-		@JvmField
-		@Comment("Not functional until 1.1")
-		var gravity: Boolean? = false,
+    @JvmField
+    @Comment("Not functional until 1.1")
+    var gravity: Boolean? = false,
 
     @JvmField
     @Comment("Not functional until 1.1")
     var item: Boolean? = false,
 
-		@JvmField
-		@Comment("Not functional until 1.1")
-		var music: Boolean? = false,
+    @JvmField
+    @Comment("Not functional until 1.1")
+    var music: Boolean? = false,
 
     @JvmField
     var registry: Boolean? = false,
@@ -56,9 +55,13 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     var screen_shake: Boolean? = false,
 
-		@JvmField
-		@Comment("Not functional until 1.1")
-		var sculk_spreading: Boolean? = false,
+    @JvmField
+    @Comment("Requires Fabric Kotlin Extensions")
+    var scripting: Boolean? = false,
+
+    @JvmField
+    @Comment("Not functional until 1.1")
+    var sculk_spreading: Boolean? = false,
 
     @JvmField
     @Environment(EnvType.CLIENT)
@@ -78,24 +81,23 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     @Comment("Datapack features will not apply unless the main toggle and datapack toggle are set to true.")
     var datapack: DatapackConfig? = DatapackConfig(),
-
-    @JvmField
-    @Comment("Requires Fabric Kotlin Extensions")
-    var kotlinScripting: KotlinScriptingConfig? = KotlinScriptingConfig()
 ) {
-    companion object {
-        @JvmField
-        val INSTANCE: Config<MainConfig> = ConfigRegistry.register(
-            JsonConfig(
-                MOD_ID,
-                MainConfig::class.java,
-                makeConfigPath("main"),
-                CONFIG_JSONTYPE
-            )
-        )
+
+    companion object : JsonConfig<MainConfig>(
+        MOD_ID,
+        MainConfig::class.java,
+        makeConfigPath("main"),
+        CONFIG_JSONTYPE,
+        null,
+        null
+    ) {
+        init {
+            ConfigRegistry.register(this)
+        }
 
         @JvmStatic
-        fun get(real: Boolean = false): MainConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+        fun get(real: Boolean = false): MainConfig = if (real) this.instance() else this.config()
     }
 
     data class DatapackConfig(
@@ -117,20 +119,5 @@ Warning: It is important to check the contents of each config before enabling th
         @JvmField
         @Comment("Allows the usage of JSON5 files in datapacks.")
         var json5Support: Boolean? = true
-    )
-
-    data class KotlinScriptingConfig(
-        @JvmField
-        var applyKotlinScripts: Boolean? = true,
-
-        @JvmField
-        var defaultImports: List<String>? = arrayListOf(
-            "kotlinx.coroutines.*",
-            "net.frozenblock.configurableeverything.util.*",
-            "net.frozenblock.configurableeverything.scripting.util.*",
-        )?.apply {
-            if (ENABLE_EXPERIMENTAL_FEATURES)
-                this.add("net.frozenblock.lib.config.api.instance.ConfigModification")
-        }
     )
 }

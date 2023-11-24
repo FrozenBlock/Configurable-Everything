@@ -15,7 +15,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 object WorldConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = WorldConfig.get(real = true)
-        val defaultConfig = WorldConfig.INSTANCE.defaultInstance()
+        val defaultConfig = WorldConfig.defaultInstance()
         category.background = id("textures/config/world.png")
         category.addEntry(
             entryBuilder.startLongSlider(text("day_time_speed"), config.dayTimeSpeedAmplifier ?: defaultConfig.dayTimeSpeedAmplifier!!, 1L, 100L)

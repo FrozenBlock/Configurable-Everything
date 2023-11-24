@@ -17,6 +17,27 @@ import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 
+private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        BiomePlacedFeatureList.CODEC.listOf()
+    )
+)
+
+private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        BiomePlacedFeatureReplacementList.CODEC.listOf()
+    )
+)
+
+private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry.register(
+    TypedEntryType(
+        MOD_ID,
+        BiomeMusic.CODEC.listOf()
+    )
+)
+
 data class BiomeConfig(
 	@JvmField
 	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
@@ -112,7 +133,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	var musicReplacements: TypedEntry<List<BiomeMusic?>?>? = TypedEntry(
+	var musicReplacements: TypedEntry<List<BiomeMusic?>>? = TypedEntry(
 		BIOME_MUSIC_LIST,
 		listOf(
 			BiomeMusic(
@@ -122,7 +143,7 @@ data class BiomeConfig(
 					12000,
 					24000,
 					false
-				)
+				).mutable()
 			),
 			BiomeMusic(
 				Either.right(BLANK_TAG),
@@ -131,44 +152,26 @@ data class BiomeConfig(
 					12000,
 					24000,
 					false
-				)
+				).mutable()
 			)
 		)
 	)
 ) {
-	companion object {
-		private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList?>> = ConfigRegistry.register(
-			TypedEntryType(
-				MOD_ID,
-				BiomePlacedFeatureList.CODEC.listOf()
-			)
-		)
+	companion object : JsonConfig<BiomeConfig>(
+        MOD_ID,
+        BiomeConfig::class.java,
+        makeConfigPath("biome"),
+        CONFIG_JSONTYPE,
+        null,
+        null
+    ) {
 
-		private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList?>> = ConfigRegistry.register(
-			TypedEntryType(
-				MOD_ID,
-				BiomePlacedFeatureReplacementList.CODEC.listOf()
-			)
-		)
-
-		private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>?> = ConfigRegistry.register(
-			TypedEntryType(
-				MOD_ID,
-				BiomeMusic.CODEC.listOf()
-			)
-		)
-
-		@JvmField
-		val INSTANCE: Config<BiomeConfig> = ConfigRegistry.register(
-			JsonConfig(
-				MOD_ID,
-				BiomeConfig::class.java,
-				makeConfigPath("biome"),
-				CONFIG_JSONTYPE
-			)
-		)
+		init {
+            ConfigRegistry.register(this)
+        }
 
 		@JvmStatic
-		fun get(real: Boolean = false): BiomeConfig = if (real) INSTANCE.instance() else INSTANCE.config()
+        @JvmOverloads
+		fun get(real: Boolean = false): BiomeConfig = if (real) this.instance() else this.config()
 	}
 }

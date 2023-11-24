@@ -7,6 +7,9 @@ import net.fabricmc.api.Environment
 import net.frozenblock.lib.FrozenBools
 import net.minecraft.client.gui.screens.Screen
 
+/**
+ * The entrypoint for Mod Menu to build the config screen.
+ */
 @Environment(EnvType.CLIENT)
 class ModMenuIntegration : ModMenuApi {
     override fun getModConfigScreenFactory(): ConfigScreenFactory<Screen> {

@@ -8,7 +8,6 @@ import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 
 object RegistryConfigUtil {
 
-    @JvmStatic
     fun init() {
         val config = RegistryConfig.get()
         if (MainConfig.get().registry == true) {

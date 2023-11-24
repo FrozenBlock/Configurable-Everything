@@ -4,20 +4,20 @@ import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.ObjectShare
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.config.ScriptingConfig
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
-import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
-import net.frozenblock.configurableeverything.util.experimental
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
+import java.net.URLClassLoader
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.dependencies.*
 import kotlin.script.experimental.dependencies.maven.MavenDependenciesResolver
-import kotlin.script.experimental.jvm.JvmDependency
-import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
-import kotlin.script.experimental.jvm.jvm
-import kotlin.script.experimental.jvm.loadDependencies
+import kotlin.script.experimental.jvm.*
 
 @KotlinScript(
     fileExtension = KOTLIN_SCRIPT_EXTENSION,
@@ -33,41 +33,42 @@ abstract class CEScript {
     /**
      * The name of the script file.
      */
-    private val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
-    private var logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
+    protected val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
+    protected var logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
+    protected val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
 
-    fun clientOnly(`fun`: () -> Unit) {
+    protected fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             `fun`.invoke()
     }
 
-    fun runLate(priority: Int, `fun`: () -> Unit) {
+    protected fun runLate(priority: Int, `fun`: () -> Unit) {
         experimental { POST_RUN_FUNS!![priority] = `fun` }
     }
 
-    fun runEachTick(tickFun: () -> Unit) {
+    protected fun runEachTick(tickFun: () -> Unit) {
         ServerTickEvents.START_SERVER_TICK.register { tickFun.invoke() }
     }
 
-    fun println(message: Any?) {
+    protected fun println(message: Any?) {
         log(message)
     }
 
-    fun log(message: Any?) {
+    protected fun log(message: Any?) {
         logger.info(message.toString())
     }
 
-    fun logWarning(message: Any?) {
+    protected fun logWarning(message: Any?) {
         logger.warn(message.toString())
     }
 
-    fun logError(message: Any?) {
-        logger.error(message.toString())
+    protected fun logError(message: Any?, e: Throwable? = null) {
+        logger.error(message.toString(), e)
     }
 }
 
 object CEScriptCompilationConfig : ScriptCompilationConfiguration({
-    val defaultImports = MainConfig.get().kotlinScripting?.defaultImports ?: MainConfig.INSTANCE.defaultInstance().kotlinScripting!!.defaultImports!!
+    val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
     defaultImports(defaultImports)
     if (ENABLE_EXPERIMENTAL_FEATURES) defaultImports(DependsOn::class, Repository::class)
     baseClass(CEScript::class)
@@ -77,6 +78,9 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     jvm {
         // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
+        ifExperimental {
+            updateClasspath(listOf(File(".$MOD_ID/remapped/")))
+        }
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
 

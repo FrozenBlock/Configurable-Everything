@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceKey as VanillaResourceKey
 import net.minecraft.resources.ResourceLocation as VanillaResourceLocation
 import net.minecraft.world.level.block.Block as VanillaBlock
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties as VanillaProperties
-
+/*
 object Registries {
     val BIOME = RegistryKey(VanillaRegistries.BIOME)
     val BLOCK = RegistryKey(VanillaRegistries.BLOCK)
@@ -74,3 +74,4 @@ data class BlockProperties(val properties: VanillaProperties) : FakeObject<Vanil
 fun interface FakeObject<T> {
     fun value(): T
 }
+*/
