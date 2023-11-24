@@ -8,7 +8,6 @@ import net.minecraft.server.packs.repository.FolderRepositorySource
 import net.minecraft.server.packs.repository.Pack
 import net.minecraft.server.packs.repository.Pack.ResourcesSupplier
 import net.minecraft.server.packs.repository.PackSource
-import net.minecraft.world.level.validation.DirectoryValidator
 import org.slf4j.Logger
 import java.io.IOException
 import java.nio.file.Path
@@ -18,13 +17,12 @@ class CERepositorySource(
     private val folder: Path,
     private val packType: PackType = PackType.SERVER_DATA,
     private val packSource: PackSource = PackSource.WORLD,
-    validator: DirectoryValidator
-) : FolderRepositorySource(folder, packType, PackSource.WORLD, validator) {
+) : FolderRepositorySource(folder, packType, PackSource.WORLD) {
 
     override fun loadPacks(onLoad: Consumer<Pack>) {
         try {
             FileUtil.createDirectoriesSafe(this.folder)
-            discoverPacks(this.folder, this.validator, false) { packPath: Path?, packFactory: ResourcesSupplier? ->
+            discoverPacks(this.folder, false) { packPath: Path?, packFactory: ResourcesSupplier? ->
                 if (packPath == null || packFactory == null) {
                     return@discoverPacks
                 }
