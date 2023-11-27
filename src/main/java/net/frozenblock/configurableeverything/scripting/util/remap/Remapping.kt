@@ -139,7 +139,7 @@ private fun parseIntermediary() {
 
     GZIPInputStream(Files.newInputStream(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH)).use { input ->
         BufferedReader(InputStreamReader(input)).use { reader ->
-            MappingReader.read(reader, MappingFormat.TINY_2, mappings)
+            MappingReader.read(reader, MappingFormat.TINY_2_FILE, mappings)
         }
     }
 
@@ -157,7 +157,7 @@ private fun parseMojang() {
     Files.newInputStream(RAW_MOJANG_MAPPINGS_FILE_PATH).use { fileInput ->
         GZIPInputStream(fileInput).use { gzipInput ->
             BufferedReader(InputStreamReader(gzipInput)).use { reader ->
-                MappingReader.read(reader, MappingFormat.PROGUARD, mappings)
+                MappingReader.read(reader, MappingFormat.PROGUARD_FILE, mappings)
             }
         }
     }
@@ -176,7 +176,7 @@ private fun parseMojang() {
 
 private fun convertMappings() {
     log("Converting Official Mojang Mappings")
-    mojangMappings.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2))
+    mojangMappings.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private val intermediaryTree: TinyTree by lazy {
