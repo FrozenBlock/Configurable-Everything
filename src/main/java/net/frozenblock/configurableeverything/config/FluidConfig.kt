@@ -4,6 +4,7 @@ import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.FieldIdentifier
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -21,6 +22,7 @@ private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigReg
 
 data class FluidConfig(
     @JvmField
+    @FieldIdentifier("flowSpeeds")
     var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
         FLUID_FLOW_SPEEDS,
         listOf(

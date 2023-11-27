@@ -17,9 +17,9 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.nestedList
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.worldgen.biome.api.MutableParameter
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
@@ -51,7 +51,7 @@ private fun addedBiomes(
     config: BiomePlacementConfig,
     defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("added_biomes"),
         config::addedBiomes,
@@ -76,7 +76,7 @@ private fun addedBiomes(
             )
             val dimensionBiomeList: DimensionBiomeList =
                 element ?: DimensionBiomeList(BuiltinDimensionTypes.OVERWORLD, defaultParameters)
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("added_biomes.dimension_biome_list"),
                 dimensionBiomeList,
                 true,
@@ -89,7 +89,7 @@ private fun addedBiomes(
                     tooltip("added_biomes.dimension")
                 ).build(entryBuilder),
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("added_biomes.biome_parameter_list"),
                     dimensionBiomeList::biomes,
@@ -98,7 +98,7 @@ private fun addedBiomes(
                     tooltip("added_biomes.biome_parameter_list"),
                     { newValue -> dimensionBiomeList.biomes = newValue },
                     { biomeParameters, _ ->
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("added_biomes.biome_parameters"),
                             biomeParameters,
                             true,
@@ -111,12 +111,12 @@ private fun addedBiomes(
                                 tooltip("added_biomes.biome"),
                             ).build(entryBuilder),
 
-                            makeMultiElementEntry(
+                            multiElementEntry(
                                 text("added_biomes.parameters"),
                                 biomeParameters?.parameters,
                                 true,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.temperature"),
                                     biomeParameters?.parameters?.temperature,
                                     true,
@@ -125,7 +125,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.temperature, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.humidity"),
                                     biomeParameters?.parameters?.humidity,
                                     true,
@@ -134,7 +134,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.humidity, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.continentalness"),
                                     biomeParameters?.parameters?.continentalness,
                                     true,
@@ -143,7 +143,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.continentalness, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.erosion"),
                                     biomeParameters?.parameters?.erosion,
                                     true,
@@ -152,7 +152,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.erosion, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.depth"),
                                     biomeParameters?.parameters?.depth,
                                     true,
@@ -161,7 +161,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.depth, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.weirdness"),
                                     biomeParameters?.parameters?.weirdness,
                                     true,
@@ -202,7 +202,7 @@ private fun removedBiomes(
     config: BiomePlacementConfig,
     defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("removed_biomes"),
         config::removedBiomes,
@@ -216,7 +216,7 @@ private fun removedBiomes(
                 Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG)
             )
             val dimensionBiomeList = element ?: DimensionBiomeKeyList(BuiltinDimensionTypes.OVERWORLD, defaultBiomes)
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("removed_biomes.dimensions"),
                 dimensionBiomeList,
                 true,

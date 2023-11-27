@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
@@ -15,19 +16,23 @@ import net.minecraft.world.item.DyeColor
 data class SplashTextConfig(
 
     @JvmField
+    @UnsyncableEntry
     var addedSplashes: List<String?>? = arrayListOf(
         "Configurable Everything!"
     ),
 
     @JvmField
+    @UnsyncableEntry
     var removedSplashes: List<String?>? = arrayListOf(
         "random splash text"
     ),
 
     @JvmField
+    @UnsyncableEntry
     var splashColor: Int? = DyeColor.YELLOW.textColor,
 
     @JvmField
+    @UnsyncableEntry
     @Comment("Removes all vanilla splashes.")
     var removeVanilla: Boolean? = true
 ) {

@@ -13,8 +13,8 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.resources.ResourceLocation
 
 @Environment(EnvType.CLIENT)
@@ -45,7 +45,7 @@ private fun soundScreenShakes(
     config: ScreenShakeConfig,
     defaultConfig: ScreenShakeConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("sound_screen_shakes"),
         config::soundScreenShakes,
@@ -55,7 +55,7 @@ private fun soundScreenShakes(
         { newValue -> config.soundScreenShakes = newValue},
         { element, _ ->
             val soundScreenShake = element ?: SoundScreenShake(ResourceLocation(""), 1F, 25, 1, 20F)
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("sound_screen_shakes.sound_screen_shake"),
                 soundScreenShake,
                 true,

@@ -20,9 +20,9 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.nestedList
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 
@@ -101,7 +101,7 @@ private fun schemas(
         )
     )
     val defaultSchema = SchemaEntry(1, defaultFixEntryList)
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("schemas"),
         config::schemas,
@@ -112,7 +112,7 @@ private fun schemas(
         { element, _ ->
             val schema = element ?: defaultSchema
             lateinit var versionEntry: IntegerListEntry
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("schemas.schema"),
                 schema,
                 true,
@@ -125,7 +125,7 @@ private fun schemas(
                     tooltip("schemas.version")
                 ).build(entryBuilder).apply { versionEntry = this as IntegerListEntry },
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("schemas.entries"),
                     schema::entries,
@@ -134,7 +134,7 @@ private fun schemas(
                     tooltip("schemas.entries"),
                     { newValue -> schema.entries = newValue },
                     { entry, _ ->
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("schemas.entry"),
                             entry,
                             true,
@@ -147,7 +147,7 @@ private fun schemas(
                                 tooltip("schemas.type")
                             ).build(entryBuilder),
 
-                            makeNestedList(
+                            nestedList(
                                 entryBuilder,
                                 text("datafixer.fixers"),
                                 entry::fixers,
@@ -156,7 +156,7 @@ private fun schemas(
                                 tooltip("datafixer.fixers"),
                                 { newValue -> entry.fixers = newValue },
                                 { entry, _ ->
-                                    makeMultiElementEntry(
+                                    multiElementEntry(
                                         text("datafixer.fixer"),
                                         entry,
                                         true,
@@ -210,7 +210,7 @@ private fun registryFixers(
         )
     )
     val defaultRegistryFixer = RegistryFixer(Registries.BLOCK.location(), defaultFixers)
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("registry_fixers"),
         config::registryFixers,
@@ -221,7 +221,7 @@ private fun registryFixers(
         { element, _ ->
             val registryFixer = element ?: defaultRegistryFixer
             lateinit var registryKeyEntry: StringListEntry
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("registry_fixers.registry_fixer"),
                 registryFixer,
                 true,
@@ -234,7 +234,7 @@ private fun registryFixers(
                     tooltip("registry_fixers.registry_key")
                 ).build(entryBuilder).apply { registryKeyEntry = this as StringListEntry },
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("datafixer.fixers"),
                     registryFixer::fixers,
@@ -245,7 +245,7 @@ private fun registryFixers(
                     { element, _ ->
                         val entry = element ?: Fixer(ResourceLocation(""), ResourceLocation(""))
                         lateinit var oldIdEntry: StringListEntry
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("datafixer.fixer"),
                             entry,
                             true,

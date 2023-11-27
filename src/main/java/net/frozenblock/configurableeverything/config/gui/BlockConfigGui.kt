@@ -15,8 +15,8 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.configurableeverything.util.vanillaId
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
@@ -37,7 +37,7 @@ object BlockConfigGui {
         config: BlockConfig,
         defaultConfig: BlockConfig
     ): AbstractConfigListEntry<*> {
-        return makeTypedEntryList(
+        return typedEntryList(
             entryBuilder,
             text("sound_group_overwrites"),
             config::soundGroupOverwrites,
@@ -61,7 +61,7 @@ object BlockConfigGui {
                 ) { true }
                 val overwrite: MutableBlockSoundGroupOverwrite = element ?: defaultOverwrite
                 val soundOverwrite = overwrite.soundOverwrite ?: defaultSoundOverwrite
-                makeMultiElementEntry(
+                multiElementEntry(
                     text("sound_group_overwrites.sound_group_overwrite"),
                     overwrite,
                     true,
@@ -72,7 +72,7 @@ object BlockConfigGui {
                         tooltip("sound_group_overwrites.id")
                     ).build(entryBuilder),
 
-                    makeMultiElementEntry(
+                    multiElementEntry(
                         text("sound_group_overwrites.sound_type"),
                         soundOverwrite,
                         true,

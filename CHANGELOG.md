@@ -3,6 +3,8 @@ Put changelog in plain text please
 Make sure to clear after release
 
 Future changelog items:
+- Added Gravity Config
+    - Contains gravity belts
 - Added Item Config
     - Contains item reach overrides
 - Added Structure Config

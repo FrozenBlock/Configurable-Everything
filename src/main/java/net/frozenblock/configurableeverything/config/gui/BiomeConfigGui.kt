@@ -13,9 +13,10 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.nestedList
+import net.frozenblock.lib.config.api.client.gui.synced
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -46,7 +47,7 @@ private fun addedFeatures(
     config: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("added_features"),
         config::addedFeatures,
@@ -67,7 +68,7 @@ private fun removedFeatures(
     config: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("removed_features"),
         config::removedFeatures,
@@ -88,7 +89,7 @@ private fun replacedFeatures(
     config: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("replaced_features"),
         config::replacedFeatures,
@@ -116,7 +117,7 @@ private fun replacedFeatures(
                 defaultReplacementFeatures
             )
 
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("replaced_features.biome_replacement_list"),
                 biomeReplacementList,
                 true,
@@ -128,7 +129,7 @@ private fun replacedFeatures(
                     requiresRestart = true
                 ).build(entryBuilder),
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("replaced_features.replacement_list"),
                     biomeReplacementList::replacements,
@@ -143,7 +144,7 @@ private fun replacedFeatures(
                         val decoration: Decoration = replacement.decoration ?: defaultDecoration
                         val placedFeatures: List<ResourceKey<PlacedFeature>?> = replacement.placedFeatures ?: defaultReplacements
 
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("replaced_features.feature_replacement"),
                             featureReplacement,
                             true,
@@ -155,7 +156,7 @@ private fun replacedFeatures(
                                 requiresRestart = true
                             ).build(entryBuilder),
 
-                            makeMultiElementEntry(
+                            multiElementEntry(
                                 text("replaced_features.replacement"),
                                 replacement,
                                 true,
@@ -192,7 +193,7 @@ private fun musicReplacements(
     config: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("music_replacements"),
         config::musicReplacements,
@@ -215,7 +216,7 @@ private fun musicReplacements(
             val maxDelay: Int = music.maxDelay ?: defaultMaxDelay
             val replaceCurrentMusic: Boolean = music.replaceCurrentMusic ?: defaultReplaceCurrentMusic
 
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("music_replacements.replacement"),
                 biomeMusic,
                 true,
@@ -227,7 +228,7 @@ private fun musicReplacements(
                     requiresRestart = true
                 ).build(entryBuilder),
 
-                makeMultiElementEntry(
+                multiElementEntry(
                     text("music_replacements.music"),
                     music,
                     true,
@@ -287,7 +288,7 @@ private fun biomePlacedFeaturesElement(
         defaultBiome,
         defaultFeatures
     )
-    return makeMultiElementEntry(
+    return multiElementEntry(
         text("features.feature_list"),
         biomePlacedFeatureList,
         true,
@@ -299,7 +300,7 @@ private fun biomePlacedFeaturesElement(
             requiresRestart = true
         ).build(entryBuilder),
 
-        makeNestedList(
+        nestedList(
             entryBuilder,
             text("$`lang`_features.decoration_features"),
             biomePlacedFeatureList::features,
@@ -311,7 +312,7 @@ private fun biomePlacedFeaturesElement(
                 val decorationFeature: DecorationStepPlacedFeature = element ?: defaultFeature
                 val decoration: Decoration = decorationFeature.decoration ?: defaultDecoration
                 val placedFeatures: List<ResourceKey<PlacedFeature>?> = decorationFeature.placedFeatures ?: defaultPlacedFeatures
-                makeMultiElementEntry(
+                multiElementEntry(
                     text("$`lang`_features.decoration_feature"),
                     decorationFeature,
                     true,

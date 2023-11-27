@@ -4,6 +4,7 @@ import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingData
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.FieldIdentifier
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -23,6 +24,7 @@ private val SURFACE_RULE_LIST = ConfigRegistry.register(
 
 data class SurfaceRuleConfig(
     @JvmField
+    @FieldIdentifier("addedSurfaceRules")
     var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
         SURFACE_RULE_LIST,
         listOf(

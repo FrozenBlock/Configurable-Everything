@@ -5,6 +5,8 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -51,6 +53,7 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRe
 
 data class EntityConfig(
     @JvmField
+    @FieldIdentifier("entityAttributeAmplifiers")
     var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         listOf(
@@ -68,6 +71,7 @@ data class EntityConfig(
     ),
 
     @JvmField
+    @FieldIdentifier("experienceOverrides")
     var experienceOverrides: TypedEntry<List<ExperienceOverride?>>? = TypedEntry(
         EXPERIENCE_OVERRIDES,
         listOf(
@@ -79,6 +83,7 @@ data class EntityConfig(
     ),
 
     @JvmField
+    @FieldIdentifier("entityFlyBySounds")
     var entityFlyBySounds: TypedEntry<List<EntityFlyBySound?>>? = TypedEntry(
         ENTITY_FLYBY_SOUNDS,
         listOf(
@@ -167,6 +172,7 @@ data class EntityConfig(
     ),
 
     @JvmField
+    @FieldIdentifier("entityHurtEffects")
     var entityHurtEffects: TypedEntry<List<EntityHurtEffects?>>? = TypedEntry(
         ENTITY_HURT_EFFECTS,
         listOf(
@@ -188,6 +194,7 @@ data class EntityConfig(
     ),
 
     @JvmField
+    @FieldIdentifier("entitySpottingIcons")
     var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
         SPOTTING_ICONS,
         listOf(
@@ -201,6 +208,7 @@ data class EntityConfig(
     ),
 
     @JvmField
+    @FieldIdentifier("flamingArrowsLightFire")
     var flamingArrowsLightFire: Boolean? = false,
 
     @JvmField
@@ -232,6 +240,7 @@ data class EntityConfig(
 
     data class PlayerConfig(
         @JvmField
+        @FieldIdentifier("digSpeedAmplifier")
         var digSpeedAmplifier: Int? = 100
     ) {
         val digSpeed: Double // acts as a getter method
@@ -243,29 +252,37 @@ data class EntityConfig(
 
     data class ZombieConfig(
         @JvmField
+        @UnsyncableEntry
 		var babyZombieSprintParticles: Boolean? = false,
 
         @JvmField
+        @FieldIdentifier("zombiesAvoidSun")
 		var zombiesAvoidSun: Boolean? = false,
 
         @JvmField
+        @FieldIdentifier("ignoreDoorBreakDifficulty")
 		var ignoreDoorBreakDifficulty: Boolean? = false,
 
         @JvmField
+        @FieldIdentifier("allZombiesBreakDoors")
 		var allZombiesBreakDoors: Boolean? = false,
 
         @JvmField
+        @FieldIdentifier("ignoreReinforcementDifficulty")
         var ignoreReinforcementDifficulty: Boolean? = false,
 
         @JvmField
+        @FieldIdentifier("fullReinforcementChance")
 		var fullReinforcementChance: Boolean? = false
     )
 
     data class SkeletonConfig(
         @JvmField
+        @FieldIdentifier("skeletonAccuracyIgnoresDifficulty")
 		var skeletonAccuracyIgnoresDifficulty: Boolean? = false,
 
         @JvmField
+        @FieldIdentifier("skeletonsAvoidSun")
 		var skeletonsAvoidSun: Boolean? = true
     )
 }
