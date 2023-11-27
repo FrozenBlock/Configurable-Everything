@@ -185,10 +185,6 @@ private fun intermediaryProvider(from: String, to: String): IMappingProvider
 private fun mojangProvider(from: String, to: String): IMappingProvider
     = TinyUtils.createTinyMappingProvider(TINY_MAPPINGS_FILE_PATH, from, to)
 
-private final intermediaryProvider: IMappingProvider by lazy {
-    TinyUtils.createTinyMappingProvider(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH, "of")
-}
-
 private fun remap(
     remapper: TinyRemapper,
     filesArray: Array<File>?,
