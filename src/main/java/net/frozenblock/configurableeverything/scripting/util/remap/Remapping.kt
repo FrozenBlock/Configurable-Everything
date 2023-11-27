@@ -8,11 +8,10 @@ import kotlinx.coroutines.runBlocking
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.impl.launch.MappingConfiguration
 import net.fabricmc.loader.impl.util.mappings.TinyRemapperMappingsHelper
-import net.fabricmc.lorenztiny.TinyMappingsReader
-import net.fabricmc.lorenztiny.TinyMappingsWriter
 import net.fabricmc.mapping.tree.TinyMappingFactory
 import net.fabricmc.mapping.tree.TinyTree
 import net.fabricmc.mappingio.MappingReader
+import net.fabricmc.mappingio.MappingWriter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
 import net.fabricmc.mappingio.tree.MemoryMappingTree
@@ -20,7 +19,6 @@ import net.fabricmc.tinyremapper.InputTag
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.frozenblock.configurableeverything.util.*
-import org.cadixdev.lorenz.MappingSet
 import java.io.*
 import java.net.URI
 import java.net.http.HttpClient
@@ -178,13 +176,7 @@ private fun parseMojang() {
 
 private fun convertMappings() {
     log("Converting Official Mojang Mappings")
-    FileWriter(TINY_MAPPINGS_FILE_PATH.toFile()).use { writer ->
-        val reader = TinyMappingsReader(mojangMappings, "official", "named")
-        val mappings: MappingSet = reader.read()
-        TinyMappingsWriter(writer, "official", "named").use { tinyWriter ->
-            tinyWriter.write(mappings)
-        }
-    }
+    mojangMappings.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2))
 }
 
 private val intermediaryTree: TinyTree by lazy {
