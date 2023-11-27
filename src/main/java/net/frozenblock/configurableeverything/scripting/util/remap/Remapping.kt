@@ -6,8 +6,6 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.loader.api.FabricLoader
-import net.fabricmc.loader.impl.launch.MappingConfiguration
-import net.fabricmc.loader.impl.util.mappings.TinyRemapperMappingsHelper
 import net.fabricmc.mapping.tree.TinyMappingFactory
 import net.fabricmc.mapping.tree.TinyTree
 import net.fabricmc.mappingio.MappingReader
@@ -15,9 +13,11 @@ import net.fabricmc.mappingio.MappingWriter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
 import net.fabricmc.mappingio.tree.MemoryMappingTree
+import net.fabricmc.tinyremapper.IMappingProvider
 import net.fabricmc.tinyremapper.InputTag
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
+import net.fabricmc.tinyremappr.TinyUtils
 import net.frozenblock.configurableeverything.util.*
 import java.io.*
 import java.net.URI
@@ -179,21 +179,14 @@ private fun convertMappings() {
     mojangMappings.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
 }
 
-private val intermediaryTree: TinyTree by lazy {
-    val url = MappingConfiguration::class.java.classLoader.getResource("mappings/mappings.tiny")
-    val connection = url?.openConnection() ?: error("Intermediary location null")
+private fun intermediaryProvider(from: String, to: String): IMappingProvider
+    = TinyUtils.createTinyMappingProvider(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH, from, to)
 
-    BufferedReader(InputStreamReader(connection.getInputStream())).use { reader ->
-        TinyMappingFactory.loadWithDetection(reader)
-    }
-}
+private fun mojangProvider(from: String, to: String) IMappingProvider
+    = TinyUtils.createTinyMappingProvider(TINY_MAPPINGS_FILE_PATH, from, to)
 
-private val mojangMappingTree: TinyTree by lazy {
-    FileInputStream(TINY_MAPPINGS_FILE_PATH.toFile()).use { input ->
-        BufferedReader(InputStreamReader(input)).use { reader ->
-            TinyMappingFactory.loadWithDetection(reader)
-        }
-    }
+private final intermediaryProvider: IMappingProvider by lazy {
+    TinyUtils.createTinyMappingProvider(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH, "of")
 }
 
 private fun remap(
@@ -341,25 +334,25 @@ fun initialize() {
         log("Building remappers")
 
         intToOffRemapper = TinyRemapper.newRemapper()
-            .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "intermediary", "official"))
+            .withMappings(intermediaryProvider("intermediary", "official"))
             .rebuildSourceFilenames(true)
             .keepInputData(true)
             .build()
 
         offToIntRemapper = TinyRemapper.newRemapper()
-            .withMappings(TinyRemapperMappingsHelper.create(intermediaryTree, "official", "intermediary"))
+            .withMappings(intermediaryProvider("official", "intermediary"))
             .rebuildSourceFilenames(true)
             .keepInputData(true)
             .build()
 
         mojToOffRemapper = TinyRemapper.newRemapper()
-            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "named", "official"))
+            .withMappings(mojangProvider("named", "official"))
             .rebuildSourceFilenames(true)
             .keepInputData(true)
             .build()
 
         offToMojRemapper = TinyRemapper.newRemapper()
-            .withMappings(TinyRemapperMappingsHelper.create(mojangMappingTree, "official", "named"))
+            .withMappings(mojangProvider("official", "named"))
             .rebuildSourceFilenames(true)
             .keepInputData(true)
             .build()
