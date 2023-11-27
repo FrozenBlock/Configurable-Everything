@@ -15,9 +15,7 @@ Future changelog items:
 Put changelog here:
 
 -----------------
-- Fixed compatibility issue with Create's List Filter
-- Moved `MainConfig.kotlinScripting` to `ScriptingConfig`
-- Added Scripting Config GUI
-- Added Biome Config GUI
-- Increased null safety
-- Updated embedded FrozenLib to 1.4.4
+- Updated Kotlin to 1.9.21
+  - Scripts will be compiled against 1.9.21
+- Updated minimum FLK version to 1.10.15
+- Fixed compatibility with Bedrockify
