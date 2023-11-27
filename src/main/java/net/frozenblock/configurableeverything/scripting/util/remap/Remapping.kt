@@ -182,7 +182,7 @@ private fun convertMappings() {
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
     = TinyUtils.createTinyMappingProvider(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH, from, to)
 
-private fun mojangProvider(from: String, to: String) IMappingProvider
+private fun mojangProvider(from: String, to: String): IMappingProvider
     = TinyUtils.createTinyMappingProvider(TINY_MAPPINGS_FILE_PATH, from, to)
 
 private final intermediaryProvider: IMappingProvider by lazy {
