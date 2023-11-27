@@ -17,7 +17,7 @@ import net.fabricmc.tinyremapper.IMappingProvider
 import net.fabricmc.tinyremapper.InputTag
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
-import net.fabricmc.tinyremappr.TinyUtils
+import net.fabricmc.tinyremapper.TinyUtils
 import net.frozenblock.configurableeverything.util.*
 import java.io.*
 import java.net.URI
