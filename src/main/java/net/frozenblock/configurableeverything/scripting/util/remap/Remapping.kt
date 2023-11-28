@@ -39,9 +39,6 @@ private val RAW_INTERMEDIARY_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolv
 private val RAW_MOJANG_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolve("mojang_${VERSION.id}.gz")
 private val TINY_MAPPINGS_FILE_PATH: Path = TINY_MAPPINGS_PATH // TODO: use a better file
 
-private lateinit var intermediaryMappings: MemoryMappingTree
-private lateinit var mojangMappings: MemoryMappingTree
-
 private lateinit var intToOffRemapper: TinyRemapper
 private lateinit var offToIntRemapper: TinyRemapper
 
@@ -127,56 +124,16 @@ private fun downloadMappings() {
 }
 
 @Throws(IOException::class)
-private fun parseMappings() {
-    parseIntermediary()
-    parseMojang()
-}
-
-@Throws(IOException::class)
-private fun parseIntermediary() {
-    log("Parsing Intermediary")
-    val mappings = MemoryMappingTree()
-
-    GZIPInputStream(Files.newInputStream(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH)).use { input ->
-        BufferedReader(InputStreamReader(input)).use { reader ->
-            MappingReader.read(reader, MappingFormat.TINY_2_FILE, mappings)
-        }
-    }
-
-    val switched = MemoryMappingTree()
-    mappings.accept(MappingSourceNsSwitch(switched, "official"))
-
-    intermediaryMappings = mappings
-}
-
-@Throws(IOException::class)
 private fun parseMojang() {
     log("Parsing Mojang's Official Mappings")
-    val mappings = MemoryMappingTree()
 
     Files.newInputStream(RAW_MOJANG_MAPPINGS_FILE_PATH).use { fileInput ->
         GZIPInputStream(fileInput).use { gzipInput ->
             BufferedReader(InputStreamReader(gzipInput)).use { reader ->
-                MappingReader.read(reader, MappingFormat.PROGUARD_FILE, mappings)
+                MappingReader.read(reader, MappingFormat.PROGUARD_FILE, MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
             }
         }
     }
-
-    mappings.setSrcNamespace("official")
-    mappings.setDstNamespaces(listOf("named"))
-
-    mappings.setSrcNamespace("named")
-    mappings.setDstNamespaces(listOf("official"))
-
-    val switchedMappings = MemoryMappingTree()
-    mappings.accept(MappingSourceNsSwitch(switchedMappings, "official"))
-    mojangMappings = switchedMappings
-}
-
-
-private fun convertMappings() {
-    log("Converting Official Mojang Mappings")
-    mojangMappings.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
@@ -336,8 +293,7 @@ fun initialize() {
 
     try {
         downloadMappings()
-        parseMappings()
-        convertMappings()
+        parseMojang()
 
         log("Building remappers")
 
