@@ -27,8 +27,9 @@ data class ScriptingConfig(
             this.add("net.frozenblock.lib.config.api.instance.ConfigModification")
             this.add("net.minecraft.core.*")
             this.add("net.minecraft.core.registries.*")
-            this.add("net.minecraft.core.resources.ResourceKey")
-            this.add("net.minecraft.core.resources.ResourceLocation")
+            this.add("net.minecraft.resources.ResourceKey")
+            this.add("net.minecraft.resources.ResourceLocation")
+            this.add("net.minecraft.world.level.dimension.DimensionType")
         }
     }
 ) {

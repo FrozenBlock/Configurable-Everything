@@ -15,7 +15,6 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.nestedList
-import net.frozenblock.lib.config.api.client.gui.synced
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries

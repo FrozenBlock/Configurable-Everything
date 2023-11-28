@@ -24,7 +24,7 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride?>> = Con
 
 data class ItemConfig(
     @JvmField
-    @FieldIdentifier("reachOverrides")
+    @FieldIdentifier(identifier = "reachOverrides")
     var reachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
         ITEM_REACH_OVERRIDES,
         listOf(

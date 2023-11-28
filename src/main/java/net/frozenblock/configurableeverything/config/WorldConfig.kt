@@ -11,12 +11,12 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
 data class WorldConfig(
     @JvmField
-    @FieldIdentifier("dayTimeSpeedAmplifier")
+    @FieldIdentifier(identifier = "dayTimeSpeedAmplifier")
     @Comment("Does not modify tick rate. Only modifies daytime speed.")
     var dayTimeSpeedAmplifier: Long? = 1,
 
     @JvmField
-    @FieldIdentifier("fixSunMoonRotating")
+    @FieldIdentifier(identifier = "fixSunMoonRotating")
     var fixSunMoonRotating: Boolean? = false,
 
     @JvmField

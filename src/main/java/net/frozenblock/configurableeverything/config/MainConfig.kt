@@ -13,7 +13,7 @@ import kotlin.io.path.pathString
 data class MainConfig(
     // ignore property name warnings because the goal is to match the config file name
     @JvmField
-    @FieldIdentifier("biome")
+    @FieldIdentifier(identifier = "biome")
     @Comment(
 """
 Enabled configs
@@ -23,23 +23,23 @@ Warning: It is important to check the contents of each config before enabling th
     var biome: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("biome_placement")
+    @FieldIdentifier(identifier = "biome_placement")
     var biome_placement: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("block")
+    @FieldIdentifier(identifier = "block")
     var block: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("datafixer")
+    @FieldIdentifier(identifier = "datafixer")
     var datafixer: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("entity")
+    @FieldIdentifier(identifier = "entity")
     var entity: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("fluid")
+    @FieldIdentifier(identifier = "fluid")
     var fluid: Boolean? = false,
 
     @JvmField
@@ -47,12 +47,12 @@ Warning: It is important to check the contents of each config before enabling th
     var game: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("gravity")
+    @FieldIdentifier(identifier = "gravity")
     @Comment("Not functional until 1.1")
     var gravity: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("item")
+    @FieldIdentifier(identifier = "item")
     @Comment("Not functional until 1.1")
     var item: Boolean? = false,
 
@@ -62,7 +62,7 @@ Warning: It is important to check the contents of each config before enabling th
     var music: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("registry")
+    @FieldIdentifier(identifier = "registry")
     var registry: Boolean? = false,
 
     @JvmField
@@ -75,7 +75,7 @@ Warning: It is important to check the contents of each config before enabling th
     var scripting: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("sculk_spreading")
+    @FieldIdentifier(identifier = "sculk_spreading")
     @Comment("Not functional until 1.1")
     var sculk_spreading: Boolean? = false,
 
@@ -86,16 +86,16 @@ Warning: It is important to check the contents of each config before enabling th
     var splash_text: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("structure")
+    @FieldIdentifier(identifier = "structure")
     @Comment("Not functional until 1.1")
     var structure: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("surface_rule")
+    @FieldIdentifier(identifier = "surface_rule")
     var surface_rule: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("world")
+    @FieldIdentifier(identifier = "world")
     var world: Boolean? = false,
 
     @JvmField

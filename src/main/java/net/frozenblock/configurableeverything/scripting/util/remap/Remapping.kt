@@ -247,11 +247,23 @@ private fun remap(
 private fun remap(
     remapper: TinyRemapper,
     file: File,
-    newFile: File
+    newFile: File,
+    extension: String?
 ) = remap(
     remapper,
     arrayOf(file),
     "${newFile.parent}/",
+    extension
+)
+
+private fun remap(
+    remapper: TinyRemapper,
+    file: File,
+    newFile: File
+) = remap(
+    remapper,
+    file,
+    newFile,
     file.extension
 )
 
@@ -400,12 +412,14 @@ fun remapCodebase() {
                 remap(
                     if (FabricLoader.getInstance().isDevelopmentEnvironment) mojToOffRemapper else intToOffRemapper,
                     file,
-                    officialFile
+                    officialFile,
+                    null
                 )
                 remap(
-                    if (FabricLoader.getInstance().isDevelopmentEnvironment) mojToOffRemapper else intToOffRemapper,
-                    file,
-                    remappedFile
+                    offToMojRemapper,
+                    officialFile,
+                    remappedFile,
+                    null
                 )
             }
         } catch (e: Exception) {

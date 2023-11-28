@@ -34,7 +34,7 @@ private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?
 
 data class RegistryConfig(
     @JvmField
-    @FieldIdentifier("biomeAdditions")
+    @FieldIdentifier(identifier = "biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
     var biomeAdditions: TypedEntry<List<BiomeAddition?>?>? = TypedEntry(
         BIOME_ADDITIONS,
@@ -64,7 +64,7 @@ data class RegistryConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("placedFeatureAdditions")
+    @FieldIdentifier(identifier = "placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
     var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
         PLACED_FEATURE_ADDITIONS,

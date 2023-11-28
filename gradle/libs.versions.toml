@@ -8,13 +8,13 @@ parchment_mappings = "2023.10.22"
 fabric_loader = "0.14.24"
 
 # Dependencies
-fabric_api = "0.90.7+1.20.2"
+fabric_api = "0.91.1+1.20.2"
 kotlin = "1.9.21"
 fabric_kotlin = "1.10.15+kotlin.1.9.21"
 frozenLib = "1.4.4-mc1.20.2"
 
 # External Mods
-clothConfig = "12.0.109"
+clothConfig = "12.0.111"
 modMenu = "8.0.0"
 terraBlender = "1.20.2-3.2.0.14"
 

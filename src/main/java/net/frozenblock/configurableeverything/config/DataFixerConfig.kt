@@ -35,7 +35,7 @@ private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRe
 
 data class DataFixerConfig(
     @JvmField
-    @FieldIdentifier("overrideRealEntries")
+    @FieldIdentifier(identifier = "overrideRealEntries")
     @Comment(
 """
 Allows registry fixers (not schemas) to convert all IDs
@@ -47,7 +47,7 @@ WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CA
     var overrideRealEntries: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier("dataVersion")
+    @FieldIdentifier(identifier = "dataVersion")
     @Comment(
 """
 The data fixer's main data version. Increment this when you add a new schema.
@@ -131,7 +131,7 @@ However, if the old id is still found in the registry, it will not be replaced.
     ),
 
     @JvmField
-    @FieldIdentifier("registryFixers")
+    @FieldIdentifier(identifier = "registryFixers")
     @Comment(
 """
 The list of registry fixers to use for data fixing.

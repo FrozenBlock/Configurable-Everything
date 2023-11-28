@@ -22,7 +22,7 @@ private val RESOURCE_LIST: TypedEntryType<List<ResourceLocation?>> = ConfigRegis
 data class StructureConfig(
 
     @JvmField
-    @FieldIdentifier("removedStructures")
+    @FieldIdentifier(identifier = "removedStructures")
     var removedStructures: TypedEntry<List<ResourceLocation?>>? = TypedEntry(
         RESOURCE_LIST,
         listOf(
@@ -32,7 +32,7 @@ data class StructureConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("removedStructureSets")
+    @FieldIdentifier(identifier = "removedStructureSets")
     var removedStructureSets: TypedEntry<List<ResourceLocation?>>? = TypedEntry(
         RESOURCE_LIST,
         listOf(

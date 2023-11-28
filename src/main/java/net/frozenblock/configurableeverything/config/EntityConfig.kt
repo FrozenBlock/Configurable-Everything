@@ -53,7 +53,7 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRe
 
 data class EntityConfig(
     @JvmField
-    @FieldIdentifier("entityAttributeAmplifiers")
+    @FieldIdentifier(identifier = "entityAttributeAmplifiers")
     var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         listOf(
@@ -71,7 +71,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("experienceOverrides")
+    @FieldIdentifier(identifier = "experienceOverrides")
     var experienceOverrides: TypedEntry<List<ExperienceOverride?>>? = TypedEntry(
         EXPERIENCE_OVERRIDES,
         listOf(
@@ -83,7 +83,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("entityFlyBySounds")
+    @FieldIdentifier(identifier = "entityFlyBySounds")
     var entityFlyBySounds: TypedEntry<List<EntityFlyBySound?>>? = TypedEntry(
         ENTITY_FLYBY_SOUNDS,
         listOf(
@@ -172,7 +172,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("entityHurtEffects")
+    @FieldIdentifier(identifier = "entityHurtEffects")
     var entityHurtEffects: TypedEntry<List<EntityHurtEffects?>>? = TypedEntry(
         ENTITY_HURT_EFFECTS,
         listOf(
@@ -194,7 +194,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("entitySpottingIcons")
+    @FieldIdentifier(identifier = "entitySpottingIcons")
     var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
         SPOTTING_ICONS,
         listOf(
@@ -208,7 +208,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier("flamingArrowsLightFire")
+    @FieldIdentifier(identifier = "flamingArrowsLightFire")
     var flamingArrowsLightFire: Boolean? = false,
 
     @JvmField
@@ -240,7 +240,7 @@ data class EntityConfig(
 
     data class PlayerConfig(
         @JvmField
-        @FieldIdentifier("digSpeedAmplifier")
+        @FieldIdentifier(identifier = "digSpeedAmplifier")
         var digSpeedAmplifier: Int? = 100
     ) {
         val digSpeed: Double // acts as a getter method
@@ -256,33 +256,33 @@ data class EntityConfig(
 		var babyZombieSprintParticles: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier("zombiesAvoidSun")
+        @FieldIdentifier(identifier = "zombiesAvoidSun")
 		var zombiesAvoidSun: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier("ignoreDoorBreakDifficulty")
+        @FieldIdentifier(identifier = "ignoreDoorBreakDifficulty")
 		var ignoreDoorBreakDifficulty: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier("allZombiesBreakDoors")
+        @FieldIdentifier(identifier = "allZombiesBreakDoors")
 		var allZombiesBreakDoors: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier("ignoreReinforcementDifficulty")
+        @FieldIdentifier(identifier = "ignoreReinforcementDifficulty")
         var ignoreReinforcementDifficulty: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier("fullReinforcementChance")
+        @FieldIdentifier(identifier = "fullReinforcementChance")
 		var fullReinforcementChance: Boolean? = false
     )
 
     data class SkeletonConfig(
         @JvmField
-        @FieldIdentifier("skeletonAccuracyIgnoresDifficulty")
+        @FieldIdentifier(identifier = "skeletonAccuracyIgnoresDifficulty")
 		var skeletonAccuracyIgnoresDifficulty: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier("skeletonsAvoidSun")
+        @FieldIdentifier(identifier = "skeletonsAvoidSun")
 		var skeletonsAvoidSun: Boolean? = true
     )
 }

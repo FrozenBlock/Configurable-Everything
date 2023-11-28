@@ -22,7 +22,7 @@ private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigReg
 
 data class FluidConfig(
     @JvmField
-    @FieldIdentifier("flowSpeeds")
+    @FieldIdentifier(identifier = "flowSpeeds")
     var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
         FLUID_FLOW_SPEEDS,
         listOf(

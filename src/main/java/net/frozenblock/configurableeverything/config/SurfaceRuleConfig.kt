@@ -24,7 +24,7 @@ private val SURFACE_RULE_LIST = ConfigRegistry.register(
 
 data class SurfaceRuleConfig(
     @JvmField
-    @FieldIdentifier("addedSurfaceRules")
+    @FieldIdentifier(identifier = "addedSurfaceRules")
     var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
         SURFACE_RULE_LIST,
         listOf(

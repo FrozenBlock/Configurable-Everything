@@ -39,7 +39,7 @@ private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = Co
 
 data class BiomePlacementConfig(
 	@JvmField
-	@FieldIdentifier("addedBiomes")
+	@FieldIdentifier(identifier = "addedBiomes")
 	@Comment(
 """
 Add any biome to worldgen, with the parameters set.
@@ -89,7 +89,7 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 	),
 
 	@JvmField
-	@FieldIdentifier("removedBiomes")
+	@FieldIdentifier(identifier = "removedBiomes")
 	@Comment(
 """
 Remove any biome from worldgen
