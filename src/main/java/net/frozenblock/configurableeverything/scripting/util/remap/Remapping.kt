@@ -153,7 +153,8 @@ private fun remap(
     remapper: TinyRemapper,
     filesArray: Array<File>?,
     newDir: String,
-    fileExtension: String?
+    fileExtension: String?,
+    buildJar: Boolean = false
 ) {
     val files: MutableMap<Path, InputTag> = mutableMapOf()
     runBlocking {
@@ -173,30 +174,57 @@ private fun remap(
 
     runBlocking {
         for ((file, tag) in files) {
-            launch {
+            val consumer: OutputConsumerPath? = if (!buildJar) null else OutputConsumerPath.Builder(file)
+                .assumeArchive(true)
+                .build()
+            val read = launch {
                 try {
+                    consumer?.addNonClassFiles(file, NonClassCopyMode.FIX_META_INF, remapper)
                     remapper.readInputsAsync(tag, file)
+
+                    if (buildJar) {
+                        try {
+                            remapper.apply(consumer)
+                        } catch (e: Exception) {
+                            logError("Error while applying remapper", e)
+                        } finally {
+                            consumer.close()
+                        }
+                    }
                 } catch (e: Exception) {
                     logError("Error while reading $file", e)
+                }
+            }
+
+            if (buildJar) {
+                read.join()
+                try {
+                    remapper.apply(consumer)
+                } finally {
+                    consumer.close()
                 }
             }
         }
     }
 
-    try {
-        val consumer: OutputConsumerPath = OutputConsumerPath.Builder(Path(newDir)).build()
-        remapper.apply(consumer)
-    } catch (e: Exception) {
-        logError("Error while applying remapper", e)
-    } finally {
-        /*for ((file, _) in files) {
-            try {
-                file.toFile().deleteRecursively()
-            } catch (e: IOException) {
-                logError("Error while deleting file $file", e)
-            }
-        }*/
-        //remapper.finish()
+    if (!buildJar) {
+        val consumer: OutputConsumerPath = OutputConsumerPath.Builder(Path(newDir))
+            .build()
+        try {
+            remapper.apply(consumer)
+        } catch (e: Exception) {
+            logError("Error while applying remapper", e)
+        } finally {
+            consumer.close()
+            /*for ((file, _) in files) {
+                try {
+                    file.toFile().deleteRecursively()
+                } catch (e: IOException) {
+                    logError("Error while deleting file $file", e)
+                }
+            }*/
+            //remapper.finish()
+        }
     }
 
     try {
