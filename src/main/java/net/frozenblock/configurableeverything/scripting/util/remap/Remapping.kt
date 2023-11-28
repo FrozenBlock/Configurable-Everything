@@ -15,6 +15,7 @@ import net.fabricmc.mappingio.format.MappingFormat
 import net.fabricmc.mappingio.tree.MemoryMappingTree
 import net.fabricmc.tinyremapper.IMappingProvider
 import net.fabricmc.tinyremapper.InputTag
+import net.fabricmc.tinyremapper.NonClassCopyMode
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
@@ -184,24 +185,15 @@ private fun remap(
 
                     if (buildJar) {
                         try {
-                            remapper.apply(consumer)
+                            remapper.apply(consumer!!)
                         } catch (e: Exception) {
                             logError("Error while applying remapper", e)
                         } finally {
-                            consumer.close()
+                            consumer!!.close()
                         }
                     }
                 } catch (e: Exception) {
                     logError("Error while reading $file", e)
-                }
-            }
-
-            if (buildJar) {
-                read.join()
-                try {
-                    remapper.apply(consumer)
-                } finally {
-                    consumer.close()
                 }
             }
         }
