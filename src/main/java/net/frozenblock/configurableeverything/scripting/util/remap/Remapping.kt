@@ -40,11 +40,31 @@ private val RAW_INTERMEDIARY_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolv
 private val RAW_MOJANG_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolve("mojang_${VERSION.id}.gz")
 private val TINY_MAPPINGS_FILE_PATH: Path = TINY_MAPPINGS_PATH // TODO: use a better file
 
-private lateinit var intToOffRemapper: TinyRemapper
-private lateinit var offToIntRemapper: TinyRemapper
+var initialized: Boolean = false
 
-private lateinit var mojToOffRemapper: TinyRemapper
-private lateinit var offToMojRemapper: TinyRemapper
+private val intToOffRemapper: TinyRemapper
+    get() {
+        if (!initialized) initialize()
+        return buildRemapper(intermediaryProvider("intermediary", "official"))
+    }
+
+private val offToIntRemapper: TinyRemapper
+    get() {
+        if (!initialized) initialize()
+        return buildRemapper(intermediaryProvider("official", "intermediary"))
+    }
+
+private val mojToOffRemapper: TinyRemapper
+    get() {
+        if (!initialized) initialize()
+        return buildRemapper(mojangProvider("named", "official"))
+    }
+
+private val offToMojRemapper: TinyRemapper
+    get() {
+        if (!initialized) initialize()
+        return buildRemapper(mojangProvider("official", "named"))
+    }
 
 private val intermediaryUri: URI =
     URI.create("https://maven.fabricmc.net/net/fabricmc/intermediary/${VERSION.id}/intermediary-${VERSION.id}-v2.jar")
@@ -215,7 +235,7 @@ private fun remap(
                     logError("Error while deleting file $file", e)
                 }
             }*/
-            //remapper.finish()
+            remapper.finish()
         }
     }
 
@@ -322,21 +342,12 @@ fun remapScript(originalFile: File): File {
  */
 fun initialize() {
     experimentalOrThrow()
-    if (::offToMojRemapper.isInitialized) return
+    if (initialized) return
 
     try {
         downloadMappings()
         parseMojang()
-
-        log("Building remappers")
-
-        intToOffRemapper = buildRemapper(intermediaryProvider("intermediary", "official"))
-
-        offToIntRemapper = buildRemapper(intermediaryProvider("official", "intermediary"))
-
-        mojToOffRemapper = buildRemapper(mojangProvider("named", "official"))
-
-        offToMojRemapper = buildRemapper(mojangProvider("official", "named"))
+        initialized = true
     } catch (e: Exception) {
         logError("Failed to initialize remapping", e)
     }
