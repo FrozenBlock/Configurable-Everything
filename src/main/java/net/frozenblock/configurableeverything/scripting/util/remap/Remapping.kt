@@ -240,23 +240,27 @@ private fun remap(
     remapper: TinyRemapper,
     file: File,
     newFile: File,
-    extension: String?
+    extension: String?,
+    buildJar: Boolean = false
 ) = remap(
     remapper,
     arrayOf(file),
     "${newFile.parent}/",
-    extension
+    extension,
+    buildJar
 )
 
 private fun remap(
     remapper: TinyRemapper,
     file: File,
-    newFile: File
+    newFile: File,
+    buildJar: Boolean = false
 ) = remap(
     remapper,
     file,
     newFile,
-    file.extension
+    file.extension,
+    buildJar
 )
 
 /**
@@ -276,7 +280,8 @@ fun remapScript(originalFile: File): File {
             mojToOffRemapper,
             arrayOf(originalFile),
             officialDir,
-            "jar"
+            "jar",
+            true
         )
 
         val officialList = File(officialDir).listFiles()!!
@@ -285,7 +290,8 @@ fun remapScript(originalFile: File): File {
             offToIntRemapper,
             officialList,
             intermediaryDir,
-            null
+            null,
+            true
         )
 
         val jar = File(".$MOD_ID/remapped_scripts/${originalFile.name}")
@@ -388,13 +394,15 @@ fun remapCodebase() {
                     if (FabricLoader.getInstance().isDevelopmentEnvironment) mojToOffRemapper else intToOffRemapper,
                     file,
                     officialFile,
-                    null
+                    null,
+                    true
                 )
                 remap(
                     offToMojRemapper,
                     officialFile,
                     remappedFile,
-                    null
+                    null,
+                    true
                 )
             }
         } catch (e: Exception) {
@@ -409,21 +417,24 @@ fun remapCodebase() {
                 offToMojRemapper,
                 INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
                 ".$MOD_ID/remapped/",
-                "jar"
+                "jar",
+                true
             )
         } else {
             remap(
                 intToOffRemapper,
                 INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
                 ".$MOD_ID/official/",
-                "jar"
+                "jar",
+                true
             )
 
             remap(
                 offToMojRemapper,
                 OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
                 ".$MOD_ID/remapped/",
-                null
+                null,
+                true
             )
         }
 
