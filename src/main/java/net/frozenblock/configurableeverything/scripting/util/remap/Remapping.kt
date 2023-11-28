@@ -137,23 +137,15 @@ private fun downloadMappings() {
     }
     val response = httpReponse(uri)
 
-    Files.newOutputStream(RAW_MOJANG_MAPPINGS_FILE_PATH).use { fileOutput ->
-        GZIPOutputStream(fileOutput).use { gzipOutput ->
-            gzipOutput.write(response.body())
-        }
-    }
-}
-
-@Throws(IOException::class)
-private fun parseMojang() {
-    log("Parsing Mojang's Official Mappings")
-
-    Files.newInputStream(RAW_MOJANG_MAPPINGS_FILE_PATH).use { fileInput ->
-        GZIPInputStream(fileInput).use { gzipInput ->
-            BufferedReader(InputStreamReader(gzipInput)).use { reader ->
-                MappingReader.read(reader, MappingFormat.PROGUARD_FILE, MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
-            }
-        }
+    BufferedReader(InputStreamReader(ByteArrayInputStream(response.body()))).use { reader ->
+        MappingReader.read(
+            reader,
+            MappingFormat.PROGUARD_FILE,
+            MappingWriter.create(
+                TINY_MAPPINGS_FILE_PATH,
+                 MappingFormat.TINY_2_FILE
+            )
+        )
     }
 }
 
@@ -348,7 +340,6 @@ fun initialize() {
 
     try {
         downloadMappings()
-        parseMojang()
         initialized = true
     } catch (e: Exception) {
         logError("Failed to initialize remapping", e)
