@@ -167,6 +167,7 @@ private fun buildRemapper(mappings: IMappingProvider): TinyRemapper
     = TinyRemapper.newRemapper()
         .withMappings(mappings)
         .rebuildSourceFilenames(true)
+        .fixPackageAccess(true)
         .keepInputData(false)
         .build()
 
