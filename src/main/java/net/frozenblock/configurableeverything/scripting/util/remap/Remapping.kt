@@ -142,6 +142,13 @@ private fun intermediaryProvider(from: String, to: String): IMappingProvider
 private fun mojangProvider(from: String, to: String): IMappingProvider
     = TinyUtils.createTinyMappingProvider(TINY_MAPPINGS_FILE_PATH, from, to)
 
+private fun buildRemapper(mappings: IMappingProvider): TinyRemapper
+    = TinyRemapper.newRemapper()
+        .withMappings(mappings)
+        .rebuildSourceFilenames(true)
+        .keepInputData(false)
+        .build()
+
 private fun remap(
     remapper: TinyRemapper,
     filesArray: Array<File>?,
@@ -297,29 +304,13 @@ fun initialize() {
 
         log("Building remappers")
 
-        intToOffRemapper = TinyRemapper.newRemapper()
-            .withMappings(intermediaryProvider("intermediary", "official"))
-            .rebuildSourceFilenames(true)
-            .keepInputData(true)
-            .build()
+        intToOffRemapper = buildRemapper(intermediaryProvider("intermediary", "official"))
 
-        offToIntRemapper = TinyRemapper.newRemapper()
-            .withMappings(intermediaryProvider("official", "intermediary"))
-            .rebuildSourceFilenames(true)
-            .keepInputData(true)
-            .build()
+        offToIntRemapper = buildRemapper(intermediaryProvider("official", "intermediary"))
 
-        mojToOffRemapper = TinyRemapper.newRemapper()
-            .withMappings(mojangProvider("named", "official"))
-            .rebuildSourceFilenames(true)
-            .keepInputData(true)
-            .build()
+        mojToOffRemapper = buildRemapper(mojangProvider("named", "official"))
 
-        offToMojRemapper = TinyRemapper.newRemapper()
-            .withMappings(mojangProvider("official", "named"))
-            .rebuildSourceFilenames(true)
-            .keepInputData(true)
-            .build()
+        offToMojRemapper = buildRemapper(mojangProvider("official", "named"))
     } catch (e: Exception) {
         logError("Failed to initialize remapping", e)
     }
