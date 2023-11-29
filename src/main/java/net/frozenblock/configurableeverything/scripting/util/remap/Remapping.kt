@@ -19,6 +19,7 @@ import net.fabricmc.tinyremapper.NonClassCopyMode
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
+import net.frozenblock.configurableeverything.scripting.util.remap.loom.*
 import net.frozenblock.configurableeverything.util.*
 import java.io.*
 import java.net.URI
@@ -68,10 +69,10 @@ private val mojangUri: URI?
     get() {
         val manifestResp = httpReponse(MANIFEST)
         val manifestJson: JsonObject?
-        ByteArrayInputStream(manifestResp.body()).use { input ->
-            InputStreamReader(input).use { reader ->
-                manifestJson = GSON.fromJson(reader, JsonObject::class.java)
-            }
+        BufferedReader(InputStreamReader(
+            ByteArrayInputStream(manifestResp.body())
+        )).use { reader ->
+            manifestJson = GSON.fromJson(reader, JsonObject::class.java)
         }
 
         checkNotNull(manifestJson) { "Manifest json is null" }
@@ -84,10 +85,10 @@ private val mojangUri: URI?
             val infoUri: URI = URI.create(elementJson["url"]?.asString ?: error("Version URL is null"))
             val infoResp = httpReponse(infoUri)
             val infoJson: JsonObject?
-            ByteArrayInputStream(infoResp.body()).use { input ->
-                InputStreamReader(input).use { reader ->
-                    infoJson = GSON.fromJson(reader, JsonObject::class.java)
-                }
+            BufferedReader(InputStreamReader(
+                ByteArrayInputStream(infoResp.body())
+            )).use { reader ->
+                infoJson = GSON.fromJson(reader, JsonObject::class.java)
             }
 
             checkNotNull(infoJson) { "Deserialized version URL is null " }
@@ -103,23 +104,23 @@ private fun downloadMappings() {
     log("Downloading Intermediary")
     val intermediaryResponse = httpReponse(intermediaryUri)
 
-    Files.newOutputStream(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH).use { fileOutput ->
-        GZIPOutputStream(fileOutput).use { gzipOutput ->
-            val temp = Files.createTempFile(null, ".jar")
-            val mappingsBytes: ByteArray? = try {
-                Files.write(temp, intermediaryResponse.body())
-                FileSystems.newFileSystem(temp).use { jar ->
-                    Files.readAllBytes(jar.getPath("mappings", "mappings.tiny"))
-                }
-            } catch (e: Exception) {
-                logError("Error while downloading intermediary", e)
-                null
-            } finally {
-                Files.delete(temp)
+    GZIPOutputStream(
+        Files.newOutputStream(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH)
+    ).use { fileOutput ->
+        val temp = Files.createTempFile(null, ".jar")
+        val mappingsBytes: ByteArray? = try {
+            Files.write(temp, intermediaryResponse.body())
+            FileSystems.newFileSystem(temp).use { jar ->
+                Files.readAllBytes(jar.getPath("mappings", "mappings.tiny"))
             }
-            if (mappingsBytes != null) {
-                gzipOutput.write(mappingsBytes)
-            }
+        } catch (e: Exception) {
+            logError("Error while downloading intermediary", e)
+            null
+        } finally {
+            temp.deleteRecursively()
+        }
+        if (mappingsBytes != null) {
+            fileOutput.write(mappingsBytes)
         }
     }
 
@@ -158,6 +159,7 @@ private fun buildRemapper(vararg mappings: IMappingProvider): TinyRemapper {
         .fixPackageAccess(true)
         .skipLocalVariableMapping(true)
         .keepInputData(false)
+        .extension(KotlinMetadataTinyRemapperExtension)
     mappings.forEach { builder.withMappings(it) }
     return builder.build()
 }
@@ -220,13 +222,6 @@ private fun remap(
         } finally {
             remapper.finish()
             consumer.close()
-            /*for ((file, _) in files) {
-                try {
-                    file.toFile().deleteRecursively()
-                } catch (e: IOException) {
-                    logError("Error while deleting file $file", e)
-                }
-            }*/
         }
     }
 
