@@ -340,73 +340,79 @@ fun remapCodebase() {
         // clear official dir before remapping the game jars
         OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
 
-        log("Remapping game jars")
-
-        remap(
-            if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
-            INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
-            ".$MOD_ID/official/",
-            "jar",
-            true
-        )
-
-        remap(
-            offToMojRemapper,
-            OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
-            ".$MOD_ID/remapped/",
-            "jar",
-            true
-        )
-
-        // remap mods
-        log("Remapping mods")
-        try {
-            for (mod in FabricLoader.getInstance().allMods) {
-                val id = mod.metadata.id
-
-                // TODO: Config options
-                val filterOption: FilterOption? = FilterOption.INCLUDED
-                val filter = listOf(
-                    "frozenlib"
-                )
-                when (filterOption) {
-                    FilterOption.INCLUDED -> if (!filter.contains(id)) continue
-                    FilterOption.EXCLUDED -> if (filter.contains(id)) continue
-                    else -> continue
-                }
-
-                val file = getModFile(id)
-                if (file == null) {
-                    logError("File for mod id $id is null")
-                    continue
-                }
-                val officialFile = File(".$MOD_ID/official/${file.name}")
-                val remappedFile = File(".$MOD_ID/remapped/${file.name}")
-
-                remap(
-                    if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
-                    file,
-                    officialFile,
-                    "jar",
-                    true
-                )
-                remap(
-                    offToMojRemapper,
-                    officialFile,
-                    remappedFile,
-                    "jar",
-                    true
-                )
-            }
-        } catch (e: Exception) {
-            logError("Failed to remap mods", e)
-        }
+        remapGameJars()
+        remapMods()
 
         OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
 
         log("Successfully remapped the current codebase")
     } catch (e: Exception) {
         logError("Failed to remap codebase", e)
+    }
+}
+
+private fun remapGameJars() {
+    log("Remapping game jars")
+
+    remap(
+        if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
+        INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
+        ".$MOD_ID/official/",
+        "jar",
+        true
+    )
+
+    remap(
+        offToMojRemapper,
+        OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
+        ".$MOD_ID/remapped/",
+        "jar",
+        true
+    )
+}
+
+private fun remapMods() {
+    log("Remapping mods")
+    try {
+        for (mod in FabricLoader.getInstance().allMods) {
+            val id = mod.metadata.id
+
+            // TODO: Config options
+            val filterOption: FilterOption? = FilterOption.INCLUDED
+            val filter = listOf(
+                "frozenlib"
+            )
+            when (filterOption) {
+                FilterOption.INCLUDED -> if (!filter.contains(id)) continue
+                FilterOption.EXCLUDED -> if (filter.contains(id)) continue
+                else -> continue
+            }
+
+            val file = getModFile(id)
+            if (file == null) {
+                logError("File for mod id $id is null")
+                continue
+            }
+            val officialFile = File(".$MOD_ID/official/${file.name}")
+            val remappedFile = File(".$MOD_ID/remapped/${file.name}")
+
+            remap(
+                if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
+                file,
+                officialFile,
+                "jar",
+                true
+            )
+            remap(
+                offToMojRemapper,
+                officialFile,
+                remappedFile,
+                "jar",
+                true
+            )
+        }
+    } catch (e: Exception) {
+        logError("Failed to remap mods", e)
     }
 }
 
