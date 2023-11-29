@@ -79,12 +79,15 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
         // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
         ifExperimental {
-            updateClasspath(listOf(File(".$MOD_ID/remapped/")))
+            updateClasspath(REMAPPED_SOURCES_CACHE.toFile().listFiles()!!.toList())
         }
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
 
-    compilerOptions(listOf("-jvm-target", "17"))
+    compilerOptions(listOf(
+        "-jvm-target", "17",
+        "-language-version", "2.0",
+    ))
     compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
 
     refineConfiguration {

@@ -14,6 +14,9 @@ fun File.recreateDir() {
     FileUtil.createDirectoriesSafe(this.toPath())
 }
 
+val File.isJar: Boolean
+    get() = this.extension == "jar"
+
 fun File.addToJar(jar: File) {
     JarOutputStream(BufferedOutputStream(FileOutputStream(jar))).use {
         addToJar(it, this, "")

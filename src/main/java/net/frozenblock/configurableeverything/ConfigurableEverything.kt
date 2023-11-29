@@ -73,7 +73,7 @@ class ConfigurableEverything : ModInitializer {
                 }
 
                 ifExperimental {
-                    FileUtil.createDirectoriesSafe(RAW_MAPPINGS_PATH)
+                    FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
                     OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
                     REMAPPED_SOURCES_CACHE.toFile().recreateDir()
                 }

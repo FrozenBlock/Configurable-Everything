@@ -27,44 +27,38 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
-import java.util.jar.*
 import java.util.zip.*
 import kotlin.io.path.Path
-import kotlin.io.path.pathString
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
 private val GSON: Gson = Gson()
 private val CLIENT: HttpClient = HttpClient.newHttpClient()
-private val RAW_INTERMEDIARY_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolve("intermediary_${VERSION.id}.gz")
-private val RAW_MOJANG_MAPPINGS_FILE_PATH: Path = RAW_MAPPINGS_PATH.resolve("mojang_${VERSION.id}.gz")
-private val TINY_MAPPINGS_FILE_PATH: Path = TINY_MAPPINGS_PATH // TODO: use a better file
+private val RAW_INTERMEDIARY_MAPPINGS_FILE_PATH: Path = MAPPINGS_PATH.resolve("intermediary_${VERSION.id}.gz")
+private val TINY_MAPPINGS_FILE_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
 
 var initialized: Boolean = false
 
-private val intToOffRemapper: TinyRemapper
-    get() {
-        if (!initialized) initialize()
-        return buildRemapper(intermediaryProvider("intermediary", "official"))
-    }
 
-private val offToIntRemapper: TinyRemapper
-    get() {
-        if (!initialized) initialize()
-        return buildRemapper(intermediaryProvider("official", "intermediary"))
-    }
+private val intToOffRemapper: TinyRemapper get() {
+    initialize()
+    return buildRemapper(intermediaryProvider("intermediary", "official"))
+}
 
-private val mojToOffRemapper: TinyRemapper
-    get() {
-        if (!initialized) initialize()
-        return buildRemapper(mojangProvider("named", "official"))
-    }
+private val offToIntRemapper: TinyRemapper get() {
+    initialize()
+    return buildRemapper(intermediaryProvider("official", "intermediary"))
+}
 
-private val offToMojRemapper: TinyRemapper
-    get() {
-        if (!initialized) initialize()
-        return buildRemapper(mojangProvider("official", "named"))
-    }
+private val mojToOffRemapper: TinyRemapper get() {
+    initialize()
+    return buildRemapper(mojangProvider("named", "official"))
+}
+
+private val offToMojRemapper: TinyRemapper get() {
+    initialize()
+    return buildRemapper(mojangProvider("official", "named"))
+}
 
 private val intermediaryUri: URI =
     URI.create("https://maven.fabricmc.net/net/fabricmc/intermediary/${VERSION.id}/intermediary-${VERSION.id}-v2.jar")
@@ -137,16 +131,19 @@ private fun downloadMappings() {
     }
     val response = httpReponse(uri)
 
+    val mappings = MemoryMappingTree()
     BufferedReader(InputStreamReader(ByteArrayInputStream(response.body()))).use { reader ->
         MappingReader.read(
             reader,
             MappingFormat.PROGUARD_FILE,
-            MappingWriter.create(
-                TINY_MAPPINGS_FILE_PATH,
-                 MappingFormat.TINY_2_FILE
-            )
+            mappings
         )
     }
+    mappings.setSrcNamespace("named")
+    mappings.setDstNamespaces(listOf("official"))
+    val switched = MemoryMappingTree()
+    mappings.accept(MappingSourceNsSwitch(switched, "official"))
+    switched.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
@@ -155,60 +152,60 @@ private fun intermediaryProvider(from: String, to: String): IMappingProvider
 private fun mojangProvider(from: String, to: String): IMappingProvider
     = TinyUtils.createTinyMappingProvider(TINY_MAPPINGS_FILE_PATH, from, to)
 
-private fun buildRemapper(mappings: IMappingProvider): TinyRemapper
-    = TinyRemapper.newRemapper()
-        .withMappings(mappings)
+private fun buildRemapper(vararg mappings: IMappingProvider): TinyRemapper {
+    val builder = TinyRemapper.newRemapper()
         .rebuildSourceFilenames(true)
         .fixPackageAccess(true)
         .skipLocalVariableMapping(true)
         .keepInputData(false)
-        .build()
+    mappings.forEach { builder.withMappings(it) }
+    return builder.build()
+}
 
 private fun remap(
     remapper: TinyRemapper,
     filesArray: Array<File>?,
     newDir: String,
     fileExtension: String?,
-    buildJar: Boolean = false
+    buildJar: Boolean = false,
 ) {
     val files: MutableMap<Path, InputTag> = mutableMapOf()
-    runBlocking {
-        filesArray?.forEach { file -> launch {
-            try {
-                if (fileExtension == null || file.extension == fileExtension) {
-                    val name = file.name
-                    val newFile = Path("$newDir$name")
-                    file.copyRecursively(newFile.toFile(), onError = { file, e -> OnErrorAction.SKIP })
-                    files[newFile] = remapper.createInputTag()
-                }
-            } catch (e: IOException) {
-                logError("Error while copying $file", e)
+    filesArray?.forEach { file ->
+        try {
+            if (fileExtension == null || file.extension == fileExtension) {
+                val name = file.name
+                val newFile = Path("$newDir$name")
+                file.copyRecursively(newFile.toFile(), onError = { file, e -> OnErrorAction.SKIP })
+                files[newFile] = remapper.createInputTag()
             }
-        } }
+        } catch (e: IOException) {
+            logError("Error while copying $file", e)
+        }
     }
 
-    runBlocking {
-        for ((file, tag) in files) {
+    val consumers: MutableList<OutputConsumerPath?>? = if (!buildJar) null else mutableListOf()
+
+    for ((file, tag) in files) {
+        try {
             val consumer: OutputConsumerPath? = if (!buildJar) null else OutputConsumerPath.Builder(file)
                 .assumeArchive(true)
-                .build()
-            val read = launch {
-                try {
-                    consumer?.addNonClassFiles(file, NonClassCopyMode.FIX_META_INF, remapper)
-                    remapper.readInputsAsync(tag, file)
+                .build()?.apply { consumers?.add(this) }
 
-                    if (buildJar) {
-                        try {
-                            remapper.apply(consumer!!)
-                        } catch (e: Exception) {
-                            logError("Error while applying remapper", e)
-                        } finally {
-                            consumer!!.close()
-                        }
-                    }
-                } catch (e: Exception) {
-                    logError("Error while reading $file", e)
-                }
+            consumer?.addNonClassFiles(file, NonClassCopyMode.FIX_META_INF, remapper)
+            remapper.readInputsAsync(tag, file)
+        } catch (e: Exception) {
+            logError("Error while reading $file", e)
+        }
+    }
+    consumers?.forEach { consumer ->
+        if (consumer != null) {
+            try {
+                remapper.apply(consumer)
+            } catch (e: Exception) {
+                logError("Error while applying remapper", e)
+            } finally {
+                remapper.finish()
+                consumer.close()
             }
         }
     }
@@ -221,6 +218,7 @@ private fun remap(
         } catch (e: Exception) {
             logError("Error while applying remapper", e)
         } finally {
+            remapper.finish()
             consumer.close()
             /*for ((file, _) in files) {
                 try {
@@ -229,7 +227,6 @@ private fun remap(
                     logError("Error while deleting file $file", e)
                 }
             }*/
-            remapper.finish()
         }
     }
 
@@ -247,26 +244,26 @@ private fun remap(
     file: File,
     newFile: File,
     extension: String?,
-    buildJar: Boolean = false
+    buildJar: Boolean = false,
 ) = remap(
     remapper,
     arrayOf(file),
     "${newFile.parent}/",
     extension,
-    buildJar
+    buildJar,
 )
 
 private fun remap(
     remapper: TinyRemapper,
     file: File,
     newFile: File,
-    buildJar: Boolean = false
+    buildJar: Boolean = false,
 ) = remap(
     remapper,
     file,
     newFile,
     file.extension,
-    buildJar
+    buildJar,
 )
 
 /**
@@ -278,56 +275,35 @@ fun remapScript(originalFile: File): File {
     initialize()
 
     val officialDir = ".$MOD_ID/official_scripts/"
-    val intermediaryDir = ".$MOD_ID/remapped_scripts/scripts/"
+    val intermediaryDir = ".$MOD_ID/remapped_scripts/"
+
+    File(officialDir).recreateDir()
+    File(intermediaryDir).recreateDir()
+
+    val officialFile = File("$officialDir/${originalFile.name}")
+    val intermediaryFile = File("$intermediaryDir/${originalFile.name}")
 
     try {
-
         remap(
             mojToOffRemapper,
-            arrayOf(originalFile),
-            officialDir,
+            originalFile,
+            officialFile,
             "jar",
-            true
+            true,
         )
-
-        val officialList = File(officialDir).listFiles()!!
 
         remap(
             offToIntRemapper,
-            officialList,
-            intermediaryDir,
-            null,
-            true
+            officialFile,
+            intermediaryFile,
+            "jar",
+            true,
         )
 
-        val jar = File(".$MOD_ID/remapped_scripts/${originalFile.name}")
-        jar.deleteRecursively()
-        JarOutputStream(FileOutputStream(jar)).use { output ->
-            JarFile(originalFile).use { jarFile ->
-                for (entry in jarFile.entries()) {
-                    if (!entry.name.contains("META-INF")) continue
-
-                    jarFile.getInputStream(entry).use { input ->
-                        output.putNextEntry(entry)
-                        input.copyTo(output)
-                    }
-                }
-            }
-            File(intermediaryDir).listFiles()!!.forEach { file ->
-                FileInputStream(file).use { input ->
-                    output.putNextEntry(JarEntry(file.name))
-                    input.copyTo(output)
-                }
-            }
-        }
-
-        return jar
+        return intermediaryFile
     } catch (e: Exception) {
         logError("Error while remapping script $originalFile", e)
         return originalFile
-    } finally {
-        File(officialDir).recreateDir()
-        File(intermediaryDir).recreateDir()
     }
 }
 
@@ -361,6 +337,27 @@ fun remapCodebase() {
     try {
         initialize()
 
+        // clear official dir before remapping the game jars
+        OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+
+        log("Remapping game jars")
+
+        remap(
+            if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
+            INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
+            ".$MOD_ID/official/",
+            "jar",
+            true
+        )
+
+        remap(
+            offToMojRemapper,
+            OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
+            ".$MOD_ID/remapped/",
+            "jar",
+            true
+        )
+
         // remap mods
         log("Remapping mods")
         try {
@@ -370,7 +367,7 @@ fun remapCodebase() {
                 // TODO: Config options
                 val filterOption: FilterOption? = FilterOption.INCLUDED
                 val filter = listOf(
-                    "configurable_everything"
+                    "frozenlib"
                 )
                 when (filterOption) {
                     FilterOption.INCLUDED -> if (!filter.contains(id)) continue
@@ -387,17 +384,17 @@ fun remapCodebase() {
                 val remappedFile = File(".$MOD_ID/remapped/${file.name}")
 
                 remap(
-                    if (FabricLoader.getInstance().isDevelopmentEnvironment) mojToOffRemapper else intToOffRemapper,
+                    if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
                     file,
                     officialFile,
-                    null,
+                    "jar",
                     true
                 )
                 remap(
                     offToMojRemapper,
                     officialFile,
                     remappedFile,
-                    null,
+                    "jar",
                     true
                 )
             }
@@ -405,43 +402,7 @@ fun remapCodebase() {
             logError("Failed to remap mods", e)
         }
 
-        // clear official dir before remapping the game jars
         OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
-
-        if (FabricLoader.getInstance().isDevelopmentEnvironment) {
-            remap(
-                offToMojRemapper,
-                INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
-                ".$MOD_ID/remapped/",
-                "jar",
-                true
-            )
-        } else {
-            remap(
-                intToOffRemapper,
-                INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
-                ".$MOD_ID/official/",
-                "jar",
-                true
-            )
-
-            remap(
-                offToMojRemapper,
-                OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
-                ".$MOD_ID/remapped/",
-                null,
-                true
-            )
-        }
-
-        REMAPPED_SOURCES_CACHE.toFile().listFiles()?.forEach { file ->
-            // should delete the leftover obfuscated files
-            if (!file.isDirectory) file.deleteRecursively()
-        }
-
-        for (file in OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!) {
-            file.deleteRecursively()
-        }
 
         log("Successfully remapped the current codebase")
     } catch (e: Exception) {

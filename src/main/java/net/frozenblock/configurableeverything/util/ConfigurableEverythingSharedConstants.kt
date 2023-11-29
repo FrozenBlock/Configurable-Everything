@@ -19,6 +19,8 @@ internal const val MOD_NAME = "Configurable Everything"
  */
 internal const val ENABLE_EXPERIMENTAL_FEATURES = true
 
+internal val DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment
+
 @JvmField
 internal val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
 
@@ -42,9 +44,6 @@ val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kot
 @JvmField
 val DATAPACKS_PATH: Path = Path("./config/$MOD_ID/datapacks")
 
-@JvmField
-val INTERMEDIARY_ROOT_CACHE_PATH: Path = if (FrozenBools.IS_QUILT) Path(".quilt/") else Path(".fabric/")
-
 val INPUT_GAME_JARS: List<Path>
     @Suppress("unchecked")
     get() {
@@ -52,16 +51,7 @@ val INPUT_GAME_JARS: List<Path>
     }
 
 @JvmField
-val INTERMEDIARY_GAME_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/remappedJars/minecraft-${modContainer("minecraft").version}-${modContainer("fabricloader").version}/")
-
-@JvmField
-val INTERMEDIARY_MOD_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/processedMods/")
-
-@JvmField
-val RAW_MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/raw/")
-
-@JvmField
-val TINY_MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/tiny/")
+val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
 val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")
