@@ -13,7 +13,7 @@ import kotlin.jvm.optionals.getOrNull
 
 // cool kotlin stuff
 
-fun Any?.discard() = Unit
+fun <T : Any?> T.discard(): Unit = Unit
 
 // config
 
