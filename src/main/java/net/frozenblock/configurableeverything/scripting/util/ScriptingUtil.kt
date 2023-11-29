@@ -62,9 +62,8 @@ internal object ScriptingUtil {
             val remappedFile: File = remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
             SCRIPTS_TO_EVAL[remappedScript] = remappedFile
-            return
-        }
-        SCRIPTS_TO_EVAL[compiledScript] = script
+        } else
+            SCRIPTS_TO_EVAL[compiledScript] = script
     }
 
     fun runScripts() {
@@ -75,8 +74,8 @@ internal object ScriptingUtil {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             compileScripts(KOTLIN_CLIENT_SCRIPT_PATH, ScriptType.CLIENT)
 
-
-        REMAPPED_SOURCES_CACHE.toFile().deleteRecursively()
+        // verify the scripts don't use remapped sources
+        REMAPPED_SOURCES_CACHE.toFile().recreateDir()
         runBlocking { evalScripts() }
 
         CEScript.POST_RUN_FUNS?.apply {

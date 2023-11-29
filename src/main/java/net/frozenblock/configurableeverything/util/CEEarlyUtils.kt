@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ModContainer
-import net.fabricmc.loader.api.Version
+import net.fabricmc.loader.api.ObjectShare
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
@@ -70,6 +70,10 @@ fun <T : Any?> ifServer(value: () -> T): T? {
 }
 
 // other fabric stuff
+
+operator fun ObjectShare.set(key: String, value: Unit) {
+    this.put(key, value)
+}
 
 fun modContainer(mod: String): ModContainer? = FabricLoader.getInstance().getModContainer(mod).getOrNull()
 

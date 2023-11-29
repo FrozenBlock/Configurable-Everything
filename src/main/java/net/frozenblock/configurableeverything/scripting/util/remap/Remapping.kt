@@ -380,7 +380,7 @@ private fun remapMods() {
             // TODO: Config options
             val filterOption: FilterOption? = FilterOption.INCLUDED
             val filter = listOf(
-                "frozenlib"
+                if (DEV_ENV) "frozenlib" else "configurable_everything"
             )
             when (filterOption) {
                 FilterOption.INCLUDED -> if (!filter.contains(id)) continue
