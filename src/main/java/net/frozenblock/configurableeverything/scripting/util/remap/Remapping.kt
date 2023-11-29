@@ -117,7 +117,7 @@ private fun downloadMappings() {
             logError("Error while downloading intermediary", e)
             null
         } finally {
-            temp.deleteRecursively()
+            temp.deleteRecursively().discard()
         }
         if (mappingsBytes != null) {
             fileOutput.write(mappingsBytes)

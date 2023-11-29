@@ -11,6 +11,9 @@ import kotlin.jvm.optionals.getOrNull
 
 // dont initialize minecraft classes here
 
+// cool kotlin stuff
+
+fun Any?.discard() = Unit
 
 // config
 
