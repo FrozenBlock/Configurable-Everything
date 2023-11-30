@@ -24,7 +24,7 @@
 
 @file:Suppress("UNCHECKED_CAST")
 
-package net.frozenblock.configurableeverything.scripting.util.remap.loom
+package net.frozenblock.configurableeverything.scripting.util.remap.fabric
 
 import kotlinx.metadata.KmClass
 import kotlinx.metadata.KmConstructor

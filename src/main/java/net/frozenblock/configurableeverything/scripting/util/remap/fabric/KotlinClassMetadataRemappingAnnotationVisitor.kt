@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.frozenblock.configurableeverything.scripting.util.remap.loom
+package net.frozenblock.configurableeverything.scripting.util.remap.fabric
 
 import kotlinx.metadata.jvm.KotlinClassMetadata
 import kotlinx.metadata.jvm.Metadata

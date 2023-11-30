@@ -3,11 +3,7 @@ package net.frozenblock.configurableeverything.scripting.util.remap
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import net.fabricmc.loader.api.FabricLoader
-import net.fabricmc.mapping.tree.TinyMappingFactory
-import net.fabricmc.mapping.tree.TinyTree
 import net.fabricmc.mappingio.MappingReader
 import net.fabricmc.mappingio.MappingWriter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
@@ -19,7 +15,7 @@ import net.fabricmc.tinyremapper.NonClassCopyMode
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
-import net.frozenblock.configurableeverything.scripting.util.remap.loom.*
+import net.frozenblock.configurableeverything.scripting.util.remap.fabric.*
 import net.frozenblock.configurableeverything.util.*
 import java.io.*
 import java.net.URI
@@ -35,8 +31,8 @@ private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
 private val GSON: Gson = Gson()
 private val CLIENT: HttpClient = HttpClient.newHttpClient()
-private val RAW_INTERMEDIARY_MAPPINGS_FILE_PATH: Path = MAPPINGS_PATH.resolve("intermediary_${VERSION.id}.gz")
-private val TINY_MAPPINGS_FILE_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
+private val INTERMEDIARY_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("intermediary_${VERSION.id}.gz")
+private val MOJANG_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
 
 var initialized: Boolean = false
 
@@ -105,7 +101,7 @@ private fun downloadMappings() {
     val intermediaryResponse = httpReponse(intermediaryUri)
 
     GZIPOutputStream(
-        Files.newOutputStream(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH)
+        Files.newOutputStream(INTERMEDIARY_MAPPINGS_PATH)
     ).use { fileOutput ->
         val temp = Files.createTempFile(null, ".jar")
         val mappingsBytes: ByteArray? = try {
@@ -125,11 +121,7 @@ private fun downloadMappings() {
     }
 
     log("Downloading Mojang's Official Mappings")
-    val uri: URI = try {
-        mojangUri ?: error("Mappings URI is null")
-    } catch (e: IOException) {
-        throw RuntimeException(e)
-    }
+    val uri: URI = mojangUri ?: error("Mappings URI is null")
     val response = httpReponse(uri)
 
     val mappings = MemoryMappingTree()
@@ -144,21 +136,28 @@ private fun downloadMappings() {
     mappings.setDstNamespaces(listOf("official"))
     val switched = MemoryMappingTree()
     mappings.accept(MappingSourceNsSwitch(switched, "official"))
-    switched.accept(MappingWriter.create(TINY_MAPPINGS_FILE_PATH, MappingFormat.TINY_2_FILE))
+    switched.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
-    = TinyUtils.createTinyMappingProvider(RAW_INTERMEDIARY_MAPPINGS_FILE_PATH, from, to)
+    = TinyUtils.createTinyMappingProvider(INTERMEDIARY_MAPPINGS_PATH, from, to)
 
 private fun mojangProvider(from: String, to: String): IMappingProvider
-    = TinyUtils.createTinyMappingProvider(TINY_MAPPINGS_FILE_PATH, from, to)
+    = TinyUtils.createTinyMappingProvider(MOJANG_MAPPINGS_PATH, from, to)
 
-private fun buildRemapper(vararg mappings: IMappingProvider): TinyRemapper {
+private fun buildRemapper(
+    vararg mappings: IMappingProvider,
+    rebuildSourceFileNames: Boolean = true,
+    fixPackageAccess: Boolean = true,
+    skipLocalVariableMapping: Boolean = true,
+    keepInputData: Boolean = false,
+): TinyRemapper {
     val builder = TinyRemapper.newRemapper()
-        .rebuildSourceFilenames(true)
-        .fixPackageAccess(true)
-        .skipLocalVariableMapping(true)
-        .keepInputData(false)
+        .rebuildSourceFilenames(rebuildSourceFileNames)
+        .fixPackageAccess(fixPackageAccess)
+        .skipLocalVariableMapping(skipLocalVariableMapping)
+        .keepInputData(keepInputData)
+        .propagateBridges(TinyRemapper.LinkedMethodPropagation.COMPATIBLE)
         .extension(KotlinMetadataTinyRemapperExtension)
     mappings.forEach { builder.withMappings(it) }
     return builder.build()
@@ -170,6 +169,7 @@ private fun remap(
     newDir: String,
     fileExtension: String?,
     buildJar: Boolean = false,
+    vararg referenceDirs: Iterable<File>,
 ) {
     val files: MutableMap<Path, InputTag> = mutableMapOf()
     filesArray?.forEach { file ->
@@ -185,13 +185,20 @@ private fun remap(
         }
     }
 
-    val consumers: MutableList<OutputConsumerPath?>? = if (!buildJar) null else mutableListOf()
+    for (dir in referenceDirs) {
+        for (file in dir) {
+            log("Adding $file to remapping reference")
+            remapper.readInputsAsync(remapper.createInputTag(), file.toPath())
+        }
+    }
+
+    val consumers: MutableMap<OutputConsumerPath?, InputTag>? = if (!buildJar) null else mutableMapOf()
 
     for ((file, tag) in files) {
         try {
             val consumer: OutputConsumerPath? = if (!buildJar) null else OutputConsumerPath.Builder(file)
                 .assumeArchive(true)
-                .build()?.apply { consumers?.add(this) }
+                .build()?.apply { consumers?.put(this, tag) }
 
             consumer?.addNonClassFiles(file, NonClassCopyMode.FIX_META_INF, remapper)
             remapper.readInputsAsync(tag, file)
@@ -199,10 +206,10 @@ private fun remap(
             logError("Error while reading $file", e)
         }
     }
-    consumers?.forEach { consumer ->
+    consumers?.forEach { (consumer, tag) ->
         if (consumer != null) {
             try {
-                remapper.apply(consumer)
+                remapper.apply(consumer, tag)
             } catch (e: Exception) {
                 logError("Error while applying remapper", e)
             } finally {
@@ -240,12 +247,14 @@ private fun remap(
     newFile: File,
     extension: String?,
     buildJar: Boolean = false,
+    vararg referenceDirs: Iterable<File>,
 ) = remap(
     remapper,
     arrayOf(file),
     "${newFile.parent}/",
     extension,
     buildJar,
+    referenceDirs = referenceDirs
 )
 
 private fun remap(
@@ -253,12 +262,14 @@ private fun remap(
     file: File,
     newFile: File,
     buildJar: Boolean = false,
+    vararg referenceDirs: Iterable<File>,
 ) = remap(
     remapper,
     file,
     newFile,
     file.extension,
     buildJar,
+    referenceDirs = referenceDirs
 )
 
 /**
@@ -284,7 +295,8 @@ fun remapScript(originalFile: File): File {
             originalFile,
             officialFile,
             "jar",
-            true,
+            buildJar = true,
+            OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!.toList()
         )
 
         remap(
@@ -292,7 +304,8 @@ fun remapScript(originalFile: File): File {
             officialFile,
             intermediaryFile,
             "jar",
-            true,
+            buildJar = true,
+            ORIGINAL_SOURCES_CACHE.toFile().listFiles()!!.toList(),
         )
 
         return intermediaryFile
@@ -322,6 +335,10 @@ private enum class FilterOption {
     EXCLUDED
 }
 
+fun clearRemappingCache() {
+    //OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+}
+
 /**
  * @since 1.1
  */
@@ -333,12 +350,11 @@ fun remapCodebase() {
         initialize()
 
         // clear official dir before remapping the game jars
+        ORIGINAL_SOURCES_CACHE.toFile().recreateDir()
         OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
 
         remapGameJars()
         remapMods()
-
-        OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
 
         log("Successfully remapped the current codebase")
     } catch (e: Exception) {
@@ -349,9 +365,12 @@ fun remapCodebase() {
 private fun remapGameJars() {
     log("Remapping game jars")
 
+    for (file in INPUT_GAME_JARS.map { it.toFile() }) {
+        file.copyRecursively(ORIGINAL_SOURCES_CACHE.resolve(file.name).toFile(), true)
+    }
     remap(
         if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
-        INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
+        ORIGINAL_SOURCES_CACHE.toFile().listFiles()!!,
         ".$MOD_ID/official/",
         "jar",
         true
@@ -364,6 +383,12 @@ private fun remapGameJars() {
         "jar",
         true
     )
+
+    for (file in OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!) {
+        if (!file.path.contains("loom.mappings") && !file.path.contains("intermediary")) {
+            file.deleteRecursively()
+        }
+    }
 }
 
 private fun remapMods() {

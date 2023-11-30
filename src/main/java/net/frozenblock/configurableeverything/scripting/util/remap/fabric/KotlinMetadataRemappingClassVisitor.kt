@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.frozenblock.configurableeverything.scripting.util.remap.loom
+package net.frozenblock.configurableeverything.scripting.util.remap.fabric
 
 import org.jetbrains.annotations.VisibleForTesting
 import org.objectweb.asm.AnnotationVisitor

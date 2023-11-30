@@ -54,7 +54,10 @@ val INPUT_GAME_JARS: List<Path>
 val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
-val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")
+val ORIGINAL_SOURCES_CACHE: Path = Path("./.$MOD_ID/original/")
+
+@JvmField
+val OFFICIAL_SOURCES_CACHE: Path = Path("./.$MOD_ID/official/")
 
 @JvmField
 val REMAPPED_SOURCES_CACHE: Path = Path("./.$MOD_ID/remapped/")

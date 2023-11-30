@@ -1,7 +1,7 @@
 /*
  * This file is part of fabric-loom, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2022 FabricMC
+ * Copyright (c) 2023 FabricMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,16 @@
  * SOFTWARE.
  */
 
-package net.frozenblock.configurableeverything.scripting.util.remap.loom
+package net.frozenblock.configurableeverything.scripting.util.remap.fabric;
 
-import net.fabricmc.tinyremapper.TinyRemapper
-import net.fabricmc.tinyremapper.api.TrClass
-import org.objectweb.asm.ClassVisitor
+import kotlin.Metadata;
+import kotlinx.metadata.jvm.KotlinClassMetadata;
 
-object KotlinMetadataTinyRemapperExtension : TinyRemapper.ApplyVisitorProvider, TinyRemapper.Extension {
-    override fun insertApplyVisitor(cls: TrClass, next: ClassVisitor?): ClassVisitor {
-        return KotlinMetadataRemappingClassVisitor(cls.environment.remapper, next)
-    }
-
-    override fun attach(builder: TinyRemapper.Builder) {
-        builder.extraPreApplyVisitor(this)
-    }
+/**
+ * Similar story to JvmExtensionWrapper, lets abuse the fact that Java can call "internal" Kotlin APIs without reflection :).
+ */
+public record KotlinClassMetadataWrapper(KotlinClassMetadata metadata) {
+	public Metadata getAnnotationData() {
+		return metadata.getAnnotationData$kotlinx_metadata_jvm();
+	}
 }

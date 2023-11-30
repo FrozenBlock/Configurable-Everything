@@ -11,6 +11,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
+import net.frozenblock.configurableeverything.scripting.util.remap.clearRemappingCache
 import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
@@ -74,6 +75,7 @@ class ConfigurableEverything : ModInitializer {
 
                 ifExperimental {
                     FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
+                    ORIGINAL_SOURCES_CACHE.toFile().recreateDir()
                     OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
                     REMAPPED_SOURCES_CACHE.toFile().recreateDir()
                 }
@@ -86,6 +88,9 @@ class ConfigurableEverything : ModInitializer {
                     remapCodebase()
                 }
                 ScriptingUtil.runScripts()
+                ifExperimental {
+                    clearRemappingCache()
+                }
             }
 
             // run functionality AFTER scripts have run
