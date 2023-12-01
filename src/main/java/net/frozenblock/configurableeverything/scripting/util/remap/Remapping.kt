@@ -134,14 +134,6 @@ private fun downloadMappings() {
     val response = httpReponse(uri)
 
     val intMappings = MemoryMappingTree()
-    val mappings = MemoryMappingTree()
-    InputStreamReader(ByteArrayInputStream(response.body())).buffered().use { reader ->
-        MappingReader.read(
-            reader,
-            MappingFormat.PROGUARD_FILE,
-            mappings
-        )
-    }
 
     // populate intMappings
     MappingReader.read(
@@ -151,18 +143,23 @@ private fun downloadMappings() {
     )
     // modify intMappings
     val intCompleter = MappingNsCompleter(intMappings, mapOf(MOJANG to INTERMEDIARY), true)
-    mappings.accept(intCompleter)
 
     // modify mojMaps
 
     // Filter out synthetic
-    val nameFilter = DstNameFilterMappingVisitor(mappings, SYNTHETIC_PATTERN)
+    val nameFilter = DstNameFilterMappingVisitor(intCompleter, SYNTHETIC_PATTERN)
 
     // make "official" the source namespace
     val switched = MappingSourceNsSwitch(nameFilter, OBFUSCATED)
 
-    mappings.accept(switched)
-    mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
+    InputStreamReader(ByteArrayInputStream(response.body())).buffered().use { reader ->
+        ProGuardFileReader.read(
+            reader,
+            MOJANG, OFFICIAL,
+            switched
+        )
+    }
+    switched.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
