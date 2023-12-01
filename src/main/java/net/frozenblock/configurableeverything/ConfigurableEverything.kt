@@ -24,7 +24,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import java.io.File
 import java.io.IOException
-import kotlin.io.path.Path
 import kotlin.system.measureNanoTime
 
 /**
@@ -69,14 +68,14 @@ class ConfigurableEverything : ModInitializer {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
                     File(".$MOD_ID/original_scripts/").recreateDir()
-                    File(".$MOD_ID/official_scripts/").recreateDir()
+                    File(".$MOD_ID/obfuscated_scripts/").recreateDir()
                     File(".$MOD_ID/remapped_scripts/").recreateDir()
                 }
 
                 ifExperimental {
                     FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
                     ORIGINAL_SOURCES_CACHE.toFile().recreateDir()
-                    OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+                    OBFUSCATED_SOURCES_CACHE.toFile().recreateDir()
                     REMAPPED_SOURCES_CACHE.toFile().recreateDir()
                 }
             } catch (e: IOException) {

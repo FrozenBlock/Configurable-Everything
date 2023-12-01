@@ -290,32 +290,32 @@ private fun remap(
 fun remapScript(originalFile: File): File {
     initialize()
 
-    val officialDir = Path(".$MOD_ID/official_scripts/")
+    val obfuscatedDir = Path(".$MOD_ID/obfuscated_scripts/")
     val intermediaryDir = Path(".$MOD_ID/remapped_scripts/")
 
-    officialDir.toFile().recreateDir()
+    obfuscatedDir.toFile().recreateDir()
     intermediaryDir.toFile().recreateDir()
 
-    val officialFile = officialDir.resolve(originalFile.name).toFile()
+    val obfuscatedFile = obfuscatedDir.resolve(originalFile.name).toFile()
     val intermediaryFile = intermediaryDir.resolve(originalFile.name).toFile()
 
     try {
         remap(
             mojToObfRemapper,
             originalFile,
-            officialFile,
+            obfuscatedFile,
             "jar",
             buildJar = true,
-            REMAPPED_SOURCES_CACHE.asFileList!!, OFFICIAL_SOURCES_CACHE.asFileList!!
+            REMAPPED_SOURCES_CACHE.asFileList!!, OBFUSCATED_SOURCES_CACHE.asFileList!!
         )
 
         remap(
             obfToIntRemapper,
-            officialFile,
+            obfuscatedFile,
             intermediaryFile,
             "jar",
             buildJar = true,
-            OFFICIAL_SOURCES_CACHE.asFileList!!, ORIGINAL_SOURCES_CACHE.asFileList!!,
+            OBFUSCATED_SOURCES_CACHE.asFileList!!, ORIGINAL_SOURCES_CACHE.asFileList!!,
         )
 
         return intermediaryFile
@@ -346,7 +346,7 @@ private enum class FilterOption {
 }
 
 fun clearRemappingCache() {
-    //OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+    //OBFUSCATED_SOURCES_CACHE.toFile().recreateDir()
 }
 
 /**
@@ -359,9 +359,9 @@ fun remapCodebase() {
     try {
         initialize()
 
-        // clear official dir before remapping the game jars
+        // clear the obfuscated dir before remapping the game jars
         ORIGINAL_SOURCES_CACHE.toFile().recreateDir()
-        OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
+        OBFUSCATED_SOURCES_CACHE.toFile().recreateDir()
 
         remapGameJars()
         remapMods()
@@ -379,25 +379,26 @@ private fun remapGameJars() {
         file.copyRecursively(ORIGINAL_SOURCES_CACHE.resolve(file.name).toFile(), true)
     }
     remap(
-        intToObfRemapper,
+        if (DEV_ENV) mojToObfRemapper else intToObfRemapper,
         ORIGINAL_SOURCES_CACHE.asDir!!,
-        OFFICIAL_SOURCES_CACHE,
+        OBFUSCATED_SOURCES_CACHE,
         "jar",
         true
     )
+    filterObfuscatedJars()
 
     remap(
         obfToMojRemapper,
-        OFFICIAL_SOURCES_CACHE.asDir!!,
+        OBFUSCATED_SOURCES_CACHE.asDir!!,
         REMAPPED_SOURCES_CACHE,
         "jar",
         true
     )
+    filterRemappedJars()
 
-    for (file in OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!) {
-        if (!file.path.contains("loom.mappings") && !file.path.contains("intermediary")) {
+    for (file in OBFUSCATED_SOURCES_CACHE.asDir!!) {
+        if (!file.isGameJar)
             file.deleteRecursively()
-        }
     }
 }
 
@@ -423,30 +424,65 @@ private fun remapMods() {
                 logError("File for mod id $id is null")
                 continue
             }
-            val officialFile = File(".$MOD_ID/official/${file.name}")
-            val remappedFile = File(".$MOD_ID/remapped/${file.name}")
+            val obfuscatedFile = OBFUSCATED_SOURCES_CACHE.resolve(file.name).toFile()
+            val remappedFile = REMAPPED_SOURCES_CACHE.resolve(file.name).toFile()
 
             remap(
                 if (DEV_ENV) mojToObfRemapper else intToObfRemapper,
                 file,
-                officialFile,
+                obfuscatedFile,
                 "jar",
                 true,
                 if (DEV_ENV) REMAPPED_SOURCES_CACHE.asFileList!! else ORIGINAL_SOURCES_CACHE.asFileList!!,
-                OFFICIAL_SOURCES_CACHE.asFileList!!
+                OBFUSCATED_SOURCES_CACHE.asFileList!!
             )
             remap(
                 obfToMojRemapper,
-                officialFile,
+                obfuscatedFile,
                 remappedFile,
                 "jar",
                 true,
-                OFFICIAL_SOURCES_CACHE.asFileList!!,
+                OBFUSCATED_SOURCES_CACHE.asFileList!!,
                 REMAPPED_SOURCES_CACHE.asFileList!!
             )
         }
     } catch (e: Exception) {
         logError("Failed to remap mods", e)
+    }
+}
+
+private val File.isGameJar: Boolean
+    get() = this.extension == "jar" && (this.path.contains("loom.mappings") || this.path.contains("intermediary"))
+
+private fun filterIntermediaryJars() {
+    for (file in ORIGINAL_SOURCES_CACHE.asDir!!) {
+        if (file.isGameJar)
+            file.removeFromJar { entry ->
+                val name = entry.name
+                if (name.contains("META-INF")) return@removeFromJar false
+                entry.name.endsWith(".class") && !entry.name.contains("net/minecraft/")
+            }
+    }
+}
+
+private fun filterObfuscatedJars() {
+    for (file in OBFUSCATED_SOURCES_CACHE.asDir!!) {
+        if (file.isGameJar)
+            file.removeFromJar { entry ->
+                val name = entry.name
+                if (name.contains("META-INF")) return@removeFromJar false
+                entry.isDirectory || name.contains(Regex("net/|assets/|data/"))
+            }
+    }
+}
+
+private fun filterRemappedJars() {
+    for (file in REMAPPED_SOURCES_CACHE.asDir!!) {
+        if (file.isGameJar) {
+            file.removeFromJar { entry ->
+                entry.name.endsWith(".class") && !entry.name.contains("net/minecraft/")
+            }
+        }
     }
 }
 

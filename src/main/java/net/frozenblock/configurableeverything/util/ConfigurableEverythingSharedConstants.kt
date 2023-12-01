@@ -8,7 +8,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 import kotlin.io.path.Path
-import kotlin.io.path.pathString
 
 internal const val MOD_ID = "configurable_everything"
 internal const val MOD_NAME = "Configurable Everything"
@@ -54,7 +53,7 @@ val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/")
 
 @JvmField
-val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")
+val OBFUSCATED_SOURCES_CACHE: Path = Path(".$MOD_ID/obfuscated/")
 
 @JvmField
 val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/")
