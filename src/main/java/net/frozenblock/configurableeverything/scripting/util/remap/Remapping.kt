@@ -6,6 +6,7 @@ import com.google.gson.JsonObject
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.mappingio.MappingReader
 import net.fabricmc.mappingio.MappingWriter
+import net.fabricmc.tinyremapper.adapter.MappingNsCompleter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
 import net.fabricmc.mappingio.tree.MemoryMappingTree
@@ -24,6 +25,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
+import java.util.regex.Pattern
 import java.util.zip.GZIPOutputStream
 import kotlin.io.path.Path
 import kotlin.io.path.writeBytes
@@ -36,8 +38,10 @@ private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
 private val GSON: Gson = Gson()
 private val CLIENT: HttpClient = HttpClient.newHttpClient()
-private val INTERMEDIARY_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("intermediary_${VERSION.id}.gz")
+private val INTERMEDIARY_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("intermediary_${VERSION.id}")
 private val MOJANG_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
+
+private val SYNTHETIC_PATTERN = Pattern.compile("^(access|this|val\\\$this|lambda\\\$.*)\\\$[0-9]+\$")
 
 var initialized: Boolean = false
 
@@ -107,10 +111,7 @@ private val mojangUri: URI?
 private fun downloadMappings() {
     log("Downloading Intermediary")
     val intermediaryResponse = httpReponse(intermediaryUri)
-
-    GZIPOutputStream(
-        Files.newOutputStream(INTERMEDIARY_MAPPINGS_PATH)
-    ).buffered().use { fileOutput ->
+    Files.newOutputStream(INTERMEDIARY_MAPPINGS_PATH).buffered().use { fileOutput ->
         val temp = Files.createTempFile(null, ".jar")
         val mappingsBytes: ByteArray? = try {
             temp.writeBytes(intermediaryResponse.body())
@@ -132,6 +133,7 @@ private fun downloadMappings() {
     val uri: URI = mojangUri ?: error("Mappings URI is null")
     val response = httpReponse(uri)
 
+    val intMappings = MemoryMappingTree()
     val mappings = MemoryMappingTree()
     InputStreamReader(ByteArrayInputStream(response.body())).buffered().use { reader ->
         MappingReader.read(
@@ -140,11 +142,27 @@ private fun downloadMappings() {
             mappings
         )
     }
-    mappings.setSrcNamespace(MOJANG)
-    mappings.setDstNamespaces(listOf(OBFUSCATED))
-    val switched = MemoryMappingTree()
-    mappings.accept(MappingSourceNsSwitch(switched, OBFUSCATED))
-    switched.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
+
+    // populate intMappings
+    MappingReader.read(
+        INTERMEDIARY_MAPPINGS_PATH,
+        MappingFormat.TINY_2_FILE,
+        intMappings
+    )
+    // modify intMappings
+    val intCompleter = MappingNsCompleter(intMappings, mapOf(MOJANG, INTERMEDIARY), true)
+    mappings.accept(intCompleter)
+
+    // modify mojMaps
+
+    // Filter out synthetic
+    val nameFilter = DstNameFilterMappingVisitor(mappings, SYNTHETIC_PATTERN)
+
+    // make "official" the source namespace
+    val switched = MappingSourceNsSwitch(nameFilter, OBFUSCATED)
+
+    mappings.accept(switched)
+    mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
