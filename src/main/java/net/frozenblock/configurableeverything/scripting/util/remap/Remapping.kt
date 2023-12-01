@@ -9,6 +9,7 @@ import net.fabricmc.mappingio.MappingWriter
 import net.fabricmc.mappingio.adapter.MappingNsCompleter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
+import net.fabricmc.mappingio.format.proguard.ProGuardFileReader
 import net.fabricmc.mappingio.tree.MemoryMappingTree
 import net.fabricmc.tinyremapper.IMappingProvider
 import net.fabricmc.tinyremapper.InputTag
@@ -16,6 +17,7 @@ import net.fabricmc.tinyremapper.NonClassCopyMode
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
+import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.scripting.util.remap.fabric.*
 import net.frozenblock.configurableeverything.util.*
 import java.io.*
@@ -25,8 +27,8 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
+import java.util.*
 import java.util.regex.Pattern
-import java.util.zip.GZIPOutputStream
 import kotlin.io.path.Path
 import kotlin.io.path.writeBytes
 
@@ -38,35 +40,22 @@ private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
 private val GSON: Gson = Gson()
 private val CLIENT: HttpClient = HttpClient.newHttpClient()
-private val INTERMEDIARY_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("intermediary_${VERSION.id}")
 private val MOJANG_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
 
 private val SYNTHETIC_PATTERN = Pattern.compile("^(access|this|val\\\$this|lambda\\\$.*)\\\$[0-9]+\$")
 
 var initialized: Boolean = false
 
-private val intToObfRemapper: TinyRemapper
+private val intToMojRemapper: TinyRemapper
     get() {
         initialize()
-        return buildRemapper(intermediaryProvider(INTERMEDIARY, OBFUSCATED))
+        return buildRemapper(mappingProvider(INTERMEDIARY, MOJANG))
     }
 
-private val obfToIntRemapper: TinyRemapper
+private val mojToIntRemapper: TinyRemapper
     get() {
         initialize()
-        return buildRemapper(intermediaryProvider(OBFUSCATED, INTERMEDIARY))
-    }
-
-private val mojToObfRemapper: TinyRemapper
-    get() {
-        initialize()
-        return buildRemapper(mojangProvider(MOJANG, OBFUSCATED))
-    }
-
-private val obfToMojRemapper: TinyRemapper
-    get() {
-        initialize()
-        return buildRemapper(mojangProvider(OBFUSCATED, MOJANG))
+        return buildRemapper(mappingProvider(MOJANG, INTERMEDIARY))
     }
 
 private val intermediaryUri: URI =
@@ -111,66 +100,67 @@ private val mojangUri: URI?
 private fun downloadMappings() {
     log("Downloading Intermediary")
     val intermediaryResponse = httpReponse(intermediaryUri)
-    Files.newOutputStream(INTERMEDIARY_MAPPINGS_PATH).buffered().use { fileOutput ->
-        val temp = Files.createTempFile(null, ".jar")
-        val mappingsBytes: ByteArray? = try {
-            temp.writeBytes(intermediaryResponse.body())
-            FileSystems.newFileSystem(temp).use { jar ->
-                Files.readAllBytes(jar.getPath("mappings", "mappings.tiny"))
-            }
-        } catch (e: Exception) {
-            logError("Error while downloading intermediary", e)
-            null
-        } finally {
-            temp.toFile().deleteRecursively()
+
+    val temp = Files.createTempFile(null, ".jar")
+    val intermediaryBytes: ByteArray? = try {
+        temp.writeBytes(intermediaryResponse.body())
+        FileSystems.newFileSystem(temp).use { jar ->
+            Files.readAllBytes(jar.getPath("mappings", "mappings.tiny"))
         }
-        if (mappingsBytes != null) {
-            fileOutput.write(mappingsBytes)
-        }
+    } catch (e: Exception) {
+        logError("Error while downloading intermediary", e)
+        null
+    } finally {
+        temp.toFile().deleteRecursively()
     }
 
     log("Downloading Mojang's Official Mappings")
     val uri: URI = mojangUri ?: error("Mappings URI is null")
     val response = httpReponse(uri)
+    parseAndSaveMappings(intermediaryBytes, response.body())
+}
 
+private fun parseAndSaveMappings(
+    intermediaryBytes: ByteArray?,
+    mojangBytes: ByteArray?,
+) {
     val mappings = MemoryMappingTree()
     val intMappings = MemoryMappingTree()
 
     // populate intMappings
-    MappingReader.read(
-        INTERMEDIARY_MAPPINGS_PATH,
-        MappingFormat.TINY_2_FILE,
-        intMappings
-    )
+    InputStreamReader(ByteArrayInputStream(intermediaryBytes)).buffered().use { reader ->
+        MappingReader.read(
+            reader,
+            MappingFormat.TINY_2_FILE,
+            intMappings
+        )
+    }
     // modify intMappings
-    val intCompleter = MappingNsCompleter(intMappings, mapOf(MOJANG to INTERMEDIARY), true)
+    val intCompleter = MappingNsCompleter(mappings, Collections.singletonMap(MOJANG, INTERMEDIARY), true)
+    intMappings.accept(intCompleter)
 
     // modify mojMaps
 
     // Filter out synthetic
-    val nameFilter = DstNameFilterMappingVisitor(intCompleter, SYNTHETIC_PATTERN)
+    val nameFilter = DstNameFilterMappingVisitor(mappings, SYNTHETIC_PATTERN)
 
     // make "official" the source namespace
     val switched = MappingSourceNsSwitch(nameFilter, OBFUSCATED)
 
     // insert mojang mappings
-    InputStreamReader(ByteArrayInputStream(response.body())).buffered().use { reader ->
+    InputStreamReader(ByteArrayInputStream(mojangBytes)).buffered().use { reader ->
         ProGuardFileReader.read(
             reader,
-            MOJANG, OFFICIAL,
+            MOJANG, OBFUSCATED,
             switched
         )
     }
 
     // update mappings with mojmaps
-    mappings.accept(switched)
     mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
 }
 
-private fun intermediaryProvider(from: String, to: String): IMappingProvider
-    = TinyUtils.createTinyMappingProvider(INTERMEDIARY_MAPPINGS_PATH, from, to)
-
-private fun mojangProvider(from: String, to: String): IMappingProvider
+private fun mappingProvider(from: String, to: String): IMappingProvider
     = TinyUtils.createTinyMappingProvider(MOJANG_MAPPINGS_PATH, from, to)
 
 private fun buildRemapper(
@@ -185,7 +175,6 @@ private fun buildRemapper(
         .fixPackageAccess(fixPackageAccess)
         .skipLocalVariableMapping(skipLocalVariableMapping)
         .keepInputData(keepInputData)
-        .propagateBridges(TinyRemapper.LinkedMethodPropagation.COMPATIBLE)
         .extension(KotlinMetadataTinyRemapperExtension)
     mappings.forEach { builder.withMappings(it) }
     return builder.build()
@@ -302,6 +291,10 @@ private fun remap(
     referenceDirs = referenceDirs
 )
 
+private val REMAPPED_SCRIPTS = Path(".$MOD_ID/remapped_scripts/").apply {
+    this.toFile().recreateDir()
+}
+
 /**
  * @param originalFile The original script file
  * @return The remapped script file
@@ -310,32 +303,16 @@ private fun remap(
 fun remapScript(originalFile: File): File {
     initialize()
 
-    val obfuscatedDir = Path(".$MOD_ID/obfuscated_scripts/")
-    val intermediaryDir = Path(".$MOD_ID/remapped_scripts/")
-
-    obfuscatedDir.toFile().recreateDir()
-    intermediaryDir.toFile().recreateDir()
-
-    val obfuscatedFile = obfuscatedDir.resolve(originalFile.name).toFile()
-    val intermediaryFile = intermediaryDir.resolve(originalFile.name).toFile()
+    val intermediaryFile = REMAPPED_SCRIPTS.resolve(originalFile.name).toFile()
 
     try {
         remap(
-            mojToObfRemapper,
+            mojToIntRemapper,
             originalFile,
-            obfuscatedFile,
-            "jar",
-            buildJar = true,
-            REMAPPED_SOURCES_CACHE.asFileList!!, OBFUSCATED_SOURCES_CACHE.asFileList!!
-        )
-
-        remap(
-            obfToIntRemapper,
-            obfuscatedFile,
             intermediaryFile,
             "jar",
             buildJar = true,
-            OBFUSCATED_SOURCES_CACHE.asFileList!!, ORIGINAL_SOURCES_CACHE.asFileList!!,
+            REMAPPED_SOURCES_CACHE.asFileList!!, ORIGINAL_SOURCES_CACHE.asFileList!!
         )
 
         return intermediaryFile
@@ -360,28 +337,16 @@ fun initialize() {
     }
 }
 
-private enum class FilterOption {
-    INCLUDED,
-    EXCLUDED
-}
-
-fun clearRemappingCache() {
-    //OBFUSCATED_SOURCES_CACHE.toFile().recreateDir()
-}
-
 /**
  * @since 1.1
  */
 fun remapCodebase() {
     experimentalOrThrow()
+    if (ScriptingConfig.get().remapping != true) return
 
     log("Attempting to remap the current codebase")
     try {
         initialize()
-
-        // clear the obfuscated dir before remapping the game jars
-        ORIGINAL_SOURCES_CACHE.toFile().recreateDir()
-        OBFUSCATED_SOURCES_CACHE.toFile().recreateDir()
 
         remapGameJars()
         remapMods()
@@ -395,48 +360,43 @@ fun remapCodebase() {
 private fun remapGameJars() {
     log("Remapping game jars")
 
-    for (file in INPUT_GAME_JARS.map { it.toFile() }) {
-        file.copyRecursively(ORIGINAL_SOURCES_CACHE.resolve(file.name).toFile(), true)
+    if (DEV_ENV) {
+        remap(
+            mojToIntRemapper,
+            INPUT_GAME_JARS.map { it.toFile() }.toTypedArray(),
+            ORIGINAL_SOURCES_CACHE,
+            "jar",
+            true
+        )
+    } else {
+        for (file in INPUT_GAME_JARS.map { it.toFile() }) {
+            file.copyRecursively(ORIGINAL_SOURCES_CACHE.resolve(file.name).toFile(), true)
+        }
     }
     remap(
-        if (DEV_ENV) mojToObfRemapper else intToObfRemapper,
+        intToMojRemapper,
         ORIGINAL_SOURCES_CACHE.asDir!!,
-        OBFUSCATED_SOURCES_CACHE,
-        "jar",
-        true
-    )
-    filterObfuscatedJars()
-
-    remap(
-        obfToMojRemapper,
-        OBFUSCATED_SOURCES_CACHE.asDir!!,
         REMAPPED_SOURCES_CACHE,
         "jar",
         true
     )
     filterRemappedJars()
-
-    for (file in OBFUSCATED_SOURCES_CACHE.asDir!!) {
-        if (!file.isGameJar)
-            file.deleteRecursively()
-    }
 }
 
 private fun remapMods() {
+    val config = ScriptingConfig.get()
+    val filter = config.filter ?: return
+    val modsToRemap = config.modsToRemap ?: return
+    if (modsToRemap.isEmpty()) return
+
     log("Remapping mods")
     try {
         for (mod in FabricLoader.getInstance().allMods) {
             val id = mod.metadata.id
 
-            // TODO: Config options
-            val filterOption: FilterOption? = FilterOption.INCLUDED
-            val filter = listOf(
-                if (DEV_ENV) "frozenlib" else "configurable_everything"
-            )
-            when (filterOption) {
-                FilterOption.INCLUDED -> if (!filter.contains(id)) continue
-                FilterOption.EXCLUDED -> if (filter.contains(id)) continue
-                else -> continue
+            when (filter) {
+                ScriptingConfig.FilterOption.INCLUDED -> if (!modsToRemap.contains(id)) continue
+                ScriptingConfig.FilterOption.EXCLUDED -> if (modsToRemap.contains(id)) continue
             }
 
             val file = getModFile(id)
@@ -444,26 +404,16 @@ private fun remapMods() {
                 logError("File for mod id $id is null")
                 continue
             }
-            val obfuscatedFile = OBFUSCATED_SOURCES_CACHE.resolve(file.name).toFile()
             val remappedFile = REMAPPED_SOURCES_CACHE.resolve(file.name).toFile()
 
-            remap(
-                if (DEV_ENV) mojToObfRemapper else intToObfRemapper,
+            if (!DEV_ENV) remap(
+                intToMojRemapper,
                 file,
-                obfuscatedFile,
-                "jar",
-                true,
-                if (DEV_ENV) REMAPPED_SOURCES_CACHE.asFileList!! else ORIGINAL_SOURCES_CACHE.asFileList!!,
-                OBFUSCATED_SOURCES_CACHE.asFileList!!
-            )
-            remap(
-                obfToMojRemapper,
-                obfuscatedFile,
                 remappedFile,
                 "jar",
-                true,
-                OBFUSCATED_SOURCES_CACHE.asFileList!!,
-                REMAPPED_SOURCES_CACHE.asFileList!!
+                buildJar = true,
+                ORIGINAL_SOURCES_CACHE.asFileList!!,
+                REMAPPED_SOURCES_CACHE.asFileList!!,
             )
         }
     } catch (e: Exception) {
@@ -485,22 +435,15 @@ private fun filterIntermediaryJars() {
     }
 }
 
-private fun filterObfuscatedJars() {
-    for (file in OBFUSCATED_SOURCES_CACHE.asDir!!) {
-        if (file.isGameJar)
-            file.removeFromJar { entry ->
-                val name = entry.name
-                if (name.contains("META-INF")) return@removeFromJar false
-                entry.isDirectory || name.contains(Regex("net/|assets/|data/"))
-            }
-    }
-}
-
 private fun filterRemappedJars() {
     for (file in REMAPPED_SOURCES_CACHE.asDir!!) {
         if (file.isGameJar) {
             file.removeFromJar { entry ->
-                entry.name.endsWith(".class") && !entry.name.contains("net/minecraft/")
+                val name = entry.name
+                if (name.contains("META-INF")) return@removeFromJar false
+                if (name.contains(Regex("assets/|data/"))) return@removeFromJar true
+                if (name.contains("com/mojang/")) return@removeFromJar false
+                entry.name.endsWith(".class") && (entry.name.contains("class_") || !entry.name.contains("net/minecraft/"))
             }
         }
     }

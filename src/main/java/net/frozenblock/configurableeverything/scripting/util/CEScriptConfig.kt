@@ -103,7 +103,7 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
 object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
     jvm {
         loadDependencies(true)
-        scriptsInstancesSharing(true)
+        scriptsInstancesSharing(false)
     }
 }) {
     private fun readResolve(): Any = CEScriptEvaluationConfig

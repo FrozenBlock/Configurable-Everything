@@ -11,7 +11,6 @@ import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
-import net.frozenblock.configurableeverything.scripting.util.remap.clearRemappingCache
 import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
@@ -68,28 +67,20 @@ class ConfigurableEverything : ModInitializer {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
                     File(".$MOD_ID/original_scripts/").recreateDir()
-                    File(".$MOD_ID/obfuscated_scripts/").recreateDir()
                     File(".$MOD_ID/remapped_scripts/").recreateDir()
                 }
 
                 ifExperimental {
                     FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
-                    ORIGINAL_SOURCES_CACHE.toFile().recreateDir()
-                    OBFUSCATED_SOURCES_CACHE.toFile().recreateDir()
-                    REMAPPED_SOURCES_CACHE.toFile().recreateDir()
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             ifExtended {
-                // TODO: finish remapping
                 ifExperimental {
                     remapCodebase()
                 }
                 ScriptingUtil.runScripts()
-                ifExperimental {
-                    clearRemappingCache()
-                }
             }
 
             // run functionality AFTER scripts have run

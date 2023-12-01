@@ -50,13 +50,14 @@ val INPUT_GAME_JARS: List<Path>
 val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
-val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/")
+val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/").apply {
+    this.toFile().recreateDir()
+}
 
 @JvmField
-val OBFUSCATED_SOURCES_CACHE: Path = Path(".$MOD_ID/obfuscated/")
-
-@JvmField
-val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/")
+val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/").apply {
+    this.toFile().recreateDir()
+}
 
 @JvmField
 val KOTLIN_SCRIPT_PATH: Path = Path("config/$MOD_ID/scripts/")

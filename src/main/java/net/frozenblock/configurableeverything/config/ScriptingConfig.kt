@@ -31,7 +31,22 @@ data class ScriptingConfig(
             this.add("net.minecraft.resources.ResourceLocation")
             this.add("net.minecraft.world.level.dimension.DimensionType")
         }
-    }
+    },
+
+    @JvmField
+    @UnsyncableEntry
+    var remapping: Boolean? = true,
+
+    @JvmField
+    @UnsyncableEntry
+    var filter: FilterOption? = FilterOption.INCLUDED,
+
+    @JvmField
+    @UnsyncableEntry
+    var modsToRemap: List<String>? = arrayListOf(
+        "configurable_everything",
+        "frozenlib",
+    ),
 ) {
 
     companion object : JsonConfig<ScriptingConfig>(
@@ -49,5 +64,10 @@ data class ScriptingConfig(
         @JvmStatic
         @JvmOverloads
         fun get(real: Boolean = false): ScriptingConfig = if (real) this.instance() else this.config()
+    }
+
+    enum class FilterOption {
+        INCLUDED,
+        EXCLUDED
     }
 }
