@@ -41,27 +41,29 @@ private val MOJANG_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION
 
 var initialized: Boolean = false
 
+private val intToObfRemapper: TinyRemapper
+    get() {
+        initialize()
+        return buildRemapper(intermediaryProvider(INTERMEDIARY, OBFUSCATED))
+    }
 
-private val intToOffRemapper: TinyRemapper get() {
-    initialize()
-    return buildRemapper(intermediaryProvider(INTERMEDIARY, OBFUSCATED))
-}
+private val obfToIntRemapper: TinyRemapper
+    get() {
+        initialize()
+        return buildRemapper(intermediaryProvider(OBFUSCATED, INTERMEDIARY))
+    }
 
-private val offToIntRemapper: TinyRemapper get() {
-    initialize()
+private val mojToObfRemapper: TinyRemapper
+    get() {
+        initialize()
+        return buildRemapper(mojangProvider(MOJANG, OBFUSCATED))
+    }
 
-    return buildRemapper(intermediaryProvider(OBFUSCATED, INTERMEDIARY))
-}
-
-private val mojToOffRemapper: TinyRemapper get() {
-    initialize()
-    return buildRemapper(mojangProvider(MOJANG, OBFUSCATED))
-}
-
-private val offToMojRemapper: TinyRemapper get() {
-    initialize()
-    return buildRemapper(mojangProvider(OBFUSCATED, MOJANG))
-}
+private val obfToMojRemapper: TinyRemapper
+    get() {
+        initialize()
+        return buildRemapper(mojangProvider(OBFUSCATED, MOJANG))
+    }
 
 private val intermediaryUri: URI =
     URI.create("https://maven.fabricmc.net/net/fabricmc/intermediary/${VERSION.id}/intermediary-${VERSION.id}-v2.jar")
@@ -299,7 +301,7 @@ fun remapScript(originalFile: File): File {
 
     try {
         remap(
-            mojToOffRemapper,
+            mojToObfRemapper,
             originalFile,
             officialFile,
             "jar",
@@ -308,7 +310,7 @@ fun remapScript(originalFile: File): File {
         )
 
         remap(
-            offToIntRemapper,
+            obfToIntRemapper,
             officialFile,
             intermediaryFile,
             "jar",
@@ -377,7 +379,7 @@ private fun remapGameJars() {
         file.copyRecursively(ORIGINAL_SOURCES_CACHE.resolve(file.name).toFile(), true)
     }
     remap(
-        intToOffRemapper,
+        intToObfRemapper,
         ORIGINAL_SOURCES_CACHE.asDir!!,
         OFFICIAL_SOURCES_CACHE,
         "jar",
@@ -385,7 +387,7 @@ private fun remapGameJars() {
     )
 
     remap(
-        offToMojRemapper,
+        obfToMojRemapper,
         OFFICIAL_SOURCES_CACHE.asDir!!,
         REMAPPED_SOURCES_CACHE,
         "jar",
@@ -425,7 +427,7 @@ private fun remapMods() {
             val remappedFile = File(".$MOD_ID/remapped/${file.name}")
 
             remap(
-                if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
+                if (DEV_ENV) mojToObfRemapper else intToObfRemapper,
                 file,
                 officialFile,
                 "jar",
@@ -434,7 +436,7 @@ private fun remapMods() {
                 OFFICIAL_SOURCES_CACHE.asFileList!!
             )
             remap(
-                offToMojRemapper,
+                obfToMojRemapper,
                 officialFile,
                 remappedFile,
                 "jar",
