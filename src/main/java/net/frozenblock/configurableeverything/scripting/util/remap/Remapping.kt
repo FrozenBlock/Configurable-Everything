@@ -315,7 +315,7 @@ fun remapScript(originalFile: File): File {
             intermediaryFile,
             "jar",
             buildJar = true,
-            ORIGINAL_SOURCES_CACHE.asFileList!!,
+            OFFICIAL_SOURCES_CACHE.asFileList!!, ORIGINAL_SOURCES_CACHE.asFileList!!,
         )
 
         return intermediaryFile
