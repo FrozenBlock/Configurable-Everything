@@ -57,7 +57,7 @@ object BiomePlacementUtil {
 
             val extended = biomeSource as? BiomeSourceExtension
             val parameters: Climate.ParameterList<Holder<Biome>>? = biomeSource.parameters()
-            (parameters as? ParameterListExtension)?.updateBiomesList(registryAccess, dimension)
+            (parameters as? ParameterListExtension)?.`configurableEverything$updateBiomesList`(registryAccess, dimension)
 
             // remove biomes first to allow replacing biome parameters
             val removedBiomeHolders: MutableList<Holder<Biome>?> = ArrayList()

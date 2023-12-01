@@ -36,14 +36,17 @@ fun <T : Any?> ifExtended(value: () -> T): T? {
 
 // experimental features
 
-fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES)
-    null
-else throw UnsupportedOperationException("Experimental features are disabled")
+private val EXPERIMENTAL_EXCEPTION: Exception
+    get() = UnsupportedOperationException("Experimental features are disabled")
+
+fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
+    else throw EXPERIMENTAL_EXCEPTION
 
 fun <T> experimental(value: () -> T): T {
     if (ENABLE_EXPERIMENTAL_FEATURES) return value.invoke()
-    throw UnsupportedOperationException("Experimental features are disabled")
+    throw EXPERIMENTAL_EXCEPTION
 }
+
 fun <T : Any?> ifExperimental(value: () -> T): T? {
     return if (ENABLE_EXPERIMENTAL_FEATURES)
         value.invoke()

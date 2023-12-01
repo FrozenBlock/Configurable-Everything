@@ -34,7 +34,7 @@ abstract class CEScript {
      * The name of the script file.
      */
     val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
-    var logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
+    val logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
     val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
 
     fun clientOnly(`fun`: () -> Unit) {

@@ -51,7 +51,7 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
         }
     }
 
-    @Suppress("unchecked_cast")
+    @Suppress("UNCHECKED_CAST")
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
         registryBuilder.add(Registries.BIOME) { context: BootstapContext<Biome?> ->
             context.register(

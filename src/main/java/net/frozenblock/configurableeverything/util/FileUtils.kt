@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.util
 import net.minecraft.FileUtil
 import java.io.*
 import java.net.URL
+import java.nio.file.Path
 import java.util.jar.JarEntry
 import java.util.jar.JarInputStream
 import java.util.jar.JarOutputStream
@@ -13,6 +14,12 @@ fun File.recreateDir() {
     this.deleteRecursively()
     FileUtil.createDirectoriesSafe(this.toPath())
 }
+
+val Path.asDir: Array<File>?
+    get() = this.toFile().listFiles()
+
+val Path.asFileList: List<File>?
+    get() = this.asDir?.toList()
 
 val File.isJar: Boolean
     get() = this.extension == "jar"

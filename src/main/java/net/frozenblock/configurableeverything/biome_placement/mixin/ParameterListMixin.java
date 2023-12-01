@@ -32,7 +32,7 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 
 	@Override
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public void updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
+	public void configurableEverything$updateBiomesList(RegistryAccess registryAccess, ResourceKey<DimensionType> dimension) {
 		if (registryAccess == null) return;
 		var addedBiomes = BiomePlacementUtil.biomeAdditionsJvm(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
 		var removedBiomes = BiomePlacementUtil.biomeRemovalsJvm(registryAccess, dimension);

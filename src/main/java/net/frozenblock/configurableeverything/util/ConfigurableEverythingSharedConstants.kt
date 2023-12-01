@@ -42,28 +42,26 @@ internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
 
 @JvmField
-val DATAPACKS_PATH: Path = Path("./config/$MOD_ID/datapacks")
+val DATAPACKS_PATH: Path = Path("config/$MOD_ID/datapacks")
 
 val INPUT_GAME_JARS: List<Path>
-    @Suppress("unchecked")
-    get() {
-        return FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as List<Path>
-    }
+    @Suppress("UNCHECKED_CAST")
+    get() = FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as List<Path>
 
 @JvmField
 val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
-val ORIGINAL_SOURCES_CACHE: Path = Path("./.$MOD_ID/original/")
+val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/")
 
 @JvmField
-val OFFICIAL_SOURCES_CACHE: Path = Path("./.$MOD_ID/official/")
+val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")
 
 @JvmField
-val REMAPPED_SOURCES_CACHE: Path = Path("./.$MOD_ID/remapped/")
+val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/")
 
 @JvmField
-val KOTLIN_SCRIPT_PATH: Path = Path("./config/$MOD_ID/scripts/")
+val KOTLIN_SCRIPT_PATH: Path = Path("config/$MOD_ID/scripts/")
 
 @JvmField
 @Environment(EnvType.CLIENT)

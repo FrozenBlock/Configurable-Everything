@@ -24,8 +24,13 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 import java.nio.file.*
-import java.util.zip.*
+import java.util.zip.GZIPOutputStream
 import kotlin.io.path.Path
+import kotlin.io.path.writeBytes
+
+private const val OBFUSCATED = "official"
+private const val INTERMEDIARY = "intermediary"
+private const val MOJANG = "named"
 
 private val VERSION: MCVersion = MCVersion.fromClasspath
 private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
@@ -39,22 +44,23 @@ var initialized: Boolean = false
 
 private val intToOffRemapper: TinyRemapper get() {
     initialize()
-    return buildRemapper(intermediaryProvider("intermediary", "official"))
+    return buildRemapper(intermediaryProvider(INTERMEDIARY, OBFUSCATED))
 }
 
 private val offToIntRemapper: TinyRemapper get() {
     initialize()
-    return buildRemapper(intermediaryProvider("official", "intermediary"))
+
+    return buildRemapper(intermediaryProvider(OBFUSCATED, INTERMEDIARY))
 }
 
 private val mojToOffRemapper: TinyRemapper get() {
     initialize()
-    return buildRemapper(mojangProvider("named", "official"))
+    return buildRemapper(mojangProvider(MOJANG, OBFUSCATED))
 }
 
 private val offToMojRemapper: TinyRemapper get() {
     initialize()
-    return buildRemapper(mojangProvider("official", "named"))
+    return buildRemapper(mojangProvider(OBFUSCATED, MOJANG))
 }
 
 private val intermediaryUri: URI =
@@ -65,9 +71,9 @@ private val mojangUri: URI?
     get() {
         val manifestResp = httpReponse(MANIFEST)
         val manifestJson: JsonObject?
-        BufferedReader(InputStreamReader(
+        InputStreamReader(
             ByteArrayInputStream(manifestResp.body())
-        )).use { reader ->
+        ).buffered().use { reader ->
             manifestJson = GSON.fromJson(reader, JsonObject::class.java)
         }
 
@@ -81,9 +87,9 @@ private val mojangUri: URI?
             val infoUri: URI = URI.create(elementJson["url"]?.asString ?: error("Version URL is null"))
             val infoResp = httpReponse(infoUri)
             val infoJson: JsonObject?
-            BufferedReader(InputStreamReader(
+            InputStreamReader(
                 ByteArrayInputStream(infoResp.body())
-            )).use { reader ->
+            ).buffered().use { reader ->
                 infoJson = GSON.fromJson(reader, JsonObject::class.java)
             }
 
@@ -102,10 +108,10 @@ private fun downloadMappings() {
 
     GZIPOutputStream(
         Files.newOutputStream(INTERMEDIARY_MAPPINGS_PATH)
-    ).use { fileOutput ->
+    ).buffered().use { fileOutput ->
         val temp = Files.createTempFile(null, ".jar")
         val mappingsBytes: ByteArray? = try {
-            Files.write(temp, intermediaryResponse.body())
+            temp.writeBytes(intermediaryResponse.body())
             FileSystems.newFileSystem(temp).use { jar ->
                 Files.readAllBytes(jar.getPath("mappings", "mappings.tiny"))
             }
@@ -113,7 +119,7 @@ private fun downloadMappings() {
             logError("Error while downloading intermediary", e)
             null
         } finally {
-            Files.delete(temp)
+            temp.toFile().deleteRecursively()
         }
         if (mappingsBytes != null) {
             fileOutput.write(mappingsBytes)
@@ -125,17 +131,17 @@ private fun downloadMappings() {
     val response = httpReponse(uri)
 
     val mappings = MemoryMappingTree()
-    BufferedReader(InputStreamReader(ByteArrayInputStream(response.body()))).use { reader ->
+    InputStreamReader(ByteArrayInputStream(response.body())).buffered().use { reader ->
         MappingReader.read(
             reader,
             MappingFormat.PROGUARD_FILE,
             mappings
         )
     }
-    mappings.setSrcNamespace("named")
-    mappings.setDstNamespaces(listOf("official"))
+    mappings.setSrcNamespace(MOJANG)
+    mappings.setDstNamespaces(listOf(OBFUSCATED))
     val switched = MemoryMappingTree()
-    mappings.accept(MappingSourceNsSwitch(switched, "official"))
+    mappings.accept(MappingSourceNsSwitch(switched, OBFUSCATED))
     switched.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
 }
 
@@ -166,7 +172,7 @@ private fun buildRemapper(
 private fun remap(
     remapper: TinyRemapper,
     filesArray: Array<File>?,
-    newDir: String,
+    newDir: Path,
     fileExtension: String?,
     buildJar: Boolean = false,
     vararg referenceDirs: Iterable<File>,
@@ -176,7 +182,7 @@ private fun remap(
         try {
             if (fileExtension == null || file.extension == fileExtension) {
                 val name = file.name
-                val newFile = Path("$newDir$name")
+                val newFile = newDir.resolve(name)
                 file.copyRecursively(newFile.toFile(), onError = { file, e -> OnErrorAction.SKIP })
                 files[newFile] = remapper.createInputTag()
             }
@@ -212,15 +218,17 @@ private fun remap(
                 remapper.apply(consumer, tag)
             } catch (e: Exception) {
                 logError("Error while applying remapper", e)
-            } finally {
-                remapper.finish()
-                consumer.close()
             }
         }
     }
 
-    if (!buildJar) {
-        val consumer: OutputConsumerPath = OutputConsumerPath.Builder(Path(newDir))
+    if (buildJar) {
+        remapper.finish()
+        for ((consumer, _) in consumers!!) {
+            consumer?.close()
+        }
+    } else {
+        val consumer: OutputConsumerPath = OutputConsumerPath.Builder(newDir)
             .build()
         try {
             remapper.apply(consumer)
@@ -233,7 +241,7 @@ private fun remap(
     }
 
     try {
-        File(newDir).walk().forEach { file ->
+        newDir.toFile().walk().forEach { file ->
             if (file.exists() && file.name.contains("package-info")) file.deleteRecursively()
         }
     } catch (e: IOException) {
@@ -251,7 +259,7 @@ private fun remap(
 ) = remap(
     remapper,
     arrayOf(file),
-    "${newFile.parent}/",
+    newFile.parentFile.toPath(),
     extension,
     buildJar,
     referenceDirs = referenceDirs
@@ -280,14 +288,14 @@ private fun remap(
 fun remapScript(originalFile: File): File {
     initialize()
 
-    val officialDir = ".$MOD_ID/official_scripts/"
-    val intermediaryDir = ".$MOD_ID/remapped_scripts/"
+    val officialDir = Path(".$MOD_ID/official_scripts/")
+    val intermediaryDir = Path(".$MOD_ID/remapped_scripts/")
 
-    File(officialDir).recreateDir()
-    File(intermediaryDir).recreateDir()
+    officialDir.toFile().recreateDir()
+    intermediaryDir.toFile().recreateDir()
 
-    val officialFile = File("$officialDir/${originalFile.name}")
-    val intermediaryFile = File("$intermediaryDir/${originalFile.name}")
+    val officialFile = officialDir.resolve(originalFile.name).toFile()
+    val intermediaryFile = intermediaryDir.resolve(originalFile.name).toFile()
 
     try {
         remap(
@@ -296,7 +304,7 @@ fun remapScript(originalFile: File): File {
             officialFile,
             "jar",
             buildJar = true,
-            OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!.toList()
+            REMAPPED_SOURCES_CACHE.asFileList!!, OFFICIAL_SOURCES_CACHE.asFileList!!
         )
 
         remap(
@@ -305,7 +313,7 @@ fun remapScript(originalFile: File): File {
             intermediaryFile,
             "jar",
             buildJar = true,
-            ORIGINAL_SOURCES_CACHE.toFile().listFiles()!!.toList(),
+            ORIGINAL_SOURCES_CACHE.asFileList!!,
         )
 
         return intermediaryFile
@@ -369,17 +377,17 @@ private fun remapGameJars() {
         file.copyRecursively(ORIGINAL_SOURCES_CACHE.resolve(file.name).toFile(), true)
     }
     remap(
-        if (DEV_ENV) mojToOffRemapper else intToOffRemapper,
-        ORIGINAL_SOURCES_CACHE.toFile().listFiles()!!,
-        ".$MOD_ID/official/",
+        intToOffRemapper,
+        ORIGINAL_SOURCES_CACHE.asDir!!,
+        OFFICIAL_SOURCES_CACHE,
         "jar",
         true
     )
 
     remap(
         offToMojRemapper,
-        OFFICIAL_SOURCES_CACHE.toFile().listFiles()!!,
-        ".$MOD_ID/remapped/",
+        OFFICIAL_SOURCES_CACHE.asDir!!,
+        REMAPPED_SOURCES_CACHE,
         "jar",
         true
     )
@@ -421,14 +429,18 @@ private fun remapMods() {
                 file,
                 officialFile,
                 "jar",
-                true
+                true,
+                if (DEV_ENV) REMAPPED_SOURCES_CACHE.asFileList!! else ORIGINAL_SOURCES_CACHE.asFileList!!,
+                OFFICIAL_SOURCES_CACHE.asFileList!!
             )
             remap(
                 offToMojRemapper,
                 officialFile,
                 remappedFile,
                 "jar",
-                true
+                true,
+                OFFICIAL_SOURCES_CACHE.asFileList!!,
+                REMAPPED_SOURCES_CACHE.asFileList!!
             )
         }
     } catch (e: Exception) {
