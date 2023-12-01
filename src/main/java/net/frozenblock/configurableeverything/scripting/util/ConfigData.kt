@@ -24,7 +24,7 @@ sealed class ConfigData<T : Any?>(val config: Config<T>?) {
     data object GAME : ConfigData<GameConfig>(GameConfig)
     data object ITEM : ConfigData<ItemConfig>(ItemConfig)
     data object REGISTRY : ConfigData<RegistryConfig>(RegistryConfig)
-    data object SCREENSHAKE : ConfigData<ScreenShakeConfig>(ScreenShakeConfig)
+    data object SCREEN_SHAKE : ConfigData<ScreenShakeConfig>(ScreenShakeConfig)
     data object SPLASH_TEXT : ConfigData<SplashTextConfig>(if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) SplashTextConfig else null)
     data object STRUCTURE : ConfigData<StructureConfig>(StructureConfig)
     data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
