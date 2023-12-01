@@ -133,6 +133,7 @@ private fun downloadMappings() {
     val uri: URI = mojangUri ?: error("Mappings URI is null")
     val response = httpReponse(uri)
 
+    val mappings = MemoryMappingTree()
     val intMappings = MemoryMappingTree()
 
     // populate intMappings
@@ -152,6 +153,7 @@ private fun downloadMappings() {
     // make "official" the source namespace
     val switched = MappingSourceNsSwitch(nameFilter, OBFUSCATED)
 
+    // insert mojang mappings
     InputStreamReader(ByteArrayInputStream(response.body())).buffered().use { reader ->
         ProGuardFileReader.read(
             reader,
@@ -159,7 +161,10 @@ private fun downloadMappings() {
             switched
         )
     }
-    switched.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
+
+    // update mappings with mojmaps
+    mappings.accept(switched)
+    mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
 }
 
 private fun intermediaryProvider(from: String, to: String): IMappingProvider
