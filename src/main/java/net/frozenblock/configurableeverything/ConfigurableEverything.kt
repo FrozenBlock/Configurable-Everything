@@ -84,20 +84,20 @@ class ConfigurableEverything : ModInitializer {
             }
 
             // run functionality AFTER scripts have run
-            BiomeConfigUtil
-            BiomePlacementUtil
-            BlockConfigUtil
+            BiomeConfigUtil.init()
+            BiomePlacementUtil.init()
+            BlockConfigUtil.init()
             DataFixerUtil.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
-            EntityConfigUtil
+            EntityConfigUtil.init()
             ifExperimental {
-                GravityConfigUtil
+                GravityConfigUtil.init()
             }
-            RegistryConfigUtil
+            RegistryConfigUtil.init()
             ifClient {
-                SplashTextConfigUtil
+                SplashTextConfigUtil.init()
             }
-            SurfaceRuleConfigUtil
-            WorldConfigUtil
+            SurfaceRuleConfigUtil.init()
+            WorldConfigUtil.init()
         }
 
         log("Configurable Everything took $time nanoseconds")

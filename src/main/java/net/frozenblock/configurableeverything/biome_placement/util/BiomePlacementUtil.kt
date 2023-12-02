@@ -28,17 +28,16 @@ object BiomePlacementUtil {
 
     fun init() {
         val config = BiomePlacementConfig.get()
-        if (MainConfig.get().biome_placement == true) {
-            val addedBiomes = config.addedBiomes?.value
-            val removedBiomes = config.removedBiomes?.value
-            if (addedBiomes != null && removedBiomes != null) {
-                val placementChange = BiomePlacementChange(addedBiomes, removedBiomes)
-                BiomePlacementChanges.addChange(id("config"), placementChange)
-            }
-
-            val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-            resourceLoader?.registerReloadListener(BiomePlacementChangeManager.INSTANCE)
+        if (MainConfig.get().biome_placement != true) return
+        val addedBiomes = config.addedBiomes?.value
+        val removedBiomes = config.removedBiomes?.value
+        if (addedBiomes != null && removedBiomes != null) {
+            val placementChange = BiomePlacementChange(addedBiomes, removedBiomes)
+            BiomePlacementChanges.addChange(id("config"), placementChange)
         }
+
+        val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
+        resourceLoader?.registerReloadListener(BiomePlacementChangeManager.INSTANCE)
     }
 
     @JvmStatic
