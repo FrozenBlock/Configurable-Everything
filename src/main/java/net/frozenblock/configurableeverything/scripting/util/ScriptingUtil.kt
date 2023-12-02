@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScriptingConfig
-import net.frozenblock.configurableeverything.scripting.util.remap.remapScript
+import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
 import java.nio.file.Path
@@ -59,7 +59,7 @@ internal object ScriptingUtil {
         if (!DEV_ENV && ENABLE_EXPERIMENTAL_FEATURES && ScriptingConfig.get().remapping == true) {
             val file = File(".$MOD_ID/original_scripts/${script.name}.jar")
             BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
-            val remappedFile: File = remapScript(file)
+            val remappedFile: File = Remapping.remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
             SCRIPTS_TO_EVAL[remappedScript] = remappedFile
         } else
