@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementChangeManager.BiomePlacementChangeLoader
+import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
@@ -79,6 +80,18 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
     ): CompletableFuture<Void>? {
         changes = prepared?.changes
         changes?.putAll(queuedChanges)
+
+        val config = BiomePlacementConfig.get()
+        if (MainConfig.get().biome_placement == true) {
+            val addedBiomes = config.addedBiomes?.value
+            val removedBiomes = config.removedBiomes?.value
+            if (addedBiomes != null && removedBiomes != null) {
+                val placementChange = BiomePlacementChange(addedBiomes, removedBiomes)
+                changes?.put(id("config"), placementChange)
+                BiomePlacementChanges.addChange(id("config"), placementChange)
+            }
+        }
+
         return CompletableFuture.runAsync {}
     }
 
