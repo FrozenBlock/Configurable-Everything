@@ -29,6 +29,10 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
 @Environment(EnvType.CLIENT)
 object BiomeConfigGui {
+
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = BiomeConfig.get(real = true)
         val defaultConfig = BiomeConfig.defaultInstance()
@@ -58,7 +62,7 @@ private fun addedFeatures(
             biomePlacedFeaturesElement(entryBuilder, element, "added")
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+        this.requirement = mainToggleReq
     }
 }
 
@@ -79,7 +83,7 @@ private fun removedFeatures(
             biomePlacedFeaturesElement(entryBuilder, element, "removed")
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+        this.requirement = mainToggleReq
     }
 }
 
@@ -183,7 +187,7 @@ private fun replacedFeatures(
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+        this.requirement = mainToggleReq
     }
 }
 
@@ -265,7 +269,7 @@ private fun musicReplacements(
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+        this.requirement = mainToggleReq
     }
 }
 
@@ -334,7 +338,5 @@ private fun biomePlacedFeaturesElement(
             requiresRestart = true,
         ),
         requiresRestart = true
-    ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
-    }
+    )
 }

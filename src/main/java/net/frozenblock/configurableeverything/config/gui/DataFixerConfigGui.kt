@@ -39,7 +39,8 @@ object DataFixerConfigGui {
             defaultConfig.overrideRealEntries!!,
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
-            true
+            true,
+            requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
         ).build(entryBuilder).apply { category.addEntry(this) }
 
         val dataVersion = EntryBuilder(
@@ -48,7 +49,8 @@ object DataFixerConfigGui {
             defaultConfig.dataVersion!!,
             { newValue -> config.dataVersion = newValue },
             tooltip("data_version"),
-            true
+            true,
+            requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
         ).build(entryBuilder).apply { category.addEntry(this) }
 
         category.addEntry(schemas(entryBuilder, config, defaultConfig, dataVersion as IntegerListEntry))
@@ -191,10 +193,13 @@ private fun schemas(
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue {
-            val dataVersionInt: Int? = dataVersion.value
-            dataVersionInt != null && dataVersionInt > 0
-        }
+        this.requirement = Requirement.all(
+            Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer),
+            Requirement.isTrue {
+                val dataVersionInt: Int? = dataVersion.value
+                dataVersion != null && dataVersionInt > 0
+            }
+        )
     }
 }
 
@@ -273,5 +278,7 @@ private fun registryFixers(
                 )
             )
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
+    }
 }

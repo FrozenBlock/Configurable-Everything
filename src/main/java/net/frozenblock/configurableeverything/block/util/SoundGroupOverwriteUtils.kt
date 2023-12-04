@@ -24,8 +24,6 @@ data class MutableBlockSoundGroupOverwrite(
         }
     }
 
-    override fun toString(): String = "MutableBlockSoundGroupOverwrite[blockId=$blockId, sound_type=$soundOverwrite, condition=$condition]"
-
     fun immutable(): BlockSoundGroupOverwrite? {
         val blockId = this.blockId ?: return null
         val soundOverwrite = this.soundOverwrite?.immutable() ?: return null
@@ -62,8 +60,6 @@ data class MutableSoundType(
             ).apply(instance, ::MutableSoundType)
         }
     }
-
-    override fun toString(): String = "MutableSoundType[volume=$volume, pitch=$pitch, break_sound=$breakSound, step_sound=$stepSound, place_sound=$placeSound, hit_sound=$hitSound, fall_sound=$fallSound]"
 
     fun immutable(): SoundType? {
         val volume = this.volume

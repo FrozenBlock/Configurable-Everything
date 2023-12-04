@@ -19,6 +19,9 @@ import net.frozenblock.lib.config.api.client.gui.StringList
 @Environment(EnvType.CLIENT)
 object ScriptingConfigGui {
 
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.scripting)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScriptingConfig.get(real = true)
         val defaultConfig = ScriptingConfig.defaultInstance()
@@ -30,8 +33,8 @@ object ScriptingConfigGui {
             tooltip("apply_kotlin_scripts"),
             true,
             requirement = Requirement.all(
-                Requirement.isTrue { HAS_EXTENSIONS },
-                Requirement.isTrue(MainConfigGui.INSTANCE?.scripting)
+                mainToggleReq,
+                Requirement.isTrue { HAS_EXTENSIONS }
             )
         ).build(entryBuilder) as BooleanListEntry
         category.addEntry(applyKotlinScripts)
@@ -41,9 +44,9 @@ object ScriptingConfigGui {
             { newValue -> config.defaultImports = newValue.list },
             tooltip("default_imports"),
             requirement = Requirement.all(
+                mainToggleReq,
                 Requirement.isTrue { HAS_EXTENSIONS },
-                Requirement.isTrue(MainConfigGui.INSTANCE?.scripting),
-                Requirement.isTrue(applyKotlinScripts)
+                Requirement.isTrue(applyKotlinScripts),
             )
         ).build(entryBuilder))
     }

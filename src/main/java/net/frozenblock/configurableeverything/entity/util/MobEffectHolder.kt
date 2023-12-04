@@ -27,6 +27,4 @@ data class MobEffectHolder(
             ).apply(instance, ::MobEffectHolder)
         }
     }
-
-    override fun toString(): String = "MobEffectHolder[effect=$effect, duration=$duration, amplifier=$amplifier, ambient=$ambient, visible=$visible, showIcon=$showIcon]"
 }

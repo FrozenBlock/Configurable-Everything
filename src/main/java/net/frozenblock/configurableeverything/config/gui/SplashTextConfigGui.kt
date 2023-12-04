@@ -14,39 +14,50 @@ import net.minecraft.world.item.DyeColor
 
 @Environment(EnvType.CLIENT)
 object SplashTextConfigGui {
+
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.splashText)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = SplashTextConfig.get(real = true)
         category.background = id("textures/config/splash_text.png")
 
-        val added = entryBuilder.startStrList(text("added_splashes"), config.addedSplashes)
-            .setDefaultValue(ArrayList(listOf()))
-            .setSaveConsumer { newValue: List<String?>? -> config.addedSplashes = newValue }
-            .setTooltip(tooltip("added_splashes"))
-            .requireRestart()
-            .build()
+        val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes),
+            StringList(defaultConfig.addedSplashes),
+            { newValue -> config.addedSplashes = newValue.list },
+            tooltip("added_splashes"),
+            true,
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        val removed = entryBuilder.startStrList(text("removed_splashes"), config.removedSplashes)
-            .setDefaultValue(ArrayList(listOf()))
-            .setSaveConsumer { newValue: List<String?>? -> config.removedSplashes = newValue }
-            .setTooltip(tooltip("removed_splashes"))
-            .requireRestart()
-            .build()
+        val removed = EntryBuilder(text("removed_splashes"), StringList(config.removedSplashes),
+            StringList(defaultConfig.removedSplashes),
+            { newValue -> config.removedSplashes = newValue.list },
+            tooltip("removed_splashes"),
+            true,
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        val splashColor = entryBuilder.startColorField(text("splash_color"), config.splashColor ?: DyeColor.YELLOW.textColor)
-            .setDefaultValue(DyeColor.YELLOW.textColor)
-            .setSaveConsumer { newValue: Int? -> config.splashColor = newValue }
-            .setTooltip(tooltip("splash_color"))
-            .build()
+        val splashColor = EntryBuilder(text("splash_color"), Color(config.splashColor),
+            Color(defaultConfig.splashColor),
+            { newValue -> config.splashColor = newValue.color },
+            tooltip("splash_color"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        val removeVanilla = entryBuilder.startBooleanToggle(text("remove_vanilla"), config.removeVanilla == true)
-            .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> config.removeVanilla = newValue }
-            .setTooltip(tooltip("remove_vanilla"))
-            .build()
-
-        category.addEntry(added)
-        category.addEntry(removed)
-        category.addEntry(splashColor)
-        category.addEntry(removeVanilla)
+        val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla == true,
+            defaultConfig.removeVanilla!!,
+            { newValue -> config.removeVanilla = newValue },
+            tooltip("remove_vanilla"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
     }
 }

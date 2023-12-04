@@ -15,6 +15,9 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 @Environment(EnvType.CLIENT)
 object GameConfigGui {
 
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.game)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = GameConfig.get(real = true)
         val defaultConfig = GameConfig.defaultInstance()
@@ -24,14 +27,16 @@ object GameConfigGui {
             defaultConfig.windowTitle!!,
             { newValue -> config.windowTitle = newValue },
             tooltip("window_title"),
-            true
+            true,
+            requirement = mainToggleReq
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("version_series"), config.versionSeries,
             defaultConfig.versionSeries!!,
             { newValue -> config.versionSeries = newValue },
             tooltip("version_series"),
-            true
+            true,
+            requirement = mainToggleReq
         ).build(entryBuilder))
     }
 

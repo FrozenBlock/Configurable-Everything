@@ -20,6 +20,4 @@ data class ItemReachOverride(
             ).apply(instance, ::ItemReachOverride)
         }
     }
-
-    override fun toString(): String = "ItemReachOverride[item=$item, reach=$reach]"
 }

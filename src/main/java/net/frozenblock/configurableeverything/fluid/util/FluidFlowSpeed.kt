@@ -21,6 +21,4 @@ data class FluidFlowSpeed(
             ).apply(instance, ::FluidFlowSpeed)
         }
     }
-
-    override fun toString(): String = "FluidFlowSpeed[fluid=$fluid, ultra_warm_flow_tick_delay=$ultraWarmFlowTickDelay, flow_tick_delay=$flowTickDelay]"
 }

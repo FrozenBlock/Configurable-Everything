@@ -183,7 +183,9 @@ private fun addedBiomes(
                 )
             )
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
+    }
 }
 
 private fun makeParameter(parameter: MutableParameter?, min: Boolean): AbstractConfigListEntry<out Any> {
@@ -231,23 +233,19 @@ private fun removedBiomes(
 
                 entryBuilder.startStrList(
                     text("removed_biomes.biomes"),
-                    dimensionBiomeList.biomes?.map { either -> convertEitherToString(either) }
+                    dimensionBiomeList.biomes?.map { either -> either.toStr() }
                 )
-                    .setDefaultValue(defaultBiomes.map { either -> convertEitherToString(either) })
+                    .setDefaultValue(defaultBiomes.map { either -> either.toStr()convertEitherToString(either) })
                     .setSaveConsumer { newValue ->
-                        dimensionBiomeList.biomes = newValue.map { string ->
-                            if (string.startsWith('#')) {
-                                Either.right(TagKey.create(Registries.BIOME, ResourceLocation(string.substring(1))))
-                            } else {
-                                Either.left(ResourceKey.create(Registries.BIOME, ResourceLocation(string)))
-                            }
-                        }
+                        dimensionBiomeList.biomes = newValue.toEitherKeyOrTag(Registries.BIOME)
                     }
                     .setTooltip(tooltip("removed_biomes.biomes"))
                     .build()
             )
         }
-    )
+    ).apply {
+        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
+    }
 }
 
 private fun convertEitherToString(either: Either<ResourceKey<Biome>?, TagKey<Biome>?>?): String {

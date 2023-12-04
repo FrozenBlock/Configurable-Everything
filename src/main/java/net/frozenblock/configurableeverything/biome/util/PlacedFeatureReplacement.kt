@@ -19,6 +19,4 @@ data class PlacedFeatureReplacement(
 			).apply(instance, ::PlacedFeatureReplacement)
 		}
 	}
-
-    override fun toString(): String = "PlacedFeatureReplacement[original=$original, replacement=$replacement]"
 }

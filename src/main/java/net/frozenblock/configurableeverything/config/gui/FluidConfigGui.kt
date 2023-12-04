@@ -22,6 +22,10 @@ import net.minecraft.world.level.material.Fluids
 
 @Environment(EnvType.CLIENT)
 object FluidConfigGui {
+
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.fluid)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = FluidConfig.get()
         val defaultConfig = FluidConfig.defaultInstance()
@@ -84,5 +88,7 @@ private fun fluidFlowSpeeds(
                 ).build(entryBuilder)
             )
         }
-    )
+    ).apply {
+        this.requirement = mainToggleReq
+    }
 }

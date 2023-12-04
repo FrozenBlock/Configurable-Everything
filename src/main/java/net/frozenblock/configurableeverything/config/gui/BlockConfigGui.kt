@@ -121,7 +121,9 @@ object BlockConfigGui {
                     )
                 )
             }
-        )
+        ).apply {
+            this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.block)
+        }
     }
 
     private fun soundId(sound: SoundEvent?): String? {

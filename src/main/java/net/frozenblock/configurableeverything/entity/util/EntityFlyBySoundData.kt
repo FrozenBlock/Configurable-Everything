@@ -21,6 +21,4 @@ data class EntityFlyBySoundData(
             ).apply(instance, ::EntityFlyBySoundData)
         }
     }
-
-    override fun toString(): String = "EntityFlyBySoundData[category=$category, sound=$sound, volume=$volume, pitch=$pitch]"
 }

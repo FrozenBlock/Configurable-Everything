@@ -16,6 +16,4 @@ data class BiomePlacementChange(
 			).apply(instance, ::BiomePlacementChange)
 		}
 	}
-
-	override fun toString(): String = "BiomePlacementChange[addedBiomes=$addedBiomes, removedBiomes=$removedBiomes]"
 }

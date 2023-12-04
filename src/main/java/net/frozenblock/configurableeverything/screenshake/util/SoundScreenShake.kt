@@ -23,6 +23,4 @@ data class SoundScreenShake(
             ).apply(instance, ::SoundScreenShake)
         }
     }
-
-    override fun toString(): String = "SoundScreenShake[sound=$sound, intensity=$intensity, duration=$duration, falloffStart=$falloffStart, maxDistance=$maxDistance]"
 }

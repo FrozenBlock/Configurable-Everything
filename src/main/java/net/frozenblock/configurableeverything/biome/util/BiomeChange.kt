@@ -20,6 +20,4 @@ data class BiomeChange(
 			).apply(instance, ::BiomeChange)
 		}
 	}
-
-    override fun toString(): String = "BiomeChange[addedFeatures=$addedFeatures, removedFeatures=$removedFeatures, replacedFeatures=$replacedFeatures, musicReplacements=$musicReplacements]"
 }

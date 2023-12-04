@@ -19,6 +19,10 @@ import net.minecraft.resources.ResourceLocation
 
 @Environment(EnvType.CLIENT)
 object ScreenShakeConfigGui {
+
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScreenShakeConfig.get(real = true)
         val defaultConfig = ScreenShakeConfig.defaultInstance()
@@ -29,13 +33,15 @@ object ScreenShakeConfigGui {
         category.addEntry(EntryBuilder(text("dragon_respawn_screen_shake"), config.dragonRespawnScreenShake,
             defaultConfig.dragonRespawnScreenShake!!,
             { newValue -> config.dragonRespawnScreenShake = newValue },
-            tooltip("dragon_respawn_screen_shake")
+            tooltip("dragon_respawn_screen_shake"),
+            requirement = mainToggleReq
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("explosion_screen_shake"), config.explosionScreenShake,
             defaultConfig.explosionScreenShake!!,
             { newValue -> config.explosionScreenShake = newValue },
-            tooltip("explosion_screen_shake")
+            tooltip("explosion_screen_shake"),
+            requirement = mainToggleReq
         ).build(entryBuilder))
     }
 }
@@ -91,5 +97,7 @@ private fun soundScreenShakes(
                 ).build(entryBuilder),
             )
         }
-    )
+    ).apply {
+        this.requirement = mainToggleReq
+    }
 }

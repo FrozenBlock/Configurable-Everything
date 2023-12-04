@@ -24,6 +24,9 @@ import net.minecraft.resources.ResourceLocation
 
 @Environment(EnvType.CLIENT)
 object EntityConfigGui {
+    private val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.entity)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = EntityConfig.get(real = true)
         val defaultConfig = EntityConfig.defaultInstance()
@@ -40,6 +43,7 @@ object EntityConfigGui {
                 .setDefaultValue(100)
                 .setSaveConsumer { newValue: Int? -> player?.digSpeedAmplifier = newValue!! }
                 .setTooltip(tooltip("dig_speed_amplifier"))
+                .setRequirement(Requirement.isTrue(MainConfigGui.INSTANCE!!.entity))
                 .build()
 
         val playerCategory = FrozenClothConfig.createSubCategory(
@@ -50,48 +54,47 @@ object EntityConfigGui {
         )
 
         val zombie = config.zombie
-        val babyZombieSprint =
-            entryBuilder.startBooleanToggle(text("baby_zombie_sprint_particles"), zombie?.babyZombieSprintParticles ?: defaultConfig.zombie!!.babyZombieSprintParticles!!)
-                .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> zombie?.babyZombieSprintParticles = newValue!! }
-                .setTooltip(tooltip("baby_zombie_sprint_particles"))
-                .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-                .build()
+        val babyZombieSprint = EntryBuilder(text("baby_zombie_sprint_particles"), zombie?.babyZombieSprintParticles ?: defaultConfig.zombie!!.babyZombieSprintParticles!!,
+            defaultConfig.zombie!!.babyZombieSprintParticles!!,
+            { newValue -> zombie?.babyZombieSprintParticles = newValue },
+            tooltip("baby_zombie_sprint_particles"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
-        val zombiesAvoidSun = entryBuilder.startBooleanToggle(text("zombies_avoid_sun"), zombie?.zombiesAvoidSun ?: defaultConfig.zombie!!.zombiesAvoidSun!!)
-            .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> zombie?.zombiesAvoidSun = newValue!! }
-            .setTooltip(tooltip("zombies_avoid_sun"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-            .build()
+        val zombiesAvoidSun = EntryBuilder(text("zombies_avoid_sun"), zombie?.zombiesAvoidSun ?: defaultConfig.zombie!!.zombiesAvoidSun!!,
+            defaultConfig.zombie!!.zombiesAvoidSun!!,
+            { newValue -> zombie?.zombiesAvoidSun = newValue },
+            tooltip("zombies_avoid_sun"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
-        val ignoreZombieDoorBreakDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_door_break_difficulty"), zombie?.ignoreDoorBreakDifficulty ?: defaultConfig.zombie!!.ignoreDoorBreakDifficulty!!)
-            .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> zombie?.ignoreDoorBreakDifficulty = newValue!! }
-            .setTooltip(tooltip("ignore_zombie_door_break_difficulty"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-            .build()
+        val ignoreZombieDoorBreakDifficulty = EntryBuilder(text("ignore_zombie_door_break_difficulty"), zombie?.ignoreDoorBreakDifficulty ?: defaultConfig.zombie!!.ignoreDoorBreakDifficulty!!,
+            defaultConfig.zombie!!.ignoreDoorBreakDifficulty!!,
+            { newValue -> zombie?.ignoreDoorBreakDifficulty = newValue },
+            tooltip("ignore_zombie_door_break_difficulty"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
-        val allZombiesBreakDoors = entryBuilder.startBooleanToggle(text("all_zombies_break_doors"), zombie?.allZombiesBreakDoors ?: defaultConfig.zombie!!.allZombiesBreakDoors!!)
-                .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> zombie?.allZombiesBreakDoors = newValue!! }
-                .setTooltip(tooltip("all_zombies_break_doors"))
-                .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-                .build()
+        val allZombiesBreakDoors = EntryBuilder(text("all_zombies_break_doors"), zombie?.allZombiesBreakDoors ?: defaultConfig.zombie!!.allZombiesBreakDoors!!,
+            defaultConfig.zombie!!.allZombiesBreakDoors!!,
+            { newValue -> zombie?.allZombiesBreakDoors = newValue },
+            tooltip("all_zombies_break_doors"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
-        val ignoreZombieReinforcementDifficulty = entryBuilder.startBooleanToggle(text("ignore_zombie_reinforcement_difficulty"), zombie?.ignoreReinforcementDifficulty ?: defaultConfig.zombie!!.ignoreReinforcementDifficulty!!)
-            .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> zombie?.ignoreReinforcementDifficulty = newValue!! }
-            .setTooltip(tooltip("ignore_zombie_reinforcement_difficulty"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-            .build()
+        val ignoreZombieReinforcementDifficulty = EntryBuilder(text("ignore_zombie_reinforcement_difficulty"), zombie?.ignoreReinforcementDifficulty ?: defaultConfig.zombie!!.ignoreReinforcementDifficulty!!,
+            defaultConfig.zombie!!.ignoreReinforcementDifficulty!!,
+            { newValue -> zombie?.ignoreReinforcementDifficulty = newValue },
+            tooltip("ignore_zombie_reinforcement_difficulty"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
-        val fullZombieReinforcementChance = entryBuilder.startBooleanToggle(text("full_zombie_reinforcement_chance"), zombie?.fullReinforcementChance ?: defaultConfig.zombie!!.fullReinforcementChance!!)
-                .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> zombie?.fullReinforcementChance = newValue!! }
-                .setTooltip(tooltip("full_zombie_reinforcement_chance"))
-                .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-                .build()
+        val fullZombieReinforcementChance = EntryBuilder(text("full_zombie_reinforcement_chance"), zombie?.fullReinforcementChance ?: defaultConfig.zombie!!.fullReinforcementChance!!,
+            defaultConfig.zombie!!.fullReinforcementChance!!,
+            { newValue -> zombie?.fullReinforcementChance = newValue },
+            tooltip("full_zombie_reinforcement_chance"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
         val zombieCategory = FrozenClothConfig.createSubCategory(
             entryBuilder,
@@ -108,19 +111,19 @@ object EntityConfigGui {
         )
 
         val skeleton = config.skeleton
-        val skeletonAccuracyIgnoresDifficulty = entryBuilder.startBooleanToggle(text("skeleton_accuracy_ignores_difficulty"), skeleton?.skeletonAccuracyIgnoresDifficulty ?: defaultConfig.skeleton!!.skeletonAccuracyIgnoresDifficulty!!)
-            .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> skeleton?.skeletonAccuracyIgnoresDifficulty = newValue!! }
-            .setTooltip(tooltip("skeleton_accuracy_ignores_difficulty"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-            .build()
+        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(text("skeleton_accuracy_ignores_difficulty"), skeleton?.skeletonAccuracyIgnoresDifficulty ?: defaultConfig.skeleton!!.skeletonAccuracyIgnoresDifficulty!!,
+            defaultConfig.skeleton!!.skeletonAccuracyIgnoresDifficulty!!,
+            { newValue -> skeleton?.skeletonAccuracyIgnoresDifficulty = newValue },
+            tooltip("skeleton_accuracy_ignores_difficulty"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
-        val skeletonsAvoidSun = entryBuilder.startBooleanToggle(text("skeletons_avoid_sun"), skeleton?.skeletonsAvoidSun ?: defaultConfig.skeleton!!.skeletonsAvoidSun!!)
-            .setDefaultValue(true)
-            .setSaveConsumer { newValue: Boolean? -> skeleton?.skeletonsAvoidSun = newValue!! }
-            .setTooltip(tooltip("skeletons_avoid_sun"))
-            .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-            .build()
+        val skeletonsAvoidSun = EntryBuilder(text("skeletons_avoid_sun"), skeleton?.skeletonsAvoidSun ?: defaultConfig.skeleton!!.skeletonsAvoidSun!!,
+            defaultConfig.skeleton!!.skeletonsAvoidSun!!,
+            { newValue -> skeleton?.skeletonsAvoidSun = newValue },
+            tooltip("skeletons_avoid_sun"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder)
 
         val skeletonCategory = FrozenClothConfig.createSubCategory(
             entryBuilder, category, text("skeleton"),
@@ -129,14 +132,14 @@ object EntityConfigGui {
             skeletonAccuracyIgnoresDifficulty, skeletonsAvoidSun
         )
 
-        val flamingArrowsLightFire = category.addEntry(
-            entryBuilder.startBooleanToggle(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire ?: defaultConfig.flamingArrowsLightFire!!)
-                .setDefaultValue(false)
-                .setSaveConsumer { newValue: Boolean? -> config.flamingArrowsLightFire = newValue!! }
-                .setTooltip(tooltip("flaming_arrows_light_fire"))
-                .setYesNoTextSupplier { bool: Boolean -> text(bool.toString()) }
-                .build()
-        )
+        val flamingArrowsLightFire = EntryBuilder(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire ?: defaultConfig.flamingArrowsLightFire!!,
+            defaultConfig.flamingArrowsLightFire!!,
+            { newValue -> config.flamingArrowsLightFire = newValue },
+            tooltip("flaming_arrows_light_fire"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
     }
 
     private fun entityAttributeAmplifiers(
@@ -207,7 +210,9 @@ object EntityConfigGui {
                     )
                 )
             }
-        )
+        ).apply {
+            this.requirement = mainToggleReq
+        }
     }
 
     private fun experienceOverrides(
@@ -242,7 +247,9 @@ object EntityConfigGui {
                     ).build(entryBuilder)
                 )
             }
-        )
+        ).apply {
+            this.requirement = mainToggleReq
+        }
     }
 
     private fun entityFlyBySounds(
@@ -309,7 +316,9 @@ object EntityConfigGui {
                 )
             },
             requiresRestart = true
-        )
+        ).apply {
+            this.requirement = mainToggleReq
+        }
     }
 
     private fun entityHurtEffects(
@@ -397,7 +406,9 @@ object EntityConfigGui {
                     ),
                 )
             },
-        )
+        ).apply {
+            this.requirement = mainToggleReq
+        }
     }
 
     private fun entitySpottingIcons(
@@ -451,6 +462,8 @@ object EntityConfigGui {
                 )
             },
             requiresRestart = true
-        )
+        ).apply {
+            this.requirement = mainToggleReq
+        }
     }
 }

@@ -21,6 +21,4 @@ data class BiomeMusic(
 			).apply(instance, ::BiomeMusic)
 		}
 	}
-
-    override fun toString(): String = "BiomeMusic[biome=$biome, music=$music]"
 }

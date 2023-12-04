@@ -19,5 +19,6 @@ Put changelog here:
 -----------------
 - Updated Kotlin to 1.9.21
   - Scripts will be compiled against 1.9.21
-- Updated minimum FLK version to 1.10.15
+- Updated minimum FLK version to 1.10.16
+- Added requirements to lock config GUIs if their main toggle is disabled
 - Fixed compatibility with Bedrockify

@@ -16,6 +16,4 @@ data class SchemaEntry(
             ).apply(instance, ::SchemaEntry)
         }
     }
-
-    override fun toString(): String = "SchemaEntry[version=$version, data_fixes=$entries]"
 }

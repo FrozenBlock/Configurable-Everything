@@ -19,6 +19,4 @@ data class PlacedFeatureAddition(
             ).apply(instance, ::PlacedFeatureAddition)
         }
     }
-
-    override fun toString(): String = "PlacedFeatureAddition[key=$key, value=$value]"
 }
