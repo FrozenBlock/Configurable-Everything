@@ -5,6 +5,7 @@ package net.frozenblock.configurableeverything.config.gui
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
@@ -17,11 +18,11 @@ import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.resources.ResourceLocation
 
+private val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
+
 @Environment(EnvType.CLIENT)
 object ScreenShakeConfigGui {
-
-    private val mainToggleReq: Requirement
-        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScreenShakeConfig.get(real = true)

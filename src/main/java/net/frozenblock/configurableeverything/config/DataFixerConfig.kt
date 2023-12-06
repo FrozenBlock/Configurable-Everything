@@ -47,7 +47,7 @@ WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CA
     var overrideRealEntries: Boolean? = false,
 
     @JvmField
-    @FieldIdentifier(identifier = "dataVersion")
+    @UnsyncableEntry
     @Comment(
 """
 The data fixer's main data version. Increment this when you add a new schema.

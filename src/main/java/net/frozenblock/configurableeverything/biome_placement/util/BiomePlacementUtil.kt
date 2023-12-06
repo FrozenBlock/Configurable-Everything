@@ -107,7 +107,7 @@ object BiomePlacementUtil {
 
         val dimensionBiomes = removedBiomes.stream().filter { list: DimensionBiomeKeyList? -> list?.dimension == dimension }.toList()
         for (list in dimensionBiomes) {
-            val biomes: List<Either<ResourceKey<Biome>?, TagKey<Biome>?>?> = list?.biomes ?: continue
+            val biomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>?> = list?.biomes ?: continue
             for (biome in biomes) {
                 biome?.ifLeft {
                     biomeRemovals.add(it)

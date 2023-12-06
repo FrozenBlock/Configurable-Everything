@@ -13,6 +13,9 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategory
+import net.frozenblock.lib.config.clothconfig.synced
+
+private val configInstance = MainConfig
 
 @Environment(EnvType.CLIENT)
 class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val config: MainConfig, private val defaultConfig: MainConfig) {
@@ -30,42 +33,66 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         { newValue -> config.biome = newValue },
         tooltip("biome"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "biome",
+        configInstance
+    ) as BooleanListEntry
 
     val biomePlacement: BooleanListEntry = EntryBuilder(text("biome_placement"), config.biome_placement,
         defaultConfig.biome_placement!!,
         { newValue -> config.biome_placement = newValue },
         tooltip("biome_placement"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "biome_placement",
+        configInstance
+    ) as BooleanListEntry
 
     val block: BooleanListEntry = EntryBuilder(text("block"), config.block,
         defaultConfig.block!!,
         { newValue -> config.block = newValue },
         tooltip("block"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "block",
+        configInstance
+    ) as BooleanListEntry
 
     val datafixer: BooleanListEntry = EntryBuilder(text("datafixer"), config.datafixer,
         defaultConfig.datafixer!!,
         { newValue -> config.datafixer = newValue },
         tooltip("datafixer"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "datafixer",
+        configInstance
+    ) as BooleanListEntry
 
     val entity: BooleanListEntry = EntryBuilder(text("entity"), config.entity,
         defaultConfig.entity!!,
         { newValue -> config.entity = newValue },
         tooltip("entity"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "entity",
+        configInstance
+    ) as BooleanListEntry
 
     val fluid: BooleanListEntry = EntryBuilder(text("fluid"), config.fluid,
         defaultConfig.fluid!!,
         { newValue -> config.fluid = newValue },
         tooltip("fluid"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "fluid",
+        configInstance
+    ) as BooleanListEntry
 
     val game: BooleanListEntry = EntryBuilder(text("game"), config.game,
         defaultConfig.game!!,
@@ -80,8 +107,43 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
             { newValue -> config.gravity = newValue },
             tooltip("gravity"),
             true
+        ).build(entryBuilder).synced(
+            config::class,
+            "gravity",
+            configInstance
+        ) as BooleanListEntry
+    }
+
+    val item: BooleanListEntry? = ifExperimental {
+        EntryBuilder(text("item"), config.item,
+            defaultConfig.item!!,
+            { newValue -> config.item = newValue },
+            tooltip("item")
+        ).build(entryBuilder).synced(
+            config::class,
+            "item",
+            configInstance
+        ) as BooleanListEntry
+    }
+
+    val music: BooleanListEntry? = ifExperimental {
+        EntryBuilder(text("music"), config.music,
+            defaultConfig.music!!,
+            { newValue -> config.music = newValue },
+            tooltip("music")
         ).build(entryBuilder) as BooleanListEntry
     }
+
+    val registry: BooleanListEntry = EntryBuilder(text("registry"), config.registry,
+        defaultConfig.registry!!,
+        { newValue -> config.registry = newValue },
+        tooltip("registry"),
+        true
+    ).build(entryBuilder).synced(
+        config::class,
+        "registry",
+        configInstance
+    ) as BooleanListEntry
 
     val screenShake: BooleanListEntry = EntryBuilder(text("screen_shake"), config.screen_shake,
         defaultConfig.screen_shake!!,
@@ -98,6 +160,19 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         requirement = Requirement.isTrue { HAS_EXTENSIONS }
     ).build(entryBuilder) as BooleanListEntry
 
+    val sculkSpreading: BooleanListEntry? = ifExperimental {
+        EntryBuilder(text("sculk_spreading"), config.sculk_spreading,
+            defaultConfig.sculk_spreading!!,
+            { newValue -> config.sculk_spreading = newValue },
+            tooltip("sculk_spreading"),
+            true
+        ).build(entryBuilder).synced(
+            config::class,
+            "sculk_spreading",
+            configInstance
+        ) as BooleanListEntry
+    }
+
     val splashText: BooleanListEntry = EntryBuilder(text("splash_text"), config.splash_text,
         defaultConfig.splash_text!!,
         { newValue -> config.splash_text = newValue },
@@ -105,19 +180,40 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         true
     ).build(entryBuilder) as BooleanListEntry
 
+    val structure: BooleanListEntry? = ifExperimental {
+        EntryBuilder(text("structure"), config.structure,
+            defaultConfig.structure!!,
+            { newValue -> config.structure = newValue },
+            tooltip("structure"),
+            true
+        ).build(entryBuilder).synced(
+            config::class,
+            "structure",
+            configInstance
+        ) as BooleanListEntry
+    }
+
     val surfaceRule: BooleanListEntry = EntryBuilder(text("surface_rule"), config.surface_rule,
         defaultConfig.surface_rule!!,
         { newValue -> config.surface_rule = newValue },
         tooltip("surface_rule"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "surface_rule",
+        configInstance
+    ) as BooleanListEntry
 
     val world: BooleanListEntry = EntryBuilder(text("world"), config.world,
         defaultConfig.world!!,
         { newValue -> config.world = newValue },
         tooltip("world"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "world",
+        configInstance
+    ) as BooleanListEntry
 
     // datapack
 
@@ -174,52 +270,20 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         category.addEntry(game)
 
         gravity?.apply { category.addEntry(this) }
-        ifExperimental {
+        item?.apply { category.addEntry(this) }
+        music?.apply { category.addEntry(this) }
 
-            category.addEntry(EntryBuilder(text("item"), config.item,
-                defaultConfig.item!!,
-                { newValue -> config.item = newValue },
-                tooltip("item"),
-                true
-            ).build(entryBuilder))
-
-            category.addEntry(EntryBuilder(text("music"), config.music,
-                defaultConfig.music!!,
-                { newValue -> config.music = newValue },
-                tooltip("music"),
-                true
-            ).build(entryBuilder))
-        }
+        category.addEntry(registry)
 
         category.addEntry(screenShake)
 
         category.addEntry(scripting)
 
-        ifExperimental {
-            category.addEntry(
-                EntryBuilder(
-                    text("sculk_spreading"), config.sculk_spreading,
-                    defaultConfig.sculk_spreading!!,
-                    { newValue -> config.sculk_spreading = newValue },
-                    tooltip("sculk_spreading"),
-                    true
-                ).build(entryBuilder)
-            )
-        }
+        sculkSpreading?.apply { category.addEntry(this) }
 
         category.addEntry(splashText)
 
-        ifExperimental {
-            category.addEntry(
-                EntryBuilder(
-                    text("structrue"), config.structure,
-                    defaultConfig.structure!!,
-                    { newValue -> config.structure = newValue },
-                    tooltip("structure"),
-                    true
-                ).build(entryBuilder)
-            )
-        }
+        structure?.apply { category.addEntry(this) }
 
         category.addEntry(surfaceRule)
 

@@ -240,8 +240,8 @@ dependencies {
     if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     else
-        modApi(files("libs/frozenlib.jar"))?.apply { include(this) }
-        //modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
+        //modApi(files("libs/frozenlib.jar"))?.apply { include(this) }
+        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
 
     // Reach Entity Attributes
     modApi("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")?.let { include(it) }

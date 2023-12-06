@@ -4,30 +4,41 @@ package net.frozenblock.configurableeverything.config.gui
 
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.WorldConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.Slider
+import net.frozenblock.lib.config.api.client.gui.SliderType
+import net.frozenblock.lib.config.clothconfig.synced
+
+private val configInstance = WorldConfig
+
+private val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.world)
 
 @Environment(EnvType.CLIENT)
 object WorldConfigGui {
 
-    private val mainToggleReq: Requirement
-        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.world)
-
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = WorldConfig.get(real = true)
-        val defaultConfig = WorldConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/world.png")
         category.addEntry(
-            entryBuilder.startLongSlider(text("day_time_speed"), config.dayTimeSpeedAmplifier ?: defaultConfig.dayTimeSpeedAmplifier!!, 1L, 100L)
-                .setDefaultValue(1L)
-                .setSaveConsumer { newValue: Long? -> config.dayTimeSpeedAmplifier = newValue!! }
-                .setTooltip(tooltip("day_time_speed"))
-                .setRequirement(mainToggleReq)
-                .build()
+            EntryBuilder(text("day_time_speed"), Slider(config.dayTimeSpeedAmplifier ?: defaultConfig.dayTimeSpeedAmplifier!!, 1, 100, SliderType.LONG),
+                Slider(defaultConfig.dayTimeSpeedAmplifier!!, 0, 0, SliderType.LONG),
+                { newValue -> config.dayTimeSpeedAmplifier = newValue.value.toLong() },
+                tooltip("day_time_speed"),
+                requirement = mainToggleReq
+            ).build(entryBuilder).synced(
+                config::class,
+                "dayTimeSpeedAmplifier",
+                configInstance
+            )
         )
         category.addEntry(
             EntryBuilder(text("fix_sun_moon_rotating"), config.fixSunMoonRotating ?: defaultConfig.fixSunMoonRotating!!,

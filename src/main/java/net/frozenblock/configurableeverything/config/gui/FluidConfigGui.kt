@@ -5,6 +5,7 @@ package net.frozenblock.configurableeverything.config.gui
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.FluidConfig
@@ -16,19 +17,22 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
+import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.material.Fluids
 
+private val configInstance = FluidConfig
+
+private val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.fluid)
+
 @Environment(EnvType.CLIENT)
 object FluidConfigGui {
 
-    private val mainToggleReq: Requirement
-        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.fluid)
-
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = FluidConfig.get()
-        val defaultConfig = FluidConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/fluid.png")
 
         category.addEntry(fluidFlowSpeeds(entryBuilder, config, defaultConfig))
@@ -90,5 +94,9 @@ private fun fluidFlowSpeeds(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }
+    }.synced(
+        config::class,
+        "fluidFlowSpeeds",
+        configInstance
+    )
 }

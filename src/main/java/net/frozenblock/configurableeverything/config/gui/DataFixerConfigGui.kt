@@ -23,14 +23,20 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.nestedList
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
+import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
+
+private val configInstance = DataFixerConfig
+
+private val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
 
 @Environment(EnvType.CLIENT)
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = DataFixerConfig.get(real = true)
-        val defaultConfig = DataFixerConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/datafixer.png")
 
         val overrideRealEntries = EntryBuilder(
@@ -40,8 +46,12 @@ object DataFixerConfigGui {
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
             true,
-            requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
-        ).build(entryBuilder).apply { category.addEntry(this) }
+            requirement = mainToggleReq
+        ).build(entryBuilder).synced(
+            config::class,
+            "overrideRealEntries",
+            configInstance
+        ).apply { category.addEntry(this) }
 
         val dataVersion = EntryBuilder(
             text("data_version"),
@@ -50,7 +60,7 @@ object DataFixerConfigGui {
             { newValue -> config.dataVersion = newValue },
             tooltip("data_version"),
             true,
-            requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
+            requirement = mainToggleReq
         ).build(entryBuilder).apply { category.addEntry(this) }
 
         category.addEntry(schemas(entryBuilder, config, defaultConfig, dataVersion as IntegerListEntry))
@@ -194,10 +204,10 @@ private fun schemas(
         }
     ).apply {
         this.requirement = Requirement.all(
-            Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer),
+            mainToggleReq,
             Requirement.isTrue {
                 val dataVersionInt: Int? = dataVersion.value
-                dataVersion != null && dataVersionInt > 0
+                dataVersionInt != null && dataVersionInt > 0
             }
         )
     }
@@ -279,6 +289,10 @@ private fun registryFixers(
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
-    }
+        this.requirement = mainToggleReq
+    }.synced(
+        config::class,
+        "registryFixers",
+        configInstance
+    )
 }

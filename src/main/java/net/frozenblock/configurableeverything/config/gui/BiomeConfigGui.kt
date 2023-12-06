@@ -16,6 +16,8 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.nestedList
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -27,15 +29,17 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
+private val configInstance: Config<BiomeConfig> = BiomeConfig
+
+private val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
+
 @Environment(EnvType.CLIENT)
 object BiomeConfigGui {
 
-    private val mainToggleReq: Requirement
-        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
-
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = BiomeConfig.get(real = true)
-        val defaultConfig = BiomeConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/biome.png")
 
         category.addEntry(addedFeatures(entryBuilder, config, defaultConfig))
@@ -63,7 +67,11 @@ private fun addedFeatures(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }
+    }.synced(
+        config::class,
+        "addedFeatures",
+        configInstance
+    )
 }
 
 private fun removedFeatures(
@@ -84,7 +92,11 @@ private fun removedFeatures(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }
+    }.synced(
+        config::class,
+        "removedFeatures",
+        configInstance
+    )
 }
 
 private fun replacedFeatures(
@@ -188,7 +200,11 @@ private fun replacedFeatures(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }
+    }.synced(
+        config::class,
+        "replacedFeatures",
+        configInstance
+    )
 }
 
 private fun musicReplacements(
@@ -270,7 +286,11 @@ private fun musicReplacements(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }
+    }.synced(
+        config::class,
+        "musicReplacements",
+        configInstance
+    )
 }
 
 private fun biomePlacedFeaturesElement(

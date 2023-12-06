@@ -194,7 +194,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier(identifier = "entitySpottingIcons")
+    @UnsyncableEntry
     var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
         SPOTTING_ICONS,
         listOf(

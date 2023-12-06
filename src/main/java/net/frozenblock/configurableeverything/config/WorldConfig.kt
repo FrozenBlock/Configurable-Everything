@@ -16,7 +16,7 @@ data class WorldConfig(
     var dayTimeSpeedAmplifier: Long? = 1,
 
     @JvmField
-    @FieldIdentifier(identifier = "fixSunMoonRotating")
+    @UnsyncableEntry
     var fixSunMoonRotating: Boolean? = false,
 
     @JvmField

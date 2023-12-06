@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
@@ -20,6 +21,8 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.nestedList
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.clothconfig.synced
 import net.frozenblock.lib.worldgen.biome.api.MutableParameter
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
@@ -31,14 +34,19 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
+private val configInstance: Config<BiomePlacementConfig> = BiomePlacementConfig
+
+private val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
+
 /**
  * An object representing the GUI for the [BiomePlacementConfig].
  */
 @Environment(EnvType.CLIENT)
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = BiomePlacementConfig.get(real = true)
-        val defaultConfig = BiomePlacementConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/biome_placement.png")
 
         category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
@@ -184,8 +192,12 @@ private fun addedBiomes(
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
-    }
+        this.requirement = mainToggleReq
+    }.synced(
+        config::class,
+        "addedBiomes",
+        configInstance
+    )
 }
 
 private fun makeParameter(parameter: MutableParameter?, min: Boolean): AbstractConfigListEntry<out Any> {
@@ -213,7 +225,7 @@ private fun removedBiomes(
         tooltip("removed_biomes"),
         { newValue -> config.removedBiomes = newValue },
         { element, _ ->
-            val defaultBiomes: List<Either<ResourceKey<Biome>?, TagKey<Biome>?>?> = listOf(
+            val defaultBiomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>?> = listOf(
                 Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
                 Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG)
             )
@@ -235,22 +247,19 @@ private fun removedBiomes(
                     text("removed_biomes.biomes"),
                     dimensionBiomeList.biomes?.map { either -> either.toStr() }
                 )
-                    .setDefaultValue(defaultBiomes.map { either -> either.toStr()convertEitherToString(either) })
+                    .setDefaultValue(defaultBiomes.map { either -> either.toStr() })
                     .setSaveConsumer { newValue ->
-                        dimensionBiomeList.biomes = newValue.toEitherKeyOrTag(Registries.BIOME)
+                        dimensionBiomeList.biomes = newValue.map { it.toEitherKeyOrTag(Registries.BIOME) }
                     }
                     .setTooltip(tooltip("removed_biomes.biomes"))
                     .build()
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
-    }
-}
-
-private fun convertEitherToString(either: Either<ResourceKey<Biome>?, TagKey<Biome>?>?): String {
-    var string = ""
-    either?.ifLeft { key -> string = key?.location().toString() }
-    either?.ifRight { tag -> string = "#${tag?.location}" }
-    return string
+        this.requirement = mainToggleReq
+    }.synced(
+        config::class,
+        "removedBiomes",
+        configInstance
+    )
 }
