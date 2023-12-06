@@ -247,7 +247,7 @@ dependencies {
     modApi("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")?.let { include(it) }
 
     // MixinExtras
-    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0")?.let { annotationProcessor(it) }
+    modApi("io.github.llamalad7:mixinextras-fabric:0.3.1")?.let { annotationProcessor(it) }
 
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
