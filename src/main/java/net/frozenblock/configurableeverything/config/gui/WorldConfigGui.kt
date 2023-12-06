@@ -21,7 +21,6 @@ private val configInstance = WorldConfig
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.world)
 
-@Environment(EnvType.CLIENT)
 object WorldConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

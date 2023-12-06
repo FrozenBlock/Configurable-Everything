@@ -63,7 +63,7 @@ val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/").apply {
 val KOTLIN_SCRIPT_PATH: Path = Path("config/$MOD_ID/scripts/")
 
 @JvmField
-@Environment(EnvType.CLIENT)
+//@Environment(EnvType.CLIENT) // env broken for some reason idk
 val KOTLIN_CLIENT_SCRIPT_PATH: Path = KOTLIN_SCRIPT_PATH.resolve("client/")
 
 // the idea is configurableeverything.kts but shorter

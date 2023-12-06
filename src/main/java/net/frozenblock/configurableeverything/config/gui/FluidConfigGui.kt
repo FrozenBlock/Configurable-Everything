@@ -27,7 +27,6 @@ private val configInstance = FluidConfig
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.fluid)
 
-@Environment(EnvType.CLIENT)
 object FluidConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
@@ -96,7 +95,7 @@ private fun fluidFlowSpeeds(
         this.requirement = mainToggleReq
     }.synced(
         config::class,
-        "fluidFlowSpeeds",
+        "flowSpeeds",
         configInstance
     )
 }

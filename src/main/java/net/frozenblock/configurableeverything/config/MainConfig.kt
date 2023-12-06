@@ -80,7 +80,7 @@ Warning: It is important to check the contents of each config before enabling th
     var sculk_spreading: Boolean? = false,
 
     @JvmField
-    @Environment(EnvType.CLIENT)
+    //@Environment(EnvType.CLIENT) // not working idk why
     @UnsyncableEntry
     @Comment("Client only")
     var splash_text: Boolean? = false,

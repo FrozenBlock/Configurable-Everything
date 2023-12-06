@@ -26,7 +26,6 @@ private val configInstance = EntityConfig
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.entity)
 
-@Environment(EnvType.CLIENT)
 object EntityConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

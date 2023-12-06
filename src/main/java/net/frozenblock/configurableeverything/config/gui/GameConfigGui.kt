@@ -13,7 +13,6 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 
-@Environment(EnvType.CLIENT)
 object GameConfigGui {
 
     private val mainToggleReq: Requirement

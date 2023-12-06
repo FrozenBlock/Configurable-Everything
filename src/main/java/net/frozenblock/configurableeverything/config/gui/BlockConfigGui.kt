@@ -28,7 +28,6 @@ private val configInstance = BlockConfig
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.block)
 
-@Environment(EnvType.CLIENT)
 object BlockConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()

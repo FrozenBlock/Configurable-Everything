@@ -52,7 +52,7 @@ Warning: Functionality will be lost if these are disabled.
     var screenshake_client: Boolean? = true,
 
     @JvmField
-    @Environment(EnvType.CLIENT)
+    //@Environment(EnvType.CLIENT) // not working idk why
     @Comment("Client only")
     var splash_text: Boolean? = true,
 

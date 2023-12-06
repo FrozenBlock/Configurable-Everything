@@ -21,7 +21,6 @@ import net.minecraft.resources.ResourceLocation
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
 
-@Environment(EnvType.CLIENT)
 object ScreenShakeConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

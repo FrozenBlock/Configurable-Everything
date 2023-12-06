@@ -1,3 +1,5 @@
+@file:Environment(EnvType.CLIENT)
+
 package net.frozenblock.configurableeverything.config.gui
 
 import com.mojang.datafixers.util.Either
@@ -34,7 +36,6 @@ private val configInstance: Config<BiomeConfig> = BiomeConfig
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
 
-@Environment(EnvType.CLIENT)
 object BiomeConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

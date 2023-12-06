@@ -14,9 +14,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.Color
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
-import net.minecraft.world.item.DyeColor
 
-@Environment(EnvType.CLIENT)
 object SplashTextConfigGui {
 
     private val mainToggleReq: Requirement

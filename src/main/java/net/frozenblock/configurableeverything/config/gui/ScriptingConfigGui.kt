@@ -16,7 +16,6 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
 
-@Environment(EnvType.CLIENT)
 object ScriptingConfigGui {
 
     private val mainToggleReq: Requirement

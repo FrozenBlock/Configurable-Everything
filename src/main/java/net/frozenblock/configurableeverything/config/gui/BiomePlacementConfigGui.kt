@@ -42,7 +42,6 @@ private val mainToggleReq: Requirement
 /**
  * An object representing the GUI for the [BiomePlacementConfig].
  */
-@Environment(EnvType.CLIENT)
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()

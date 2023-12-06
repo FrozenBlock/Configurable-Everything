@@ -6,7 +6,6 @@ import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
-import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
 import me.shedaniel.clothconfig2.gui.entries.IntegerListEntry
 import me.shedaniel.clothconfig2.gui.entries.StringListEntry
 import net.fabricmc.api.EnvType
@@ -32,7 +31,6 @@ private val configInstance = DataFixerConfig
 private val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
 
-@Environment(EnvType.CLIENT)
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()

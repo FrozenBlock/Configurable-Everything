@@ -17,7 +17,6 @@ import net.frozenblock.lib.config.clothconfig.synced
 
 private val configInstance = MainConfig
 
-@Environment(EnvType.CLIENT)
 class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val config: MainConfig, private val defaultConfig: MainConfig) {
     companion object {
         var INSTANCE: MainConfigGui? = null
