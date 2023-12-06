@@ -28,9 +28,9 @@ fun makeConfigPath(name: String?): Path = makeConfigPath(name, true)
 
 // extended features
 
-fun <T : Any?> ifExtended(value: () -> T): T? {
+inline fun <T : Any?> ifExtended(value: () -> T): T? {
     return if (HAS_EXTENSIONS)
-        value.invoke()
+        value()
     else null
 }
 
@@ -42,7 +42,7 @@ private val EXPERIMENTAL_EXCEPTION: Exception
 fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
     else throw EXPERIMENTAL_EXCEPTION
 
-fun <T> experimental(value: () -> T): T {
+inline fun <T> experimental(value: () -> T): T {
     if (ENABLE_EXPERIMENTAL_FEATURES) return value.invoke()
     throw EXPERIMENTAL_EXCEPTION
 }

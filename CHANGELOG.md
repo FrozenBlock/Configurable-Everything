@@ -9,6 +9,10 @@ Future changelog items:
     - Contains item reach overrides
 - Added Structure Config
     - Contains structure and structure set removals
+- Added Kotlin script remapping
+    - Enables accessing obfuscated Minecraft classes
+        - Also (optionally) includes mod classes!
+- Added config options to configure script remapping
 - Added config interactions for Kotlin Scripts
     - Check the wiki for more information
 - Added external dependency support for Kotlin Scripts
