@@ -66,8 +66,6 @@ class ConfigurableEverything : ModInitializer {
                     ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
-                    File(".$MOD_ID/original_scripts/").recreateDir()
-                    File(".$MOD_ID/remapped_scripts/").recreateDir()
                 }
 
                 ifExperimental {

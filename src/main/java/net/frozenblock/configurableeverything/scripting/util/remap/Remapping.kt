@@ -343,7 +343,11 @@ object Remapping {
         referenceDirs = referenceDirs
     )
 
-    private val REMAPPED_SCRIPTS = Path(".$MOD_ID/remapped_scripts/").apply {
+    internal val ORIGINAL_SCRIPTS = Path("$MOD_ID/original_scripts/").apply {
+        this.toFile().recreateDir()
+    }
+
+    internal val REMAPPED_SCRIPTS = Path(".$MOD_ID/remapped_scripts/").apply {
         this.toFile().recreateDir()
     }
 

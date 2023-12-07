@@ -57,7 +57,7 @@ internal object ScriptingUtil {
             compilationConfiguration
         ).apply { this.logReports() }.valueOrNull() as? KJvmCompiledScript ?: error("Compiled script is not java or is null")
         if (!DEV_ENV && ENABLE_EXPERIMENTAL_FEATURES && ScriptingConfig.get().remapping == true) {
-            val file = File(".$MOD_ID/original_scripts/${script.name}.jar")
+            val file = ORIGINAL_SCRIPTS.resolve("${script.name}.jar").toFile()
             BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
             val remappedFile: File = Remapping.remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
