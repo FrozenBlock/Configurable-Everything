@@ -27,6 +27,8 @@ Put changelog here:
 - Added requirements to lock config GUIs if their main toggle is disabled
 - Partially locked config GUIs when configs are synced from the server
   - Config syncing introduced in FrozenLib 1.4.5
+- Added a GUI for Fluid Config
+- Added missing `registry` option to Main Config GUI
 - Fixed compatibility with Bedrockify
 - Implemented slight optimizations
 - Updated embedded FrozenLib to 1.4.5
