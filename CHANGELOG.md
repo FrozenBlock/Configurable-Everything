@@ -28,5 +28,5 @@ Put changelog here:
 - Partially locked config GUIs when configs are synced from the server
   - Config syncing introduced in FrozenLib 1.4.5
 - Fixed compatibility with Bedrockify
-- Added slight optimizations
+- Implemented slight optimizations
 - Updated embedded FrozenLib to 1.4.5

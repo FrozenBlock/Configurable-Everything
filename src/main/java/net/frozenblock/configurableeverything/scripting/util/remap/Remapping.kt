@@ -202,7 +202,7 @@ object Remapping {
     internal fun buildRemapper(
         vararg mappings: IMappingProvider,
         rebuildSourceFileNames: Boolean = true,
-        fixPackageAccess: Boolean = true,
+        fixPackageAccess: Boolean = false,
         skipLocalVariableMapping: Boolean = true,
         keepInputData: Boolean = false,
     ): TinyRemapper {
