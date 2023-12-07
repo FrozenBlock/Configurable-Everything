@@ -15,13 +15,13 @@ fun File.recreateDir() {
     FileUtil.createDirectoriesSafe(this.toPath())
 }
 
-val Path.asDir: Array<File>?
+inline val Path.asDir: Array<File>?
     get() = this.toFile().listFiles()
 
-val Path.asFileList: List<File>?
+inline val Path.asFileList: List<File>?
     get() = this.asDir?.toList()
 
-val File.isJar: Boolean
+inline val File.isJar: Boolean
     get() = this.extension == "jar"
 
 fun File.addToJar(jar: File) {
@@ -47,15 +47,11 @@ fun File.removeFromJar(transform: (JarEntry) -> Boolean) {
     tempFile.copyRecursively(this, true)
 }
 
-val File.asJarInput: JarInputStream
-    get() {
-        return JarInputStream(BufferedInputStream(FileInputStream(this)))
-    }
+inline val File.asJarInput: JarInputStream
+    get() = JarInputStream(BufferedInputStream(FileInputStream(this)))
 
-val File.asJarOutput: JarOutputStream
-    get() {
-        return JarOutputStream(BufferedOutputStream(FileOutputStream(this)))
-    }
+inline val File.asJarOutput: JarOutputStream
+    get() = JarOutputStream(BufferedOutputStream(FileOutputStream(this)))
 
 const val UTF8_BOM = 0xfeff.toChar().toString()
 
@@ -64,7 +60,6 @@ fun File.readTextSkipUtf8Bom(): String = readText().removePrefix(UTF8_BOM)
 fun URL.readTextSkipUtf8Bom(): String = readText().removePrefix(UTF8_BOM)
 
 private fun addToJar(jarOut: JarOutputStream, sourceFile: File, parentDirPath: String) {
-    val data = ByteArray(2048)
     (sourceFile.listFiles() ?: arrayOf(sourceFile)).forEach { f ->
         if (f.isDirectory) {
             val path = if (parentDirPath == "") {
@@ -87,13 +82,7 @@ private fun addToJar(jarOut: JarOutputStream, sourceFile: File, parentDirPath: S
                 entry.isDirectory
                 entry.size = f.length()
                 jarOut.putNextEntry(entry)
-                while (true) {
-                    val readBytes = origin.read(data)
-                    if (readBytes == -1) {
-                        break
-                    }
-                    jarOut.write(data, 0, readBytes)
-                }
+                origin.copyTo(jarOut)
             }
         }
     }
@@ -106,7 +95,6 @@ fun File.zipAllTo(zipFile: File) {
 }
 
 private fun zipFiles(zipOut: ZipOutputStream, sourceFile: File, parentDirPath: String) {
-    val data = ByteArray(2048)
     sourceFile.listFiles()?.forEach { f ->
         if (f.isDirectory) {
             val path = if (parentDirPath == "") {
@@ -129,13 +117,7 @@ private fun zipFiles(zipOut: ZipOutputStream, sourceFile: File, parentDirPath: S
                 entry.isDirectory
                 entry.size = f.length()
                 zipOut.putNextEntry(entry)
-                while (true) {
-                    val readBytes = origin.read(data)
-                    if (readBytes == -1) {
-                        break
-                    }
-                    zipOut.write(data, 0, readBytes)
-                }
+                origin.copyTo(zipOut)
             }
         }
     }

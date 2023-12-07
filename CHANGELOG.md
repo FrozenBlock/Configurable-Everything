@@ -25,4 +25,8 @@ Put changelog here:
   - Scripts will be compiled against 1.9.21
 - Updated minimum FLK version to 1.10.16
 - Added requirements to lock config GUIs if their main toggle is disabled
+- Partially locked config GUIs when configs are synced from the server
+  - Config syncing introduced in FrozenLib 1.4.5
 - Fixed compatibility with Bedrockify
+- Added slight optimizations
+- Updated embedded FrozenLib to 1.4.5

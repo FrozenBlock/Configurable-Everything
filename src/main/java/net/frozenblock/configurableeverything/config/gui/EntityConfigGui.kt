@@ -23,7 +23,7 @@ import net.minecraft.resources.ResourceLocation
 
 private val configInstance = EntityConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.entity)
 
 object EntityConfigGui {

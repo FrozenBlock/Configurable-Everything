@@ -47,10 +47,10 @@ data class WorldConfig(
         }
 
         @JvmStatic
-        val sunSize: Float? get() = get().sunSize?.div(10F)
+        inline val sunSize: Float? get() = get().sunSize?.div(10F)
 
         @JvmStatic
-        val moonSize: Float? get() = get().moonSize?.div(10F)
+        inline val moonSize: Float? get() = get().moonSize?.div(10F)
 
         @JvmStatic
         @JvmOverloads

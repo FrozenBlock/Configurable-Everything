@@ -34,45 +34,49 @@ import kotlin.io.path.Path
 import kotlin.io.path.writeBytes
 
 object Remapping {
-    private const val OBFUSCATED = "official"
-    private const val INTERMEDIARY = "intermediary"
-    private const val MOJANG = "named"
+    @PublishedApi
+    internal const val OBFUSCATED = "official"
+    @PublishedApi
+    internal const val INTERMEDIARY = "intermediary"
+    @PublishedApi
+    internal const val MOJANG = "named"
 
     private val VERSION: MCVersion = MCVersion.fromClasspath
     private val MANIFEST: URI = URI.create("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json")
     private val GSON: Gson = Gson()
     private val CLIENT: HttpClient = HttpClient.newHttpClient()
-    private val MOJANG_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
+    @PublishedApi
+    internal val MOJANG_MAPPINGS_PATH: Path = MAPPINGS_PATH.resolve("mojang_${VERSION.id}.tiny")
 
     private val SYNTHETIC_PATTERN = Pattern.compile("^(access|this|val\\\$this|lambda\\\$.*)\\\$[0-9]+\$")
 
     private var initialized: Boolean = false
 
-    val intToMojRemapper: TinyRemapper
+    inline val intToMojRemapper: TinyRemapper
         get() {
             initialize()
             return buildRemapper(mappingProvider(INTERMEDIARY, MOJANG))
         }
 
-    val mojToIntRemapper: TinyRemapper
+    inline val mojToIntRemapper: TinyRemapper
         get() {
             initialize()
             return buildRemapper(mappingProvider(MOJANG, INTERMEDIARY))
         }
 
-    val intToMojResolver: MappingResolver
+    inline val intToMojResolver: MappingResolver
         get() {
             initialize()
             return CEMappingResolver(mappingTree, MOJANG)
         }
 
-    val mojToIntResolver: MappingResolver
+    inline val mojToIntResolver: MappingResolver
         get() {
             initialize()
             return CEMappingResolver(mappingTree, INTERMEDIARY)
         }
 
-    val mappingTree: MemoryMappingTree
+    inline val mappingTree: MemoryMappingTree
         get() {
             initialize()
             val mappings = MemoryMappingTree()
@@ -89,7 +93,7 @@ object Remapping {
     private val intermediaryUri: URI =
         URI.create("https://maven.fabricmc.net/net/fabricmc/intermediary/${VERSION.id}/intermediary-${VERSION.id}-v2.jar")
 
-    private val mojangUri: URI?
+    private inline val mojangUri: URI?
         @Throws(IOException::class, IllegalStateException::class)
         get() {
             val manifestResp = httpReponse(MANIFEST)
@@ -190,10 +194,12 @@ object Remapping {
         mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
     }
 
-    private fun mappingProvider(from: String, to: String): IMappingProvider =
+    @PublishedApi
+    internal fun mappingProvider(from: String, to: String): IMappingProvider =
         TinyUtils.createTinyMappingProvider(MOJANG_MAPPINGS_PATH, from, to)
 
-    private fun buildRemapper(
+    @PublishedApi
+    internal fun buildRemapper(
         vararg mappings: IMappingProvider,
         rebuildSourceFileNames: Boolean = true,
         fixPackageAccess: Boolean = true,
@@ -263,12 +269,9 @@ object Remapping {
             }
         }
 
-        if (buildJar) {
-            remapper.finish()
-            for ((consumer, _) in consumers!!) {
-                consumer?.close()
-            }
-        } else {
+        if (buildJar)
+            finalizeRemapper(remapper, consumers)
+        else {
             val consumer: OutputConsumerPath = OutputConsumerPath.Builder(newDir)
                 .build()
             try {
@@ -276,19 +279,38 @@ object Remapping {
             } catch (e: Exception) {
                 logError("Error while applying remapper", e)
             } finally {
-                remapper.finish()
-                consumer.close()
+                finalizeRemapper(remapper, listOf(consumer))
             }
         }
 
+        filterPackageInfo(newDir.toFile())
+    }
+
+    private fun filterPackageInfo(dir: File) {
         try {
-            newDir.toFile().walk().forEach { file ->
+            for (file in dir.walk()) {
                 if (file.exists() && file.name.contains("package-info")) file.deleteRecursively()
             }
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             logError("Could not delete all package-info classes", e)
         }
     }
+
+    private fun finalizeRemapper(
+        remapper: TinyRemapper,
+        consumers: Collection<OutputConsumerPath?>? = null
+    ) {
+        remapper.finish()
+        if (consumers == null) return
+        for (consumer in consumers) {
+            consumer?.close()
+        }
+    }
+
+    private fun finalizeRemapper(
+        remapper: TinyRemapper,
+        consumers: Map<OutputConsumerPath?, InputTag?>? = null
+    ) = finalizeRemapper(remapper, consumers?.keys)
 
     fun remap(
         remapper: TinyRemapper,
@@ -451,7 +473,7 @@ object Remapping {
         }
     }
 
-    private val File.isGameJar: Boolean
+    private inline val File.isGameJar: Boolean
         get() = this.extension == "jar" && (this.path.contains("loom.mappings") || this.path.contains("intermediary"))
 
     private fun filterRemappedJars() {

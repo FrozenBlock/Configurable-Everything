@@ -35,7 +35,7 @@ object DataFixerUtil {
         }
 
     // doesnt need jvmstatic because its never called in java
-	fun applyDataFixes(mod: ModContainer?) {
+	internal fun applyDataFixes(mod: ModContainer?) {
         if (mod == null) return
         val config = DataFixerConfig.get()
         if (MainConfig.get().datafixer == true) {

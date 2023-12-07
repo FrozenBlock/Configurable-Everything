@@ -15,7 +15,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 
 object GameConfigGui {
 
-    private val mainToggleReq: Requirement
+    private inline val mainToggleReq: Requirement
         get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.game)
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

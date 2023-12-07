@@ -25,7 +25,7 @@ import net.minecraft.sounds.SoundEvents
 
 private val configInstance = BlockConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.block)
 
 object BlockConfigGui {

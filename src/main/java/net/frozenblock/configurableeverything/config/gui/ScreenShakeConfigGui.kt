@@ -18,7 +18,7 @@ import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.resources.ResourceLocation
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
 
 object ScreenShakeConfigGui {

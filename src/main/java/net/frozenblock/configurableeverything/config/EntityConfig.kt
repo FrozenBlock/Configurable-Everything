@@ -243,7 +243,7 @@ data class EntityConfig(
         @FieldIdentifier(identifier = "digSpeedAmplifier")
         var digSpeedAmplifier: Int? = 100
     ) {
-        val digSpeed: Double // acts as a getter method
+        inline val digSpeed: Double // acts as a getter method
             get() {
                 val amplifier: Double = digSpeedAmplifier?.toDouble() ?: Companion.defaultInstance().player!!.digSpeedAmplifier!!.toDouble()
                 return amplifier / 100.0

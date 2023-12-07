@@ -26,6 +26,7 @@ import java.io.IOException
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
+@PublishedApi
 internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomePlacementChangeLoader> {
     companion object {
         private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Placement Change Manager")

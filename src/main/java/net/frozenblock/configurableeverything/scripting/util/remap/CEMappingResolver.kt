@@ -60,8 +60,8 @@ class CEMappingResolver(
     }
 }
 
-private val String.inDotFormat
+private inline val String.inDotFormat
     get() = this.replace('/', '.')
 
-private val String.inSlashFormat
+private inline val String.inSlashFormat
     get() = this.replace('.', '/')

@@ -1,7 +1,5 @@
 package net.frozenblock.configurableeverything.util
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
@@ -9,12 +7,15 @@ import org.slf4j.LoggerFactory
 import java.nio.file.Path
 import kotlin.io.path.Path
 
+@PublishedApi
 internal const val MOD_ID = "configurable_everything"
+@PublishedApi
 internal const val MOD_NAME = "Configurable Everything"
 
 /**
  * Enables update 1.1
  */
+@PublishedApi
 internal const val ENABLE_EXPERIMENTAL_FEATURES = false
 
 internal val DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment
@@ -42,7 +43,7 @@ val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kot
 @JvmField
 val DATAPACKS_PATH: Path = Path("config/$MOD_ID/datapacks")
 
-val INPUT_GAME_JARS: List<Path>
+inline val INPUT_GAME_JARS: List<Path>
     @Suppress("UNCHECKED_CAST")
     get() = FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as List<Path>
 

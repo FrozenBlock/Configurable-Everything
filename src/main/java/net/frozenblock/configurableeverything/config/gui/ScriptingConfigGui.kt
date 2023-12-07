@@ -18,7 +18,7 @@ import net.frozenblock.lib.config.api.client.gui.StringList
 
 object ScriptingConfigGui {
 
-    private val mainToggleReq: Requirement
+    private inline val mainToggleReq: Requirement
         get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.scripting)
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

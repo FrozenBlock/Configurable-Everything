@@ -4,15 +4,15 @@ import net.minecraft.resources.ResourceLocation
 
 object BiomeChanges {
 
-    private val MANAGER = BiomeChangeManager
+    @PublishedApi
+    internal val MANAGER = BiomeChangeManager
 
     @JvmStatic
-    val changes: List<BiomeChange?>? get() = MANAGER.getChanges()
+    inline val changes: List<BiomeChange?>?
+        get() = MANAGER.getChanges()
 
     @JvmStatic
-    fun getChange(id: ResourceLocation?): BiomeChange? {
-        return MANAGER.getChange(id)
-    }
+    fun getChange(id: ResourceLocation?): BiomeChange? = MANAGER.getChange(id)
 
     @JvmStatic
     fun addChange(

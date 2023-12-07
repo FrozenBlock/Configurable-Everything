@@ -36,7 +36,8 @@ inline fun <T : Any?> ifExtended(value: () -> T): T? {
 
 // experimental features
 
-private val EXPERIMENTAL_EXCEPTION: Exception
+@PublishedApi
+internal inline val EXPERIMENTAL_EXCEPTION: Exception
     get() = UnsupportedOperationException("Experimental features are disabled")
 
 fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
@@ -47,9 +48,9 @@ inline fun <T> experimental(value: () -> T): T {
     throw EXPERIMENTAL_EXCEPTION
 }
 
-fun <T : Any?> ifExperimental(value: () -> T): T? {
+inline fun <T : Any?> ifExperimental(value: () -> T): T? {
     return if (ENABLE_EXPERIMENTAL_FEATURES)
-        value.invoke()
+        value()
     else null
 }
 
@@ -58,30 +59,28 @@ fun <T : Any?> ifExperimental(value: () -> T): T? {
 
 
 @Environment(EnvType.CLIENT)
-fun <T : Any?> clientOrThrow(value: () -> T): T = value.invoke()
+fun <T : Any?> clientOrThrow(value: () -> T): T = value()
 
-fun <T : Any?> ifClient(value: () -> T): T? {
+inline fun <T : Any?> ifClient(value: () -> T): T? {
     if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-        return value.invoke()
+        return value()
     return null
 }
 
 @Environment(EnvType.SERVER)
-fun <T : Any?> serverOrThrow(value: () -> T): T = value.invoke()
+fun <T : Any?> serverOrThrow(value: () -> T): T = value()
 
-fun <T : Any?> ifServer(value: () -> T): T? {
+inline fun <T : Any?> ifServer(value: () -> T): T? {
     if (FabricLoader.getInstance().environmentType == EnvType.SERVER)
-        return value.invoke()
+        return value()
     return null
 }
 
 // other fabric stuff
 
-operator fun ObjectShare.set(key: String, value: Unit) {
-    this.put(key, value)
-}
+operator fun ObjectShare.set(key: String, value: Any): Any = this.put(key, value)
 
 fun modContainer(mod: String): ModContainer? = FabricLoader.getInstance().getModContainer(mod).getOrNull()
 
-val ModContainer?.version: String
+inline val ModContainer?.version: String
     get() = this?.metadata?.version.toString()

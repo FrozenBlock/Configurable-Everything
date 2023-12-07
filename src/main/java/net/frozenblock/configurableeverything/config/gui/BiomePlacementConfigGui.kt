@@ -36,7 +36,7 @@ import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
 private val configInstance: Config<BiomePlacementConfig> = BiomePlacementConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
 
 /**

@@ -28,7 +28,7 @@ import net.minecraft.resources.ResourceLocation
 
 private val configInstance = DataFixerConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
 
 object DataFixerConfigGui {

@@ -33,7 +33,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
 private val configInstance: Config<BiomeConfig> = BiomeConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
 
 object BiomeConfigGui {

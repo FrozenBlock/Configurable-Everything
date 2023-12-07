@@ -18,7 +18,7 @@ import net.frozenblock.lib.config.clothconfig.synced
 
 private val configInstance = WorldConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.world)
 
 object WorldConfigGui {

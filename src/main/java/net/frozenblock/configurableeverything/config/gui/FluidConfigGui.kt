@@ -24,7 +24,7 @@ import net.minecraft.world.level.material.Fluids
 
 private val configInstance = FluidConfig
 
-private val mainToggleReq: Requirement
+private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.fluid)
 
 object FluidConfigGui {
