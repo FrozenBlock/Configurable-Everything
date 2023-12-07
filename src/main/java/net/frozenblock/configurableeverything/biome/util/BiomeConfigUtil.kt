@@ -13,7 +13,7 @@ import java.util.function.Consumer
 
 object BiomeConfigUtil {
 
-	fun init() {
+	internal fun init() {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome == true) {
             val biomeChange = BiomeChange(config.addedFeatures?.value, config.removedFeatures?.value, config.replacedFeatures?.value, config.musicReplacements?.value)
@@ -26,7 +26,7 @@ object BiomeConfigUtil {
 
     // should only be run if the config is enabled, since this is only called from the datapack manager
     @JvmStatic
-    fun applyModifications(changes: Collection<BiomeChange?>?) = runBlocking {
+    internal fun applyModifications(changes: Collection<BiomeChange?>?) = runBlocking {
         val modification: BiomeModification = BiomeModifications.create(id("feature_modifications"))
         changes?.forEach { change -> launch {
             change?.apply {

@@ -30,7 +30,7 @@ fun File.addToJar(jar: File) {
     }
 }
 
-fun File.removeFromJar(transform: (JarEntry) -> Boolean) {
+inline fun File.removeFromJar(transform: (JarEntry) -> Boolean) {
     val tempFile = File.createTempFile("temp", ".jar")
     JarOutputStream(FileOutputStream(tempFile).buffered()).use { jarOut ->
         JarInputStream(FileInputStream(this).buffered()).use { jarIn ->
@@ -45,6 +45,7 @@ fun File.removeFromJar(transform: (JarEntry) -> Boolean) {
         }
     }
     tempFile.copyRecursively(this, true)
+    tempFile.deleteRecursively()
 }
 
 inline val File.asJarInput: JarInputStream
