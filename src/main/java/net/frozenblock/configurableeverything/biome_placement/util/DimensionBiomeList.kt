@@ -19,6 +19,4 @@ data class DimensionBiomeList(
 			).apply(instance, ::DimensionBiomeList)
 		}
 	}
-
-	override fun toString(): String = "DimensionBiomeList[dimension=$dimension, biomes=$biomes]"
 }

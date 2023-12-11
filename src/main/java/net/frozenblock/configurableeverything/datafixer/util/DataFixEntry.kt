@@ -16,6 +16,4 @@ data class DataFixEntry(
             ).apply(instance, ::DataFixEntry)
         }
     }
-
-    override fun toString(): String = "DataFixEntry[type=$type, fixers=$fixers]"
 }

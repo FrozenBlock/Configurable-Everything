@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
@@ -17,9 +18,11 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.nestedList
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
+import net.frozenblock.lib.config.api.instance.Config
+import net.frozenblock.lib.config.clothconfig.synced
 import net.frozenblock.lib.worldgen.biome.api.MutableParameter
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
@@ -31,14 +34,18 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
+private val configInstance: Config<BiomePlacementConfig> = BiomePlacementConfig
+
+private inline val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
+
 /**
  * An object representing the GUI for the [BiomePlacementConfig].
  */
-@Environment(EnvType.CLIENT)
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = BiomePlacementConfig.get(real = true)
-        val defaultConfig = BiomePlacementConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/biome_placement.png")
 
         category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
@@ -51,7 +58,7 @@ private fun addedBiomes(
     config: BiomePlacementConfig,
     defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("added_biomes"),
         config::addedBiomes,
@@ -76,7 +83,7 @@ private fun addedBiomes(
             )
             val dimensionBiomeList: DimensionBiomeList =
                 element ?: DimensionBiomeList(BuiltinDimensionTypes.OVERWORLD, defaultParameters)
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("added_biomes.dimension_biome_list"),
                 dimensionBiomeList,
                 true,
@@ -89,7 +96,7 @@ private fun addedBiomes(
                     tooltip("added_biomes.dimension")
                 ).build(entryBuilder),
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("added_biomes.biome_parameter_list"),
                     dimensionBiomeList::biomes,
@@ -98,7 +105,7 @@ private fun addedBiomes(
                     tooltip("added_biomes.biome_parameter_list"),
                     { newValue -> dimensionBiomeList.biomes = newValue },
                     { biomeParameters, _ ->
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("added_biomes.biome_parameters"),
                             biomeParameters,
                             true,
@@ -111,12 +118,12 @@ private fun addedBiomes(
                                 tooltip("added_biomes.biome"),
                             ).build(entryBuilder),
 
-                            makeMultiElementEntry(
+                            multiElementEntry(
                                 text("added_biomes.parameters"),
                                 biomeParameters?.parameters,
                                 true,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.temperature"),
                                     biomeParameters?.parameters?.temperature,
                                     true,
@@ -125,7 +132,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.temperature, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.humidity"),
                                     biomeParameters?.parameters?.humidity,
                                     true,
@@ -134,7 +141,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.humidity, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.continentalness"),
                                     biomeParameters?.parameters?.continentalness,
                                     true,
@@ -143,7 +150,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.continentalness, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.erosion"),
                                     biomeParameters?.parameters?.erosion,
                                     true,
@@ -152,7 +159,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.erosion, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.depth"),
                                     biomeParameters?.parameters?.depth,
                                     true,
@@ -161,7 +168,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters?.parameters?.depth, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                makeMultiElementEntry(
+                                multiElementEntry(
                                     text("added_biomes.weirdness"),
                                     biomeParameters?.parameters?.weirdness,
                                     true,
@@ -183,6 +190,12 @@ private fun addedBiomes(
                 )
             )
         }
+    ).apply {
+        this.requirement = mainToggleReq
+    }.synced(
+        config::class,
+        "addedBiomes",
+        configInstance
     )
 }
 
@@ -202,7 +215,7 @@ private fun removedBiomes(
     config: BiomePlacementConfig,
     defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("removed_biomes"),
         config::removedBiomes,
@@ -211,12 +224,12 @@ private fun removedBiomes(
         tooltip("removed_biomes"),
         { newValue -> config.removedBiomes = newValue },
         { element, _ ->
-            val defaultBiomes: List<Either<ResourceKey<Biome>?, TagKey<Biome>?>?> = listOf(
+            val defaultBiomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>?> = listOf(
                 Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
                 Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG)
             )
             val dimensionBiomeList = element ?: DimensionBiomeKeyList(BuiltinDimensionTypes.OVERWORLD, defaultBiomes)
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("removed_biomes.dimensions"),
                 dimensionBiomeList,
                 true,
@@ -231,28 +244,21 @@ private fun removedBiomes(
 
                 entryBuilder.startStrList(
                     text("removed_biomes.biomes"),
-                    dimensionBiomeList.biomes?.map { either -> convertEitherToString(either) }
+                    dimensionBiomeList.biomes?.map { either -> either.toStr() }
                 )
-                    .setDefaultValue(defaultBiomes.map { either -> convertEitherToString(either) })
+                    .setDefaultValue(defaultBiomes.map { either -> either.toStr() })
                     .setSaveConsumer { newValue ->
-                        dimensionBiomeList.biomes = newValue.map { string ->
-                            if (string.startsWith('#')) {
-                                Either.right(TagKey.create(Registries.BIOME, ResourceLocation(string.substring(1))))
-                            } else {
-                                Either.left(ResourceKey.create(Registries.BIOME, ResourceLocation(string)))
-                            }
-                        }
+                        dimensionBiomeList.biomes = newValue.map { it.toEitherKeyOrTag(Registries.BIOME) }
                     }
                     .setTooltip(tooltip("removed_biomes.biomes"))
                     .build()
             )
         }
+    ).apply {
+        this.requirement = mainToggleReq
+    }.synced(
+        config::class,
+        "removedBiomes",
+        configInstance
     )
-}
-
-private fun convertEitherToString(either: Either<ResourceKey<Biome>?, TagKey<Biome>?>?): String {
-    var string = ""
-    either?.ifLeft { key -> string = key?.location().toString() }
-    either?.ifRight { tag -> string = "#${tag?.location}" }
-    return string
 }

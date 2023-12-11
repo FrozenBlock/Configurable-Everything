@@ -4,49 +4,63 @@ package net.frozenblock.configurableeverything.config.gui
 
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.SplashTextConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
-import net.minecraft.world.item.DyeColor
+import net.frozenblock.lib.config.api.client.gui.Color
+import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.StringList
 
-@Environment(EnvType.CLIENT)
 object SplashTextConfigGui {
+
+    private inline val mainToggleReq: Requirement
+        get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.splashText)
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = SplashTextConfig.get(real = true)
+        val defaultConfig = SplashTextConfig.defaultInstance()
         category.background = id("textures/config/splash_text.png")
 
-        val added = entryBuilder.startStrList(text("added_splashes"), config.addedSplashes)
-            .setDefaultValue(ArrayList(listOf()))
-            .setSaveConsumer { newValue: List<String?>? -> config.addedSplashes = newValue }
-            .setTooltip(tooltip("added_splashes"))
-            .requireRestart()
-            .build()
+        val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes?.filterNotNull() ?: defaultConfig.addedSplashes!!.filterNotNull()),
+            StringList(defaultConfig.addedSplashes!!.filterNotNull()),
+            { newValue -> config.addedSplashes = newValue.list },
+            tooltip("added_splashes"),
+            true,
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        val removed = entryBuilder.startStrList(text("removed_splashes"), config.removedSplashes)
-            .setDefaultValue(ArrayList(listOf()))
-            .setSaveConsumer { newValue: List<String?>? -> config.removedSplashes = newValue }
-            .setTooltip(tooltip("removed_splashes"))
-            .requireRestart()
-            .build()
+        val removed = EntryBuilder(text("removed_splashes"), StringList(config.removedSplashes?.filterNotNull() ?: defaultConfig.removedSplashes!!.filterNotNull()),
+            StringList(defaultConfig.removedSplashes!!.filterNotNull()),
+            { newValue -> config.removedSplashes = newValue.list },
+            tooltip("removed_splashes"),
+            true,
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        val splashColor = entryBuilder.startColorField(text("splash_color"), config.splashColor ?: DyeColor.YELLOW.textColor)
-            .setDefaultValue(DyeColor.YELLOW.textColor)
-            .setSaveConsumer { newValue: Int? -> config.splashColor = newValue }
-            .setTooltip(tooltip("splash_color"))
-            .build()
+        val splashColor = EntryBuilder(text("splash_color"), Color(config.splashColor ?: defaultConfig.splashColor!!),
+            Color(defaultConfig.splashColor ?: defaultConfig.splashColor!!),
+            { newValue -> config.splashColor = newValue.color },
+            tooltip("splash_color"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        val removeVanilla = entryBuilder.startBooleanToggle(text("remove_vanilla"), config.removeVanilla == true)
-            .setDefaultValue(false)
-            .setSaveConsumer { newValue: Boolean? -> config.removeVanilla = newValue }
-            .setTooltip(tooltip("remove_vanilla"))
-            .build()
-
-        category.addEntry(added)
-        category.addEntry(removed)
-        category.addEntry(splashColor)
-        category.addEntry(removeVanilla)
+        val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla == true,
+            defaultConfig.removeVanilla!!,
+            { newValue -> config.removeVanilla = newValue },
+            tooltip("remove_vanilla"),
+            requirement = mainToggleReq,
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
     }
 }

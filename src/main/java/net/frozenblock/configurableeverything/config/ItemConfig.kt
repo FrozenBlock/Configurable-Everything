@@ -6,6 +6,7 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.FieldIdentifier
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -23,6 +24,7 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride?>> = Con
 
 data class ItemConfig(
     @JvmField
+    @FieldIdentifier(identifier = "reachOverrides")
     var reachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
         ITEM_REACH_OVERRIDES,
         listOf(

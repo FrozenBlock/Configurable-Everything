@@ -11,7 +11,7 @@ import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
-import net.frozenblock.configurableeverything.scripting.util.remap.remapCodebase
+import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -23,7 +23,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import java.io.File
 import java.io.IOException
-import kotlin.io.path.Path
 import kotlin.system.measureNanoTime
 
 /**
@@ -67,42 +66,36 @@ class ConfigurableEverything : ModInitializer {
                     ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
-                    File(".$MOD_ID/original_scripts/").recreateDir()
-                    File(".$MOD_ID/official_scripts/").recreateDir()
-                    File(".$MOD_ID/remapped_scripts/").recreateDir()
                 }
 
                 ifExperimental {
-                    FileUtil.createDirectoriesSafe(RAW_MAPPINGS_PATH)
-                    OFFICIAL_SOURCES_CACHE.toFile().recreateDir()
-                    REMAPPED_SOURCES_CACHE.toFile().recreateDir()
+                    FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             ifExtended {
-                // TODO: finish remapping
                 ifExperimental {
-                    remapCodebase()
+                    Remapping.remapCodebase()
                 }
                 ScriptingUtil.runScripts()
             }
 
             // run functionality AFTER scripts have run
-            BiomeConfigUtil
-            BiomePlacementUtil
-            BlockConfigUtil
+            BiomeConfigUtil.init()
+            BiomePlacementUtil.init()
+            BlockConfigUtil.init()
             DataFixerUtil.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
-            EntityConfigUtil
+            EntityConfigUtil.init()
             ifExperimental {
-                GravityConfigUtil
+                GravityConfigUtil.init()
             }
-            RegistryConfigUtil
+            RegistryConfigUtil.init()
             ifClient {
-                SplashTextConfigUtil
+                SplashTextConfigUtil.init()
             }
-            SurfaceRuleConfigUtil
-            WorldConfigUtil
+            SurfaceRuleConfigUtil.init()
+            WorldConfigUtil.init()
         }
 
         log("Configurable Everything took $time nanoseconds")

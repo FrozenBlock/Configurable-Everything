@@ -19,6 +19,4 @@ data class AttributeAmplifier(
             ).apply(instance, ::AttributeAmplifier)
         }
     }
-
-    override fun toString(): String = "AttributeAmplifier[attribute=$attribute, amplifier=$amplifier]"
 }

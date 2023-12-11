@@ -23,6 +23,4 @@ data class BiomePlacedFeatureList(
             ).apply(instance, ::BiomePlacedFeatureList)
         }
     }
-
-    override fun toString(): String = "BiomePlacedFeatureList[biome=$biome, placed_features=$features]"
 }

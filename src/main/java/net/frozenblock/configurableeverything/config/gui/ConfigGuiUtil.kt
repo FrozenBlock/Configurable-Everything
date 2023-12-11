@@ -17,8 +17,8 @@ fun <T : Any> String.toEitherKeyOrTag(registry: ResourceKey<Registry<T>>): Eithe
 
 fun <T : Any> Either<ResourceKey<T>, TagKey<T>>?.toStr(): String {
     var string = ""
-    this?.ifLeft { key -> string = key.location().toString() }
-    this?.ifRight { tag -> string = tag.location.toString() }
+    this?.ifLeft { key -> string = key?.location().toString() }
+    this?.ifRight { tag -> string = tag?.location.toString() }
     return string
 }
 

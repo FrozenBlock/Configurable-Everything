@@ -8,6 +8,7 @@ import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingData
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.FieldIdentifier
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -40,6 +41,7 @@ private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry
 
 data class BiomeConfig(
 	@JvmField
+	@FieldIdentifier(identifier = "addedFeatures")
 	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
@@ -69,6 +71,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
+	@FieldIdentifier(identifier = "removedFeatures")
 	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
@@ -98,6 +101,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
+	@FieldIdentifier(identifier = "replacedFeatures")
 	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
@@ -133,6 +137,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
+	@FieldIdentifier(identifier = "musicReplacements")
 	var musicReplacements: TypedEntry<List<BiomeMusic?>>? = TypedEntry(
 		BIOME_MUSIC_LIST,
 		listOf(

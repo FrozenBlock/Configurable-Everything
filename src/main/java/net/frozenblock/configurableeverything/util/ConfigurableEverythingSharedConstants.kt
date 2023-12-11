@@ -1,23 +1,24 @@
 package net.frozenblock.configurableeverything.util
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
-import net.frozenblock.lib.FrozenBools
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 import kotlin.io.path.Path
-import kotlin.io.path.pathString
 
+@PublishedApi
 internal const val MOD_ID = "configurable_everything"
+@PublishedApi
 internal const val MOD_NAME = "Configurable Everything"
 
 /**
  * Enables update 1.1
  */
+@PublishedApi
 internal const val ENABLE_EXPERIMENTAL_FEATURES = false
+
+internal val DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment
 
 @JvmField
 internal val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
@@ -40,41 +41,31 @@ internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
 
 @JvmField
-val DATAPACKS_PATH: Path = Path("./config/$MOD_ID/datapacks")
+val DATAPACKS_PATH: Path = Path("config/$MOD_ID/datapacks")
+
+inline val INPUT_GAME_JARS: List<Path>
+    @Suppress("UNCHECKED_CAST")
+    get() = FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as List<Path>
 
 @JvmField
-val INTERMEDIARY_ROOT_CACHE_PATH: Path = if (FrozenBools.IS_QUILT) Path(".quilt/") else Path(".fabric/")
-
-val INPUT_GAME_JARS: List<Path>
-    @Suppress("unchecked")
-    get() {
-        return FabricLoader.getInstance().objectShare["fabric-loader:inputGameJars"] as List<Path>
-    }
+val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
-val INTERMEDIARY_GAME_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/remappedJars/minecraft-${modContainer("minecraft").version}-${modContainer("fabricloader").version}/")
+val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/").apply {
+    this.toFile().recreateDir()
+}
 
 @JvmField
-val INTERMEDIARY_MOD_CACHE_PATH: Path = Path("${INTERMEDIARY_ROOT_CACHE_PATH.pathString}/processedMods/")
+val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/").apply {
+    this.toFile().recreateDir()
+}
 
 @JvmField
-val RAW_MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/raw/")
+val KOTLIN_SCRIPT_PATH: Path = Path("config/$MOD_ID/scripts/")
 
 @JvmField
-val TINY_MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/tiny/")
-
-@JvmField
-val OFFICIAL_SOURCES_CACHE: Path = Path(".$MOD_ID/official/")
-
-@JvmField
-val REMAPPED_SOURCES_CACHE: Path = Path("./.$MOD_ID/remapped/")
-
-@JvmField
-val KOTLIN_SCRIPT_PATH: Path = Path("./config/$MOD_ID/scripts/")
-
-@JvmField
-@Environment(EnvType.CLIENT)
-val KOTLIN_CLIENT_SCRIPT_PATH: Path = Path("${KOTLIN_SCRIPT_PATH.pathString}/client/")
+//@Environment(EnvType.CLIENT) // env broken for some reason idk
+val KOTLIN_CLIENT_SCRIPT_PATH: Path = KOTLIN_SCRIPT_PATH.resolve("client/")
 
 // the idea is configurableeverything.kts but shorter
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"

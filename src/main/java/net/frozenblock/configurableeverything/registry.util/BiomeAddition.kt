@@ -24,6 +24,4 @@ data class BiomeAddition(
             ).apply(instance, ::BiomeAddition)
         }
     }
-
-    override fun toString(): String = "BiomeAddition[key=$key, value=$value]"
 }

@@ -4,13 +4,16 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ModContainer
-import net.fabricmc.loader.api.Version
+import net.fabricmc.loader.api.ObjectShare
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
 
 // dont initialize minecraft classes here
 
+// cool kotlin stuff
+
+fun <T : Any?> T.discard(): Unit = Unit
 
 // config
 
@@ -25,25 +28,29 @@ fun makeConfigPath(name: String?): Path = makeConfigPath(name, true)
 
 // extended features
 
-fun <T : Any?> ifExtended(value: () -> T): T? {
+inline fun <T : Any?> ifExtended(value: () -> T): T? {
     return if (HAS_EXTENSIONS)
-        value.invoke()
+        value()
     else null
 }
 
 // experimental features
 
-fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES)
-    null
-else throw UnsupportedOperationException("Experimental features are disabled")
+@PublishedApi
+internal inline val EXPERIMENTAL_EXCEPTION: Exception
+    get() = UnsupportedOperationException("Experimental features are disabled")
 
-fun <T> experimental(value: () -> T): T {
+fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
+    else throw EXPERIMENTAL_EXCEPTION
+
+inline fun <T> experimental(value: () -> T): T {
     if (ENABLE_EXPERIMENTAL_FEATURES) return value.invoke()
-    throw UnsupportedOperationException("Experimental features are disabled")
+    throw EXPERIMENTAL_EXCEPTION
 }
-fun <T : Any?> ifExperimental(value: () -> T): T? {
+
+inline fun <T : Any?> ifExperimental(value: () -> T): T? {
     return if (ENABLE_EXPERIMENTAL_FEATURES)
-        value.invoke()
+        value()
     else null
 }
 
@@ -52,26 +59,28 @@ fun <T : Any?> ifExperimental(value: () -> T): T? {
 
 
 @Environment(EnvType.CLIENT)
-fun <T : Any?> clientOrThrow(value: () -> T): T = value.invoke()
+fun <T : Any?> clientOrThrow(value: () -> T): T = value()
 
-fun <T : Any?> ifClient(value: () -> T): T? {
+inline fun <T : Any?> ifClient(value: () -> T): T? {
     if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-        return value.invoke()
+        return value()
     return null
 }
 
 @Environment(EnvType.SERVER)
-fun <T : Any?> serverOrThrow(value: () -> T): T = value.invoke()
+fun <T : Any?> serverOrThrow(value: () -> T): T = value()
 
-fun <T : Any?> ifServer(value: () -> T): T? {
+inline fun <T : Any?> ifServer(value: () -> T): T? {
     if (FabricLoader.getInstance().environmentType == EnvType.SERVER)
-        return value.invoke()
+        return value()
     return null
 }
 
 // other fabric stuff
 
+operator fun ObjectShare.set(key: String, value: Any): Any = this.put(key, value)
+
 fun modContainer(mod: String): ModContainer? = FabricLoader.getInstance().getModContainer(mod).getOrNull()
 
-val ModContainer?.version: String
+inline val ModContainer?.version: String
     get() = this?.metadata?.version.toString()

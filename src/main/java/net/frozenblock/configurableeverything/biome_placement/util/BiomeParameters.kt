@@ -18,6 +18,4 @@ data class BiomeParameters(
 			).apply(instance, ::BiomeParameters)
 		}
 	}
-
-	override fun toString(): String = "BiomeParameters[biome=$biome, parameters=$parameters]"
 }

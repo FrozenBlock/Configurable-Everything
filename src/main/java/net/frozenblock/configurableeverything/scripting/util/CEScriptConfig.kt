@@ -33,36 +33,37 @@ abstract class CEScript {
     /**
      * The name of the script file.
      */
-    protected val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
-    protected var logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
-    protected val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
+    val scriptName: String = this::class.java.simpleName.let { name -> name.substring(0, name.length - 5) }
+    val logger: Logger = LoggerFactory.getLogger("CE Script: $scriptName")
+    val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
 
-    protected fun clientOnly(`fun`: () -> Unit) {
+    fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             `fun`.invoke()
     }
 
-    protected fun runLate(priority: Int, `fun`: () -> Unit) {
+    fun runLate(priority: Int, `fun`: () -> Unit) {
         experimental { POST_RUN_FUNS!![priority] = `fun` }
     }
 
-    protected fun runEachTick(tickFun: () -> Unit) {
+    fun runEachTick(tickFun: () -> Unit) {
+        objectShare[""] =
         ServerTickEvents.START_SERVER_TICK.register { tickFun.invoke() }
     }
 
-    protected fun println(message: Any?) {
+    fun println(message: Any?) {
         log(message)
     }
 
-    protected fun log(message: Any?) {
+    fun log(message: Any?) {
         logger.info(message.toString())
     }
 
-    protected fun logWarning(message: Any?) {
+    fun logWarning(message: Any?) {
         logger.warn(message.toString())
     }
 
-    protected fun logError(message: Any?, e: Throwable? = null) {
+    fun logError(message: Any?, e: Throwable? = null) {
         logger.error(message.toString(), e)
     }
 }
@@ -79,12 +80,15 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
         // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
         ifExperimental {
-            updateClasspath(listOf(File(".$MOD_ID/remapped/")))
+            updateClasspath(REMAPPED_SOURCES_CACHE.toFile().listFiles()!!.toList())
         }
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
 
-    compilerOptions(listOf("-jvm-target", "17"))
+    compilerOptions(listOf(
+        "-jvm-target", "17",
+        //"-language-version", "2.0",
+    ))
     compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
 
     refineConfiguration {

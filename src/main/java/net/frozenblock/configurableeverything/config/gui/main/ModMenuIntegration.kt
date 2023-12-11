@@ -1,3 +1,5 @@
+@file:Environment(EnvType.CLIENT)
+
 package net.frozenblock.configurableeverything.config.gui.main
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
@@ -10,7 +12,6 @@ import net.minecraft.client.gui.screens.Screen
 /**
  * The entrypoint for Mod Menu to build the config screen.
  */
-@Environment(EnvType.CLIENT)
 class ModMenuIntegration : ModMenuApi {
     override fun getModConfigScreenFactory(): ConfigScreenFactory<Screen> {
         return if (FrozenBools.HAS_CLOTH_CONFIG) {

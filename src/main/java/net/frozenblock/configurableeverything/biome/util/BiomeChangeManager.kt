@@ -127,33 +127,27 @@ object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
         }
 
         private fun addBiomeChange(id: ResourceLocation, resource: Resource, isJson5: Boolean) {
-            val reader: BufferedReader? = try {
+            try {
                 resource.openAsReader()
             } catch (e: IOException) {
-                LOGGER.error(String.format("Unable to open BufferedReader for id %s", id), e)
+                LOGGER.error("Unable to open BufferedReader for id $id", e)
                 return
-            }
+            }.use { reader ->
+                val result: DataResult<out Pair<BiomeChange, *>> = if (isJson5) {
+                    val json5 = reader.let { ConfigSerialization.createJankson("").load(it.readText()) }
+                    BiomeChange.CODEC.decode(JanksonOps.INSTANCE, json5)
+                } else {
+                    val json = reader.let { GsonHelper.parse(it) }
+                    BiomeChange.CODEC.decode(JsonOps.INSTANCE, json)
+                }
 
-            val result: DataResult<out Pair<BiomeChange, *>> = if (isJson5) {
-                val json5 = reader?.let { ConfigSerialization.createJankson("").load(it.readText()) }
-                BiomeChange.CODEC.decode(JanksonOps.INSTANCE, json5)
-            } else {
-                val json = reader?.let { GsonHelper.parse(it) }
-                BiomeChange.CODEC.decode(JsonOps.INSTANCE, json)
+                if (result.error().isPresent) {
+                    LOGGER.error("Unable to parse biome change file $id. \nReason: ${result.error().get().message()}")
+                    return
+                }
+                val changeId = ResourceLocation(id.namespace, id.path.substring(("$DIRECTORY/").length))
+                changes[changeId] = result.result().orElseThrow().first
             }
-
-            if (result.error().isPresent) {
-                LOGGER.error(
-                    String.format(
-                        "Unable to parse biome change file %s. \nReason: %s",
-                        id,
-                        result.error().get().message()
-                    )
-                )
-                return
-            }
-            val changeId = ResourceLocation(id.namespace, id.path.substring(("$DIRECTORY/").length))
-            changes[changeId] = result.result().orElseThrow().first
         }
     }
 }

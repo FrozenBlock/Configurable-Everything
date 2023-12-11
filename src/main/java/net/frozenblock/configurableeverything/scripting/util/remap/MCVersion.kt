@@ -21,9 +21,10 @@ data class MCVersion(
     val buildTime: OffsetDateTime
 ) {
     companion object {
-        private val JANKSON: Jankson = ConfigSerialization.createJankson("")
+        @PublishedApi
+        internal val JANKSON: Jankson = ConfigSerialization.createJankson("")
 
-        val fromClasspath: MCVersion
+        inline val fromClasspath: MCVersion
             @Throws(IOException::class, IllegalStateException::class)
             get() {
                 val json: JsonObject?

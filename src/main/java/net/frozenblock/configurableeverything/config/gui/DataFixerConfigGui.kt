@@ -6,7 +6,6 @@ import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
-import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
 import me.shedaniel.clothconfig2.gui.entries.IntegerListEntry
 import me.shedaniel.clothconfig2.gui.entries.StringListEntry
 import net.fabricmc.api.EnvType
@@ -20,17 +19,22 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeNestedList
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.nestedList
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
+import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 
-@Environment(EnvType.CLIENT)
+private val configInstance = DataFixerConfig
+
+private inline val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
+
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = DataFixerConfig.get(real = true)
-        val defaultConfig = DataFixerConfig.defaultInstance()
+        val config = configInstance.instance()
+        val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/datafixer.png")
 
         val overrideRealEntries = EntryBuilder(
@@ -39,8 +43,13 @@ object DataFixerConfigGui {
             defaultConfig.overrideRealEntries!!,
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
-            true
-        ).build(entryBuilder).apply { category.addEntry(this) }
+            true,
+            requirement = mainToggleReq
+        ).build(entryBuilder).synced(
+            config::class,
+            "overrideRealEntries",
+            configInstance
+        ).apply { category.addEntry(this) }
 
         val dataVersion = EntryBuilder(
             text("data_version"),
@@ -48,7 +57,8 @@ object DataFixerConfigGui {
             defaultConfig.dataVersion!!,
             { newValue -> config.dataVersion = newValue },
             tooltip("data_version"),
-            true
+            true,
+            requirement = mainToggleReq
         ).build(entryBuilder).apply { category.addEntry(this) }
 
         category.addEntry(schemas(entryBuilder, config, defaultConfig, dataVersion as IntegerListEntry))
@@ -101,7 +111,7 @@ private fun schemas(
         )
     )
     val defaultSchema = SchemaEntry(1, defaultFixEntryList)
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("schemas"),
         config::schemas,
@@ -112,7 +122,7 @@ private fun schemas(
         { element, _ ->
             val schema = element ?: defaultSchema
             lateinit var versionEntry: IntegerListEntry
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("schemas.schema"),
                 schema,
                 true,
@@ -125,7 +135,7 @@ private fun schemas(
                     tooltip("schemas.version")
                 ).build(entryBuilder).apply { versionEntry = this as IntegerListEntry },
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("schemas.entries"),
                     schema::entries,
@@ -134,7 +144,7 @@ private fun schemas(
                     tooltip("schemas.entries"),
                     { newValue -> schema.entries = newValue },
                     { entry, _ ->
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("schemas.entry"),
                             entry,
                             true,
@@ -147,7 +157,7 @@ private fun schemas(
                                 tooltip("schemas.type")
                             ).build(entryBuilder),
 
-                            makeNestedList(
+                            nestedList(
                                 entryBuilder,
                                 text("datafixer.fixers"),
                                 entry::fixers,
@@ -156,7 +166,7 @@ private fun schemas(
                                 tooltip("datafixer.fixers"),
                                 { newValue -> entry.fixers = newValue },
                                 { entry, _ ->
-                                    makeMultiElementEntry(
+                                    multiElementEntry(
                                         text("datafixer.fixer"),
                                         entry,
                                         true,
@@ -191,10 +201,13 @@ private fun schemas(
             )
         }
     ).apply {
-        this.requirement = Requirement.isTrue {
-            val dataVersionInt: Int? = dataVersion.value
-            dataVersionInt != null && dataVersionInt > 0
-        }
+        this.requirement = Requirement.all(
+            mainToggleReq,
+            Requirement.isTrue {
+                val dataVersionInt: Int? = dataVersion.value
+                dataVersionInt != null && dataVersionInt > 0
+            }
+        )
     }
 }
 
@@ -210,7 +223,7 @@ private fun registryFixers(
         )
     )
     val defaultRegistryFixer = RegistryFixer(Registries.BLOCK.location(), defaultFixers)
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("registry_fixers"),
         config::registryFixers,
@@ -221,7 +234,7 @@ private fun registryFixers(
         { element, _ ->
             val registryFixer = element ?: defaultRegistryFixer
             lateinit var registryKeyEntry: StringListEntry
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("registry_fixers.registry_fixer"),
                 registryFixer,
                 true,
@@ -234,7 +247,7 @@ private fun registryFixers(
                     tooltip("registry_fixers.registry_key")
                 ).build(entryBuilder).apply { registryKeyEntry = this as StringListEntry },
 
-                makeNestedList(
+                nestedList(
                     entryBuilder,
                     text("datafixer.fixers"),
                     registryFixer::fixers,
@@ -245,7 +258,7 @@ private fun registryFixers(
                     { element, _ ->
                         val entry = element ?: Fixer(ResourceLocation(""), ResourceLocation(""))
                         lateinit var oldIdEntry: StringListEntry
-                        makeMultiElementEntry(
+                        multiElementEntry(
                             text("datafixer.fixer"),
                             entry,
                             true,
@@ -273,5 +286,11 @@ private fun registryFixers(
                 )
             )
         }
+    ).apply {
+        this.requirement = mainToggleReq
+    }.synced(
+        config::class,
+        "registryFixers",
+        configInstance
     )
 }

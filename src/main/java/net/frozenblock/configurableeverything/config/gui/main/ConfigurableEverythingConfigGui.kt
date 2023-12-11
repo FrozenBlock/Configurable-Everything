@@ -66,8 +66,8 @@ object ConfigurableEverythingConfigGui {
         val entity = configBuilder.getOrCreateCategory(text("entity"))
         EntityConfigGui.setupEntries(entity, entryBuilder)
 
-        //val fluid = configBuilder.getOrCreateCategory(text("fluid"))
-        //FluidConfigGui.setupEntries(fluid, entryBuilder)
+        val fluid = configBuilder.getOrCreateCategory(text("fluid"))
+        FluidConfigGui.setupEntries(fluid, entryBuilder)
 
         val game = configBuilder.getOrCreateCategory(text("game"))
         GameConfigGui.setupEntries(game, entryBuilder)

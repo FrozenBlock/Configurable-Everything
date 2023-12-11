@@ -15,6 +15,8 @@
   "tooltip.configurable_everything.datafixer": "Enable or disable the Datafixer config.",
   "option.configurable_everything.fluid": "Fluid",
   "tooltip.configurable_everything.fluid": "Enable or disable the Fluid config.",
+  "option.configurable_everything.registry": "Registry",
+  "tooltip.configurable_everything.registry": "Enable or disable the Registry config.",
   "option.configurable_everything.scripting": "Scripting",
   "tooltip.configurable_everything.scripting": "Enable or disable the Scripting config.\nOnly available with Fabric Kotlin Extensions",
   "option.configurable_everything.surface_rule": "Surface Rule",
@@ -304,6 +306,16 @@
 
   "option.configurable_everything.flaming_arrows_light_fire": "Flaming Arrows Light Fire",
   "tooltip.configurable_everything.flaming_arrows_light_fire": "Enable or disable Flint & Steel functionality when a\nflaming Arrow hits a block or entity.",
+
+  "option.configurable_everything.fluid_flow_speeds": "Flow Speed Overrides",
+  "tooltip.configurable_everything.fluid_flow_speeds": "Overrides for fluid tick delays",
+  "option.configurable_everything.fluid_flow_speeds.fluid_flow_speed": "Fluid Speed Override",
+  "option.configurable_everything.fluid_flow_speeds.fluid": "Fluid",
+  "tooltip.configurable_everything.fluid_flow_speeds.fluid": "The fluid to apply tick delays to.",
+  "option.configurable_everything.fluid_flow_speeds.ultra_warm_flow_tick_speed": "Ultra Warm Tick Delay",
+  "tooltip.configurable_everything.fluid_flow_speeds.ultra_warm_flow_tick_speed": "The fluid tick delay in ultrawarm dimensions such as The Nether.",
+  "option.configurable_everything.fluid_flow_speeds.tick_delay": "Tick Delay",
+  "tooltip.configurable_everything.fluid_flow_speeds.tick_delay": "The fluid tick delay in non-ultrawarm dimensions.",
 
   "option.configurable_everything.game": "Game",
   "tooltip.configurable_everything.game": "Enable or disable the Game config.",

@@ -224,6 +224,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // get deps manually because FKE cant give them to compile classpath without an error
+    api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.7.0")
     modApi(kotlin("scripting-common"))
     modApi(kotlin("scripting-jvm"))
     modApi(kotlin("scripting-jsr223"))
@@ -232,23 +233,21 @@ dependencies {
     modApi(kotlin("scripting-dependencies"))
     modApi(kotlin("scripting-dependencies-maven"))
 
-    //modApi("net.fabricmc:mapping-io:0.5.0-beta.3")
-    modApi("net.fabricmc:mapping-io:0.4.2")
-    modApi("net.fabricmc:mercury:0.4.0")
-    //modApi("org.cadixdev:lorenz-io-proguard:0.5.7")
-    modApi("net.fabricmc:lorenz-tiny:4.0.2")
+    api("net.fabricmc:mapping-io:0.5.1")
+    api("net.fabricmc:tiny-remapper:0.8.11")
 
     // FrozenLib
     if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     else
+        //modApi(files("libs/frozenlib.jar"))?.apply { include(this) }
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
 
     // Reach Entity Attributes
     modApi("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")?.let { include(it) }
 
     // MixinExtras
-    implementation("com.github.llamalad7.mixinextras:mixinextras-fabric:0.2.0")?.let { annotationProcessor(it) }
+    modApi("io.github.llamalad7:mixinextras-fabric:0.3.1")?.let { annotationProcessor(it) }
 
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {

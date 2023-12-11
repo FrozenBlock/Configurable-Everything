@@ -5,6 +5,7 @@ package net.frozenblock.configurableeverything.config.gui
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
+import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
@@ -13,12 +14,15 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.makeMultiElementEntry
-import net.frozenblock.lib.config.api.client.gui.makeTypedEntryList
+import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.resources.ResourceLocation
 
-@Environment(EnvType.CLIENT)
+private inline val mainToggleReq: Requirement
+    get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
+
 object ScreenShakeConfigGui {
+
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScreenShakeConfig.get(real = true)
         val defaultConfig = ScreenShakeConfig.defaultInstance()
@@ -29,13 +33,15 @@ object ScreenShakeConfigGui {
         category.addEntry(EntryBuilder(text("dragon_respawn_screen_shake"), config.dragonRespawnScreenShake,
             defaultConfig.dragonRespawnScreenShake!!,
             { newValue -> config.dragonRespawnScreenShake = newValue },
-            tooltip("dragon_respawn_screen_shake")
+            tooltip("dragon_respawn_screen_shake"),
+            requirement = mainToggleReq
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("explosion_screen_shake"), config.explosionScreenShake,
             defaultConfig.explosionScreenShake!!,
             { newValue -> config.explosionScreenShake = newValue },
-            tooltip("explosion_screen_shake")
+            tooltip("explosion_screen_shake"),
+            requirement = mainToggleReq
         ).build(entryBuilder))
     }
 }
@@ -45,7 +51,7 @@ private fun soundScreenShakes(
     config: ScreenShakeConfig,
     defaultConfig: ScreenShakeConfig
 ): AbstractConfigListEntry<*> {
-    return makeTypedEntryList(
+    return typedEntryList(
         entryBuilder,
         text("sound_screen_shakes"),
         config::soundScreenShakes,
@@ -55,7 +61,7 @@ private fun soundScreenShakes(
         { newValue -> config.soundScreenShakes = newValue},
         { element, _ ->
             val soundScreenShake = element ?: SoundScreenShake(ResourceLocation(""), 1F, 25, 1, 20F)
-            makeMultiElementEntry(
+            multiElementEntry(
                 text("sound_screen_shakes.sound_screen_shake"),
                 soundScreenShake,
                 true,
@@ -91,5 +97,7 @@ private fun soundScreenShakes(
                 ).build(entryBuilder),
             )
         }
-    )
+    ).apply {
+        this.requirement = mainToggleReq
+    }
 }

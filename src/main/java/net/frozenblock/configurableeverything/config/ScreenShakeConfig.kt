@@ -4,6 +4,7 @@ import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -21,6 +22,7 @@ private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake?>> = Confi
 
 data class ScreenShakeConfig(
     @JvmField
+    @UnsyncableEntry
     var soundScreenShakes: TypedEntry<List<SoundScreenShake?>>? = TypedEntry(
         SOUND_SCREEN_SHAKE,
         listOf(
@@ -77,9 +79,11 @@ data class ScreenShakeConfig(
     ),
 
     @JvmField
+    @UnsyncableEntry
     var dragonRespawnScreenShake: Boolean? = true,
 
     @JvmField
+    @UnsyncableEntry
     var explosionScreenShake: Boolean? = true
 ) {
     companion object : JsonConfig<ScreenShakeConfig>(

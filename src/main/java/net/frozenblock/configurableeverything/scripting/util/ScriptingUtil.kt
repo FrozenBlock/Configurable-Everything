@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScriptingConfig
-import net.frozenblock.configurableeverything.scripting.util.remap.remapScript
+import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
 import java.nio.file.Path
@@ -14,7 +14,6 @@ import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvm.BasicJvmScriptEvaluator
 import kotlin.script.experimental.jvm.impl.KJvmCompiledScript
 import kotlin.script.experimental.jvmhost.BasicJvmScriptJarGenerator
-import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.JvmScriptCompiler
 import kotlin.script.experimental.jvmhost.loadScriptFromJar
 
@@ -38,32 +37,46 @@ private fun ResultWithDiagnostics<*>.logReports() {
     }
 }
 
+private sealed class ScriptType(val envType: EnvType?) {
+    data object CLIENT : ScriptType(EnvType.CLIENT)
+    data object COMMON : ScriptType(null)
+}
+
 internal object ScriptingUtil {
 
-    private suspend fun runScript(script: File): ResultWithDiagnostics<EvaluationResult> {
+    private val SCRIPTS_TO_EVAL: MutableMap<CompiledScript, File> = mutableMapOf()
+
+    private suspend fun compileScript(script: File, type: ScriptType) {
+        val envType = type.envType
+        if (envType != null && envType != FabricLoader.getInstance().environmentType) return
+
         val compilationConfiguration = CEScriptCompilationConfig
         val evaluationConfiguration = CEScriptEvaluationConfig
-        if (ENABLE_EXPERIMENTAL_FEATURES) {
-            val compiledScript: KJvmCompiledScript = JvmScriptCompiler()(
-                script.toScriptSource(),
-                compilationConfiguration
-            ).apply { this.logReports() }.valueOrNull() as? KJvmCompiledScript ?: error("Compiled script is not java or is null")
-            val file = File(".$MOD_ID/original_scripts/${script.name}.jar")
+        val compiledScript: KJvmCompiledScript = JvmScriptCompiler()(
+            script.toScriptSource(),
+            compilationConfiguration
+        ).apply { this.logReports() }.valueOrNull() as? KJvmCompiledScript ?: error("Compiled script is not java or is null")
+        if (!DEV_ENV && ENABLE_EXPERIMENTAL_FEATURES && ScriptingConfig.get().remapping == true) {
+            val file = ORIGINAL_SCRIPTS.resolve("${script.name}.jar").toFile()
             BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
-            val remappedFile: File = remapScript(file)
+            val remappedFile: File = Remapping.remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
-            return BasicJvmScriptEvaluator()(remappedScript, evaluationConfiguration)
-        }
-        return BasicJvmScriptingHost().eval(script.toScriptSource(), compilationConfiguration, evaluationConfiguration)
+            SCRIPTS_TO_EVAL[remappedScript] = remappedFile
+        } else
+            SCRIPTS_TO_EVAL[compiledScript] = script
     }
 
     fun runScripts() {
         log("Running scripts")
         if (MainConfig.get().scripting != true || ScriptingConfig.get().applyKotlinScripts != true)
             return
-        runScripts(KOTLIN_SCRIPT_PATH)
+        compileScripts(KOTLIN_SCRIPT_PATH, ScriptType.COMMON)
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-            runScripts(KOTLIN_CLIENT_SCRIPT_PATH)
+            compileScripts(KOTLIN_CLIENT_SCRIPT_PATH, ScriptType.CLIENT)
+
+        // verify the scripts don't use remapped sources
+        REMAPPED_SOURCES_CACHE.toFile().recreateDir()
+        runBlocking { evalScripts() }
 
         CEScript.POST_RUN_FUNS?.apply {
             this.toSortedMap().forEach { (_, value) ->
@@ -72,16 +85,27 @@ internal object ScriptingUtil {
         }
     }
 
-    private fun runScripts(path: Path) {
+    private fun compileScripts(path: Path, type: ScriptType) {
         val folder = path.toFile().listFiles() ?: return
         for (file in folder) {
             if (file.isDirectory) continue
             try {
-                val result = runBlocking { runScript(file) }
+                runBlocking { compileScript(file, type) }
+            } catch (e: Exception) {
+                logError("Error while compiling script $file", e)
+            }
+        }
+    }
+
+    private suspend fun evalScripts() {
+        for ((script, file) in SCRIPTS_TO_EVAL) {
+            try {
+                val result = BasicJvmScriptEvaluator()(script, CEScriptEvaluationConfig)
                 result.logReports()
             } catch (e: Exception) {
                 logError("Error while running script $file", e)
             }
         }
+        SCRIPTS_TO_EVAL.clear()
     }
 }

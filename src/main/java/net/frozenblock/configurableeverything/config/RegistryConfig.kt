@@ -6,6 +6,7 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.*
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -33,6 +34,7 @@ private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?
 
 data class RegistryConfig(
     @JvmField
+    @FieldIdentifier(identifier = "biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
     var biomeAdditions: TypedEntry<List<BiomeAddition?>?>? = TypedEntry(
         BIOME_ADDITIONS,
@@ -62,6 +64,7 @@ data class RegistryConfig(
     ),
 
     @JvmField
+    @FieldIdentifier(identifier = "placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
     var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
         PLACED_FEATURE_ADDITIONS,
