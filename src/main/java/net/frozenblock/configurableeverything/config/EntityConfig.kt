@@ -6,6 +6,7 @@ import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
@@ -51,6 +52,7 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRe
     )
 )
 
+@UnsyncableConfig
 data class EntityConfig(
     @JvmField
     @FieldIdentifier(identifier = "entityAttributeAmplifiers")

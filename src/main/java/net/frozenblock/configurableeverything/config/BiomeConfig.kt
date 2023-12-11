@@ -9,9 +9,9 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.minecraft.sounds.Music
@@ -39,6 +39,7 @@ private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry
     )
 )
 
+@UnsyncableConfig
 data class BiomeConfig(
 	@JvmField
 	@FieldIdentifier(identifier = "addedFeatures")

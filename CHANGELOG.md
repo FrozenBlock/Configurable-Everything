@@ -9,6 +9,8 @@ Future changelog items:
     - Contains item reach overrides
 - Added Structure Config
     - Contains structure and structure set removals
+- Partially locked config GUIs when configs are synced from the server
+    - Config syncing introduced in FrozenLib 1.5
 - Added Kotlin script remapping
     - Enables accessing obfuscated Minecraft classes
         - Also (optionally) includes mod classes!
@@ -25,10 +27,8 @@ Put changelog here:
   - Scripts will be compiled against 1.9.21
 - Updated minimum FLK version to 1.10.16
 - Added requirements to lock config GUIs if their main toggle is disabled
-- Partially locked config GUIs when configs are synced from the server
-  - Config syncing introduced in FrozenLib 1.4.5
 - Added a GUI for Fluid Config
 - Added missing `registry` option to Main Config GUI
 - Fixed compatibility with Bedrockify
 - Implemented slight optimizations
-- Updated embedded FrozenLib to 1.4.5
+- Updated embedded FrozenLib to 1.5

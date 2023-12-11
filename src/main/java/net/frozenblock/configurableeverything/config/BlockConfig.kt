@@ -7,6 +7,7 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.configurableeverything.util.vanillaId
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
@@ -22,6 +23,7 @@ private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOv
     )
 )
 
+@UnsyncableConfig
 data class BlockConfig(
     @JvmField
     @UnsyncableEntry

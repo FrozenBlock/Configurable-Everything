@@ -9,6 +9,7 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
+@UnsyncableConfig
 data class WorldConfig(
     @JvmField
     @FieldIdentifier(identifier = "dayTimeSpeedAmplifier")
