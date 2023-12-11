@@ -9,6 +9,7 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
@@ -33,6 +34,7 @@ private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRe
     )
 )
 
+@UnsyncableConfig
 data class DataFixerConfig(
     @JvmField
     @FieldIdentifier(identifier = "overrideRealEntries")

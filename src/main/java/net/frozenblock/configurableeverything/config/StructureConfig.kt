@@ -5,6 +5,7 @@ import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -19,6 +20,7 @@ private val RESOURCE_LIST: TypedEntryType<List<ResourceLocation?>> = ConfigRegis
     )
 )
 
+@UnsyncableConfig
 data class StructureConfig(
 
     @JvmField

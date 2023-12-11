@@ -4,12 +4,14 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import kotlin.io.path.pathString
 
+@UnsyncableConfig
 data class MainConfig(
     // ignore property name warnings because the goal is to match the config file name
     @JvmField

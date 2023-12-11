@@ -52,12 +52,12 @@ val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
 val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/").apply {
-    this.toFile().recreateDir()
+    ifExperimental { this.toFile().recreateDir() }
 }
 
 @JvmField
 val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/").apply {
-    this.toFile().recreateDir()
+    ifExperimental { this.toFile().recreateDir() }
 }
 
 @JvmField

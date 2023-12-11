@@ -6,6 +6,7 @@ import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.Config
@@ -23,6 +24,7 @@ private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBel
     )
 )
 
+@UnsyncableConfig
 data class GravityConfig(
     @JvmField
     @FieldIdentifier(identifier = "gravityBelts")

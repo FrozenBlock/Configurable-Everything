@@ -3,12 +3,14 @@ package net.frozenblock.configurableeverything.config
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
+@UnsyncableConfig
 data class GameConfig(
     @JvmField
     @UnsyncableEntry

@@ -32,6 +32,7 @@ private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?
     )
 )
 
+@UnsyncableConfig
 data class RegistryConfig(
     @JvmField
     @FieldIdentifier(identifier = "biomeAdditions")
