@@ -23,6 +23,10 @@ Future changelog items:
 Put changelog here:
 
 -----------------
+- Fixed critical mod compatibility issue
+- Updated embedded FrozenLib to 1.5.1
+
+1.0.6 Changelog:
 - Updated Kotlin to 1.9.21
   - Scripts will be compiled against 1.9.21
 - Updated minimum FLK version to 1.10.16
