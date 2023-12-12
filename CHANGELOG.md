@@ -29,6 +29,7 @@ Put changelog here:
 - Added Mod Protocol Config
   - Enabled by default
   - Main toggle found within the config rather than Main Config
+  - No GUI at the moment
 - Added requirements to lock config GUIs if their main toggle is disabled
 - Added a GUI for Fluid Config
 - Added missing `registry` option to Main Config GUI
