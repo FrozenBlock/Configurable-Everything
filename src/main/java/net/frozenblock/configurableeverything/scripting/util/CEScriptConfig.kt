@@ -39,16 +39,19 @@ abstract class CEScript {
 
     fun clientOnly(`fun`: () -> Unit) {
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-            `fun`.invoke()
+            `fun`()
     }
 
+    /**
+     * @since 1.1
+     */
     fun runLate(priority: Int, `fun`: () -> Unit) {
         experimental { POST_RUN_FUNS!![priority] = `fun` }
     }
 
     fun runEachTick(tickFun: () -> Unit) {
-        objectShare[""] =
-        ServerTickEvents.START_SERVER_TICK.register { tickFun.invoke() }
+        // TODO: add to client tick events if a client script
+        ServerTickEvents.START_SERVER_TICK.register { tickFun() }
     }
 
     fun println(message: Any?) {
@@ -80,7 +83,9 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
         // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
         ifExperimental {
-            updateClasspath(REMAPPED_SOURCES_CACHE.toFile().listFiles()!!.toList())
+            // Adds the remapped Minecraft and mod jars to the classpath
+            if (ScriptingConfig.get().remapping == true)
+                updateClasspath(REMAPPED_SOURCES_CACHE.asFileList!!)
         }
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
@@ -94,20 +99,17 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     refineConfiguration {
         // the callback called when any of the listed file-level annotations are encountered in the compiled script
         // the processing is defined by the `handler`, that may return refined configuration depending on the annotations
-        if (ENABLE_EXPERIMENTAL_FEATURES) onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
+        if (ENABLE_EXPERIMENTAL_FEATURES)
+            onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
     }
-}) {
-    private fun readResolve(): Any = CEScriptCompilationConfig
-}
+})
 
 object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
     jvm {
         loadDependencies(true)
         scriptsInstancesSharing(true)
     }
-}) {
-    private fun readResolve(): Any = CEScriptEvaluationConfig
-}
+})
 
 private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
 
