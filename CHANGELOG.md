@@ -26,6 +26,10 @@ Put changelog here:
 - Updated Kotlin to 1.9.21
   - Scripts will be compiled against 1.9.21
 - Updated minimum FLK version to 1.10.16
+- Added Mod Protocol Config
+  - Enabled by default
+  - Main toggle found within the config rather than Main Config
+  - No GUI at the moment
 - Added requirements to lock config GUIs if their main toggle is disabled
 - Added a GUI for Fluid Config
 - Added missing `registry` option to Main Config GUI
