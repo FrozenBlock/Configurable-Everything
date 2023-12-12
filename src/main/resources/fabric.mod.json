@@ -30,6 +30,12 @@
         "value": "net.frozenblock.configurableeverything.ConfigurableEverything"
       }
     ],
+    "frozenlib:events": [
+      {
+        "adapter": "kotlin",
+        "value": "net.frozenblock.configurableeverything.mod_protocol.util.ModProtocolConfigUtil"
+      }
+    ],
     "fabric-datagen": [
       {
         "adapter": "kotlin",

@@ -47,6 +47,7 @@ class ConfigurableEverything : ModInitializer {
                 GravityConfig
                 ItemConfig
             }
+            ModProtocolConfig
             RegistryConfig
             ScreenShakeConfig
             ScriptingConfig
