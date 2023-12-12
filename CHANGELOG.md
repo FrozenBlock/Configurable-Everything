@@ -29,6 +29,7 @@ Put changelog here:
 - Added requirements to lock config GUIs if their main toggle is disabled
 - Added a GUI for Fluid Config
 - Added missing `registry` option to Main Config GUI
+- Fixed some options' functionality
 - Fixed compatibility with Bedrockify
 - Implemented slight optimizations
 - Updated embedded FrozenLib to 1.5
