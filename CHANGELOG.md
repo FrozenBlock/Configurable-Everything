@@ -23,21 +23,4 @@ Future changelog items:
 Put changelog here:
 
 -----------------
-- Fixed critical mod compatibility issue
-- Updated embedded FrozenLib to 1.5.1
-
-1.0.6 Changelog:
-- Updated Kotlin to 1.9.21
-  - Scripts will be compiled against 1.9.21
-- Updated minimum FLK version to 1.10.16
-- Added Mod Protocol Config
-  - Enabled by default
-  - Main toggle found within the config rather than Main Config
-  - No GUI at the moment
-- Added requirements to lock config GUIs if their main toggle is disabled
-- Added a GUI for Fluid Config
-- Added missing `registry` option to Main Config GUI
-- Fixed some options' functionality
-- Fixed compatibility with Bedrockify
-- Implemented slight optimizations
-- Updated embedded FrozenLib to 1.5
+- Removed options for 1.1

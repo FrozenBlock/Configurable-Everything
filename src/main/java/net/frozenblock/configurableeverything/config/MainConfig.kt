@@ -1,7 +1,5 @@
 package net.frozenblock.configurableeverything.config
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.lib.config.api.annotation.FieldIdentifier
 import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
@@ -9,6 +7,7 @@ import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import net.frozenblock.lib.shadow.blue.endless.jankson.annotation.SaveToggle
 import kotlin.io.path.pathString
 
 @UnsyncableConfig
@@ -51,16 +50,19 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     @FieldIdentifier(identifier = "gravity")
     @Comment("Not functional until 1.1")
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var gravity: Boolean? = false,
 
     @JvmField
     @FieldIdentifier(identifier = "item")
     @Comment("Not functional until 1.1")
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var item: Boolean? = false,
 
     @JvmField
     @UnsyncableEntry
     @Comment("Not functional until 1.1")
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var music: Boolean? = false,
 
     @JvmField
@@ -79,6 +81,7 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     @FieldIdentifier(identifier = "sculk_spreading")
     @Comment("Not functional until 1.1")
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var sculk_spreading: Boolean? = false,
 
     @JvmField
@@ -90,6 +93,7 @@ Warning: It is important to check the contents of each config before enabling th
     @JvmField
     @FieldIdentifier(identifier = "structure")
     @Comment("Not functional until 1.1")
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var structure: Boolean? = false,
 
     @JvmField

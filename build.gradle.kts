@@ -200,9 +200,14 @@ repositories {
         dirs("libs")
     }
     mavenCentral()
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        name = "sonatype-oss-snapshots"
+    }
 }
 
 dependencies {
+    vineflowerDecompilerClasspath("org.vineflower:vineflower:1.10.0-SNAPSHOT")
+
     // To change the versions see the gradle.properties file
     minecraft("com.mojang:minecraft:${minecraft_version}")
     mappings(
