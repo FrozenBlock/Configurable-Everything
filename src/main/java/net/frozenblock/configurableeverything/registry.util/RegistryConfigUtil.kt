@@ -6,9 +6,9 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.RegistryConfig
 import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 
-object RegistryConfigUtil {
+internal object RegistryConfigUtil {
 
-    fun init() {
+    internal fun init() {
         val config = RegistryConfig.get()
         if (MainConfig.get().registry == true) {
             RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->

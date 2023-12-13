@@ -18,21 +18,15 @@ import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
 
 object DataFixerUtil {
 
-    @JvmStatic
-    val SCHEMAS: MutableList<SchemaEntry?> = ArrayList()
-        get() {
-            val list = ArrayList(field)
-            DataFixerConfig.get().schemas?.value?.apply { list.addAll(this) }
-            return list
-        }
+    @JvmField
+    val SCHEMAS: MutableList<SchemaEntry?> = ArrayList().also {
+        DataFixerConfig.get().schemas?.value?.apply { it.addAll(this) }
+    }
 
-    @JvmStatic
-    val REGISTRY_FIXERS: MutableList<RegistryFixer?> = ArrayList()
-        get() {
-            val list = ArrayList(field)
-            DataFixerConfig.get().registryFixers?.value?.apply { list.addAll(this) }
-            return list
-        }
+    @JvmField
+    val REGISTRY_FIXERS: MutableList<RegistryFixer?> = ArrayList().also {
+        DataFixerConfig.get().registryFixers?.value?.apply { it.addAll(this) }
+    }
 
     // doesnt need jvmstatic because its never called in java
 	internal fun applyDataFixes(mod: ModContainer?) {

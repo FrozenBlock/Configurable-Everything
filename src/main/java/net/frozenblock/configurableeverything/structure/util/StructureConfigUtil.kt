@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.structure.StructureSet
 import net.minecraft.world.level.levelgen.structure.StructureSet.StructureSelectionEntry
 import java.util.*
 
-fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
+internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
     if (!ENABLE_EXPERIMENTAL_FEATURES) return@runBlocking original
     val config = StructureConfig.get()
     if (MainConfig.get().structure != true) return@runBlocking original
@@ -30,7 +30,7 @@ fun modifyStructureList(original: List<StructureSelectionEntry>): List<Structure
     return@runBlocking Collections.unmodifiableList(newList)
 }
 
-fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
+internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
     if (!ENABLE_EXPERIMENTAL_FEATURES) return@runBlocking original
     val config = StructureConfig.get()
     if (MainConfig.get().structure != true) return@runBlocking original
