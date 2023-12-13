@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.JsonOps
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener
@@ -25,16 +26,20 @@ import java.io.IOException
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
-object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
+@PublishedApi
+internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
+    @JvmField
     private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")
     private const val DIRECTORY = "biome_modifications"
     @JvmStatic
     fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation =
         ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
 
+    @JvmField
     private var changes: MutableMap<ResourceLocation?, BiomeChange?>? = null
+    @JvmField
     private val queuedChanges: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
-    fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.stream()?.toList()
+    fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.toList()?.stream()?.toList()
 
     fun getChange(id: ResourceLocation?): BiomeChange? = changes?.get(id)
 
@@ -82,11 +87,10 @@ object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
         }
     }
 
-    override fun getFabricId(): ResourceLocation {
-        return id("biome_change_reloader")
-    }
+    override fun getFabricId(): ResourceLocation
+        = id("biome_change_reloader")
 
-    class BiomeChangeLoader(private val manager: ResourceManager?, private val profiler: ProfilerFiller?) {
+    internal class BiomeChangeLoader(private val manager: ResourceManager?, private val profiler: ProfilerFiller?) {
         val changes: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
 
         init {
@@ -114,7 +118,7 @@ object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
             profiler?.pop()
         }
 
-        private fun loadChanges(json5: Boolean) = runBlocking {
+        private suspend fun loadChanges(json5: Boolean) = coroutineScope {
             val resources = manager?.listResources(DIRECTORY) { id: ResourceLocation -> id.path.endsWith(if (json5) ".json5" else ".json") }
             val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
             entrySet?.forEach { (key, value) ->

@@ -14,7 +14,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
  *
  * Planned for 1.1
  */
-sealed class ConfigData<T : Any?>(val config: Config<T>?) {
+sealed class ConfigData<T : Any?>(@JvmField val config: Config<T>?) {
     data object MAIN : ConfigData<MainConfig>(MainConfig)
     data object BIOME : ConfigData<BiomeConfig>(BiomeConfig)
     data object BIOME_PLACEMENT : ConfigData<BiomePlacementConfig>(BiomePlacementConfig)

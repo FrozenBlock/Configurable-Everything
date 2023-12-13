@@ -74,7 +74,13 @@ abstract class CEScript {
 object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
     defaultImports(defaultImports)
-    if (ENABLE_EXPERIMENTAL_FEATURES) defaultImports(DependsOn::class, Repository::class)
+    if (ENABLE_EXPERIMENTAL_FEATURES)
+        defaultImports(
+            DependsOn::class,
+            Repository::class,
+            Import::class,
+            CompilerOptions::class,
+        )
     baseClass(CEScript::class)
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)
@@ -100,7 +106,13 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
         // the callback called when any of the listed file-level annotations are encountered in the compiled script
         // the processing is defined by the `handler`, that may return refined configuration depending on the annotations
         if (ENABLE_EXPERIMENTAL_FEATURES)
-            onAnnotations(DependsOn::class, Repository::class, handler = ::configureMavenDepsOnAnnotations)
+            onAnnotations(
+                DependsOn::class,
+                Repository::class,
+                Import::class,
+                CompilerOptions::class
+                handler = ::configureMavenDepsOnAnnotations
+            )
     }
 })
 

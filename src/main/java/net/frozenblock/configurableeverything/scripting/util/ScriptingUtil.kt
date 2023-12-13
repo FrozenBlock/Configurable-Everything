@@ -45,9 +45,15 @@ private sealed class ScriptType(val envType: EnvType?) {
 
 internal object ScriptingUtil {
 
+    @JvmField
+    private val COMPILED_SCRIPTS: MutableList<String>? = StringList()
+    @JvmField
     private val SCRIPTS_TO_EVAL: MutableMap<CompiledScript, File> = mutableMapOf()
 
-    private suspend fun compileScript(script: File, type: ScriptType) {
+    private suspend fun compileScript(script: File, type: ScriptType, addToBuffer: Boolean = true): (CompiledScript, File) {
+        if (COMPILED_SCRIPTS?.contains(script.pathString)) return
+        COMPILED_SCRIPTS?.add(script.pathString)
+
         val envType = type.envType
         if (envType != null && envType != FabricLoader.getInstance().environmentType) return
 
@@ -62,9 +68,11 @@ internal object ScriptingUtil {
             BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
             val remappedFile: File = Remapping.remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
-            SCRIPTS_TO_EVAL[remappedScript] = remappedFile
-        } else
-            SCRIPTS_TO_EVAL[compiledScript] = script
+            if (addToBuffer) SCRIPTS_TO_EVAL[remappedScript] = remappedFile
+            return (remappedScript, remappedFile)
+        }        
+        if (addToBuffer) SCRIPTS_TO_EVAL[compiledScript] = script
+        return (compiledScript, script)
     }
 
     fun runScripts() {
@@ -74,6 +82,7 @@ internal object ScriptingUtil {
         compileScripts(KOTLIN_SCRIPT_PATH, ScriptType.COMMON)
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             compileScripts(KOTLIN_CLIENT_SCRIPT_PATH, ScriptType.CLIENT)
+        COMPILED_SCRIPTS.clear(); COMPILED_SCRIPTS = null
 
         // verify the scripts don't use remapped sources
         REMAPPED_SOURCES_CACHE.toFile().recreateDir()
@@ -98,14 +107,23 @@ internal object ScriptingUtil {
         }
     }
 
+    private fun forceRunScript(file: File, type: ScriptType) {
+        val (compiledScript, compiledFile) = compileScript(file, type, addToBuffer = false)
+        evalScript(compiledScript, compiledFile)
+    }
+
+    private suspend fun evalScript(script: CompiledScript, file: File) {
+        try {
+            val result = BasicJvmScriptEvaluator()(script, CEScriptEvaluationConfig)
+            result.logReports()
+        } catch (e: Exception) {
+            logError("Error while running script file $file")
+        }
+    }
+
     private suspend fun evalScripts() {
         for ((script, file) in SCRIPTS_TO_EVAL) {
-            try {
-                val result = BasicJvmScriptEvaluator()(script, CEScriptEvaluationConfig)
-                result.logReports()
-            } catch (e: Exception) {
-                logError("Error while running script $file", e)
-            }
+            evalScript(script, file)
         }
         SCRIPTS_TO_EVAL.clear()
     }

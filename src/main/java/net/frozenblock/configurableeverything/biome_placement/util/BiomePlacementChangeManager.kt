@@ -27,13 +27,11 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
 @PublishedApi
-internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomePlacementChangeLoader> {
+internal object BiomePlacementChangeManager : SimpleResourceReloadListener<BiomePlacementChangeLoader> {
     companion object {
+        @JvmField
         private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Placement Change Manager")
         private const val DIRECTORY = "biome_placement"
-
-        @JvmField
-        val INSTANCE = BiomePlacementChangeManager()
 
         @JvmStatic
         fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation {
@@ -41,7 +39,9 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
         }
     }
 
+    @JvmField
     private var changes: MutableMap<ResourceLocation?, BiomePlacementChange?>? = null
+    @JvmField
     private val queuedChanges: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 
     fun getChanges(): MutableList<BiomePlacementChange?>? = changes?.values?.stream()?.toList()
@@ -98,7 +98,10 @@ internal class BiomePlacementChangeManager : SimpleResourceReloadListener<BiomeP
 
     override fun getFabricId(): ResourceLocation = id("biome_placement_change_reloader")
 
-    class BiomePlacementChangeLoader(private val manager: ResourceManager?, private val profiler: ProfilerFiller?) {
+    class BiomePlacementChangeLoader(
+        @JvmField private val manager: ResourceManager?,
+        @JvmField private val profiler: ProfilerFiller?
+    ) {
         val changes: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 
         init {
