@@ -4,13 +4,13 @@ import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
-import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.monster.warden.WardenAi
 
@@ -24,7 +24,7 @@ private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake?>> = Confi
 @UnsyncableConfig
 data class ScreenShakeConfig(
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var soundScreenShakes: TypedEntry<List<SoundScreenShake?>>? = TypedEntry(
         SOUND_SCREEN_SHAKE,
         listOf(
@@ -81,11 +81,11 @@ data class ScreenShakeConfig(
     ),
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var dragonRespawnScreenShake: Boolean? = true,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var explosionScreenShake: Boolean? = true
 ) {
     companion object : JsonConfig<ScreenShakeConfig>(

@@ -3,34 +3,35 @@ package net.frozenblock.configurableeverything.config
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.*
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
 @UnsyncableConfig
 data class WorldConfig(
     @JvmField
-    @FieldIdentifier(identifier = "dayTimeSpeedAmplifier")
+    @EntrySyncData("dayTimeSpeedAmplifier")
     @Comment("Does not modify tick rate. Only modifies daytime speed.")
     var dayTimeSpeedAmplifier: Long? = 1,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var fixSunMoonRotating: Boolean? = false,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Incompatible with mod Bedrockify.")
     var sunSize: Int? = 300,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var moonSize: Int? = 200,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Disables the experimental warning screen when creating or loading worlds.")
     var disableExperimentalWarning: Boolean? = false,
 ) {

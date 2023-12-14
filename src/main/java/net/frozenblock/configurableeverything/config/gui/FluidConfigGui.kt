@@ -9,7 +9,6 @@ import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.FluidConfig
-import net.frozenblock.configurableeverything.config.MixinsConfig
 import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text

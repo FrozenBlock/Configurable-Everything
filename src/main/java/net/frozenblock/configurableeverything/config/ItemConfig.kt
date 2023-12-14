@@ -6,13 +6,12 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.FieldIdentifier
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.item.Items
 
@@ -26,7 +25,7 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride?>> = Con
 @UnsyncableConfig
 data class ItemConfig(
     @JvmField
-    @FieldIdentifier(identifier = "reachOverrides")
+    @EntrySyncData("reachOverrides")
     var reachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
         ITEM_REACH_OVERRIDES,
         listOf(

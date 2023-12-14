@@ -10,13 +10,12 @@ import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingData
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.FieldIdentifier
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
@@ -41,7 +40,7 @@ private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = Co
 @UnsyncableConfig
 data class BiomePlacementConfig(
 	@JvmField
-	@FieldIdentifier(identifier = "addedBiomes")
+	@EntrySyncData("addedBiomes")
 	@Comment(
 """
 Add any biome to worldgen, with the parameters set.
@@ -91,7 +90,7 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 	),
 
 	@JvmField
-	@FieldIdentifier(identifier = "removedBiomes")
+	@EntrySyncData("removedBiomes")
 	@Comment(
 """
 Remove any biome from worldgen

@@ -5,14 +5,13 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.FieldIdentifier
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
-import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -55,7 +54,7 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRe
 @UnsyncableConfig
 data class EntityConfig(
     @JvmField
-    @FieldIdentifier(identifier = "entityAttributeAmplifiers")
+    @EntrySyncData("entityAttributeAmplifiers")
     var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         listOf(
@@ -73,7 +72,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier(identifier = "experienceOverrides")
+    @EntrySyncData("experienceOverrides")
     var experienceOverrides: TypedEntry<List<ExperienceOverride?>>? = TypedEntry(
         EXPERIENCE_OVERRIDES,
         listOf(
@@ -85,7 +84,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier(identifier = "entityFlyBySounds")
+    @EntrySyncData("entityFlyBySounds")
     var entityFlyBySounds: TypedEntry<List<EntityFlyBySound?>>? = TypedEntry(
         ENTITY_FLYBY_SOUNDS,
         listOf(
@@ -174,7 +173,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier(identifier = "entityHurtEffects")
+    @EntrySyncData("entityHurtEffects")
     var entityHurtEffects: TypedEntry<List<EntityHurtEffects?>>? = TypedEntry(
         ENTITY_HURT_EFFECTS,
         listOf(
@@ -196,7 +195,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
         SPOTTING_ICONS,
         listOf(
@@ -210,7 +209,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @FieldIdentifier(identifier = "flamingArrowsLightFire")
+    @EntrySyncData("flamingArrowsLightFire")
     var flamingArrowsLightFire: Boolean? = false,
 
     @JvmField
@@ -242,7 +241,7 @@ data class EntityConfig(
 
     data class PlayerConfig(
         @JvmField
-        @FieldIdentifier(identifier = "digSpeedAmplifier")
+        @EntrySyncData("digSpeedAmplifier")
         var digSpeedAmplifier: Int? = 100
     ) {
         inline val digSpeed: Double // acts as a getter method
@@ -254,37 +253,37 @@ data class EntityConfig(
 
     data class ZombieConfig(
         @JvmField
-        @UnsyncableEntry
+        @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
 		var babyZombieSprintParticles: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier(identifier = "zombiesAvoidSun")
+        @EntrySyncData("zombiesAvoidSun")
 		var zombiesAvoidSun: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier(identifier = "ignoreDoorBreakDifficulty")
+        @EntrySyncData("ignoreDoorBreakDifficulty")
 		var ignoreDoorBreakDifficulty: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier(identifier = "allZombiesBreakDoors")
+        @EntrySyncData("allZombiesBreakDoors")
 		var allZombiesBreakDoors: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier(identifier = "ignoreReinforcementDifficulty")
+        @EntrySyncData("ignoreReinforcementDifficulty")
         var ignoreReinforcementDifficulty: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier(identifier = "fullReinforcementChance")
+        @EntrySyncData("fullReinforcementChance")
 		var fullReinforcementChance: Boolean? = false
     )
 
     data class SkeletonConfig(
         @JvmField
-        @FieldIdentifier(identifier = "skeletonAccuracyIgnoresDifficulty")
+        @EntrySyncData("skeletonAccuracyIgnoresDifficulty")
 		var skeletonAccuracyIgnoresDifficulty: Boolean? = false,
 
         @JvmField
-        @FieldIdentifier(identifier = "skeletonsAvoidSun")
+        @EntrySyncData("skeletonsAvoidSun")
 		var skeletonsAvoidSun: Boolean? = true
     )
 }

@@ -8,12 +8,12 @@ import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingData
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.FieldIdentifier
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
@@ -42,7 +42,7 @@ private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry
 @UnsyncableConfig
 data class BiomeConfig(
 	@JvmField
-	@FieldIdentifier(identifier = "addedFeatures")
+	@EntrySyncData("addedFeatures")
 	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
@@ -72,7 +72,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	@FieldIdentifier(identifier = "removedFeatures")
+	@EntrySyncData("removedFeatures")
 	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
@@ -102,7 +102,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	@FieldIdentifier(identifier = "replacedFeatures")
+	@EntrySyncData("replacedFeatures")
 	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList?>>? = TypedEntry(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
@@ -138,7 +138,7 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	@FieldIdentifier(identifier = "musicReplacements")
+	@EntrySyncData("musicReplacements")
 	var musicReplacements: TypedEntry<List<BiomeMusic?>>? = TypedEntry(
 		BIOME_MUSIC_LIST,
 		listOf(
