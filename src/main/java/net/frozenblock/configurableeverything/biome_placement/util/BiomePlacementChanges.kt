@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation
 object BiomePlacementChanges {
 
     @PublishedApi
-    internal val MANAGER = BiomePlacementChangeManager.INSTANCE
+    internal val MANAGER = BiomePlacementChangeManager
 
     @JvmStatic
     inline val changes: List<BiomePlacementChange?>? get() = MANAGER.getChanges()

@@ -14,7 +14,7 @@ class CEMixinPlugin : IMixinConfigPlugin {
 
     override fun shouldApplyMixin(targetClassName: String, mixinClassName: String): Boolean {
         val config = MixinsConfig.get()
-        val isClient = FabricLoader.getInstance().environmentType == EnvType.CLIENT
+        val isClient = FabricLoader.getInstance().environmentType === EnvType.CLIENT
         if (mixinClassName.contains("biome_placement.mixin")) return config.biome_placement == true
         if (mixinClassName.contains("datafixer.mixin")) return config.datafixer == true
         if (mixinClassName.contains("datapack.mixin")) return config.datapack == true

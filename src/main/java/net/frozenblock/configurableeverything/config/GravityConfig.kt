@@ -5,16 +5,14 @@ import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.FieldIdentifier
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
 private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBelt?>> = ConfigRegistry.register(
@@ -27,7 +25,7 @@ private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBel
 @UnsyncableConfig
 data class GravityConfig(
     @JvmField
-    @FieldIdentifier(identifier = "gravityBelts")
+    @EntrySyncData("gravityBelts")
     var gravityBelts: TypedEntry<List<DimensionGravityBelt?>>? = TypedEntry(
         DIMENSION_GRAVITY_BELT_LIST,
         listOf(

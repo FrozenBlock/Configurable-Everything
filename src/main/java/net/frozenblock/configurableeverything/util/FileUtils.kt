@@ -30,7 +30,7 @@ fun File.addToJar(jar: File) {
     }
 }
 
-inline fun File.removeFromJar(transform: (JarEntry) -> Boolean) {
+inline fun File.removeFromJar(crossinline transform: (JarEntry) -> Boolean) {
     val tempFile = File.createTempFile("temp", ".jar")
     JarOutputStream(FileOutputStream(tempFile).buffered()).use { jarOut ->
         JarInputStream(FileInputStream(this).buffered()).use { jarIn ->

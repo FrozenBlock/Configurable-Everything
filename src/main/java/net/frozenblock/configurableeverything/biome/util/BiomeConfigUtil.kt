@@ -11,7 +11,7 @@ import net.frozenblock.configurableeverything.util.id
 import net.minecraft.server.packs.PackType
 import java.util.function.Consumer
 
-object BiomeConfigUtil {
+internal object BiomeConfigUtil {
 
 	internal fun init() {
         val config = BiomeConfig.get()
@@ -29,21 +29,21 @@ object BiomeConfigUtil {
     internal fun applyModifications(changes: Collection<BiomeChange?>?) = runBlocking {
         val modification: BiomeModification = BiomeModifications.create(id("feature_modifications"))
         changes?.forEach { change -> launch {
-            change?.apply {
+            change?.also { change ->
                 // FEATURES
                 launch {
-                    initAddedFeatures(this@apply, modification)
+                    initAddedFeatures(change, modification)
                 }
                 launch {
-                    initRemovedFeatures(this@apply, modification)
+                    initRemovedFeatures(change, modification)
                 }
                 launch {
-                    initReplacedFeatures(this@apply, modification)
+                    initReplacedFeatures(change, modification)
                 }
 
                 // EFFECTS
                 launch {
-                    initReplacedMusic(this@apply, modification)
+                    initReplacedMusic(change, modification)
                 }
             }
         } }

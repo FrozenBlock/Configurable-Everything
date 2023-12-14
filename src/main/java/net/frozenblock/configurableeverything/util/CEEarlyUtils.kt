@@ -28,7 +28,7 @@ fun makeConfigPath(name: String?): Path = makeConfigPath(name, true)
 
 // extended features
 
-inline fun <T : Any?> ifExtended(value: () -> T): T? {
+inline fun <T : Any?> ifExtended(crossinline value: () -> T): T? {
     return if (HAS_EXTENSIONS)
         value()
     else null
@@ -43,12 +43,12 @@ internal inline val EXPERIMENTAL_EXCEPTION: Exception
 fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
     else throw EXPERIMENTAL_EXCEPTION
 
-inline fun <T> experimental(value: () -> T): T {
-    if (ENABLE_EXPERIMENTAL_FEATURES) return value.invoke()
+inline fun <T> experimental(crossinline value: () -> T): T {
+    if (ENABLE_EXPERIMENTAL_FEATURES) return value()
     throw EXPERIMENTAL_EXCEPTION
 }
 
-inline fun <T : Any?> ifExperimental(value: () -> T): T? {
+inline fun <T : Any?> ifExperimental(crossinline value: () -> T): T? {
     return if (ENABLE_EXPERIMENTAL_FEATURES)
         value()
     else null
@@ -58,19 +58,21 @@ inline fun <T : Any?> ifExperimental(value: () -> T): T? {
 // environment
 
 
+// dont mark as inline
 @Environment(EnvType.CLIENT)
 fun <T : Any?> clientOrThrow(value: () -> T): T = value()
 
-inline fun <T : Any?> ifClient(value: () -> T): T? {
+inline fun <T : Any?> ifClient(crossinline value: () -> T): T? {
     if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
         return value()
     return null
 }
 
+// dont mark as inline
 @Environment(EnvType.SERVER)
 fun <T : Any?> serverOrThrow(value: () -> T): T = value()
 
-inline fun <T : Any?> ifServer(value: () -> T): T? {
+inline fun <T : Any?> ifServer(crossinline value: () -> T): T? {
     if (FabricLoader.getInstance().environmentType == EnvType.SERVER)
         return value()
     return null

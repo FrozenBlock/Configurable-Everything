@@ -17,9 +17,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.level.entity.EntityAccess
 
-object EntityConfigUtil {
+internal object EntityConfigUtil {
 
-	fun init() = runBlocking {
+	internal fun init() = runBlocking {
         val config = EntityConfig.get()
         // only run this on client
         if (MainConfig.get().entity != true || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return@runBlocking
@@ -44,7 +44,7 @@ object EntityConfigUtil {
     }
 
     @JvmStatic
-    fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
+    internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
         val config = EntityConfig.get()
         if (MainConfig.get().entity != true) return@runBlocking
         config.entityAttributeAmplifiers?.value()?.apply {

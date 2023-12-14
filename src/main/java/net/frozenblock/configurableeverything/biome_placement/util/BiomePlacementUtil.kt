@@ -25,7 +25,7 @@ object BiomePlacementUtil {
 
     fun init() {
         val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-        resourceLoader?.registerReloadListener(BiomePlacementChangeManager.INSTANCE)
+        resourceLoader?.registerReloadListener(BiomePlacementChangeManager)
     }
 
     @JvmStatic

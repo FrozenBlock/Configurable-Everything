@@ -8,14 +8,13 @@ import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.annotation.FieldIdentifier
-import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
-import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
+import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
@@ -37,7 +36,7 @@ private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRe
 @UnsyncableConfig
 data class DataFixerConfig(
     @JvmField
-    @FieldIdentifier(identifier = "overrideRealEntries")
+    @EntrySyncData("overrideRealEntries")
     @Comment(
 """
 Allows registry fixers (not schemas) to convert all IDs
@@ -49,7 +48,7 @@ WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CA
     var overrideRealEntries: Boolean? = false,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment(
 """
 The data fixer's main data version. Increment this when you add a new schema.
@@ -59,7 +58,7 @@ Any schemas with a data version higher than this will be ignored.
     var dataVersion: Int? = 0,
 
     @JvmField
-    @UnsyncableEntry
+    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment(
 """
 The list of schemas to use for data fixing.
@@ -133,7 +132,7 @@ However, if the old id is still found in the registry, it will not be replaced.
     ),
 
     @JvmField
-    @FieldIdentifier(identifier = "registryFixers")
+    @EntrySyncData("registryFixers")
     @Comment(
 """
 The list of registry fixers to use for data fixing.

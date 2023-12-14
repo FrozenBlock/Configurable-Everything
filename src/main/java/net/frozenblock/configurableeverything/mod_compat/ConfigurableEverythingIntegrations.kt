@@ -7,26 +7,27 @@ import net.frozenblock.lib.integration.api.ModIntegrationSupplier
 import net.frozenblock.lib.integration.api.ModIntegrations
 import java.util.function.Supplier
 
-object ConfigurableEverythingIntegrations {
+internal object ConfigurableEverythingIntegrations {
 
-    val FROZENLIB_INTEGRATION: ModIntegration = registerAndGet({ FrozenLibIntegration }, "frozenlib")
+    @JvmField
+    internal val FROZENLIB_INTEGRATION: ModIntegration = registerAndGet({ FrozenLibIntegration }, "frozenlib")
 
-    fun register(
-        integration: Supplier<out ModIntegration?>?,
+    inline fun register(
+        crossinline integration: () -> ModIntegration?,
         modID: String?
     ): ModIntegrationSupplier<out ModIntegration> {
-        return ModIntegrations.register(integration, MOD_ID, modID)
+        return ModIntegrations.register(Supplier { integration() }, MOD_ID, modID)
     }
 
-    fun <T : ModIntegration?> register(
-        integration: Supplier<T>?,
-        unloadedIntegration: Supplier<T>?,
+    inline fun <T : ModIntegration?> register(
+        crossinline integration: () -> T?,
+        crossinline unloadedIntegration: () -> T?,
         modID: String?
     ): ModIntegrationSupplier<T> {
-        return ModIntegrations.register(integration, unloadedIntegration, MOD_ID, modID)
+        return ModIntegrations.register(Supplier { integration() }, Supplier { unloadedIntegration() }, MOD_ID, modID)
     }
 
-    fun <T : ModIntegration?> registerAndGet(integration: Supplier<T>?, modID: String?): ModIntegration {
-        return ModIntegrations.register(integration, MOD_ID, modID).integration
+    fun <T : ModIntegration?> registerAndGet(integration: () -> T?, modID: String?): ModIntegration {
+        return ModIntegrations.register(Supplier { integration() }, MOD_ID, modID).integration
     }
 }

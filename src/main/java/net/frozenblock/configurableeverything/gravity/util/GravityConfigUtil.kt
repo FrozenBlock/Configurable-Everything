@@ -12,9 +12,9 @@ import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.dimension.DimensionType
 
-object GravityConfigUtil {
+internal object GravityConfigUtil {
 
-    fun init() = runBlocking {
+    internal fun init() = runBlocking {
         experimentalOrThrow()
 
         val config = GravityConfig.get()
