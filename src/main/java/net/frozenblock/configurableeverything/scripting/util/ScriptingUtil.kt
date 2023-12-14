@@ -38,24 +38,22 @@ private fun ResultWithDiagnostics<*>.logReports() {
     }
 }
 
-private sealed class ScriptType(val envType: EnvType?) {
+internal sealed class ScriptType(val envType: EnvType?) {
     data object CLIENT : ScriptType(EnvType.CLIENT)
     data object COMMON : ScriptType(null)
 }
 
 internal object ScriptingUtil {
 
-    @JvmField
-    private val COMPILED_SCRIPTS: MutableList<String>? = StringList()
-    @JvmField
+    private var COMPILED_SCRIPTS: MutableList<String>? = mutableListOf()
     private val SCRIPTS_TO_EVAL: MutableMap<CompiledScript, File> = mutableMapOf()
 
-    private suspend fun compileScript(script: File, type: ScriptType, addToBuffer: Boolean = true): (CompiledScript, File) {
-        if (COMPILED_SCRIPTS?.contains(script.pathString)) return
-        COMPILED_SCRIPTS?.add(script.pathString)
+    private suspend fun compileScript(script: File, type: ScriptType, addToBuffer: Boolean = true): Pair<CompiledScript, File>? {
+        if (COMPILED_SCRIPTS?.contains(script.path) == true) return null
+        COMPILED_SCRIPTS?.add(script.path)
 
         val envType = type.envType
-        if (envType != null && envType != FabricLoader.getInstance().environmentType) return
+        if (envType != null && envType != FabricLoader.getInstance().environmentType) return null
 
         val compilationConfiguration = CEScriptCompilationConfig
         val evaluationConfiguration = CEScriptEvaluationConfig
@@ -69,20 +67,20 @@ internal object ScriptingUtil {
             val remappedFile: File = Remapping.remapScript(file)
             val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
             if (addToBuffer) SCRIPTS_TO_EVAL[remappedScript] = remappedFile
-            return (remappedScript, remappedFile)
-        }        
+            return Pair(remappedScript, remappedFile)
+        }
         if (addToBuffer) SCRIPTS_TO_EVAL[compiledScript] = script
-        return (compiledScript, script)
+        return Pair(compiledScript, script)
     }
 
     fun runScripts() {
-        log("Running scripts")
         if (MainConfig.get().scripting != true || ScriptingConfig.get().applyKotlinScripts != true)
             return
+        log("Running scripts")
         compileScripts(KOTLIN_SCRIPT_PATH, ScriptType.COMMON)
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             compileScripts(KOTLIN_CLIENT_SCRIPT_PATH, ScriptType.CLIENT)
-        COMPILED_SCRIPTS.clear(); COMPILED_SCRIPTS = null
+        COMPILED_SCRIPTS?.clear(); COMPILED_SCRIPTS = null
 
         // verify the scripts don't use remapped sources
         REMAPPED_SOURCES_CACHE.toFile().recreateDir()
@@ -107,8 +105,10 @@ internal object ScriptingUtil {
         }
     }
 
-    private fun forceRunScript(file: File, type: ScriptType) {
-        val (compiledScript, compiledFile) = compileScript(file, type, addToBuffer = false)
+    @Throws(Exception::class)
+    internal suspend fun forceRunScript(file: File, type: ScriptType) {
+        val (compiledScript, compiledFile) = runBlocking { compileScript(file, type, addToBuffer = false) }
+            ?: throw Exception("Unable to compile script $file")
         evalScript(compiledScript, compiledFile)
     }
 

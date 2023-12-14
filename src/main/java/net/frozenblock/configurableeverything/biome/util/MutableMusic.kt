@@ -35,7 +35,7 @@ data class MutableMusic(
         val CODEC: Codec<MutableMusic> = RecordCodecBuilder.create { instance ->
             instance.group(
                 SoundEvent.CODEC.optionalFieldOf("sound").forGetter { Optional.ofNullable(it.event) },
-                Codec.INT.optionalFieldOf("min_delay").forGetter { Optional.ofNullable(it.minDelay },
+                Codec.INT.optionalFieldOf("min_delay").forGetter { Optional.ofNullable(it.minDelay) },
                 Codec.INT.optionalFieldOf("max_delay").forGetter { Optional.ofNullable(it.maxDelay) },
                 Codec.BOOL.optionalFieldOf("replace_current_music").forGetter { Optional.ofNullable(it.replaceCurrentMusic) }
             ).apply(instance, ::MutableMusic)
@@ -43,7 +43,7 @@ data class MutableMusic(
     }
 }
 
-fun Music?.mutable(): MutableMusic = MutableMusic(this.event, this.minDelay, this.maxDelay, this.replaceCurrentMusic())
+fun Music?.mutable(): MutableMusic = MutableMusic(this?.event, this?.minDelay, this?.maxDelay, this?.replaceCurrentMusic())
 
 fun MutableMusic?.immutable(): Music? {
     if (this == null) return null

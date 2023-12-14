@@ -6,10 +6,17 @@ import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.lib.config.api.annotation.UnsyncableConfig
 import net.frozenblock.lib.config.api.annotation.UnsyncableEntry
+import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.frozenblock.lib.shadow.blue.endless.jankson.annotation.SaveToggle
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.dimension.DimensionType
+import kotlin.reflect.jvm.jvmName
 
 @UnsyncableConfig
 data class ScriptingConfig(
@@ -27,12 +34,17 @@ data class ScriptingConfig(
         "net.frozenblock.configurableeverything.scripting.util.*",
     ).apply {
         ifExperimental {
-            this.add("net.frozenblock.lib.config.api.instance.ConfigModification")
             this.add("net.minecraft.core.*")
             this.add("net.minecraft.core.registries.*")
-            this.add("net.minecraft.resources.ResourceKey")
-            this.add("net.minecraft.resources.ResourceLocation")
-            this.add("net.minecraft.world.level.dimension.DimensionType")
+            this.addAll(setOf(
+                ConfigModification::class,
+                ResourceKey::class,
+                ResourceLocation::class,
+                Block::class,
+                BlockBehaviour::class,
+                BlockBehaviour.Properties::class,
+                DimensionType::class,
+            ).map { it.jvmName.replace('$', '.') })
         }
     },
 

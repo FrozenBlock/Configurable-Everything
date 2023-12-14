@@ -28,20 +28,15 @@ import java.util.concurrent.Executor
 
 @PublishedApi
 internal object BiomePlacementChangeManager : SimpleResourceReloadListener<BiomePlacementChangeLoader> {
-    companion object {
-        @JvmField
-        private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Placement Change Manager")
-        private const val DIRECTORY = "biome_placement"
+    private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Placement Change Manager")
+    private const val DIRECTORY = "biome_placement"
 
-        @JvmStatic
-        fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation {
-            return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
-        }
+    @JvmStatic
+    fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation {
+        return ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
     }
 
-    @JvmField
     private var changes: MutableMap<ResourceLocation?, BiomePlacementChange?>? = null
-    @JvmField
     private val queuedChanges: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 
     fun getChanges(): MutableList<BiomePlacementChange?>? = changes?.values?.stream()?.toList()
@@ -99,8 +94,8 @@ internal object BiomePlacementChangeManager : SimpleResourceReloadListener<Biome
     override fun getFabricId(): ResourceLocation = id("biome_placement_change_reloader")
 
     class BiomePlacementChangeLoader(
-        @JvmField private val manager: ResourceManager?,
-        @JvmField private val profiler: ProfilerFiller?
+        private val manager: ResourceManager?,
+        private val profiler: ProfilerFiller?
     ) {
         val changes: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 

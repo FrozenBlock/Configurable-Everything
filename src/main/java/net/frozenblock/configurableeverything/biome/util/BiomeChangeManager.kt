@@ -28,25 +28,23 @@ import java.util.concurrent.Executor
 
 @PublishedApi
 internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoader> {
-    @JvmField
     private val LOGGER = LoggerFactory.getLogger("Configurable Everything Biome Change Manager")
     private const val DIRECTORY = "biome_modifications"
     @JvmStatic
     fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation =
         ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
 
-    @JvmField
     private var changes: MutableMap<ResourceLocation?, BiomeChange?>? = null
-    @JvmField
     private val queuedChanges: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
-    fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.toList()?.stream()?.toList()
+    @PublishedApi
+    internal fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.toList()?.stream()?.toList()
 
-    fun getChange(id: ResourceLocation?): BiomeChange? = changes?.get(id)
+    internal fun getChange(id: ResourceLocation?): BiomeChange? = changes?.get(id)
 
     /**
      * Adds a biome change with the specified [ResourceLocation]
      */
-    fun addChange(
+    internal fun addChange(
         key: ResourceLocation?,
         addedFeatures: List<BiomePlacedFeatureList?>?,
         removedFeatures: List<BiomePlacedFeatureList?>?,
@@ -57,7 +55,7 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
     /**
      * Adds a biome change with the specified [ResourceLocation]
      */
-    fun addChange(key: ResourceLocation?, change: BiomeChange?) {
+    internal fun addChange(key: ResourceLocation?, change: BiomeChange?) {
         if (key != null && change != null
             && change.addedFeatures != null && change.removedFeatures != null && change.replacedFeatures != null && change.musicReplacements != null) {
                 queuedChanges[key] = change

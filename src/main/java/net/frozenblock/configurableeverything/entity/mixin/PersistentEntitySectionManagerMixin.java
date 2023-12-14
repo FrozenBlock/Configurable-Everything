@@ -13,6 +13,6 @@ public class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
 
 	@Inject(method = "addEntity", at = @At(value = "RETURN", ordinal = 1))
 	private void addEntity(T entityAccess, boolean worldGenSpawned, CallbackInfoReturnable<Boolean> cir) {
-		EntityConfigUtil.addAttributeAmplifiers(entityAccess);
+		EntityConfigUtil.addAttributeAmplifiers$ConfigurableEverything(entityAccess);
 	}
 }
