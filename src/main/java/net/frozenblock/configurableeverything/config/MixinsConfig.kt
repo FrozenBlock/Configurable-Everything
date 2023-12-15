@@ -1,12 +1,14 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import net.frozenblock.lib.shadow.blue.endless.jankson.annotation.SaveToggle
 
 @UnsyncableConfig
 data class MixinsConfig(
@@ -41,8 +43,9 @@ Warning: Functionality will be lost if these are disabled.
     @JvmField
     var game_client: Boolean? = true,
 
-    //@JvmField
-    //var item: Boolean? = true,
+    @JvmField
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
+    var item: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
 
     @JvmField
     var screenshake: Boolean? = true,
@@ -55,8 +58,9 @@ Warning: Functionality will be lost if these are disabled.
     @Comment("Client only")
     var splash_text: Boolean? = true,
 
-    //@JvmField
-    //var structure: Boolean? = true,
+    @JvmField
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
+    var structure: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
 
     @JvmField
     var world: Boolean? = true,
