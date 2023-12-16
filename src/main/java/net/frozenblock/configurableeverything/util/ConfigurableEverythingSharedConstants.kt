@@ -16,7 +16,7 @@ internal const val MOD_NAME = "Configurable Everything"
  * Enables update 1.1
  */
 @PublishedApi
-internal const val ENABLE_EXPERIMENTAL_FEATURES = true
+internal const val ENABLE_EXPERIMENTAL_FEATURES = false
 
 internal val DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment
 
