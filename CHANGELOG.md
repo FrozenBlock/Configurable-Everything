@@ -21,6 +21,8 @@ Future changelog items:
   - Check the wiki for more information
 - Added the ability to import from other scripts
   - Check the wiki for more information
+- Added the ability to specify compiler options for scripts
+  - Check the wiki for more information
 
 Put changelog here:
 
