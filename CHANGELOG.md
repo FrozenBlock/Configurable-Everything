@@ -26,3 +26,4 @@ Put changelog here:
 
 -----------------
 - Removed options for future 1.1 update
+- Updated embedded FrozenLib to 1.5.2

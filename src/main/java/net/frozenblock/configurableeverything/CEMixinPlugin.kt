@@ -23,11 +23,11 @@ class CEMixinPlugin : IMixinConfigPlugin {
         if (mixinClassName.contains("fluid.mixin")) return config.fluid == true
         if (mixinClassName.contains("game.mixin.client")) return config.game_client == true
         if (mixinClassName.contains("game.mixin")) return config.game == true
-        if (mixinClassName.contains("item.mixin")) return ENABLE_EXPERIMENTAL_FEATURES
+        if (mixinClassName.contains("item.mixin")) return config.item == true
         if (mixinClassName.contains("screenshake.mixin.client")) return config.screenshake_client == true
         if (mixinClassName.contains("screenshake.mixin")) return config.screenshake == true
         if (mixinClassName.contains("splash_text.mixin")) return isClient && config.splash_text == true
-        if (mixinClassName.contains("structure.mixin")) return ENABLE_EXPERIMENTAL_FEATURES
+        if (mixinClassName.contains("structure.mixin")) return config.structure == true
         if (mixinClassName.contains("world.mixin.client")) return config.world_client == true
         if (mixinClassName.contains("world.mixin")) return config.world == true
         return true
