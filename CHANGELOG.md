@@ -27,5 +27,7 @@ Future changelog items:
 Put changelog here:
 
 -----------------
-- Removed options for future 1.1 update
-- Updated embedded FrozenLib to 1.5.2
+- Updated Kotlin to 1.9.22
+- Updated required FLK to 1.10.17
+- Updated Fabric Kotlin Extensions to 1.0.6
+- Updated embedded FrozenLib to 1.5.4
