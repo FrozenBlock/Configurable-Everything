@@ -55,7 +55,7 @@ internal object ScriptingUtil {
         val envType = type.envType
         if (envType != null && envType != FabricLoader.getInstance().environmentType) return null
 
-        val compilationConfiguration = CEScriptCompilationConfig
+        val compilationConfiguration = CEScriptCompilationConfig(type)
         val evaluationConfiguration = CEScriptEvaluationConfig
         val compiledScript: KJvmCompiledScript = JvmScriptCompiler()(
             script.toScriptSource(),

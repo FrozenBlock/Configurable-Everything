@@ -24,6 +24,24 @@ import kotlin.script.experimental.impl.internalScriptingRunSuspend
 import kotlin.script.experimental.jvm.*
 import kotlin.script.experimental.util.filterByAnnotationType
 
+@Environment(EnvType.CLIENT)
+@KotlinScript(
+    fileExtension = KOTLIN_SCRIPT_EXTENSION,
+    compilationConfiguration = CEScriptCompilationConfig::class,
+    evaluationConfiguration = CEScriptEvaluationConfig::class,
+)
+abstract class ClientCEScript : CEScript {
+
+    override fun runEachTick(tickFun: () -> Unit) {
+        super.runEachTick(tickFun)
+        runEachCLientTick(tickFun)
+    }
+
+    inline fun runEachClientTick(tickFun: () -> Unit) {
+        ClientTickEvents.START_CLIENT_TICK.register { tickFun() }
+    }
+}
+
 @KotlinScript(
     fileExtension = KOTLIN_SCRIPT_EXTENSION,
     compilationConfiguration = CEScriptCompilationConfig::class,
@@ -46,18 +64,17 @@ abstract class CEScript {
     @JvmField
     val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
 
-    inline fun clientOnly(crossinline `fun`: () -> Unit) {
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-            `fun`()
-    }
-
     /**
      * @since 1.1
      */
     inline fun runLate(priority: Int, noinline `fun`: () -> Unit)
         = experimental { POST_RUN_FUNS!![priority] = `fun` }
 
-    inline fun runEachTick(crossinline tickFun: () -> Unit) {
+    open fun runEachTick(tickFun: () -> Unit) {
+        runEachServerTick(tickFun)
+    }
+
+    inline fun runEachServerTick(crossinline tickFun: () -> Unit) {
         // TODO: add to client tick events if a client script
         ServerTickEvents.START_SERVER_TICK.register { tickFun() }
     }
@@ -69,7 +86,7 @@ abstract class CEScript {
     inline fun logError(message: Any?, e: Throwable?) = logger.error(message.toString(), e)
 }
 
-object CEScriptCompilationConfig : ScriptCompilationConfiguration({
+open class CEScriptCompilationConfig(type: ScriptType) : ScriptCompilationConfiguration({
     val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
     defaultImports(defaultImports)
     if (ENABLE_EXPERIMENTAL_FEATURES)
@@ -79,7 +96,10 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
             Import::class,
             CompilerOptions::class,
         )
-    baseClass(CEScript::class)
+    when (type) {
+        ScriptType.COMMON -> baseClass(CEScript::class)
+        ScriptType.CLIENT -> baseClass(ClientCEScript::class)
+    }
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)
     }
@@ -114,7 +134,7 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     }
 }) {
     // used for serialization for some reason
-    private fun readResolve(): Any = CEScriptCompilationConfig
+    private fun readResolve(): Any = CEScriptCompilationConfig(ScriptType.COMMON)
 }
 
 object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({
