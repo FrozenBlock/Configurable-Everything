@@ -13,7 +13,8 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 
 private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBelt?>> = ConfigRegistry.register(
     TypedEntryType(
@@ -30,10 +31,10 @@ data class GravityConfig(
         DIMENSION_GRAVITY_BELT_LIST,
         listOf(
             DimensionGravityBelt(
-                BuiltinDimensionTypes.OVERWORLD,
+                Level.OVERWORLD,
                 listOf(
-                    GravityBelt(128.0, 319.0, AbsoluteGravityFunction(0.1)),
-                    GravityBelt(500.0, Double.POSITIVE_INFINITY, AbsoluteGravityFunction(0.01))
+                    GravityBelt(128.0, 319.0, AbsoluteGravityFunction(Vec3(0.0, 0.1, 0.0))),
+                    GravityBelt(500.0, Double.POSITIVE_INFINITY, AbsoluteGravityFunction(Vec3(0.0, 0.01, 0.0)))
                 )
             )
         )

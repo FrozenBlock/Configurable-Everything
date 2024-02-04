@@ -6,11 +6,11 @@ import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.level.dimension.DimensionType
+import net.minecraft.world.level.Level
 
 data class DimensionGravityBelt(
     @JvmField
-    var dimension: ResourceKey<DimensionType>?,
+    var dimension: ResourceKey<Level>?,
 
     @JvmField
     var gravityBelts: List<GravityBelt<AbsoluteGravityFunction>?>?
@@ -19,7 +19,7 @@ data class DimensionGravityBelt(
         @JvmField
         val CODEC: Codec<DimensionGravityBelt> = RecordCodecBuilder.create { instance ->
             instance.group(
-                ResourceKey.codec(Registries.DIMENSION_TYPE).fieldOf("dimension").forGetter(DimensionGravityBelt::dimension),
+                ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(DimensionGravityBelt::dimension),
                 AbsoluteGravityFunction.BELT_CODEC.listOf().fieldOf("gravityBelts").forGetter(DimensionGravityBelt::gravityBelts)
             ).apply(instance, ::DimensionGravityBelt)
         }

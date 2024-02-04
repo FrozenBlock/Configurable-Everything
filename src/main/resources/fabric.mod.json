@@ -57,6 +57,7 @@
     "configurable_everything.fluid.mixins.json",
     "configurable_everything.game.mixins.json",
     "configurable_everything.item.mixins.json",
+    "configurable_everything.loot.mixins.json",
     "configurable_everything.screenshake.mixins.json",
     "configurable_everything.splash_text.mixins.json",
     "configurable_everything.structure.mixins.json",

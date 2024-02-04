@@ -9,6 +9,7 @@ import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
+import net.frozenblock.configurableeverything.loot.util.LootConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
 import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
@@ -46,6 +47,7 @@ class ConfigurableEverything : ModInitializer {
             ifExperimental {
                 GravityConfig
                 ItemConfig
+                LootConfig
             }
             ModProtocolConfig
             RegistryConfig
@@ -90,6 +92,7 @@ class ConfigurableEverything : ModInitializer {
             EntityConfigUtil.init()
             ifExperimental {
                 GravityConfigUtil.init()
+                LootConfigUtil.init()
             }
             RegistryConfigUtil.init()
             ifClient {

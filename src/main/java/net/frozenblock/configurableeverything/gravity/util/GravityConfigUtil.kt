@@ -1,16 +1,15 @@
 package net.frozenblock.configurableeverything.gravity.util
 
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.GravityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.configurableeverything.util.experimentalOrThrow
 import net.frozenblock.lib.gravity.api.GravityAPI
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.level.dimension.DimensionType
+import net.minecraft.world.level.Level
 
 internal object GravityConfigUtil {
 
@@ -23,7 +22,7 @@ internal object GravityConfigUtil {
         val dimensionGravityBelts = config.gravityBelts?.value ?: return@runBlocking
         for (dimensionGravityBelt in dimensionGravityBelts) {
             launch {
-                val dimension: ResourceKey<DimensionType> = dimensionGravityBelt?.dimension ?: return@launch
+                val dimension: ResourceKey<Level> = dimensionGravityBelt?.dimension ?: return@launch
                 val gravityBelts: List<GravityBelt<AbsoluteGravityFunction>?> = dimensionGravityBelt.gravityBelts ?: return@launch
 
                 for (belt in gravityBelts) {
