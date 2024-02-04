@@ -4,6 +4,8 @@ package net.frozenblock.configurableeverything.scripting.util
 
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ObjectShare
@@ -30,14 +32,14 @@ import kotlin.script.experimental.util.filterByAnnotationType
     compilationConfiguration = CEScriptCompilationConfig::class,
     evaluationConfiguration = CEScriptEvaluationConfig::class,
 )
-abstract class ClientCEScript : CEScript {
+abstract class ClientCEScript : CEScript() {
 
     override fun runEachTick(tickFun: () -> Unit) {
         super.runEachTick(tickFun)
-        runEachCLientTick(tickFun)
+        runEachClientTick(tickFun)
     }
 
-    inline fun runEachClientTick(tickFun: () -> Unit) {
+    inline fun runEachClientTick(crossinline tickFun: () -> Unit) {
         ClientTickEvents.START_CLIENT_TICK.register { tickFun() }
     }
 }
@@ -86,7 +88,7 @@ abstract class CEScript {
     inline fun logError(message: Any?, e: Throwable?) = logger.error(message.toString(), e)
 }
 
-open class CEScriptCompilationConfig(type: ScriptType) : ScriptCompilationConfiguration({
+open class CEScriptCompilationConfig internal constructor(type: ScriptType) : ScriptCompilationConfiguration({
     val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
     defaultImports(defaultImports)
     if (ENABLE_EXPERIMENTAL_FEATURES)
