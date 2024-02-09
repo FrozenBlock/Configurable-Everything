@@ -19,17 +19,11 @@ import net.minecraft.world.item.DyeColor
 data class SculkSpreadingConfig(
 
     @JvmField
-    @EntrySyncData("addedActivators")
-    @Comment("List of added activator blocks.")
-    var addedActivators: List<String?>? = arrayListOf(
-        "minecraft:dirt"
-    ),
-
-    @JvmField
-    @EntrySyncData("removedActivators")
-    @Comment("List of removed activator blocks, such as Sculk Shriekers.")
-    var removedActivators: List<String?>? = arrayListOf(
-        "minecraft:sculk_shrieker"
+    @EntrySyncData("activators")
+    @Comment("List of activator blocks.")
+    var activators: List<String?>? = arrayListOf(
+        "minecraft:sculk_sensor",
+        "minecraft:sculk_shrieker",
     ),
 ) {
     companion object : JsonConfig<SculkSpreadingConfig>(
