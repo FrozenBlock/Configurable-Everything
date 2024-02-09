@@ -48,19 +48,16 @@ data class ScriptingConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    @Comment("Not functional until 1.1")
     @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var remapping: Boolean? = true,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    @Comment("Not functional until 1.1")
     @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var filter: FilterOption? = FilterOption.INCLUDED,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    @Comment("Not functional until 1.1")
     @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var modsToRemap: List<String>? = arrayListOf(
         "configurable_everything",
