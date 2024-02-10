@@ -22,6 +22,7 @@ import net.frozenblock.lib.config.api.client.gui.nestedList
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
+import net.frozenblock.lib.sound.api.MutableMusic
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries

@@ -14,6 +14,7 @@ import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
+import net.frozenblock.lib.sound.api.asMutable
 import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
@@ -149,7 +150,7 @@ data class BiomeConfig(
 					12000,
 					24000,
 					false
-				).mutable()
+				).asMutable
 			),
 			BiomeMusic(
 				Either.right(BLANK_TAG),
@@ -158,7 +159,7 @@ data class BiomeConfig(
 					12000,
 					24000,
 					false
-				).mutable()
+				).asMutable
 			)
 		)
 	)
