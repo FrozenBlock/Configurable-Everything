@@ -49,17 +49,14 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @EntrySyncData("gravity")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var gravity: Boolean? = false,
 
     @JvmField
     @EntrySyncData("item")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var item: Boolean? = false,
 
     @JvmField
     @EntrySyncData("loot")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var loot: Boolean? = false,
 
     @JvmField
@@ -82,7 +79,6 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @EntrySyncData("sculk_spreading")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var sculk_spreading: Boolean? = false,
 
     @JvmField
@@ -93,7 +89,6 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @EntrySyncData("structure")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var structure: Boolean? = false,
 
     @JvmField

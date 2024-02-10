@@ -2,11 +2,9 @@ package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.metadata.ModOrigin
-import java.io.*
-import java.util.jar.JarEntry
+import java.io.File
+import java.io.FileOutputStream
 import java.util.jar.JarFile
-import java.util.jar.JarOutputStream
-import java.util.stream.Collectors
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
 

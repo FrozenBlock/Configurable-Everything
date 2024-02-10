@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.loot.mixin;
 
+import java.util.function.Consumer;
 import net.frozenblock.configurableeverything.loot.util.ConfigurableLootItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -9,7 +10,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import java.util.function.Consumer;
 
 @Mixin(LootItem.class)
 public class LootItemMixin implements ConfigurableLootItem {

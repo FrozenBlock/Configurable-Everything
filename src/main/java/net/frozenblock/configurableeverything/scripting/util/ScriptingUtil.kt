@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.scripting.util
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
-import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
 import net.frozenblock.configurableeverything.scripting.util.remap.Remapping.ORIGINAL_SCRIPTS
@@ -61,7 +60,7 @@ internal object ScriptingUtil {
             script.toScriptSource(),
             compilationConfiguration
         ).apply { this.logReports() }.valueOrNull() as? KJvmCompiledScript ?: error("Compiled script is not java or is null")
-        if (!DEV_ENV && ENABLE_EXPERIMENTAL_FEATURES && ScriptingConfig.get().remapping == true) {
+        if (!DEV_ENV && ScriptingConfig.get().remapping == true) {
             val file = ORIGINAL_SCRIPTS.resolve("${script.name}.jar").toFile()
             BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
             val remappedFile: File = Remapping.remapScript(file)
@@ -74,8 +73,6 @@ internal object ScriptingUtil {
     }
 
     fun runScripts() {
-        if (MainConfig.get().scripting != true || ScriptingConfig.get().applyKotlinScripts != true)
-            return
         log("Running scripts")
         compileScripts(KOTLIN_SCRIPT_PATH, ScriptType.COMMON)
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)

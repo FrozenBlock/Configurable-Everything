@@ -1,11 +1,6 @@
 package net.frozenblock.configurableeverything.sculk_spreading.mixin;
 
-import net.frozenblock.configurableeverything.config.MainConfig;
-import net.frozenblock.configurableeverything.config.SculkSpreadingConfig;
-import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth;
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkSpreadingConfigUtil;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -28,8 +23,6 @@ public class SculkBlockMixin {
 		ordinal = 0
 	)
 	private BlockState growthState(BlockState original, LevelAccessor level, BlockPos pos, RandomSource random, boolean isWorldGeneration) {
-		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES) return original;
-
 		return SculkSpreadingConfigUtil.INSTANCE.growthState(original, random, isWorldGeneration);
     }
 }

@@ -25,7 +25,6 @@
 package net.frozenblock.configurableeverything.scripting.util.remap.fabric;
 
 import java.util.List;
-
 import kotlinx.metadata.KmAnnotation;
 import kotlinx.metadata.KmProperty;
 import kotlinx.metadata.internal.extensions.KmClassExtension;

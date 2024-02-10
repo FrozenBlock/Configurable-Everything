@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MixinsConfig
-import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo

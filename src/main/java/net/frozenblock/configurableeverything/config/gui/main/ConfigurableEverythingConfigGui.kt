@@ -5,7 +5,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.*
-import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
 
@@ -34,17 +33,15 @@ object ConfigurableEverythingConfigGui {
             EntityConfig.save()
             FluidConfig.save()
             GameConfig.save()
-            ifExperimental {
-                GravityConfig.save()
-                ItemConfig.save()
-            }
+            GravityConfig.save()
+            ItemConfig.save()
+            LootConfig.save()
             MixinsConfig.save()
             ScreenShakeConfig.save()
             ScriptingConfig.save()
+            SculkSpreadingConfig.save()
             SplashTextConfig.save()
-            ifExperimental {
-                StructureConfig.save()
-            }
+            StructureConfig.save()
             WorldConfig.save()
         }
 

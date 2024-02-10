@@ -16,7 +16,7 @@ internal const val MOD_NAME = "Configurable Everything"
  * Enables update 1.1
  */
 @PublishedApi
-internal const val ENABLE_EXPERIMENTAL_FEATURES = true
+internal const val ENABLE_EXPERIMENTAL_FEATURES = false
 
 internal val DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment
 
@@ -52,12 +52,12 @@ val MAPPINGS_PATH: Path = Path(".$MOD_ID/mappings/")
 
 @JvmField
 val ORIGINAL_SOURCES_CACHE: Path = Path(".$MOD_ID/original/").apply {
-    ifExperimental { this.toFile().recreateDir() }
+    ifExtended { this.toFile().recreateDir() }
 }
 
 @JvmField
 val REMAPPED_SOURCES_CACHE: Path = Path(".$MOD_ID/remapped/").apply {
-    ifExperimental { this.toFile().recreateDir() }
+    ifExtended { this.toFile().recreateDir() }
 }
 
 @JvmField

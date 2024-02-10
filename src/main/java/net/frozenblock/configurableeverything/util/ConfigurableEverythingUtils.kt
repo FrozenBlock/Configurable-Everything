@@ -1,8 +1,5 @@
 package net.frozenblock.configurableeverything.util
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 

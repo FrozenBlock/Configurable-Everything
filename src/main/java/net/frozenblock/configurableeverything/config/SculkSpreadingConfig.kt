@@ -8,7 +8,6 @@ import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -16,8 +15,6 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.SculkShriekerBlock
 
@@ -53,9 +50,7 @@ data class SculkSpreadingConfig(
     ) {
 
         init {
-            experimental {
-                ConfigRegistry.register(this)
-            }
+            ConfigRegistry.register(this)
         }
 
         @JvmStatic

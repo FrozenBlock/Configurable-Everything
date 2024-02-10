@@ -20,11 +20,8 @@ fun <T : Any?> T.discard(): Unit = Unit
 /**
  * @return The path of the config file.
  */
-fun makeConfigPath(name: String?, json5: Boolean): Path
+fun makeConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/$name.${if (json5) "json5" else "json"}")
-
-// could use default parameters (json5: Boolean = true) but this solution is java-compatible
-fun makeConfigPath(name: String?): Path = makeConfigPath(name, true)
 
 // extended features
 
@@ -40,7 +37,8 @@ inline fun <T : Any?> ifExtended(crossinline value: () -> T): T? {
 internal inline val EXPERIMENTAL_EXCEPTION: Exception
     get() = UnsupportedOperationException("Experimental features are disabled")
 
-fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
+@Suppress("NOTHING_TO_INLINE")
+inline fun experimentalOrThrow(): Nothing? = if (ENABLE_EXPERIMENTAL_FEATURES) null
     else throw EXPERIMENTAL_EXCEPTION
 
 inline fun <T> experimental(crossinline value: () -> T): T {

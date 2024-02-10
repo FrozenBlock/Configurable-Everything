@@ -2,9 +2,7 @@ package net.frozenblock.configurableeverything.scripting.util
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
@@ -35,8 +33,8 @@ sealed class ConfigData<T : Any?>(@JvmField val config: Config<T>?) {
     data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
     data object WORLD : ConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T? = experimental { config?.config() }
+    fun get(): T? = config?.config()
 
     fun modify(modification: ConfigModification<T>)
-        = experimental { config?.apply { ConfigRegistry.register(this, modification) }}
+        = config?.apply { ConfigRegistry.register(this, modification) }
 }

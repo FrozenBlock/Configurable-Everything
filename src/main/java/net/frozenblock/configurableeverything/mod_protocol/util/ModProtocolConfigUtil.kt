@@ -2,7 +2,6 @@ package net.frozenblock.configurableeverything.mod_protocol.util
 
 import it.unimi.dsi.fastutil.ints.IntList
 import net.frozenblock.configurableeverything.config.ModProtocolConfig
-import net.minecraft.network.chat.Component
 import org.quiltmc.qsl.frozenblock.core.registry.api.sync.ModProtocol
 import org.quiltmc.qsl.frozenblock.core.registry.api.sync.ModProtocolDef
 import org.quiltmc.qsl.frozenblock.core.registry.impl.sync.server.ServerRegistrySync

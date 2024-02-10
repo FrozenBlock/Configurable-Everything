@@ -1,14 +1,12 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
-import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
-import net.frozenblock.lib.shadow.blue.endless.jankson.annotation.SaveToggle
 
 @Suppress("PropertyName", "SpellCheckingInspection")
 @UnsyncableConfig
@@ -45,12 +43,10 @@ Warning: Functionality will be lost if these are disabled.
     var game_client: Boolean? = true,
 
     @JvmField
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
-    var item: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
+    var item: Boolean? = true,
 
     @JvmField
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
-    var loot: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
+    var loot: Boolean? = true,
 
     @JvmField
     var screenshake: Boolean? = true,
@@ -59,8 +55,7 @@ Warning: Functionality will be lost if these are disabled.
     var screenshake_client: Boolean? = true,
 
     @JvmField
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
-    var sculk_spreading: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
+    var sculk_spreading: Boolean? = true,
 
     @JvmField
     //@Environment(EnvType.CLIENT) // not working idk why
@@ -68,8 +63,7 @@ Warning: Functionality will be lost if these are disabled.
     var splash_text: Boolean? = true,
 
     @JvmField
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
-    var structure: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
+    var structure: Boolean? = true,
 
     @JvmField
     var world: Boolean? = true,

@@ -2,18 +2,16 @@
 
 package net.frozenblock.configurableeverything.structure.util
 
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.StructureConfig
-import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import net.minecraft.core.Holder
 import net.minecraft.world.level.levelgen.structure.StructureSet
 import net.minecraft.world.level.levelgen.structure.StructureSet.StructureSelectionEntry
 import java.util.*
 
 internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
-    if (!ENABLE_EXPERIMENTAL_FEATURES) return@runBlocking original
     val config = StructureConfig.get()
     if (MainConfig.get().structure != true) return@runBlocking original
     val newList: MutableList<StructureSelectionEntry> = mutableListOf()
@@ -31,7 +29,6 @@ internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<
 }
 
 internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
-    if (!ENABLE_EXPERIMENTAL_FEATURES) return@runBlocking original
     val config = StructureConfig.get()
     if (MainConfig.get().structure != true) return@runBlocking original
     val newList: MutableList<Holder<StructureSet>> = mutableListOf()
