@@ -31,22 +31,18 @@ data class ScriptingConfig(
         "kotlinx.coroutines.*",
         "net.frozenblock.configurableeverything.util.*",
         "net.frozenblock.configurableeverything.scripting.util.*",
+        "net.frozenblock.lib.config.api.instance.ConfigModification",
 
         // minecraft
         "net.minecraft.core.*",
-        "net.minecraft.core.registries.*"
-    ).apply {
-        // adds all of the listed classes as imports
-        this.addAll(setOf(
-            ConfigModification::class,
-            ResourceKey::class,
-            ResourceLocation::class,
-            Block::class,
-            BlockBehaviour::class,
-            BlockBehaviour.Properties::class,
-            DimensionType::class
-        ).map { it.jvmName.replace('$', '.') })
-    },
+        "net.minecraft.core.registries.*",
+        "net.minecraft.resources.ResourceKey",
+        "net.minecraft.resources.ResourceLocation",
+        "net.minecraft.world.level.block.Block",
+        "net.minecraft.world.level.block.state.BlockBehaviour",
+        "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
+        "net.minecraft.world.level.dimension.DimensionType",
+    ),
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
