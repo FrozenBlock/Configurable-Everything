@@ -66,6 +66,18 @@ object MixinsConfigGui {
             requiresRestart = true
         ).build(entryBuilder))
 
+        category.addEntry(EntryBuilder(text("item"), config.item == true,
+            defaultConfig.item!!,
+            { newValue -> config.item = newValue},
+            requiresRestart = true
+        ).build(entryBuilder))
+
+        category.addEntry(EntryBuilder(text("loot"), config.loot == true,
+            defaultConfig.loot!!,
+            { newValue -> config.loot = newValue},
+            requiresRestart = true
+        ).build(entryBuilder))
+
         category.addEntry(EntryBuilder(text("screenshake"), config.screenshake == true,
             defaultConfig.screenshake!!,
             { newValue -> config.screenshake = newValue },
@@ -78,9 +90,21 @@ object MixinsConfigGui {
             requiresRestart = true
         ).build(entryBuilder))
 
+        category.addEntry(EntryBuilder(text("sculk_spreading"), config.sculk_spreading == true,
+            defaultConfig.sculk_spreading!!,
+            { newValue -> config.sculk_spreading = newValue},
+            requiresRestart = true
+        ).build(entryBuilder))
+
         category.addEntry(EntryBuilder(text("splash_text"), config.splash_text == true,
             defaultConfig.splash_text!!,
             { newValue -> config.splash_text = newValue },
+            requiresRestart = true
+        ).build(entryBuilder))
+
+        category.addEntry(EntryBuilder(text("structure"), config.structure == true,
+            defaultConfig.structure!!,
+            { newValue -> config.structure = newValue},
             requiresRestart = true
         ).build(entryBuilder))
 
