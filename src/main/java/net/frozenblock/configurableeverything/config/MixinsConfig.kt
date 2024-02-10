@@ -10,6 +10,7 @@ import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.frozenblock.lib.shadow.blue.endless.jankson.annotation.SaveToggle
 
+@Suppress("PropertyName", "SpellCheckingInspection")
 @UnsyncableConfig
 data class MixinsConfig(
     @Comment(
@@ -48,10 +49,18 @@ Warning: Functionality will be lost if these are disabled.
     var item: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
 
     @JvmField
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
+    var loot: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
+
+    @JvmField
     var screenshake: Boolean? = true,
 
     @JvmField
     var screenshake_client: Boolean? = true,
+
+    @JvmField
+    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
+    var sculk_spreading: Boolean? = ENABLE_EXPERIMENTAL_FEATURES,
 
     @JvmField
     //@Environment(EnvType.CLIENT) // not working idk why
