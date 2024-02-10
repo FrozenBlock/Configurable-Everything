@@ -33,7 +33,7 @@ data class SculkSpreadingConfig(
 
     @JvmField
     @EntrySyncData("activators")
-    @Comment("List of growth blocks.")
+    @Comment("List of growth block states.")
     var growths: TypedEntry<List<SculkGrowth?>>? = TypedEntry(
         SCULK_GROWTH_LIST,
         arrayListOf(
