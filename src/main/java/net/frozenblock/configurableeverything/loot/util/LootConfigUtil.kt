@@ -36,9 +36,10 @@ private fun LootTable.Builder.withPool(pool: LootPool): LootTable.Builder {
 private fun LootTable.Builder.removeItems(items: Iterable<ResourceLocation?>) {
     for (pool in this.pools.build()) {
         for (entry in pool.entries) {
-            if (entry is LootItem && items.contains(entry.item.unwrapKey().orElseThrow().location())) {
-                (entry as ConfigurableLootItem).`configurableEverything$disable`()
-            }
+            if (entry is LootItem) {
+            val location = entry.item.unwrapKey().orElseThrow().location()
+            if (items.any { it == location })
+                    (entry as ConfigurableLootItem).`configurableEverything$disable`()
         }
     }
 }
