@@ -9,6 +9,8 @@ Future changelog items:
   - Contains item reach overrides
 - Added Loot Config
   - Contains loot table modifications
+- Added Sculk Spreading Config
+  - Contains customizable sculk growths (ex: Sculk Shrieker)
 - Added Structure Config
   - Contains structure and structure set removals
 - Partially locked config GUIs when configs are synced from the server
