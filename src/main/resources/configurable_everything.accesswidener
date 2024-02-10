@@ -20,3 +20,7 @@ accessible method net/minecraft/resources/ResourceKey create (Lnet/minecraft/res
 accessible field net/minecraft/world/entity/Mob goalSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/world/entity/monster/Zombie canBreakDoors Z
 accessible method net/minecraft/world/entity/monster/Zombie supportsBreakDoorGoal ()Z
+
+# Loot
+accessible field net/minecraft/world/level/storage/loot/LootTable$Builder pools Lcom/google/common/collect/ImmutableList$Builder;
+accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;
