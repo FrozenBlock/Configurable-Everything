@@ -39,8 +39,10 @@ private fun LootTable.Builder.removeItems(items: Iterable<ResourceLocation?>) {
             if (entry is LootItem) {
                 val location = entry.item.unwrapKey().orElseThrow().location()
                 if (items.any { it == location })
-                    (entry as ConfigurableLootItem).`configurableEverything$disable`()
+                    entry.disable()
             }
         }
     }
 }
+
+private inline fun LootItem.disable() = (this as ConfigurableLootItem).`configurableEverything$disable`()
