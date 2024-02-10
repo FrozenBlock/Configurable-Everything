@@ -25,6 +25,6 @@ public class LootItemMixin implements ConfigurableLootItem {
 
 	@Override
 	public void configurableEverything$disable() {
-
+		this.disabled = true;
 	}
 }
