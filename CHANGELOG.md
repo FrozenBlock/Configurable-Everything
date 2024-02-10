@@ -13,8 +13,6 @@ Future changelog items:
   - Contains customizable sculk growths (ex: Sculk Shrieker)
 - Added Structure Config
   - Contains structure and structure set removals
-- Partially locked config GUIs when configs are synced from the server
-  - Config syncing introduced in FrozenLib 1.5
 - Added Kotlin script remapping
   - Enables accessing obfuscated Minecraft classes
     - Also (optionally) includes mod classes!
