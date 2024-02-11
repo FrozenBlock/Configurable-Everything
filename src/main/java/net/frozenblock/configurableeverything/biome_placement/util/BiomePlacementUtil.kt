@@ -3,9 +3,7 @@ package net.frozenblock.configurableeverything.biome_placement.util
 import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
-import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.id
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
 import net.minecraft.core.HolderSet

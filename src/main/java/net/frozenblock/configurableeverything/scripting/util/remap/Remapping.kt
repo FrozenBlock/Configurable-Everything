@@ -12,22 +12,23 @@ import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
 import net.fabricmc.mappingio.format.proguard.ProGuardFileReader
 import net.fabricmc.mappingio.tree.MemoryMappingTree
-import net.fabricmc.tinyremapper.IMappingProvider
-import net.fabricmc.tinyremapper.InputTag
-import net.fabricmc.tinyremapper.NonClassCopyMode
-import net.fabricmc.tinyremapper.OutputConsumerPath
-import net.fabricmc.tinyremapper.TinyRemapper
-import net.fabricmc.tinyremapper.TinyUtils
+import net.fabricmc.tinyremapper.*
 import net.frozenblock.configurableeverything.config.ScriptingConfig
-import net.frozenblock.configurableeverything.scripting.util.remap.fabric.*
+import net.frozenblock.configurableeverything.scripting.util.remap.fabric.DstNameFilterMappingVisitor
+import net.frozenblock.configurableeverything.scripting.util.remap.fabric.KotlinMetadataTinyRemapperExtension
 import net.frozenblock.configurableeverything.util.*
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
-import java.nio.file.*
+import java.nio.file.FileSystems
+import java.nio.file.Files
+import java.nio.file.Path
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.io.path.Path
@@ -382,7 +383,6 @@ object Remapping {
      * @since 1.1
      */
     fun initialize() {
-        experimentalOrThrow()
         if (initialized) return
 
         try {
@@ -397,7 +397,6 @@ object Remapping {
      * @since 1.1
      */
     fun remapCodebase() {
-        experimentalOrThrow()
         if (ScriptingConfig.get().remapping != true) return
 
         log("Attempting to remap the current codebase")

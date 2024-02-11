@@ -2,18 +2,20 @@
 
 package net.frozenblock.configurableeverything.scripting.util
 
-import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ObjectShare
 import net.frozenblock.configurableeverything.config.ScriptingConfig
-import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
+import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
+import net.frozenblock.configurableeverything.util.REMAPPED_SOURCES_CACHE
+import net.frozenblock.configurableeverything.util.asFileList
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.io.path.absolutePathString
+import kotlin.collections.set
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.dependencies.*
@@ -21,8 +23,29 @@ import kotlin.script.experimental.dependencies.maven.MavenDependenciesResolver
 import kotlin.script.experimental.host.FileBasedScriptSource
 import kotlin.script.experimental.host.FileScriptSource
 import kotlin.script.experimental.impl.internalScriptingRunSuspend
-import kotlin.script.experimental.jvm.*
+import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
+import kotlin.script.experimental.jvm.jvm
+import kotlin.script.experimental.jvm.loadDependencies
+import kotlin.script.experimental.jvm.updateClasspath
 import kotlin.script.experimental.util.filterByAnnotationType
+
+@Environment(EnvType.CLIENT)
+@KotlinScript(
+    fileExtension = KOTLIN_SCRIPT_EXTENSION,
+    compilationConfiguration = CEScriptCompilationConfig::class,
+    evaluationConfiguration = CEScriptEvaluationConfig::class,
+)
+abstract class ClientCEScript : CEScript() {
+
+    override fun runEachTick(tickFun: () -> Unit) {
+        super.runEachTick(tickFun)
+        runEachClientTick(tickFun)
+    }
+
+    inline fun runEachClientTick(crossinline tickFun: () -> Unit) {
+        ClientTickEvents.START_CLIENT_TICK.register { tickFun() }
+    }
+}
 
 @KotlinScript(
     fileExtension = KOTLIN_SCRIPT_EXTENSION,
@@ -46,18 +69,18 @@ abstract class CEScript {
     @JvmField
     val objectShare: ObjectShare = FabricLoader.getInstance().objectShare
 
-    inline fun clientOnly(crossinline `fun`: () -> Unit) {
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
-            `fun`()
-    }
-
     /**
      * @since 1.1
      */
-    inline fun runLate(priority: Int, noinline `fun`: () -> Unit)
-        = experimental { POST_RUN_FUNS!![priority] = `fun` }
+    inline fun runLate(priority: Int, noinline `fun`: () -> Unit) {
+        POST_RUN_FUNS!![priority] = `fun`
+    }
 
-    inline fun runEachTick(crossinline tickFun: () -> Unit) {
+    open fun runEachTick(tickFun: () -> Unit) {
+        runEachServerTick(tickFun)
+    }
+
+    inline fun runEachServerTick(crossinline tickFun: () -> Unit) {
         // TODO: add to client tick events if a client script
         ServerTickEvents.START_SERVER_TICK.register { tickFun() }
     }
@@ -69,28 +92,30 @@ abstract class CEScript {
     inline fun logError(message: Any?, e: Throwable?) = logger.error(message.toString(), e)
 }
 
-object CEScriptCompilationConfig : ScriptCompilationConfiguration({
+open class CEScriptCompilationConfig internal constructor(type: ScriptType) : ScriptCompilationConfiguration({
     val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
     defaultImports(defaultImports)
-    if (ENABLE_EXPERIMENTAL_FEATURES)
-        defaultImports(
-            DependsOn::class,
-            Repository::class,
-            Import::class,
-            CompilerOptions::class,
-        )
-    baseClass(CEScript::class)
+    defaultImports(
+        DependsOn::class,
+        Repository::class,
+        Import::class,
+        CompilerOptions::class,
+    )
+    when (type) {
+        ScriptType.COMMON -> baseClass(CEScript::class)
+        ScriptType.CLIENT -> baseClass(ClientCEScript::class)
+    }
     ide {
         acceptedLocations(ScriptAcceptedLocation.Everywhere)
     }
     jvm {
         // the dependenciesFromCurrentContext helper function extracts the classpath from current thread classloader
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
-        ifExperimental {
-            // Adds the remapped Minecraft and mod jars to the classpath
-            if (ScriptingConfig.get().remapping == true)
-                updateClasspath(REMAPPED_SOURCES_CACHE.asFileList!!)
-        }
+
+        // Adds the remapped Minecraft and mod jars to the classpath
+        if (ScriptingConfig.get().remapping == true)
+            updateClasspath(REMAPPED_SOURCES_CACHE.asFileList!!)
+
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
 
@@ -103,18 +128,17 @@ object CEScriptCompilationConfig : ScriptCompilationConfiguration({
     refineConfiguration {
         // the callback called when any of the listed file-level annotations are encountered in the compiled script
         // the processing is defined by the `handler`, that may return refined configuration depending on the annotations
-        if (ENABLE_EXPERIMENTAL_FEATURES)
-            onAnnotations(
-                DependsOn::class,
-                Repository::class,
-                Import::class,
-                CompilerOptions::class,
-                handler = ::configureDepsOnAnnotations
-            )
+        onAnnotations(
+            DependsOn::class,
+            Repository::class,
+            Import::class,
+            CompilerOptions::class,
+            handler = ::configureDepsOnAnnotations
+        )
     }
 }) {
     // used for serialization for some reason
-    private fun readResolve(): Any = CEScriptCompilationConfig
+    private fun readResolve(): Any = CEScriptCompilationConfig(ScriptType.COMMON)
 }
 
 object CEScriptEvaluationConfig : ScriptEvaluationConfiguration({

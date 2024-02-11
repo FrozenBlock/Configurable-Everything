@@ -26,7 +26,6 @@ package net.frozenblock.configurableeverything.scripting.util.remap.fabric;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
-
 import net.fabricmc.mappingio.MappedElementKind;
 import net.fabricmc.mappingio.MappingVisitor;
 import net.fabricmc.mappingio.adapter.ForwardingMappingVisitor;

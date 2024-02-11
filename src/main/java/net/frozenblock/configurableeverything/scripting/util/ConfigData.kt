@@ -2,9 +2,7 @@ package net.frozenblock.configurableeverything.scripting.util
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.util.experimental
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
@@ -23,17 +21,20 @@ sealed class ConfigData<T : Any?>(@JvmField val config: Config<T>?) {
     data object ENTITY : ConfigData<EntityConfig>(EntityConfig)
     data object FLUID : ConfigData<FluidConfig>(FluidConfig)
     data object GAME : ConfigData<GameConfig>(GameConfig)
+    data object GRAVITY : ConfigData<GravityConfig>(GravityConfig)
     data object ITEM : ConfigData<ItemConfig>(ItemConfig)
+    data object LOOT : ConfigData<LootConfig>(LootConfig)
     data object REGISTRY : ConfigData<RegistryConfig>(RegistryConfig)
     data object SCREEN_SHAKE : ConfigData<ScreenShakeConfig>(ScreenShakeConfig)
+    data object SCULK_SPREADING : ConfigData<SculkSpreadingConfig>(SculkSpreadingConfig)
     @Environment(EnvType.CLIENT)
     data object SPLASH_TEXT : ConfigData<SplashTextConfig>(SplashTextConfig)
     data object STRUCTURE : ConfigData<StructureConfig>(StructureConfig)
     data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
     data object WORLD : ConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T? = experimental { config?.config() }
+    fun get(): T? = config?.config()
 
     fun modify(modification: ConfigModification<T>)
-        = experimental { config?.apply { ConfigRegistry.register(this, modification) }}
+        = config?.apply { ConfigRegistry.register(this, modification) }
 }

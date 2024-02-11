@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.splash_text.util
 
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MainConfig

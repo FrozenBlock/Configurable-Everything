@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.screenshake.util
 
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager

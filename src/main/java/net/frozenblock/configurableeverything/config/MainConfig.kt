@@ -49,19 +49,18 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @EntrySyncData("gravity")
-    @Comment("Not functional until 1.1")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var gravity: Boolean? = false,
 
     @JvmField
     @EntrySyncData("item")
-    @Comment("Not functional until 1.1")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var item: Boolean? = false,
 
     @JvmField
+    @EntrySyncData("loot")
+    var loot: Boolean? = false,
+
+    @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    @Comment("Not functional until 1.1")
     @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var music: Boolean? = false,
 
@@ -80,8 +79,6 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @EntrySyncData("sculk_spreading")
-    @Comment("Not functional until 1.1")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var sculk_spreading: Boolean? = false,
 
     @JvmField
@@ -92,8 +89,6 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     @EntrySyncData("structure")
-    @Comment("Not functional until 1.1")
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var structure: Boolean? = false,
 
     @JvmField

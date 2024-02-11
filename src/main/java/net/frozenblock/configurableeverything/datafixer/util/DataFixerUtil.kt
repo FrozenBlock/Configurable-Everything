@@ -2,8 +2,8 @@ package net.frozenblock.configurableeverything.datafixer.util
 
 import com.mojang.datafixers.DataFixerBuilder
 import com.mojang.datafixers.schemas.Schema
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.loader.api.ModContainer
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.config.MainConfig

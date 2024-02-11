@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.sound.api.asImmutable
 import net.minecraft.server.packs.PackType
 import java.util.function.Consumer
 
@@ -156,7 +157,7 @@ internal object BiomeConfigUtil {
         val replacedMusic = change.musicReplacements ?: return@coroutineScope
         for (musicReplacement in replacedMusic) { launch {
             val biome = musicReplacement?.biome ?: return@launch
-            val music = musicReplacement.music?.immutable() ?: return@launch
+            val music = musicReplacement.music?.asImmutable ?: return@launch
             val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
                 context.effects.setMusic(music)
             }

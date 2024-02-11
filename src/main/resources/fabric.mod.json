@@ -50,15 +50,17 @@
     ]
   },
   "mixins": [
-    "configurable_everything.biome.mixins.json",
+    "configurable_everything.biome_placement.mixins.json",
     "configurable_everything.datafixer.mixins.json",
     "configurable_everything.datapack.mixins.json",
     "configurable_everything.entity.mixins.json",
     "configurable_everything.fluid.mixins.json",
     "configurable_everything.game.mixins.json",
     "configurable_everything.item.mixins.json",
+    "configurable_everything.loot.mixins.json",
     "configurable_everything.screenshake.mixins.json",
     "configurable_everything.splash_text.mixins.json",
+    "configurable_everything.sculk_spreading.mixins.json",
     "configurable_everything.structure.mixins.json",
     "configurable_everything.world.mixins.json"
   ],
@@ -72,12 +74,12 @@
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "fabric_kotlin_extensions": ">=1.0.5"
+    "fabric_kotlin_extensions": ">=1.0.6"
   },
   "breaks": {
     "configurabledatafixers": "*",
     "configurablesplashtexts": "*",
-    "fabric_kotlin_extensions": "<1.0.5"
+    "fabric_kotlin_extensions": "<1.0.6"
   },
   "custom": {
     "modmenu": {

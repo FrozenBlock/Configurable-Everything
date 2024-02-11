@@ -9,6 +9,7 @@ import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
+import net.frozenblock.configurableeverything.loot.util.LootConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
 import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
@@ -21,7 +22,6 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
-import java.io.File
 import java.io.IOException
 import kotlin.system.measureNanoTime
 
@@ -43,21 +43,19 @@ class ConfigurableEverything : ModInitializer {
             EntityConfig
             FluidConfig
             GameConfig
-            ifExperimental {
-                GravityConfig
-                ItemConfig
-            }
+            GravityConfig
+            ItemConfig
+            LootConfig
             ModProtocolConfig
             RegistryConfig
             ScreenShakeConfig
             ScriptingConfig
+            SculkSpreadingConfig
             ifClient {
                 SplashTextConfig
             }
             SurfaceRuleConfig
-            ifExperimental {
-                StructureConfig
-            }
+            StructureConfig
             WorldConfig
 
             try {
@@ -67,18 +65,13 @@ class ConfigurableEverything : ModInitializer {
                     ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
-                }
-
-                ifExperimental {
                     FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
-            ifExtended {
-                ifExperimental {
-                    Remapping.remapCodebase()
-                }
+            ifScriptingEnabled {
+                Remapping.remapCodebase()
                 ScriptingUtil.runScripts()
             }
 
@@ -88,9 +81,8 @@ class ConfigurableEverything : ModInitializer {
             BlockConfigUtil.init()
             DataFixerUtil.applyDataFixes(FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow())
             EntityConfigUtil.init()
-            ifExperimental {
-                GravityConfigUtil.init()
-            }
+            GravityConfigUtil.init()
+            LootConfigUtil.init()
             RegistryConfigUtil.init()
             ifClient {
                 SplashTextConfigUtil.init()

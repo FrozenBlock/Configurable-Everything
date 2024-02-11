@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.scripting.util.remap
 
 import net.fabricmc.loader.api.MappingResolver
 import net.fabricmc.mappingio.tree.MappingTree
-import java.util.Collections
+import java.util.*
 
 class CEMappingResolver(
     private val mappings: MappingTree,

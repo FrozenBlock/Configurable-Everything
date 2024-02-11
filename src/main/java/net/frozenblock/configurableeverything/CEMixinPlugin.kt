@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MixinsConfig
-import net.frozenblock.configurableeverything.util.ENABLE_EXPERIMENTAL_FEATURES
 import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo
@@ -24,8 +23,10 @@ class CEMixinPlugin : IMixinConfigPlugin {
         if (mixinClassName.contains("game.mixin.client")) return config.game_client == true
         if (mixinClassName.contains("game.mixin")) return config.game == true
         if (mixinClassName.contains("item.mixin")) return config.item == true
+        if (mixinClassName.contains("loot.mixin")) return config.loot == true
         if (mixinClassName.contains("screenshake.mixin.client")) return config.screenshake_client == true
         if (mixinClassName.contains("screenshake.mixin")) return config.screenshake == true
+        if (mixinClassName.contains("sculk_spreading.mixin")) return config.sculk_spreading == true
         if (mixinClassName.contains("splash_text.mixin")) return isClient && config.splash_text == true
         if (mixinClassName.contains("structure.mixin")) return config.structure == true
         if (mixinClassName.contains("world.mixin.client")) return config.world_client == true

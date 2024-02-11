@@ -18,14 +18,14 @@ import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
 import net.minecraft.world.level.biome.MobSpawnSettings
 
-private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition?>?>? = ConfigRegistry.register(
+private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition?>?> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         BiomeAddition.CODEC.listOf()
     )
 )
 
-private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?>?>? = ConfigRegistry.register(
+private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?>?> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         PlacedFeatureAddition.CODEC.listOf()

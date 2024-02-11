@@ -1,6 +1,5 @@
 package net.frozenblock.configurableeverything.mod_compat
 
-import net.frozenblock.configurableeverything.mod_compat.FrozenLibIntegration
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.lib.integration.api.ModIntegration
 import net.frozenblock.lib.integration.api.ModIntegrationSupplier
