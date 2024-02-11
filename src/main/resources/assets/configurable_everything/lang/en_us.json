@@ -170,6 +170,12 @@
   "tooltip.configurable_everything.apply_kotlin_scripts": "Enable or disable the custom Kotlin scripts.",
   "option.configurable_everything.default_imports": "Default Imports",
   "tooltip.configurable_everything.default_imports": "The default imports for Kotlin scripts.",
+  "option.configurable_everything.remapping": "Remapping",
+  "tooltip.configurable_everything.remapping": "Whether or not the runtime sources should be remapped for scripts",
+  "option.configurable_everything.remapping_filter": "Mod Remapping Filter",
+  "tooltip.configurable_everything.remapping_filter": "Determines the filtering strategy for the list of remapped mods",
+  "option.configurable_everything.mods_to_remap": "Remapped Mods",
+  "tooltip.configurable_everything.mods_to_remap": "Which mod ids should be remapped or not remapped",
 
   "option.configurable_everything.datafixer": "DataFixer",
   "tooltip.configurable_everything.datafixer": "Enable or disable the DataFixer config.",

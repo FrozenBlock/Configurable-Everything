@@ -14,6 +14,7 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.EnumEntry
 import net.frozenblock.lib.config.api.client.gui.StringList
 
 object ScriptingConfigGui {
@@ -46,6 +47,42 @@ object ScriptingConfigGui {
                 mainToggleReq,
                 Requirement.isTrue { HAS_EXTENSIONS },
                 Requirement.isTrue(applyKotlinScripts),
+            )
+        ).build(entryBuilder))
+
+        category.addEntry(EntryBuilder(text("remapping"), config.remapping == true,
+            defaultConfig.remapping!!,
+            { newValue -> config.remapping = newValue },
+            tooltip("remapping"),
+            true,
+            requirement = Requirement.all(
+                mainToggleReq,
+                Requirement.isTrue { HAS_EXTENSIONS },
+                Requirement.isTrue(applyKotlinScripts)
+            )
+        ).build(entryBuilder))
+
+        category.addEntry(EntryBuilder(text("remapping_filter"), EnumEntry(ScriptingConfig.FilterOption::class, config.filter ?: defaultConfig.filter!!),
+            EnumEntry(ScriptingConfig.FilterOption::class, defaultConfig.filter!!),
+            { newValue -> config.filter = newValue.value },
+            tooltip("remapping_filter"),
+            true,
+            requirement = Requirement.all(
+                mainToggleReq,
+                Requirement.isTrue { HAS_EXTENSIONS },
+                Requirement.isTrue(applyKotlinScripts)
+            )
+        ).build(entryBuilder))
+
+        category.addEntry(EntryBuilder(text("mods_to_remap"), StringList(config.modsToRemap ?: defaultConfig.modsToRemap!!),
+            StringList(defaultConfig.modsToRemap!!),
+            { newValue -> config.modsToRemap = newValue.list },
+            tooltip("mods_to_remap"),
+            true,
+            requirement = Requirement.all(
+                mainToggleReq,
+                Requirement.isTrue { HAS_EXTENSIONS },
+                Requirement.isTrue(applyKotlinScripts)
             )
         ).build(entryBuilder))
     }
