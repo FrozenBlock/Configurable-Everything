@@ -31,6 +31,12 @@ inline fun <T : Any?> ifExtended(crossinline value: () -> T): T? {
     else null
 }
 
+inline fun <T : Any?> ifScriptingEnabled(crossinline value: () -> T): T? {
+    return if (SCRIPTING_ENABLED)
+        value()
+    else null
+}
+
 // experimental features
 
 @PublishedApi

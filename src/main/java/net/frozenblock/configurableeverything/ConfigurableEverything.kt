@@ -70,11 +70,9 @@ class ConfigurableEverything : ModInitializer {
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
-            ifExtended {
-                if (MainConfig.get().scripting == true && ScriptingConfig.get().applyKotlinScripts == true) {
-                    Remapping.remapCodebase()
-                    ScriptingUtil.runScripts()
-                }
+            ifScriptingEnabled {
+                Remapping.remapCodebase()
+                ScriptingUtil.runScripts()
             }
 
             // run functionality AFTER scripts have run

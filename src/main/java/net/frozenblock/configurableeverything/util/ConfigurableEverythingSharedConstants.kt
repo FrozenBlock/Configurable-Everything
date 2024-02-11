@@ -1,6 +1,8 @@
 package net.frozenblock.configurableeverything.util
 
 import net.fabricmc.loader.api.FabricLoader
+import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.lib.config.api.instance.json.JsonType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,6 +41,8 @@ internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 
 @JvmField
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
+
+inline val SCRIPTING_ENABLED get() = HAS_EXTENSIONS && MainConfig.get().scripting == true && ScriptingConfig.get().applyKotlinScripts == true
 
 @JvmField
 val DATAPACKS_PATH: Path = Path("config/$MOD_ID/datapacks")
