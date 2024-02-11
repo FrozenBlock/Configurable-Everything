@@ -175,7 +175,7 @@
   "option.configurable_everything.remapping_filter": "Mod Remapping Filter",
   "tooltip.configurable_everything.remapping_filter": "Determines the filtering strategy for the list of remapped mods",
   "option.configurable_everything.mods_to_remap": "Remapped Mods",
-  "tooltip.configurable_everything.mods_to_remap": "Which mod ids should be remapped or not remapped",
+  "tooltip.configurable_everything.mods_to_remap": "Which mod IDs should be remapped or not remapped",
 
   "option.configurable_everything.datafixer": "DataFixer",
   "tooltip.configurable_everything.datafixer": "Enable or disable the DataFixer config.",
