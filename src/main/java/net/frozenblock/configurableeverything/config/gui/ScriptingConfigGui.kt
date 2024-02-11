@@ -39,7 +39,7 @@ object ScriptingConfigGui {
         category.addEntry(applyKotlinScripts)
 
         category.addEntry(EntryBuilder(text("default_imports"), StringList(config.defaultImports ?: emptyList()),
-            StringList(config.defaultImports!!),
+            StringList(defaultConfig.defaultImports!!),
             { newValue -> config.defaultImports = newValue.list },
             tooltip("default_imports"),
             requirement = Requirement.all(
