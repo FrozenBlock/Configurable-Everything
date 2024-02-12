@@ -229,7 +229,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // get deps manually because FKE cant give them to compile classpath without an error
-    api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.7.0")
+    api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
     modApi(kotlin("scripting-common"))
     modApi(kotlin("scripting-jvm"))
     modApi(kotlin("scripting-jsr223"))

@@ -62,11 +62,11 @@ class KotlinClassMetadataRemappingAnnotationVisitor(
             logger.info("Kotlin metadata for class ($className) as it was built using a different major Kotlin version (${header.metadataVersion[0]}.${header.metadataVersion[1]}.x) while the remapper is using (${KotlinVersion.CURRENT}).")
         }
 
-        when (val metadata = KotlinClassMetadata.read(header)) {
+        when (val metadata = KotlinClassMetadata.readLenient(header)) {
             is KotlinClassMetadata.Class -> {
                 var klass = metadata.kmClass
                 klass = KotlinClassRemapper(remapper).remap(klass)
-                val remapped = KotlinClassMetadata.writeClass(klass, header.metadataVersion, header.extraInt)
+                val remapped = KotlinClassMetadata.Class(klass, metadata.version, metadata.flags).write()
                 writeClassHeader(remapped)
                 validateKotlinClassHeader(remapped, header)
             }
@@ -75,7 +75,7 @@ class KotlinClassMetadataRemappingAnnotationVisitor(
 
                 if (klambda != null) {
                     klambda = KotlinClassRemapper(remapper).remap(klambda)
-                    val remapped = KotlinClassMetadata.writeLambda(klambda, header.metadataVersion, header.extraInt)
+                    val remapped = KotlinClassMetadata.SyntheticClass(klambda, metadata.version, metadata.flags).write()
                     writeClassHeader(remapped)
                     validateKotlinClassHeader(remapped, header)
                 } else {
@@ -85,15 +85,14 @@ class KotlinClassMetadataRemappingAnnotationVisitor(
             is KotlinClassMetadata.FileFacade -> {
                 var kpackage = metadata.kmPackage
                 kpackage = KotlinClassRemapper(remapper).remap(kpackage)
-                val remapped = KotlinClassMetadata.writeFileFacade(kpackage, header.metadataVersion, header.extraInt)
+                val remapped = KotlinClassMetadata.FileFacade(kpackage, metadata.version, metadata.flags).write()
                 writeClassHeader(remapped)
                 validateKotlinClassHeader(remapped, header)
             }
             is KotlinClassMetadata.MultiFileClassPart -> {
                 var kpackage = metadata.kmPackage
                 kpackage = KotlinClassRemapper(remapper).remap(kpackage)
-                val wrapper = KotlinClassMetadataWrapper(metadata)
-                val remapped = KotlinClassMetadata.writeMultiFileClassPart(kpackage, metadata.facadeClassName, wrapper.annotationData.metadataVersion, wrapper.annotationData.extraInt)
+                val remapped = KotlinClassMetadata.MultiFileClassPart(kpackage, metadata.facadeClassName, metadata.version, metadata.flags).write()
                 writeClassHeader(remapped)
                 validateKotlinClassHeader(remapped, header)
             }
