@@ -34,13 +34,6 @@ data class LootConfig(
         listOf(
             LootModification(
                 BuiltInLootTables.ANCIENT_CITY,
-                LootPool.lootPool()
-                    .add(
-                        LootItem.lootTableItem(Items.DIAMOND_BLOCK)
-                            .setWeight(10)
-                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1F, 64F)))
-                    )
-                    .build(),
                 listOf()
             )
         )
