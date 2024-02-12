@@ -21,5 +21,5 @@ accessible field net/minecraft/world/entity/monster/Zombie canBreakDoors Z
 accessible method net/minecraft/world/entity/monster/Zombie supportsBreakDoorGoal ()Z
 
 # Loot
-accessible field net/minecraft/world/level/storage/loot/LootTable$Builder pools Lcom/google/common/collect/ImmutableList$Builder;
-accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;
+accessible field net/minecraft/world/level/storage/loot/LootTable$Builder pools Ljava/util/List;
+accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/world/item/Item;
