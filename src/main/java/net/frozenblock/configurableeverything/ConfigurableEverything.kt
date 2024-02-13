@@ -6,6 +6,7 @@ import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtil
 import net.frozenblock.configurableeverything.block.util.BlockConfigUtil
 import net.frozenblock.configurableeverything.config.*
+import net.frozenblock.configurableeverything.config.thirdparty.SodiumConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
@@ -57,6 +58,9 @@ class ConfigurableEverything : ModInitializer {
             SurfaceRuleConfig
             StructureConfig
             WorldConfig
+
+            if (FabricLoader.getInstance().isModLoaded("sodium"))
+                SodiumConfig
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
