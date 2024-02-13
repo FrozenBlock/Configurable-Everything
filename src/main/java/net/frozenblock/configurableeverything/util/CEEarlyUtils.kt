@@ -23,6 +23,9 @@ fun <T : Any?> T.discard(): Unit = Unit
 fun makeConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/$name.${if (json5) "json5" else "json"}")
 
+fun makeThirdPartyConfigPath(name: String?, json5: Boolean = true): Path
+    = Path("./config/$MOD_ID/thirdparty/$name.${if (json5) "json5" else "json"}")
+
 // extended features
 
 inline fun <T : Any?> ifExtended(crossinline value: () -> T): T? {

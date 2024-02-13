@@ -263,6 +263,9 @@ dependencies {
     // Mod Menu
     modImplementation("com.terraformersmc:modmenu:${modmenu_version}")
 
+    // Sodium
+    modImplementation("maven.modrinth:sodium:$sodium_version")
+
     // TerraBlender
     modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
 }
