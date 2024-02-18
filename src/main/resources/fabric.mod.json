@@ -62,7 +62,9 @@
     "configurable_everything.splash_text.mixins.json",
     "configurable_everything.sculk_spreading.mixins.json",
     "configurable_everything.structure.mixins.json",
-    "configurable_everything.world.mixins.json"
+    "configurable_everything.world.mixins.json",
+
+    "configurable_everything.sodium.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 

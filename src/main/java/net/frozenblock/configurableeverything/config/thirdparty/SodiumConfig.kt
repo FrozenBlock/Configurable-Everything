@@ -12,10 +12,6 @@ data class SodiumConfig(
     @JvmField
     @Comment("Whether or not to disable Sodium's resource pack compatibility scanner.")
     var disableCompatibilityChecks: Boolean? = false,
-
-    @JvmField
-    @Comment("Resource pack files to be ignored by Sodium's resource pack compatibility scanner.")
-    var ignoredResourcePacks: List<String?>? = arrayListOf(),
 ) {
 
     companion object : JsonConfig<SodiumConfig>(
