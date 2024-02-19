@@ -7,6 +7,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.MappingResolver
 import net.fabricmc.mappingio.MappingReader
 import net.fabricmc.mappingio.MappingWriter
+import net.fabricmc.mappingio.adapter.MappingDstNsReorder
 import net.fabricmc.mappingio.adapter.MappingNsCompleter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
@@ -191,8 +192,14 @@ object Remapping {
             )
         }
 
-        // update mappings with mojmaps
-        mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
+        // make intermediary the source namespace
+        val intSwitched = MappingSourceNsSwitch(mappings, INTERMEDIARY)
+
+        // remove official
+        val directMappings = MappingDstNsReorder(intSwitched, listOf(MOJANG))
+
+        // write mappings
+        directMappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
     }
 
     @PublishedApi
@@ -223,7 +230,7 @@ object Remapping {
         newDir: Path,
         fileExtension: String?,
         buildJar: Boolean = false,
-        vararg referenceDirs: Iterable<Path>,
+        vararg referenceDirs: Iterable<File>,
     ) {
         val files: MutableMap<Path, InputTag> = mutableMapOf()
         filesArray?.forEach { file ->
