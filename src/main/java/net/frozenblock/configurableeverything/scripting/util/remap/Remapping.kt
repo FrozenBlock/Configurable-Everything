@@ -223,7 +223,7 @@ object Remapping {
         newDir: Path,
         fileExtension: String?,
         buildJar: Boolean = false,
-        vararg referenceDirs: Iterable<File>,
+        vararg referenceDirs: Iterable<Path>,
     ) {
         val files: MutableMap<Path, InputTag> = mutableMapOf()
         filesArray?.forEach { file ->
@@ -240,10 +240,7 @@ object Remapping {
         }
 
         for (dir in referenceDirs) {
-            for (file in dir) {
-                log("Adding $file to remapping reference")
-                remapper.readClassPathAsync(file.toPath())
-            }
+            remapper.readClassPath(dir.map { it.toPath() }.toTypedArray())
         }
 
         val consumers: MutableMap<OutputConsumerPath?, InputTag>? = if (!buildJar) null else mutableMapOf()
