@@ -242,7 +242,7 @@ object Remapping {
         for (dir in referenceDirs) {
             for (file in dir) {
                 log("Adding $file to remapping reference")
-                remapper.readInputsAsync(remapper.createInputTag(), file.toPath())
+                remapper.readClassPathAsync(file.toPath())
             }
         }
 
