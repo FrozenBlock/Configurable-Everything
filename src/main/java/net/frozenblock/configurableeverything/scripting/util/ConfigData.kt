@@ -37,4 +37,8 @@ sealed class ConfigData<T : Any?>(@JvmField val config: Config<T>?) {
 
     fun modify(modification: ConfigModification<T>)
         = config?.apply { ConfigRegistry.register(this, modification) }
+
+    inline fun modify(modification: Consumer<T>)
+        = modify(ConfigModification(modification))
 }
+
