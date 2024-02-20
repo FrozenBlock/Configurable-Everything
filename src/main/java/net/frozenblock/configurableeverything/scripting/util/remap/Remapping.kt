@@ -7,6 +7,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.MappingResolver
 import net.fabricmc.mappingio.MappingReader
 import net.fabricmc.mappingio.MappingWriter
+import net.fabricmc.mappingio.adapter.MappingDstNsReorder
 import net.fabricmc.mappingio.adapter.MappingNsCompleter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
@@ -53,24 +54,35 @@ object Remapping {
 
     private var initialized: Boolean = false
 
+    @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
     inline val intToMojRemapper: TinyRemapper
         get() {
             initialize()
             return buildRemapper(mappingProvider(INTERMEDIARY, MOJANG))
         }
 
+    @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
+    inline val obfToMojRemapper: TinyRemapper
+        get() {
+            initialize()
+            return buildRemapper(mappingProvider(OBFUSCATED, MOJANG))
+        }
+
+    @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
     inline val mojToIntRemapper: TinyRemapper
         get() {
             initialize()
             return buildRemapper(mappingProvider(MOJANG, INTERMEDIARY))
         }
 
+    @Suppress("unused")
     inline val intToMojResolver: MappingResolver
         get() {
             initialize()
             return CEMappingResolver(mappingTree, MOJANG)
         }
 
+    @Suppress("unused")
     inline val mojToIntResolver: MappingResolver
         get() {
             initialize()
@@ -191,7 +203,16 @@ object Remapping {
             )
         }
 
-        // update mappings with mojmaps
+        /*val directMappings = MemoryMappingTree()
+
+        // removes the obfuscated namespace
+        val obfRemover = MappingDstNsReorder(directMappings, listOf(MOJANG))
+
+        // switches the source namespace to intermediary
+        val intSwitcher = MappingSourceNsSwitch(obfRemover, INTERMEDIARY)
+        mappings.accept(intSwitcher)*/
+
+        // write mappings
         mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
     }
 
@@ -231,7 +252,7 @@ object Remapping {
                 if (fileExtension == null || file.extension == fileExtension) {
                     val name = file.name
                     val newFile = newDir.resolve(name)
-                    file.copyRecursively(newFile.toFile(), onError = { file, _ -> OnErrorAction.SKIP })
+                    file.copyRecursively(newFile.toFile(), onError = { _, _ -> OnErrorAction.SKIP })
                     files[newFile] = remapper.createInputTag()
                 }
             } catch (e: IOException) {
@@ -344,7 +365,7 @@ object Remapping {
         referenceDirs = referenceDirs
     )
 
-    internal val ORIGINAL_SCRIPTS = Path("$MOD_ID/original_scripts/").apply {
+    internal val ORIGINAL_SCRIPTS = Path(".$MOD_ID/original_scripts/").apply {
         this.toFile().recreateDir()
     }
 
@@ -429,7 +450,7 @@ object Remapping {
             }
         }
         remap(
-            intToMojRemapper,
+            obfToMojRemapper,
             ORIGINAL_SOURCES_CACHE.asDir!!,
             REMAPPED_SOURCES_CACHE,
             "jar",

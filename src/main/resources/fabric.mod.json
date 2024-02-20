@@ -62,7 +62,9 @@
     "configurable_everything.splash_text.mixins.json",
     "configurable_everything.sculk_spreading.mixins.json",
     "configurable_everything.structure.mixins.json",
-    "configurable_everything.world.mixins.json"
+    "configurable_everything.world.mixins.json",
+
+    "configurable_everything.sodium.mixins.json"
   ],
   "accessWidener": "configurable_everything.accesswidener",
 
@@ -74,12 +76,12 @@
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "fabric_kotlin_extensions": ">=1.0.6"
+    "fabric_kotlin_extensions": ">=1.0.7"
   },
   "breaks": {
     "configurabledatafixers": "*",
     "configurablesplashtexts": "*",
-    "fabric_kotlin_extensions": "<1.0.6"
+    "fabric_kotlin_extensions": "<1.0.7"
   },
   "custom": {
     "modmenu": {
