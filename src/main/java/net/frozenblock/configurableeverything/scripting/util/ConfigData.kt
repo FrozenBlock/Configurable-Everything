@@ -6,11 +6,13 @@ import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import java.util.function.Consumer
 
 /**
  * Simplified modification of CE configs
  * @since 1.1
  */
+@Suppress("unused", "ClassName")
 sealed class ConfigData<T : Any>(@JvmField val config: Config<T>) {
     data object MAIN : ConfigData<MainConfig>(MainConfig)
     data object BIOME : ConfigData<BiomeConfig>(BiomeConfig)
@@ -32,11 +34,12 @@ sealed class ConfigData<T : Any>(@JvmField val config: Config<T>) {
     data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
     data object WORLD : ConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T = config?.config()
+    fun get(): T = config.config()
 
     fun modify(modification: ConfigModification<T>)
-        = config?.apply { ConfigRegistry.register(this, modification) }
+        = config.apply { ConfigRegistry.register(this, modification) }
 
+    @Suppress("NOTHING_TO_INLINE")
     inline fun modify(modification: Consumer<T>)
         = modify(ConfigModification(modification))
 }
