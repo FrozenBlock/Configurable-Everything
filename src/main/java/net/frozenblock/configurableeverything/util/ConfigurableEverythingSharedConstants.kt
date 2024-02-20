@@ -15,7 +15,7 @@ internal const val MOD_ID = "configurable_everything"
 internal const val MOD_NAME = "Configurable Everything"
 
 /**
- * Enables update 1.1
+ * Enables update 1.2
  */
 @PublishedApi
 internal const val ENABLE_EXPERIMENTAL_FEATURES = false

@@ -9,8 +9,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 
 /**
  * Simplified modification of CE configs
- *
- * Planned for 1.1
+ * @since 1.1
  */
 sealed class ConfigData<T : Any>(@JvmField val config: Config<T>) {
     data object MAIN : ConfigData<MainConfig>(MainConfig)
