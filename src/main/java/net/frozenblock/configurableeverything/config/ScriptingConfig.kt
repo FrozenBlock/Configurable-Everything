@@ -46,7 +46,7 @@ data class ScriptingConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    @Comment("Remapping is experimental")
+    @Comment("Remapping is experimental.\nRequires a network connection.")
     var remapping: Boolean? = false,
 
     @JvmField
