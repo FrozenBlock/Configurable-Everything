@@ -6,8 +6,8 @@ Put changelog here:
 
 -----------------
 - Updated Kotlin to 1.9.22
-- Updated required FLK to 1.10.17
-- Updated Fabric Kotlin Extensions to 1.0.6
+- Updated required FLK to 1.10.18
+- Updated Fabric Kotlin Extensions to 1.0.7
 - Added Gravity Config
     - Contains gravity belts
 - Added Item Config
