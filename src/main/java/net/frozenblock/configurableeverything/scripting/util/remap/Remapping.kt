@@ -62,6 +62,13 @@ object Remapping {
         }
 
     @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
+    inline val obfToMojRemapper: TinyRemapper
+        get() {
+            initialize()
+            return buildRemapper(mappingProvider(OBFUSCATED, MOJANG))
+        }
+
+    @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
     inline val mojToIntRemapper: TinyRemapper
         get() {
             initialize()
@@ -196,17 +203,17 @@ object Remapping {
             )
         }
 
-        val directMappings = MemoryMappingTree()
+        /*val directMappings = MemoryMappingTree()
 
         // removes the obfuscated namespace
         val obfRemover = MappingDstNsReorder(directMappings, listOf(MOJANG))
 
         // switches the source namespace to intermediary
         val intSwitcher = MappingSourceNsSwitch(obfRemover, INTERMEDIARY)
-        mappings.accept(intSwitcher)
+        mappings.accept(intSwitcher)*/
 
         // write mappings
-        directMappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
+        mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
     }
 
     @PublishedApi
@@ -443,7 +450,7 @@ object Remapping {
             }
         }
         remap(
-            intToMojRemapper,
+            obfToMojRemapper,
             ORIGINAL_SOURCES_CACHE.asDir!!,
             REMAPPED_SOURCES_CACHE,
             "jar",
