@@ -12,7 +12,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
  *
  * Planned for 1.1
  */
-sealed class ConfigData<T : Any?>(@JvmField val config: Config<T>?) {
+sealed class ConfigData<T : Any>(@JvmField val config: Config<T>) {
     data object MAIN : ConfigData<MainConfig>(MainConfig)
     data object BIOME : ConfigData<BiomeConfig>(BiomeConfig)
     data object BIOME_PLACEMENT : ConfigData<BiomePlacementConfig>(BiomePlacementConfig)
@@ -33,7 +33,7 @@ sealed class ConfigData<T : Any?>(@JvmField val config: Config<T>?) {
     data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
     data object WORLD : ConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T? = config?.config()
+    fun get(): T = config?.config()
 
     fun modify(modification: ConfigModification<T>)
         = config?.apply { ConfigRegistry.register(this, modification) }
