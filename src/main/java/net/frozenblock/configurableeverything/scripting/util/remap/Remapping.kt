@@ -54,24 +54,28 @@ object Remapping {
 
     private var initialized: Boolean = false
 
+    @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
     inline val intToMojRemapper: TinyRemapper
         get() {
             initialize()
             return buildRemapper(mappingProvider(INTERMEDIARY, MOJANG))
         }
 
+    @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
     inline val mojToIntRemapper: TinyRemapper
         get() {
             initialize()
             return buildRemapper(mappingProvider(MOJANG, INTERMEDIARY))
         }
 
+    @Suppress("unused")
     inline val intToMojResolver: MappingResolver
         get() {
             initialize()
             return CEMappingResolver(mappingTree, MOJANG)
         }
 
+    @Suppress("unused")
     inline val mojToIntResolver: MappingResolver
         get() {
             initialize()
@@ -192,11 +196,10 @@ object Remapping {
             )
         }
 
-        // make intermediary the source namespace
-        val intSwitched = MappingSourceNsSwitch(mappings, INTERMEDIARY)
-
-        // remove official
-        val directMappings = MappingDstNsReorder(intSwitched, listOf(MOJANG))
+        val directMappings = MemoryMappingTree()
+        val obfRemover = MappingDstNsReorder(directMappings, listOf(MOJANG))
+        val intSwitcher = MappingSourceNsSwitch(obfRemover, INTERMEDIARY)
+        mappings.accept(intSwitcher)
 
         // write mappings
         directMappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
@@ -238,7 +241,7 @@ object Remapping {
                 if (fileExtension == null || file.extension == fileExtension) {
                     val name = file.name
                     val newFile = newDir.resolve(name)
-                    file.copyRecursively(newFile.toFile(), onError = { file, _ -> OnErrorAction.SKIP })
+                    file.copyRecursively(newFile.toFile(), onError = { _, _ -> OnErrorAction.SKIP })
                     files[newFile] = remapper.createInputTag()
                 }
             } catch (e: IOException) {
@@ -247,7 +250,10 @@ object Remapping {
         }
 
         for (dir in referenceDirs) {
-            remapper.readClassPath(dir.map { it.toPath() }.toTypedArray())
+            for (file in dir) {
+                log("Adding $file to remapping reference")
+                remapper.readInputsAsync(remapper.createInputTag(), file.toPath())
+            }
         }
 
         val consumers: MutableMap<OutputConsumerPath?, InputTag>? = if (!buildJar) null else mutableMapOf()
