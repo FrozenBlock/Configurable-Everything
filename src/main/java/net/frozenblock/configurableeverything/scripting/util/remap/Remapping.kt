@@ -7,7 +7,6 @@ import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.MappingResolver
 import net.fabricmc.mappingio.MappingReader
 import net.fabricmc.mappingio.MappingWriter
-import net.fabricmc.mappingio.adapter.MappingDstNsReorder
 import net.fabricmc.mappingio.adapter.MappingNsCompleter
 import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
 import net.fabricmc.mappingio.format.MappingFormat
@@ -18,10 +17,7 @@ import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.scripting.util.remap.fabric.DstNameFilterMappingVisitor
 import net.frozenblock.configurableeverything.scripting.util.remap.fabric.KotlinMetadataTinyRemapperExtension
 import net.frozenblock.configurableeverything.util.*
-import java.io.ByteArrayInputStream
-import java.io.File
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -214,6 +210,29 @@ object Remapping {
 
         // write mappings
         mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
+        saveLicense()
+    }
+
+    private val LICENSE_FILE: File = MAPPINGS_PATH.resolve("README.txt").toFile()
+
+    private const val LICENSE: String =
+"""# (c) 2020 Microsoft Corporation. These mappings are provided "as-is" and you bear the risk of using them.
+You may copy and use the mappings for development purposes, but you may not redistribute the mappings complete and unmodified.
+Microsoft makes no warranties, express or implied, with respect to the mappings provided here.
+Use and modification of this document or the source code (in any form) of Minecraft: Java Edition is governed by the
+Minecraft End User License Agreement available at https://account.mojang.com/documents/minecraft_eula."""
+
+    private fun saveLicense() {
+        if (LICENSE_FILE.exists()) return
+
+        try {
+            OutputStreamWriter(FileOutputStream(LICENSE_FILE)).buffered().use { writer ->
+                writer.write(LICENSE)
+            }
+        } catch (e: IOException) {
+            logError("Writing license README failed.", e)
+            log(LICENSE) // log it in case writing the file fails lol
+        }
     }
 
     @PublishedApi
