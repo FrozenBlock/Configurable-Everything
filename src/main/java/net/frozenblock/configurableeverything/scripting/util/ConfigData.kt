@@ -42,5 +42,8 @@ sealed class ConfigData<T : Any>(@JvmField val config: Config<T>) {
     @Suppress("NOTHING_TO_INLINE")
     inline fun modify(modification: Consumer<T>)
         = modify(ConfigModification(modification))
+
+    inline fun modify(crossinline modification: (T) -> Unit)
+        = modify(Consumer { config -> modification(config) })
 }
 
