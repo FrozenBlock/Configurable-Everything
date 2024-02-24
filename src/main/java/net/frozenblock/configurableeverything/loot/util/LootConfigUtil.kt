@@ -11,7 +11,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 internal object LootConfigUtil {
 
     internal fun init() {
-        LootTableEvents.MODIFY.register { resourceManager, lootManager, id, tableBuilder, source ->
+        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
             if (MainConfig.get().loot != true) return@register
             val mods = LootConfig.get().lootModifications?.value ?: return@register
             for (mod in mods) {
@@ -45,4 +45,5 @@ private fun LootTable.Builder.removeItems(items: Iterable<ResourceLocation?>) {
     }
 }
 
+@Suppress("NOTHING_TO_INLINE")
 private inline fun LootItem.disable() = (this as ConfigurableLootItem).`configurableEverything$disable`()

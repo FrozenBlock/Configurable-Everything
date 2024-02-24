@@ -251,9 +251,6 @@ dependencies {
     // Reach Entity Attributes
     modApi("com.github.Treetrain1:reach-entity-attributes:1.20-SNAPSHOT")?.let { include(it) }
 
-    // MixinExtras
-    modApi("io.github.llamalad7:mixinextras-fabric:0.3.1")?.let { annotationProcessor(it) }
-
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
         exclude(group = "net.fabricmc.fabric-api")
