@@ -23,7 +23,6 @@ plugins {
     alias(libs.plugins.quilt.licenser)
     alias(libs.plugins.grgit)
     alias(libs.plugins.minotaur)
-    // id("com.matthewprenger.cursegradle") version("+")
     eclipse
     idea
     `java-library`
@@ -161,13 +160,6 @@ repositories {
     }
     maven {
         url = uri("https://maven.shedaniel.me/")
-    }
-    maven {
-        url = uri("https://cursemaven.com")
-
-        content {
-            includeGroup("curse.maven")
-        }
     }
     /*maven {
         name = "Siphalor's Maven"
@@ -470,9 +462,7 @@ extra {
 }
 
 val modrinth_id: String by extra
-val curseforge_id: String by extra
 val release_type: String by extra
-val curseforge_minecraft_version: String by extra
 val changelog_file: String by extra
 
 val modrinth_version = makeModrinthVersion(mod_version)
@@ -509,31 +499,6 @@ fun getBranch(): String {
     branch = grgit.branch.current().name
     return branch.substring(branch.lastIndexOf("/") + 1)
 }
-
-/*curseforge {
-    val token = System.getenv("CURSEFORGE_TOKEN")
-    apiKey = if (token == null || token.isEmpty()) "unset" else token
-    val gameVersion = if (curseforge_minecraft_version != "null") curseforge_minecraft_version else minecraft_version
-    project(closureOf<CurseProject> {
-        id = curseforge_id
-        changelog = changelog_text
-        releaseType = release_type
-        addGameVersion("Fabric")
-        addGameVersion("Quilt")
-        addGameVersion(gameVersion)
-        relations(closureOf<CurseRelation> {
-            requiredDependency("fabric-api")
-            embeddedLibrary("frozenlib")
-        })
-        mainArtifact(file("build/libs/${tasks.remapJar.get().archiveBaseName.get()}-${version}.jar"), closureOf<CurseArtifact> {
-            displayName = display_name
-        })
-        afterEvaluate {
-            uploadTask.dependsOn(remapJar)
-        }
-    })
-    curseGradleOptions.forgeGradleIntegration = false
-}*/
 
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
@@ -584,6 +549,5 @@ val github by tasks.register("github") {
 val publishMod by tasks.register("publishMod") {
     dependsOn(tasks.publish)
     dependsOn(github)
-    //dependsOn(tasks.curseforge)
     dependsOn(tasks.modrinth)
 }
