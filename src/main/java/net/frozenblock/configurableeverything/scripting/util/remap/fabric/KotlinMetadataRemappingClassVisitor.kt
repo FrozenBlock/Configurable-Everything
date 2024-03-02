@@ -53,7 +53,10 @@ class KotlinMetadataRemappingClassVisitor(
         super.visit(version, access, name, signature, superName, interfaces)
     }
 
-    override fun visitAnnotation(descriptor: String, visible: Boolean): AnnotationVisitor? {
+    override fun visitAnnotation(
+        descriptor: String,
+        visible: Boolean
+    ): AnnotationVisitor? {
         var result: AnnotationVisitor? = super.visitAnnotation(descriptor, visible)
 
         if (descriptor == ANNOTATION_DESCRIPTOR && result != null) {

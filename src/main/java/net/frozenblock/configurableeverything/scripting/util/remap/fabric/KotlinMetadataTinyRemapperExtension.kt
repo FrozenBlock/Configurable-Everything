@@ -29,7 +29,10 @@ import net.fabricmc.tinyremapper.api.TrClass
 import org.objectweb.asm.ClassVisitor
 
 object KotlinMetadataTinyRemapperExtension : TinyRemapper.ApplyVisitorProvider, TinyRemapper.Extension {
-    override fun insertApplyVisitor(cls: TrClass, next: ClassVisitor?): ClassVisitor {
+    override fun insertApplyVisitor(
+        cls: TrClass,
+        next: ClassVisitor?
+    ): ClassVisitor {
         return KotlinMetadataRemappingClassVisitor(cls.environment.remapper, next)
     }
 
