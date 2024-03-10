@@ -4,6 +4,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.GravityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.gravity.api.GravityAPI
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction

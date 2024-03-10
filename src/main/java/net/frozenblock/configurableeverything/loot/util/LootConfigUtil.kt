@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.loot.util
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.frozenblock.configurableeverything.config.LootConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.value
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable

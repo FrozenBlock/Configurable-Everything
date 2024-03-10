@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.StructureConfig
+import net.frozenblock.configurableeverything.util.value
 import net.minecraft.core.Holder
 import net.minecraft.world.level.levelgen.structure.StructureSet
 import net.minecraft.world.level.levelgen.structure.StructureSet.StructureSelectionEntry

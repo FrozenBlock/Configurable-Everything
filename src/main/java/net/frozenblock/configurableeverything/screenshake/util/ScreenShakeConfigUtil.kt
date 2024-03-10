@@ -4,6 +4,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
+import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager
 import net.frozenblock.lib.screenshake.api.client.ScreenShaker
 import net.minecraft.client.multiplayer.ClientLevel

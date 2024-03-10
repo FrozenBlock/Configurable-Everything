@@ -11,6 +11,7 @@ import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacemen
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.frozenblock.lib.config.api.instance.json.JsonType
