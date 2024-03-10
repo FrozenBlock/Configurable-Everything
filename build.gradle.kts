@@ -220,6 +220,9 @@ dependencies {
     // Fabric Language Kotlin. Required for Kotlin support.
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
+    // Kotlin Metadata Remapping
+    api(files("libs/fabric-loom-1.6.local-kotlin-remapper.jar"))?.let { include(it) }
+
     // get deps manually because FKE cant give them to compile classpath without an error
     api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
     modApi(kotlin("scripting-common"))

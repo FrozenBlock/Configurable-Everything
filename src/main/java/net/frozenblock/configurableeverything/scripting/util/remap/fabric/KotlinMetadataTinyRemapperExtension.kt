@@ -24,6 +24,7 @@
 
 package net.frozenblock.configurableeverything.scripting.util.remap.fabric
 
+import net.fabricmc.loom.kotlin.remapping.KotlinMetadataRemappingClassVisitor
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.api.TrClass
 import org.objectweb.asm.ClassVisitor
