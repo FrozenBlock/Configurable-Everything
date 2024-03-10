@@ -16,7 +16,7 @@ import kotlin.jvm.optionals.getOrNull
 
 fun <T : Any?> T.discard(): Unit = Unit
 
-inline var <T> TypedEntry<T>.value
+inline var <T> TypedEntry<T>.value: T
     get() = this.value()
     set(value) = this.setValue(value)
 
