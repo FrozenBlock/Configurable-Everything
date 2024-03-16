@@ -1,9 +1,5 @@
-@file:Environment(EnvType.CLIENT)
-
 package net.frozenblock.configurableeverything.config
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
