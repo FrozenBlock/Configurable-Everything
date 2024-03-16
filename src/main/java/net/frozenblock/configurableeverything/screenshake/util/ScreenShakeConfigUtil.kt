@@ -4,6 +4,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
+import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager
 import net.frozenblock.lib.screenshake.api.client.ScreenShaker
 import net.minecraft.client.multiplayer.ClientLevel
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
+import kotlin.jvm.optionals.getOrNull
 
 object ScreenShakeConfigUtil {
 
@@ -31,7 +33,7 @@ object ScreenShakeConfigUtil {
                         if (entities?.isEmpty() != false) { // apply to position if no entity is found
                             createVecShake(level, shake, Vec3(x, y, z))
                         } else { // find an entity to apply the screen shake to
-                            val entity: Entity = entities?.stream()?.findFirst()?.get() ?: return@launch
+                            val entity: Entity = entities.stream().findFirst().getOrNull() ?: return@launch
                             createEntityShake(level, entity, shake)
                         }
                     }

@@ -4,6 +4,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.RegistryConfig
+import net.frozenblock.configurableeverything.util.value
 import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 
 internal object RegistryConfigUtil {

@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.item.util
 
 import net.frozenblock.configurableeverything.config.ItemConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.value
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries

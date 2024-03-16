@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.sound.api.FlyBySoundHub
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component

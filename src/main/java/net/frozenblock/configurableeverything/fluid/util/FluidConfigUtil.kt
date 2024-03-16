@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.fluid.util
 
 import net.frozenblock.configurableeverything.config.FluidConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.value
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.material.Fluid

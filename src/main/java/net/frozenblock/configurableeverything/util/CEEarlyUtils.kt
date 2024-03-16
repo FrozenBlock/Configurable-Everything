@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ModContainer
 import net.fabricmc.loader.api.ObjectShare
+import net.frozenblock.lib.config.api.entry.TypedEntry
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
@@ -14,6 +15,10 @@ import kotlin.jvm.optionals.getOrNull
 // cool kotlin stuff
 
 fun <T : Any?> T.discard(): Unit = Unit
+
+inline var <T> TypedEntry<T>.value: T
+    get() = this.value()
+    set(value) = this.setValue(value)
 
 // config
 

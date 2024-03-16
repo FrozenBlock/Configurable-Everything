@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.sculk_spreading.util
 
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.SculkSpreadingConfig
+import net.frozenblock.configurableeverything.util.value
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.block.state.BlockState
 

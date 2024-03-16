@@ -17,7 +17,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      CURSEFORGE_TOKEN: ${{secrets.CURSEFORGE_TOKEN}}
       MODRINTH_TOKEN: ${{secrets.MODRINTH_TOKEN}}
     steps:
       - name: Checking Out the Repository
@@ -43,5 +42,5 @@ jobs:
           key: ${{ runner.os }}-gradle-#{{ hashFiles('**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Publish to CurseForge and Modrinth
+      - name: Publish to Modrinth
         run: ./gradlew publishMod -PreleaseType=stable -PuseThirdPartyMods=false
