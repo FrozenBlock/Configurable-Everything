@@ -19,57 +19,57 @@ Warning: Functionality will be lost if these are disabled.
     )
 
     @JvmField
-    var biome_placement: Boolean? = true,
+    var biome_placement: Boolean = true,
 
     @JvmField
-    var datafixer: Boolean? = true,
+    var datafixer: Boolean = true,
 
     @JvmField
-    var datapack: Boolean? = true,
+    var datapack: Boolean = true,
 
     @JvmField
-    var entity: Boolean? = true,
+    var entity: Boolean = true,
 
     @JvmField
-    var entity_zombie: Boolean? = true,
+    var entity_zombie: Boolean = true,
 
     @JvmField
-    var fluid: Boolean? = true,
+    var fluid: Boolean = true,
 
     @JvmField
-    var game: Boolean? = true,
+    var game: Boolean = true,
 
     @JvmField
-    var game_client: Boolean? = true,
+    var game_client: Boolean = true,
 
     @JvmField
-    var item: Boolean? = true,
+    var item: Boolean = true,
 
     @JvmField
-    var loot: Boolean? = true,
+    var loot: Boolean = true,
 
     @JvmField
-    var screenshake: Boolean? = true,
+    var screenshake: Boolean = true,
 
     @JvmField
-    var screenshake_client: Boolean? = true,
+    var screenshake_client: Boolean = true,
 
     @JvmField
-    var sculk_spreading: Boolean? = true,
+    var sculk_spreading: Boolean = true,
 
     @JvmField
     //@Environment(EnvType.CLIENT) // not working idk why
     @Comment("Client only")
-    var splash_text: Boolean? = true,
+    var splash_text: Boolean = true,
 
     @JvmField
-    var structure: Boolean? = true,
+    var structure: Boolean = true,
 
     @JvmField
-    var world: Boolean? = true,
+    var world: Boolean = true,
 
     @JvmField
-    var world_client: Boolean? = true
+    var world_client: Boolean = true
 ) {
     companion object : JsonConfig<MixinsConfig>(
         MOD_ID,
