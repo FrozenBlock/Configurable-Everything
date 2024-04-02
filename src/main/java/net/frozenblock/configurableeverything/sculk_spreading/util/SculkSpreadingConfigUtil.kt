@@ -10,7 +10,7 @@ object SculkSpreadingConfigUtil {
 
     fun growthState(original: BlockState, random: RandomSource, isWorldGeneration: Boolean): BlockState {
         val config = SculkSpreadingConfig.get()
-        if (MainConfig.get().sculk_spreading != true) return original
+        if (!MainConfig.get().sculk_spreading) return original
 
         val list = config.growths?.value ?: return original
         for (growth in list) {

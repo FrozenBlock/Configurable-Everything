@@ -9,7 +9,7 @@ internal object SurfaceRuleConfigUtil {
 
     internal fun init() {
         val config = SurfaceRuleConfig.get();
-        if (MainConfig.get().surface_rule == true) {
+        if (MainConfig.get().surface_rule) {
             SurfaceRuleEvents.MODIFY_GENERIC.register { context ->
                 run {
                     config.addedSurfaceRules?.value?.apply {

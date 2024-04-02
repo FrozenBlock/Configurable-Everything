@@ -15,7 +15,7 @@ object SplashTextConfigUtil {
 
     fun init() = runBlocking {
         val config = SplashTextConfig.get()
-        if (MainConfig.get().splash_text != true) return@runBlocking
+        if (!MainConfig.get().splash_text) return@runBlocking
         val added = config.addedSplashes
         val removed = config.removedSplashes
 

@@ -42,7 +42,8 @@ internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 @JvmField
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
 
-inline val SCRIPTING_ENABLED get() = HAS_EXTENSIONS && MainConfig.get().scripting == true && ScriptingConfig.get().applyKotlinScripts == true
+inline val SCRIPTING_ENABLED
+    get() = HAS_EXTENSIONS && MainConfig.get().scripting && ScriptingConfig.get().applyKotlinScripts == true
 
 @JvmField
 val DATAPACKS_PATH: Path = Path("config/$MOD_ID/datapacks")

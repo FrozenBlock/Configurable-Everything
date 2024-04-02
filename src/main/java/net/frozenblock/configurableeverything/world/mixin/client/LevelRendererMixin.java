@@ -20,7 +20,7 @@ public class LevelRendererMixin {
 		)
 	)
 	private float changeSunSize(float original) {
-		if (MainConfig.get().world != true) return original;
+		if (!MainConfig.get().world) return original;
 		var modified = WorldConfig.getSunSize();
 		if (modified == null) return original;
 		return modified;
@@ -36,7 +36,7 @@ public class LevelRendererMixin {
 		)
 	)
 	private float changeMoonSize(float original) {
-		if (MainConfig.get().world != true) return original;
+		if (!MainConfig.get().world) return original;
 		var modified = WorldConfig.getMoonSize();
 		if (modified == null) return original;
 		return modified;

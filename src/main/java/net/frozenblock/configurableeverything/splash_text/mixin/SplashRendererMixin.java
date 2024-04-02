@@ -23,7 +23,7 @@ public class SplashRendererMixin {
 		))
     private int changeColor(int original) {
       var modified = SplashTextConfig.get(false).splashColor;
-		  return MainConfig.get().splash_text == true && modified != null
+		  return MainConfig.get().splash_text && modified != null
         ? modified
         : original;
     }

@@ -17,7 +17,7 @@ internal object BiomeConfigUtil {
 
 	internal fun init() {
         val config = BiomeConfig.get()
-        if (MainConfig.get().biome == true) {
+        if (MainConfig.get().biome) {
             val biomeChange = BiomeChange(config.addedFeatures?.value, config.removedFeatures?.value, config.replacedFeatures?.value, config.musicReplacements?.value)
             BiomeChanges.addChange(id("config"), biomeChange)
 

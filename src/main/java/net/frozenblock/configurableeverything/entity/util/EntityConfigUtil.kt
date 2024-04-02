@@ -23,7 +23,7 @@ internal object EntityConfigUtil {
 	internal fun init() = runBlocking {
         val config = EntityConfig.get()
         // only run this on client
-        if (MainConfig.get().entity != true || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return@runBlocking
+        if (!MainConfig.get().entity || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return@runBlocking
         config.entityFlyBySounds?.value?.apply {
             for (sound in this) { launch {
                 if (sound == null) return@launch
@@ -47,7 +47,7 @@ internal object EntityConfigUtil {
     @JvmStatic
     internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
         val config = EntityConfig.get()
-        if (MainConfig.get().entity != true) return@runBlocking
+        if (!MainConfig.get().entity) return@runBlocking
         config.entityAttributeAmplifiers?.value()?.apply {
             val entityAttributeAmplifiers = this
             (entityAccess as? LivingEntity)?.apply {

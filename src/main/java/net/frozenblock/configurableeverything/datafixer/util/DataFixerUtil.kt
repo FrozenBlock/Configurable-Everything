@@ -33,7 +33,7 @@ object DataFixerUtil {
 	internal fun applyDataFixes(mod: ModContainer?) {
         if (mod == null) return
         val config = DataFixerConfig.get()
-        if (MainConfig.get().datafixer == true) {
+        if (MainConfig.get().datafixer) {
             log("Applying Configurable Everything's data fixes", UNSTABLE_LOGGING)
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion

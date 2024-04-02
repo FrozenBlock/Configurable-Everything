@@ -21,88 +21,88 @@ Enabled configs
 Warning: It is important to check the contents of each config before enabling them here.
 """
     )
-    var biome: Boolean? = false,
+    var biome: Boolean = false,
 
     @JvmField
     @EntrySyncData("biome_placement")
-    var biome_placement: Boolean? = false,
+    var biome_placement: Boolean = false,
 
     @JvmField
     @EntrySyncData("block")
-    var block: Boolean? = false,
+    var block: Boolean = false,
 
     @JvmField
     @EntrySyncData("datafixer")
-    var datafixer: Boolean? = false,
+    var datafixer: Boolean = false,
 
     @JvmField
     @EntrySyncData("entity")
-    var entity: Boolean? = false,
+    var entity: Boolean = false,
 
     @JvmField
     @EntrySyncData("fluid")
-    var fluid: Boolean? = false,
+    var fluid: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var game: Boolean? = false,
+    var game: Boolean = false,
 
     @JvmField
     @EntrySyncData("gravity")
-    var gravity: Boolean? = false,
+    var gravity: Boolean = false,
 
     @JvmField
     @EntrySyncData("item")
-    var item: Boolean? = false,
+    var item: Boolean = false,
 
     @JvmField
     @EntrySyncData("loot")
-    var loot: Boolean? = false,
+    var loot: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
-    var music: Boolean? = false,
+    var music: Boolean = false,
 
     @JvmField
     @EntrySyncData("registry")
-    var registry: Boolean? = false,
+    var registry: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var screen_shake: Boolean? = false,
+    var screen_shake: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Requires Fabric Kotlin Extensions")
-    var scripting: Boolean? = false,
+    var scripting: Boolean = false,
 
     @JvmField
     @EntrySyncData("sculk_spreading")
-    var sculk_spreading: Boolean? = false,
+    var sculk_spreading: Boolean = false,
 
     @JvmField
     //@Environment(EnvType.CLIENT) // not working idk why
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Client only")
-    var splash_text: Boolean? = false,
+    var splash_text: Boolean = false,
 
     @JvmField
     @EntrySyncData("structure")
-    var structure: Boolean? = false,
+    var structure: Boolean = false,
 
     @JvmField
     @EntrySyncData("surface_rule")
-    var surface_rule: Boolean? = false,
+    var surface_rule: Boolean = false,
 
     @JvmField
     @EntrySyncData("world")
-    var world: Boolean? = false,
+    var world: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Datapack features will not apply unless the main toggle and datapack toggle are set to true.")
-    var datapack: DatapackConfig? = DatapackConfig(),
+    var datapack: DatapackConfig = DatapackConfig(),
 ) {
 
     companion object : JsonConfig<MainConfig>(

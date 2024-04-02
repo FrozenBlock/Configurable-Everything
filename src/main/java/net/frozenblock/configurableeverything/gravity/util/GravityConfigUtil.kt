@@ -15,7 +15,7 @@ internal object GravityConfigUtil {
 
     internal fun init() = runBlocking {
         val config = GravityConfig.get()
-        if (MainConfig.get().gravity != true) return@runBlocking
+        if (!MainConfig.get().gravity) return@runBlocking
 
         val dimensionGravityBelts = config.gravityBelts?.value ?: return@runBlocking
         for (dimensionGravityBelt in dimensionGravityBelts) {

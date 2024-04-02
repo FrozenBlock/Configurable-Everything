@@ -79,7 +79,7 @@ internal object BiomePlacementChangeManager : SimpleResourceReloadListener<Biome
         changes?.putAll(queuedChanges)
 
         val config = BiomePlacementConfig.get()
-        if (MainConfig.get().biome_placement == true) {
+        if (MainConfig.get().biome_placement) {
             val addedBiomes = config.addedBiomes?.value
             val removedBiomes = config.removedBiomes?.value
             if (addedBiomes != null && removedBiomes != null) {
@@ -101,7 +101,7 @@ internal object BiomePlacementChangeManager : SimpleResourceReloadListener<Biome
         val changes: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 
         init {
-            if (MainConfig.get().datapack?.biome_placement == true) {
+            if (MainConfig.get().datapack?.biome_placement) {
                 loadPlacementChanges()
             }
         }

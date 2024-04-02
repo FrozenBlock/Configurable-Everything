@@ -9,7 +9,7 @@ object BlockConfigUtil {
 
     fun init() {
         val config = BlockConfig.get()
-        if (MainConfig.get().block != true) return
+        if (!MainConfig.get().block) return
         config.soundGroupOverwrites?.value?.apply {
             for (overwrite in this) {
                 val immutable = overwrite?.immutable() ?: continue

@@ -10,9 +10,10 @@ object WorldConfigUtil {
 
     fun init() {
         val config = WorldConfig.get()
-        if (MainConfig.get().world == true)
-            ConfigRegistry.register(FrozenLibConfig.INSTANCE, ConfigModification { libConfig ->
-                libConfig.removeExperimentalWarning = config.disableExperimentalWarning == true
-            })
+        if (!MainConfig.get().world) return
+
+        ConfigRegistry.register(FrozenLibConfig.INSTANCE, ConfigModification { libConfig ->
+            libConfig.removeExperimentalWarning = config.disableExperimentalWarning == true
+        })
     }
 }

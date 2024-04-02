@@ -25,7 +25,7 @@ public class AllZombiesBreakDoorsMixin {
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;isUnderWaterConverting()Z", shift = At.Shift.BEFORE))
 	public void tick(CallbackInfo callbackInfo) {
 		Zombie zombie = Zombie.class.cast(this);
-		if (MainConfig.get().entity == true) {
+		if (MainConfig.get().entity) {
 			if (!EntityConfig.get().zombie.allZombiesBreakDoors) {
 				if (GoalUtils.hasGroundPathNavigation(zombie)) {
 					((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.canBreakDoors);
@@ -42,7 +42,7 @@ public class AllZombiesBreakDoorsMixin {
 
 	@Inject(method = "canBreakDoors", at = @At("HEAD"), cancellable = true)
 	public void mcFixes$canBreakDoors(CallbackInfoReturnable<Boolean> info) {
-		if (MainConfig.get().entity == true) {
+		if (MainConfig.get().entity) {
 			var zombie = EntityConfig.get().zombie;
 			if (zombie != null && zombie.allZombiesBreakDoors) {
 				info.setReturnValue(true);
@@ -52,7 +52,7 @@ public class AllZombiesBreakDoorsMixin {
 
 	@Inject(method = "addBehaviourGoals", at = @At("TAIL"))
 	public void mcFixes$addBehaviourGoals(CallbackInfo info) {
-		if (MainConfig.get().entity == true) {
+		if (MainConfig.get().entity) {
 			Mob.class.cast(this).goalSelector
 				.addGoal(
 					1,
@@ -60,7 +60,7 @@ public class AllZombiesBreakDoorsMixin {
 						Mob.class.cast(this),
 						difficulty -> difficulty == Difficulty.HARD
 						|| (
-							MainConfig.get().entity == true
+							MainConfig.get().entity
 							&& EntityConfig.get().zombie != null
 							&& EntityConfig.get().zombie.ignoreDoorBreakDifficulty == true
 						)
@@ -71,7 +71,7 @@ public class AllZombiesBreakDoorsMixin {
 
 	@ModifyExpressionValue(method = "addAdditionalSaveData", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;canBreakDoors()Z"))
 	public boolean mcFixes$addAdditionalSaveData(boolean original) {
-		return MainConfig.get().entity == true ? this.canBreakDoors : original;
+		return MainConfig.get().entity ? this.canBreakDoors : original;
 	}
 
 	@Shadow

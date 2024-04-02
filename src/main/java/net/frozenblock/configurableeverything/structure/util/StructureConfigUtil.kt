@@ -14,7 +14,7 @@ import java.util.*
 
 internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
     val config = StructureConfig.get()
-    if (MainConfig.get().structure != true) return@runBlocking original
+    if (!MainConfig.get().structure) return@runBlocking original
     val newList: MutableList<StructureSelectionEntry> = mutableListOf()
     newList.addAll(original)
 
@@ -31,7 +31,7 @@ internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<
 
 internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
     val config = StructureConfig.get()
-    if (MainConfig.get().structure != true) return@runBlocking original
+    if (!MainConfig.get().structure) return@runBlocking original
     val newList: MutableList<Holder<StructureSet>> = mutableListOf()
     newList.addAll(original)
 
