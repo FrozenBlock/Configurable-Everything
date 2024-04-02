@@ -101,7 +101,7 @@ internal object BiomePlacementChangeManager : SimpleResourceReloadListener<Biome
         val changes: MutableMap<ResourceLocation?, BiomePlacementChange?> = Object2ObjectOpenHashMap()
 
         init {
-            if (MainConfig.get().datapack?.biome_placement) {
+            if (MainConfig.get().datapack.biome_placement) {
                 loadPlacementChanges()
             }
         }

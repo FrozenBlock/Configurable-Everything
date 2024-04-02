@@ -125,26 +125,26 @@ Warning: It is important to check the contents of each config before enabling th
     data class DatapackConfig(
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-        var applyDatapackFolders: Boolean? = true,
+        var applyDatapackFolders: Boolean = true,
 
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-        var datapackFolders: List<String?>? = arrayListOf(
+        var datapackFolders: List<String> = arrayListOf(
             DATAPACKS_PATH.pathString.replace('\\', '/'), // make it readable
             "./datapacks"
         ),
 
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-        var biome: Boolean? = true,
+        var biome: Boolean = true,
 
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-        var biome_placement: Boolean? = true,
+        var biome_placement: Boolean = true,
 
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
         @Comment("Allows the usage of JSON5 files in datapacks.")
-        var json5Support: Boolean? = true
+        var json5Support: Boolean = true
     )
 }
