@@ -10,8 +10,8 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.dimension.DimensionType
 
 data class DimensionBiomeKeyList(
-	@JvmField var dimension: ResourceKey<DimensionType>?,
-	@JvmField var biomes: List<Either<ResourceKey<Biome> , TagKey<Biome>>?>?
+	@JvmField var dimension: ResourceKey<DimensionType>,
+	@JvmField var biomes: List<Either<ResourceKey<Biome> , TagKey<Biome>>>
 ) {
 	companion object {
         @JvmField

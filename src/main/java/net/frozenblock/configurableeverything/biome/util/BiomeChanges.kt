@@ -16,11 +16,11 @@ object BiomeChanges {
 
     @JvmStatic
     fun addChange(
-        key: ResourceLocation?,
-        addedFeatures: List<BiomePlacedFeatureList?>?,
-        removedFeatures: List<BiomePlacedFeatureList?>?,
-        replacedFeatures: List<BiomePlacedFeatureReplacementList?>?,
-        musicReplacements: List<BiomeMusic?>?
+        key: ResourceLocation,
+        addedFeatures: List<BiomePlacedFeatureList>,
+        removedFeatures: List<BiomePlacedFeatureList>,
+        replacedFeatures: List<BiomePlacedFeatureReplacementList>,
+        musicReplacements: List<BiomeMusic>
     ) {
         MANAGER.addChange(key, addedFeatures, removedFeatures, replacedFeatures, musicReplacements)
     }

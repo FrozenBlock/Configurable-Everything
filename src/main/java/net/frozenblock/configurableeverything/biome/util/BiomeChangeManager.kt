@@ -33,8 +33,8 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
     fun getPath(changeId: ResourceLocation, jsonType: JsonType): ResourceLocation =
         ResourceLocation(changeId.namespace, "$DIRECTORY/${changeId.path}.${jsonType.serializedName}")
 
-    private var changes: MutableMap<ResourceLocation?, BiomeChange?>? = null
-    private val queuedChanges: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
+    private var changes: MutableMap<ResourceLocation, BiomeChange>? = null
+    private val queuedChanges: MutableMap<ResourceLocation, BiomeChange> = Object2ObjectOpenHashMap()
     @PublishedApi
     internal fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.toList()?.stream()?.toList()
 
@@ -44,20 +44,19 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
      * Adds a biome change with the specified [ResourceLocation]
      */
     internal fun addChange(
-        key: ResourceLocation?,
-        addedFeatures: List<BiomePlacedFeatureList?>?,
-        removedFeatures: List<BiomePlacedFeatureList?>?,
-        replacedFeatures: List<BiomePlacedFeatureReplacementList?>?,
-        musicReplacements: List<BiomeMusic?>?
+        key: ResourceLocation,
+        addedFeatures: List<BiomePlacedFeatureList>,
+        removedFeatures: List<BiomePlacedFeatureList>,
+        replacedFeatures: List<BiomePlacedFeatureReplacementList>,
+        musicReplacements: List<BiomeMusic>
     ) = addChange(key, BiomeChange(addedFeatures, removedFeatures, replacedFeatures, musicReplacements))
 
     /**
      * Adds a biome change with the specified [ResourceLocation]
      */
     internal fun addChange(key: ResourceLocation?, change: BiomeChange?) {
-        if (key != null && change != null
-            && change.addedFeatures != null && change.removedFeatures != null && change.replacedFeatures != null && change.musicReplacements != null) {
-                queuedChanges[key] = change
+        if (key != null && change != null) {
+            queuedChanges[key] = change
         }
     }
 
@@ -78,9 +77,9 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
         changes = prepared?.changes
         changes?.putAll(queuedChanges)
         return CompletableFuture.runAsync {
-            applyModifications(
-                changes?.values
-            )
+            changes?.values?.also {
+                applyModifications(it)
+            }
         }
     }
 
@@ -88,7 +87,7 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
         = id("biome_change_reloader")
 
     internal class BiomeChangeLoader(private val manager: ResourceManager?, private val profiler: ProfilerFiller?) {
-        val changes: MutableMap<ResourceLocation?, BiomeChange?> = Object2ObjectOpenHashMap()
+        val changes: MutableMap<ResourceLocation, BiomeChange> = Object2ObjectOpenHashMap()
 
         init {
             if (MainConfig.get().datapack.biome) {

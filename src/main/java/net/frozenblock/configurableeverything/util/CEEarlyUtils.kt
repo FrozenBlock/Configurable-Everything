@@ -9,6 +9,7 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
+import kotlin.reflect.KProperty
 
 // dont initialize minecraft classes here
 
@@ -66,6 +67,12 @@ inline fun <T : Any?> ifExperimental(crossinline value: () -> T): T? {
     else null
 }
 
+operator fun <T> TypedEntry<T>.getValue(thisRef: Any?, property: KProperty<*>): T
+    = this.value()
+
+operator fun <T> TypedEntry<T>.setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+    this.setValue(value)
+}
 
 // environment
 

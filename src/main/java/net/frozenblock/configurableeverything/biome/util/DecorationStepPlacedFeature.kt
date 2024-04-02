@@ -8,8 +8,8 @@ import net.minecraft.world.level.levelgen.GenerationStep
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
 data class DecorationStepPlacedFeature(
-	@JvmField var decoration: GenerationStep.Decoration?,
-	@JvmField var placedFeatures: List<ResourceKey<PlacedFeature>?>?
+	@JvmField var decoration: GenerationStep.Decoration,
+	@JvmField var placedFeatures: List<ResourceKey<PlacedFeature>>
 ) {
 	companion object {
 		@JvmField
