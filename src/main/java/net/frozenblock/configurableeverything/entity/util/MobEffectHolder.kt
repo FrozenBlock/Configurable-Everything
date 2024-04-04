@@ -7,12 +7,12 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.effect.MobEffect
 
 data class MobEffectHolder(
-    @JvmField var effect: ResourceKey<MobEffect>?,
-    @JvmField var duration: Int?,
-    @JvmField var amplifier: Int?,
-    @JvmField var ambient: Boolean?,
-    @JvmField var visible: Boolean?,
-    @JvmField var showIcon: Boolean?
+    @JvmField var effect: ResourceKey<MobEffect>,
+    @JvmField var duration: Int,
+    @JvmField var amplifier: Int,
+    @JvmField var ambient: Boolean,
+    @JvmField var visible: Boolean,
+    @JvmField var showIcon: Boolean
 ) {
     companion object {
         @JvmField

@@ -13,7 +13,7 @@ public class ZombieFleeSunGoal extends FleeSunGoal {
 
 	@Override
 	public boolean canUse() {
-		if (!(MainConfig.get(false).entity && EntityConfig.get(false).zombie.zombiesAvoidSun)) {
+		if (!(MainConfig.get(false).entity && EntityConfig.get().zombie.zombiesAvoidSun)) {
 			return false;
 		}
 		return super.canUse();

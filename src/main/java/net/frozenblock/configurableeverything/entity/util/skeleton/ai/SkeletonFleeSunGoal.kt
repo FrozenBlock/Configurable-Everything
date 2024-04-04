@@ -12,6 +12,6 @@ class SkeletonFleeSunGoal(mob: PathfinderMob, speedModifier: Double) : FleeSunGo
         if (!MainConfig.get().entity)
             return super.canUse()
 
-        return config.skeleton?.skeletonsAvoidSun == true && super.canUse()
+        return config.skeleton.skeletonsAvoidSun && super.canUse()
     }
 }
