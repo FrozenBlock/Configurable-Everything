@@ -20,13 +20,13 @@ import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
 object DataFixerUtil {
 
     @JvmField
-    val SCHEMAS: MutableList<SchemaEntry?> = mutableListOf<SchemaEntry?>().apply {
-        DataFixerConfig.get().schemas?.value?.let { this.addAll(it) }
+    val SCHEMAS: MutableList<SchemaEntry> = mutableListOf<SchemaEntry>().apply {
+        this.addAll(DataFixerConfig.get().schemas.value)
     }
 
     @JvmField
-    val REGISTRY_FIXERS: MutableList<RegistryFixer?> = mutableListOf<RegistryFixer?>().apply {
-        DataFixerConfig.get().registryFixers?.value?.let { this.addAll(it) }
+    val REGISTRY_FIXERS: MutableList<RegistryFixer> = mutableListOf<RegistryFixer>().apply {
+        this.addAll(DataFixerConfig.get().registryFixers.value)
     }
 
     // doesn't need JvmStatic because it's never called in Java
@@ -37,10 +37,6 @@ object DataFixerUtil {
             log("Applying Configurable Everything's data fixes", UNSTABLE_LOGGING)
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion
-            if (dataVersion == null) {
-                logError("Data version is null")
-                return
-            }
             val builder = QuiltDataFixerBuilder(dataVersion)
             var maxSchema = 0
             val addedSchemas: MutableList<Schema> = ArrayList()

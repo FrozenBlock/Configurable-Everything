@@ -10,8 +10,8 @@ import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceLocation
 
 data class RegistryFixer(
-    @JvmField var registryKey: ResourceLocation?,
-    @JvmField var fixers: List<Fixer?>?
+    @JvmField var registryKey: ResourceLocation,
+    @JvmField var fixers: List<Fixer>
 ) {
     companion object {
         @JvmField
@@ -23,16 +23,16 @@ data class RegistryFixer(
         }
 
         @JvmStatic
-        fun getFixedValueInRegistry(registry: Registry<*>?, name: ResourceLocation?, original: Any?): ResourceLocation? {
-            if (original != null && DataFixerConfig.get().overrideRealEntries != true)
+        fun getFixedValueInRegistry(registry: Registry<*>, name: ResourceLocation?, original: Any?): ResourceLocation? {
+            if (original != null && !DataFixerConfig.get().overrideRealEntries)
                 return null
-            if (registry == null || name == null) return null
-            val registryFixers: List<RegistryFixer?> = REGISTRY_FIXERS
+            if (name == null) return null
+            val registryFixers: List<RegistryFixer> = REGISTRY_FIXERS
             for (registryFixer in registryFixers) {
-                if (registryFixer?.registryKey == registry.key().location()) {
-                    if (registryFixer?.fixers == null) continue
-                    for (fixer in registryFixer.fixers!!) {
-                        if (fixer?.oldId == name) {
+                if (registryFixer.registryKey == registry.key().location()) {
+                    if (registryFixer.fixers == null) continue
+                    for (fixer in registryFixer.fixers) {
+                        if (fixer.oldId == name) {
                             log(
                                 "Successfully changed old ID " + name + " to new ID " + fixer.newId,
                                 UNSTABLE_LOGGING
