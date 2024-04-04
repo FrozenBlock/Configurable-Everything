@@ -13,14 +13,12 @@ object FluidConfigUtil {
     fun getTickDelay(original: Int, fluid: Fluid, level: LevelReader): Int {
         val config = FluidConfig.get()
         if (MainConfig.get().fluid) {
-            config.flowSpeeds?.value?.apply {
-                for (flowSpeed in this) {
-                    val fSfluid = flowSpeed?.fluid ?: continue
-                    val flowTickDelay = flowSpeed.flowTickDelay ?: continue
-                    val ultraWarmFlowTickDelay = flowSpeed.ultraWarmFlowTickDelay ?: continue
-                    if (fSfluid == BuiltInRegistries.FLUID.getResourceKey(fluid).orElseThrow()) {
-                        return if (level.dimensionType().ultraWarm()) ultraWarmFlowTickDelay else flowTickDelay
-                    }
+            for (flowSpeed in config.flowSpeeds.value) {
+                val fSfluid = flowSpeed?.fluid
+                val flowTickDelay = flowSpeed.flowTickDelay
+                val ultraWarmFlowTickDelay = flowSpeed.ultraWarmFlowTickDelay
+                if (fSfluid == BuiltInRegistries.FLUID.getResourceKey(fluid).orElseThrow()) {
+                    return if (level.dimensionType().ultraWarm()) ultraWarmFlowTickDelay else flowTickDelay
                 }
             }
         }
