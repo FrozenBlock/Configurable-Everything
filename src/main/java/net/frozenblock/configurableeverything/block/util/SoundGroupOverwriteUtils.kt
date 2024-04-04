@@ -10,9 +10,9 @@ import net.minecraft.world.level.block.SoundType
 import java.util.function.BooleanSupplier
 
 data class MutableBlockSoundGroupOverwrite(
-    var blockId: ResourceLocation?,
-    var soundOverwrite: MutableSoundType?,
-    var condition: BooleanSupplier?
+    var blockId: ResourceLocation,
+    var soundOverwrite: MutableSoundType,
+    var condition: BooleanSupplier
 ) {
     companion object {
         @JvmField
@@ -24,16 +24,13 @@ data class MutableBlockSoundGroupOverwrite(
         }
     }
 
-    fun immutable(): BlockSoundGroupOverwrite? {
-        val blockId = this.blockId ?: return null
-        val soundOverwrite = this.soundOverwrite?.immutable() ?: return null
-        val condition = this.condition ?: return null
-        return BlockSoundGroupOverwrite(blockId, soundOverwrite, condition)
+    fun immutable(): BlockSoundGroupOverwrite {
+        return BlockSoundGroupOverwrite(this.blockId, this.soundOverwrite, this.condition)
     }
 }
 
 fun BlockSoundGroupOverwrite.mutable(): MutableBlockSoundGroupOverwrite
-    = MutableBlockSoundGroupOverwrite(blockId, soundOverwrite.mutable(), condition)
+    = MutableBlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.mutable(), this.condition)
 
 
 data class MutableSoundType(

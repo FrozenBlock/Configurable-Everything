@@ -47,26 +47,25 @@ private fun soundGroupOverwrites(
         entryBuilder,
         text("sound_group_overwrites"),
         config::soundGroupOverwrites,
-        {defaultConfig.soundGroupOverwrites!!},
+        { defaultConfig.soundGroupOverwrites },
         false,
         tooltip("sound_group_overwrites"),
         { newValue -> config.soundGroupOverwrites = newValue},
-        { element, _ ->
-            val defaultSoundOverwrite = MutableSoundType(
-                100F,
-                1F,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH
-            )
+        { element: MutableBlockSoundGroupOverwrite?, _ ->
             val defaultOverwrite = MutableBlockSoundGroupOverwrite(
                 vanillaId("grass_block"),
-                defaultSoundOverwrite
+                MutableSoundType(
+                    100F,
+                    1F,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH
+                )
             ) { true }
             val overwrite: MutableBlockSoundGroupOverwrite = element ?: defaultOverwrite
-            val soundOverwrite = overwrite.soundOverwrite ?: defaultSoundOverwrite
+            val soundOverwrite = overwrite.soundOverwrite
             multiElementEntry(
                 text("sound_group_overwrites.sound_group_overwrite"),
                 overwrite,
