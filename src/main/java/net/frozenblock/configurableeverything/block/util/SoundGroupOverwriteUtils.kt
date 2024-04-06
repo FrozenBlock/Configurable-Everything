@@ -25,7 +25,7 @@ data class MutableBlockSoundGroupOverwrite(
     }
 
     fun immutable(): BlockSoundGroupOverwrite {
-        return BlockSoundGroupOverwrite(this.blockId, this.soundOverwrite, this.condition)
+        return BlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.immutable(), this.condition)
     }
 }
 
@@ -34,13 +34,13 @@ fun BlockSoundGroupOverwrite.mutable(): MutableBlockSoundGroupOverwrite
 
 
 data class MutableSoundType(
-    var volume: Float?,
-    var pitch: Float?,
-    var breakSound: SoundEvent?,
-    var stepSound: SoundEvent?,
-    var placeSound: SoundEvent?,
-    var hitSound: SoundEvent?,
-    var fallSound: SoundEvent?
+    var volume: Float,
+    var pitch: Float,
+    var breakSound: SoundEvent,
+    var stepSound: SoundEvent,
+    var placeSound: SoundEvent,
+    var hitSound: SoundEvent,
+    var fallSound: SoundEvent
 ) {
     companion object {
         @JvmField
@@ -58,19 +58,8 @@ data class MutableSoundType(
         }
     }
 
-    fun immutable(): SoundType? {
-        val volume = this.volume
-        val pitch = this.pitch
-        val breakSound = this.breakSound
-        val stepSound = this.stepSound
-        val placeSound = this.placeSound
-        val hitSound = this.hitSound
-        val fallSound = this.fallSound
-        if (volume == null || pitch == null || breakSound == null || stepSound == null || placeSound == null || hitSound == null || fallSound == null)
-            return null
-
-        return SoundType(volume, pitch, breakSound, stepSound, placeSound, hitSound, fallSound)
-    }
+    fun immutable(): SoundType
+        = SoundType(volume, pitch, breakSound, stepSound, placeSound, hitSound, fallSound)
 }
 
 fun SoundType.mutable(): MutableSoundType

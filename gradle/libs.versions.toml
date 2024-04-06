@@ -9,7 +9,7 @@ fabric_loader = "0.14.24"
 
 # Dependencies
 fabric_api = "0.91.1+1.20.2"
-kotlin = "1.9.23"
+kotlin = "2.0.0-Beta5"
 fabric_kotlin = "1.10.15+kotlin.1.9.21"
 frozenLib = "1.4.4-mc1.20.2"
 

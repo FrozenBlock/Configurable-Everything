@@ -14,7 +14,7 @@ object FluidConfigUtil {
         val config = FluidConfig.get()
         if (MainConfig.get().fluid) {
             for (flowSpeed in config.flowSpeeds.value) {
-                val fSfluid = flowSpeed?.fluid
+                val fSfluid = flowSpeed.fluid
                 val flowTickDelay = flowSpeed.flowTickDelay
                 val ultraWarmFlowTickDelay = flowSpeed.ultraWarmFlowTickDelay
                 if (fSfluid == BuiltInRegistries.FLUID.getResourceKey(fluid).orElseThrow()) {
