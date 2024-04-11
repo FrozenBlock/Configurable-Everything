@@ -17,19 +17,14 @@ internal object GravityConfigUtil {
         val config = GravityConfig.get()
         if (!MainConfig.get().gravity) return@runBlocking
 
-        val dimensionGravityBelts = config.gravityBelts?.value ?: return@runBlocking
-        for (dimensionGravityBelt in dimensionGravityBelts) {
-            launch {
-                val dimension: ResourceKey<Level> = dimensionGravityBelt?.dimension ?: return@launch
-                val gravityBelts: List<GravityBelt<AbsoluteGravityFunction>?> = dimensionGravityBelt.gravityBelts ?: return@launch
+        val dimensionGravityBelts = config.gravityBelts.value
+        for (dimensionGravityBelt in dimensionGravityBelts) { launch {
+            val dimension: ResourceKey<Level> = dimensionGravityBelt.dimension
+            val gravityBelts: List<GravityBelt<AbsoluteGravityFunction>> = dimensionGravityBelt.gravityBelts
 
-                for (belt in gravityBelts) {
-                    launch {
-                        if (belt == null) return@launch
-                        GravityAPI.register(dimension, belt)
-                    }
-                }
-            }
-        }
+            for (belt in gravityBelts) { launch {
+                GravityAPI.register(dimension, belt)
+            } }
+        } }
     }
 }
