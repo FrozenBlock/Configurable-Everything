@@ -36,9 +36,9 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
     private var changes: MutableMap<ResourceLocation, BiomeChange>? = null
     private val queuedChanges: MutableMap<ResourceLocation, BiomeChange> = Object2ObjectOpenHashMap()
     @PublishedApi
-    internal fun getChanges(): MutableList<BiomeChange?>? = changes?.values?.toList()?.stream()?.toList()
+    internal fun getChanges(): MutableList<BiomeChange>? = changes?.values?.toList()?.stream()?.toList()
 
-    internal fun getChange(id: ResourceLocation?): BiomeChange? = changes?.get(id)
+    internal fun getChange(id: ResourceLocation): BiomeChange? = changes?.get(id)
 
     /**
      * Adds a biome change with the specified [ResourceLocation]
@@ -54,10 +54,8 @@ internal object BiomeChangeManager : SimpleResourceReloadListener<BiomeChangeLoa
     /**
      * Adds a biome change with the specified [ResourceLocation]
      */
-    internal fun addChange(key: ResourceLocation?, change: BiomeChange?) {
-        if (key != null && change != null) {
-            queuedChanges[key] = change
-        }
+    internal fun addChange(key: ResourceLocation, change: BiomeChange) {
+        queuedChanges[key] = change
     }
 
     override fun load(

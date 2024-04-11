@@ -15,7 +15,7 @@ data class GameConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Changes the game window title. Change this from an empty string to apply.")
-    var windowTitle: String? = "",
+    var windowTitle: String = "",
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
@@ -25,7 +25,7 @@ Changes the version series. Change this from an empty string to apply.
 The default version series is "main".
 """
     )
-    var versionSeries: String? = ""
+    var versionSeries: String = ""
 ) {
     companion object : JsonConfig<GameConfig>(
         MOD_ID,
