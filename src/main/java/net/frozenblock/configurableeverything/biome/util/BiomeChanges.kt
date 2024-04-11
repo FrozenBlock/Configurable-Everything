@@ -1,32 +1,33 @@
 package net.frozenblock.configurableeverything.biome.util
 
+import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil.applyModifications
+import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.DataReloadManager
 import net.minecraft.resources.ResourceLocation
 
-object BiomeChanges {
+@Suppress("NOTHING_TO_INLINE")
+object BiomeChanges : DataReloadManager<BiomeChange>(
+    "biome_change_reloader",
+    "Biome Change Manager",
+    "biome_modifications",
+    "Load Biome Changes",
+    "biome change",
+    BiomeChange.CODEC
+) {
+    override val shouldApply: Boolean get() = MainConfig.get().datapack.biome
 
-    @PublishedApi
-    internal val MANAGER = BiomeChangeManager
+    override fun apply(values: Collection<BiomeChange>) {
+        applyModifications(values)
+    }
 
-    @JvmStatic
-    inline val changes: List<BiomeChange>?
-        get() = MANAGER.getChanges()
-
-    @JvmStatic
-    fun getChange(id: ResourceLocation): BiomeChange? = MANAGER.getChange(id)
-
-    @JvmStatic
-    fun addChange(
+    /**
+     * Adds a biome change with the specified [ResourceLocation]
+     */
+    internal inline fun add(
         key: ResourceLocation,
         addedFeatures: List<BiomePlacedFeatureList>,
         removedFeatures: List<BiomePlacedFeatureList>,
         replacedFeatures: List<BiomePlacedFeatureReplacementList>,
         musicReplacements: List<BiomeMusic>
-    ) {
-        MANAGER.addChange(key, addedFeatures, removedFeatures, replacedFeatures, musicReplacements)
-    }
-
-    @JvmStatic
-    fun addChange(key: ResourceLocation, change: BiomeChange) {
-        MANAGER.addChange(key, change)
-    }
+    ) = add(key, BiomeChange(addedFeatures, removedFeatures, replacedFeatures, musicReplacements))
 }

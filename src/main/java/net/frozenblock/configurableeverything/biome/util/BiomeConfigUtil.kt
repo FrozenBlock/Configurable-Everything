@@ -19,10 +19,10 @@ internal object BiomeConfigUtil {
         val config = BiomeConfig.get()
         if (MainConfig.get().biome) {
             val biomeChange = BiomeChange(config.addedFeatures.value, config.removedFeatures.value, config.replacedFeatures.value, config.musicReplacements.value)
-            BiomeChanges.addChange(id("config"), biomeChange)
+            BiomeChanges.add(id("config"), biomeChange)
 
             val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-            resourceLoader?.registerReloadListener(BiomeChangeManager)
+            resourceLoader?.registerReloadListener(BiomeChanges)
         }
     }
 
