@@ -1,5 +1,6 @@
 import groovy.xml.XmlSlurper
 import org.codehaus.groovy.runtime.ResourceGroovyMethods
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
@@ -317,9 +318,9 @@ tasks {
     }
 
     withType(KotlinCompile::class) {
-        kotlinOptions {
+        compilerOptions {
             // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-            jvmTarget = "17"
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
