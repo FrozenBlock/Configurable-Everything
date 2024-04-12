@@ -18,14 +18,11 @@ internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<
     val newList: MutableList<StructureSelectionEntry> = mutableListOf()
     newList.addAll(original)
 
-    config.removedStructures?.value?.apply {
-        for (entry in original) {
-            launch {
-                val key = entry.structure.unwrapKey().orElseThrow().location()
-                if (this@apply.contains(key)) newList.remove(entry)
-            }
-        }
-    }
+    val removedStructures = config.removedStructures.value
+    for (entry in original) { launch {
+        val key = entry.structure.unwrapKey().orElseThrow().location()
+        if (removedStructures.contains(key)) newList.remove(entry)
+    } }
     return@runBlocking Collections.unmodifiableList(newList)
 }
 
@@ -35,13 +32,10 @@ internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<
     val newList: MutableList<Holder<StructureSet>> = mutableListOf()
     newList.addAll(original)
 
-    config.removedStructureSets?.value?.apply {
-        for (set in original) {
-            launch {
-                if (this@apply.contains(set.unwrapKey().orElseThrow().location()))
-                    newList.remove(set)
-            }
-        }
-    }
+    val removedStructureSets = config.removedStructureSets.value
+    for (set in original) { launch {
+        if (removedStructureSets.contains(set.unwrapKey().orElseThrow().location()))
+            newList.remove(set)
+    } }
     return@runBlocking Collections.unmodifiableList(newList)
 }
