@@ -21,7 +21,7 @@ buildscript {
 plugins {
     kotlin("jvm") version("+")
     id("fabric-loom") version("+")
-    id("org.quiltmc.gradle.licenser") version("+")
+    id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
     eclipse
