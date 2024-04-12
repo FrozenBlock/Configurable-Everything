@@ -11,11 +11,7 @@ internal object SurfaceRuleConfigUtil {
         val config = SurfaceRuleConfig.get();
         if (MainConfig.get().surface_rule) {
             SurfaceRuleEvents.MODIFY_GENERIC.register { context ->
-                run {
-                    config.addedSurfaceRules?.value?.apply {
-                        context.addAll(this)
-                    }
-                }
+                context.addAll(config.addedSurfaceRules.value)
             }
         }
     }
