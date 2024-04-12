@@ -17,7 +17,7 @@ public abstract class ResourcePackScannerMixin {
 	@WrapOperation(method = "<clinit>", at = @At(value = "INVOKE", target = "Ljava/util/Set;of([Ljava/lang/Object;)Ljava/util/Set;", ordinal = 0))
 	private static Set<String> wrapBlacklist(Object[] set, Operation<Set<String>> original) {
 		SodiumConfig config = SodiumConfig.get();
-		if (Boolean.TRUE.equals(config.disableResourcePackScanner)) {
+		if (config.disableResourcePackScanner) {
 			return original.call((Object) new String[0]);
 		}
 		return original.call((Object) set);
@@ -26,7 +26,7 @@ public abstract class ResourcePackScannerMixin {
 	@WrapOperation(method = "<clinit>", at = @At(value = "INVOKE", target = "Ljava/util/Set;of(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;", ordinal = 0))
 	private static Set<String> wrapBlackList(Object obj1, Object obj2, Operation<Set<String>> original) {
 		SodiumConfig config = SodiumConfig.get();
-		if (Boolean.TRUE.equals(config.disableResourcePackScanner)) {
+		if (config.disableResourcePackScanner) {
 			return Set.of();
 		}
 		return original.call(obj1, obj2);
@@ -35,7 +35,7 @@ public abstract class ResourcePackScannerMixin {
     @Inject(method = "checkIfCoreShaderLoaded", at = @At("HEAD"), cancellable = true, remap = false)
 	private static void disableCompatChecks(ResourceManager manager, CallbackInfo ci) {
 		SodiumConfig config = SodiumConfig.get();
-		if (Boolean.TRUE.equals(config.disableResourcePackScanner)) {
+		if (config.disableResourcePackScanner) {
 			ci.cancel();
 		}
 	}

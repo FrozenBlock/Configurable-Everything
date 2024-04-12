@@ -11,22 +11,22 @@ internal object RegistryConfigUtil {
 
     internal fun init() {
         val config = RegistryConfig.get()
-        if (MainConfig.get().registry == true) {
-            RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
-                runBlocking {
-                    launch {
-                        config.placedFeatureAdditions?.value?.apply {
-                            for (placedFeatureAddition in this) {
-                                placedFeatureAddition?.register(setupContext)
-                            }
+        if (!MainConfig.get().registry) return
+
+        RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
+            runBlocking {
+                launch {
+                    config.placedFeatureAdditions.value.apply {
+                        for (placedFeatureAddition in this) {
+                            placedFeatureAddition.register(setupContext)
                         }
                     }
+                }
 
-                    launch {
-                        config.biomeAdditions?.value?.apply {
-                            for (biomeAddition in this) {
-                                biomeAddition?.register(setupContext)
-                            }
+                launch {
+                    config.biomeAdditions.value.apply {
+                        for (biomeAddition in this) {
+                            biomeAddition.register(setupContext)
                         }
                     }
                 }

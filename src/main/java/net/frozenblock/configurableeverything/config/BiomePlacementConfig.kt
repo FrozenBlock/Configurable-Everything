@@ -23,14 +23,14 @@ import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.biome.Climate.parameters
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
-private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList?>> = ConfigRegistry.register(
+private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         DimensionBiomeKeyList.CODEC.listOf()
     )
 )
 
-private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = ConfigRegistry.register(
+private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         DimensionBiomeList.CODEC.listOf()
@@ -49,7 +49,7 @@ so replacing a biome's parameters is possible.
 Supports: Vanilla biomes, datapack biomes, modded biomes
 """
 	)
-	var addedBiomes: TypedEntry<List<DimensionBiomeList?>>? = TypedEntry(
+	var addedBiomes: TypedEntry<List<DimensionBiomeList>> = TypedEntry(
 		BIOME_PARAMETER_LIST,
 		listOf(
 			DimensionBiomeList(
@@ -100,7 +100,7 @@ Supports: Vanilla biomes, datapack biomes, Vanilla biome tags, datapack biome ta
 Does not support biomes added via TerraBlender
 """
 	)
-	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList?>>? = TypedEntry(
+	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList>> = TypedEntry(
 		BIOME_KEY_LIST,
 		listOf(
 			DimensionBiomeKeyList(

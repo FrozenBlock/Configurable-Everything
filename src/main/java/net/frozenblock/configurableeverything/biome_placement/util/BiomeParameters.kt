@@ -6,8 +6,8 @@ import net.frozenblock.lib.worldgen.biome.api.MutableParameterPoint
 import net.minecraft.resources.ResourceLocation
 
 data class BiomeParameters(
-	@JvmField var biome: ResourceLocation?,
-	@JvmField var parameters: MutableParameterPoint?
+	@JvmField var biome: ResourceLocation,
+	@JvmField var parameters: MutableParameterPoint
 ) {
 	companion object {
         @JvmField

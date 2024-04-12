@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
 import kotlin.jvm.optionals.getOrNull
 
-fun <T : Any> String.toEitherKeyOrTag(registry: ResourceKey<Registry<T>>): Either<ResourceKey<T>, TagKey<T>>? {
+fun <T : Any> String.toEitherKeyOrTag(registry: ResourceKey<Registry<T>>): Either<ResourceKey<T>, TagKey<T>> {
     return if (this.startsWith('#'))
         Either.right(TagKey.create(registry, ResourceLocation(this.substring(1))))
     else

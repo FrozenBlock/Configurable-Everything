@@ -18,7 +18,7 @@ data class BiomeAddition(
 
         @JvmField
         val CODEC: Codec<BiomeAddition> = RecordCodecBuilder.create { instance ->
-                instance.group(
+            instance.group(
                 ResourceLocation.CODEC.fieldOf("key").forGetter(BiomeAddition::key),
                 Biome.DIRECT_CODEC.fieldOf("value").forGetter(BiomeAddition::value)
             ).apply(instance, ::BiomeAddition)

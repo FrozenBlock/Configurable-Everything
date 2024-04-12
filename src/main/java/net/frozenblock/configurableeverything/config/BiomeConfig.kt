@@ -19,21 +19,21 @@ import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 
-private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList?>> = ConfigRegistry.register(
+private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         BiomePlacedFeatureList.CODEC.listOf()
     )
 )
 
-private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList?>> = ConfigRegistry.register(
+private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         BiomePlacedFeatureReplacementList.CODEC.listOf()
     )
 )
 
-private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry.register(
+private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         BiomeMusic.CODEC.listOf()
@@ -44,7 +44,7 @@ private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic?>> = ConfigRegistry
 data class BiomeConfig(
 	@JvmField
 	@EntrySyncData("addedFeatures")
-	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
+	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -74,7 +74,7 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("removedFeatures")
-	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList?>>? = TypedEntry(
+	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -104,7 +104,7 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("replacedFeatures")
-	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList?>>? = TypedEntry(
+	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
 			BiomePlacedFeatureReplacementList(
@@ -140,7 +140,7 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("musicReplacements")
-	var musicReplacements: TypedEntry<List<BiomeMusic?>>? = TypedEntry(
+	var musicReplacements: TypedEntry<List<BiomeMusic>> = TypedEntry(
 		BIOME_MUSIC_LIST,
 		listOf(
 			BiomeMusic(

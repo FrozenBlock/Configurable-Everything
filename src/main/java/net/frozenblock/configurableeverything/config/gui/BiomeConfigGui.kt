@@ -1,4 +1,5 @@
 @file:Environment(EnvType.CLIENT)
+@file:Suppress("UnstableApiUsage")
 
 package net.frozenblock.configurableeverything.config.gui
 
@@ -62,11 +63,11 @@ private fun addedFeatures(
         entryBuilder,
         text("added_features"),
         config::addedFeatures,
-        {defaultConfig.addedFeatures!!},
+        { defaultConfig.addedFeatures },
         false,
         tooltip("added_features"),
         { newValue -> config.addedFeatures = newValue},
-        { element, _ ->
+        { element: BiomePlacedFeatureList?, _ ->
             biomePlacedFeaturesElement(entryBuilder, element, "added")
         }
     ).apply {
@@ -87,11 +88,11 @@ private fun removedFeatures(
         entryBuilder,
         text("removed_features"),
         config::removedFeatures,
-        {defaultConfig.removedFeatures!!},
+        { defaultConfig.removedFeatures },
         false,
         tooltip("removed_features"),
         { newValue -> config.removedFeatures = newValue },
-        { element, _ ->
+        { element: BiomePlacedFeatureList?, _ ->
             biomePlacedFeaturesElement(entryBuilder, element, "removed")
         }
     ).apply {
@@ -103,6 +104,7 @@ private fun removedFeatures(
     )
 }
 
+@Suppress("NAME_SHADOWING")
 private fun replacedFeatures(
     entryBuilder: ConfigEntryBuilder,
     config: BiomeConfig,
@@ -112,11 +114,11 @@ private fun replacedFeatures(
         entryBuilder,
         text("replaced_features"),
         config::replacedFeatures,
-        {defaultConfig.replacedFeatures!!},
+        { defaultConfig.replacedFeatures },
         false,
         tooltip("replaced_features"),
         { newValue -> config.replacedFeatures = newValue },
-        { element, _ ->
+        { element: BiomePlacedFeatureReplacementList?, _ ->
             val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
             val defaultOriginal: ResourceKey<PlacedFeature> = BLANK_PLACED_FEATURE
             val defaultDecoration: Decoration = Decoration.VEGETAL_DECORATION
@@ -156,12 +158,12 @@ private fun replacedFeatures(
                     true,
                     tooltip("replaced_features.replacement_list"),
                     { newValue -> biomeReplacementList.replacements = newValue },
-                    { element, _ ->
+                    { element: PlacedFeatureReplacement?, _ ->
                         val featureReplacement: PlacedFeatureReplacement = element ?: defaultReplacementFeature
-                        val original: ResourceKey<PlacedFeature> = featureReplacement.original ?: defaultOriginal
-                        val replacement: DecorationStepPlacedFeature = featureReplacement.replacement ?: defaultDecorationFeature
-                        val decoration: Decoration = replacement.decoration ?: defaultDecoration
-                        val placedFeatures: List<ResourceKey<PlacedFeature>?> = replacement.placedFeatures ?: defaultReplacements
+                        val original: ResourceKey<PlacedFeature> = featureReplacement.original
+                        val replacement: DecorationStepPlacedFeature = featureReplacement.replacement
+                        val decoration: Decoration = replacement.decoration
+                        val placedFeatures: List<ResourceKey<PlacedFeature>> = replacement.placedFeatures
 
                         multiElementEntry(
                             text("replaced_features.feature_replacement"),
@@ -187,7 +189,7 @@ private fun replacedFeatures(
                                     .requireRestart()
                                     .build(),
 
-                                entryBuilder.startStrList(text("replaced_features.placed_features"), placedFeatures.map { key -> key?.toStr() })
+                                entryBuilder.startStrList(text("replaced_features.placed_features"), placedFeatures.map { key -> key.toStr() })
                                     .setDefaultValue(defaultReplacements.map { key -> key.toStr() })
                                     .setSaveConsumer { newValue -> replacement.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) } }
                                     .setTooltip(tooltip("replaced_features.placed_features"))
@@ -220,20 +222,20 @@ private fun musicReplacements(
         entryBuilder,
         text("music_replacements"),
         config::musicReplacements,
-        {defaultConfig.musicReplacements!!},
+        { defaultConfig.musicReplacements },
         false,
         tooltip("music_replacements"),
         { newValue -> config.musicReplacements = newValue },
-        { element, _ ->
+        { element: BiomeMusic?, _ ->
             val defaultSound: Holder<SoundEvent> = SoundEvents.MUSIC_BIOME_DEEP_DARK
-            val defaultMinDelay: Int = 12000
-            val defaultMaxDelay: Int = 24000
-            val defaultReplaceCurrentMusic: Boolean = false
+            val defaultMinDelay = 12000
+            val defaultMaxDelay = 24000
+            val defaultReplaceCurrentMusic = false
             val defaultMusic = MutableMusic(defaultSound, defaultMinDelay, defaultMaxDelay, defaultReplaceCurrentMusic)
             val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
             val biomeMusic: BiomeMusic = element ?: BiomeMusic(defaultBiome, defaultMusic)
-            val biome: Either<ResourceKey<Biome>, TagKey<Biome>> = biomeMusic.biome ?: defaultBiome
-            val music: MutableMusic = biomeMusic.music ?: defaultMusic
+            val biome: Either<ResourceKey<Biome>, TagKey<Biome>> = biomeMusic.biome
+            val music: MutableMusic = biomeMusic.music
             val sound: Holder<SoundEvent> = music.event ?: defaultSound
             val minDelay: Int = music.minDelay ?: defaultMinDelay
             val maxDelay: Int = music.maxDelay ?: defaultMaxDelay
@@ -297,11 +299,12 @@ private fun musicReplacements(
     )
 }
 
+@Suppress("NAME_SHADOWING")
 private fun biomePlacedFeaturesElement(
     entryBuilder: ConfigEntryBuilder,
     element: BiomePlacedFeatureList?,
     lang: String
-): AbstractConfigListEntry<BiomePlacedFeatureList?> {
+): AbstractConfigListEntry<BiomePlacedFeatureList> {
     val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
     val defaultDecoration = Decoration.VEGETAL_DECORATION
     val defaultPlacedFeature = BLANK_PLACED_FEATURE
@@ -335,10 +338,10 @@ private fun biomePlacedFeaturesElement(
             true,
             tooltip("$`lang`_features.decoration_features"),
             { newValue -> biomePlacedFeatureList.features = newValue },
-            { element, _ ->
+            { element: DecorationStepPlacedFeature?, _ ->
                 val decorationFeature: DecorationStepPlacedFeature = element ?: defaultFeature
-                val decoration: Decoration = decorationFeature.decoration ?: defaultDecoration
-                val placedFeatures: List<ResourceKey<PlacedFeature>?> = decorationFeature.placedFeatures ?: defaultPlacedFeatures
+                val decoration: Decoration = decorationFeature.decoration
+                val placedFeatures: List<ResourceKey<PlacedFeature>?> = decorationFeature.placedFeatures
                 multiElementEntry(
                     text("$`lang`_features.decoration_feature"),
                     decorationFeature,

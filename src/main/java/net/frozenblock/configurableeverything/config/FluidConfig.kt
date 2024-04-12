@@ -13,7 +13,7 @@ import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.material.Fluids
 
-private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigRegistry.register(
+private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         FluidFlowSpeed.CODEC.listOf()
@@ -24,7 +24,7 @@ private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed?>> = ConfigReg
 data class FluidConfig(
     @JvmField
     @EntrySyncData("flowSpeeds")
-    var flowSpeeds: TypedEntry<List<FluidFlowSpeed?>>? = TypedEntry(
+    var flowSpeeds: TypedEntry<List<FluidFlowSpeed>> = TypedEntry(
         FLUID_FLOW_SPEEDS,
         listOf(
             FluidFlowSpeed(

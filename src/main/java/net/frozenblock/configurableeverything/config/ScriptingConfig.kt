@@ -23,11 +23,11 @@ data class ScriptingConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Requires Fabric Kotlin Extensions")
-    var applyKotlinScripts: Boolean? = true,
+    var applyKotlinScripts: Boolean = true,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var defaultImports: List<String>? = arrayListOf(
+    var defaultImports: List<String> = arrayListOf(
         "kotlinx.coroutines.*",
         "net.frozenblock.configurableeverything.util.*",
         "net.frozenblock.configurableeverything.scripting.util.*",
@@ -63,15 +63,15 @@ of Minecraft: Java Edition is governed by the Minecraft End User License
 Agreement available at https://account.mojang.com/documents/minecraft_eula.
 """
     )
-    var remapping: Boolean? = false,
+    var remapping: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var filter: FilterOption? = FilterOption.INCLUDED,
+    var filter: FilterOption = FilterOption.INCLUDED,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var modsToRemap: List<String>? = arrayListOf(
+    var modsToRemap: List<String> = arrayListOf(
         "configurable_everything",
         "frozenlib",
     ),

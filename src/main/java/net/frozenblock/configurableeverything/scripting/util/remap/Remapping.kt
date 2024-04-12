@@ -437,7 +437,7 @@ Minecraft End User License Agreement available at https://account.mojang.com/doc
      * @since 1.1
      */
     fun remapCodebase() {
-        if (ScriptingConfig.get().remapping != true) return
+        if (!ScriptingConfig.get().remapping) return
 
         log("Attempting to remap the current codebase")
         try {
@@ -480,8 +480,8 @@ Minecraft End User License Agreement available at https://account.mojang.com/doc
 
     private fun remapMods() {
         val config = ScriptingConfig.get()
-        val filter = config.filter ?: return
-        val modsToRemap = config.modsToRemap ?: return
+        val filter = config.filter
+        val modsToRemap = config.modsToRemap
         if (modsToRemap.isEmpty()) return
 
         log("Remapping mods")

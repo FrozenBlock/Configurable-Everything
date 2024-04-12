@@ -15,7 +15,7 @@ import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 
-private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBelt?>> = ConfigRegistry.register(
+private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBelt>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         DimensionGravityBelt.CODEC.listOf()
@@ -26,7 +26,7 @@ private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBel
 data class GravityConfig(
     @JvmField
     @EntrySyncData("gravityBelts")
-    var gravityBelts: TypedEntry<List<DimensionGravityBelt?>>? = TypedEntry(
+    var gravityBelts: TypedEntry<List<DimensionGravityBelt>> = TypedEntry(
         DIMENSION_GRAVITY_BELT_LIST,
         listOf(
             DimensionGravityBelt(

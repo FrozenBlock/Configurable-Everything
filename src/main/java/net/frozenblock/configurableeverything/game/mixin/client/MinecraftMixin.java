@@ -12,10 +12,10 @@ public class MinecraftMixin {
 
 	@ModifyReturnValue(method = "createTitle", at = @At("RETURN"))
 	private String createTitle(String original) {
-		var config = GameConfig.get(false);
-		if (MainConfig.get(false).game == true) {
+		var config = GameConfig.get();
+		if (MainConfig.get().game) {
 			var title = config.windowTitle;
-			if (title != null && !title.isEmpty()) {
+			if (!title.isEmpty()) {
 				return title;
 			}
 		}

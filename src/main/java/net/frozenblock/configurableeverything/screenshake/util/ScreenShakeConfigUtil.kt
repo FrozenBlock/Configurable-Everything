@@ -21,7 +21,7 @@ object ScreenShakeConfigUtil {
     @JvmStatic
     fun createScreenShake(level: Level?, x: Double?, y: Double?, z: Double?, sound: SoundEvent?) = runBlocking {
         val config = ScreenShakeConfig.get()
-        if (MainConfig.get().screen_shake != true) return@runBlocking
+        if (!MainConfig.get().screen_shake) return@runBlocking
         if (level == null || x == null || y == null || z == null || sound == null) return@runBlocking
         val offset = 0.001
         val entities: List<Entity>? = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))

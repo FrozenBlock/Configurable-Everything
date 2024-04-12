@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
-private val SURFACE_RULE_LIST = ConfigRegistry.register(
-    TypedEntryType<List<FrozenDimensionBoundRuleSource>>(
+private val SURFACE_RULE_LIST: TypedEntryType<List<FrozenDimensionBoundRuleSource>> = ConfigRegistry.register(
+    TypedEntryType(
         MOD_ID,
         FrozenDimensionBoundRuleSource.CODEC.listOf()
     )
@@ -26,7 +26,7 @@ private val SURFACE_RULE_LIST = ConfigRegistry.register(
 data class SurfaceRuleConfig(
     @JvmField
     @EntrySyncData("addedSurfaceRules")
-    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
+    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>> = TypedEntry(
         SURFACE_RULE_LIST,
         listOf(
             FrozenDimensionBoundRuleSource(

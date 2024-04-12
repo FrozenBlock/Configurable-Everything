@@ -1,5 +1,6 @@
 import groovy.xml.XmlSlurper
 import org.codehaus.groovy.runtime.ResourceGroovyMethods
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
@@ -18,11 +19,11 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.kotlin)
-    alias(libs.plugins.fabric.loom)
-    alias(libs.plugins.quilt.licenser)
-    alias(libs.plugins.grgit)
-    alias(libs.plugins.minotaur)
+    kotlin("jvm") version("+")
+    id("fabric-loom") version("+")
+    id("dev.yumi.gradle.licenser") version("+")
+    id("org.ajoberstar.grgit") version("+")
+    id("com.modrinth.minotaur") version("+")
     eclipse
     idea
     `java-library`
@@ -317,9 +318,9 @@ tasks {
     }
 
     withType(KotlinCompile::class) {
-        kotlinOptions {
+        compilerOptions {
             // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-            jvmTarget = "17"
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -512,7 +513,7 @@ modrinth {
     changelog.set(changelog_text)
     uploadFile.set(file("build/libs/${tasks.remapJar.get().archiveBaseName.get()}-$version.jar"))
     gameVersions.set(listOf(minecraft_version))
-    loaders.set(listOf("fabric", "quilt"))
+    loaders.set(listOf("fabric"))
     dependencies {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")

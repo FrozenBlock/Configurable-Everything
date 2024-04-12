@@ -40,7 +40,7 @@ object DataFixerConfigGui {
         val overrideRealEntries = EntryBuilder(
             text("override_real_entries"),
             config.overrideRealEntries,
-            defaultConfig.overrideRealEntries!!,
+            defaultConfig.overrideRealEntries,
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
             true,
@@ -54,7 +54,7 @@ object DataFixerConfigGui {
         val dataVersion = EntryBuilder(
             text("data_version"),
             config.dataVersion,
-            defaultConfig.dataVersion!!,
+            defaultConfig.dataVersion,
             { newValue -> config.dataVersion = newValue },
             tooltip("data_version"),
             true,
@@ -119,7 +119,7 @@ private fun schemas(
         false,
         tooltip("schemas"),
         { newValue -> config.schemas = newValue },
-        { element, _ ->
+        { element: SchemaEntry?, _ ->
             val schema = element ?: defaultSchema
             lateinit var versionEntry: IntegerListEntry
             multiElementEntry(
@@ -227,11 +227,11 @@ private fun registryFixers(
         entryBuilder,
         text("registry_fixers"),
         config::registryFixers,
-        { defaultConfig.registryFixers!! },
+        { defaultConfig.registryFixers },
         false,
         tooltip("registry_fixers"),
         { newValue -> config.registryFixers = newValue },
-        { element, _ ->
+        { element: RegistryFixer?, _ ->
             val registryFixer = element ?: defaultRegistryFixer
             lateinit var registryKeyEntry: StringListEntry
             multiElementEntry(
@@ -255,7 +255,7 @@ private fun registryFixers(
                     true,
                     tooltip("datafixer.fixers"),
                     { newValue -> registryFixer.fixers = newValue },
-                    { element, _ ->
+                    { element: Fixer?, _ ->
                         val entry = element ?: Fixer(ResourceLocation(""), ResourceLocation(""))
                         lateinit var oldIdEntry: StringListEntry
                         multiElementEntry(

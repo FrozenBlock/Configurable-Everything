@@ -55,10 +55,10 @@ private fun fluidFlowSpeeds(
         false,
         tooltip("fluid_flow_speeds"),
         { newValue -> config.flowSpeeds = newValue },
-        { element, _ ->
+        { element: FluidFlowSpeed, _ ->
             val fluidFlowSpeed = element ?: defaultFlowSpeed
-            val ultraWarm = fluidFlowSpeed.ultraWarmFlowTickDelay ?: defaultUltraWarmFlowTickDelay
-            val tickDelay = fluidFlowSpeed.flowTickDelay ?: defaultTickDelay
+            val ultraWarm = fluidFlowSpeed.ultraWarmFlowTickDelay
+            val tickDelay = fluidFlowSpeed.flowTickDelay
 
             multiElementEntry(
                 text("fluid_flow_speeds.fluid_flow_speed"),

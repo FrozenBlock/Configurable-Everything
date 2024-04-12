@@ -24,13 +24,11 @@ object DatapackUtil {
     fun addedRepositories(validator: DirectoryValidator?): List<CERepositorySource> {
         val config = MainConfig.get().datapack
         if (validator == null) return emptyList()
-        if (config?.applyDatapackFolders == true) {
+        if (config.applyDatapackFolders) {
             val list: MutableList<CERepositorySource> = arrayListOf()
-            config.datapackFolders?.forEach {
-                it?.apply {
-                    log("Adding datapack repository at $this")
-                    list.add(CERepositorySource(Path(this), validator = validator))
-                }
+            config.datapackFolders.forEach {
+                log("Adding datapack repository at $it")
+                list.add(CERepositorySource(Path(it), validator = validator))
             }
             return list
         }

@@ -31,14 +31,14 @@ object ScreenShakeConfigGui {
         category.addEntry(soundScreenShakes(entryBuilder, config, defaultConfig))
 
         category.addEntry(EntryBuilder(text("dragon_respawn_screen_shake"), config.dragonRespawnScreenShake,
-            defaultConfig.dragonRespawnScreenShake!!,
+            defaultConfig.dragonRespawnScreenShake,
             { newValue -> config.dragonRespawnScreenShake = newValue },
             tooltip("dragon_respawn_screen_shake"),
             requirement = mainToggleReq
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("explosion_screen_shake"), config.explosionScreenShake,
-            defaultConfig.explosionScreenShake!!,
+            defaultConfig.explosionScreenShake,
             { newValue -> config.explosionScreenShake = newValue },
             tooltip("explosion_screen_shake"),
             requirement = mainToggleReq
@@ -55,11 +55,11 @@ private fun soundScreenShakes(
         entryBuilder,
         text("sound_screen_shakes"),
         config::soundScreenShakes,
-        {defaultConfig.soundScreenShakes!!},
+        { defaultConfig.soundScreenShakes },
         false,
         tooltip("sound_screen_shakes"),
         { newValue -> config.soundScreenShakes = newValue},
-        { element, _ ->
+        { element: SoundScreenShake?, _ ->
             val soundScreenShake = element ?: SoundScreenShake(ResourceLocation(""), 1F, 25, 1, 20F)
             multiElementEntry(
                 text("sound_screen_shakes.sound_screen_shake"),

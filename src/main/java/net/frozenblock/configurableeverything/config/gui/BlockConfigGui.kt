@@ -47,26 +47,25 @@ private fun soundGroupOverwrites(
         entryBuilder,
         text("sound_group_overwrites"),
         config::soundGroupOverwrites,
-        {defaultConfig.soundGroupOverwrites!!},
+        { defaultConfig.soundGroupOverwrites },
         false,
         tooltip("sound_group_overwrites"),
         { newValue -> config.soundGroupOverwrites = newValue},
-        { element, _ ->
-            val defaultSoundOverwrite = MutableSoundType(
-                100F,
-                1F,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH,
-                SoundEvents.HORSE_DEATH
-            )
+        { element: MutableBlockSoundGroupOverwrite?, _ ->
             val defaultOverwrite = MutableBlockSoundGroupOverwrite(
                 vanillaId("grass_block"),
-                defaultSoundOverwrite
+                MutableSoundType(
+                    100F,
+                    1F,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH,
+                    SoundEvents.HORSE_DEATH
+                )
             ) { true }
             val overwrite: MutableBlockSoundGroupOverwrite = element ?: defaultOverwrite
-            val soundOverwrite = overwrite.soundOverwrite ?: defaultSoundOverwrite
+            val soundOverwrite = overwrite.soundOverwrite
             multiElementEntry(
                 text("sound_group_overwrites.sound_group_overwrite"),
                 overwrite,
@@ -97,31 +96,31 @@ private fun soundGroupOverwrites(
 
                     EntryBuilder(text("sound_group_overwrites.break_sound"), soundId(soundOverwrite.breakSound),
                         "",
-                        { newValue -> soundOverwrite.breakSound = sound(newValue) },
+                        { newValue -> sound(newValue)?.also { soundOverwrite.breakSound = it } },
                         tooltip("sound_group_overwrites.break_sound")
                     ).build(entryBuilder),
 
                     EntryBuilder(text("sound_group_overwrites.step_sound"), soundId(soundOverwrite.stepSound),
                         "",
-                        { newValue -> soundOverwrite.stepSound = sound(newValue) },
+                        { newValue -> sound(newValue)?.also { soundOverwrite.stepSound = it } },
                         tooltip("sound_group_overwrites.step_sound")
                     ).build(entryBuilder),
 
                     EntryBuilder(text("sound_group_overwrites.place_sound"), soundId(soundOverwrite.placeSound),
                         "",
-                        { newValue -> soundOverwrite.placeSound = sound(newValue) },
+                        { newValue -> sound(newValue)?.also { soundOverwrite.placeSound = it } },
                         tooltip("sound_group_overwrites.place_sound")
                     ).build(entryBuilder),
 
                     EntryBuilder(text("sound_group_overwrites.hit_sound"), soundId(soundOverwrite.hitSound),
                         "",
-                        { newValue -> soundOverwrite.hitSound = sound(newValue) },
+                        { newValue -> sound(newValue)?.also { soundOverwrite.hitSound = it } },
                         tooltip("sound_group_overwrites.hit_sound")
                     ).build(entryBuilder),
 
                     EntryBuilder(text("sound_group_overwrites.fall_sound"), soundId(soundOverwrite.fallSound),
                         "",
-                        { newValue -> soundOverwrite.fallSound = sound(newValue) },
+                        { newValue -> sound(newValue)?.also { soundOverwrite.fallSound = it } },
                         tooltip("sound_group_overwrites.fall_sound")
                     ).build(entryBuilder)
                 )

@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.entity.ai.attributes.Attribute
 
 data class AttributeAmplifier(
-    @JvmField var attribute: ResourceKey<Attribute>?,
-    @JvmField var amplifier: Double?
+    @JvmField var attribute: ResourceKey<Attribute>,
+    @JvmField var amplifier: Double
 ) {
     companion object {
         @JvmField

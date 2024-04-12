@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
-private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification?>> = ConfigRegistry.register(
+private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(LootModification.CODEC)
@@ -29,7 +29,7 @@ private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification?>> = Config
 data class LootConfig(
     @JvmField
     @EntrySyncData("lootModifications")
-    var lootModifications: TypedEntry<List<LootModification?>>? = TypedEntry(
+    var lootModifications: TypedEntry<List<LootModification>> = TypedEntry(
         LOOT_MODIFICATIONS,
         listOf(
             LootModification(

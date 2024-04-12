@@ -20,27 +20,23 @@ import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
 object DataFixerUtil {
 
     @JvmField
-    val SCHEMAS: MutableList<SchemaEntry?> = mutableListOf<SchemaEntry?>().apply {
-        DataFixerConfig.get().schemas?.value?.let { this.addAll(it) }
+    val SCHEMAS: MutableList<SchemaEntry> = mutableListOf<SchemaEntry>().apply {
+        this.addAll(DataFixerConfig.get().schemas.value)
     }
 
     @JvmField
-    val REGISTRY_FIXERS: MutableList<RegistryFixer?> = mutableListOf<RegistryFixer?>().apply {
-        DataFixerConfig.get().registryFixers?.value?.let { this.addAll(it) }
+    val REGISTRY_FIXERS: MutableList<RegistryFixer> = mutableListOf<RegistryFixer>().apply {
+        this.addAll(DataFixerConfig.get().registryFixers.value)
     }
 
     // doesn't need JvmStatic because it's never called in Java
 	internal fun applyDataFixes(mod: ModContainer?) {
         if (mod == null) return
         val config = DataFixerConfig.get()
-        if (MainConfig.get().datafixer == true) {
+        if (MainConfig.get().datafixer) {
             log("Applying Configurable Everything's data fixes", UNSTABLE_LOGGING)
             val schemas = SCHEMAS
             val dataVersion = config.dataVersion
-            if (dataVersion == null) {
-                logError("Data version is null")
-                return
-            }
             val builder = QuiltDataFixerBuilder(dataVersion)
             var maxSchema = 0
             val addedSchemas: MutableList<Schema> = ArrayList()
@@ -99,7 +95,7 @@ object DataFixerUtil {
         val newId = fixer.newId
         val fixName = "fix_" + oldId + "_to_" + newId
         when (entry.type) {
-            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, mapOf(Pair(oldId, newId)), schema)
+            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, mapOf(oldId to newId), schema)
             "block" -> SimpleFixes.addBlockRenameFix(builder, fixName, oldId, newId, schema)
             "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
             "item" -> {
