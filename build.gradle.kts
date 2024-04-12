@@ -513,7 +513,7 @@ modrinth {
     changelog.set(changelog_text)
     uploadFile.set(file("build/libs/${tasks.remapJar.get().archiveBaseName.get()}-$version.jar"))
     gameVersions.set(listOf(minecraft_version))
-    loaders.set(listOf("fabric", "quilt"))
+    loaders.set(listOf("fabric"))
     dependencies {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")
