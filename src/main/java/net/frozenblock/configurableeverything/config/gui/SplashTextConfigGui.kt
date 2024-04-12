@@ -25,8 +25,8 @@ object SplashTextConfigGui {
         val defaultConfig = SplashTextConfig.defaultInstance()
         category.background = id("textures/config/splash_text.png")
 
-        val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes?.filterNotNull() ?: defaultConfig.addedSplashes!!.filterNotNull()),
-            StringList(defaultConfig.addedSplashes!!.filterNotNull()),
+        val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes),
+            StringList(defaultConfig.addedSplashes),
             { newValue -> config.addedSplashes = newValue.list },
             tooltip("added_splashes"),
             true,
@@ -35,8 +35,8 @@ object SplashTextConfigGui {
             category.addEntry(this)
         }
 
-        val removed = EntryBuilder(text("removed_splashes"), StringList(config.removedSplashes?.filterNotNull() ?: defaultConfig.removedSplashes!!.filterNotNull()),
-            StringList(defaultConfig.removedSplashes!!.filterNotNull()),
+        val removed = EntryBuilder(text("removed_splashes"), StringList(config.removedSplashes),
+            StringList(defaultConfig.removedSplashes),
             { newValue -> config.removedSplashes = newValue.list },
             tooltip("removed_splashes"),
             true,
@@ -45,8 +45,8 @@ object SplashTextConfigGui {
             category.addEntry(this)
         }
 
-        val splashColor = EntryBuilder(text("splash_color"), Color(config.splashColor ?: defaultConfig.splashColor!!),
-            Color(defaultConfig.splashColor ?: defaultConfig.splashColor!!),
+        val splashColor = EntryBuilder(text("splash_color"), Color(config.splashColor),
+            Color(defaultConfig.splashColor),
             { newValue -> config.splashColor = newValue.color },
             tooltip("splash_color"),
             requirement = mainToggleReq,
@@ -54,8 +54,8 @@ object SplashTextConfigGui {
             category.addEntry(this)
         }
 
-        val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla == true,
-            defaultConfig.removeVanilla!!,
+        val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla,
+            defaultConfig.removeVanilla,
             { newValue -> config.removeVanilla = newValue },
             tooltip("remove_vanilla"),
             requirement = mainToggleReq,
