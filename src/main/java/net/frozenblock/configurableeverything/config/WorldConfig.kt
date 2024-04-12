@@ -15,25 +15,25 @@ data class WorldConfig(
     @JvmField
     @EntrySyncData("dayTimeSpeedAmplifier")
     @Comment("Does not modify tick rate. Only modifies daytime speed.")
-    var dayTimeSpeedAmplifier: Long? = 1,
+    var dayTimeSpeedAmplifier: Long = 1,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var fixSunMoonRotating: Boolean? = false,
+    var fixSunMoonRotating: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Incompatible with mod Bedrockify.")
-    var sunSize: Int? = 300,
+    var sunSize: Int = 300,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var moonSize: Int? = 200,
+    var moonSize: Int = 200,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Disables the experimental warning screen when creating or loading worlds.")
-    var disableExperimentalWarning: Boolean? = false,
+    var disableExperimentalWarning: Boolean = false,
 ) {
     companion object : JsonConfig<WorldConfig>(
         MOD_ID,
@@ -49,10 +49,10 @@ data class WorldConfig(
         }
 
         @JvmStatic
-        inline val sunSize: Float? get() = get().sunSize?.div(10F)
+        inline val sunSize: Float get() = get().sunSize.div(10F)
 
         @JvmStatic
-        inline val moonSize: Float? get() = get().moonSize?.div(10F)
+        inline val moonSize: Float get() = get().moonSize.div(10F)
 
         @JvmStatic
         @JvmOverloads

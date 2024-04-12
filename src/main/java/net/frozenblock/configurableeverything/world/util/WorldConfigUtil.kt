@@ -13,7 +13,7 @@ object WorldConfigUtil {
         if (!MainConfig.get().world) return
 
         ConfigRegistry.register(FrozenLibConfig.INSTANCE, ConfigModification { libConfig ->
-            libConfig.removeExperimentalWarning = config.disableExperimentalWarning == true
+            libConfig.removeExperimentalWarning = config.disableExperimentalWarning
         })
     }
 }
