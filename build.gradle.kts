@@ -19,11 +19,11 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.kotlin)
-    alias(libs.plugins.fabric.loom)
-    alias(libs.plugins.quilt.licenser)
-    alias(libs.plugins.grgit)
-    alias(libs.plugins.minotaur)
+    kotlin("jvm") version("+")
+    id("fabric-loom") version("+")
+    id("org.quiltmc.gradle.licenser") version("+")
+    id("org.ajoberstar.grgit") version("+")
+    id("com.modrinth.minotaur") version("+")
     eclipse
     idea
     `java-library`
