@@ -25,7 +25,7 @@ public class ExplosionMixin {
 	@Inject(method = "finalizeExplosion", at = @At(value = "TAIL"))
 	public void finalizeExplosion(boolean spawnParticles, CallbackInfo info) {
 		var config = ScreenShakeConfig.get(false);
-		if (MainConfig.get(false).screen_shake == true && config.explosionScreenShake == true) {
+		if (MainConfig.get().screen_shake && config.explosionScreenShake) {
 			ScreenShakeManager.addScreenShake(this.level, (float) ((0.5F + (blockInteraction != Explosion.BlockInteraction.KEEP ? 0.2F : 0) + radius * 0.1) / 2F), (int) ((radius * 5) + 3), 1, this.x, this.y, this.z, radius * 2);
 		}
 	}
