@@ -18,14 +18,14 @@ import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
 import net.minecraft.world.level.biome.MobSpawnSettings
 
-private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition?>?> = ConfigRegistry.register(
+private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         BiomeAddition.CODEC.listOf()
     )
 )
 
-private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?>?> = ConfigRegistry.register(
+private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         PlacedFeatureAddition.CODEC.listOf()
@@ -37,7 +37,7 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
-    var biomeAdditions: TypedEntry<List<BiomeAddition?>?>? = TypedEntry(
+    var biomeAdditions: TypedEntry<List<BiomeAddition>> = TypedEntry(
         BIOME_ADDITIONS,
         listOf(
             BiomeAddition(
@@ -67,7 +67,7 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
-    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
+    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition>> = TypedEntry(
         PLACED_FEATURE_ADDITIONS,
         listOf() // cant make an example bc it requires a holder and the registry is dynamic
     )
