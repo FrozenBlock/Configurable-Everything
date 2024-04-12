@@ -6,10 +6,10 @@ import net.minecraft.resources.ResourceLocation
 
 data class ItemReachOverride(
     @JvmField
-    var item: ResourceLocation?,
+    var item: ResourceLocation,
 
     @JvmField
-    var reach: Double?
+    var reach: Double
 ) {
     companion object {
         @JvmField

@@ -14,7 +14,7 @@ import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.item.Items
 
-private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride?>> = ConfigRegistry.register(
+private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(ItemReachOverride.CODEC)
@@ -25,7 +25,7 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride?>> = Con
 data class ItemConfig(
     @JvmField
     @EntrySyncData("reachOverrides")
-    var reachOverrides: TypedEntry<List<ItemReachOverride?>>? = TypedEntry(
+    var reachOverrides: TypedEntry<List<ItemReachOverride>> = TypedEntry(
         ITEM_REACH_OVERRIDES,
         listOf(
             ItemReachOverride(
