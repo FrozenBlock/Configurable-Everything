@@ -93,7 +93,7 @@ abstract class CEScript {
 }
 
 open class CEScriptCompilationConfig internal constructor(type: ScriptType) : ScriptCompilationConfiguration({
-    val defaultImports = ScriptingConfig.get().defaultImports ?: ScriptingConfig.defaultInstance().defaultImports!!
+    val defaultImports = ScriptingConfig.get().defaultImports
     defaultImports(defaultImports)
     defaultImports(
         DependsOn::class,
@@ -113,7 +113,7 @@ open class CEScriptCompilationConfig internal constructor(type: ScriptType) : Sc
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
 
         // Adds the remapped Minecraft and mod jars to the classpath
-        if (ScriptingConfig.get().remapping == true)
+        if (ScriptingConfig.get().remapping)
             updateClasspath(REMAPPED_SOURCES_CACHE.asFileList!!)
 
         dependenciesFromCurrentContext(wholeClasspath = true)
