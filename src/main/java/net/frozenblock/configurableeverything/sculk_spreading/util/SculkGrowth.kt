@@ -5,9 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.world.level.block.state.BlockState
 
 data class SculkGrowth(
-    @JvmField var restrictedToWorldgen: Boolean?,
-    @JvmField var rarity: Int?,
-    @JvmField var blockState: BlockState?
+    @JvmField var restrictedToWorldgen: Boolean,
+    @JvmField var rarity: Int,
+    @JvmField var blockState: BlockState
 ) {
 
     companion object {
