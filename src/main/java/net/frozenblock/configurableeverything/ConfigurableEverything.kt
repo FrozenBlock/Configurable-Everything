@@ -57,6 +57,9 @@ class ConfigurableEverything : ModInitializer {
             }
             SurfaceRuleConfig
             StructureConfig
+            ifExperimental {
+                TagConfig
+            }
             WorldConfig
 
             if (FabricLoader.getInstance().isModLoaded("sodium"))

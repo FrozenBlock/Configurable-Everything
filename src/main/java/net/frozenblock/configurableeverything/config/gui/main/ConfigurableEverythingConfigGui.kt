@@ -42,6 +42,9 @@ object ConfigurableEverythingConfigGui {
             SculkSpreadingConfig.save()
             SplashTextConfig.save()
             StructureConfig.save()
+            ifExperimental {
+                TagConfig.save()
+            }
             WorldConfig.save()
         }
 

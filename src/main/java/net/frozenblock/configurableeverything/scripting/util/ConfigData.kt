@@ -8,36 +8,41 @@ import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import java.util.function.Consumer
 
+sealed class StableConfigData<T : Any>(@JvmField val config: Config<T>) {
+    override fun get(): T = super.get()!!
+}
+
 /**
  * Simplified modification of CE configs
  * @since 1.1
  */
 @Suppress("unused", "ClassName")
-sealed class ConfigData<T : Any>(@JvmField val config: Config<T>) {
-    data object MAIN : ConfigData<MainConfig>(MainConfig)
-    data object BIOME : ConfigData<BiomeConfig>(BiomeConfig)
-    data object BIOME_PLACEMENT : ConfigData<BiomePlacementConfig>(BiomePlacementConfig)
-    data object BLOCK : ConfigData<BlockConfig>(BlockConfig)
-    data object DATAFIXER : ConfigData<DataFixerConfig>(DataFixerConfig)
-    data object ENTITY : ConfigData<EntityConfig>(EntityConfig)
-    data object FLUID : ConfigData<FluidConfig>(FluidConfig)
-    data object GAME : ConfigData<GameConfig>(GameConfig)
-    data object GRAVITY : ConfigData<GravityConfig>(GravityConfig)
-    data object ITEM : ConfigData<ItemConfig>(ItemConfig)
-    data object LOOT : ConfigData<LootConfig>(LootConfig)
-    data object REGISTRY : ConfigData<RegistryConfig>(RegistryConfig)
-    data object SCREEN_SHAKE : ConfigData<ScreenShakeConfig>(ScreenShakeConfig)
-    data object SCULK_SPREADING : ConfigData<SculkSpreadingConfig>(SculkSpreadingConfig)
+sealed class ConfigData<T : Any>(@JvmField val config: Config<T>?) {
+    data object MAIN : StableConfigData<MainConfig>(MainConfig)
+    data object BIOME : StableConfigData<BiomeConfig>(BiomeConfig)
+    data object BIOME_PLACEMENT : StableConfigData<BiomePlacementConfig>(BiomePlacementConfig)
+    data object BLOCK : StableConfigData<BlockConfig>(BlockConfig)
+    data object DATAFIXER : StableConfigData<DataFixerConfig>(DataFixerConfig)
+    data object ENTITY : StableConfigData<EntityConfig>(EntityConfig)
+    data object FLUID : StableConfigData<FluidConfig>(FluidConfig)
+    data object GAME : StableConfigData<GameConfig>(GameConfig)
+    data object GRAVITY : StableConfigData<GravityConfig>(GravityConfig)
+    data object ITEM : StableConfigData<ItemConfig>(ItemConfig)
+    data object LOOT : StableConfigData<LootConfig>(LootConfig)
+    data object REGISTRY : StableConfigData<RegistryConfig>(RegistryConfig)
+    data object SCREEN_SHAKE : StableConfigData<ScreenShakeConfig>(ScreenShakeConfig)
+    data object SCULK_SPREADING : StableConfigData<SculkSpreadingConfig>(SculkSpreadingConfig)
     @Environment(EnvType.CLIENT)
-    data object SPLASH_TEXT : ConfigData<SplashTextConfig>(SplashTextConfig)
-    data object STRUCTURE : ConfigData<StructureConfig>(StructureConfig)
-    data object SURFACE_RULE : ConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
-    data object WORLD : ConfigData<WorldConfig>(WorldConfig)
+    data object SPLASH_TEXT : StableConfigData<SplashTextConfig>(SplashTextConfig)
+    data object STRUCTURE : StableConfigData<StructureConfig>(StructureConfig)
+    data object SURFACE_RULE : StableConfigData<SurfaceRuleConfig>(SurfaceRuleConfig)
+    data object TAG : ConfigData<TagConfig>(ifExperimental { TagConfig })
+    data object WORLD : StableConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T = config.config()
+    fun get(): T? = config.config()
 
     fun modify(modification: ConfigModification<T>)
-        = config.apply { ConfigRegistry.register(this, modification) }
+        = config?.also { ConfigRegistry.register(it, modification) }
 
     @Suppress("NOTHING_TO_INLINE")
     inline fun modify(modification: Consumer<T>)
