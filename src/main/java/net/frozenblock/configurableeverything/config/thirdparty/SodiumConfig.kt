@@ -10,7 +10,7 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 data class SodiumConfig(
     @JvmField
     @Comment("Whether or not to disable Sodium's resource pack compatibility scanner.")
-    var disableResourcePackScanner: Boolean? = false,
+    var disableResourcePackScanner: Boolean = false,
 ) {
 
     companion object : JsonConfig<SodiumConfig>(
