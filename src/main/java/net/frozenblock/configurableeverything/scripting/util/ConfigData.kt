@@ -39,7 +39,7 @@ sealed class ConfigData<T : Any>(@JvmField val config: Config<T>?) {
     data object TAG : ConfigData<TagConfig>(ifExperimental { TagConfig })
     data object WORLD : StableConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T? = config.config()
+    fun get(): T? = config?.config()
 
     fun modify(modification: ConfigModification<T>)
         = config?.also { ConfigRegistry.register(it, modification) }
