@@ -2,7 +2,9 @@ package net.frozenblock.configurableeverything
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
+import net.frozenblock.configurableeverything.ConfigurableEverything
 import net.frozenblock.configurableeverything.config.MixinsConfig
+import net.frozenblock.configurableeverything.scripting.util.ScriptTrust
 import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo
@@ -12,6 +14,9 @@ class CEMixinPlugin : IMixinConfigPlugin {
     override fun getRefMapperConfig(): String? = null
 
     override fun shouldApplyMixin(targetClassName: String, mixinClassName: String): Boolean {
+        ConfigurableEverything.preventMixins()
+        ScriptTrust.preventMixins()
+
         val config = MixinsConfig.get()
         val isClient = FabricLoader.getInstance().environmentType === EnvType.CLIENT
         if (mixinClassName.contains("biome_placement.mixin")) return config.biome_placement

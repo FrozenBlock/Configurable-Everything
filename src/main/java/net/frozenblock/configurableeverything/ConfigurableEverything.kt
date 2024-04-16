@@ -31,8 +31,15 @@ import kotlin.system.measureNanoTime
  */
 class ConfigurableEverything : ModInitializer {
 
+    /**
+     * Called by the mixin config to prevent mixins from applying to this class.
+     * This is to ensure no mods are able to tamper with script trust
+     */
+    internal fun preventMixins() {}
+
     override fun onInitialize() {
         val time = measureNanoTime {
+            register()
             //ConfigurableEverythingIntegrations.init()
 
             // init configs
@@ -101,32 +108,23 @@ class ConfigurableEverything : ModInitializer {
         log("Configurable Everything took $time nanoseconds")
     }
 
-    companion object {
-        @JvmField
+    private fun register() {
         val ARROW_FLYBY: SoundEvent = register(id("flyby.arrow"), SoundEvent.createVariableRangeEvent(id("flyby.arrow")))
 
-        @JvmField
         val TIPPED_ARROW_FLYBY: SoundEvent = register(id("flyby.tipped_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.tipped_arrow")))
 
-        @JvmField
         val SPECTRAL_ARROW_FLYBY: SoundEvent = register(id("flyby.spectral_arrow"), SoundEvent.createVariableRangeEvent(id("flyby.spectral_arrow")))
 
-        @JvmField
         val TRIDENT_FLYBY: SoundEvent = register(id("flyby.trident"), SoundEvent.createVariableRangeEvent(id("flyby.trident")))
 
-        @JvmField
         val EGG_FLYBY: SoundEvent = register(id("flyby.egg"), SoundEvent.createVariableRangeEvent(id("flyby.egg")))
 
-        @JvmField
         val SNOWBALL_FLYBY: SoundEvent = register(id("flyby.snowball"), SoundEvent.createVariableRangeEvent(id("flyby.snowball")))
 
-        @JvmField
         val FIREBALL_FLYBY: SoundEvent = register(id("flyby.fireball"), SoundEvent.createVariableRangeEvent(id("flyby.fireball")))
 
-        @JvmField
         val POTION_FLYBY: SoundEvent = register(id("flyby.potion"), SoundEvent.createVariableRangeEvent(id("flyby.potion")))
 
-        @JvmField
         val EXPERIENCE_BOTTLE_FLYBY: SoundEvent = register(id("flyby.experience_bottle"), SoundEvent.createVariableRangeEvent(id("flyby.experience_bottle")))
 
         private fun register(key: ResourceLocation, sound: SoundEvent) =
