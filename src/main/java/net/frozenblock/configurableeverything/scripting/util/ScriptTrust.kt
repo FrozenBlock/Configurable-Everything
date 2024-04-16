@@ -11,12 +11,10 @@ import kotlin.io.path.Path
 private data class ScriptTrustInfo(val trustedScripts: List<String>)
 
 internal object ScriptTrust {
-    @JvmField
     private val TRUST_FOLDER: Path = Path("${System.getProperty("user.home")}/.configurable-everything/").apply {
         FileUtil.createDirectoriesSafe(this)
     }
 
-    @JvmField
     private val TRUST_CACHE: File = File(TRUST_FOLDER.resolve("trust.json"))
 
     /**
