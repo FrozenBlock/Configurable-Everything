@@ -9,7 +9,7 @@ import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingData
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -123,7 +123,7 @@ Does not support biomes added via TerraBlender
 	companion object : JsonConfig<BiomePlacementConfig>(
         MOD_ID,
         BiomePlacementConfig::class.java,
-        makeConfigPath("biome_placement"),
+        makeLegacyConfigPath("biome_placement"),
         CONFIG_JSONTYPE,
         null,
         null

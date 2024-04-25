@@ -5,7 +5,7 @@ import net.frozenblock.configurableeverything.block.util.MutableBlockSoundGroupO
 import net.frozenblock.configurableeverything.block.util.MutableSoundType
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.configurableeverything.util.vanillaId
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
@@ -48,7 +48,7 @@ data class BlockConfig(
     companion object : JsonConfig<BlockConfig>(
         MOD_ID,
         BlockConfig::class.java,
-        makeConfigPath("block"),
+        makeLegacyConfigPath("block"),
         CONFIG_JSONTYPE,
         null,
         null

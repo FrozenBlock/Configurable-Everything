@@ -112,7 +112,7 @@ Warning: It is important to check the contents of each config before enabling th
     companion object : JsonConfig<MainConfig>(
         MOD_ID,
         MainConfig::class.java,
-        makeConfigPath("main"),
+        makeLegacyConfigPath("main"),
         CONFIG_JSONTYPE,
         null,
         null

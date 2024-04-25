@@ -4,7 +4,7 @@ import net.frozenblock.configurableeverything.entity.util.*
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -224,7 +224,7 @@ data class EntityConfig(
     companion object : JsonConfig<EntityConfig>(
         MOD_ID,
         EntityConfig::class.java,
-        makeConfigPath("entity"),
+        makeLegacyConfigPath("entity"),
         CONFIG_JSONTYPE,
         null,
         null

@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.lib.config.api.instance.json.JsonType
+import net.frozenblock.lib.config.api.instance.xjs.XjsFormat
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -77,3 +78,6 @@ const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 
 @JvmField
 internal val CONFIG_JSONTYPE: JsonType = JsonType.JSON5
+
+@JvmField
+internal val CONFIG_FORMAT: XjsFormat = XjsFormat.XJS_FORMATTED

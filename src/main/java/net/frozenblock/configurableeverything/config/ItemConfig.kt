@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.item.util.ItemReachOverride
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -38,7 +38,7 @@ data class ItemConfig(
     companion object : JsonConfig<ItemConfig>(
         MOD_ID,
         ItemConfig::class.java,
-        makeConfigPath("item"),
+        makeLegacyConfigPath("item"),
         CONFIG_JSONTYPE,
         null,
         null

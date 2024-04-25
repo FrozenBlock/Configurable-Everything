@@ -26,7 +26,13 @@ inline var <T> TypedEntry<T>.value: T
 /**
  * @return The path of the config file.
  */
-fun makeConfigPath(name: String?, json5: Boolean = true): Path
+fun makeConfigPath(name: String?): Path
+        = Path("./config/$MOD_ID/$name.xjs")
+
+/**
+ * @return The path of the config file.
+ */
+fun makeLegacyConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/$name.${if (json5) "json5" else "json"}")
 
 fun makeThirdPartyConfigPath(name: String?, json5: Boolean = true): Path

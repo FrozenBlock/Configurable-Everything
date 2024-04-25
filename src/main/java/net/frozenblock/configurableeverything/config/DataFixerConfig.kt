@@ -7,7 +7,7 @@ import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -177,7 +177,7 @@ However, if the old id is still found in the registry, it will not be replaced (
     companion object : JsonConfig<DataFixerConfig>(
         MOD_ID,
         DataFixerConfig::class.java,
-        makeConfigPath("datafixer"),
+        makeLegacyConfigPath("datafixer"),
         CONFIG_JSONTYPE,
         null,
         null

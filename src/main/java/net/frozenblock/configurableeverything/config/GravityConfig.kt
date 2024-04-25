@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.config
 import net.frozenblock.configurableeverything.gravity.util.DimensionGravityBelt
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -42,7 +42,7 @@ data class GravityConfig(
     companion object : JsonConfig<GravityConfig>(
         MOD_ID,
         GravityConfig::class.java,
-        makeConfigPath("gravity"),
+        makeLegacyConfigPath("gravity"),
         CONFIG_JSONTYPE,
         null,
         null

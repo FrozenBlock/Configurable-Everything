@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.loot.util.LootModification
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -49,7 +49,7 @@ data class LootConfig(
     companion object : JsonConfig<LootConfig>(
         MOD_ID,
         LootConfig::class.java,
-        makeConfigPath("loot"),
+        makeLegacyConfigPath("loot"),
         CONFIG_JSONTYPE,
         null,
         null

@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.config
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -91,7 +91,7 @@ data class ScreenShakeConfig(
     companion object : JsonConfig<ScreenShakeConfig>(
         MOD_ID,
         ScreenShakeConfig::class.java,
-        makeConfigPath("screen_shake"),
+        makeLegacyConfigPath("screen_shake"),
         CONFIG_JSONTYPE,
         null,
         null

@@ -2,20 +2,13 @@ package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.instance.ConfigModification
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
-import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.state.BlockBehaviour
-import net.minecraft.world.level.dimension.DimensionType
-import kotlin.reflect.jvm.jvmName
 
 @UnsyncableConfig
 data class ScriptingConfig(
@@ -80,7 +73,7 @@ Agreement available at https://account.mojang.com/documents/minecraft_eula.
     companion object : JsonConfig<ScriptingConfig>(
         MOD_ID,
         ScriptingConfig::class.java,
-        makeConfigPath("scripting"),
+        makeLegacyConfigPath("scripting"),
         CONFIG_JSONTYPE,
         null,
         null

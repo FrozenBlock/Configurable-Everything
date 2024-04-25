@@ -5,7 +5,7 @@ import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
@@ -13,12 +13,6 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.world.item.Items
-import net.minecraft.world.level.storage.loot.BuiltInLootTables
-import net.minecraft.world.level.storage.loot.LootPool
-import net.minecraft.world.level.storage.loot.entries.LootItem
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
 private val TAG_MODIFICATIONS: TypedEntryType<List<RegistryTagModification>> = ConfigRegistry.register(
     TypedEntryType(
@@ -54,7 +48,7 @@ data class TagConfig(
     companion object : JsonConfig<TagConfig>(
         MOD_ID,
         TagConfig::class.java,
-        makeConfigPath("tag"),
+        makeLegacyConfigPath("tag"),
         CONFIG_JSONTYPE,
         null,
         null

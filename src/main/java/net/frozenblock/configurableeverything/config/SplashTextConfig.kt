@@ -6,7 +6,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.instance.json.JsonConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
@@ -42,7 +42,7 @@ data class SplashTextConfig(
     companion object : JsonConfig<SplashTextConfig>(
         MOD_ID,
         SplashTextConfig::class.java,
-        makeConfigPath("splash_text"),
+        makeLegacyConfigPath("splash_text"),
         CONFIG_JSONTYPE,
         null,
         null
