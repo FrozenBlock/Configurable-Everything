@@ -96,6 +96,10 @@ Warning: It is important to check the contents of each config before enabling th
     var surface_rule: Boolean = false,
 
     @JvmField
+    @EntrySyncData("tag")
+    var tag: Boolean = false,
+
+    @JvmField
     @EntrySyncData("world")
     var world: Boolean = false,
 

@@ -3,12 +3,13 @@ package net.frozenblock.configurableeverything.scripting.util
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
+import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import java.util.function.Consumer
 
-sealed class StableConfigData<T : Any>(@JvmField val config: Config<T>) {
+sealed class StableConfigData<T : Any>(override val config: Config<T>): ConfigData<T>(config) {
     override fun get(): T = super.get()!!
 }
 
@@ -17,7 +18,7 @@ sealed class StableConfigData<T : Any>(@JvmField val config: Config<T>) {
  * @since 1.1
  */
 @Suppress("unused", "ClassName")
-sealed class ConfigData<T : Any>(@JvmField val config: Config<T>?) {
+sealed class ConfigData<T : Any>(open val config: Config<T>?) {
     data object MAIN : StableConfigData<MainConfig>(MainConfig)
     data object BIOME : StableConfigData<BiomeConfig>(BiomeConfig)
     data object BIOME_PLACEMENT : StableConfigData<BiomePlacementConfig>(BiomePlacementConfig)
@@ -39,7 +40,7 @@ sealed class ConfigData<T : Any>(@JvmField val config: Config<T>?) {
     data object TAG : ConfigData<TagConfig>(ifExperimental { TagConfig })
     data object WORLD : StableConfigData<WorldConfig>(WorldConfig)
 
-    fun get(): T? = config?.config()
+    open fun get(): T? = config?.config()
 
     fun modify(modification: ConfigModification<T>)
         = config?.also { ConfigRegistry.register(it, modification) }

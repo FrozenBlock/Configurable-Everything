@@ -1,5 +1,8 @@
 package net.frozenblock.configurableeverything.tag.util
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
+
 data class RegistryTagModification(
     @JvmField var registry: String,
     @JvmField var modifications: List<TagModification>
