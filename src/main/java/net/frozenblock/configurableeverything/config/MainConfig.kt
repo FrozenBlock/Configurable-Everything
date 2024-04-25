@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -109,13 +109,11 @@ Warning: It is important to check the contents of each config before enabling th
     var datapack: DatapackConfig = DatapackConfig(),
 ) {
 
-    companion object : JsonConfig<MainConfig>(
+    companion object : XjsConfig<MainConfig>(
         MOD_ID,
         MainConfig::class.java,
-        makeLegacyConfigPath("main"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("main"),
+        CONFIG_FORMAT
     ) {
         init {
             ConfigRegistry.register(this)

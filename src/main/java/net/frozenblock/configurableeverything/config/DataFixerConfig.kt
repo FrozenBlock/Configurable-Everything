@@ -5,12 +5,12 @@ import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry
 import net.frozenblock.configurableeverything.datafixer.util.Fixer
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -174,13 +174,11 @@ However, if the old id is still found in the registry, it will not be replaced (
         )
 )
 ) {
-    companion object : JsonConfig<DataFixerConfig>(
+    companion object : XjsConfig<DataFixerConfig>(
         MOD_ID,
         DataFixerConfig::class.java,
-        makeLegacyConfigPath("datafixer"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("datafixer"),
+        CONFIG_FORMAT
     ) {
 
         init {

@@ -2,12 +2,12 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.item.util.ItemReachOverride
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -35,13 +35,11 @@ data class ItemConfig(
         )
     )
 ) {
-    companion object : JsonConfig<ItemConfig>(
+    companion object : XjsConfig<ItemConfig>(
         MOD_ID,
         ItemConfig::class.java,
-        makeLegacyConfigPath("item"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("item"),
+        CONFIG_FORMAT
     ) {
 
         init {

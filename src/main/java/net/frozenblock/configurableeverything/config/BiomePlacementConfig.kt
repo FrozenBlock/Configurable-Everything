@@ -7,12 +7,12 @@ import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiom
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -120,13 +120,11 @@ Does not support biomes added via TerraBlender
 		)
 	)
 ) {
-	companion object : JsonConfig<BiomePlacementConfig>(
+	companion object : XjsConfig<BiomePlacementConfig>(
         MOD_ID,
         BiomePlacementConfig::class.java,
-        makeLegacyConfigPath("biome_placement"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("biome_placement"),
+        CONFIG_FORMAT
     ) {
 
         init {

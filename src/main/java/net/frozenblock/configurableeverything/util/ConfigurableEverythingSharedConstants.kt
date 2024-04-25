@@ -77,7 +77,7 @@ val KOTLIN_CLIENT_SCRIPT_PATH: Path = KOTLIN_SCRIPT_PATH.resolve("client/")
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 
 @JvmField
-internal val CONFIG_JSONTYPE: JsonType = JsonType.JSON5
+internal val LEGACY_CONFIG_JSONTYPE: JsonType = JsonType.JSON5
 
 @JvmField
 internal val CONFIG_FORMAT: XjsFormat = XjsFormat.XJS_FORMATTED

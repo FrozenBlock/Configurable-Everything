@@ -3,13 +3,13 @@ package net.frozenblock.configurableeverything.config
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.block.util.MutableBlockSoundGroupOverwrite
 import net.frozenblock.configurableeverything.block.util.MutableSoundType
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.configurableeverything.util.vanillaId
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -45,13 +45,11 @@ data class BlockConfig(
         )
     )
 ) {
-    companion object : JsonConfig<BlockConfig>(
+    companion object : XjsConfig<BlockConfig>(
         MOD_ID,
         BlockConfig::class.java,
-        makeLegacyConfigPath("block"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("block"),
+        CONFIG_FORMAT
     ) {
 
         init {

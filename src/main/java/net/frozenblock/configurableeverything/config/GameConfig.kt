@@ -1,9 +1,9 @@
 package net.frozenblock.configurableeverything.config
 
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -27,13 +27,11 @@ The default version series is "main".
     )
     var versionSeries: String = ""
 ) {
-    companion object : JsonConfig<GameConfig>(
+    companion object : XjsConfig<GameConfig>(
         MOD_ID,
         GameConfig::class.java,
-        makeLegacyConfigPath("game"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("game"),
+        CONFIG_FORMAT
     ) {
 
         init {

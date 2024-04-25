@@ -1,12 +1,12 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -36,13 +36,11 @@ data class SculkSpreadingConfig(
         ),
     )
 ) {
-    companion object : JsonConfig<SculkSpreadingConfig>(
+    companion object : XjsConfig<SculkSpreadingConfig>(
         MOD_ID,
         SculkSpreadingConfig::class.java,
-        makeLegacyConfigPath("sculk_spreading"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("sculk_spreading"),
+        CONFIG_FORMAT
     ) {
 
         init {

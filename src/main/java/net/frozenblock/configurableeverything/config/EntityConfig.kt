@@ -1,13 +1,13 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.entity.util.*
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
+import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -221,13 +221,11 @@ data class EntityConfig(
     @JvmField
     var skeleton: SkeletonConfig = SkeletonConfig()
 ) {
-    companion object : JsonConfig<EntityConfig>(
+    companion object : XjsConfig<EntityConfig>(
         MOD_ID,
         EntityConfig::class.java,
-        makeLegacyConfigPath("entity"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+        makeConfigPath("entity"),
+        CONFIG_FORMAT
     ) {
 
         init {
