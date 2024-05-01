@@ -22,10 +22,10 @@ fun <T : Any> Either<ResourceKey<T>, TagKey<T>>?.toStr(): String {
     return string
 }
 
-fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, ResourceLocation(this))
+inline fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, ResourceLocation(this))
 
-fun <T : Any> ResourceKey<T>?.toStr(): String = this?.location()?.toString() ?: ""
+inline fun <T : Any> ResourceKey<T>?.toStr(): String = this?.location()?.toString() ?: ""
 
-fun <T : Any> String.toHolder(registry: Registry<T>): Holder<T>? = registry.getHolder(this.toKey(registry.key())).getOrNull()
+inline fun <T : Any> String.toHolder(registry: Registry<T>): Holder<T>? = registry.getHolder(this.toKey(registry.key())).getOrNull()
 
-fun <T : Any> Holder<T>.toStr(): String = this.unwrapKey().getOrNull()?.toStr() ?: ""
+inline fun <T : Any> Holder<T>.toStr(): String = this.unwrapKey().getOrNull()?.toStr() ?: ""
