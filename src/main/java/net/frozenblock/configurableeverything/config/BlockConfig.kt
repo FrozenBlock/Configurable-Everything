@@ -27,7 +27,7 @@ private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOv
 data class BlockConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var soundGroupOverwrites: TypedEntry<List<MutableBlockSoundGroupOverwrite>> = TypedEntry(
+    var soundGroupOverwrites: TypedEntry<List<MutableBlockSoundGroupOverwrite>> = TypedEntry.create(
         SOUND_GROUP_OVERWRITES,
         listOf(
             MutableBlockSoundGroupOverwrite(

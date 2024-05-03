@@ -24,7 +24,7 @@ private val FLUID_FLOW_SPEEDS: TypedEntryType<List<FluidFlowSpeed>> = ConfigRegi
 data class FluidConfig(
     @JvmField
     @EntrySyncData("flowSpeeds")
-    var flowSpeeds: TypedEntry<List<FluidFlowSpeed>> = TypedEntry(
+    var flowSpeeds: TypedEntry<List<FluidFlowSpeed>> = TypedEntry.create(
         FLUID_FLOW_SPEEDS,
         listOf(
             FluidFlowSpeed(

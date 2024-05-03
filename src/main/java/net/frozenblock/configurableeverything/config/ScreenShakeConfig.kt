@@ -25,7 +25,7 @@ private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake>> = Config
 data class ScreenShakeConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var soundScreenShakes: TypedEntry<List<SoundScreenShake>> = TypedEntry(
+    var soundScreenShakes: TypedEntry<List<SoundScreenShake>> = TypedEntry.create(
         SOUND_SCREEN_SHAKE,
         listOf(
             SoundScreenShake(

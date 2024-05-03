@@ -49,7 +49,7 @@ so replacing a biome's parameters is possible.
 Supports: Vanilla biomes, datapack biomes, modded biomes
 """
 	)
-	var addedBiomes: TypedEntry<List<DimensionBiomeList>> = TypedEntry(
+	var addedBiomes: TypedEntry<List<DimensionBiomeList>> = TypedEntry.create(
 		BIOME_PARAMETER_LIST,
 		listOf(
 			DimensionBiomeList(
@@ -100,7 +100,7 @@ Supports: Vanilla biomes, datapack biomes, Vanilla biome tags, datapack biome ta
 Does not support biomes added via TerraBlender
 """
 	)
-	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList>> = TypedEntry(
+	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList>> = TypedEntry.create(
 		BIOME_KEY_LIST,
 		listOf(
 			DimensionBiomeKeyList(

@@ -23,7 +23,7 @@ data class StructureConfig(
 
     @JvmField
     @EntrySyncData("removedStructures")
-    var removedStructures: TypedEntry<List<ResourceLocation>> = TypedEntry(
+    var removedStructures: TypedEntry<List<ResourceLocation>> = TypedEntry.create(
         RESOURCE_LIST,
         listOf(
             ResourceLocation("ancient_city"),
@@ -33,7 +33,7 @@ data class StructureConfig(
 
     @JvmField
     @EntrySyncData("removedStructureSets")
-    var removedStructureSets: TypedEntry<List<ResourceLocation>> = TypedEntry(
+    var removedStructureSets: TypedEntry<List<ResourceLocation>> = TypedEntry.create(
         RESOURCE_LIST,
         listOf(
             ResourceLocation("villages")

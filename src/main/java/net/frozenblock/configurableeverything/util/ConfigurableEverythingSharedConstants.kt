@@ -80,4 +80,4 @@ const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 internal val LEGACY_CONFIG_JSONTYPE: JsonType = JsonType.JSON5
 
 @JvmField
-internal val CONFIG_FORMAT: XjsFormat = XjsFormat.XJS_FORMATTED
+internal val CONFIG_FORMAT: XjsFormat = XjsFormat.DJS_FORMATTED

@@ -25,7 +25,7 @@ private val TAG_MODIFICATIONS: TypedEntryType<List<RegistryTagModification>> = C
 data class TagConfig(
     @JvmField
     @EntrySyncData("lootModifications")
-    var tagModifications: TypedEntry<List<RegistryTagModification>> = TypedEntry(
+    var tagModifications: TypedEntry<List<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
         listOf(
             RegistryTagModification(

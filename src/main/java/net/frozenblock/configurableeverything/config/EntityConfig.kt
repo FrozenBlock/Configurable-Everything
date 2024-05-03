@@ -55,7 +55,7 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon>> = ConfigReg
 data class EntityConfig(
     @JvmField
     @EntrySyncData("entityAttributeAmplifiers")
-    var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier>> = TypedEntry(
+    var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier>> = TypedEntry.create(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         listOf(
             EntityAttributeAmplifier(
@@ -73,7 +73,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("experienceOverrides")
-    var experienceOverrides: TypedEntry<List<ExperienceOverride>> = TypedEntry(
+    var experienceOverrides: TypedEntry<List<ExperienceOverride>> = TypedEntry.create(
         EXPERIENCE_OVERRIDES,
         listOf(
             ExperienceOverride(
@@ -85,7 +85,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("entityFlyBySounds")
-    var entityFlyBySounds: TypedEntry<List<EntityFlyBySound>> = TypedEntry(
+    var entityFlyBySounds: TypedEntry<List<EntityFlyBySound>> = TypedEntry.create(
         ENTITY_FLYBY_SOUNDS,
         listOf(
             EntityFlyBySound(
@@ -174,7 +174,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("entityHurtEffects")
-    var entityHurtEffects: TypedEntry<List<EntityHurtEffects>> = TypedEntry(
+    var entityHurtEffects: TypedEntry<List<EntityHurtEffects>> = TypedEntry.create(
         ENTITY_HURT_EFFECTS,
         listOf(
             EntityHurtEffects(
@@ -196,7 +196,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon>> = TypedEntry(
+    var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon>> = TypedEntry.create(
         SPOTTING_ICONS,
         listOf(
             EntitySpottingIcon(

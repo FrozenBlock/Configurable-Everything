@@ -27,7 +27,7 @@ data class SculkSpreadingConfig(
     @JvmField
     @EntrySyncData("activators")
     @Comment("List of growth block states.")
-    var growths: TypedEntry<List<SculkGrowth>> = TypedEntry(
+    var growths: TypedEntry<List<SculkGrowth>> = TypedEntry.create(
         SCULK_GROWTH_LIST,
         arrayListOf(
             SculkGrowth(true, 11, Blocks.SCULK_SHRIEKER.defaultBlockState().setValue(SculkShriekerBlock.CAN_SUMMON, true)),

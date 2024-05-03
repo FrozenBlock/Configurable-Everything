@@ -70,7 +70,7 @@ Each fixer contains an old id and a new id, and will replace all instances of th
 However, if the old id is still found in the registry, it will not be replaced.
 """
     )
-    var schemas: TypedEntry<List<SchemaEntry>> = TypedEntry(
+    var schemas: TypedEntry<List<SchemaEntry>> = TypedEntry.create(
         SCHEMA_ENTRY_LIST,
         listOf(
             SchemaEntry(
@@ -141,7 +141,7 @@ Each fixer contains an old id and a new id, and will replace all instances of th
 However, if the old id is still found in the registry, it will not be replaced (unless the overrideRealEntries option is set to true).
 """
     )
-    var registryFixers: TypedEntry<List<RegistryFixer>> = TypedEntry(
+    var registryFixers: TypedEntry<List<RegistryFixer>> = TypedEntry.create(
         REGISTRY_FIXER_LIST,
         listOf(
             RegistryFixer(

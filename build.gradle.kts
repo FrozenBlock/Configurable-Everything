@@ -241,8 +241,7 @@ dependencies {
     if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     else
-        modApi(files("libs/frozenlib.jar"))?.also { include(it) }
-        //modApi("maven.modrinth:frozenlib:$frozenlib_version")?.also { include(it) }
+        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.also { include(it) }
 
     // Reach Entity Attributes
     modApi("com.github.Treetrain1:reach-entity-attributes:1.20-SNAPSHOT")?.let { include(it) }

@@ -26,7 +26,7 @@ private val SURFACE_RULE_LIST: TypedEntryType<List<FrozenDimensionBoundRuleSourc
 data class SurfaceRuleConfig(
     @JvmField
     @EntrySyncData("addedSurfaceRules")
-    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>> = TypedEntry(
+    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>> = TypedEntry.create(
         SURFACE_RULE_LIST,
         listOf(
             FrozenDimensionBoundRuleSource(

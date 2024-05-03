@@ -37,7 +37,7 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
-    var biomeAdditions: TypedEntry<List<BiomeAddition>> = TypedEntry(
+    var biomeAdditions: TypedEntry<List<BiomeAddition>> = TypedEntry.create(
         BIOME_ADDITIONS,
         listOf(
             BiomeAddition(
@@ -67,7 +67,7 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
-    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition>> = TypedEntry(
+    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition>> = TypedEntry.create(
         PLACED_FEATURE_ADDITIONS,
         listOf() // cant make an example bc it requires a holder and the registry is dynamic
     )

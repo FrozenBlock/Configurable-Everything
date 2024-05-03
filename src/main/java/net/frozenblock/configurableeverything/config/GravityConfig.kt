@@ -26,7 +26,7 @@ private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<List<DimensionGravityBel
 data class GravityConfig(
     @JvmField
     @EntrySyncData("gravityBelts")
-    var gravityBelts: TypedEntry<List<DimensionGravityBelt>> = TypedEntry(
+    var gravityBelts: TypedEntry<List<DimensionGravityBelt>> = TypedEntry.create(
         DIMENSION_GRAVITY_BELT_LIST,
         listOf(
             DimensionGravityBelt(

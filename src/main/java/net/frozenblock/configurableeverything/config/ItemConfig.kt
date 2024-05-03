@@ -25,7 +25,7 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<List<ItemReachOverride>> = Conf
 data class ItemConfig(
     @JvmField
     @EntrySyncData("reachOverrides")
-    var reachOverrides: TypedEntry<List<ItemReachOverride>> = TypedEntry(
+    var reachOverrides: TypedEntry<List<ItemReachOverride>> = TypedEntry.create(
         ITEM_REACH_OVERRIDES,
         listOf(
             ItemReachOverride(

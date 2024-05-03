@@ -29,7 +29,7 @@ private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification>> = ConfigR
 data class LootConfig(
     @JvmField
     @EntrySyncData("lootModifications")
-    var lootModifications: TypedEntry<List<LootModification>> = TypedEntry(
+    var lootModifications: TypedEntry<List<LootModification>> = TypedEntry.create(
         LOOT_MODIFICATIONS,
         listOf(
             LootModification(

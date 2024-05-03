@@ -45,7 +45,7 @@ private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic>> = ConfigRegistry.
 data class BiomeConfig(
 	@JvmField
 	@EntrySyncData("addedFeatures")
-	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
+	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -75,7 +75,7 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("removedFeatures")
-	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry(
+	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_LIST,
 		listOf(
 			BiomePlacedFeatureList(
@@ -105,7 +105,7 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("replacedFeatures")
-	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry(
+	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		listOf(
 			BiomePlacedFeatureReplacementList(
@@ -141,7 +141,7 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("musicReplacements")
-	var musicReplacements: TypedEntry<List<BiomeMusic>> = TypedEntry(
+	var musicReplacements: TypedEntry<List<BiomeMusic>> = TypedEntry.create(
 		BIOME_MUSIC_LIST,
 		listOf(
 			BiomeMusic(
