@@ -12,7 +12,6 @@ import kotlin.io.path.Path
 
 @PublishedApi
 internal const val MOD_ID = "configurable_everything"
-@PublishedApi
 internal const val MOD_NAME = "Configurable Everything"
 
 /**
