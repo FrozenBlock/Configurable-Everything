@@ -44,27 +44,12 @@ val archives_base_name: String by project
 
 val fabric_version: String by project
 val fabric_kotlin_version: String by project
-val fabric_asm_version: String by project
 val frozenlib_version: String by project
 
 val cloth_config_version: String by project
 val modmenu_version: String by project
-val terrablender_version: String by project
-val terralith_version: String by project
 
 val sodium_version: String by project
-val iris_version: String by project
-val indium_version: String by project
-val sodium_extra_version: String by project
-val reeses_sodium_options_version: String by project
-val lithium_version: String by project
-val fastanim_version: String by project
-val ferritecore_version: String by project
-val lazydfu_version: String by project
-val starlight_version: String by project
-val entityculling_version: String by project
-val memoryleakfix_version: String by project
-val no_unused_chunks_version: String by project
 
 base {
     archivesName.set(archives_base_name)
@@ -257,9 +242,6 @@ dependencies {
 
     // Sodium
     modImplementation("maven.modrinth:sodium:$sodium_version")
-
-    // TerraBlender
-    modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
 }
 
 tasks {
