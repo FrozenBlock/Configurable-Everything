@@ -9,5 +9,6 @@ Put changelog here:
   - This format should be visually cleaner and faster to write to
   - The current configs and their changes will be migrated to the DJS file
 - Made many small optimizations to every config
+- Updated mod version requirements
 - Updated Fabric Kotlin Extensions to 1.0.8
 - Upgraded embedded FrozenLib to 1.7.1
