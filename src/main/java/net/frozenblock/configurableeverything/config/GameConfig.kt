@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -27,11 +28,9 @@ The default version series is "main".
     )
     var versionSeries: String = ""
 ) {
-    companion object : XjsConfig<GameConfig>(
-        MOD_ID,
-        GameConfig::class.java,
-        makeConfigPath("game"),
-        CONFIG_FORMAT
+    companion object : CEConfig<GameConfig>(
+        GameConfig::class,
+        "game"
     ) {
 
         init {

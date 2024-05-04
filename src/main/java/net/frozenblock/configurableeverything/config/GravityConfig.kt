@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.gravity.util.DimensionGravityBelt
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -39,11 +40,9 @@ data class GravityConfig(
         )
     ),
 ) {
-    companion object : XjsConfig<GravityConfig>(
-        MOD_ID,
-        GravityConfig::class.java,
-        makeConfigPath("gravity"),
-        CONFIG_FORMAT
+    companion object : CEConfig<GravityConfig>(
+        GravityConfig::class,
+        "gravity"
     ) {
 
         init {

@@ -7,6 +7,7 @@ import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiom
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -120,11 +121,9 @@ Does not support biomes added via TerraBlender
 		)
 	)
 ) {
-	companion object : XjsConfig<BiomePlacementConfig>(
-        MOD_ID,
-        BiomePlacementConfig::class.java,
-        makeConfigPath("biome_placement"),
-        CONFIG_FORMAT
+	companion object : CEConfig<BiomePlacementConfig>(
+        BiomePlacementConfig::class,
+        "biome_placement"
     ) {
 
         init {

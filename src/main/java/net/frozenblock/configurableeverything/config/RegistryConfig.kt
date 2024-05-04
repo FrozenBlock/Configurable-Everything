@@ -2,10 +2,10 @@ package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.registry.util.BiomeAddition
 import net.frozenblock.configurableeverything.registry.util.PlacedFeatureAddition
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -72,11 +72,9 @@ data class RegistryConfig(
         listOf() // cant make an example bc it requires a holder and the registry is dynamic
     )
 ) {
-    companion object : XjsConfig<RegistryConfig>(
-        MOD_ID,
-        RegistryConfig::class.java,
-        makeLegacyConfigPath("registry"),
-        CONFIG_FORMAT
+    companion object : CEConfig<RegistryConfig>(
+        RegistryConfig::class,
+        "registry"
     ) {
 
         init {

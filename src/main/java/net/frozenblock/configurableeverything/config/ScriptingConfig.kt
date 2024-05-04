@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -70,11 +71,9 @@ Agreement available at https://account.mojang.com/documents/minecraft_eula.
     ),
 ) {
 
-    companion object : XjsConfig<ScriptingConfig>(
-        MOD_ID,
-        ScriptingConfig::class.java,
-        makeConfigPath("scripting"),
-        CONFIG_FORMAT
+    companion object : CEConfig<ScriptingConfig>(
+        ScriptingConfig::class,
+        "scripting"
     ) {
         init {
             ConfigRegistry.register(this)

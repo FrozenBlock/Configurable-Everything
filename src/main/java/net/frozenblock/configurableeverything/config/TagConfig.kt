@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.config
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -45,11 +46,9 @@ data class TagConfig(
         )
     )
 ) {
-    companion object : XjsConfig<TagConfig>(
-        MOD_ID,
-        TagConfig::class.java,
-        makeLegacyConfigPath("tag"),
-        CONFIG_FORMAT
+    companion object : CEConfig<TagConfig>(
+        TagConfig::class,
+        "tag"
     ) {
 
         init {

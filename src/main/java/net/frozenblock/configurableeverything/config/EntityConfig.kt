@@ -1,10 +1,10 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.entity.util.*
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -221,11 +221,9 @@ data class EntityConfig(
     @JvmField
     var skeleton: SkeletonConfig = SkeletonConfig()
 ) {
-    companion object : XjsConfig<EntityConfig>(
-        MOD_ID,
-        EntityConfig::class.java,
-        makeConfigPath("entity"),
-        CONFIG_FORMAT
+    companion object : CEConfig<EntityConfig>(
+        EntityConfig::class,
+        "entity"
     ) {
 
         init {

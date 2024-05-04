@@ -109,11 +109,9 @@ Warning: It is important to check the contents of each config before enabling th
     var datapack: DatapackConfig = DatapackConfig(),
 ) {
 
-    companion object : XjsConfig<MainConfig>(
-        MOD_ID,
-        MainConfig::class.java,
-        makeConfigPath("main"),
-        CONFIG_FORMAT
+    companion object : CEConfig<MainConfig>(
+        MainConfig::class,
+        "main"
     ) {
         init {
             ConfigRegistry.register(this)

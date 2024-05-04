@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -88,11 +89,9 @@ data class ScreenShakeConfig(
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     var explosionScreenShake: Boolean = true
 ) {
-    companion object : XjsConfig<ScreenShakeConfig>(
-        MOD_ID,
-        ScreenShakeConfig::class.java,
-        makeLegacyConfigPath("screen_shake"),
-        CONFIG_FORMAT
+    companion object : CEConfig<ScreenShakeConfig>(
+        ScreenShakeConfig::class,
+        "screen_shake"
     ) {
 
         init {

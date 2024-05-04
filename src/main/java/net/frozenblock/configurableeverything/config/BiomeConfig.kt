@@ -5,10 +5,9 @@ import net.frozenblock.configurableeverything.biome.util.*
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_PLACED_FEATURE
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.configurableeverything.util.makeLegacyConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -165,11 +164,9 @@ data class BiomeConfig(
 		)
 	)
 ) {
-	companion object : XjsConfig<BiomeConfig>(
-        MOD_ID,
-        BiomeConfig::class.java,
-        makeConfigPath("biome"),
-        CONFIG_FORMAT
+	companion object : CEConfig<BiomeConfig>(
+        BiomeConfig::class,
+        "biome"
     ) {
 
 		init {

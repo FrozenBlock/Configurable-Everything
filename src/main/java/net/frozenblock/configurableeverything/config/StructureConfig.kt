@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -40,11 +41,9 @@ data class StructureConfig(
         )
     )
 ) {
-	companion object : XjsConfig<StructureConfig>(
-        MOD_ID,
-        StructureConfig::class.java,
-        makeConfigPath("structure"),
-        CONFIG_FORMAT
+	companion object : CEConfig<StructureConfig>(
+        StructureConfig::class,
+        "structure"
     ) {
 
 		init {

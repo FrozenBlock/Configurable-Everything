@@ -13,12 +13,11 @@ data class SodiumConfig(
     var disableResourcePackScanner: Boolean = false,
 ) {
 
-    companion object : XjsConfig<SodiumConfig>(
-        MOD_ID,
-        SodiumConfig::class.java,
-        makeThirdPartyConfigPath("sodium"),
-        CONFIG_FORMAT,
-        false
+    companion object : CEConfig<SodiumConfig>(
+        SodiumConfig::class,
+        "sodium",
+        false,
+        true
     ) {
         init {
             ConfigRegistry.register(this)

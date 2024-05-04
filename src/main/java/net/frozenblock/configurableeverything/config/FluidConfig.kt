@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -40,11 +41,9 @@ data class FluidConfig(
         )
     )
 ) {
-    companion object : XjsConfig<FluidConfig>(
-        MOD_ID,
-        FluidConfig::class.java,
-        makeConfigPath("fluid"),
-        CONFIG_FORMAT
+    companion object : CEConfig<FluidConfig>(
+        FluidConfig::class,
+        "fluid"
     ) {
 
         init {

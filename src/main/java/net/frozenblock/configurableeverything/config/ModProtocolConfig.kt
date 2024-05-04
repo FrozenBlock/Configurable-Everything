@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -83,11 +84,9 @@ This can happen when client's and server's mods don't match.
     var disableModProtocol: Boolean = false,
 ) {
 
-    companion object : XjsConfig<ModProtocolConfig>(
-        MOD_ID,
-        ModProtocolConfig::class.java,
-        makeLegacyConfigPath("mod_protocol"),
-        CONFIG_FORMAT,
+    companion object : CEConfig<ModProtocolConfig>(
+        ModProtocolConfig::class,
+        "mod_protocol",
         false
     ) {
         init {

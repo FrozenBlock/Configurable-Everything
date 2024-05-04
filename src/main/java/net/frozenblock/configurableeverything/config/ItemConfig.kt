@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.item.util.ItemReachOverride
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -35,11 +36,9 @@ data class ItemConfig(
         )
     )
 ) {
-    companion object : XjsConfig<ItemConfig>(
-        MOD_ID,
-        ItemConfig::class.java,
-        makeConfigPath("item"),
-        CONFIG_FORMAT
+    companion object : CEConfig<ItemConfig>(
+        ItemConfig::class,
+        "item"
     ) {
 
         init {

@@ -4,6 +4,7 @@ package net.frozenblock.configurableeverything.config
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -39,11 +40,9 @@ data class SplashTextConfig(
     @Comment("Removes all vanilla splashes.")
     var removeVanilla: Boolean = true
 ) {
-    companion object : XjsConfig<SplashTextConfig>(
-        MOD_ID,
-        SplashTextConfig::class.java,
-        makeConfigPath("splash_text"),
-        CONFIG_FORMAT
+    companion object : CEConfig<SplashTextConfig>(
+        SplashTextConfig::class,
+        "splash_text",
     ) {
 
         init {

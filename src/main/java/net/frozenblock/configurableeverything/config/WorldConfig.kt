@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -35,11 +36,9 @@ data class WorldConfig(
     @Comment("Disables the experimental warning screen when creating or loading worlds.")
     var disableExperimentalWarning: Boolean = false,
 ) {
-    companion object : XjsConfig<WorldConfig>(
-        MOD_ID,
-        WorldConfig::class.java,
-        makeConfigPath("world"),
-        CONFIG_FORMAT
+    companion object : CEConfig<WorldConfig>(
+        WorldConfig::class,
+        "world"
     ) {
 
         init {

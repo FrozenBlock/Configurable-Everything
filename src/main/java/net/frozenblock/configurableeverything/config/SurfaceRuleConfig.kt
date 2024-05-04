@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -44,11 +45,9 @@ data class SurfaceRuleConfig(
         )
     )
 ) {
-    companion object : XjsConfig<SurfaceRuleConfig>(
-        MOD_ID,
-        SurfaceRuleConfig::class.java,
-        makeConfigPath("surface_rule"),
-        CONFIG_FORMAT
+    companion object : CEConfig<SurfaceRuleConfig>(
+        SurfaceRuleConfig::class,
+        "surface_rule"
     ) {
 
         init {

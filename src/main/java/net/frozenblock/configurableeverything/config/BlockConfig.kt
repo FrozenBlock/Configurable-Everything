@@ -3,9 +3,9 @@ package net.frozenblock.configurableeverything.config
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.block.util.MutableBlockSoundGroupOverwrite
 import net.frozenblock.configurableeverything.block.util.MutableSoundType
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.configurableeverything.util.vanillaId
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
@@ -45,11 +45,9 @@ data class BlockConfig(
         )
     )
 ) {
-    companion object : XjsConfig<BlockConfig>(
-        MOD_ID,
-        BlockConfig::class.java,
-        makeConfigPath("block"),
-        CONFIG_FORMAT
+    companion object : CEConfig<BlockConfig>(
+        BlockConfig::class,
+        "block"
     ) {
 
         init {

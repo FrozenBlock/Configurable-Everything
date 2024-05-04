@@ -27,7 +27,7 @@ inline var <T> TypedEntry<T>.value: T
  * @return The path of the config file.
  */
 inline fun makeConfigPath(name: String?): Path
-        = Path("./config/$MOD_ID/$name.xjs")
+        = Path("./config/$MOD_ID/$name.djs")
 
 /**
  * @return The path of the config file.
@@ -36,7 +36,7 @@ inline fun makeLegacyConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/$name.${if (json5) "json5" else "json"}")
 
 inline fun makeThirdPartyConfigPath(name: String?): Path
-    = Path("./config/$MOD_ID/thirdparty/$name.xjs")
+    = Path("./config/$MOD_ID/thirdparty/$name.djs")
 
 inline  fun makeLegacyThirdPartyConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/thirdparty/$name.${if (json5) "json5" else "json"}")

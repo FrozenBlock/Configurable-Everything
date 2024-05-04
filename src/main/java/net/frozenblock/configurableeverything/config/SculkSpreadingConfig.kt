@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -36,11 +37,9 @@ data class SculkSpreadingConfig(
         ),
     )
 ) {
-    companion object : XjsConfig<SculkSpreadingConfig>(
-        MOD_ID,
-        SculkSpreadingConfig::class.java,
-        makeConfigPath("sculk_spreading"),
-        CONFIG_FORMAT
+    companion object : CEConfig<SculkSpreadingConfig>(
+        SculkSpreadingConfig::class,
+        "sculk_spreading"
     ) {
 
         init {

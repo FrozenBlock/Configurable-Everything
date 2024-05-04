@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -71,11 +72,9 @@ Warning: Functionality will be lost if these are disabled.
     @JvmField
     var world_client: Boolean = true
 ) {
-    companion object : XjsConfig<MixinsConfig>(
-        MOD_ID,
-        MixinsConfig::class.java,
-        makeConfigPath("mixins"),
-        CONFIG_FORMAT,
+    companion object : CEConfig<MixinsConfig>(
+        MixinsConfig::class,
+        "mixins",
         false // horrible idea to support modification of this config
     ) {
 

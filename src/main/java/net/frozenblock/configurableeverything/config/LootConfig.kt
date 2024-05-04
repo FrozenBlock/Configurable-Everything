@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.loot.util.LootModification
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -46,11 +47,9 @@ data class LootConfig(
         )
     )
 ) {
-    companion object : XjsConfig<LootConfig>(
-        MOD_ID,
-        LootConfig::class.java,
-        makeConfigPath("loot"),
-        CONFIG_FORMAT
+    companion object : CEConfig<LootConfig>(
+        LootConfig::class,
+        "loot"
     ) {
 
         init {

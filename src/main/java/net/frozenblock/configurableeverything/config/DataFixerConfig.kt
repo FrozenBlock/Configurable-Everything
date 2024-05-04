@@ -5,6 +5,7 @@ import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry
 import net.frozenblock.configurableeverything.datafixer.util.Fixer
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
+import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -174,11 +175,9 @@ However, if the old id is still found in the registry, it will not be replaced (
         )
 )
 ) {
-    companion object : XjsConfig<DataFixerConfig>(
-        MOD_ID,
-        DataFixerConfig::class.java,
-        makeConfigPath("datafixer"),
-        CONFIG_FORMAT
+    companion object : CEConfig<DataFixerConfig>(
+        DataFixerConfig::class,
+        "datafixer"
     ) {
 
         init {
