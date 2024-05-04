@@ -160,9 +160,7 @@ repositories {
     maven {
         url = uri("https://maven.minecraftforge.net/")
     }
-    maven {
-        url = uri("https://maven.parchmentmc.org")
-    }
+    //maven("https://maven.parchmentmc.org")
     maven {
         name = "Quilt"
         url = uri("https://maven.quiltmc.org/repository/release")
@@ -191,7 +189,7 @@ dependencies {
     mappings(
         loom.layered {
             // please annoy treetrain if this doesnt work
-            //mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
+            mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
             //parchment("org.parchmentmc.data:parchment-${parchment_mappings}@zip")
             officialMojangMappings {
                 nameSyntheticMembers = false
