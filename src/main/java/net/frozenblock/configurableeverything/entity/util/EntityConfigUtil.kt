@@ -8,19 +8,15 @@ import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.sound.api.FlyBySoundHub
-import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.entity.ai.attributes.AttributeInstance
 import net.minecraft.world.entity.ai.attributes.AttributeMap
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.level.entity.EntityAccess
-import java.util.*
-import kotlin.jvm.optionals.getOrNull
 
 internal object EntityConfigUtil {
 
@@ -62,13 +58,13 @@ internal object EntityConfigUtil {
                             launch {
                                 val amplifierAttribute = amplifier.attribute
                                 val amplifierAmplifier = amplifier.amplifier
-                                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.getHolder(amplifierAttribute).getOrNull() ?: return@launch
-                                val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
+                                val attribute: AttributeInstance? =
+                                    BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute)?.let(attributes::getInstance)
                                 attribute?.addTransientModifier(
                                     AttributeModifier(
                                         "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${this@apply.name}",
                                         amplifierAmplifier - 1.0,
-                                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                                        AttributeModifier.Operation.MULTIPLY_TOTAL
                                     )
                                 )
                             }

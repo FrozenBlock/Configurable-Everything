@@ -3,9 +3,9 @@
   "minVersion": "0.8.5",
   "package": "net.frozenblock.configurableeverything.item.mixin",
   "plugin": "net.frozenblock.configurableeverything.CEMixinPlugin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerMixin"
+    "ReachEntityAttributesMixin"
   ],
   "client": [
   ],

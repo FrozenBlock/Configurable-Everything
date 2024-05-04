@@ -25,15 +25,20 @@ public abstract class RegistryDataLoaderMixin {
         return null;
     }
 
-    @Inject(method = "loadContentsFromManager", at = @At("TAIL"))
+    @Inject(method = "loadRegistryContents", at = @At("TAIL"))
     private static <E> void loadJson5Contents(
-		ResourceManager resourceManager, RegistryOps.RegistryInfoLookup infoLookup, WritableRegistry<E> registry, Decoder<E> elementDecoder, Map<ResourceKey<?>, Exception> errors, CallbackInfo ci
+            RegistryOps.RegistryInfoLookup lookup,
+            ResourceManager manager,
+            ResourceKey<? extends Registry<E>> registryKey,
+            WritableRegistry<E> registry,
+            Decoder<E> decoder,
+            Map<ResourceKey<?>, Exception> exceptions,
+            CallbackInfo ci
     ) {
         var datapack = MainConfig.get(false).datapack;
-        if (datapack.json5Support) {
-            ResourceKey<? extends Registry<E>> registryKey = registry.key();
-			String directory = registryDirPath(registryKey.location());
-            DatapackUtil.loadJson5Contents(infoLookup, resourceManager, registryKey, registry, elementDecoder, errors, directory);
+        if (datapack != null && datapack.json5Support) {
+            String directory = registryDirPath(registryKey.location());
+            DatapackUtil.loadJson5Contents(lookup, manager, registryKey, registry, decoder, exceptions, directory);
         }
     }
 }

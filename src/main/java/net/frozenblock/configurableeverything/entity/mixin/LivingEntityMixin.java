@@ -51,10 +51,9 @@ public abstract class LivingEntityMixin extends Entity {
 							if (name.isEmpty() || livingEntity.getName().getString().equals(name)) {
 								List<MobEffectHolder> effects = hurtEffects.effects;
 								for (MobEffectHolder effect : effects) {
-									var mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(effect.effect);
-									if (mobEffect.isEmpty()) continue;
+									var mobEffect = BuiltInRegistries.MOB_EFFECT.getOrThrow(effect.effect);
 									var duration = effect.duration;
-									livingEntity.addEffect(new MobEffectInstance(mobEffect.get(), duration == -1 ? duration : duration * 20, effect.amplifier, effect.ambient, effect.visible, effect.showIcon), this);
+									livingEntity.addEffect(new MobEffectInstance(mobEffect, duration == -1 ? duration : duration * 20, effect.amplifier, effect.ambient, effect.visible, effect.showIcon), this);
 								}
 							}
 						}

@@ -120,7 +120,7 @@ open class CEScriptCompilationConfig internal constructor(type: ScriptType) : Sc
     }
 
     compilerOptions(listOf(
-        "-jvm-target", "21",
+        "-jvm-target", "17",
         //"-language-version", "2.0",
     ))
     compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")

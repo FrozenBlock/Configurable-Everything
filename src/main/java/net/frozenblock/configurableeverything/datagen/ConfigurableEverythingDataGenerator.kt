@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistrySetBuilder
 import net.minecraft.core.registries.Registries
-import net.minecraft.data.worldgen.BootstrapContext
+import net.minecraft.data.worldgen.BootstapContext
 import net.minecraft.data.worldgen.features.VegetationFeatures
 import net.minecraft.data.worldgen.placement.PlacementUtils
 import net.minecraft.resources.ResourceKey
@@ -53,7 +53,7 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
 
     @Suppress("UNCHECKED_CAST")
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
-        registryBuilder.add(Registries.BIOME) { context: BootstrapContext<Biome?> ->
+        registryBuilder.add(Registries.BIOME) { context: BootstapContext<Biome?> ->
             context.register(
                 BLANK_BIOME as ResourceKey<Biome?>,
                 BiomeBuilder()
@@ -75,7 +75,7 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
                     .build()
             )
         }
-        registryBuilder.add(Registries.PLACED_FEATURE) { context: BootstrapContext<PlacedFeature?> ->
+        registryBuilder.add(Registries.PLACED_FEATURE) { context: BootstapContext<PlacedFeature?> ->
             PlacementUtils.register(
                 context,
                 BLANK_PLACED_FEATURE,

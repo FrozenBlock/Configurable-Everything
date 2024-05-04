@@ -1,12 +1,12 @@
 package net.frozenblock.configurableeverything.datapack.util
 
 import com.mojang.serialization.Decoder
+import com.mojang.serialization.Lifecycle
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
-import net.minecraft.core.RegistrationInfo
 import net.minecraft.core.Registry
 import net.minecraft.core.WritableRegistry
 import net.minecraft.resources.FileToIdConverter
@@ -55,11 +55,13 @@ object DatapackUtil {
                 try {
                     val jsonElement: JsonElement = ConfigSerialization.createJankson("").load(reader.readText())
                     val dataResult = decoder.parse(registryOps, jsonElement)
-                    val `object`: E = dataResult.getOrThrow()
+                    val `object`: E = dataResult.getOrThrow(
+                        false
+                    ) {}
                     registry.register(
                         resourceKey,
                         `object`,
-                        RegistrationInfo(Optional.empty(), dataResult.lifecycle())
+                        if (resource.isBuiltin) Lifecycle.stable() else dataResult.lifecycle()
                     )
                 } catch (e: Exception) {
                     try {
