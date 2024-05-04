@@ -24,3 +24,6 @@ accessible method net/minecraft/world/entity/monster/Zombie supportsBreakDoorGoa
 # Loot
 accessible field net/minecraft/world/level/storage/loot/LootTable$Builder pools Lcom/google/common/collect/ImmutableList$Builder;
 accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;
+
+# Mod Protocol
+accessible field net/minecraft/network/chat/Component$Serializer GSON Lcom/google/gson/Gson;

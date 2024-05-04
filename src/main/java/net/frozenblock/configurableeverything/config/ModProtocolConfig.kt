@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import com.mojang.serialization.JsonOps
 import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
@@ -11,6 +12,11 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.ComponentSerialization
+
+private fun toJson(component: Component): String {
+    return Component.Serializer.GSON.toJson(ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, component) )
+}
 
 // source: https://github.com/QuiltMC/quilt-standard-libraries/blob/1.20.2/library/core/registry/src/main/java/org/quiltmc/qsl/registry/impl/RegistryConfig.java
 @UnsyncableConfig
@@ -40,7 +46,7 @@ Protocol version. Needs to be the same on client and server. If it has value of 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Message displayed for players joining with clients incompatible with Registry Sync. Supports strings and Minecraft's JSON text format.")
-    var missingRegistrySyncMessage: String = Component.Serializer.toJson(
+    var missingRegistrySyncMessage: String = toJson(
         Component.translatableWithFallback(
             "frozenlib.registry_sync.unsupported_client",
 """
@@ -53,7 +59,7 @@ This server requires modded client to join!
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Top part of the message displayed for players joining with incompatible clients. Supports strings and Minecraft's JSON text format.")
-    var mismatchedEntriesTopMessage: String = Component.Serializer.toJson(
+    var mismatchedEntriesTopMessage: String = toJson(
         Component.translatableWithFallback(
             "frozenlib.registry_sync.failed_sync",
 """

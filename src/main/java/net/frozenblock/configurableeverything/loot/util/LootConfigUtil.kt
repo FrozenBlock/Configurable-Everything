@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 internal object LootConfigUtil {
 
     internal fun init() {
-        LootTableEvents.MODIFY.register { _, _, id, tableBuilder, _ ->
+        LootTableEvents.MODIFY.register { id, tableBuilder, _ ->
             if (!MainConfig.get().loot) return@register
             val mods = LootConfig.get().lootModifications.value
             for (mod in mods) {

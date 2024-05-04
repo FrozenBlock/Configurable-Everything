@@ -14,13 +14,13 @@ public class ZombieReinforcementMixin {
 	@ModifyExpressionValue(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getDifficulty()Lnet/minecraft/world/Difficulty;"))
 	public Difficulty configurableEverything$ignoreReinforcementDifficulty(Difficulty original) {
 		var zombie = EntityConfig.get().zombie;
-		return MainConfig.get().entity && zombie != null && zombie.ignoreDoorBreakDifficulty == true ? Difficulty.HARD : original;
+		return MainConfig.get().entity && zombie.ignoreDoorBreakDifficulty ? Difficulty.HARD : original;
 	}
 
-	@ModifyExpressionValue(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;getAttributeValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D"))
+	@ModifyExpressionValue(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;getAttributeValue(Lnet/minecraft/core/Holder;)D"))
 	public double configurableEverything$ignoreReinforcementChance(double original) {
 		var zombie = EntityConfig.get().zombie;
-		return MainConfig.get().entity && zombie != null && zombie.fullReinforcementChance == true ? 999D : original;
+		return MainConfig.get().entity && zombie.fullReinforcementChance ? 999D : original;
 	}
 
 }

@@ -3,6 +3,8 @@ package net.frozenblock.configurableeverything.datapack.util
 import com.mojang.logging.LogUtils
 import net.minecraft.FileUtil
 import net.minecraft.network.chat.Component
+import net.minecraft.server.packs.PackLocationInfo
+import net.minecraft.server.packs.PackSelectionConfig
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.repository.FolderRepositorySource
 import net.minecraft.server.packs.repository.Pack
@@ -12,6 +14,7 @@ import net.minecraft.world.level.validation.DirectoryValidator
 import org.slf4j.Logger
 import java.io.IOException
 import java.nio.file.Path
+import java.util.*
 import java.util.function.Consumer
 
 class CERepositorySource(
@@ -24,19 +27,25 @@ class CERepositorySource(
     override fun loadPacks(onLoad: Consumer<Pack>) {
         try {
             FileUtil.createDirectoriesSafe(this.folder)
-            discoverPacks(this.folder, this.validator, false) { packPath: Path?, packFactory: ResourcesSupplier? ->
+            discoverPacks(this.folder, this.validator) { packPath: Path?, packFactory: ResourcesSupplier? ->
                 if (packPath == null || packFactory == null) {
                     return@discoverPacks
                 }
                 val string = nameFromPath(packPath)
                 val pack = Pack.readMetaAndCreate(
-                    "file/$string",
-                    Component.literal(string),
-                    true,
+                    PackLocationInfo(
+                        "file/$string",
+                        Component.literal(string),
+                        this.packSource,
+                        Optional.empty()
+                    ),
                     packFactory,
                     this.packType,
-                    Pack.Position.TOP,
-                    this.packSource
+                    PackSelectionConfig(
+                        true,
+                        Pack.Position.TOP,
+                        true
+                    )
                 )
                 if (pack != null) {
                     onLoad.accept(pack)
