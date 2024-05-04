@@ -22,13 +22,11 @@ object DatapackUtil {
     @JvmStatic
     fun addedRepositories(): List<CERepositorySource> {
         val config = MainConfig.get().datapack
-        if (config?.applyDatapackFolders == true) {
+        if (config.applyDatapackFolders) {
             val list: MutableList<CERepositorySource> = arrayListOf()
-            config.datapackFolders?.forEach {
-                it?.apply {
-                    log("Adding datapack repository at $this")
-                    list.add(CERepositorySource(Path(this)))
-                }
+            config.datapackFolders.forEach {
+                log("Adding datapack repository at $it")
+                list.add(CERepositorySource(Path(it)))
             }
             return list
         }

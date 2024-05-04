@@ -5,8 +5,9 @@ Make sure to clear after release
 Put changelog here:
 
 -----------------
-- Updated Kotlin to 1.9.23
-- Updated required FLK to 1.10.19
-- Added an included Kotlin metadata remapper from Fabric Loom
-- Fixed a server-sided crash
-- Updated embedded FrozenLib to 1.6.2
+- Switched the config file format to DJS (`.djs`)
+  - This format should be visually cleaner and faster to write to
+  - The current configs and their changes will be migrated to the DJS file
+- Made many small optimizations to every config
+- Updated Fabric Kotlin Extensions to 1.0.8
+- Upgraded embedded FrozenLib to 1.7.1

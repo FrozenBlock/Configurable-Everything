@@ -1,13 +1,13 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.entity.util.*
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.*
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -16,35 +16,35 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 
-private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier?>> = ConfigRegistry.register(
+private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         EntityAttributeAmplifier.CODEC.listOf()
     )
 )
 
-private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound?>> = ConfigRegistry.register(
+private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         EntityFlyBySound.CODEC.listOf()
     )
 )
 
-private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects?>> = ConfigRegistry.register(
+private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         EntityHurtEffects.CODEC.listOf()
     )
 )
 
-private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride?>> = ConfigRegistry.register(
+private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         ExperienceOverride.CODEC.listOf()
     )
 )
 
-private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRegistry.register(
+private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         EntitySpottingIcon.CODEC.listOf()
@@ -55,7 +55,7 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon?>> = ConfigRe
 data class EntityConfig(
     @JvmField
     @EntrySyncData("entityAttributeAmplifiers")
-    var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier?>>? = TypedEntry(
+    var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier>> = TypedEntry.create(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         listOf(
             EntityAttributeAmplifier(
@@ -73,7 +73,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("experienceOverrides")
-    var experienceOverrides: TypedEntry<List<ExperienceOverride?>>? = TypedEntry(
+    var experienceOverrides: TypedEntry<List<ExperienceOverride>> = TypedEntry.create(
         EXPERIENCE_OVERRIDES,
         listOf(
             ExperienceOverride(
@@ -85,7 +85,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("entityFlyBySounds")
-    var entityFlyBySounds: TypedEntry<List<EntityFlyBySound?>>? = TypedEntry(
+    var entityFlyBySounds: TypedEntry<List<EntityFlyBySound>> = TypedEntry.create(
         ENTITY_FLYBY_SOUNDS,
         listOf(
             EntityFlyBySound(
@@ -174,7 +174,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("entityHurtEffects")
-    var entityHurtEffects: TypedEntry<List<EntityHurtEffects?>>? = TypedEntry(
+    var entityHurtEffects: TypedEntry<List<EntityHurtEffects>> = TypedEntry.create(
         ENTITY_HURT_EFFECTS,
         listOf(
             EntityHurtEffects(
@@ -196,7 +196,7 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon?>>? = TypedEntry(
+    var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon>> = TypedEntry.create(
         SPOTTING_ICONS,
         listOf(
             EntitySpottingIcon(
@@ -210,24 +210,20 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("flamingArrowsLightFire")
-    var flamingArrowsLightFire: Boolean? = false,
+    var flamingArrowsLightFire: Boolean = false,
 
     @JvmField
-    var player: PlayerConfig? = PlayerConfig(),
+    var player: PlayerConfig = PlayerConfig(),
 
     @JvmField
-    var zombie: ZombieConfig? = ZombieConfig(),
+    var zombie: ZombieConfig = ZombieConfig(),
 
     @JvmField
-    var skeleton: SkeletonConfig? = SkeletonConfig()
+    var skeleton: SkeletonConfig = SkeletonConfig()
 ) {
-    companion object : JsonConfig<EntityConfig>(
-        MOD_ID,
-        EntityConfig::class.java,
-        makeConfigPath("entity"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<EntityConfig>(
+        EntityConfig::class,
+        "entity"
     ) {
 
         init {
@@ -242,11 +238,11 @@ data class EntityConfig(
     data class PlayerConfig(
         @JvmField
         @EntrySyncData("digSpeedAmplifier")
-        var digSpeedAmplifier: Int? = 100
+        var digSpeedAmplifier: Int = 100
     ) {
         inline val digSpeed: Double // acts as a getter method
             get() {
-                val amplifier: Double = digSpeedAmplifier?.toDouble() ?: Companion.defaultInstance().player!!.digSpeedAmplifier!!.toDouble()
+                val amplifier: Double = digSpeedAmplifier.toDouble()
                 return amplifier / 100.0
             }
     }
@@ -254,36 +250,36 @@ data class EntityConfig(
     data class ZombieConfig(
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-		var babyZombieSprintParticles: Boolean? = false,
+		var babyZombieSprintParticles: Boolean = false,
 
         @JvmField
         @EntrySyncData("zombiesAvoidSun")
-		var zombiesAvoidSun: Boolean? = false,
+		var zombiesAvoidSun: Boolean = false,
 
         @JvmField
         @EntrySyncData("ignoreDoorBreakDifficulty")
-		var ignoreDoorBreakDifficulty: Boolean? = false,
+		var ignoreDoorBreakDifficulty: Boolean = false,
 
         @JvmField
         @EntrySyncData("allZombiesBreakDoors")
-		var allZombiesBreakDoors: Boolean? = false,
+		var allZombiesBreakDoors: Boolean = false,
 
         @JvmField
         @EntrySyncData("ignoreReinforcementDifficulty")
-        var ignoreReinforcementDifficulty: Boolean? = false,
+        var ignoreReinforcementDifficulty: Boolean = false,
 
         @JvmField
         @EntrySyncData("fullReinforcementChance")
-		var fullReinforcementChance: Boolean? = false
+		var fullReinforcementChance: Boolean = false
     )
 
     data class SkeletonConfig(
         @JvmField
         @EntrySyncData("skeletonAccuracyIgnoresDifficulty")
-		var skeletonAccuracyIgnoresDifficulty: Boolean? = false,
+		var skeletonAccuracyIgnoresDifficulty: Boolean = false,
 
         @JvmField
         @EntrySyncData("skeletonsAvoidSun")
-		var skeletonsAvoidSun: Boolean? = true
+		var skeletonsAvoidSun: Boolean = true
     )
 }

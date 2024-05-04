@@ -7,12 +7,13 @@ import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiom
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -23,14 +24,14 @@ import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.biome.Climate.parameters
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
-private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList?>> = ConfigRegistry.register(
+private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         DimensionBiomeKeyList.CODEC.listOf()
     )
 )
 
-private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList?>> = ConfigRegistry.register(
+private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         DimensionBiomeList.CODEC.listOf()
@@ -49,7 +50,7 @@ so replacing a biome's parameters is possible.
 Supports: Vanilla biomes, datapack biomes, modded biomes
 """
 	)
-	var addedBiomes: TypedEntry<List<DimensionBiomeList?>>? = TypedEntry(
+	var addedBiomes: TypedEntry<List<DimensionBiomeList>> = TypedEntry.create(
 		BIOME_PARAMETER_LIST,
 		listOf(
 			DimensionBiomeList(
@@ -100,7 +101,7 @@ Supports: Vanilla biomes, datapack biomes, Vanilla biome tags, datapack biome ta
 Does not support biomes added via TerraBlender
 """
 	)
-	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList?>>? = TypedEntry(
+	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList>> = TypedEntry.create(
 		BIOME_KEY_LIST,
 		listOf(
 			DimensionBiomeKeyList(
@@ -120,13 +121,9 @@ Does not support biomes added via TerraBlender
 		)
 	)
 ) {
-	companion object : JsonConfig<BiomePlacementConfig>(
-        MOD_ID,
-        BiomePlacementConfig::class.java,
-        makeConfigPath("biome_placement"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+	companion object : CEConfig<BiomePlacementConfig>(
+        BiomePlacementConfig::class,
+        "biome_placement"
     ) {
 
         init {

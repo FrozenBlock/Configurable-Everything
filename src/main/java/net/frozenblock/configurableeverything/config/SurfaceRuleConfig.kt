@@ -1,12 +1,13 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -15,8 +16,8 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
-private val SURFACE_RULE_LIST = ConfigRegistry.register(
-    TypedEntryType<List<FrozenDimensionBoundRuleSource>>(
+private val SURFACE_RULE_LIST: TypedEntryType<List<FrozenDimensionBoundRuleSource>> = ConfigRegistry.register(
+    TypedEntryType(
         MOD_ID,
         FrozenDimensionBoundRuleSource.CODEC.listOf()
     )
@@ -26,7 +27,7 @@ private val SURFACE_RULE_LIST = ConfigRegistry.register(
 data class SurfaceRuleConfig(
     @JvmField
     @EntrySyncData("addedSurfaceRules")
-    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>>? = TypedEntry(
+    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>> = TypedEntry.create(
         SURFACE_RULE_LIST,
         listOf(
             FrozenDimensionBoundRuleSource(
@@ -44,13 +45,9 @@ data class SurfaceRuleConfig(
         )
     )
 ) {
-    companion object : JsonConfig<SurfaceRuleConfig>(
-        MOD_ID,
-        SurfaceRuleConfig::class.java,
-        makeConfigPath("surface_rule"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<SurfaceRuleConfig>(
+        SurfaceRuleConfig::class,
+        "surface_rule"
     ) {
 
         init {

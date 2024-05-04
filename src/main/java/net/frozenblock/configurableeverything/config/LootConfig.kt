@@ -2,12 +2,13 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.loot.util.LootModification
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -18,7 +19,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
-private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification?>> = ConfigRegistry.register(
+private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(LootModification.CODEC)
@@ -29,7 +30,7 @@ private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification?>> = Config
 data class LootConfig(
     @JvmField
     @EntrySyncData("lootModifications")
-    var lootModifications: TypedEntry<List<LootModification?>>? = TypedEntry(
+    var lootModifications: TypedEntry<List<LootModification>> = TypedEntry.create(
         LOOT_MODIFICATIONS,
         listOf(
             LootModification(
@@ -39,13 +40,9 @@ data class LootConfig(
         )
     )
 ) {
-    companion object : JsonConfig<LootConfig>(
-        MOD_ID,
-        LootConfig::class.java,
-        makeConfigPath("loot"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<LootConfig>(
+        LootConfig::class,
+        "loot"
     ) {
 
         init {

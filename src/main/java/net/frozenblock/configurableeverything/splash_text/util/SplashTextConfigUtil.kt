@@ -15,24 +15,18 @@ object SplashTextConfigUtil {
 
     fun init() = runBlocking {
         val config = SplashTextConfig.get()
-        if (MainConfig.get().splash_text != true) return@runBlocking
-        val added = config.addedSplashes
-        val removed = config.removedSplashes
+        if (!MainConfig.get().splash_text) return@runBlocking
 
-        if (added != null) {
-            for (string in added) {
-                launch {
-                    SplashTextAPI.add(string)
-                    log("Added $string to splash texts.", UNSTABLE_LOGGING)
-                }
+        for (string in config.addedSplashes) {
+            launch {
+                SplashTextAPI.add(string)
+                log("Added $string to splash texts.", UNSTABLE_LOGGING)
             }
         }
-        if (removed != null) {
-            for (string in removed) {
-                launch {
-                    SplashTextAPI.remove(string)
-                    log("Removed $string from splash texts.", UNSTABLE_LOGGING)
-                }
+        for (string in config.removedSplashes) {
+            launch {
+                SplashTextAPI.remove(string)
+                log("Removed $string from splash texts.", UNSTABLE_LOGGING)
             }
         }
     }

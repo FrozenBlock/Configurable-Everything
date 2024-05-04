@@ -7,9 +7,9 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.material.Fluid
 
 data class FluidFlowSpeed(
-    @JvmField var fluid: ResourceKey<Fluid>?,
-    @JvmField var ultraWarmFlowTickDelay: Int?,
-    @JvmField var flowTickDelay: Int?
+    @JvmField var fluid: ResourceKey<Fluid>,
+    @JvmField var ultraWarmFlowTickDelay: Int,
+    @JvmField var flowTickDelay: Int
 ) {
     companion object {
         @JvmField

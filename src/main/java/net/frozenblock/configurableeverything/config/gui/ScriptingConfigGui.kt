@@ -28,7 +28,7 @@ object ScriptingConfigGui {
         category.background = id("textures/config/scripting.png")
 
         val applyKotlinScripts: BooleanListEntry = EntryBuilder(text("apply_kotlin_scripts"), config.applyKotlinScripts,
-            defaultConfig.applyKotlinScripts!!,
+            defaultConfig.applyKotlinScripts,
             { newValue -> config.applyKotlinScripts = newValue },
             tooltip("apply_kotlin_scripts"),
             true,
@@ -39,8 +39,8 @@ object ScriptingConfigGui {
         ).build(entryBuilder) as BooleanListEntry
         category.addEntry(applyKotlinScripts)
 
-        category.addEntry(EntryBuilder(text("default_imports"), StringList(config.defaultImports ?: emptyList()),
-            StringList(defaultConfig.defaultImports!!),
+        category.addEntry(EntryBuilder(text("default_imports"), StringList(config.defaultImports),
+            StringList(defaultConfig.defaultImports),
             { newValue -> config.defaultImports = newValue.list },
             tooltip("default_imports"),
             requirement = Requirement.all(
@@ -50,8 +50,8 @@ object ScriptingConfigGui {
             )
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("remapping"), config.remapping == true,
-            defaultConfig.remapping!!,
+        category.addEntry(EntryBuilder(text("remapping"), config.remapping,
+            defaultConfig.remapping,
             { newValue -> config.remapping = newValue },
             tooltip("remapping"),
             true,
@@ -62,8 +62,8 @@ object ScriptingConfigGui {
             )
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("remapping_filter"), EnumEntry(ScriptingConfig.FilterOption::class, config.filter ?: defaultConfig.filter!!),
-            EnumEntry(ScriptingConfig.FilterOption::class, defaultConfig.filter!!),
+        category.addEntry(EntryBuilder(text("remapping_filter"), EnumEntry(ScriptingConfig.FilterOption::class, config.filter),
+            EnumEntry(ScriptingConfig.FilterOption::class, defaultConfig.filter),
             { newValue -> config.filter = newValue.value },
             tooltip("remapping_filter"),
             true,
@@ -74,8 +74,8 @@ object ScriptingConfigGui {
             )
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("mods_to_remap"), StringList(config.modsToRemap ?: defaultConfig.modsToRemap!!),
-            StringList(defaultConfig.modsToRemap!!),
+        category.addEntry(EntryBuilder(text("mods_to_remap"), StringList(config.modsToRemap),
+            StringList(defaultConfig.modsToRemap),
             { newValue -> config.modsToRemap = newValue.list },
             tooltip("mods_to_remap"),
             true,

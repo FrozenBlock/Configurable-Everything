@@ -1,12 +1,13 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -14,7 +15,7 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.SculkShriekerBlock
 
-private val SCULK_GROWTH_LIST: TypedEntryType<List<SculkGrowth?>> = ConfigRegistry.register(
+private val SCULK_GROWTH_LIST: TypedEntryType<List<SculkGrowth>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         SculkGrowth.CODEC.listOf()
@@ -27,7 +28,7 @@ data class SculkSpreadingConfig(
     @JvmField
     @EntrySyncData("activators")
     @Comment("List of growth block states.")
-    var growths: TypedEntry<List<SculkGrowth?>>? = TypedEntry(
+    var growths: TypedEntry<List<SculkGrowth>> = TypedEntry.create(
         SCULK_GROWTH_LIST,
         arrayListOf(
             SculkGrowth(true, 11, Blocks.SCULK_SHRIEKER.defaultBlockState().setValue(SculkShriekerBlock.CAN_SUMMON, true)),
@@ -36,13 +37,9 @@ data class SculkSpreadingConfig(
         ),
     )
 ) {
-    companion object : JsonConfig<SculkSpreadingConfig>(
-        MOD_ID,
-        SculkSpreadingConfig::class.java,
-        makeConfigPath("sculk_spreading"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<SculkSpreadingConfig>(
+        SculkSpreadingConfig::class,
+        "sculk_spreading"
     ) {
 
         init {

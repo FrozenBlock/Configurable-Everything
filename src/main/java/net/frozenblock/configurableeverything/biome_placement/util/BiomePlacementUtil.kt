@@ -23,12 +23,12 @@ object BiomePlacementUtil {
 
     fun init() {
         val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-        resourceLoader?.registerReloadListener(BiomePlacementChangeManager)
+        resourceLoader?.registerReloadListener(BiomePlacementChanges)
     }
 
     @JvmStatic
     fun serverInit(registryAccess: RegistryAccess) {
-        if (MainConfig.get().biome_placement != true) return
+        if (!MainConfig.get().biome_placement) return
         val biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME)
         val levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM)
 
@@ -65,7 +65,7 @@ object BiomePlacementUtil {
         dimension: ResourceKey<DimensionType>?
     ): List<Pair<ParameterPoint?, Holder<Biome>>> {
         val biomeAdditions: MutableList<Pair<ParameterPoint?, Holder<Biome>>> = ArrayList()
-        val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.changes
+        val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.values
         val addedBiomes: MutableList<DimensionBiomeList?> = ArrayList()
         changes?.forEach {
             it?.addedBiomes?.apply {
@@ -97,7 +97,7 @@ object BiomePlacementUtil {
         dimension: ResourceKey<DimensionType>?
     ): List<ResourceKey<Biome>?> {
         val biomeRemovals: MutableList<ResourceKey<Biome>?> = ArrayList()
-        val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.changes
+        val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.values
         val removedBiomes: MutableList<DimensionBiomeKeyList?> = ArrayList()
         changes?.forEach {
             it?.removedBiomes?.let { it1 -> removedBiomes.addAll(it1) }

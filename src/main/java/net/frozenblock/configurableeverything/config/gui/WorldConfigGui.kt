@@ -28,8 +28,8 @@ object WorldConfigGui {
         val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/world.png")
         category.addEntry(
-            EntryBuilder(text("day_time_speed"), Slider(config.dayTimeSpeedAmplifier ?: defaultConfig.dayTimeSpeedAmplifier!!, 1, 100, SliderType.LONG),
-                Slider(defaultConfig.dayTimeSpeedAmplifier!!, 0, 0, SliderType.LONG),
+            EntryBuilder(text("day_time_speed"), Slider(config.dayTimeSpeedAmplifier, 1, 100, SliderType.LONG),
+                Slider(defaultConfig.dayTimeSpeedAmplifier, 0, 0, SliderType.LONG),
                 { newValue -> config.dayTimeSpeedAmplifier = newValue.value.toLong() },
                 tooltip("day_time_speed"),
                 requirement = mainToggleReq
@@ -40,32 +40,32 @@ object WorldConfigGui {
             )
         )
         category.addEntry(
-            EntryBuilder(text("fix_sun_moon_rotating"), config.fixSunMoonRotating ?: defaultConfig.fixSunMoonRotating!!,
-                defaultConfig.fixSunMoonRotating!!,
+            EntryBuilder(text("fix_sun_moon_rotating"), config.fixSunMoonRotating,
+                defaultConfig.fixSunMoonRotating,
                 { newValue -> config.fixSunMoonRotating = newValue },
                 tooltip("fix_sun_moon_rotating"),
                 requirement = mainToggleReq,
             ).build(entryBuilder)
         )
         category.addEntry(
-            entryBuilder.startIntSlider(text("sun_size"), config.sunSize ?: defaultConfig.sunSize!!, 10, 1000)
-                .setDefaultValue(300)
+            entryBuilder.startIntSlider(text("sun_size"), config.sunSize, 10, 1000)
+                .setDefaultValue(defaultConfig.sunSize)
                 .setSaveConsumer { newValue: Int? -> config.sunSize = newValue!! }
                 .setTooltip(tooltip("sun_size"))
                 .setRequirement(mainToggleReq)
                 .build()
         )
         category.addEntry(
-            entryBuilder.startIntSlider(text("moon_size"), config.moonSize ?: defaultConfig.moonSize!!, 10, 1000)
-                .setDefaultValue(200)
+            entryBuilder.startIntSlider(text("moon_size"), config.moonSize, 10, 1000)
+                .setDefaultValue(defaultConfig.moonSize)
                 .setSaveConsumer { newValue: Int? -> config.moonSize = newValue!! }
                 .setTooltip(tooltip("moon_size"))
                 .setRequirement(mainToggleReq)
                 .build()
         )
         category.addEntry(
-            EntryBuilder(text("disable_experimental_warning"), config.disableExperimentalWarning ?: defaultConfig.disableExperimentalWarning!!,
-                defaultConfig.disableExperimentalWarning!!,
+            EntryBuilder(text("disable_experimental_warning"), config.disableExperimentalWarning,
+                defaultConfig.disableExperimentalWarning,
                 { newValue -> config.disableExperimentalWarning = newValue },
                 tooltip("disable_experimental_warning"),
                 requirement = mainToggleReq,

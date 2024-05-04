@@ -4,10 +4,11 @@ package net.frozenblock.configurableeverything.config
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -20,32 +21,28 @@ data class SplashTextConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var addedSplashes: List<String?>? = arrayListOf(
+    var addedSplashes: List<String> = arrayListOf(
         "Configurable Everything!"
     ),
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var removedSplashes: List<String?>? = arrayListOf(
+    var removedSplashes: List<String> = arrayListOf(
         "random splash text"
     ),
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var splashColor: Int? = DyeColor.YELLOW.textColor,
+    var splashColor: Int = DyeColor.YELLOW.textColor,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
     @Comment("Removes all vanilla splashes.")
-    var removeVanilla: Boolean? = true
+    var removeVanilla: Boolean = true
 ) {
-    companion object : JsonConfig<SplashTextConfig>(
-        MOD_ID,
-        SplashTextConfig::class.java,
-        makeConfigPath("splash_text"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<SplashTextConfig>(
+        SplashTextConfig::class,
+        "splash_text",
     ) {
 
         init {

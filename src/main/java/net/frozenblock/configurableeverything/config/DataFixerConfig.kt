@@ -5,12 +5,13 @@ import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry
 import net.frozenblock.configurableeverything.datafixer.util.Fixer
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -19,14 +20,14 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 
-private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry?>> = ConfigRegistry.register(
+private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(SchemaEntry.CODEC)
     )
 )
 
-private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer?>> = ConfigRegistry.register(
+private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(RegistryFixer.CODEC)
@@ -45,7 +46,7 @@ By default, registry fixers will only run if the entry with the ID is missing.
 WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CAUTION
 """
     )
-    var overrideRealEntries: Boolean? = false,
+    var overrideRealEntries: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
@@ -55,7 +56,7 @@ The data fixer's main data version. Increment this when you add a new schema.
 Any schemas with a data version higher than this will be ignored.
 """
     )
-    var dataVersion: Int? = 0,
+    var dataVersion: Int = 0,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
@@ -70,7 +71,7 @@ Each fixer contains an old id and a new id, and will replace all instances of th
 However, if the old id is still found in the registry, it will not be replaced.
 """
     )
-    var schemas: TypedEntry<List<SchemaEntry?>>? = TypedEntry(
+    var schemas: TypedEntry<List<SchemaEntry>> = TypedEntry.create(
         SCHEMA_ENTRY_LIST,
         listOf(
             SchemaEntry(
@@ -141,7 +142,7 @@ Each fixer contains an old id and a new id, and will replace all instances of th
 However, if the old id is still found in the registry, it will not be replaced (unless the overrideRealEntries option is set to true).
 """
     )
-    var registryFixers: TypedEntry<List<RegistryFixer?>>? = TypedEntry(
+    var registryFixers: TypedEntry<List<RegistryFixer>> = TypedEntry.create(
         REGISTRY_FIXER_LIST,
         listOf(
             RegistryFixer(
@@ -174,13 +175,9 @@ However, if the old id is still found in the registry, it will not be replaced (
         )
 )
 ) {
-    companion object : JsonConfig<DataFixerConfig>(
-        MOD_ID,
-        DataFixerConfig::class.java,
-        makeConfigPath("datafixer"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<DataFixerConfig>(
+        DataFixerConfig::class,
+        "datafixer"
     ) {
 
         init {

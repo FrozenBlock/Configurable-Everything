@@ -1,12 +1,13 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -14,7 +15,7 @@ import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.monster.warden.WardenAi
 
-private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake?>> = ConfigRegistry.register(
+private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         SoundScreenShake.CODEC.listOf()
@@ -25,7 +26,7 @@ private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake?>> = Confi
 data class ScreenShakeConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var soundScreenShakes: TypedEntry<List<SoundScreenShake?>>? = TypedEntry(
+    var soundScreenShakes: TypedEntry<List<SoundScreenShake>> = TypedEntry.create(
         SOUND_SCREEN_SHAKE,
         listOf(
             SoundScreenShake(
@@ -82,19 +83,15 @@ data class ScreenShakeConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var dragonRespawnScreenShake: Boolean? = true,
+    var dragonRespawnScreenShake: Boolean = true,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var explosionScreenShake: Boolean? = true
+    var explosionScreenShake: Boolean = true
 ) {
-    companion object : JsonConfig<ScreenShakeConfig>(
-        MOD_ID,
-        ScreenShakeConfig::class.java,
-        makeConfigPath("screen_shake"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<ScreenShakeConfig>(
+        ScreenShakeConfig::class,
+        "screen_shake"
     ) {
 
         init {

@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
 data class PlacedFeatureReplacement(
-	@JvmField var original: ResourceKey<PlacedFeature>?,
-	@JvmField var replacement: DecorationStepPlacedFeature?
+	@JvmField var original: ResourceKey<PlacedFeature>,
+	@JvmField var replacement: DecorationStepPlacedFeature
 ) {
 	companion object {
 		@JvmField

@@ -40,13 +40,13 @@ object EntityConfigGui {
         category.addEntry(entitySpottingIcons(entryBuilder, config, defaultConfig))
 
         val player = config.player
-        val digSpeedAmplifier = EntryBuilder(text("dig_speed_amplifier"), Slider(player?.digSpeedAmplifier ?: defaultConfig.player!!.digSpeedAmplifier!!, 1, 5000, SliderType.INT),
-            Slider(defaultConfig.player!!.digSpeedAmplifier!!, 1, 5000, SliderType.INT),
-            { newValue -> player?.digSpeedAmplifier = newValue.value.toInt() },
+        val digSpeedAmplifier = EntryBuilder(text("dig_speed_amplifier"), Slider(player.digSpeedAmplifier, 1, 5000, SliderType.INT),
+            Slider(defaultConfig.player.digSpeedAmplifier, 1, 5000, SliderType.INT),
+            { newValue -> player.digSpeedAmplifier = newValue.value.toInt() },
             tooltip("dig_speed_amplifier"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (player ?: defaultConfig.player!!)::class,
+            player::class,
             "digSpeedAmplifier",
             configInstance
         )
@@ -59,64 +59,64 @@ object EntityConfigGui {
         )
 
         val zombie = config.zombie
-        val babyZombieSprint = EntryBuilder(text("baby_zombie_sprint_particles"), zombie?.babyZombieSprintParticles ?: defaultConfig.zombie!!.babyZombieSprintParticles!!,
-            defaultConfig.zombie!!.babyZombieSprintParticles!!,
-            { newValue -> zombie?.babyZombieSprintParticles = newValue },
+        val babyZombieSprint = EntryBuilder(text("baby_zombie_sprint_particles"), zombie.babyZombieSprintParticles,
+            defaultConfig.zombie.babyZombieSprintParticles,
+            { newValue -> zombie.babyZombieSprintParticles = newValue },
             tooltip("baby_zombie_sprint_particles"),
             requirement = mainToggleReq,
         ).build(entryBuilder)
 
-        val zombiesAvoidSun = EntryBuilder(text("zombies_avoid_sun"), zombie?.zombiesAvoidSun ?: defaultConfig.zombie!!.zombiesAvoidSun!!,
-            defaultConfig.zombie!!.zombiesAvoidSun!!,
-            { newValue -> zombie?.zombiesAvoidSun = newValue },
+        val zombiesAvoidSun = EntryBuilder(text("zombies_avoid_sun"), zombie.zombiesAvoidSun,
+            defaultConfig.zombie.zombiesAvoidSun,
+            { newValue -> zombie.zombiesAvoidSun = newValue },
             tooltip("zombies_avoid_sun"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (zombie ?: defaultConfig.zombie!!)::class,
+            zombie::class,
             "zombiesAvoidSun",
             configInstance
         )
 
-        val ignoreZombieDoorBreakDifficulty = EntryBuilder(text("ignore_zombie_door_break_difficulty"), zombie?.ignoreDoorBreakDifficulty ?: defaultConfig.zombie!!.ignoreDoorBreakDifficulty!!,
-            defaultConfig.zombie!!.ignoreDoorBreakDifficulty!!,
-            { newValue -> zombie?.ignoreDoorBreakDifficulty = newValue },
+        val ignoreZombieDoorBreakDifficulty = EntryBuilder(text("ignore_zombie_door_break_difficulty"), zombie.ignoreDoorBreakDifficulty,
+            defaultConfig.zombie.ignoreDoorBreakDifficulty,
+            { newValue -> zombie.ignoreDoorBreakDifficulty = newValue },
             tooltip("ignore_zombie_door_break_difficulty"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (zombie ?: defaultConfig.zombie!!)::class,
+            zombie::class,
             "ignoreDoorBreakDifficulty",
             configInstance
         )
 
-        val allZombiesBreakDoors = EntryBuilder(text("all_zombies_break_doors"), zombie?.allZombiesBreakDoors ?: defaultConfig.zombie!!.allZombiesBreakDoors!!,
-            defaultConfig.zombie!!.allZombiesBreakDoors!!,
-            { newValue -> zombie?.allZombiesBreakDoors = newValue },
+        val allZombiesBreakDoors = EntryBuilder(text("all_zombies_break_doors"), zombie.allZombiesBreakDoors,
+            defaultConfig.zombie.allZombiesBreakDoors,
+            { newValue -> zombie.allZombiesBreakDoors = newValue },
             tooltip("all_zombies_break_doors"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (zombie ?: defaultConfig!!)::class,
+            zombie::class,
             "allZombiesBreakDoors",
             configInstance
         )
 
-        val ignoreZombieReinforcementDifficulty = EntryBuilder(text("ignore_zombie_reinforcement_difficulty"), zombie?.ignoreReinforcementDifficulty ?: defaultConfig.zombie!!.ignoreReinforcementDifficulty!!,
-            defaultConfig.zombie!!.ignoreReinforcementDifficulty!!,
-            { newValue -> zombie?.ignoreReinforcementDifficulty = newValue },
+        val ignoreZombieReinforcementDifficulty = EntryBuilder(text("ignore_zombie_reinforcement_difficulty"), zombie.ignoreReinforcementDifficulty,
+            defaultConfig.zombie.ignoreReinforcementDifficulty,
+            { newValue -> zombie.ignoreReinforcementDifficulty = newValue },
             tooltip("ignore_zombie_reinforcement_difficulty"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (zombie ?: defaultConfig!!)::class,
+            zombie::class,
             "ignoreReinforcementDifficulty",
             configInstance
         )
 
-        val fullZombieReinforcementChance = EntryBuilder(text("full_zombie_reinforcement_chance"), zombie?.fullReinforcementChance ?: defaultConfig.zombie!!.fullReinforcementChance!!,
-            defaultConfig.zombie!!.fullReinforcementChance!!,
-            { newValue -> zombie?.fullReinforcementChance = newValue },
+        val fullZombieReinforcementChance = EntryBuilder(text("full_zombie_reinforcement_chance"), zombie.fullReinforcementChance,
+            defaultConfig.zombie.fullReinforcementChance,
+            { newValue -> zombie.fullReinforcementChance = newValue },
             tooltip("full_zombie_reinforcement_chance"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (zombie ?: defaultConfig!!)::class,
+            zombie::class,
             "fullReinforcementChance",
             configInstance
         )
@@ -136,24 +136,24 @@ object EntityConfigGui {
         )
 
         val skeleton = config.skeleton
-        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(text("skeleton_accuracy_ignores_difficulty"), skeleton?.skeletonAccuracyIgnoresDifficulty ?: defaultConfig.skeleton!!.skeletonAccuracyIgnoresDifficulty!!,
-            defaultConfig.skeleton!!.skeletonAccuracyIgnoresDifficulty!!,
-            { newValue -> skeleton?.skeletonAccuracyIgnoresDifficulty = newValue },
+        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(text("skeleton_accuracy_ignores_difficulty"), skeleton.skeletonAccuracyIgnoresDifficulty,
+            defaultConfig.skeleton.skeletonAccuracyIgnoresDifficulty,
+            { newValue -> skeleton.skeletonAccuracyIgnoresDifficulty = newValue },
             tooltip("skeleton_accuracy_ignores_difficulty"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (skeleton ?: defaultConfig.skeleton!!)::class,
+            skeleton::class,
             "skeletonAccuracyIgnoresDifficulty",
             configInstance
         )
 
-        val skeletonsAvoidSun = EntryBuilder(text("skeletons_avoid_sun"), skeleton?.skeletonsAvoidSun ?: defaultConfig.skeleton!!.skeletonsAvoidSun!!,
-            defaultConfig.skeleton!!.skeletonsAvoidSun!!,
-            { newValue -> skeleton?.skeletonsAvoidSun = newValue },
+        val skeletonsAvoidSun = EntryBuilder(text("skeletons_avoid_sun"), skeleton.skeletonsAvoidSun,
+            defaultConfig.skeleton.skeletonsAvoidSun,
+            { newValue -> skeleton.skeletonsAvoidSun = newValue },
             tooltip("skeletons_avoid_sun"),
             requirement = mainToggleReq,
         ).build(entryBuilder).synced(
-            (skeleton ?: defaultConfig.skeleton!!)::class,
+            skeleton::class,
             "skeletonsAvoidSun",
             configInstance
         )
@@ -165,8 +165,8 @@ object EntityConfigGui {
             skeletonAccuracyIgnoresDifficulty, skeletonsAvoidSun
         )
 
-        val flamingArrowsLightFire = EntryBuilder(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire ?: defaultConfig.flamingArrowsLightFire!!,
-            defaultConfig.flamingArrowsLightFire!!,
+        val flamingArrowsLightFire = EntryBuilder(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire,
+            defaultConfig.flamingArrowsLightFire,
             { newValue -> config.flamingArrowsLightFire = newValue },
             tooltip("flaming_arrows_light_fire"),
             requirement = mainToggleReq,
@@ -189,20 +189,19 @@ private fun entityAttributeAmplifiers(
         entryBuilder,
         text("entity_attribute_amplifiers"),
         config::entityAttributeAmplifiers,
-        {defaultConfig.entityAttributeAmplifiers!!},
+        { defaultConfig.entityAttributeAmplifiers },
         false,
         tooltip("entity_attribute_amplifiers"),
         { newValue -> config.entityAttributeAmplifiers = newValue},
-        { element, _ ->
+        { element: EntityAttributeAmplifier?, _ ->
             val defaultEntity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(""))
             val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
-            val entity = entityAttributeAmplifier.entity ?: defaultEntity
             multiElementEntry(
                 text("entity_attribute_amplifiers.entity_attribute_amplifier"),
                 entityAttributeAmplifier,
                 true,
 
-                EntryBuilder(text("entity_attribute_amplifiers.entity"), entity.location().toString(),
+                EntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.location().toString(),
                     "",
                     { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(newValue)) },
                     tooltip("entity_attribute_amplifiers.entity")
@@ -222,11 +221,11 @@ private fun entityAttributeAmplifiers(
                     true,
                     tooltip("entity_attribute_amplifiers.amplifiers"),
                     { newValue -> entityAttributeAmplifier.amplifiers = newValue },
-                    { amplifierElement, _ ->
+                    { amplifierElement: AttributeAmplifier?, _ ->
                         val defaultAttribute = ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation(""))
                         val amplifier = amplifierElement ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)
-                        val attribute = amplifier.attribute ?: defaultAttribute
-                        val numAmplifier = amplifier.amplifier ?: 1.0
+                        val attribute = amplifier.attribute
+                        val numAmplifier = amplifier.amplifier
                         multiElementEntry(
                             text("entity_attribute_amplifiers.attribute_amplifier"),
                             amplifier,
@@ -266,11 +265,11 @@ private fun experienceOverrides(
         entryBuilder,
         text("entity_xp_overrides"),
         config::experienceOverrides,
-        {defaultConfig.experienceOverrides!!},
+        { defaultConfig.experienceOverrides },
         false,
         tooltip("entity_xp_overrides"),
         { newValue -> config.experienceOverrides = newValue},
-        { element, _ ->
+        { element: ExperienceOverride?, _ ->
             val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("")), 0)
             multiElementEntry(
                 text("entity_xp_override"),
@@ -307,11 +306,11 @@ private fun entityFlyBySounds(
         entryBuilder,
         text("entity_flyby_sounds"),
         config::entityFlyBySounds,
-        {defaultConfig.entityFlyBySounds!!},
+        { defaultConfig.entityFlyBySounds },
         false,
         tooltip("entity_flyby_sounds"),
         { newValue -> config.entityFlyBySounds = newValue},
-        { element, _ ->
+        { element: EntityFlyBySound?, _ ->
             val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
             multiElementEntry(
                 text("entity_flyby_sound"),
@@ -380,11 +379,11 @@ private fun entityHurtEffects(
         entryBuilder,
         text("entity_hurt_effects"),
         config::entityHurtEffects,
-        {defaultConfig.entityHurtEffects!!},
+        { defaultConfig.entityHurtEffects },
         false,
         tooltip("entity_hurt_effects"),
         { newValue -> config.entityHurtEffects = newValue},
-        { element, _ ->
+        { element: EntityHurtEffects?, _ ->
             val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
             multiElementEntry(
                 text("entity_hurt_effects.dropdown"),
@@ -416,7 +415,7 @@ private fun entityHurtEffects(
                             effect,
                             true,
 
-                            EntryBuilder(text("entity_hurt_effects.effect"), effect.effect?.location().toString(),
+                            EntryBuilder(text("entity_hurt_effects.effect"), effect.effect.location().toString(),
                                 "minecraft:speed",
                                 { newValue -> effect.effect = ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation(newValue)) },
                                 tooltip("entity_hurt_effects.effect")
@@ -474,11 +473,11 @@ private fun entitySpottingIcons(
         entryBuilder,
         text("entity_spotting_icons"),
         config::entitySpottingIcons,
-        {defaultConfig.entitySpottingIcons!!},
+        { defaultConfig.entitySpottingIcons },
         false,
         tooltip("entity_spotting_icons"),
         { newValue -> config.entitySpottingIcons = newValue},
-        { element, _ ->
+        { element: EntitySpottingIcon?, _ ->
             val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")), ResourceLocation("icon"), 5F, 8F)
             multiElementEntry(
                 text("entity_spotting_icons.spotting_icon"),

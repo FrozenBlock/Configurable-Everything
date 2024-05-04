@@ -232,16 +232,16 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         .requireRestart()
         .build()
 
-    val datapackBiome: BooleanListEntry = EntryBuilder(text("datapack_biome"), config.datapack?.biome,
+    val datapackBiome: BooleanListEntry = EntryBuilder(text("datapack_biome"), config.datapack.biome,
         defaultConfig.datapack!!.biome!!,
-        { newValue -> config.datapack?.biome = newValue },
+        { newValue -> config.datapack.biome = newValue },
         tooltip("datapack_biome"),
         true
     ).build(entryBuilder) as BooleanListEntry
 
-    val datapackBiomePlacement: BooleanListEntry = EntryBuilder(text("datapack_biome_placement"), config.datapack?.biome_placement,
+    val datapackBiomePlacement: BooleanListEntry = EntryBuilder(text("datapack_biome_placement"), config.datapack.biome_placement,
         defaultConfig.datapack!!.biome_placement!!,
-        { newValue -> config.datapack?.biome_placement = newValue },
+        { newValue -> config.datapack.biome_placement = newValue },
         tooltip("datapack_biome_placement"),
         true
     ).build(entryBuilder) as BooleanListEntry

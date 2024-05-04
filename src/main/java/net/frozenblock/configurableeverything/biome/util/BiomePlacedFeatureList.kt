@@ -9,8 +9,8 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 
 data class BiomePlacedFeatureList(
-    @JvmField var biome: Either<ResourceKey<Biome>, TagKey<Biome>>?,
-    @JvmField var features: List<DecorationStepPlacedFeature?>?
+    @JvmField var biome: Either<ResourceKey<Biome>, TagKey<Biome>>,
+    @JvmField var features: List<DecorationStepPlacedFeature>
 ) {
     companion object {
         @JvmField

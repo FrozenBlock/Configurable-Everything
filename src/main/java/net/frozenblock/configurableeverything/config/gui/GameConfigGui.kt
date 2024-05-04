@@ -24,7 +24,7 @@ object GameConfigGui {
         category.background = id("textures/config/game.png")
 
         category.addEntry(EntryBuilder(text("window_title"), config.windowTitle,
-            defaultConfig.windowTitle!!,
+            defaultConfig.windowTitle,
             { newValue -> config.windowTitle = newValue },
             tooltip("window_title"),
             true,
@@ -32,7 +32,7 @@ object GameConfigGui {
         ).build(entryBuilder))
 
         category.addEntry(EntryBuilder(text("version_series"), config.versionSeries,
-            defaultConfig.versionSeries!!,
+            defaultConfig.versionSeries,
             { newValue -> config.versionSeries = newValue },
             tooltip("version_series"),
             true,

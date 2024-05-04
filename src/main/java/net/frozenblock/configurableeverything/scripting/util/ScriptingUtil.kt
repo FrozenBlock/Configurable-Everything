@@ -60,7 +60,7 @@ internal object ScriptingUtil {
             script.toScriptSource(),
             compilationConfiguration
         ).apply { this.logReports() }.valueOrNull() as? KJvmCompiledScript ?: error("Compiled script is not java or is null")
-        if (!DEV_ENV && ScriptingConfig.get().remapping == true) {
+        if (!DEV_ENV && ScriptingConfig.get().remapping) {
             val file = ORIGINAL_SCRIPTS.resolve("${script.name}.jar").toFile()
             BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
             val remappedFile: File = Remapping.remapScript(file)

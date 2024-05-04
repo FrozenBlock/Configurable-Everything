@@ -14,34 +14,28 @@ import java.util.*
 
 internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
     val config = StructureConfig.get()
-    if (MainConfig.get().structure != true) return@runBlocking original
+    if (!MainConfig.get().structure) return@runBlocking original
     val newList: MutableList<StructureSelectionEntry> = mutableListOf()
     newList.addAll(original)
 
-    config.removedStructures?.value?.apply {
-        for (entry in original) {
-            launch {
-                val key = entry.structure.unwrapKey().orElseThrow().location()
-                if (this@apply.contains(key)) newList.remove(entry)
-            }
-        }
-    }
+    val removedStructures = config.removedStructures.value
+    for (entry in original) { launch {
+        val key = entry.structure.unwrapKey().orElseThrow().location()
+        if (removedStructures.contains(key)) newList.remove(entry)
+    } }
     return@runBlocking Collections.unmodifiableList(newList)
 }
 
 internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
     val config = StructureConfig.get()
-    if (MainConfig.get().structure != true) return@runBlocking original
+    if (!MainConfig.get().structure) return@runBlocking original
     val newList: MutableList<Holder<StructureSet>> = mutableListOf()
     newList.addAll(original)
 
-    config.removedStructureSets?.value?.apply {
-        for (set in original) {
-            launch {
-                if (this@apply.contains(set.unwrapKey().orElseThrow().location()))
-                    newList.remove(set)
-            }
-        }
-    }
+    val removedStructureSets = config.removedStructureSets.value
+    for (set in original) { launch {
+        if (removedStructureSets.contains(set.unwrapKey().orElseThrow().location()))
+            newList.remove(set)
+    } }
     return@runBlocking Collections.unmodifiableList(newList)
 }

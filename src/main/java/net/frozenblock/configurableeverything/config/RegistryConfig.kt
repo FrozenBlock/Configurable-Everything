@@ -2,13 +2,13 @@ package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.registry.util.BiomeAddition
 import net.frozenblock.configurableeverything.registry.util.PlacedFeatureAddition
-import net.frozenblock.configurableeverything.util.CONFIG_JSONTYPE
+import net.frozenblock.configurableeverything.util.*
+import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.json.JsonConfig
+import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -18,14 +18,14 @@ import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
 import net.minecraft.world.level.biome.MobSpawnSettings
 
-private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition?>?> = ConfigRegistry.register(
+private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         BiomeAddition.CODEC.listOf()
     )
 )
 
-private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition?>?> = ConfigRegistry.register(
+private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         PlacedFeatureAddition.CODEC.listOf()
@@ -37,7 +37,7 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
-    var biomeAdditions: TypedEntry<List<BiomeAddition?>?>? = TypedEntry(
+    var biomeAdditions: TypedEntry<List<BiomeAddition>> = TypedEntry.create(
         BIOME_ADDITIONS,
         listOf(
             BiomeAddition(
@@ -67,18 +67,14 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
-    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition?>?>? = TypedEntry(
+    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition>> = TypedEntry.create(
         PLACED_FEATURE_ADDITIONS,
         listOf() // cant make an example bc it requires a holder and the registry is dynamic
     )
 ) {
-    companion object : JsonConfig<RegistryConfig>(
-        MOD_ID,
-        RegistryConfig::class.java,
-        makeConfigPath("registry"),
-        CONFIG_JSONTYPE,
-        null,
-        null
+    companion object : CEConfig<RegistryConfig>(
+        RegistryConfig::class,
+        "registry"
     ) {
 
         init {

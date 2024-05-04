@@ -7,9 +7,9 @@ import net.minecraft.world.level.storage.loot.LootPool
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-data class LootModification(var id: ResourceLocation?, var removals: List<ResourceLocation?>? = listOf()) {
+data class LootModification(var id: ResourceLocation, var removals: List<ResourceLocation?>? = listOf()) {
 
-    constructor(id: ResourceLocation?, removals: Optional<List<ResourceLocation?>>?) : this(id, removals?.getOrNull())
+    constructor(id: ResourceLocation, removals: Optional<List<ResourceLocation?>>?) : this(id, pool?.getOrNull(), removals?.getOrNull())
 
     companion object {
         @JvmField

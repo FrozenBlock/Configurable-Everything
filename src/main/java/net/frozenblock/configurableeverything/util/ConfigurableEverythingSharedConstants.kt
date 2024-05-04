@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.lib.config.api.instance.json.JsonType
+import net.frozenblock.lib.config.api.instance.xjs.XjsFormat
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -11,14 +12,13 @@ import kotlin.io.path.Path
 
 @PublishedApi
 internal const val MOD_ID = "configurable_everything"
-@PublishedApi
 internal const val MOD_NAME = "Configurable Everything"
 
 /**
  * Enables update 1.2
  */
 @PublishedApi
-internal const val ENABLE_EXPERIMENTAL_FEATURES = false
+internal const val ENABLE_EXPERIMENTAL_FEATURES = true
 
 internal val DEV_ENV = FabricLoader.getInstance().isDevelopmentEnvironment
 
@@ -42,7 +42,8 @@ internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 @JvmField
 val HAS_EXTENSIONS: Boolean = FabricLoader.getInstance().isModLoaded("fabric_kotlin_extensions")
 
-inline val SCRIPTING_ENABLED get() = HAS_EXTENSIONS && MainConfig.get().scripting == true && ScriptingConfig.get().applyKotlinScripts == true
+inline val SCRIPTING_ENABLED
+    get() = HAS_EXTENSIONS && MainConfig.get().scripting && ScriptingConfig.get().applyKotlinScripts
 
 @JvmField
 val DATAPACKS_PATH: Path = Path("config/$MOD_ID/datapacks")
@@ -75,4 +76,7 @@ val KOTLIN_CLIENT_SCRIPT_PATH: Path = KOTLIN_SCRIPT_PATH.resolve("client/")
 const val KOTLIN_SCRIPT_EXTENSION: String = "cevt.kts"
 
 @JvmField
-internal val CONFIG_JSONTYPE: JsonType = JsonType.JSON5
+internal val LEGACY_CONFIG_JSONTYPE: JsonType = JsonType.JSON5
+
+@JvmField
+internal val CONFIG_FORMAT: XjsFormat = XjsFormat.DJS_FORMATTED

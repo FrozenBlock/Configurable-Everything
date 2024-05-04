@@ -62,6 +62,7 @@
     "configurable_everything.splash_text.mixins.json",
     "configurable_everything.sculk_spreading.mixins.json",
     "configurable_everything.structure.mixins.json",
+    "configurable_everything.tag.mixins.json",
     "configurable_everything.world.mixins.json",
 
     "configurable_everything.sodium.mixins.json"
@@ -76,12 +77,12 @@
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "fabric_kotlin_extensions": ">=1.0.7"
+    "fabric_kotlin_extensions": ">=1.0.8"
   },
   "breaks": {
     "configurabledatafixers": "*",
     "configurablesplashtexts": "*",
-    "fabric_kotlin_extensions": "<1.0.7"
+    "fabric_kotlin_extensions": "<1.0.8"
   },
   "custom": {
     "modmenu": {

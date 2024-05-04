@@ -9,9 +9,9 @@ class SkeletonRestrictSunGoal(mob: PathfinderMob) : RestrictSunGoal(mob) {
     override fun canUse(): Boolean {
         val config = EntityConfig.get()
 
-        if (MainConfig.get().entity != true)
+        if (!MainConfig.get().entity)
             return super.canUse()
 
-        return config.skeleton?.skeletonsAvoidSun == true && super.canUse()
+        return config.skeleton.skeletonsAvoidSun && super.canUse()
     }
 }

@@ -10,10 +10,10 @@ import net.minecraft.world.level.Level
 
 data class DimensionGravityBelt(
     @JvmField
-    var dimension: ResourceKey<Level>?,
+    var dimension: ResourceKey<Level>,
 
     @JvmField
-    var gravityBelts: List<GravityBelt<AbsoluteGravityFunction>?>?
+    var gravityBelts: List<GravityBelt<AbsoluteGravityFunction>>
 ) {
     companion object {
         @JvmField

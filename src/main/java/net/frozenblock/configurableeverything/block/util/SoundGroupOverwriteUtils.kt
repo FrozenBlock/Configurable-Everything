@@ -10,9 +10,9 @@ import net.minecraft.world.level.block.SoundType
 import java.util.function.BooleanSupplier
 
 data class MutableBlockSoundGroupOverwrite(
-    var blockId: ResourceLocation?,
-    var soundOverwrite: MutableSoundType?,
-    var condition: BooleanSupplier?
+    var blockId: ResourceLocation,
+    var soundOverwrite: MutableSoundType,
+    var condition: BooleanSupplier
 ) {
     companion object {
         @JvmField
@@ -24,26 +24,23 @@ data class MutableBlockSoundGroupOverwrite(
         }
     }
 
-    fun immutable(): BlockSoundGroupOverwrite? {
-        val blockId = this.blockId ?: return null
-        val soundOverwrite = this.soundOverwrite?.immutable() ?: return null
-        val condition = this.condition ?: return null
-        return BlockSoundGroupOverwrite(blockId, soundOverwrite, condition)
+    fun immutable(): BlockSoundGroupOverwrite {
+        return BlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.immutable(), this.condition)
     }
 }
 
 fun BlockSoundGroupOverwrite.mutable(): MutableBlockSoundGroupOverwrite
-    = MutableBlockSoundGroupOverwrite(blockId, soundOverwrite.mutable(), condition)
+    = MutableBlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.mutable(), this.condition)
 
 
 data class MutableSoundType(
-    var volume: Float?,
-    var pitch: Float?,
-    var breakSound: SoundEvent?,
-    var stepSound: SoundEvent?,
-    var placeSound: SoundEvent?,
-    var hitSound: SoundEvent?,
-    var fallSound: SoundEvent?
+    var volume: Float,
+    var pitch: Float,
+    var breakSound: SoundEvent,
+    var stepSound: SoundEvent,
+    var placeSound: SoundEvent,
+    var hitSound: SoundEvent,
+    var fallSound: SoundEvent
 ) {
     companion object {
         @JvmField
@@ -61,19 +58,8 @@ data class MutableSoundType(
         }
     }
 
-    fun immutable(): SoundType? {
-        val volume = this.volume
-        val pitch = this.pitch
-        val breakSound = this.breakSound
-        val stepSound = this.stepSound
-        val placeSound = this.placeSound
-        val hitSound = this.hitSound
-        val fallSound = this.fallSound
-        if (volume == null || pitch == null || breakSound == null || stepSound == null || placeSound == null || hitSound == null || fallSound == null)
-            return null
-
-        return SoundType(volume, pitch, breakSound, stepSound, placeSound, hitSound, fallSound)
-    }
+    fun immutable(): SoundType
+        = SoundType(volume, pitch, breakSound, stepSound, placeSound, hitSound, fallSound)
 }
 
 fun SoundType.mutable(): MutableSoundType

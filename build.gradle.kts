@@ -1,5 +1,6 @@
 import groovy.xml.XmlSlurper
 import org.codehaus.groovy.runtime.ResourceGroovyMethods
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
@@ -18,11 +19,11 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.kotlin)
-    alias(libs.plugins.fabric.loom)
-    alias(libs.plugins.quilt.licenser)
-    alias(libs.plugins.grgit)
-    alias(libs.plugins.minotaur)
+    kotlin("jvm") version("1.9.23")
+    id("fabric-loom") version("+")
+    id("dev.yumi.gradle.licenser") version("+")
+    id("org.ajoberstar.grgit") version("+")
+    id("com.modrinth.minotaur") version("+")
     eclipse
     idea
     `java-library`
@@ -43,27 +44,12 @@ val archives_base_name: String by project
 
 val fabric_version: String by project
 val fabric_kotlin_version: String by project
-val fabric_asm_version: String by project
 val frozenlib_version: String by project
 
 val cloth_config_version: String by project
 val modmenu_version: String by project
-val terrablender_version: String by project
-val terralith_version: String by project
 
 val sodium_version: String by project
-val iris_version: String by project
-val indium_version: String by project
-val sodium_extra_version: String by project
-val reeses_sodium_options_version: String by project
-val lithium_version: String by project
-val fastanim_version: String by project
-val ferritecore_version: String by project
-val lazydfu_version: String by project
-val starlight_version: String by project
-val entityculling_version: String by project
-val memoryleakfix_version: String by project
-val no_unused_chunks_version: String by project
 
 base {
     archivesName.set(archives_base_name)
@@ -233,15 +219,14 @@ dependencies {
     modApi(kotlin("scripting-dependencies"))
     modApi(kotlin("scripting-dependencies-maven"))
 
-    api("net.fabricmc:mapping-io:0.5.1")
-    api("net.fabricmc:tiny-remapper:0.10.1")
+    api("net.fabricmc:mapping-io:0.6.1")
+    api("net.fabricmc:tiny-remapper:0.10.2")
 
     // FrozenLib
     if (local_frozenlib)
         api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
     else
-        //modApi(files("libs/frozenlib.jar"))?.apply { include(this) }
-        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.let { include(it) }
+        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.also { include(it) }
 
     // Reach Entity Attributes
     modApi("com.jamieswhiteshirt:reach-entity-attributes:2.4.0")?.let { include(it) }
@@ -257,9 +242,6 @@ dependencies {
 
     // Sodium
     modImplementation("maven.modrinth:sodium:$sodium_version")
-
-    // TerraBlender
-    modCompileOnly("com.github.glitchfiend:TerraBlender-fabric:${terrablender_version}")
 }
 
 tasks {
@@ -317,9 +299,9 @@ tasks {
     }
 
     withType(KotlinCompile::class) {
-        kotlinOptions {
+        compilerOptions {
             // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-            jvmTarget = "17"
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -512,7 +494,7 @@ modrinth {
     changelog.set(changelog_text)
     uploadFile.set(file("build/libs/${tasks.remapJar.get().archiveBaseName.get()}-$version.jar"))
     gameVersions.set(listOf(minecraft_version))
-    loaders.set(listOf("fabric", "quilt"))
+    loaders.set(listOf("fabric"))
     dependencies {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")

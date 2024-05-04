@@ -9,12 +9,13 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
+import kotlin.reflect.KProperty
 
 // dont initialize minecraft classes here
 
 // cool kotlin stuff
 
-fun <T : Any?> T.discard(): Unit = Unit
+inline fun <T : Any?> T.discard(): Unit = Unit
 
 inline var <T> TypedEntry<T>.value: T
     get() = this.value()
@@ -25,10 +26,19 @@ inline var <T> TypedEntry<T>.value: T
 /**
  * @return The path of the config file.
  */
-fun makeConfigPath(name: String?, json5: Boolean = true): Path
+inline fun makeConfigPath(name: String?): Path
+        = Path("./config/$MOD_ID/$name.djs")
+
+/**
+ * @return The path of the config file.
+ */
+inline fun makeLegacyConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/$name.${if (json5) "json5" else "json"}")
 
-fun makeThirdPartyConfigPath(name: String?, json5: Boolean = true): Path
+inline fun makeThirdPartyConfigPath(name: String?): Path
+    = Path("./config/$MOD_ID/thirdparty/$name.djs")
+
+inline  fun makeLegacyThirdPartyConfigPath(name: String?, json5: Boolean = true): Path
     = Path("./config/$MOD_ID/thirdparty/$name.${if (json5) "json5" else "json"}")
 
 // extended features
@@ -66,6 +76,12 @@ inline fun <T : Any?> ifExperimental(crossinline value: () -> T): T? {
     else null
 }
 
+operator fun <T> TypedEntry<T>.getValue(thisRef: Any?, property: KProperty<*>): T
+    = this.value()
+
+operator fun <T> TypedEntry<T>.setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+    this.setValue(value)
+}
 
 // environment
 
@@ -94,7 +110,7 @@ inline fun <T : Any?> ifServer(crossinline value: () -> T): T? {
 
 operator fun ObjectShare.set(key: String, value: Any): Any = this.put(key, value)
 
-fun modContainer(mod: String): ModContainer? = FabricLoader.getInstance().getModContainer(mod).getOrNull()
+inline fun modContainer(mod: String): ModContainer? = FabricLoader.getInstance().getModContainer(mod).getOrNull()
 
 inline val ModContainer?.version: String
     get() = this?.metadata?.version.toString()
