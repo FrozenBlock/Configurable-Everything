@@ -26,7 +26,6 @@ sealed class ConfigData<T : Any>(open val config: Config<T>?) {
     data object DATAFIXER : StableConfigData<DataFixerConfig>(DataFixerConfig)
     data object ENTITY : StableConfigData<EntityConfig>(EntityConfig)
     data object FLUID : StableConfigData<FluidConfig>(FluidConfig)
-    data object GAME : StableConfigData<GameConfig>(GameConfig)
     data object GRAVITY : StableConfigData<GravityConfig>(GravityConfig)
     data object ITEM : StableConfigData<ItemConfig>(ItemConfig)
     data object LOOT : StableConfigData<LootConfig>(LootConfig)
