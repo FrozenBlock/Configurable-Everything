@@ -16,7 +16,7 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.SoundEvents
 
-private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOverwrite>> = ConfigRegistry.register(
+private val SOUND_GROUP_OVERWRITES: TypedEntryType<MutableList<MutableBlockSoundGroupOverwrite>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(MutableBlockSoundGroupOverwrite.CODEC)
@@ -27,9 +27,9 @@ private val SOUND_GROUP_OVERWRITES: TypedEntryType<List<MutableBlockSoundGroupOv
 data class BlockConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var soundGroupOverwrites: TypedEntry<List<MutableBlockSoundGroupOverwrite>> = TypedEntry.create(
+    var soundGroupOverwrites: TypedEntry<MutableList<MutableBlockSoundGroupOverwrite>> = TypedEntry.create(
         SOUND_GROUP_OVERWRITES,
-        listOf(
+        mutableListOf(
             MutableBlockSoundGroupOverwrite(
                 vanillaId("grass_block"),
                 MutableSoundType(

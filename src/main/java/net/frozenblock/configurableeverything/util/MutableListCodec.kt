@@ -9,7 +9,8 @@ import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.Lifecycle
 import com.mojang.serialization.ListBuilder
-import com.mojang.serialization.codecs.ListCodec;
+import com.mojang.serialization.codecs.ListCodec
+import java.util.Stream
 
 inline fun <T> Codec<T>.mutListOf(minSize: Int = 0, maxSize: Int = Int.MAX_VALUE): Codec<MutableList<T>>
     = mutList(this, minSize, maxSize)
@@ -20,7 +21,7 @@ inline fun <T> mutList(elementCodec: Codec<T>, minSize: Int = 0, maxSize: Int = 
 /**
  * Based on Mojang's ListCodec
  */
-data class MutableListCodec<E>(elementCodec: Codec<E>, minSize: Int = 0, maxSize: Int = Int.MAX_VALUE) : Codec<MutableList<E>> {
+data class MutableListCodec<E>(private val elementCodec: Codec<E>, private val minSize: Int = 0, private val maxSize: Int = Int.MAX_VALUE) : Codec<MutableList<E>> {
     private val delegate = ListCodec(elementCodec, minSize, maxSize)
 
     private fun <R> createTooShortError(size: Int): DataResult<R>
@@ -44,10 +45,11 @@ data class MutableListCodec<E>(elementCodec: Codec<E>, minSize: Int = 0, maxSize
     override fun toString(): String
         = "MutableListCodec[${elementCodec}]"
 
+    companion object {
+        private val INITIAL_RESULT: DataResult<DFUUnit> = DataResult.success(DFUUnit.INSTANCE, Lifecycle.stable())
+    }
+
     private inner class DecoderState<T>(private val ops: DynamicOps<T>) {
-        companion object {
-            private val INITIAL_RESULT: DataResult<DFUUnit> = DataResult.success(DFUUnit.INSTANCE, Lifecycle.stable())
-        }
 
         private val elements: MutableList<E> = mutableListOf()
         private val failed: Steam.Builder<T> = Stream.builder();

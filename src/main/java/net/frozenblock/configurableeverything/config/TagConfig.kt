@@ -28,16 +28,16 @@ data class TagConfig(
     @EntrySyncData("lootModifications")
     var tagModifications: TypedEntry<List<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
-        listOf(
+        mutableListOf(
             RegistryTagModification(
                 BuiltInRegistries.BLOCK.key().location().toString(),
-                listOf(
+                mutableListOf(
                     TagModification(
                         "minecraft:piglin_loved",
-                        listOf(
+                        mutableListOf(
                             "diamond_block"
                         ),
-                        listOf(
+                        mutableListOf(
                             "gold_ingot"
                         )
                     )
