@@ -5,16 +5,16 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 
 data class TagModification(
     @JvmField var tag: String,
-    @JvmField var additions: List<String>,
-    @JvmField var removals: List<String>
+    @JvmField var additions: MutableList<String>,
+    @JvmField var removals: MutableList<String>
 ) {
     companion object {
         @JvmField
         val CODEC: Codec<TagModification> = RecordCodecBuilder.create { instance ->
             instance.group(
                 Codec.STRING.fieldOf("tag").forGetter(TagModification::tag),
-                Codec.STRING.listOf().fieldOf("additions").forGetter(TagModification::additions),
-                Codec.STRING.listOf().fieldOf("removals").forGetter(TagModification::removals)
+                Codec.STRING.mutListOf().fieldOf("additions").forGetter(TagModification::additions),
+                Codec.STRING.mutListOf().fieldOf("removals").forGetter(TagModification::removals)
             ).apply(instance, ::TagModification)
         }
     }

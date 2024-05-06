@@ -10,7 +10,7 @@ import net.minecraft.world.level.biome.Biome
 
 data class BiomePlacedFeatureList(
     @JvmField var biome: Either<ResourceKey<Biome>, TagKey<Biome>>,
-    @JvmField var features: List<DecorationStepPlacedFeature>
+    @JvmField var features: MutableList<DecorationStepPlacedFeature>
 ) {
     companion object {
         @JvmField
@@ -19,7 +19,7 @@ data class BiomePlacedFeatureList(
                 Codec.either(
                     ResourceKey.codec(Registries.BIOME), TagKey.hashedCodec(Registries.BIOME)
                 ).fieldOf("biome").forGetter(BiomePlacedFeatureList::biome),
-                DecorationStepPlacedFeature.CODEC.listOf().fieldOf("placed_features").forGetter(BiomePlacedFeatureList::features)
+                DecorationStepPlacedFeature.CODEC.mutListOf().fieldOf("placed_features").forGetter(BiomePlacedFeatureList::features)
             ).apply(instance, ::BiomePlacedFeatureList)
         }
     }

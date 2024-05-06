@@ -12,10 +12,10 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.resources.ResourceLocation
 
-private val RESOURCE_LIST: TypedEntryType<List<ResourceLocation>> = ConfigRegistry.register(
+private val RESOURCE_LIST: TypedEntryType<MutableList<ResourceLocation>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        ResourceLocation.CODEC.listOf()
+        ResourceLocation.CODEC.mutListOf()
     )
 )
 
@@ -24,9 +24,9 @@ data class StructureConfig(
 
     @JvmField
     @EntrySyncData("removedStructures")
-    var removedStructures: TypedEntry<List<ResourceLocation>> = TypedEntry.create(
+    var removedStructures: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
         RESOURCE_LIST,
-        listOf(
+        mutableListOf(
             ResourceLocation("ancient_city"),
             ResourceLocation("village_plains")
         )
@@ -34,9 +34,9 @@ data class StructureConfig(
 
     @JvmField
     @EntrySyncData("removedStructureSets")
-    var removedStructureSets: TypedEntry<List<ResourceLocation>> = TypedEntry.create(
+    var removedStructureSets: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
         RESOURCE_LIST,
-        listOf(
+        mutableListOf(
             ResourceLocation("villages")
         )
     )

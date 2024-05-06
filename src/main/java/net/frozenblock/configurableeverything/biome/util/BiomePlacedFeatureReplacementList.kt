@@ -10,14 +10,14 @@ import net.minecraft.world.level.biome.Biome
 
 data class BiomePlacedFeatureReplacementList(
     @JvmField var biome: Either<ResourceKey<Biome>, TagKey<Biome>>,
-    @JvmField var replacements: List<PlacedFeatureReplacement>
+    @JvmField var replacements: MutableList<PlacedFeatureReplacement>
 ) {
 	companion object {
 		@JvmField
 		val CODEC: Codec<BiomePlacedFeatureReplacementList> = RecordCodecBuilder.create { instance ->
 			instance.group(
 				Codec.either(ResourceKey.codec(Registries.BIOME), TagKey.hashedCodec(Registries.BIOME)).fieldOf("biome").forGetter(BiomePlacedFeatureReplacementList::biome),
-				PlacedFeatureReplacement.CODEC.listOf().fieldOf("replacements").forGetter(BiomePlacedFeatureReplacementList::replacements)
+				PlacedFeatureReplacement.CODEC.mutListOf().fieldOf("replacements").forGetter(BiomePlacedFeatureReplacementList::replacements)
 			).apply(instance, ::BiomePlacedFeatureReplacementList)
 		}
 	}

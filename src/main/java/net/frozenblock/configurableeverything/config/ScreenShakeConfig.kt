@@ -15,10 +15,10 @@ import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.monster.warden.WardenAi
 
-private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake>> = ConfigRegistry.register(
+private val SOUND_SCREEN_SHAKE : TypedEntryType<MutableList<SoundScreenShake>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        SoundScreenShake.CODEC.listOf()
+        SoundScreenShake.CODEC.mutListOf()
     )
 )
 
@@ -26,9 +26,9 @@ private val SOUND_SCREEN_SHAKE : TypedEntryType<List<SoundScreenShake>> = Config
 data class ScreenShakeConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var soundScreenShakes: TypedEntry<List<SoundScreenShake>> = TypedEntry.create(
+    var soundScreenShakes: TypedEntry<MutableList<SoundScreenShake>> = TypedEntry.create(
         SOUND_SCREEN_SHAKE,
-        listOf(
+        mutableListOf(
             SoundScreenShake(
                 SoundEvents.ENDER_DRAGON_GROWL.location,
                 2.5f,

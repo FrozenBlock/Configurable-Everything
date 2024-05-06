@@ -9,7 +9,7 @@ import net.minecraft.world.entity.EntityType
 data class EntityAttributeAmplifier(
 	@JvmField var entity: ResourceKey<EntityType<*>>,
 	@JvmField var entityName: String,
-	@JvmField var amplifiers: List<AttributeAmplifier>
+	@JvmField var amplifiers: MutableList<AttributeAmplifier>
 ) {
     companion object {
         @JvmField
@@ -17,7 +17,7 @@ data class EntityAttributeAmplifier(
             instance.group(
                 ResourceKey.codec(Registries.ENTITY_TYPE).fieldOf("entity").forGetter(EntityAttributeAmplifier::entity),
                 Codec.STRING.fieldOf("entityName").forGetter(EntityAttributeAmplifier::entityName),
-                AttributeAmplifier.CODEC.listOf().fieldOf("amplifiers").forGetter(EntityAttributeAmplifier::amplifiers)
+                AttributeAmplifier.CODEC.mutListOf().fieldOf("amplifiers").forGetter(EntityAttributeAmplifier::amplifiers)
             ).apply(instance, ::EntityAttributeAmplifier)
         }
     }

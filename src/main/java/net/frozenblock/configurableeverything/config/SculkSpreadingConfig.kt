@@ -15,10 +15,10 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.SculkShriekerBlock
 
-private val SCULK_GROWTH_LIST: TypedEntryType<List<SculkGrowth>> = ConfigRegistry.register(
+private val SCULK_GROWTH_LIST: TypedEntryType<MutableList<SculkGrowth>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        SculkGrowth.CODEC.listOf()
+        SculkGrowth.CODEC.mutListOf()
     )
 )
 
@@ -28,7 +28,7 @@ data class SculkSpreadingConfig(
     @JvmField
     @EntrySyncData("activators")
     @Comment("List of growth block states.")
-    var growths: TypedEntry<List<SculkGrowth>> = TypedEntry.create(
+    var growths: TypedEntry<MutableList<SculkGrowth>> = TypedEntry.create(
         SCULK_GROWTH_LIST,
         arrayListOf(
             SculkGrowth(true, 11, Blocks.SCULK_SHRIEKER.defaultBlockState().setValue(SculkShriekerBlock.CAN_SUMMON, true)),

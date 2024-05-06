@@ -51,38 +51,38 @@ class MainWrapper internal constructor(config: MainConfig) : ConfigWrapper<MainC
 
 class BiomeWrapper internal constructor(config: BiomeConfig) : ConfigWrapper<BiomeConfig>(config) {
 
-    var addedFeatures: List<BiomePlacedFeatureList> by config.addedFeatures
-    var removedFeatures: List<BiomePlacedFeatureList> by config.removedFeatures
-    var replacedFeatures: List<BiomePlacedFeatureReplacementList> by config.replacedFeatures
-    var musicReplacements: List<BiomeMusic> by config.musicReplacements
+    var addedFeatures: MutableList<BiomePlacedFeatureList> by config.addedFeatures
+    var removedFeatures: MutableList<BiomePlacedFeatureList> by config.removedFeatures
+    var replacedFeatures: MutableList<BiomePlacedFeatureReplacementList> by config.replacedFeatures
+    var musicReplacements: MutableList<BiomeMusic> by config.musicReplacements
 }
 
 class BiomePlacementWrapper internal constructor(config: BiomePlacementConfig) : ConfigWrapper<BiomePlacementConfig>(config) {
 
-    var addedBiomes: List<DimensionBiomeList> by config.addedBiomes
-    var removedBiomes: List<DimensionBiomeKeyList> by config.removedBiomes
+    var addedBiomes: MutableList<DimensionBiomeList> by config.addedBiomes
+    var removedBiomes: MutableList<DimensionBiomeKeyList> by config.removedBiomes
 }
 
 class BlockWrapper internal constructor(config: BlockConfig) : ConfigWrapper<BlockConfig>(config) {
 
-    var soundGroupOverwrites: List<MutableBlockSoundGroupOverwrite> by config.soundGroupOverwrites
+    var soundGroupOverwrites: MutableList<MutableBlockSoundGroupOverwrite> by config.soundGroupOverwrites
 }
 
 class DataFixerWrapper internal constructor(config: DataFixerConfig) : ConfigWrapper<DataFixerConfig>(config) {
 
     var overrideRealEntries: Boolean by config::overrideRealEntries
     var dataVersion: Int by config::dataVersion
-    var schemas: List<SchemaEntry> by config.schemas
-    var registryFixers: List<RegistryFixer> by config.registryFixers
+    var registryFixers: MutableList<RegistryFixer> by config.registryFixers
+    var schemas: MutableList<SchemaEntry> by config.schemas
 }
 
 class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<EntityConfig>(config) {
 
-    var entityAttributeAmplifiers: List<EntityAttributeAmplifier> by config.entityAttributeAmplifiers
-    var experienceOverrides: List<ExperienceOverride> by config.experienceOverrides
-    var entityFlyBySounds: List<EntityFlyBySound> by config.entityFlyBySounds
-    var entityHurtEffects: List<EntityHurtEffects> by config.entityHurtEffects
-    var entitySpottingIcon: List<EntitySpottingIcon> by config.entitySpottingIcons
+    var entityAttributeAmplifiers: MutableList<EntityAttributeAmplifier> by config.entityAttributeAmplifiers
+    var experienceOverrides: MutableList<ExperienceOverride> by config.experienceOverrides
+    var entityFlyBySounds: MutableList<EntityFlyBySound> by config.entityFlyBySounds
+    var entityHurtEffects: MutableList<EntityHurtEffects> by config.entityHurtEffects
+    var entitySpottingIcon: MutableList<EntitySpottingIcon> by config.entitySpottingIcons
     var flamingArrowsLightFire: Boolean by config::flamingArrowsLightFire
     var player: EntityConfig.PlayerConfig by config::player
     var zombie: EntityConfig.ZombieConfig by config::zombie
@@ -91,59 +91,59 @@ class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<E
 
 class FluidWrapper internal constructor(config: FluidConfig) : ConfigWrapper<FluidConfig>(config) {
 
-    var flowSpeeds: List<FluidFlowSpeed> by config.flowSpeeds
+    var flowSpeeds: MutableList<FluidFlowSpeed> by config.flowSpeeds
 }
 
 class GravityWrapper internal constructor(config: GravityConfig) : ConfigWrapper<GravityConfig>(config) {
 
-    var gravityBelts: List<DimensionGravityBelt> by config.gravityBelts
+    var gravityBelts: MutableList<DimensionGravityBelt> by config.gravityBelts
 }
 
 class ItemWrapper internal constructor(config: ItemConfig) : ConfigWrapper<ItemConfig>(config) {
 
-    var reachOverrideds: List<ItemReachOverride> by config.reachOverrides
+    var reachOverrideds: MutableList<ItemReachOverride> by config.reachOverrides
 }
 
 class LootWrapper internal constructor(config: LootConfig) : ConfigWrapper<LootConfig>(config) {
 
-    var lootModifications: List<LootModification> by config.lootModifications
+    var lootModifications: MutableList<LootModification> by config.lootModifications
 }
 
 class RegistryWrapper internal constructor(config: RegistryConfig) : ConfigWrapper<RegistryConfig>(config) {
 
-    var biomeAdditions: List<BiomeAddition> by config.biomeAdditions
-    var placedFeatureAdditions: List<PlacedFeatureAddition> by config.placedFeatureAdditions
+    var biomeAdditions: MutableList<BiomeAddition> by config.biomeAdditions
+    var placedFeatureAdditions: MutableList<PlacedFeatureAddition> by config.placedFeatureAdditions
 }
 
 class ScreenShakeWrapper internal constructor(config: ScreenShakeConfig) : ConfigWrapper<ScreenShakeConfig>(config) {
 
-    var soundScreenShakes: List<SoundScreenShake> by config.soundScreenShakes
+    var soundScreenShakes: MutableList<SoundScreenShake> by config.soundScreenShakes
     var dragonRespawnScreenShake: Boolean by config::dragonRespawnScreenShake
     var explosionScreenShake: Boolean by config::explosionScreenShake
 }
 
 class SculkSpreadingWrapper internal constructor(config: SculkSpreadingConfig) : ConfigWrapper<SculkSpreadingConfig>(config) {
 
-    var growths: List<SculkGrowth> by config.growths
+    var growths: MutableList<SculkGrowth> by config.growths
 }
 
 class SplashTextWrapper internal constructor(config: SplashTextConfig) : ConfigWrapper<SplashTextConfig>(config) {
 
-    var addedSplashes: List<String> by config::addedSplashes
-    var removedSplashes: List<String> by config::removedSplashes
+    var addedSplashes: MutableList<String> by config::addedSplashes
+    var removedSplashes: MutableList<String> by config::removedSplashes
     var splashColor: Int by config::splashColor
     var removeVanilla: Boolean by config::removeVanilla
 }
 
 class StructureWrapper internal constructor(config: StructureConfig) : ConfigWrapper<StructureConfig>(config) {
 
-    var removedStructures: List<ResourceLocation> by config.removedStructures
-    var removedStructureSets: List<ResourceLocation> by config.removedStructureSets
+    var removedStructures: MutableList<ResourceLocation> by config.removedStructures
+    var removedStructureSets: MutableList<ResourceLocation> by config.removedStructureSets
 }
 
 class SurfaceRuleWrapper internal constructor(config: SurfaceRuleConfig) : ConfigWrapper<SurfaceRuleConfig>(config) {
 
-    var addedSurfaceRules: List<FrozenDimensionBoundRuleSource> by config.addedSurfaceRules
+    var addedSurfaceRules: MutableList<FrozenDimensionBoundRuleSource> by config.addedSurfaceRules
 }
 
 class WorldWrapper internal constructor(config: WorldConfig) : ConfigWrapper<WorldConfig>(config) {

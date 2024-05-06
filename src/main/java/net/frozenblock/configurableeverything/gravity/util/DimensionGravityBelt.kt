@@ -13,14 +13,14 @@ data class DimensionGravityBelt(
     var dimension: ResourceKey<Level>,
 
     @JvmField
-    var gravityBelts: List<GravityBelt<AbsoluteGravityFunction>>
+    var gravityBelts: MutableList<GravityBelt<AbsoluteGravityFunction>>
 ) {
     companion object {
         @JvmField
         val CODEC: Codec<DimensionGravityBelt> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(DimensionGravityBelt::dimension),
-                AbsoluteGravityFunction.BELT_CODEC.listOf().fieldOf("gravityBelts").forGetter(DimensionGravityBelt::gravityBelts)
+                AbsoluteGravityFunction.BELT_CODEC.mutListOf().fieldOf("gravityBelts").forGetter(DimensionGravityBelt::gravityBelts)
             ).apply(instance, ::DimensionGravityBelt)
         }
     }

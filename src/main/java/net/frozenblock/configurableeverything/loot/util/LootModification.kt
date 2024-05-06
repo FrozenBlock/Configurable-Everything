@@ -7,7 +7,7 @@ import net.minecraft.world.level.storage.loot.LootPool
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-data class LootModification(var id: ResourceLocation, var pool: LootPool? = null, var removals: List<ResourceLocation?>? = listOf()) {
+data class LootModification(var id: ResourceLocation, var pool: LootPool? = null, var removals: MutableList<ResourceLocation?>? = mutableListOf()) {
 
     constructor(id: ResourceLocation, pool: Optional<LootPool>?, removals: Optional<List<ResourceLocation?>>?) : this(id, pool?.getOrNull(), removals?.getOrNull())
 
@@ -17,7 +17,7 @@ data class LootModification(var id: ResourceLocation, var pool: LootPool? = null
             instance.group(
                 ResourceLocation.CODEC.fieldOf("id").forGetter(LootModification::id),
                 LootPool.CODEC.optionalFieldOf("addition_pool").forGetter { Optional.ofNullable(it.pool) },
-                ResourceLocation.CODEC.listOf().optionalFieldOf("removals").forGetter { Optional.ofNullable(it.removals) }
+                ResourceLocation.CODEC.mutListOf().optionalFieldOf("removals").forGetter { Optional.ofNullable(it.removals) }
             ).apply(instance, ::LootModification)
         }
     }

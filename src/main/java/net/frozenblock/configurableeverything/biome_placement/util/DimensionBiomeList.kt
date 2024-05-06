@@ -8,14 +8,14 @@ import net.minecraft.world.level.dimension.DimensionType
 
 data class DimensionBiomeList(
 	@JvmField var dimension: ResourceKey<DimensionType>,
-	@JvmField var biomes: List<BiomeParameters>
+	@JvmField var biomes: MutableList<BiomeParameters>
 ) {
 	companion object {
         @JvmField
 		val CODEC: Codec<DimensionBiomeList> = RecordCodecBuilder.create { instance ->
 			instance.group(
 				ResourceKey.codec(Registries.DIMENSION_TYPE).fieldOf("dimension").forGetter(DimensionBiomeList::dimension),
-				BiomeParameters.CODEC.listOf().fieldOf("biomes").forGetter(DimensionBiomeList::biomes)
+				BiomeParameters.CODEC.mutListOf().fieldOf("biomes").forGetter(DimensionBiomeList::biomes)
 			).apply(instance, ::DimensionBiomeList)
 		}
 	}
