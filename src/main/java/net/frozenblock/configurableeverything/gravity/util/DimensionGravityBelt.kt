@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.gravity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.core.registries.Registries

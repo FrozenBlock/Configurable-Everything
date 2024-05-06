@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.biome.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.util.mutListOf
 
 data class BiomeChange(
 	@JvmField var addedFeatures: MutableList<BiomePlacedFeatureList>,

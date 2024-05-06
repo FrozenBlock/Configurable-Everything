@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.biome.util
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.lib.sound.api.MutableMusic
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey

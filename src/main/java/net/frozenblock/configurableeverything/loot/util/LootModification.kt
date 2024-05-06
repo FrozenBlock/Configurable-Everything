@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.loot.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.storage.loot.LootPool
 import java.util.*
