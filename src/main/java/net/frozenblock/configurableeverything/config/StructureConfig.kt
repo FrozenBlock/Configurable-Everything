@@ -1,9 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
-import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig

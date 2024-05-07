@@ -1,4 +1,5 @@
 @file:Environment(EnvType.CLIENT)
+@file:Suppress("UnstableApiUsage")
 
 package net.frozenblock.configurableeverything.config.gui
 
@@ -195,7 +196,7 @@ private fun entityAttributeAmplifiers(
         { newValue -> config.entityAttributeAmplifiers = newValue},
         { element: EntityAttributeAmplifier?, _ ->
             val defaultEntity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation(""))
-            val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
+            val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)))
             multiElementEntry(
                 text("entity_attribute_amplifiers.entity_attribute_amplifier"),
                 entityAttributeAmplifier,
@@ -217,12 +218,11 @@ private fun entityAttributeAmplifiers(
                     entryBuilder,
                     text("entity_attribute_amplifiers.amplifiers"),
                     entityAttributeAmplifier::amplifiers,
-                    { listOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("minecraft:generic.movement_speed")), 1.0)) },
+                    { mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("minecraft:generic.movement_speed")), 1.0)) },
                     true,
                     tooltip("entity_attribute_amplifiers.amplifiers"),
                     { newValue -> entityAttributeAmplifier.amplifiers = newValue },
                     { amplifierElement: AttributeAmplifier?, _ ->
-                        val defaultAttribute = ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation(""))
                         val amplifier = amplifierElement ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("")), 1.5)
                         val attribute = amplifier.attribute
                         val numAmplifier = amplifier.amplifier
@@ -384,7 +384,7 @@ private fun entityHurtEffects(
         tooltip("entity_hurt_effects"),
         { newValue -> config.entityHurtEffects = newValue},
         { element: EntityHurtEffects?, _ ->
-            val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
+            val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation(""), "", mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("minecraft:speed")), 0, 0, true, true, true)))
             multiElementEntry(
                 text("entity_hurt_effects.dropdown"),
                 entityHurtEffect,
@@ -405,7 +405,7 @@ private fun entityHurtEffects(
                     entryBuilder,
                     text("entity_hurt_effects.hurt_effects"),
                     entityHurtEffect::effects,
-                    { listOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")), 5, 10, true, true, true)) },
+                    { mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")), 5, 10, true, true, true)) },
                     true,
                     tooltip("entity_hurt_effects.hurt_effects"),
                     { newValue -> entityHurtEffect.effects = newValue },
@@ -421,31 +421,31 @@ private fun entityHurtEffects(
                                 tooltip("entity_hurt_effects.effect")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.duration"), effect.duration ?: 0,
+                            EntryBuilder(text("entity_hurt_effects.duration"), effect.duration,
                                 0,
                                 { newValue -> effect.duration = newValue },
                                 tooltip("entity_hurt_effects.duration")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.amplifier"), effect.amplifier ?: 0,
+                            EntryBuilder(text("entity_hurt_effects.amplifier"), effect.amplifier,
                                 0,
                                 { newValue -> effect.amplifier = newValue },
                                 tooltip("entity_hurt_effects.amplifier")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.ambient"), effect.ambient ?: false,
+                            EntryBuilder(text("entity_hurt_effects.ambient"), effect.ambient,
                                 true,
                                 { newValue -> effect.ambient = newValue },
                                 tooltip("entity_hurt_effects.ambient")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.visible"), effect.visible ?: false,
+                            EntryBuilder(text("entity_hurt_effects.visible"), effect.visible,
                                 true,
                                 { newValue -> effect.visible = newValue },
                                 tooltip("entity_hurt_effects.visible")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.show_icon"), effect.showIcon ?: false,
+                            EntryBuilder(text("entity_hurt_effects.show_icon"), effect.showIcon,
                                 true,
                                 { newValue -> effect.showIcon = newValue },
                                 tooltip("entity_hurt_effects.show_icon")

@@ -10,7 +10,7 @@ import kotlin.jvm.optionals.getOrNull
 
 data class LootModification(var id: ResourceLocation, var pool: LootPool? = null, var removals: MutableList<ResourceLocation?>? = mutableListOf()) {
 
-    constructor(id: ResourceLocation, pool: Optional<LootPool>?, removals: Optional<List<ResourceLocation?>>?) : this(id, pool?.getOrNull(), removals?.getOrNull())
+    constructor(id: ResourceLocation, pool: Optional<LootPool>?, removals: Optional<MutableList<ResourceLocation?>>?) : this(id, pool?.getOrNull(), removals?.getOrNull())
 
     companion object {
         @JvmField

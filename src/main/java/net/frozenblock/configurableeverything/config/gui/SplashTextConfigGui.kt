@@ -27,7 +27,7 @@ object SplashTextConfigGui {
 
         val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes),
             StringList(defaultConfig.addedSplashes),
-            { newValue -> config.addedSplashes = newValue.list },
+            { newValue -> config.addedSplashes = newValue.list.toMutableList() },
             tooltip("added_splashes"),
             true,
             requirement = mainToggleReq,
@@ -37,7 +37,7 @@ object SplashTextConfigGui {
 
         val removed = EntryBuilder(text("removed_splashes"), StringList(config.removedSplashes),
             StringList(defaultConfig.removedSplashes),
-            { newValue -> config.removedSplashes = newValue.list },
+            { newValue -> config.removedSplashes = newValue.list.toMutableList() },
             tooltip("removed_splashes"),
             true,
             requirement = mainToggleReq,

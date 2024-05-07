@@ -4,16 +4,13 @@ import com.mojang.datafixers.util.Either
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
-
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
 import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig

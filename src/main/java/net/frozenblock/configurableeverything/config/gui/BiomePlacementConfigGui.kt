@@ -20,8 +20,6 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
-import net.frozenblock.lib.config.api.client.gui.nestedList
-import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
 import net.frozenblock.lib.worldgen.biome.api.MutableParameter
@@ -68,7 +66,7 @@ private fun addedBiomes(
         tooltip("added_biomes"),
         { newValue -> config.addedBiomes = newValue },
         { element: DimensionBiomeList?, _ ->
-            val defaultParameters = listOf(
+            val defaultParameters = mutableListOf(
                 BiomeParameters(
                     ResourceLocation(""),
                     Climate.parameters(
@@ -225,7 +223,7 @@ private fun removedBiomes(
         tooltip("removed_biomes"),
         { newValue -> config.removedBiomes = newValue },
         { element: DimensionBiomeKeyList?, _ ->
-            val defaultBiomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>> = listOf(
+            val defaultBiomes: MutableList<Either<ResourceKey<Biome>, TagKey<Biome>>> = mutableListOf(
                 Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
                 Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG)
             )
@@ -249,7 +247,7 @@ private fun removedBiomes(
                 )
                     .setDefaultValue(defaultBiomes.map { either -> either.toStr() })
                     .setSaveConsumer { newValue ->
-                        dimensionBiomeList.biomes = newValue.map { it.toEitherKeyOrTag(Registries.BIOME) }
+                        dimensionBiomeList.biomes = newValue.map { it.toEitherKeyOrTag(Registries.BIOME) }.toMutableList()
                     }
                     .setTooltip(tooltip("removed_biomes.biomes"))
                     .build()

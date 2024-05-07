@@ -10,7 +10,7 @@ import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.Lifecycle
 import com.mojang.serialization.ListBuilder
 import com.mojang.serialization.codecs.ListCodec
-import java.util.Stream
+import java.util.stream.Stream
 
 inline fun <T> Codec<T>.mutListOf(minSize: Int = 0, maxSize: Int = Int.MAX_VALUE): Codec<MutableList<T>>
     = mutList(this, minSize, maxSize)
@@ -52,13 +52,13 @@ data class MutableListCodec<E>(private val elementCodec: Codec<E>, private val m
     private inner class DecoderState<T>(private val ops: DynamicOps<T>) {
 
         private val elements: MutableList<E> = mutableListOf()
-        private val failed: Steam.Builder<T> = Stream.builder();
+        private val failed: Stream.Builder<T> = Stream.builder();
         private var result: DataResult<DFUUnit> = INITIAL_RESULT
-        private var totalCount: Int
+        private var totalCount: Int = 0
 
         fun accept(value: T) {
             totalCount++
-            if (elements.size() >= maxSize) {
+            if (elements.size >= maxSize) {
                 failed.add(value)
                 return
             }
@@ -69,15 +69,15 @@ data class MutableListCodec<E>(private val elementCodec: Codec<E>, private val m
         }
 
         fun build(): DataResult<Pair<MutableList<E>, T>> {
-            if (elements.size() < minSize) {
-                return createTooShortError(elements.size())
+            if (elements.size < minSize) {
+                return createTooShortError(elements.size)
             }
             val errors = ops.createList(failed.build())
             val pair: Pair<MutableList<E>, T> = Pair.of(elements.toMutableList(), errors)
             if (totalCount > maxSize) {
                 result = createTooLongError(totalCount)
             }
-            return result.map { ignored -> pair }.setPartial(pair)
+            return result.map { pair }.setPartial(pair)
         }
     }
 }

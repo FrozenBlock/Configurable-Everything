@@ -19,8 +19,6 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
-import net.frozenblock.lib.config.api.client.gui.nestedList
-import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
 import net.frozenblock.lib.sound.api.MutableMusic
@@ -123,7 +121,7 @@ private fun replacedFeatures(
             val defaultOriginal: ResourceKey<PlacedFeature> = BLANK_PLACED_FEATURE
             val defaultDecoration: Decoration = Decoration.VEGETAL_DECORATION
             val defaultReplacement: ResourceKey<PlacedFeature> = BLANK_PLACED_FEATURE
-            val defaultReplacements = listOf(defaultReplacement)
+            val defaultReplacements = mutableListOf(defaultReplacement)
             val defaultDecorationFeature = DecorationStepPlacedFeature(
                 defaultDecoration,
                 defaultReplacements
@@ -132,7 +130,7 @@ private fun replacedFeatures(
                 defaultOriginal,
                 defaultDecorationFeature
             )
-            val defaultReplacementFeatures = listOf(defaultReplacementFeature)
+            val defaultReplacementFeatures = mutableListOf(defaultReplacementFeature)
             val biomeReplacementList = element ?: BiomePlacedFeatureReplacementList(
                 defaultBiome,
                 defaultReplacementFeatures
@@ -191,7 +189,7 @@ private fun replacedFeatures(
 
                                 entryBuilder.startStrList(text("replaced_features.placed_features"), placedFeatures.map { key -> key.toStr() })
                                     .setDefaultValue(defaultReplacements.map { key -> key.toStr() })
-                                    .setSaveConsumer { newValue -> replacement.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) } }
+                                    .setSaveConsumer { newValue -> replacement.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) }.toMutableList() }
                                     .setTooltip(tooltip("replaced_features.placed_features"))
                                     .requireRestart()
                                     .build()
@@ -308,12 +306,12 @@ private fun biomePlacedFeaturesElement(
     val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
     val defaultDecoration = Decoration.VEGETAL_DECORATION
     val defaultPlacedFeature = BLANK_PLACED_FEATURE
-    val defaultPlacedFeatures = listOf(defaultPlacedFeature)
+    val defaultPlacedFeatures = mutableListOf(defaultPlacedFeature)
     val defaultFeature = DecorationStepPlacedFeature(
         defaultDecoration,
         defaultPlacedFeatures
     )
-    val defaultFeatures = listOf(defaultFeature)
+    val defaultFeatures = mutableListOf(defaultFeature)
     val biomePlacedFeatureList: BiomePlacedFeatureList = element ?: BiomePlacedFeatureList(
         defaultBiome,
         defaultFeatures
@@ -356,7 +354,7 @@ private fun biomePlacedFeaturesElement(
 
                     entryBuilder.startStrList(text("$`lang`_features.placed_features"), placedFeatures.map { key -> key?.location().toString() })
                         .setDefaultValue(defaultPlacedFeatures.map { key -> key.location().toString() })
-                        .setSaveConsumer { newValue -> decorationFeature.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) } }
+                        .setSaveConsumer { newValue -> decorationFeature.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) }.toMutableList() }
                         .setTooltip(tooltip("$`lang`_features.placed_features"))
                         .requireRestart()
                         .build()
