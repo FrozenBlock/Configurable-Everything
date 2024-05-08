@@ -16,38 +16,38 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 
-private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<List<EntityAttributeAmplifier>> = ConfigRegistry.register(
+private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<MutableList<EntityAttributeAmplifier>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        EntityAttributeAmplifier.CODEC.listOf()
+        EntityAttributeAmplifier.CODEC.mutListOf()
     )
 )
 
-private val ENTITY_FLYBY_SOUNDS: TypedEntryType<List<EntityFlyBySound>> = ConfigRegistry.register(
+private val ENTITY_FLYBY_SOUNDS: TypedEntryType<MutableList<EntityFlyBySound>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        EntityFlyBySound.CODEC.listOf()
+        EntityFlyBySound.CODEC.mutListOf()
     )
 )
 
-private val ENTITY_HURT_EFFECTS: TypedEntryType<List<EntityHurtEffects>> = ConfigRegistry.register(
+private val ENTITY_HURT_EFFECTS: TypedEntryType<MutableList<EntityHurtEffects>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        EntityHurtEffects.CODEC.listOf()
+        EntityHurtEffects.CODEC.mutListOf()
     )
 )
 
-private val EXPERIENCE_OVERRIDES: TypedEntryType<List<ExperienceOverride>> = ConfigRegistry.register(
+private val EXPERIENCE_OVERRIDES: TypedEntryType<MutableList<ExperienceOverride>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        ExperienceOverride.CODEC.listOf()
+        ExperienceOverride.CODEC.mutListOf()
     )
 )
 
-private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon>> = ConfigRegistry.register(
+private val SPOTTING_ICONS: TypedEntryType<MutableList<EntitySpottingIcon>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        EntitySpottingIcon.CODEC.listOf()
+        EntitySpottingIcon.CODEC.mutListOf()
     )
 )
 
@@ -55,13 +55,13 @@ private val SPOTTING_ICONS: TypedEntryType<List<EntitySpottingIcon>> = ConfigReg
 data class EntityConfig(
     @JvmField
     @EntrySyncData("entityAttributeAmplifiers")
-    var entityAttributeAmplifiers: TypedEntry<List<EntityAttributeAmplifier>> = TypedEntry.create(
+    var entityAttributeAmplifiers: TypedEntry<MutableList<EntityAttributeAmplifier>> = TypedEntry.create(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
-        listOf(
+        mutableListOf(
             EntityAttributeAmplifier(
                 ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")),
                 "",
-                listOf(
+                mutableListOf(
                     AttributeAmplifier(
                         ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation("generic.movement_speed")),
                         1.5
@@ -73,9 +73,9 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("experienceOverrides")
-    var experienceOverrides: TypedEntry<List<ExperienceOverride>> = TypedEntry.create(
+    var experienceOverrides: TypedEntry<MutableList<ExperienceOverride>> = TypedEntry.create(
         EXPERIENCE_OVERRIDES,
-        listOf(
+        mutableListOf(
             ExperienceOverride(
                 ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")),
                 5000
@@ -85,9 +85,9 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("entityFlyBySounds")
-    var entityFlyBySounds: TypedEntry<List<EntityFlyBySound>> = TypedEntry.create(
+    var entityFlyBySounds: TypedEntry<MutableList<EntityFlyBySound>> = TypedEntry.create(
         ENTITY_FLYBY_SOUNDS,
-        listOf(
+        mutableListOf(
             EntityFlyBySound(
                 ResourceLocation("minecraft:arrow"),
                 EntityFlyBySoundData(
@@ -174,13 +174,13 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData("entityHurtEffects")
-    var entityHurtEffects: TypedEntry<List<EntityHurtEffects>> = TypedEntry.create(
+    var entityHurtEffects: TypedEntry<MutableList<EntityHurtEffects>> = TypedEntry.create(
         ENTITY_HURT_EFFECTS,
-        listOf(
+        mutableListOf(
             EntityHurtEffects(
                 ResourceLocation("cow"),
                 "",
-                listOf(
+                mutableListOf(
                     MobEffectHolder(
                         ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation("speed")),
                         5,
@@ -196,9 +196,9 @@ data class EntityConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var entitySpottingIcons: TypedEntry<List<EntitySpottingIcon>> = TypedEntry.create(
+    var entitySpottingIcons: TypedEntry<MutableList<EntitySpottingIcon>> = TypedEntry.create(
         SPOTTING_ICONS,
-        listOf(
+        mutableListOf(
             EntitySpottingIcon(
                 ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation("example")),
                 id("textures/spotting_icon/icon.png"),

@@ -1,4 +1,5 @@
 @file:Environment(EnvType.CLIENT)
+@file:Suppress("UnstableApiUsage", "COMPATIBILITY_WARNING")
 
 package net.frozenblock.configurableeverything.config.gui
 
@@ -20,8 +21,6 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
-import net.frozenblock.lib.config.api.client.gui.nestedList
-import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
@@ -72,10 +71,10 @@ private fun schemas(
     defaultConfig: DataFixerConfig,
     dataVersion: IntegerListEntry
 ): AbstractConfigListEntry<*> {
-    val defaultFixEntryList = listOf(
+    val defaultFixEntryList = mutableListOf(
         DataFixEntry(
             "biome",
-            listOf(
+            mutableListOf(
                 Fixer(
                     ResourceLocation("example:example"),
                     ResourceLocation("minecraft:forest")
@@ -84,7 +83,7 @@ private fun schemas(
         ),
         DataFixEntry(
             "block",
-            listOf(
+            mutableListOf(
                 Fixer(
                     ResourceLocation("example:example"),
                     ResourceLocation("minecraft:deepslate")
@@ -93,7 +92,7 @@ private fun schemas(
         ),
         DataFixEntry(
             "entity",
-            listOf(
+            mutableListOf(
                 Fixer(
                     ResourceLocation("example:example"),
                     ResourceLocation("minecraft:cow")
@@ -102,7 +101,7 @@ private fun schemas(
         ),
         DataFixEntry(
             "item",
-            listOf(
+            mutableListOf(
                 Fixer(
                     ResourceLocation("example:example"),
                     ResourceLocation("minecraft:stone")
@@ -115,7 +114,7 @@ private fun schemas(
         entryBuilder,
         text("schemas"),
         config::schemas,
-        { defaultConfig.schemas!! },
+        { defaultConfig.schemas },
         false,
         tooltip("schemas"),
         { newValue -> config.schemas = newValue },
@@ -161,7 +160,7 @@ private fun schemas(
                                 entryBuilder,
                                 text("datafixer.fixers"),
                                 entry::fixers,
-                                { listOf(Fixer(ResourceLocation(""), ResourceLocation(""))) },
+                                { mutableListOf(Fixer(ResourceLocation(""), ResourceLocation(""))) },
                                 true,
                                 tooltip("datafixer.fixers"),
                                 { newValue -> entry.fixers = newValue },
@@ -216,7 +215,7 @@ private fun registryFixers(
     config: DataFixerConfig,
     defaultConfig: DataFixerConfig
 ): AbstractConfigListEntry<*> {
-    val defaultFixers = listOf(
+    val defaultFixers = mutableListOf(
         Fixer(
             ResourceLocation("examplemod:example_block"),
             ResourceLocation("minecraft:stone")
