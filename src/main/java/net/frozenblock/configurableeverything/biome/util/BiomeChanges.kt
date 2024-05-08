@@ -25,9 +25,9 @@ object BiomeChanges : DataReloadManager<BiomeChange>(
      */
     internal inline fun add(
         key: ResourceLocation,
-        addedFeatures: List<BiomePlacedFeatureList>,
-        removedFeatures: List<BiomePlacedFeatureList>,
-        replacedFeatures: List<BiomePlacedFeatureReplacementList>,
-        musicReplacements: List<BiomeMusic>
+        addedFeatures: MutableList<BiomePlacedFeatureList>,
+        removedFeatures: MutableList<BiomePlacedFeatureList>,
+        replacedFeatures: MutableList<BiomePlacedFeatureReplacementList>,
+        musicReplacements: MutableList<BiomeMusic>
     ) = add(key, BiomeChange(addedFeatures, removedFeatures, replacedFeatures, musicReplacements))
 }

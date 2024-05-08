@@ -21,13 +21,13 @@ data class SplashTextConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var addedSplashes: List<String> = arrayListOf(
+    var addedSplashes: MutableList<String> = arrayListOf(
         "Configurable Everything!"
     ),
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var removedSplashes: List<String> = arrayListOf(
+    var removedSplashes: MutableList<String> = arrayListOf(
         "random splash text"
     ),
 

@@ -1,10 +1,8 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator
-import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -16,10 +14,10 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
-private val SURFACE_RULE_LIST: TypedEntryType<List<FrozenDimensionBoundRuleSource>> = ConfigRegistry.register(
+private val SURFACE_RULE_LIST: TypedEntryType<MutableList<FrozenDimensionBoundRuleSource>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        FrozenDimensionBoundRuleSource.CODEC.listOf()
+        FrozenDimensionBoundRuleSource.CODEC.mutListOf()
     )
 )
 
@@ -27,9 +25,9 @@ private val SURFACE_RULE_LIST: TypedEntryType<List<FrozenDimensionBoundRuleSourc
 data class SurfaceRuleConfig(
     @JvmField
     @EntrySyncData("addedSurfaceRules")
-    var addedSurfaceRules: TypedEntry<List<FrozenDimensionBoundRuleSource>> = TypedEntry.create(
+    var addedSurfaceRules: TypedEntry<MutableList<FrozenDimensionBoundRuleSource>> = TypedEntry.create(
         SURFACE_RULE_LIST,
-        listOf(
+        mutableListOf(
             FrozenDimensionBoundRuleSource(
                 BuiltinDimensionTypes.OVERWORLD.location(),
                 SurfaceRules.sequence(

@@ -18,17 +18,17 @@ import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
 import net.minecraft.world.level.biome.MobSpawnSettings
 
-private val BIOME_ADDITIONS: TypedEntryType<List<BiomeAddition>> = ConfigRegistry.register(
+private val BIOME_ADDITIONS: TypedEntryType<MutableList<BiomeAddition>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        BiomeAddition.CODEC.listOf()
+        BiomeAddition.CODEC.mutListOf()
     )
 )
 
-private val PLACED_FEATURE_ADDITIONS: TypedEntryType<List<PlacedFeatureAddition>> = ConfigRegistry.register(
+private val PLACED_FEATURE_ADDITIONS: TypedEntryType<MutableList<PlacedFeatureAddition>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        PlacedFeatureAddition.CODEC.listOf()
+        PlacedFeatureAddition.CODEC.mutListOf()
     )
 )
 
@@ -37,9 +37,9 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
-    var biomeAdditions: TypedEntry<List<BiomeAddition>> = TypedEntry.create(
+    var biomeAdditions: TypedEntry<MutableList<BiomeAddition>> = TypedEntry.create(
         BIOME_ADDITIONS,
-        listOf(
+        mutableListOf(
             BiomeAddition(
                 id("example"),
                 // copy of blank biome
@@ -67,9 +67,9 @@ data class RegistryConfig(
     @JvmField
     @EntrySyncData("placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
-    var placedFeatureAdditions: TypedEntry<List<PlacedFeatureAddition>> = TypedEntry.create(
+    var placedFeatureAdditions: TypedEntry<MutableList<PlacedFeatureAddition>> = TypedEntry.create(
         PLACED_FEATURE_ADDITIONS,
-        listOf() // cant make an example bc it requires a holder and the registry is dynamic
+        mutableListOf() // cant make an example bc it requires a holder and the registry is dynamic
     )
 ) {
     companion object : CEConfig<RegistryConfig>(

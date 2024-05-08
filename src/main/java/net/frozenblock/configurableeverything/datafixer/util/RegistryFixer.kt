@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.datafixer.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil.REGISTRY_FIXERS
 import net.frozenblock.configurableeverything.util.UNSTABLE_LOGGING
@@ -11,14 +12,14 @@ import net.minecraft.resources.ResourceLocation
 
 data class RegistryFixer(
     @JvmField var registryKey: ResourceLocation,
-    @JvmField var fixers: List<Fixer>
+    @JvmField var fixers: MutableList<Fixer>
 ) {
     companion object {
         @JvmField
 		val CODEC: Codec<RegistryFixer> = RecordCodecBuilder.create { instance ->
             instance.group(
                 ResourceLocation.CODEC.fieldOf("registry_key").forGetter(RegistryFixer::registryKey),
-                Fixer.CODEC.listOf().fieldOf("fixers").forGetter(RegistryFixer::fixers)
+                Fixer.CODEC.mutListOf().fieldOf("fixers").forGetter(RegistryFixer::fixers)
             ).apply(instance, ::RegistryFixer)
         }
 

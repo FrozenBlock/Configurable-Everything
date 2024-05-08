@@ -19,24 +19,24 @@ import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 
-private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<List<BiomePlacedFeatureList>> = ConfigRegistry.register(
+private val BIOME_PLACED_FEATURE_LIST: TypedEntryType<MutableList<BiomePlacedFeatureList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        BiomePlacedFeatureList.CODEC.listOf()
+        BiomePlacedFeatureList.CODEC.mutListOf()
     )
 )
 
-private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<List<BiomePlacedFeatureReplacementList>> = ConfigRegistry.register(
+private val BIOME_PLACED_FEATURE_REPLACEMENT_LIST: TypedEntryType<MutableList<BiomePlacedFeatureReplacementList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        BiomePlacedFeatureReplacementList.CODEC.listOf()
+        BiomePlacedFeatureReplacementList.CODEC.mutListOf()
     )
 )
 
-private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic>> = ConfigRegistry.register(
+private val BIOME_MUSIC_LIST: TypedEntryType<MutableList<BiomeMusic>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        BiomeMusic.CODEC.listOf()
+        BiomeMusic.CODEC.mutListOf()
     )
 )
 
@@ -44,15 +44,15 @@ private val BIOME_MUSIC_LIST: TypedEntryType<List<BiomeMusic>> = ConfigRegistry.
 data class BiomeConfig(
 	@JvmField
 	@EntrySyncData("addedFeatures")
-	var addedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry.create(
+	var addedFeatures: TypedEntry<MutableList<BiomePlacedFeatureList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_LIST,
-		listOf(
+		mutableListOf(
 			BiomePlacedFeatureList(
 				Either.left(BLANK_BIOME),
-				listOf(
+				mutableListOf(
 					DecorationStepPlacedFeature(
 						Decoration.VEGETAL_DECORATION,
-						listOf(
+						mutableListOf(
 							BLANK_PLACED_FEATURE
 						)
 					)
@@ -60,10 +60,10 @@ data class BiomeConfig(
 			),
 			BiomePlacedFeatureList(
 				Either.right(BLANK_TAG),
-				listOf(
+				mutableListOf(
 					DecorationStepPlacedFeature(
 						Decoration.VEGETAL_DECORATION,
-						listOf(
+						mutableListOf(
 							BLANK_PLACED_FEATURE
 						)
 					)
@@ -74,15 +74,15 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("removedFeatures")
-	var removedFeatures: TypedEntry<List<BiomePlacedFeatureList>> = TypedEntry.create(
+	var removedFeatures: TypedEntry<MutableList<BiomePlacedFeatureList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_LIST,
-		listOf(
+		mutableListOf(
 			BiomePlacedFeatureList(
 				Either.left(BLANK_BIOME),
-				listOf(
+				mutableListOf(
 					DecorationStepPlacedFeature(
 						Decoration.VEGETAL_DECORATION,
-						listOf(
+						mutableListOf(
 							BLANK_PLACED_FEATURE
 						)
 					)
@@ -90,10 +90,10 @@ data class BiomeConfig(
 			),
 			BiomePlacedFeatureList(
 				Either.right(BLANK_TAG),
-				listOf(
+				mutableListOf(
 					DecorationStepPlacedFeature(
 						Decoration.VEGETAL_DECORATION,
-						listOf(
+						mutableListOf(
 							BLANK_PLACED_FEATURE
 						)
 					)
@@ -104,17 +104,17 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("replacedFeatures")
-	var replacedFeatures: TypedEntry<List<BiomePlacedFeatureReplacementList>> = TypedEntry.create(
+	var replacedFeatures: TypedEntry<MutableList<BiomePlacedFeatureReplacementList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
-		listOf(
+		mutableListOf(
 			BiomePlacedFeatureReplacementList(
 				Either.left(BLANK_BIOME),
-				listOf(
+				mutableListOf(
 					PlacedFeatureReplacement(
 						BLANK_PLACED_FEATURE,
 						DecorationStepPlacedFeature(
 							Decoration.VEGETAL_DECORATION,
-							listOf(
+							mutableListOf(
 								BLANK_PLACED_FEATURE
 							)
 						)
@@ -123,12 +123,12 @@ data class BiomeConfig(
 			),
 			BiomePlacedFeatureReplacementList(
 				Either.right(BLANK_TAG),
-				listOf(
+				mutableListOf(
 					PlacedFeatureReplacement(
 						BLANK_PLACED_FEATURE,
 						DecorationStepPlacedFeature(
 							Decoration.VEGETAL_DECORATION,
-							listOf(
+							mutableListOf(
 								BLANK_PLACED_FEATURE
 							)
 						)
@@ -140,9 +140,9 @@ data class BiomeConfig(
 
 	@JvmField
 	@EntrySyncData("musicReplacements")
-	var musicReplacements: TypedEntry<List<BiomeMusic>> = TypedEntry.create(
+	var musicReplacements: TypedEntry<MutableList<BiomeMusic>> = TypedEntry.create(
 		BIOME_MUSIC_LIST,
-		listOf(
+		mutableListOf(
 			BiomeMusic(
 				Either.left(BLANK_BIOME),
 				Music(

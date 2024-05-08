@@ -9,6 +9,7 @@ import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -20,17 +21,17 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 
-private val SCHEMA_ENTRY_LIST: TypedEntryType<List<SchemaEntry>> = ConfigRegistry.register(
+private val SCHEMA_ENTRY_LIST: TypedEntryType<MutableList<SchemaEntry>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        Codec.list(SchemaEntry.CODEC)
+        SchemaEntry.CODEC.mutListOf()
     )
 )
 
-private val REGISTRY_FIXER_LIST: TypedEntryType<List<RegistryFixer>> = ConfigRegistry.register(
+private val REGISTRY_FIXER_LIST: TypedEntryType<MutableList<RegistryFixer>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        Codec.list(RegistryFixer.CODEC)
+        RegistryFixer.CODEC.mutListOf()
     )
 )
 
@@ -71,15 +72,15 @@ Each fixer contains an old id and a new id, and will replace all instances of th
 However, if the old id is still found in the registry, it will not be replaced.
 """
     )
-    var schemas: TypedEntry<List<SchemaEntry>> = TypedEntry.create(
+    var schemas: TypedEntry<MutableList<SchemaEntry>> = TypedEntry.create(
         SCHEMA_ENTRY_LIST,
-        listOf(
+        mutableListOf(
             SchemaEntry(
                 1,
-                listOf(
+                mutableListOf(
                     DataFixEntry(
                         "biome",
-                        listOf(
+                        mutableListOf(
                             Fixer(
                                 ResourceLocation("examplemod:example_biome"),
                                 ResourceLocation("minecraft:forest")
@@ -88,7 +89,7 @@ However, if the old id is still found in the registry, it will not be replaced.
                     ),
                     DataFixEntry(
                         "block",
-                        listOf(
+                        mutableListOf(
                             Fixer(
                                 ResourceLocation("examplemod:dark_stone"),
                                 ResourceLocation("minecraft:deepslate")
@@ -97,7 +98,7 @@ However, if the old id is still found in the registry, it will not be replaced.
                     ),
                     DataFixEntry(
                         "entity",
-                        listOf(
+                        mutableListOf(
                             Fixer(
                                 ResourceLocation("examplemod:example_entity"),
                                 ResourceLocation("minecraft:cow")
@@ -106,7 +107,7 @@ However, if the old id is still found in the registry, it will not be replaced.
                     ),
                     DataFixEntry(
                         "item",
-                        listOf(
+                        mutableListOf(
                             Fixer(
                                 ResourceLocation("examplemod:example_item"),
                                 ResourceLocation("minecraft:stone")
@@ -117,10 +118,10 @@ However, if the old id is still found in the registry, it will not be replaced.
             ),
             SchemaEntry(
                 2,
-                listOf(
+                mutableListOf(
                     DataFixEntry(
                         "block",
-                        listOf(
+                        mutableListOf(
                             Fixer(
                                 ResourceLocation("examplemod:old_block"),
                                 ResourceLocation("minecraft:grass_block")
@@ -142,12 +143,12 @@ Each fixer contains an old id and a new id, and will replace all instances of th
 However, if the old id is still found in the registry, it will not be replaced (unless the overrideRealEntries option is set to true).
 """
     )
-    var registryFixers: TypedEntry<List<RegistryFixer>> = TypedEntry.create(
+    var registryFixers: TypedEntry<MutableList<RegistryFixer>> = TypedEntry.create(
         REGISTRY_FIXER_LIST,
-        listOf(
+        mutableListOf(
             RegistryFixer(
                 Registries.BLOCK.location(),
-                listOf(
+                mutableListOf(
                     Fixer(
                         ResourceLocation("examplemod:example_block"),
                         ResourceLocation("minecraft:stone")
@@ -156,7 +157,7 @@ However, if the old id is still found in the registry, it will not be replaced (
             ),
             RegistryFixer(
                 Registries.ENTITY_TYPE.location(),
-                listOf(
+                mutableListOf(
                     Fixer(
                         ResourceLocation("examplemod:example_entity"),
                         ResourceLocation("minecraft:cow")
@@ -165,7 +166,7 @@ However, if the old id is still found in the registry, it will not be replaced (
             ),
             RegistryFixer(
                 Registries.ITEM.location(),
-                listOf(
+                mutableListOf(
                     Fixer(
                         ResourceLocation("examplemod:example_item"),
                         ResourceLocation("minecraft:stone")

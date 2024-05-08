@@ -24,6 +24,7 @@ plugins {
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
+    id("com.github.johnrengelman.shadow") version("+")
     eclipse
     idea
     `java-library`
@@ -108,6 +109,7 @@ loom {
 
 val includeModApi: Configuration by configurations.creating
 val includeImplementation: Configuration by configurations.creating
+val shadowInclude: Configuration by configurations.creating
 
 configurations {
     include {
@@ -205,7 +207,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // Kotlin Metadata Remapping
-    api(files("libs/fabric-loom-1.6.local-kotlin-remapper.jar"))?.let { include(it) }
+    api(files("libs/fabric-loom-1.6.local-kotlin-remapper.jar"))?.let { shadowInclude(it) }
 
     // get deps manually because FKE cant give them to compile classpath without an error
     api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
@@ -276,6 +278,16 @@ tasks {
     //    include("**/*.java")
     //}
 
+    test {
+        useJUnitPlatform()
+    }
+
+    shadowJar {
+        configurations = listOf(shadowInclude)
+        isEnableRelocation = true
+        relocationPrefix = "net.frozenblock.configurableeverything.shadow"
+    }
+
     register("javadocJar", Jar::class) {
         dependsOn(javadoc)
         archiveClassifier.set("javadoc")
@@ -286,6 +298,11 @@ tasks {
         dependsOn(classes)
         archiveClassifier.set("sources")
         from(sourceSets.main.get().allSource)
+    }
+
+    remapJar {
+        dependsOn(shadowJar)
+        input = shadowJar.get().archiveFile
     }
 
     withType(JavaCompile::class) {
