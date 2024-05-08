@@ -19,7 +19,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
-private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification>> = ConfigRegistry.register(
+private val LOOT_MODIFICATIONS: TypedEntryType<MutableList<LootModification>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
         Codec.list(LootModification.CODEC)
@@ -30,9 +30,9 @@ private val LOOT_MODIFICATIONS: TypedEntryType<List<LootModification>> = ConfigR
 data class LootConfig(
     @JvmField
     @EntrySyncData("lootModifications")
-    var lootModifications: TypedEntry<List<LootModification>> = TypedEntry.create(
+    var lootModifications: TypedEntry<MutableList<LootModification>> = TypedEntry.create(
         LOOT_MODIFICATIONS,
-        listOf(
+        mutableListOf(
             LootModification(
                 BuiltInLootTables.ANCIENT_CITY,
                 LootPool.lootPool()
@@ -42,7 +42,7 @@ data class LootConfig(
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(1F, 64F)))
                     )
                     .build(),
-                listOf()
+                mutableListOf()
             )
         )
     )

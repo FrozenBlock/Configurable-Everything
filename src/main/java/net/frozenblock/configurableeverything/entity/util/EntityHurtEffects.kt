@@ -2,12 +2,13 @@ package net.frozenblock.configurableeverything.entity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.minecraft.resources.ResourceLocation
 
 data class EntityHurtEffects(
     @JvmField var entity: ResourceLocation,
     @JvmField var entityName: String,
-    @JvmField var effects: List<MobEffectHolder>
+    @JvmField var effects: MutableList<MobEffectHolder>
 ) {
     companion object {
         @JvmField
@@ -15,7 +16,7 @@ data class EntityHurtEffects(
             instance.group(
                 ResourceLocation.CODEC.fieldOf("entity").forGetter(EntityHurtEffects::entity),
                 Codec.STRING.fieldOf("entityName").forGetter(EntityHurtEffects::entityName),
-                MobEffectHolder.CODEC.listOf().fieldOf("effects").forGetter(EntityHurtEffects::effects)
+                MobEffectHolder.CODEC.mutListOf().fieldOf("effects").forGetter(EntityHurtEffects::effects)
             ).apply(instance, ::EntityHurtEffects)
         }
     }

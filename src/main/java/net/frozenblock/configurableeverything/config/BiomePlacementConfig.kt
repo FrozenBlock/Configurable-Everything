@@ -4,16 +4,13 @@ import com.mojang.datafixers.util.Either
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
-
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
 import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
+import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
@@ -24,17 +21,17 @@ import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.biome.Climate.parameters
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 
-private val BIOME_KEY_LIST: TypedEntryType<List<DimensionBiomeKeyList>> = ConfigRegistry.register(
+private val BIOME_KEY_LIST: TypedEntryType<MutableList<DimensionBiomeKeyList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        DimensionBiomeKeyList.CODEC.listOf()
+        DimensionBiomeKeyList.CODEC.mutListOf()
     )
 )
 
-private val BIOME_PARAMETER_LIST: TypedEntryType<List<DimensionBiomeList>> = ConfigRegistry.register(
+private val BIOME_PARAMETER_LIST: TypedEntryType<MutableList<DimensionBiomeList>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        DimensionBiomeList.CODEC.listOf()
+        DimensionBiomeList.CODEC.mutListOf()
     )
 )
 
@@ -50,12 +47,12 @@ so replacing a biome's parameters is possible.
 Supports: Vanilla biomes, datapack biomes, modded biomes
 """
 	)
-	var addedBiomes: TypedEntry<List<DimensionBiomeList>> = TypedEntry.create(
+	var addedBiomes: TypedEntry<MutableList<DimensionBiomeList>> = TypedEntry.create(
 		BIOME_PARAMETER_LIST,
-		listOf(
+		mutableListOf(
 			DimensionBiomeList(
 				BuiltinDimensionTypes.OVERWORLD,
-				listOf(
+				mutableListOf(
 					BiomeParameters(
 						BLANK_BIOME.location(),
 						parameters(
@@ -72,7 +69,7 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 			),
 			DimensionBiomeList(
 				BuiltinDimensionTypes.NETHER,
-				listOf(
+				mutableListOf(
 					BiomeParameters(
 						BLANK_BIOME.location(),
 						parameters(
@@ -101,19 +98,19 @@ Supports: Vanilla biomes, datapack biomes, Vanilla biome tags, datapack biome ta
 Does not support biomes added via TerraBlender
 """
 	)
-	var removedBiomes: TypedEntry<List<DimensionBiomeKeyList>> = TypedEntry.create(
+	var removedBiomes: TypedEntry<MutableList<DimensionBiomeKeyList>> = TypedEntry.create(
 		BIOME_KEY_LIST,
-		listOf(
+		mutableListOf(
 			DimensionBiomeKeyList(
 				BuiltinDimensionTypes.OVERWORLD,
-				listOf(
+				mutableListOf(
 					Either.left(BLANK_BIOME),
 					Either.right(BLANK_TAG)
 				)
 			),
 			DimensionBiomeKeyList(
 				BuiltinDimensionTypes.NETHER,
-				listOf(
+				mutableListOf(
 					Either.left(BLANK_BIOME),
 					Either.right(BLANK_TAG)
 				)
