@@ -2,10 +2,8 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.item.util.ItemReachOverride
-import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -18,7 +16,7 @@ import net.minecraft.world.item.Items
 private val ITEM_REACH_OVERRIDES: TypedEntryType<MutableList<ItemReachOverride>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        Codec.list(ItemReachOverride.CODEC)
+        ItemReachOverride.CODEC.mutListOf()
     )
 )
 

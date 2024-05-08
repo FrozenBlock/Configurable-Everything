@@ -2,10 +2,8 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.loot.util.LootModification
-import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -22,7 +20,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 private val LOOT_MODIFICATIONS: TypedEntryType<MutableList<LootModification>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        Codec.list(LootModification.CODEC)
+        LootModification.CODEC.mutListOf()
     )
 )
 
