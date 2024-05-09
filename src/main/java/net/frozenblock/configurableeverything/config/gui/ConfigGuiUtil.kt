@@ -88,8 +88,8 @@ fun <T> nestedList(
     return nestedList(
         entryBuilder,
         title,
-        { entrySupplier?.invoke() } as Supplier<List<T>?>?,
-        { defaultValue() } as Supplier<List<T>>,
+        Supplier { entrySupplier?.invoke() } as Supplier<List<T>?>?,
+        Supplier { defaultValue() } as Supplier<List<T>>,
         expandedByDefault,
         tooltip,
         { entry -> setterConsumer(entry.let {
