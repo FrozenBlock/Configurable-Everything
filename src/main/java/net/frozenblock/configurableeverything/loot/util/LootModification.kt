@@ -7,9 +7,9 @@ import net.minecraft.resources.ResourceLocation
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-data class LootModification(var id: ResourceLocation, var removals: MutableList<ResourceLocation?>? = listOf()) {
+data class LootModification(var id: ResourceLocation, var removals: MutableList<ResourceLocation?>? = mutableListOf()) {
 
-    constructor(id: ResourceLocation, removals: Optional<MutableList<ResourceLocation?>>?) : this(id, pool?.getOrNull(), removals?.getOrNull())
+    constructor(id: ResourceLocation, removals: Optional<MutableList<ResourceLocation?>>?) : this(id, removals?.getOrNull())
 
     companion object {
         @JvmField
