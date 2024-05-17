@@ -16,7 +16,7 @@ inline fun <T> Codec<T>.mutListOf(minSize: Int = 0, maxSize: Int = Int.MAX_VALUE
     = mutList(this, minSize, maxSize)
 
 inline fun <T> mutList(elementCodec: Codec<T>, minSize: Int = 0, maxSize: Int = Int.MAX_VALUE): Codec<MutableList<T>>
-    = ListCodec(elementCodec, minSize, maxSize)
+    = MutableListCodec(elementCodec, minSize, maxSize)
 
 /**
  * Based on Mojang's ListCodec

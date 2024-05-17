@@ -3,10 +3,8 @@ package net.frozenblock.configurableeverything.config
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification
-import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
+import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
@@ -15,10 +13,10 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 
-private val TAG_MODIFICATIONS: TypedEntryType<List<RegistryTagModification>> = ConfigRegistry.register(
+private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModification>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        Codec.list(RegistryTagModification.CODEC)
+        RegistryTagModification.CODEC.mutListOf()
     )
 )
 
@@ -26,7 +24,7 @@ private val TAG_MODIFICATIONS: TypedEntryType<List<RegistryTagModification>> = C
 data class TagConfig(
     @JvmField
     @EntrySyncData("lootModifications")
-    var tagModifications: TypedEntry<List<RegistryTagModification>> = TypedEntry.create(
+    var tagModifications: TypedEntry<MutableList<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
         mutableListOf(
             RegistryTagModification(
