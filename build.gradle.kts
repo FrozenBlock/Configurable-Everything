@@ -220,7 +220,7 @@ dependencies {
     modApi(kotlin("scripting-dependencies-maven"))
 
     api("net.fabricmc:mapping-io:0.6.1")
-    api("net.fabricmc:tiny-remapper:0.10.2")
+    api("net.fabricmc:tiny-remapper:0.10.3")
 
     // FrozenLib
     if (local_frozenlib)
