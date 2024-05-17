@@ -19,7 +19,7 @@ import net.minecraft.sounds.SoundEvents
 private val SOUND_GROUP_OVERWRITES: TypedEntryType<MutableList<MutableBlockSoundGroupOverwrite>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        Codec.list(MutableBlockSoundGroupOverwrite.CODEC)
+        MutableBlockSoundGroupOverwrite.CODEC.mutListOf()
     )
 )
 

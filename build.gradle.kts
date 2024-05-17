@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version("1.9.23")
+    kotlin("jvm") version("1.9.24")
     id("fabric-loom") version("+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
@@ -220,7 +220,7 @@ dependencies {
     modApi(kotlin("scripting-dependencies-maven"))
 
     api("net.fabricmc:mapping-io:0.6.1")
-    api("net.fabricmc:tiny-remapper:0.10.2")
+    api("net.fabricmc:tiny-remapper:0.10.3")
 
     // FrozenLib
     if (local_frozenlib)
