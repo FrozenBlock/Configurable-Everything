@@ -199,15 +199,6 @@ object Remapping {
             )
         }
 
-        /*val directMappings = MemoryMappingTree()
-
-        // removes the obfuscated namespace
-        val obfRemover = MappingDstNsReorder(directMappings, listOf(MOJANG))
-
-        // switches the source namespace to intermediary
-        val intSwitcher = MappingSourceNsSwitch(obfRemover, INTERMEDIARY)
-        mappings.accept(intSwitcher)*/
-
         // write mappings
         mappings.accept(MappingWriter.create(MOJANG_MAPPINGS_PATH, MappingFormat.TINY_2_FILE))
         saveLicense()
