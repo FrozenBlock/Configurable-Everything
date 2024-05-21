@@ -12,6 +12,8 @@ import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
 import net.frozenblock.configurableeverything.util.REMAPPED_SOURCES_CACHE
 import net.frozenblock.configurableeverything.util.asFileList
+import net.minecraft.client.Minecraft
+import net.minecraft.server.MinecraftServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -39,11 +41,11 @@ abstract class ClientCEScript : CEScript() {
 
     override fun runEachTick(tickFun: () -> Unit) {
         super.runEachTick(tickFun)
-        runEachClientTick(tickFun)
+        runEachClientTick { tickFun() }
     }
 
-    inline fun runEachClientTick(crossinline tickFun: () -> Unit) {
-        ClientTickEvents.START_CLIENT_TICK.register { tickFun() }
+    inline fun runEachClientTick(crossinline tickFun: (Minecraft) -> Unit) {
+        ClientTickEvents.START_CLIENT_TICK.register { client -> tickFun(client) }
     }
 }
 
@@ -77,12 +79,11 @@ abstract class CEScript {
     }
 
     open fun runEachTick(tickFun: () -> Unit) {
-        runEachServerTick(tickFun)
+        runEachServerTick { tickFun() }
     }
 
-    inline fun runEachServerTick(crossinline tickFun: () -> Unit) {
-        // TODO: add to client tick events if a client script
-        ServerTickEvents.START_SERVER_TICK.register { tickFun() }
+    inline fun runEachServerTick(crossinline tickFun: (MinecraftServer) -> Unit) {
+        ServerTickEvents.START_SERVER_TICK.register { server -> tickFun(server) }
     }
 
     inline fun log(message: Any?) = logger.info(message.toString())
