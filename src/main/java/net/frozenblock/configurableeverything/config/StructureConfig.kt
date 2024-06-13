@@ -25,8 +25,8 @@ data class StructureConfig(
     var removedStructures: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
         RESOURCE_LIST,
         mutableListOf(
-            ResourceLocation("ancient_city"),
-            ResourceLocation("village_plains")
+            ResourceLocation.withDefaultNamespace("ancient_city"),
+            ResourceLocation.withDefaultNamespace("village_plains")
         )
     ),
 
@@ -35,7 +35,7 @@ data class StructureConfig(
     var removedStructureSets: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
         RESOURCE_LIST,
         mutableListOf(
-            ResourceLocation("villages")
+            ResourceLocation.withDefaultNamespace("villages")
         )
     )
 ) {

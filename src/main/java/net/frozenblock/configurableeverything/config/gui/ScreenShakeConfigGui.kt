@@ -60,7 +60,7 @@ private fun soundScreenShakes(
         tooltip("sound_screen_shakes"),
         { newValue -> config.soundScreenShakes = newValue},
         { element: SoundScreenShake?, _ ->
-            val soundScreenShake = element ?: SoundScreenShake(ResourceLocation(""), 1F, 25, 1, 20F)
+            val soundScreenShake = element ?: SoundScreenShake(ResourceLocation.withDefaultNamespace(""), 1F, 25, 1, 20F)
             multiElementEntry(
                 text("sound_screen_shakes.sound_screen_shake"),
                 soundScreenShake,
@@ -68,7 +68,7 @@ private fun soundScreenShakes(
 
                 EntryBuilder(text("sound_screen_shakes.sound"), soundScreenShake.sound.toString(),
                     "",
-                    { newValue -> soundScreenShake.sound = ResourceLocation(newValue) },
+                    { newValue -> soundScreenShake.sound = ResourceLocation.parse(newValue) },
                     tooltip("sound_screen_shakes.sound")
                 ).build(entryBuilder),
 

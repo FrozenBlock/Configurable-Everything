@@ -100,7 +100,7 @@ object DataFixerUtil {
             "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
             "item" -> {
                 SimpleFixes.addItemRenameFix(builder, fixName, oldId, newId, schema)
-                REGISTRY_FIXERS.add(RegistryFixer(ResourceLocation("item"), mutableListOf(Fixer(oldId, newId))))
+                REGISTRY_FIXERS.add(RegistryFixer(ResourceLocation.withDefaultNamespace("item"), mutableListOf(Fixer(oldId, newId))))
             }
 
             else -> logError("Invalid data fix type: " + entry.type)

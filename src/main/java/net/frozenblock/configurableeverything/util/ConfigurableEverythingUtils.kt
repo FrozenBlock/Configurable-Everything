@@ -37,10 +37,10 @@ internal inline fun logError(string: String?, error: Throwable? = null, shouldLo
 // IDENTIFIERS
 
 internal inline fun id(path: String): ResourceLocation
-    = ResourceLocation(MOD_ID, path)
+    = ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
 
 internal inline fun vanillaId(path: String): ResourceLocation
-    = ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, path)
+    = ResourceLocation.fromNamespaceAndPath(ResourceLocation.DEFAULT_NAMESPACE, path)
 
 internal inline fun string(path: String): String
     = id(path).toString()

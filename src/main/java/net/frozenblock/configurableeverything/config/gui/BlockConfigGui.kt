@@ -73,7 +73,7 @@ private fun soundGroupOverwrites(
 
                 EntryBuilder(text("sound_group_overwrites.id"), overwrite.blockId.toString(),
                     "",
-                    { newValue -> overwrite.blockId = ResourceLocation(newValue) },
+                    { newValue -> overwrite.blockId = ResourceLocation.parse(newValue) },
                     tooltip("sound_group_overwrites.id")
                 ).build(entryBuilder),
 
@@ -137,5 +137,5 @@ private fun soundId(sound: SoundEvent?): String? {
 }
 
 private fun sound(id: String): SoundEvent? {
-    return BuiltInRegistries.SOUND_EVENT[ResourceLocation(id)]
+    return BuiltInRegistries.SOUND_EVENT[ResourceLocation.parse(id)]
 }

@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.sound.api.FlyBySoundHub
 import net.minecraft.core.Holder
@@ -66,7 +67,7 @@ internal object EntityConfigUtil {
                                 val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
                                 attribute?.addTransientModifier(
                                     AttributeModifier(
-                                        "Configurable Everything Entity Config ${amplifierAttribute.location()} change to ${this@apply.name}",
+                                        id("entity_config_change_to_${this@apply.name}"),
                                         amplifierAmplifier - 1.0,
                                         AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                                     )

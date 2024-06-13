@@ -21,9 +21,9 @@ import kotlin.math.exp
 
 fun <T : Any> String.toEitherKeyOrTag(registry: ResourceKey<Registry<T>>): Either<ResourceKey<T>, TagKey<T>> {
     return if (this.startsWith('#'))
-        Either.right(TagKey.create(registry, ResourceLocation(this.substring(1))))
+        Either.right(TagKey.create(registry, ResourceLocation.parse(this.substring(1))))
     else
-        Either.left(ResourceKey.create(registry, ResourceLocation(this)))
+        Either.left(ResourceKey.create(registry, ResourceLocation.parse(this)))
 }
 
 fun <T : Any> Either<ResourceKey<T>, TagKey<T>>?.toStr(): String {
@@ -33,7 +33,7 @@ fun <T : Any> Either<ResourceKey<T>, TagKey<T>>?.toStr(): String {
     return string
 }
 
-inline fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, ResourceLocation(this))
+inline fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, ResourceLocation.parse(this))
 
 inline fun <T : Any> ResourceKey<T>?.toStr(): String = this?.location()?.toString() ?: ""
 

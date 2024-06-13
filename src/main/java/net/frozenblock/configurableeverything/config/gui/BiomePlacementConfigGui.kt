@@ -68,7 +68,7 @@ private fun addedBiomes(
         { element: DimensionBiomeList?, _ ->
             val defaultParameters = mutableListOf(
                 BiomeParameters(
-                    ResourceLocation(""),
+                    ResourceLocation.withDefaultNamespace(""),
                     Climate.parameters(
                         Temperature.NEUTRAL,
                         Humidity.NEUTRAL,
@@ -113,7 +113,7 @@ private fun addedBiomes(
                                 text("added_biomes.biome"),
                                 biomeParameters.biome.toString(),
                                 "",
-                                { newValue -> biomeParameters.biome = ResourceLocation(newValue) },
+                                { newValue -> biomeParameters.biome = ResourceLocation.parse(newValue) },
                                 tooltip("added_biomes.biome"),
                             ).build(entryBuilder),
 
@@ -237,7 +237,7 @@ private fun removedBiomes(
                     text("removed_biomes.dimension"),
                     dimensionBiomeList.dimension.location().toString(),
                     "",
-                    { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation(newValue)) },
+                    { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.parse(newValue)) },
                     tooltip("removed_biomes.dimension")
                 ).build(entryBuilder),
 

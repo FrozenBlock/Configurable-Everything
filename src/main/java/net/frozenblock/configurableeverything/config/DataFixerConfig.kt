@@ -82,8 +82,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "biome",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation("examplemod:example_biome"),
-                                ResourceLocation("minecraft:forest")
+                                ResourceLocation.parse("examplemod:example_biome"),
+                                ResourceLocation.parse("minecraft:forest")
                             )
                         )
                     ),
@@ -91,8 +91,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "block",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation("examplemod:dark_stone"),
-                                ResourceLocation("minecraft:deepslate")
+                                ResourceLocation.parse("examplemod:dark_stone"),
+                                ResourceLocation.parse("minecraft:deepslate")
                             )
                         )
                     ),
@@ -100,8 +100,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "entity",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation("examplemod:example_entity"),
-                                ResourceLocation("minecraft:cow")
+                                ResourceLocation.parse("examplemod:example_entity"),
+                                ResourceLocation.parse("minecraft:cow")
                             )
                         )
                     ),
@@ -109,8 +109,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "item",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation("examplemod:example_item"),
-                                ResourceLocation("minecraft:stone")
+                                ResourceLocation.parse("examplemod:example_item"),
+                                ResourceLocation.parse("minecraft:stone")
                             )
                         )
                     )
@@ -123,8 +123,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "block",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation("examplemod:old_block"),
-                                ResourceLocation("minecraft:grass_block")
+                                ResourceLocation.parse("examplemod:old_block"),
+                                ResourceLocation.parse("minecraft:grass_block")
                             )
                         )
                     )
@@ -150,8 +150,8 @@ However, if the old id is still found in the registry, it will not be replaced (
                 Registries.BLOCK.location(),
                 mutableListOf(
                     Fixer(
-                        ResourceLocation("examplemod:example_block"),
-                        ResourceLocation("minecraft:stone")
+                        ResourceLocation.parse("examplemod:example_block"),
+                        ResourceLocation.parse("minecraft:stone")
                     )
                 )
             ),
@@ -159,8 +159,8 @@ However, if the old id is still found in the registry, it will not be replaced (
                 Registries.ENTITY_TYPE.location(),
                 mutableListOf(
                     Fixer(
-                        ResourceLocation("examplemod:example_entity"),
-                        ResourceLocation("minecraft:cow")
+                        ResourceLocation.parse("examplemod:example_entity"),
+                        ResourceLocation.parse("minecraft:cow")
                     )
                 )
             ),
@@ -168,8 +168,8 @@ However, if the old id is still found in the registry, it will not be replaced (
                 Registries.ITEM.location(),
                 mutableListOf(
                     Fixer(
-                        ResourceLocation("examplemod:example_item"),
-                        ResourceLocation("minecraft:stone")
+                        ResourceLocation.parse("examplemod:example_item"),
+                        ResourceLocation.parse("minecraft:stone")
                     )
                 )
             )

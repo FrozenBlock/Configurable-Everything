@@ -39,7 +39,7 @@ abstract class DataReloadManager<T : Any>(
     protected abstract fun apply(values: Collection<T>)
 
     fun getPath(dataId: ResourceLocation, jsonType: JsonType): ResourceLocation =
-        ResourceLocation(dataId.namespace, "$directory/${dataId.path}.${jsonType.serializedName}")
+        ResourceLocation.fromNamespaceAndPath(dataId.namespace, "$directory/${dataId.path}.${jsonType.serializedName}")
 
     protected var data: MutableMap<ResourceLocation, T>? = null
     private val queuedData: MutableMap<ResourceLocation, T> = Object2ObjectOpenHashMap()
@@ -141,7 +141,7 @@ abstract class DataReloadManager<T : Any>(
                     reloadManager.logger.error("Unable to parse ${reloadManager.fileTypeName} file $id. \nReason: ${result.error().get().message()}")
                     return
                 }
-                val dataId = ResourceLocation(id.namespace, id.path.substring(("${reloadManager.directory}/").length))
+                val dataId = ResourceLocation.fromNamespaceAndPath(id.namespace, id.path.substring(("${reloadManager.directory}/").length))
                 data[dataId] = result.result().orElseThrow().first
             }
         }
