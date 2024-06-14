@@ -17,6 +17,7 @@ import kotlin.script.experimental.jvmhost.BasicJvmScriptJarGenerator
 import kotlin.script.experimental.jvmhost.JvmScriptCompiler
 import kotlin.script.experimental.jvmhost.loadScriptFromJar
 
+@Suppress("unused")
 private object InvalidChecker {
     init {
         check(HAS_EXTENSIONS) { "Attempted to access scripting functionality without Fabric Kotlin Extensions mod!" }
