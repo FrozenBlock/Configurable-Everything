@@ -67,7 +67,7 @@ internal object EntityConfigUtil {
                                 val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
                                 attribute?.addTransientModifier(
                                     AttributeModifier(
-                                        id("entity_config_change_to_${this@apply.name}"),
+                                        id("entity_config_change_to_" + desiredEntityName),
                                         amplifierAmplifier - 1.0,
                                         AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                                     )
