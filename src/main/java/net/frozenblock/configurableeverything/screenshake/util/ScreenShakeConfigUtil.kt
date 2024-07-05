@@ -48,10 +48,10 @@ object ScreenShakeConfigUtil {
         shake: SoundScreenShake,
         pos: Vec3
     ) {
-        if (level is ClientLevel) {
+        if (level.isClientSide) {
             ScreenShaker.SCREEN_SHAKES.add(
                 ScreenShaker.ClientScreenShake(
-                    level,
+                    level as ClientLevel,
                     shake.intensity,
                     shake.duration,
                     shake.falloffStart,
@@ -80,7 +80,7 @@ object ScreenShakeConfigUtil {
         entity: Entity,
         shake: SoundScreenShake
     ) {
-        if (level is ClientLevel) {
+        if (level.isClientSide) {
             ScreenShaker.SCREEN_SHAKES.add(
                 ScreenShaker.ClientEntityScreenShake(
                     entity,
