@@ -155,7 +155,11 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         { newValue -> config.screen_shake = newValue },
         tooltip("screen_shake"),
         true
-    ).build(entryBuilder) as BooleanListEntry
+    ).build(entryBuilder).synced(
+        config::class,
+        "screen_shake",
+        configInstance
+    ) as BooleanListEntry
 
     val scripting: BooleanListEntry = EntryBuilder(text("scripting"), config.scripting,
         defaultConfig.scripting!!,

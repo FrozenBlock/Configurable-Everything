@@ -69,7 +69,7 @@ Warning: It is important to check the contents of each config before enabling th
     var registry: Boolean = false,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    @EntrySyncData("screen_shake")
     var screen_shake: Boolean = false,
 
     @JvmField
