@@ -10,7 +10,6 @@ import blue.endless.jankson.Comment
 import blue.endless.jankson.annotation.SaveToggle
 import kotlin.io.path.pathString
 
-@UnsyncableConfig
 data class MainConfig(
     // ignore property name warnings because the goal is to match the config file name
     @JvmField

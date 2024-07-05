@@ -24,7 +24,6 @@ private val LOOT_MODIFICATIONS: TypedEntryType<MutableList<LootModification>> = 
     )
 )
 
-@UnsyncableConfig
 data class LootConfig(
     @JvmField
     @EntrySyncData("lootModifications")

@@ -35,7 +35,6 @@ private val REGISTRY_FIXER_LIST: TypedEntryType<MutableList<RegistryFixer>> = Co
     )
 )
 
-@UnsyncableConfig
 data class DataFixerConfig(
     @JvmField
     @EntrySyncData("overrideRealEntries")

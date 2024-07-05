@@ -35,7 +35,6 @@ private val BIOME_PARAMETER_LIST: TypedEntryType<MutableList<DimensionBiomeList>
     )
 )
 
-@UnsyncableConfig
 data class BiomePlacementConfig(
 	@JvmField
 	@EntrySyncData("addedBiomes")

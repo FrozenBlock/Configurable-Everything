@@ -11,7 +11,6 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import blue.endless.jankson.Comment
 
-@UnsyncableConfig
 data class WorldConfig(
     @JvmField
     @EntrySyncData("dayTimeSpeedAmplifier")
