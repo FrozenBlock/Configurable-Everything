@@ -28,7 +28,7 @@ data class TagConfig(
     var ignoreInvalidEntries: Boolean = true,
 
     @JvmField
-    @EntrySyncData("lootModifications")
+    @EntrySyncData("tagModifications")
     var tagModifications: TypedEntry<MutableList<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
         mutableListOf(
