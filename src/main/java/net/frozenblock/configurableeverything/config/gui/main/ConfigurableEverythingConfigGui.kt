@@ -5,7 +5,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.*
-import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
 
@@ -43,9 +42,7 @@ object ConfigurableEverythingConfigGui {
             SculkSpreadingConfig.save()
             SplashTextConfig.save()
             StructureConfig.save()
-            ifExperimental {
-                TagConfig.save()
-            }
+            TagConfig.save()
             WorldConfig.save()
         }
 
