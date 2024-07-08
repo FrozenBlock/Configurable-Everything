@@ -98,6 +98,11 @@ sealed class ConfigData<T : Any, C>(open val config: Config<T>?) where C : Confi
             ConfigRegistry.register(SurfaceRuleConfig, ConfigModification { modification(SurfaceRuleWrapper(it)) })
         }
     }
+    data object TAG : StableConfigData<TagConfig, TagWrapper>(TagConfig) {
+        override fun modify(modification: (TagWrapper) -> Unit) {
+            ConfigRegistry.register(TagConfig, ConfigModification { modification(TagWrapper(it)) })
+        }
+    }
     data object WORLD : StableConfigData<WorldConfig, WorldWrapper>(WorldConfig) {
         override fun modify(modification: (WorldWrapper) -> Unit) {
             ConfigRegistry.register(WorldConfig, ConfigModification { modification(WorldWrapper(it)) })
