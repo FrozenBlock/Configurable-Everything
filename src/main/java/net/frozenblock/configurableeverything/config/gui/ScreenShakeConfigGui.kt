@@ -27,7 +27,6 @@ object ScreenShakeConfigGui {
         val config = ScreenShakeConfig.get(real = true)
         val syncConfig = ScreenShakeConfig.configWithSync()
         val defaultConfig = ScreenShakeConfig.defaultInstance()
-        category.background = id("textures/config/screen_shake.png")
 
         category.addEntry(soundScreenShakes(entryBuilder, config, syncConfig, defaultConfig))
 

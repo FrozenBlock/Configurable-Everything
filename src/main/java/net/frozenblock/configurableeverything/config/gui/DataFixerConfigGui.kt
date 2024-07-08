@@ -35,7 +35,6 @@ object DataFixerConfigGui {
         val config = configInstance.instance()
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/datafixer.png")
 
         val overrideRealEntries = EntryBuilder(
             text("override_real_entries"),

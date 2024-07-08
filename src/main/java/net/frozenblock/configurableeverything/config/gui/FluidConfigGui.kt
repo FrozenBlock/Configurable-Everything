@@ -32,7 +32,6 @@ object FluidConfigGui {
         val config = configInstance.instance()
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/fluid.png")
 
         category.addEntry(fluidFlowSpeeds(entryBuilder, config, syncConfig, defaultConfig))
     }

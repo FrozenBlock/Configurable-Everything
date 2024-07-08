@@ -33,7 +33,6 @@ object BlockConfigGui {
         val config = configInstance.instance()
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/block.png")
 
         category.addEntry(soundGroupOverwrites(entryBuilder, config, syncConfig, defaultConfig))
     }

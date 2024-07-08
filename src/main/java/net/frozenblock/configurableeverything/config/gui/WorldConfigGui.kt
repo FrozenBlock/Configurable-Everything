@@ -27,7 +27,7 @@ object WorldConfigGui {
         val config = configInstance.instance()
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/world.png")
+
         category.addEntry(
             EntryBuilder(text("day_time_speed"), Slider(syncConfig.dayTimeSpeedAmplifier, 1, 100, SliderType.LONG),
                 Slider(defaultConfig.dayTimeSpeedAmplifier, 0, 0, SliderType.LONG),

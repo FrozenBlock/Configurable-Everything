@@ -33,7 +33,6 @@ object EntityConfigGui {
         val config = configInstance.instance()
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/entity.png")
 
         category.addEntry(entityAttributeAmplifiers(entryBuilder, config, syncConfig, defaultConfig))
         category.addEntry(experienceOverrides(entryBuilder, config, syncConfig, defaultConfig))
