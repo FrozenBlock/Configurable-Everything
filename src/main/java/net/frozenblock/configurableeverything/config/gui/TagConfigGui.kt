@@ -45,7 +45,7 @@ object TagConfigGui {
             config::class,
             "ignoreInvalidEntries",
             configInstance
-        )
+        ).apply { category.addEntry(this) }
 
         category.addEntry(addedBiomes(entryBuilder, config, syncConfig, defaultConfig))
     }
