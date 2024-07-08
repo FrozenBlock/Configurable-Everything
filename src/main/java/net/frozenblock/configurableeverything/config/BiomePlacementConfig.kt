@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import blue.endless.jankson.Comment
 import com.mojang.datafixers.util.Either
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
@@ -13,8 +14,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
-import blue.endless.jankson.Comment
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.world.level.biome.Climate.Parameter.span
