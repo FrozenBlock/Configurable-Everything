@@ -305,6 +305,8 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
 
         category.addEntry(surfaceRule)
 
+        category.addEntry(tag)
+
         category.addEntry(world)
 
         createSubCategory(
