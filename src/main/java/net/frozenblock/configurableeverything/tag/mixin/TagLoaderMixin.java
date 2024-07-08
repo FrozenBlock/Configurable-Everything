@@ -52,8 +52,8 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 			if (this.registry.key().location().toString().equals(registryTagModification.registry)) {
 				for (TagModification modification : registryTagModification.modifications) {
 					if (tag.equals(ResourceLocation.tryParse(modification.tag))) {
-						modification.removals.forEach(remove -> values.remove(new JsonPrimitive(remove)));
-						modification.additions.forEach(values::add);
+						modification.removals.forEach(remove -> values.remove(new JsonPrimitive(ResourceLocation.parse(remove).toString())));
+						modification.additions.forEach(add -> values.add(ResourceLocation.parse(add).toString()));
 					}
 				}
 			}
