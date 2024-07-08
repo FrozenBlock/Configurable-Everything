@@ -35,6 +35,18 @@ object TagConfigGui {
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
 
+        EntryBuilder(text("ignore_invalid_entries"), syncConfig.ignoreInvalidEntries,
+            defaultConfig.ignoreInvalidEntries,
+            { newValue -> config.ignoreInvalidEntries = newValue },
+            tooltip("ignore_invalid_entries"),
+            true,
+            requirement = mainToggleReq
+        ).build(entryBuilder).synced(
+            config::class,
+            "ignoreInvalidEntries",
+            configInstance
+        )
+
         category.addEntry(addedBiomes(entryBuilder, config, syncConfig, defaultConfig))
     }
 }
