@@ -33,7 +33,7 @@ data class TagConfig(
         TAG_MODIFICATIONS,
         mutableListOf(
             RegistryTagModification(
-                BuiltInRegistries.BLOCK.key().location().toString(),
+                BuiltInRegistries.ITEM.key().location().toString(),
                 mutableListOf(
                     TagModification(
                         "minecraft:piglin_loved",
