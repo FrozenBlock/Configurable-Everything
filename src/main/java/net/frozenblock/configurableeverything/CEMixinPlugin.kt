@@ -29,6 +29,7 @@ class CEMixinPlugin : IMixinConfigPlugin {
         if (mixinClassName.contains("sculk_spreading.mixin")) return config.sculk_spreading
         if (mixinClassName.contains("splash_text.mixin")) return isClient && config.splash_text
         if (mixinClassName.contains("structure.mixin")) return config.structure
+        if (mixinClassName.contains("tag.mixin")) return config.tag
         if (mixinClassName.contains("world.mixin.client")) return config.world_client
         if (mixinClassName.contains("world.mixin")) return config.world
         return true
