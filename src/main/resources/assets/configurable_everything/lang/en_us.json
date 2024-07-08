@@ -27,6 +27,8 @@
   "tooltip.configurable_everything.sculk_spreading": "Enable or disable the Sculk Spreading config.",
   "option.configurable_everything.structure": "Structure",
   "tooltip.configurable_everything.structure": "Enable or disable the Structure config.",
+  "option.configurable_everything.tag": "Tag",
+  "tooltip.configurable_everything.tag": "Enable or disable the Tag config.",
   "option.configurable_everything.surface_rule": "Surface Rule",
   "tooltip.configurable_everything.surface_rule": "Enable or disable the Surface Rule config.",
 
@@ -372,7 +374,21 @@
   "tooltip.configurable_everything.remove_vanilla": "Removes all vanilla splash texts.",
 
   "option.configurable_everything.screenshake": "Screen Shaking",
-  "tooltip.configurable_everything.screenshake": "Contains options for Screen Shaking.",
+
+  "option.configurable_everything.tag_modifications": "Tag Modifications",
+  "tooltip.configurable_everything.tag_modifications": "A list of modifications to apply to tags.",
+  "option.configurable_everything.tag_modifications.registry_modification": "Registry Modification",
+  "option.configurable_everything.tag_modifications.registry": "Registry",
+  "tooltip.configurable_everything.tag_modifications.registry": "The tag registry to apply modifications to.",
+  "option.configurable_everything.tag_modifications.modifications": "Modifications",
+  "tooltip.configurable_everything.tag_modifications.modifications": "A list of modifications to apply to the tag registry.",
+  "option.configurable_everything.tag_modifications.modification": "Modification",
+  "option.configurable_everything.tag_modifications.tag": "Tag",
+  "tooltip.configurable_everything.tag_modifications.tag": "The tag to modify.",
+  "option.configurable_everything.tag_modifications.additions": "Additions",
+  "tooltip.configurable_everything.tag_modifications.additions": "A list of entries (items or tags) to add to the tag.",
+  "option.configurable_everything.tag_modifications.removals": "Removals",
+  "tooltip.configurable_everything.tag_modifications.removals": "A list of entries (items or tags) to remove from the tag.",
 
   "option.configurable_everything.world": "World",
   "tooltip.configurable_everything.world": "Enable or disable the World config.",
