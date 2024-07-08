@@ -68,7 +68,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 			return;
 		}
 
-		if (TagConfig.get().ignoreInvalidTags) {
+		if (TagConfig.get().ignoreInvalidEntries) {
 			list2.clear();
 		}
 	}
