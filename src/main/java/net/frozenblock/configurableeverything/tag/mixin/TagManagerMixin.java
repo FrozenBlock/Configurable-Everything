@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class TagManagerMixin {
 
 	@WrapOperation(method = "createLoader", at = @At(value = "NEW", target = "(Ljava/util/function/Function;Ljava/lang/String;)Lnet/minecraft/tags/TagLoader;"))
-	private <T> TagLoader<T> shit(Function<ResourceLocation, Optional<? extends T>> idToValue, String directory, Operation<TagLoader<T>> original, @Local Registry<T> registry) {
+	private <T> TagLoader<T> setRegistry(Function<ResourceLocation, Optional<? extends T>> idToValue, String directory, Operation<TagLoader<T>> original, @Local Registry<T> registry) {
 		TagLoader<T> loader = original.call(idToValue, directory);
 		//noinspection unchecked
 		TagLoaderExtension<T> extended = (TagLoaderExtension<T>) loader;
