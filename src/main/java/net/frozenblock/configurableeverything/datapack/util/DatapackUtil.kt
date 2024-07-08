@@ -5,7 +5,7 @@ import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
-import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
+import blue.endless.jankson.JsonElement
 import net.minecraft.core.RegistrationInfo
 import net.minecraft.core.Registry
 import net.minecraft.core.WritableRegistry

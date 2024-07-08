@@ -17,7 +17,6 @@ private val RESOURCE_LIST: TypedEntryType<MutableList<ResourceLocation>> = Confi
     )
 )
 
-@UnsyncableConfig
 data class StructureConfig(
 
     @JvmField

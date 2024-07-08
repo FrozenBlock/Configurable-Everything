@@ -35,7 +35,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 	private Registry<T> registry;
 
 	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lcom/google/gson/JsonParser;parseReader(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
-	private JsonElement shit(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) ResourceLocation tag) {
+	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) ResourceLocation tag) {
         JsonObject json = (JsonObject) original.call(jsonReader);
 		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.get().tag)
 			return json;

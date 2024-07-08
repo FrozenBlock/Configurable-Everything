@@ -50,7 +50,7 @@ object ConfigurableEverythingConfigGui {
         }
 
         val main = configBuilder.getOrCreateCategory(text("main"))
-        MainConfigGui.createInstance(entryBuilder, MainConfig.get(true), MainConfig.defaultInstance()).setupEntries(main, entryBuilder)
+        MainConfigGui.createInstance(entryBuilder, MainConfig.get(true), MainConfig.configWithSync(), MainConfig.defaultInstance()).setupEntries(main, entryBuilder)
 
         val biome = configBuilder.getOrCreateCategory(text("biome"))
         BiomeConfigGui.setupEntries(biome, entryBuilder)

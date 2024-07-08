@@ -25,19 +25,20 @@ object ScreenShakeConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScreenShakeConfig.get(real = true)
+        val syncConfig = ScreenShakeConfig.configWithSync()
         val defaultConfig = ScreenShakeConfig.defaultInstance()
         category.background = id("textures/config/screen_shake.png")
 
-        category.addEntry(soundScreenShakes(entryBuilder, config, defaultConfig))
+        category.addEntry(soundScreenShakes(entryBuilder, config, syncConfig, defaultConfig))
 
-        category.addEntry(EntryBuilder(text("dragon_respawn_screen_shake"), config.dragonRespawnScreenShake,
+        category.addEntry(EntryBuilder(text("dragon_respawn_screen_shake"), syncConfig.dragonRespawnScreenShake,
             defaultConfig.dragonRespawnScreenShake,
             { newValue -> config.dragonRespawnScreenShake = newValue },
             tooltip("dragon_respawn_screen_shake"),
             requirement = mainToggleReq
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("explosion_screen_shake"), config.explosionScreenShake,
+        category.addEntry(EntryBuilder(text("explosion_screen_shake"), syncConfig.explosionScreenShake,
             defaultConfig.explosionScreenShake,
             { newValue -> config.explosionScreenShake = newValue },
             tooltip("explosion_screen_shake"),
@@ -49,12 +50,13 @@ object ScreenShakeConfigGui {
 private fun soundScreenShakes(
     entryBuilder: ConfigEntryBuilder,
     config: ScreenShakeConfig,
+    syncConfig: ScreenShakeConfig,
     defaultConfig: ScreenShakeConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("sound_screen_shakes"),
-        config::soundScreenShakes,
+        syncConfig::soundScreenShakes,
         { defaultConfig.soundScreenShakes },
         false,
         tooltip("sound_screen_shakes"),

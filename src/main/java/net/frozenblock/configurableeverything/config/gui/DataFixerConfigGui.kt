@@ -33,12 +33,13 @@ private inline val mainToggleReq: Requirement
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/datafixer.png")
 
         val overrideRealEntries = EntryBuilder(
             text("override_real_entries"),
-            config.overrideRealEntries,
+            syncConfig.overrideRealEntries,
             defaultConfig.overrideRealEntries,
             { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
@@ -61,7 +62,7 @@ object DataFixerConfigGui {
         ).build(entryBuilder).apply { category.addEntry(this) }
 
         category.addEntry(schemas(entryBuilder, config, defaultConfig, dataVersion as IntegerListEntry))
-        category.addEntry(registryFixers(entryBuilder, config, defaultConfig))
+        category.addEntry(registryFixers(entryBuilder, config, syncConfig, defaultConfig))
     }
 }
 
@@ -213,6 +214,7 @@ private fun schemas(
 private fun registryFixers(
     entryBuilder: ConfigEntryBuilder,
     config: DataFixerConfig,
+    syncConfig: DataFixerConfig,
     defaultConfig: DataFixerConfig
 ): AbstractConfigListEntry<*> {
     val defaultFixers = mutableListOf(
@@ -225,7 +227,7 @@ private fun registryFixers(
     return typedEntryList(
         entryBuilder,
         text("registry_fixers"),
-        config::registryFixers,
+        syncConfig::registryFixers,
         { defaultConfig.registryFixers },
         false,
         tooltip("registry_fixers"),
