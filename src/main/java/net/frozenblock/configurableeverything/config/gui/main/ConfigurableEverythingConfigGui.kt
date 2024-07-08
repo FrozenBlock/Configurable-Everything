@@ -82,6 +82,9 @@ object ConfigurableEverythingConfigGui {
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)
 
+        val tag = configBuilder.getOrCreateCategory(text("tag"))
+        TagConfigGui.setupEntries(tag, entryBuilder)
+
         val world = configBuilder.getOrCreateCategory(text("world"))
         WorldConfigGui.setupEntries(world, entryBuilder)
 
