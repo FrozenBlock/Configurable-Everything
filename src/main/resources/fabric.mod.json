@@ -19,7 +19,7 @@
     "issues": "https://github.com/FrozenBlock/Configurable-Everything/issues"
   },
 
-  "license": "LGPL-3.0",
+  "license": "GPL-3.0",
   "icon": "assets/configurable_everything/icon.png",
 
   "environment": "*",
