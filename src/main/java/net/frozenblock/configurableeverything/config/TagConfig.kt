@@ -22,6 +22,10 @@ private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModificatio
 
 data class TagConfig(
     @JvmField
+    @EntrySyncData("ignoreInvalidTags")
+    var ignoreInvalidTags: Boolean,
+
+    @JvmField
     @EntrySyncData("lootModifications")
     var tagModifications: TypedEntry<MutableList<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
