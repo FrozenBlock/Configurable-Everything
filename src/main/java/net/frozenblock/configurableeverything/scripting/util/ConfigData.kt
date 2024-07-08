@@ -3,11 +3,9 @@ package net.frozenblock.configurableeverything.scripting.util
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.api.instance.ConfigModification
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import java.util.function.Consumer
 
 sealed class StableConfigData<T : Any, C>(override val config: Config<T>): ConfigData<T, C>(config) where C : ConfigWrapper<T> {
     override fun get(): T = super.get()!!

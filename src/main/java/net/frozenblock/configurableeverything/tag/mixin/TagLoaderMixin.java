@@ -42,7 +42,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lcom/google/gson/JsonParser;parseReader(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
 	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) ResourceLocation tag) {
         JsonObject json = (JsonObject) original.call(jsonReader);
-		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.get().tag)
+		if (!MainConfig.get().tag)
 			return json;
 
 		TagConfig config = TagConfig.get();
