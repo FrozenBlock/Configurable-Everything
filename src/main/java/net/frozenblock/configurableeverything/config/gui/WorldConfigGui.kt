@@ -25,10 +25,11 @@ object WorldConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/world.png")
         category.addEntry(
-            EntryBuilder(text("day_time_speed"), Slider(config.dayTimeSpeedAmplifier, 1, 100, SliderType.LONG),
+            EntryBuilder(text("day_time_speed"), Slider(syncConfig.dayTimeSpeedAmplifier, 1, 100, SliderType.LONG),
                 Slider(defaultConfig.dayTimeSpeedAmplifier, 0, 0, SliderType.LONG),
                 { newValue -> config.dayTimeSpeedAmplifier = newValue.value.toLong() },
                 tooltip("day_time_speed"),
@@ -40,7 +41,7 @@ object WorldConfigGui {
             )
         )
         category.addEntry(
-            EntryBuilder(text("fix_sun_moon_rotating"), config.fixSunMoonRotating,
+            EntryBuilder(text("fix_sun_moon_rotating"), syncConfig.fixSunMoonRotating,
                 defaultConfig.fixSunMoonRotating,
                 { newValue -> config.fixSunMoonRotating = newValue },
                 tooltip("fix_sun_moon_rotating"),
@@ -48,7 +49,7 @@ object WorldConfigGui {
             ).build(entryBuilder)
         )
         category.addEntry(
-            entryBuilder.startIntSlider(text("sun_size"), config.sunSize, 10, 1000)
+            entryBuilder.startIntSlider(text("sun_size"), syncConfig.sunSize, 10, 1000)
                 .setDefaultValue(defaultConfig.sunSize)
                 .setSaveConsumer { newValue: Int? -> config.sunSize = newValue!! }
                 .setTooltip(tooltip("sun_size"))
@@ -56,7 +57,7 @@ object WorldConfigGui {
                 .build()
         )
         category.addEntry(
-            entryBuilder.startIntSlider(text("moon_size"), config.moonSize, 10, 1000)
+            entryBuilder.startIntSlider(text("moon_size"), syncConfig.moonSize, 10, 1000)
                 .setDefaultValue(defaultConfig.moonSize)
                 .setSaveConsumer { newValue: Int? -> config.moonSize = newValue!! }
                 .setTooltip(tooltip("moon_size"))
@@ -64,7 +65,7 @@ object WorldConfigGui {
                 .build()
         )
         category.addEntry(
-            EntryBuilder(text("disable_experimental_warning"), config.disableExperimentalWarning,
+            EntryBuilder(text("disable_experimental_warning"), syncConfig.disableExperimentalWarning,
                 defaultConfig.disableExperimentalWarning,
                 { newValue -> config.disableExperimentalWarning = newValue },
                 tooltip("disable_experimental_warning"),
