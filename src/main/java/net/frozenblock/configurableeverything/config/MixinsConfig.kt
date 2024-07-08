@@ -67,6 +67,9 @@ Warning: Functionality will be lost if these are disabled.
     var structure: Boolean = true,
 
     @JvmField
+    var tag: Boolean = true,
+
+    @JvmField
     var world: Boolean = true,
 
     @JvmField
