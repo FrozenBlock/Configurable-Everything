@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import blue.endless.jankson.Comment
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification
@@ -22,8 +23,9 @@ private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModificatio
 
 data class TagConfig(
     @JvmField
-    @EntrySyncData("ignoreInvalidTags")
-    var ignoreInvalidTags: Boolean,
+    @EntrySyncData("ignoreInvalidEntries")
+    @Comment("Passes over invalid entries instead of failing to load the tag and any dependent tags")
+    var ignoreInvalidEntries: Boolean = true,
 
     @JvmField
     @EntrySyncData("lootModifications")
