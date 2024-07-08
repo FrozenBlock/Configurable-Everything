@@ -16,7 +16,6 @@ object MixinsConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = MixinsConfig.get()
         val defaultConfig = MixinsConfig.defaultInstance()
-        category.background = id("textures/config/mixins.png")
 
         category.addEntry(EntryBuilder(text("biome_placement"), config.biome_placement,
             defaultConfig.biome_placement,

@@ -269,8 +269,6 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
     ).build(entryBuilder) as BooleanListEntry
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        category.background = id("textures/config/main.png")
-
         category.addEntry(biome)
 
         category.addEntry(biomePlacement)

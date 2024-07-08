@@ -46,7 +46,6 @@ object BiomePlacementConfigGui {
         val config = configInstance.instance()
         val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/biome_placement.png")
 
         category.addEntry(addedBiomes(entryBuilder, config, syncConfig, defaultConfig))
         category.addEntry(removedBiomes(entryBuilder, config, syncConfig, defaultConfig))
