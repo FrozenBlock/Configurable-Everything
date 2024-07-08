@@ -20,7 +20,6 @@ private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModificatio
     )
 )
 
-@UnsyncableConfig
 data class TagConfig(
     @JvmField
     @EntrySyncData("lootModifications")

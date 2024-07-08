@@ -44,23 +44,25 @@ private inline val mainToggleReq: Requirement
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/biome_placement.png")
 
-        category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
-        category.addEntry(removedBiomes(entryBuilder, config, defaultConfig))
+        category.addEntry(addedBiomes(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(removedBiomes(entryBuilder, config, syncConfig, defaultConfig))
     }
 }
 
 private fun addedBiomes(
     entryBuilder: ConfigEntryBuilder,
     config: BiomePlacementConfig,
+    syncConfig: BiomePlacementConfig,
     defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("added_biomes"),
-        config::addedBiomes,
+        syncConfig::addedBiomes,
         { defaultConfig.addedBiomes },
         false,
         tooltip("added_biomes"),
@@ -212,12 +214,13 @@ private fun makeParameter(parameter: MutableParameter?, min: Boolean): AbstractC
 private fun removedBiomes(
     entryBuilder: ConfigEntryBuilder,
     config: BiomePlacementConfig,
+    syncConfig: BiomePlacementConfig,
     defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("removed_biomes"),
-        config::removedBiomes,
+        syncConfig::removedBiomes,
         { defaultConfig.removedBiomes },
         false,
         tooltip("removed_biomes"),

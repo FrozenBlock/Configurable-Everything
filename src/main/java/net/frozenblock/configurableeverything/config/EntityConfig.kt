@@ -51,7 +51,6 @@ private val SPOTTING_ICONS: TypedEntryType<MutableList<EntitySpottingIcon>> = Co
     )
 )
 
-@UnsyncableConfig
 data class EntityConfig(
     @JvmField
     @EntrySyncData("entityAttributeAmplifiers")

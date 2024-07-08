@@ -31,22 +31,24 @@ private inline val mainToggleReq: Requirement
 object BlockConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/block.png")
 
-        category.addEntry(soundGroupOverwrites(entryBuilder, config, defaultConfig))
+        category.addEntry(soundGroupOverwrites(entryBuilder, config, syncConfig, defaultConfig))
     }
 }
 
 private fun soundGroupOverwrites(
     entryBuilder: ConfigEntryBuilder,
     config: BlockConfig,
+    syncConfig: BlockConfig,
     defaultConfig: BlockConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("sound_group_overwrites"),
-        config::soundGroupOverwrites,
+        syncConfig::soundGroupOverwrites,
         { defaultConfig.soundGroupOverwrites },
         false,
         tooltip("sound_group_overwrites"),

@@ -42,25 +42,27 @@ object BiomeConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
         category.background = id("textures/config/biome.png")
 
-        category.addEntry(addedFeatures(entryBuilder, config, defaultConfig))
-        category.addEntry(removedFeatures(entryBuilder, config, defaultConfig))
-        category.addEntry(replacedFeatures(entryBuilder, config, defaultConfig))
-        category.addEntry(musicReplacements(entryBuilder, config, defaultConfig))
+        category.addEntry(addedFeatures(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(removedFeatures(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(replacedFeatures(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(musicReplacements(entryBuilder, config, syncConfig, defaultConfig))
     }
 }
 
 private fun addedFeatures(
     entryBuilder: ConfigEntryBuilder,
     config: BiomeConfig,
+    syncConfig: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("added_features"),
-        config::addedFeatures,
+        syncConfig::addedFeatures,
         { defaultConfig.addedFeatures },
         false,
         tooltip("added_features"),
@@ -80,12 +82,13 @@ private fun addedFeatures(
 private fun removedFeatures(
     entryBuilder: ConfigEntryBuilder,
     config: BiomeConfig,
+    syncConfig: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("removed_features"),
-        config::removedFeatures,
+        syncConfig::removedFeatures,
         { defaultConfig.removedFeatures },
         false,
         tooltip("removed_features"),
@@ -106,12 +109,13 @@ private fun removedFeatures(
 private fun replacedFeatures(
     entryBuilder: ConfigEntryBuilder,
     config: BiomeConfig,
+    syncConfig: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("replaced_features"),
-        config::replacedFeatures,
+        syncConfig::replacedFeatures,
         { defaultConfig.replacedFeatures },
         false,
         tooltip("replaced_features"),
@@ -214,12 +218,13 @@ private fun replacedFeatures(
 private fun musicReplacements(
     entryBuilder: ConfigEntryBuilder,
     config: BiomeConfig,
+    syncConfig: BiomeConfig,
     defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("music_replacements"),
-        config::musicReplacements,
+        syncConfig::musicReplacements,
         { defaultConfig.musicReplacements },
         false,
         tooltip("music_replacements"),

@@ -40,7 +40,6 @@ private val BIOME_MUSIC_LIST: TypedEntryType<MutableList<BiomeMusic>> = ConfigRe
     )
 )
 
-@UnsyncableConfig
 data class BiomeConfig(
 	@JvmField
 	@EntrySyncData("addedFeatures")
