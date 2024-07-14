@@ -31,17 +31,18 @@ object EntityConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/entity.png")
 
-        category.addEntry(entityAttributeAmplifiers(entryBuilder, config, defaultConfig))
-        category.addEntry(experienceOverrides(entryBuilder, config, defaultConfig))
-        category.addEntry(entityFlyBySounds(entryBuilder, config, defaultConfig))
-        category.addEntry(entityHurtEffects(entryBuilder, config, defaultConfig))
-        category.addEntry(entitySpottingIcons(entryBuilder, config, defaultConfig))
+        category.addEntry(entityAttributeAmplifiers(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(experienceOverrides(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(entityFlyBySounds(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(entityHurtEffects(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(entitySpottingIcons(entryBuilder, config, syncConfig, defaultConfig))
 
         val player = config.player
-        val digSpeedAmplifier = EntryBuilder(text("dig_speed_amplifier"), Slider(player.digSpeedAmplifier, 1, 5000, SliderType.INT),
+        val syncPlayer = syncConfig.player
+        val digSpeedAmplifier = EntryBuilder(text("dig_speed_amplifier"), Slider(syncPlayer.digSpeedAmplifier, 1, 5000, SliderType.INT),
             Slider(defaultConfig.player.digSpeedAmplifier, 1, 5000, SliderType.INT),
             { newValue -> player.digSpeedAmplifier = newValue.value.toInt() },
             tooltip("dig_speed_amplifier"),
@@ -60,14 +61,15 @@ object EntityConfigGui {
         )
 
         val zombie = config.zombie
-        val babyZombieSprint = EntryBuilder(text("baby_zombie_sprint_particles"), zombie.babyZombieSprintParticles,
+        val syncZombie = syncConfig.zombie
+        val babyZombieSprint = EntryBuilder(text("baby_zombie_sprint_particles"), syncZombie.babyZombieSprintParticles,
             defaultConfig.zombie.babyZombieSprintParticles,
             { newValue -> zombie.babyZombieSprintParticles = newValue },
             tooltip("baby_zombie_sprint_particles"),
             requirement = mainToggleReq,
         ).build(entryBuilder)
 
-        val zombiesAvoidSun = EntryBuilder(text("zombies_avoid_sun"), zombie.zombiesAvoidSun,
+        val zombiesAvoidSun = EntryBuilder(text("zombies_avoid_sun"), syncZombie.zombiesAvoidSun,
             defaultConfig.zombie.zombiesAvoidSun,
             { newValue -> zombie.zombiesAvoidSun = newValue },
             tooltip("zombies_avoid_sun"),
@@ -78,7 +80,7 @@ object EntityConfigGui {
             configInstance
         )
 
-        val ignoreZombieDoorBreakDifficulty = EntryBuilder(text("ignore_zombie_door_break_difficulty"), zombie.ignoreDoorBreakDifficulty,
+        val ignoreZombieDoorBreakDifficulty = EntryBuilder(text("ignore_zombie_door_break_difficulty"), syncZombie.ignoreDoorBreakDifficulty,
             defaultConfig.zombie.ignoreDoorBreakDifficulty,
             { newValue -> zombie.ignoreDoorBreakDifficulty = newValue },
             tooltip("ignore_zombie_door_break_difficulty"),
@@ -89,7 +91,7 @@ object EntityConfigGui {
             configInstance
         )
 
-        val allZombiesBreakDoors = EntryBuilder(text("all_zombies_break_doors"), zombie.allZombiesBreakDoors,
+        val allZombiesBreakDoors = EntryBuilder(text("all_zombies_break_doors"), syncZombie.allZombiesBreakDoors,
             defaultConfig.zombie.allZombiesBreakDoors,
             { newValue -> zombie.allZombiesBreakDoors = newValue },
             tooltip("all_zombies_break_doors"),
@@ -100,7 +102,7 @@ object EntityConfigGui {
             configInstance
         )
 
-        val ignoreZombieReinforcementDifficulty = EntryBuilder(text("ignore_zombie_reinforcement_difficulty"), zombie.ignoreReinforcementDifficulty,
+        val ignoreZombieReinforcementDifficulty = EntryBuilder(text("ignore_zombie_reinforcement_difficulty"), syncZombie.ignoreReinforcementDifficulty,
             defaultConfig.zombie.ignoreReinforcementDifficulty,
             { newValue -> zombie.ignoreReinforcementDifficulty = newValue },
             tooltip("ignore_zombie_reinforcement_difficulty"),
@@ -111,7 +113,7 @@ object EntityConfigGui {
             configInstance
         )
 
-        val fullZombieReinforcementChance = EntryBuilder(text("full_zombie_reinforcement_chance"), zombie.fullReinforcementChance,
+        val fullZombieReinforcementChance = EntryBuilder(text("full_zombie_reinforcement_chance"), syncZombie.fullReinforcementChance,
             defaultConfig.zombie.fullReinforcementChance,
             { newValue -> zombie.fullReinforcementChance = newValue },
             tooltip("full_zombie_reinforcement_chance"),
@@ -137,7 +139,8 @@ object EntityConfigGui {
         )
 
         val skeleton = config.skeleton
-        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(text("skeleton_accuracy_ignores_difficulty"), skeleton.skeletonAccuracyIgnoresDifficulty,
+        val syncSkeleton = syncConfig.skeleton
+        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(text("skeleton_accuracy_ignores_difficulty"), syncSkeleton.skeletonAccuracyIgnoresDifficulty,
             defaultConfig.skeleton.skeletonAccuracyIgnoresDifficulty,
             { newValue -> skeleton.skeletonAccuracyIgnoresDifficulty = newValue },
             tooltip("skeleton_accuracy_ignores_difficulty"),
@@ -148,7 +151,7 @@ object EntityConfigGui {
             configInstance
         )
 
-        val skeletonsAvoidSun = EntryBuilder(text("skeletons_avoid_sun"), skeleton.skeletonsAvoidSun,
+        val skeletonsAvoidSun = EntryBuilder(text("skeletons_avoid_sun"), syncSkeleton.skeletonsAvoidSun,
             defaultConfig.skeleton.skeletonsAvoidSun,
             { newValue -> skeleton.skeletonsAvoidSun = newValue },
             tooltip("skeletons_avoid_sun"),
@@ -166,7 +169,7 @@ object EntityConfigGui {
             skeletonAccuracyIgnoresDifficulty, skeletonsAvoidSun
         )
 
-        val flamingArrowsLightFire = EntryBuilder(text("flaming_arrows_light_fire"), config.flamingArrowsLightFire,
+        val flamingArrowsLightFire = EntryBuilder(text("flaming_arrows_light_fire"), syncConfig.flamingArrowsLightFire,
             defaultConfig.flamingArrowsLightFire,
             { newValue -> config.flamingArrowsLightFire = newValue },
             tooltip("flaming_arrows_light_fire"),
@@ -184,12 +187,13 @@ object EntityConfigGui {
 private fun entityAttributeAmplifiers(
     entryBuilder: ConfigEntryBuilder,
     config: EntityConfig,
+    syncConfig: EntityConfig,
     defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("entity_attribute_amplifiers"),
-        config::entityAttributeAmplifiers,
+        syncConfig::entityAttributeAmplifiers,
         { defaultConfig.entityAttributeAmplifiers },
         false,
         tooltip("entity_attribute_amplifiers"),
@@ -259,12 +263,13 @@ private fun entityAttributeAmplifiers(
 private fun experienceOverrides(
     entryBuilder: ConfigEntryBuilder,
     config: EntityConfig,
+    syncConfig: EntityConfig,
     defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("entity_xp_overrides"),
-        config::experienceOverrides,
+        syncConfig::experienceOverrides,
         { defaultConfig.experienceOverrides },
         false,
         tooltip("entity_xp_overrides"),
@@ -300,12 +305,13 @@ private fun experienceOverrides(
 private fun entityFlyBySounds(
     entryBuilder: ConfigEntryBuilder,
     config: EntityConfig,
+    syncConfig: EntityConfig,
     defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("entity_flyby_sounds"),
-        config::entityFlyBySounds,
+        syncConfig::entityFlyBySounds,
         { defaultConfig.entityFlyBySounds },
         false,
         tooltip("entity_flyby_sounds"),
@@ -373,12 +379,13 @@ private fun entityFlyBySounds(
 private fun entityHurtEffects(
     entryBuilder: ConfigEntryBuilder,
     config: EntityConfig,
+    syncConfig: EntityConfig,
     defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(
         entryBuilder,
         text("entity_hurt_effects"),
-        config::entityHurtEffects,
+        syncConfig::entityHurtEffects,
         { defaultConfig.entityHurtEffects },
         false,
         tooltip("entity_hurt_effects"),
@@ -467,6 +474,7 @@ private fun entityHurtEffects(
 private fun entitySpottingIcons(
     entryBuilder: ConfigEntryBuilder,
     config: EntityConfig,
+    syncConfig: EntityConfig,
     defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
     return typedEntryList(

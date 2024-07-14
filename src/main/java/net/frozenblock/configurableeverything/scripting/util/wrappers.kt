@@ -18,6 +18,7 @@ import net.frozenblock.configurableeverything.registry.util.BiomeAddition
 import net.frozenblock.configurableeverything.registry.util.PlacedFeatureAddition
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
+import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.util.getValue
 import net.frozenblock.configurableeverything.util.setValue
 import net.frozenblock.lib.config.api.entry.TypedEntry
@@ -144,6 +145,12 @@ class StructureWrapper internal constructor(config: StructureConfig) : ConfigWra
 class SurfaceRuleWrapper internal constructor(config: SurfaceRuleConfig) : ConfigWrapper<SurfaceRuleConfig>(config) {
 
     var addedSurfaceRules: MutableList<FrozenDimensionBoundRuleSource> by config.addedSurfaceRules
+}
+
+class TagWrapper internal constructor(config: TagConfig) : ConfigWrapper<TagConfig>(config) {
+
+    var ignoreInvalidEntries: Boolean by config::ignoreInvalidEntries
+    var tagModifications: MutableList<RegistryTagModification> by config.tagModifications
 }
 
 class WorldWrapper internal constructor(config: WorldConfig) : ConfigWrapper<WorldConfig>(config) {

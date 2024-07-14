@@ -20,7 +20,6 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<MutableList<ItemReachOverride>>
     )
 )
 
-@UnsyncableConfig
 data class ItemConfig(
     @JvmField
     @EntrySyncData("reachOverrides")

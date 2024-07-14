@@ -19,7 +19,6 @@ private val FLUID_FLOW_SPEEDS: TypedEntryType<MutableList<FluidFlowSpeed>> = Con
     )
 )
 
-@UnsyncableConfig
 data class FluidConfig(
     @JvmField
     @EntrySyncData("flowSpeeds")

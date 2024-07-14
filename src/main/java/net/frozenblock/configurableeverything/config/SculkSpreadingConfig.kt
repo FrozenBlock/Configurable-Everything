@@ -20,7 +20,6 @@ private val SCULK_GROWTH_LIST: TypedEntryType<MutableList<SculkGrowth>> = Config
     )
 )
 
-@UnsyncableConfig
 data class SculkSpreadingConfig(
 
     @JvmField

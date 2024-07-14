@@ -16,106 +16,111 @@ object MixinsConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = MixinsConfig.get()
         val defaultConfig = MixinsConfig.defaultInstance()
-        category.background = id("textures/config/mixins.png")
 
-        category.addEntry(EntryBuilder(text("biome_placement"), config.biome_placement == true,
-            defaultConfig.biome_placement!!,
+        category.addEntry(EntryBuilder(text("biome_placement"), config.biome_placement,
+            defaultConfig.biome_placement,
             { newValue -> config.biome_placement = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("datafixer"), config.datafixer == true,
-            defaultConfig.datafixer!!,
+        category.addEntry(EntryBuilder(text("datafixer"), config.datafixer,
+            defaultConfig.datafixer,
             { newValue -> config.datafixer = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("datapack"), config.datapack == true,
-            defaultConfig.datapack!!,
+        category.addEntry(EntryBuilder(text("datapack"), config.datapack,
+            defaultConfig.datapack,
             { newValue -> config.datapack = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("entity"), config.entity == true,
-            defaultConfig.entity!!,
+        category.addEntry(EntryBuilder(text("entity"), config.entity,
+            defaultConfig.entity,
             { newValue -> config.entity = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("entity_zombie"), config.entity_zombie == true,
-            defaultConfig.entity_zombie!!,
+        category.addEntry(EntryBuilder(text("entity_zombie"), config.entity_zombie,
+            defaultConfig.entity_zombie,
             { newValue -> config.entity_zombie = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("fluid"), config.fluid == true,
-            defaultConfig.fluid!!,
+        category.addEntry(EntryBuilder(text("fluid"), config.fluid,
+            defaultConfig.fluid,
             { newValue -> config.fluid = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("game"), config.game == true,
-            defaultConfig.game!!,
+        category.addEntry(EntryBuilder(text("game"), config.game,
+            defaultConfig.game,
             { newValue -> config.game = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("game_client"), config.game_client == true,
-            defaultConfig.game_client!!,
+        category.addEntry(EntryBuilder(text("game_client"), config.game_client,
+            defaultConfig.game_client,
             { newValue -> config.game_client = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("item"), config.item == true,
-            defaultConfig.item!!,
+        category.addEntry(EntryBuilder(text("item"), config.item,
+            defaultConfig.item,
             { newValue -> config.item = newValue},
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("loot"), config.loot == true,
-            defaultConfig.loot!!,
+        category.addEntry(EntryBuilder(text("loot"), config.loot,
+            defaultConfig.loot,
             { newValue -> config.loot = newValue},
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("screenshake"), config.screenshake == true,
-            defaultConfig.screenshake!!,
+        category.addEntry(EntryBuilder(text("screenshake"), config.screenshake,
+            defaultConfig.screenshake,
             { newValue -> config.screenshake = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("screenshake_client"), config.screenshake_client == true,
-            defaultConfig.screenshake_client!!,
+        category.addEntry(EntryBuilder(text("screenshake_client"), config.screenshake_client,
+            defaultConfig.screenshake_client,
             { newValue -> config.screenshake_client = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("sculk_spreading"), config.sculk_spreading == true,
-            defaultConfig.sculk_spreading!!,
+        category.addEntry(EntryBuilder(text("sculk_spreading"), config.sculk_spreading,
+            defaultConfig.sculk_spreading,
             { newValue -> config.sculk_spreading = newValue},
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("splash_text"), config.splash_text == true,
-            defaultConfig.splash_text!!,
+        category.addEntry(EntryBuilder(text("splash_text"), config.splash_text,
+            defaultConfig.splash_text,
             { newValue -> config.splash_text = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("structure"), config.structure == true,
-            defaultConfig.structure!!,
+        category.addEntry(EntryBuilder(text("structure"), config.structure,
+            defaultConfig.structure,
             { newValue -> config.structure = newValue},
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("world"), config.world == true,
-            defaultConfig.world!!,
+        category.addEntry(EntryBuilder(text("tag"), config.tag,
+            defaultConfig.tag,
+            { newValue -> config.tag = newValue },
+            requiresRestart = true
+        ).build(entryBuilder))
+
+        category.addEntry(EntryBuilder(text("world"), config.world,
+            defaultConfig.world,
             { newValue -> config.world = newValue },
             requiresRestart = true
         ).build(entryBuilder))
 
-        category.addEntry(EntryBuilder(text("world_client"), config.world_client == true,
-            defaultConfig.world_client!!,
+        category.addEntry(EntryBuilder(text("world_client"), config.world_client,
+            defaultConfig.world_client,
             { newValue -> config.world_client = newValue },
             requiresRestart = true
         ).build(entryBuilder))

@@ -20,7 +20,7 @@ buildscript {
 
 plugins {
     kotlin("jvm") version("2.0.0")
-    id("fabric-loom") version("1.6.+")
+    id("fabric-loom") version("+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
@@ -39,7 +39,6 @@ val loader_version: String by project
 
 val mod_id: String by project
 val mod_version: String by project
-val mod_loader: String by project
 val maven_group: String by project
 val archives_base_name: String by project
 
@@ -184,14 +183,12 @@ repositories {
 }
 
 dependencies {
-    vineflowerDecompilerClasspath("org.vineflower:vineflower:1.10.0-SNAPSHOT")
-
     // To change the versions see the gradle.properties file
     minecraft("com.mojang:minecraft:${minecraft_version}")
     mappings(
         loom.layered {
             // please annoy treetrain if this doesnt work
-            mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
+            //mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
             //parchment("org.parchmentmc.data:parchment-${parchment_mappings}@zip")
             officialMojangMappings {
                 nameSyntheticMembers = false
@@ -358,7 +355,7 @@ artifacts {
 }
 
 fun getVersion(): String {
-    var version = "$mod_version-$mod_loader+$minecraft_version"
+    var version = "$mod_version-mc$minecraft_version"
 
     if (release != null && !release) {
         version += "-unstable"

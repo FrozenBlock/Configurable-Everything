@@ -5,7 +5,6 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.*
-import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
 
@@ -43,14 +42,12 @@ object ConfigurableEverythingConfigGui {
             SculkSpreadingConfig.save()
             SplashTextConfig.save()
             StructureConfig.save()
-            ifExperimental {
-                TagConfig.save()
-            }
+            TagConfig.save()
             WorldConfig.save()
         }
 
         val main = configBuilder.getOrCreateCategory(text("main"))
-        MainConfigGui.createInstance(entryBuilder, MainConfig.get(true), MainConfig.defaultInstance()).setupEntries(main, entryBuilder)
+        MainConfigGui.createInstance(entryBuilder, MainConfig.get(true), MainConfig.configWithSync(), MainConfig.defaultInstance()).setupEntries(main, entryBuilder)
 
         val biome = configBuilder.getOrCreateCategory(text("biome"))
         BiomeConfigGui.setupEntries(biome, entryBuilder)
@@ -84,6 +81,9 @@ object ConfigurableEverythingConfigGui {
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)
+
+        val tag = configBuilder.getOrCreateCategory(text("tag"))
+        TagConfigGui.setupEntries(tag, entryBuilder)
 
         val world = configBuilder.getOrCreateCategory(text("world"))
         WorldConfigGui.setupEntries(world, entryBuilder)

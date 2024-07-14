@@ -30,16 +30,17 @@ object FluidConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
+        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/fluid.png")
 
-        category.addEntry(fluidFlowSpeeds(entryBuilder, config, defaultConfig))
+        category.addEntry(fluidFlowSpeeds(entryBuilder, config, syncConfig, defaultConfig))
     }
 }
 
 private fun fluidFlowSpeeds(
     entryBuilder: ConfigEntryBuilder,
     config: FluidConfig,
+    syncConfig: FluidConfig,
     defaultConfig: FluidConfig
 ): AbstractConfigListEntry<*> {
     val defaultFluid = BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow()
@@ -50,8 +51,8 @@ private fun fluidFlowSpeeds(
     return typedEntryList(
         entryBuilder,
         text("fluid_flow_speeds"),
-        config::flowSpeeds,
-        { defaultConfig.flowSpeeds!! },
+        syncConfig::flowSpeeds,
+        { defaultConfig.flowSpeeds },
         false,
         tooltip("fluid_flow_speeds"),
         { newValue -> config.flowSpeeds = newValue },

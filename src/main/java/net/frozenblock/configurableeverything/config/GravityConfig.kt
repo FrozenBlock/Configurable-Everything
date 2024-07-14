@@ -21,7 +21,6 @@ private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<MutableList<DimensionGra
     )
 )
 
-@UnsyncableConfig
 data class GravityConfig(
     @JvmField
     @EntrySyncData("gravityBelts")
