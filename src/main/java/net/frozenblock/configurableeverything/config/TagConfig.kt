@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
+import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification
@@ -20,15 +21,19 @@ private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModificatio
     )
 )
 
-@UnsyncableConfig
 data class TagConfig(
     @JvmField
-    @EntrySyncData("lootModifications")
+    @EntrySyncData("ignoreInvalidEntries")
+    @Comment("Passes over invalid entries instead of failing to load the tag and any dependent tags")
+    var ignoreInvalidEntries: Boolean = true,
+
+    @JvmField
+    @EntrySyncData("tagModifications")
     var tagModifications: TypedEntry<MutableList<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
         mutableListOf(
             RegistryTagModification(
-                BuiltInRegistries.BLOCK.key().location().toString(),
+                BuiltInRegistries.ITEM.key().location().toString(),
                 mutableListOf(
                     TagModification(
                         "minecraft:piglin_loved",

@@ -16,7 +16,6 @@ import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
@@ -35,7 +34,6 @@ private val REGISTRY_FIXER_LIST: TypedEntryType<MutableList<RegistryFixer>> = Co
     )
 )
 
-@UnsyncableConfig
 data class DataFixerConfig(
     @JvmField
     @EntrySyncData("overrideRealEntries")

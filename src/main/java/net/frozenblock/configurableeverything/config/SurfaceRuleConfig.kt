@@ -21,7 +21,6 @@ private val SURFACE_RULE_LIST: TypedEntryType<MutableList<FrozenDimensionBoundRu
     )
 )
 
-@UnsyncableConfig
 data class SurfaceRuleConfig(
     @JvmField
     @EntrySyncData("addedSurfaceRules")

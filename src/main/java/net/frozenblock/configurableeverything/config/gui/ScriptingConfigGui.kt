@@ -25,7 +25,6 @@ object ScriptingConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = ScriptingConfig.get(real = true)
         val defaultConfig = ScriptingConfig.defaultInstance()
-        category.background = id("textures/config/scripting.png")
 
         val applyKotlinScripts: BooleanListEntry = EntryBuilder(text("apply_kotlin_scripts"), config.applyKotlinScripts,
             defaultConfig.applyKotlinScripts,

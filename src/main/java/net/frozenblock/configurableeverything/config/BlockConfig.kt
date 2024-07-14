@@ -23,7 +23,6 @@ private val SOUND_GROUP_OVERWRITES: TypedEntryType<MutableList<MutableBlockSound
     )
 )
 
-@UnsyncableConfig
 data class BlockConfig(
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)

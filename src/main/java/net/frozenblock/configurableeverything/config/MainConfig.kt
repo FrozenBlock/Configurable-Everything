@@ -10,7 +10,6 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.frozenblock.lib.shadow.blue.endless.jankson.annotation.SaveToggle
 import kotlin.io.path.pathString
 
-@UnsyncableConfig
 data class MainConfig(
     // ignore property name warnings because the goal is to match the config file name
     @JvmField
@@ -69,7 +68,7 @@ Warning: It is important to check the contents of each config before enabling th
     var registry: Boolean = false,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    @EntrySyncData("screen_shake")
     var screen_shake: Boolean = false,
 
     @JvmField

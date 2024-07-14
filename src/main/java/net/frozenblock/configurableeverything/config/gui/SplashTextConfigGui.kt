@@ -23,7 +23,6 @@ object SplashTextConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = SplashTextConfig.get(real = true)
         val defaultConfig = SplashTextConfig.defaultInstance()
-        category.background = id("textures/config/splash_text.png")
 
         val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes),
             StringList(defaultConfig.addedSplashes),
