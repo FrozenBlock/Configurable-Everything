@@ -1,18 +1,19 @@
 package net.frozenblock.configurableeverything.scripting.util
 
-import blue.endless.jankson.JsonArray
-import blue.endless.jankson.JsonElement
-import blue.endless.jankson.JsonObject
-import blue.endless.jankson.JsonPrimitive
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonArray
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonObject
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonPrimitive
+
 
 inline val JsonElement.asInt: Int?
-    get() = if (this is JsonPrimitive) this.asInt(0) else null
+    get() = (this as? JsonPrimitive)?.asInt(0)
 
 inline val JsonElement.asString: String?
-    get() = if (this is JsonPrimitive) this.asString() else null
+    get() = (this as? JsonPrimitive)?.asString()
 
 inline val JsonElement.asJsonObject: JsonObject?
-    get() = if (this is JsonObject) this else null
+    get() = this as? JsonObject
 
 inline val JsonElement.asJsonArray: JsonArray?
-    get() = if (this is JsonArray) this else null
+    get() = this as? JsonArray
