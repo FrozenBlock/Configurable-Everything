@@ -50,33 +50,32 @@ internal object EntityConfigUtil {
     internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
         val config = EntityConfig.get()
         if (!MainConfig.get().entity) return@runBlocking
-        (entityAccess as? LivingEntity)?.apply {
-            for (entityAttributeAmplifier in config.entityAttributeAmplifiers.value) { launch {
-                val desiredEntity = entityAttributeAmplifier.entity
-                val desiredEntityName = entityAttributeAmplifier.entityName
-                val amplifiers = entityAttributeAmplifier.amplifiers
-                if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(this@apply.type)) {
-                    val desEntityNameComponent: Component = Component.literal(desiredEntityName)
-                    if (desEntityNameComponent.string.isEmpty() || desEntityNameComponent == this@apply.name) {
-                        val attributes: AttributeMap = this@apply.attributes
-                        for (amplifier in amplifiers) {
-                            launch {
-                                val amplifierAttribute = amplifier.attribute
-                                val amplifierAmplifier = amplifier.amplifier
-                                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.getHolder(amplifierAttribute).getOrNull() ?: return@launch
-                                val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
-                                attribute?.addTransientModifier(
-                                    AttributeModifier(
-                                        id("entity_config_change_to_${this@apply.name}"),
-                                        amplifierAmplifier - 1.0,
-                                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
+        if (entityAccess !is LivingEntity) return@runBlocking
+
+        for (entityAttributeAmplifier in config.entityAttributeAmplifiers.value) { launch {
+            val desiredEntity = entityAttributeAmplifier.entity
+            val desiredEntityName = entityAttributeAmplifier.entityName
+            val amplifiers = entityAttributeAmplifier.amplifiers
+
+            if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entityAccess.type)) return@launch
+
+            val desEntityNameComponent: Component = Component.literal(desiredEntityName)
+            if (!(desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entityAccess.name)) return@launch
+
+            val attributes: AttributeMap = entityAccess.attributes
+            for (amplifier in amplifiers) { launch {
+                val amplifierAttribute = amplifier.attribute
+                val amplifierAmplifier = amplifier.amplifier
+                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.getHolder(amplifierAttribute).getOrNull() ?: return@launch
+                val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
+                attribute?.addTransientModifier(
+                    AttributeModifier(
+                        id("entity_config_change_to_${entityAccess.id}_${entityAccess.random.nextFloat()}"),
+                        amplifierAmplifier - 1.0,
+                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                    )
+                )
             } }
-        }
+        } }
     }
 }
