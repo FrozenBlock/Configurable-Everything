@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version("2.0.0")
+    kotlin("jvm") version("2.0.10")
     id("fabric-loom") version("+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
@@ -55,7 +55,7 @@ base {
     archivesName.set(archives_base_name)
 }
 
-version = getVersion()
+version = getModVersion()
 group = maven_group
 
 val local_frozenlib = findProject(":FrozenLib") != null
@@ -351,12 +351,12 @@ artifacts {
     archives(javadocJar)
 }
 
-fun getVersion(): String {
+fun getModVersion(): String {
     var version = "$mod_version-mc$minecraft_version"
 
-    if (release != null && !release) {
-        version += "-unstable"
-    }
+    //if (release != null && !release) {
+    //    version += "-unstable"
+    //}
 
     return version
 }
