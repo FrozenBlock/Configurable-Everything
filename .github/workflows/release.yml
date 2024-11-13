@@ -24,7 +24,7 @@ jobs:
       - name: Validating the Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Setting up Java ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
@@ -33,7 +33,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: Caching Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches

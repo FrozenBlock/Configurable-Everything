@@ -13,7 +13,7 @@ jobs:
       MAVEN_PASSWORD: ${{secrets.MAVEN_PASSWORD}}
     steps:
       - name: Cache Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -30,7 +30,7 @@ jobs:
           download_url="https://cdn.azul.com/zing-zvm/ZVM23.02.0.0/zing23.02.0.0-3-jdk17.0.6-linux_x64.tar.gz"
           wget -O zing23.02.0.0-3-jdk17.0.6-linux_x64.tar.gz $download_url
       - name: Setup JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
