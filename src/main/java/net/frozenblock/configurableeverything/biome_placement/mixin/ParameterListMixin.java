@@ -54,7 +54,7 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 				newParameters.add(
 					Pair.of(
 						Climate.parameters(0F, 0F, 0F, 0F, 0F, 0F, 0F),
-						registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ConfigurableEverythingDataGenerator.BLANK_BIOME)
+						registryAccess.lookupOrThrow(Registries.BIOME).getOrThrow(ConfigurableEverythingDataGenerator.BLANK_BIOME)
 					)
 				);
 			}

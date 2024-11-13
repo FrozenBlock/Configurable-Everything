@@ -40,23 +40,23 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "setLastHurtMob", at = @At("TAIL"))
 	private void setLastHurtMob(Entity entity, CallbackInfo ci) {
-		var config = EntityConfig.get(false);
+		var config = EntityConfig.get();
+
+		if (!MainConfig.get().entity)
+			return;
+
 		if (entity instanceof LivingEntity livingEntity) {
-			if (MainConfig.get(false).entity == true) {
-				if (config.entityHurtEffects != null && config.entityHurtEffects.value() != null) {
-					var entityHurtEffects = config.entityHurtEffects.value();
-					for (EntityHurtEffects hurtEffects : entityHurtEffects) {
-						if (hurtEffects.entity.equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
-							var name = hurtEffects.entityName;
-							if (name.isEmpty() || livingEntity.getName().getString().equals(name)) {
-								List<MobEffectHolder> effects = hurtEffects.effects;
-								for (MobEffectHolder effect : effects) {
-									var mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(effect.effect);
-									if (mobEffect.isEmpty()) continue;
-									var duration = effect.duration;
-									livingEntity.addEffect(new MobEffectInstance(mobEffect.get(), duration == -1 ? duration : duration * 20, effect.amplifier, effect.ambient, effect.visible, effect.showIcon), this);
-								}
-							}
+			var entityHurtEffects = config.entityHurtEffects.value();
+			for (EntityHurtEffects hurtEffects : entityHurtEffects) {
+				if (hurtEffects.entity.equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+					var name = hurtEffects.entityName;
+					if (name.isEmpty() || livingEntity.getName().getString().equals(name)) {
+						List<MobEffectHolder> effects = hurtEffects.effects;
+						for (MobEffectHolder effect : effects) {
+							var mobEffect = BuiltInRegistries.MOB_EFFECT.get(effect.effect);
+							if (mobEffect.isEmpty()) continue;
+							var duration = effect.duration;
+							livingEntity.addEffect(new MobEffectInstance(mobEffect.get(), duration == -1 ? duration : duration * 20, effect.amplifier, effect.ambient, effect.visible, effect.showIcon), this);
 						}
 					}
 				}

@@ -62,7 +62,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 		return json;
     }
 
-	@Inject(method = "build(Lnet/minecraft/tags/TagEntry$Lookup;Ljava/util/List;)Lcom/mojang/datafixers/util/Either;", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
+	@Inject(method = "tryBuildTag", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
 	private void ignoreInvalidTags(TagEntry.Lookup<T> lookup, List<TagLoader.EntryWithSource> list, CallbackInfoReturnable<Either<Collection<TagLoader.EntryWithSource>, Collection<T>>> cir, @Local(ordinal = 1) List<TagLoader.EntryWithSource> list2) {
 		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.get().tag) {
 			return;

@@ -31,7 +31,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	}
 
 	@Inject(
-			method = "get(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/Object;",
+			method = "getValue(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/Object;",
 			at = @At("RETURN"),
 			cancellable = true
 	)
@@ -44,7 +44,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	}
 
 	@Inject(
-			method = "get(Lnet/minecraft/resources/ResourceKey;)Ljava/lang/Object;",
+			method = "getValue(Lnet/minecraft/resources/ResourceKey;)Ljava/lang/Object;",
 			at = @At("RETURN"),
 			cancellable = true
 	)
@@ -76,7 +76,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	@Nullable
 	@Unique
 	private T convertResourceLocation(@Nullable ResourceLocation name, @Nullable T original) {
-		if (MainConfig.get(false).datafixer == true
+		if (MainConfig.get().datafixer
 			&& name != null) {
 			var fixed = RegistryFixer.getFixedValueInRegistry(this, name, original);
 			if (fixed != null) // don't override if the "fixed" version is missing
@@ -88,7 +88,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	@Nullable
 	@Unique
 	private Holder.Reference<T> convertResourceLocationHolder(@Nullable ResourceLocation name, @Nullable Holder.Reference<T> original) {
-		if (MainConfig.get(false).datafixer == true
+		if (MainConfig.get().datafixer
 			&& name != null) {
 			var fixed = RegistryFixer.getFixedValueInRegistry(this, name, original);
 			if (fixed != null) // don't override if the "fixed" version is missing

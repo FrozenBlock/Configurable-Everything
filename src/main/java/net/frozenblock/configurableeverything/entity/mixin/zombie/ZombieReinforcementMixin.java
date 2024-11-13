@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Zombie.class)
 public class ZombieReinforcementMixin {
 
-	@ModifyExpressionValue(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getDifficulty()Lnet/minecraft/world/Difficulty;"))
+	@ModifyExpressionValue(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;getDifficulty()Lnet/minecraft/world/Difficulty;"))
 	public Difficulty configurableEverything$ignoreReinforcementDifficulty(Difficulty original) {
 		var zombie = EntityConfig.get().zombie;
 		return MainConfig.get().entity && zombie.ignoreDoorBreakDifficulty ? Difficulty.HARD : original;
 	}
 
-	@ModifyExpressionValue(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;getAttributeValue(Lnet/minecraft/core/Holder;)D"))
+	@ModifyExpressionValue(method = "hurtServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;getAttributeValue(Lnet/minecraft/core/Holder;)D"))
 	public double configurableEverything$ignoreReinforcementChance(double original) {
 		var zombie = EntityConfig.get().zombie;
 		return MainConfig.get().entity && zombie.fullReinforcementChance ? 999D : original;

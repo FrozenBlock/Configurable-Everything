@@ -38,7 +38,7 @@ internal object EntityConfigUtil {
                 for (source in SoundSource.entries)
                     if (source.getName() == data.category) category = source
 
-                val soundEvent: SoundEvent? = BuiltInRegistries.SOUND_EVENT.get(data.sound)
+                val soundEvent: SoundEvent? = BuiltInRegistries.SOUND_EVENT.getValue(data.sound)
                 if (category != null && soundEvent != null)
                     FlyBySoundHub.AUTO_ENTITIES_AND_SOUNDS[entity] =
                         FlyBySoundHub.FlyBySound(data.pitch, data.volume, category, soundEvent)
@@ -66,7 +66,7 @@ internal object EntityConfigUtil {
             for (amplifier in amplifiers) { launch {
                 val amplifierAttribute = amplifier.attribute
                 val amplifierAmplifier = amplifier.amplifier
-                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.getHolder(amplifierAttribute).getOrNull() ?: return@launch
+                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute).getOrNull() ?: return@launch
                 val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
                 attribute?.addTransientModifier(
                     AttributeModifier(

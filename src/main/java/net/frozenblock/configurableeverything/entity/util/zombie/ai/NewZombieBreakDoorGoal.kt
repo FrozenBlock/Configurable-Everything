@@ -15,7 +15,7 @@ open class NewZombieBreakDoorGoal : BreakDoorGoal {
 	override fun canUse(): Boolean {
 		val mob = this.mob
 		if (mob is Zombie) {
-			if (!mob.canBreakDoors() || !mob.supportsBreakDoorGoal()) {
+			if (!mob.canBreakDoors()) {
 				return false
 			}
 		}

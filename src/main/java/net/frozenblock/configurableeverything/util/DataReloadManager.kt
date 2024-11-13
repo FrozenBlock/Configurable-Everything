@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.GsonHelper
-import net.minecraft.util.profiling.ProfilerFiller
+import net.minecraft.util.profiling.Profiler
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.concurrent.CompletableFuture
@@ -58,16 +58,14 @@ abstract class DataReloadManager<T : Any>(
 
     override fun load(
         manager: ResourceManager?,
-        profiler: ProfilerFiller?,
         executor: Executor?
     ): CompletableFuture<DataReloader<T>> {
-        return CompletableFuture.supplyAsync({ DataReloader(this, manager, profiler) }, executor)
+        return CompletableFuture.supplyAsync({ DataReloader(this, manager) }, executor)
     }
 
     override fun apply(
         prepared: DataReloader<T>?,
         manager: ResourceManager?,
-        profiler: ProfilerFiller?,
         executor: Executor?
     ): CompletableFuture<Void> {
         data = prepared?.data
@@ -82,7 +80,7 @@ abstract class DataReloadManager<T : Any>(
     override fun getFabricId(): ResourceLocation
         = id(this.id)
 
-    class DataReloader<T : Any>(private val reloadManager: DataReloadManager<T>, private val manager: ResourceManager?, private val profiler: ProfilerFiller?) {
+    class DataReloader<T : Any>(private val reloadManager: DataReloadManager<T>, private val manager: ResourceManager?) {
         val data: MutableMap<ResourceLocation, T> = Object2ObjectOpenHashMap()
 
         init {
@@ -92,7 +90,8 @@ abstract class DataReloadManager<T : Any>(
         }
 
         private fun loadData() = runBlocking {
-            profiler?.push(reloadManager.profilerMessage)
+            val profiler = Profiler.get()
+            profiler.push(reloadManager.profilerMessage)
 
             // basically, this is a coroutine that loads the json and json5 files in parallel
             // should speed it up a bit
@@ -107,7 +106,7 @@ abstract class DataReloadManager<T : Any>(
             loadJson.join()
             loadJson5.join()
 
-            profiler?.pop()
+            profiler.pop()
         }
 
         private suspend fun loadData(json5: Boolean) = coroutineScope {

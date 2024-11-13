@@ -30,7 +30,7 @@ object BiomePlacementUtil {
     fun serverInit(registryAccess: RegistryAccess) {
         if (!MainConfig.get().biome_placement) return
         val biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME)
-        val levelStemRegistry = registryAccess.registryOrThrow(Registries.LEVEL_STEM)
+        val levelStemRegistry = registryAccess.lookupOrThrow(Registries.LEVEL_STEM)
 
         for ((_, stem) in levelStemRegistry.entrySet()) {
             val dimension = stem.type().unwrapKey().orElseThrow()

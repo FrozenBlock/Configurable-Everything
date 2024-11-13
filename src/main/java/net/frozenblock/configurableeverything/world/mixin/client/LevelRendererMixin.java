@@ -4,14 +4,15 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.WorldConfig;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.SkyRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = LevelRenderer.class, priority = 600)
+@Mixin(value = SkyRenderer.class, priority = 600)
 public class LevelRendererMixin {
 
 	@ModifyExpressionValue(
-		method = "renderSky",
+		method = "renderSun",
 		at = @At(
 			value = "CONSTANT",
 			args = {
@@ -25,7 +26,7 @@ public class LevelRendererMixin {
 	}
 
 	@ModifyExpressionValue(
-		method = "renderSky",
+		method = "renderMoon",
 		at = @At(
 			value = "CONSTANT",
 			args = {

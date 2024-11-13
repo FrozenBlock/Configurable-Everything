@@ -37,7 +37,7 @@ inline fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): Resou
 
 inline fun <T : Any> ResourceKey<T>?.toStr(): String = this?.location()?.toString() ?: ""
 
-inline fun <T : Any> String.toHolder(registry: Registry<T>): Holder<T>? = registry.getHolder(this.toKey(registry.key())).getOrNull()
+inline fun <T : Any> String.toHolder(registry: Registry<T>): Holder<T>? = registry.get(this.toKey(registry.key())).getOrNull()
 
 inline fun <T : Any> Holder<T>.toStr(): String = this.unwrapKey().getOrNull()?.toStr() ?: ""
 

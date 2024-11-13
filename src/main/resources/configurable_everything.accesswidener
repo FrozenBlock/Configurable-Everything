@@ -6,7 +6,7 @@ accessible class net/minecraft/world/level/biome/Climate$RTree
 accessible method net/minecraft/world/level/biome/Biome <init> (Lnet/minecraft/world/level/biome/Biome$ClimateSettings;Lnet/minecraft/world/level/biome/BiomeSpecialEffects;Lnet/minecraft/world/level/biome/BiomeGenerationSettings;Lnet/minecraft/world/level/biome/MobSpawnSettings;)V
 accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (ZFLnet/minecraft/world/level/biome/Biome$TemperatureModifier;F)V
 accessible method net/minecraft/world/level/biome/BiomeSpecialEffects <init> (IIIILjava/util/Optional;Ljava/util/Optional;Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;)V
-accessible method net/minecraft/world/level/biome/BiomeGenerationSettings <init> (Ljava/util/Map;Ljava/util/List;)V
+accessible method net/minecraft/world/level/biome/BiomeGenerationSettings <init> (Lnet/minecraft/core/HolderSet;Ljava/util/List;)V
 accessible method net/minecraft/world/level/biome/MobSpawnSettings <init> (FLjava/util/Map;Ljava/util/Map;)V
 
 # Datapack
@@ -19,7 +19,6 @@ accessible method net/minecraft/resources/ResourceKey create (Lnet/minecraft/res
 # Zombie
 accessible field net/minecraft/world/entity/Mob goalSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/world/entity/monster/Zombie canBreakDoors Z
-accessible method net/minecraft/world/entity/monster/Zombie supportsBreakDoorGoal ()Z
 
 # Loot
 accessible field net/minecraft/world/level/storage/loot/LootTable$Builder pools Lcom/google/common/collect/ImmutableList$Builder;

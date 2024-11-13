@@ -138,5 +138,5 @@ private fun soundId(sound: SoundEvent?): String? {
 }
 
 private fun sound(id: String): SoundEvent? {
-    return BuiltInRegistries.SOUND_EVENT[ResourceLocation.parse(id)]
+    return BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse(id))
 }

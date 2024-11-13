@@ -31,7 +31,7 @@ public class AllZombiesBreakDoorsMixin {
 					((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.canBreakDoors);
 				}
 			} else if (GoalUtils.hasGroundPathNavigation(zombie)) {
-				((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.supportsBreakDoorGoal());
+				((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(true);
 			}
 		} else {
 			if (GoalUtils.hasGroundPathNavigation(zombie)) {
@@ -52,31 +52,25 @@ public class AllZombiesBreakDoorsMixin {
 
 	@Inject(method = "addBehaviourGoals", at = @At("TAIL"))
 	public void mcFixes$addBehaviourGoals(CallbackInfo info) {
-		if (MainConfig.get().entity) {
-			Mob.class.cast(this).goalSelector
-				.addGoal(
-					1,
-					new NewZombieBreakDoorGoal(
-						Mob.class.cast(this),
-						difficulty -> difficulty == Difficulty.HARD
+		if (!MainConfig.get().entity)
+			return;
+
+		Mob.class.cast(this).goalSelector
+			.addGoal(
+				1,
+				new NewZombieBreakDoorGoal(
+					Mob.class.cast(this),
+					difficulty -> difficulty == Difficulty.HARD
 						|| (
-							MainConfig.get().entity
-							&& EntityConfig.get().zombie != null
-							&& EntityConfig.get().zombie.ignoreDoorBreakDifficulty == true
-						)
+						MainConfig.get().entity
+							&& EntityConfig.get().zombie.ignoreDoorBreakDifficulty
 					)
-				);
-		}
+				)
+			);
 	}
 
 	@ModifyExpressionValue(method = "addAdditionalSaveData", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;canBreakDoors()Z"))
 	public boolean mcFixes$addAdditionalSaveData(boolean original) {
 		return MainConfig.get().entity ? this.canBreakDoors : original;
 	}
-
-	@Shadow
-	public boolean supportsBreakDoorGoal() {
-		throw new AssertionError("Mixin injection failed - AllZombiesBreakDoorsMixin.");
-	}
-
 }

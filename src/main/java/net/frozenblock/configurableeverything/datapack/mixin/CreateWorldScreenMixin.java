@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(CreateWorldScreen.class)
 public class CreateWorldScreenMixin {
 
-	@ModifyArg(method = "openFresh", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/repository/PackRepository;<init>([Lnet/minecraft/server/packs/repository/RepositorySource;)V"), index = 0)
+	@ModifyArg(method = "openCreateWorldScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/repository/PackRepository;<init>([Lnet/minecraft/server/packs/repository/RepositorySource;)V"), index = 0)
 	private static RepositorySource[] openFresh(RepositorySource[] original) {
 		List<RepositorySource> newSources = new ArrayList<>(Arrays.stream(original).toList());
 

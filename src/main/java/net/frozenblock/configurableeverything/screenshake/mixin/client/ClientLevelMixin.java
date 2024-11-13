@@ -21,9 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientLevel.class)
 public abstract class ClientLevelMixin extends Level {
 
-    protected ClientLevelMixin(WritableLevelData worldProperties, ResourceKey<Level> registryKey, RegistryAccess registryManager, Holder<DimensionType> dimension, Supplier<ProfilerFiller> profiler, boolean client, boolean debug, long seed, int maxChainedNeighborUpdates) {
-        super(worldProperties, registryKey, registryManager, dimension, profiler, client, debug, seed, maxChainedNeighborUpdates);
-    }
+	protected ClientLevelMixin(WritableLevelData properties, ResourceKey<Level> registryKey, RegistryAccess registryManager, Holder<DimensionType> dimension, boolean isClient, boolean debugWorld, long l, int i) {
+		super(properties, registryKey, registryManager, dimension, isClient, debugWorld, l, i);
+	}
 
 	@Inject(method = "playLocalSound(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V", at = @At("TAIL"))
 	private void playSound(Entity entity, SoundEvent sound, SoundSource category, float volume, float pitch, CallbackInfo ci) {

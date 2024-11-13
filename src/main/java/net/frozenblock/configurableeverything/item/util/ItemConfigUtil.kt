@@ -25,7 +25,7 @@ object ItemConfigUtil {
 
                 val itemOverrideKey: ResourceKey<Item> = ResourceKey.create(Registries.ITEM, itemOverrideLoc)
                 val itemOverride: Holder.Reference<Item> =
-                    BuiltInRegistries.ITEM.getHolder(itemOverrideKey).getOrNull() ?: continue
+                    BuiltInRegistries.ITEM.get(itemOverrideKey).getOrNull() ?: continue
                 if (item.`is`(itemOverride)) return reach
             }
         }
