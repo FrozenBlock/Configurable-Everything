@@ -70,6 +70,9 @@ object ConfigurableEverythingConfigGui {
         val game = configBuilder.getOrCreateCategory(text("game"))
         GameConfigGui.setupEntries(game, entryBuilder)
 
+        val item = configBuilder.getOrCreateCategory(text("item"))
+        ItemConfigGui.setupEntries(item, entryBuilder)
+
         val mixins = configBuilder.getOrCreateCategory(text("mixins"))
         MixinsConfigGui.setupEntries(mixins, entryBuilder)
 
