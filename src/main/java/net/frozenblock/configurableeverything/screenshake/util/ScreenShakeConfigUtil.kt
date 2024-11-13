@@ -24,21 +24,18 @@ object ScreenShakeConfigUtil {
         if (!MainConfig.get().screen_shake) return@runBlocking
         if (level == null || x == null || y == null || z == null || sound == null) return@runBlocking
         val offset = 0.001
-        val entities: List<Entity>? = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))
-        config.soundScreenShakes?.value?.apply {
-            for (shake in this) {
-                launch {
-                    if (shake == null) return@launch
-                    if (shake.sound == sound.location) {
-                        if (entities?.isEmpty() != false) { // apply to position if no entity is found
-                            createVecShake(level, shake, Vec3(x, y, z))
-                        } else { // find an entity to apply the screen shake to
-                            val entity: Entity = entities.stream().findFirst().getOrNull() ?: return@launch
-                            createEntityShake(level, entity, shake)
-                        }
+        val entities: List<Entity> = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))
+        config.soundScreenShakes.value.apply {
+            for (shake in this) { launch {
+                if (shake.sound == sound.location) {
+                    if (entities.isEmpty()) { // apply to position if no entity is found
+                        createVecShake(level, shake, Vec3(x, y, z))
+                    } else { // find an entity to apply the screen shake to
+                        val entity: Entity = entities.stream().findFirst().getOrNull() ?: return@launch
+                        createEntityShake(level, entity, shake)
                     }
                 }
-            }
+            } }
         }
     }
 

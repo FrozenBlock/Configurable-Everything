@@ -31,7 +31,6 @@ data class RegistryFixer(
             val registryFixers: List<RegistryFixer> = REGISTRY_FIXERS
             for (registryFixer in registryFixers) {
                 if (registryFixer.registryKey == registry.key().location()) {
-                    if (registryFixer.fixers == null) continue
                     for (fixer in registryFixer.fixers) {
                         if (fixer.oldId == name) {
                             log(

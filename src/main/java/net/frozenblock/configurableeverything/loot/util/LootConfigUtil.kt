@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.loot.util
 
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.frozenblock.configurableeverything.config.LootConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.value
@@ -12,8 +12,9 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 internal object LootConfigUtil {
 
     internal fun init() {
-        LootTableEvents.MODIFY.register { id, tableBuilder, _ ->
+        LootTableEvents.MODIFY.register { key, tableBuilder, _, _ ->
             if (!MainConfig.get().loot) return@register
+            val id = key.location()
             val mods = LootConfig.get().lootModifications.value
             for (mod in mods) {
                 if (mod.id != id) continue

@@ -19,12 +19,12 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version("2.0.10")
+    kotlin("jvm") version("2.0.21")
     id("fabric-loom") version("+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
-    id("com.github.johnrengelman.shadow") version("+")
+    id("com.gradleup.shadow") version("+")
     eclipse
     idea
     `java-library`
@@ -188,7 +188,7 @@ dependencies {
     mappings(
         loom.layered {
             // please annoy treetrain if this doesnt work
-            //mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
+            mappings("org.quiltmc:quilt-mappings:${quilt_mappings}:intermediary-v2")
             //parchment("org.parchmentmc.data:parchment-${parchment_mappings}@zip")
             officialMojangMappings {
                 nameSyntheticMembers = false
@@ -217,7 +217,7 @@ dependencies {
     api(kotlin("scripting-dependencies-maven"))
 
     api("net.fabricmc:mapping-io:0.6.1")
-    api("net.fabricmc:tiny-remapper:0.10.3")
+    api("net.fabricmc:tiny-remapper:0.10.4")
 
     // FrozenLib
     if (local_frozenlib)
