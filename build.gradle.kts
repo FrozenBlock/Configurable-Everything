@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version("2.0.21")
+    kotlin("jvm") version("2.1.0")
     id("fabric-loom") version("+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
@@ -204,10 +204,9 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // Kotlin Metadata Remapping
-    api(files("libs/fabric-loom-1.6.local-kotlin-remapper.jar"))?.let { shadowInclude(it) }
+    api(files("libs/fabric-loom-1.9.local-kotlin-remapper.jar"))?.let { shadowInclude(it) }
 
     // get deps manually because FKE cant give them to compile classpath without an error
-    api(kotlin("metadata-jvm"))
     api(kotlin("scripting-common"))
     api(kotlin("scripting-jvm"))
     api(kotlin("scripting-jsr223"))
@@ -278,7 +277,7 @@ tasks {
 
     shadowJar {
         configurations = listOf(shadowInclude)
-        isEnableRelocation = true
+        enableRelocation = true
         relocationPrefix = "net.frozenblock.configurableeverything.shadow"
     }
 
