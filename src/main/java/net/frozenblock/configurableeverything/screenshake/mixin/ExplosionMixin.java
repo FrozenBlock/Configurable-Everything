@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.screenshake.mixin;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
 import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerExplosion;
@@ -19,7 +20,7 @@ public class ExplosionMixin {
 
 	@Shadow
 	@Final
-	private Level level;
+	private ServerLevel level;
 
 	@Shadow
 	@Final
