@@ -139,6 +139,17 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         ).build(entryBuilder) as BooleanListEntry
     }
 
+    val recipe: BooleanListEntry = EntryBuilder(text("recipe"), syncConfig.recipe,
+        defaultConfig.recipe,
+        { newValue -> config.recipe = newValue },
+        tooltip("recipe"),
+        true
+    ).build(entryBuilder).synced(
+        config::class,
+        "registry",
+        configInstance
+    ) as BooleanListEntry
+
     val registry: BooleanListEntry = EntryBuilder(text("registry"), syncConfig.registry,
         defaultConfig.registry,
         { newValue -> config.registry = newValue },
@@ -290,6 +301,8 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         category.addEntry(loot)
 
         music?.apply { category.addEntry(this) }
+
+        category.addEntry(recipe)
 
         category.addEntry(registry)
 

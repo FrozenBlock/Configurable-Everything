@@ -48,6 +48,7 @@ class ConfigurableEverything : ModInitializer {
             ItemConfig
             LootConfig
             ModProtocolConfig
+            RecipeConfig
             RegistryConfig
             ScreenShakeConfig
             ScriptingConfig
