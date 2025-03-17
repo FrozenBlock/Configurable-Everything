@@ -27,7 +27,7 @@ public class RecipeManagerMixin {
 		RecipeConfig config = RecipeConfig.get();
 		if (!MainConfig.get().recipe) return;
 
-		for (ResourceLocation recipe : config.removedRecipes) {
+		for (ResourceLocation recipe : config.removedRecipes.value()) {
 			map.remove(recipe);
 		}
 	}
