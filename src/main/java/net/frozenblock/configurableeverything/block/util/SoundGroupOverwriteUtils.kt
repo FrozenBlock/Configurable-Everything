@@ -2,13 +2,17 @@ package net.frozenblock.configurableeverything.block.util;
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.frozenblock.lib.sound.api.block_sound_group.BlockSoundGroupOverwrite
+import net.frozenblock.lib.block.sound.impl.overwrite.HolderSetBlockSoundTypeOverwrite
+import net.minecraft.core.HolderSet
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
 import java.util.function.BooleanSupplier
+import kotlin.jvm.optionals.getOrNull
 
+@Suppress("UnstableApiUsage")
 data class MutableBlockSoundGroupOverwrite(
     var blockId: ResourceLocation,
     var soundOverwrite: MutableSoundType,
@@ -24,13 +28,14 @@ data class MutableBlockSoundGroupOverwrite(
         }
     }
 
-    fun immutable(): BlockSoundGroupOverwrite {
-        return BlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.immutable(), this.condition)
+    fun immutable(): HolderSetBlockSoundTypeOverwrite? {
+        val block: Block = BuiltInRegistries.BLOCK.getOptional(this.blockId).getOrNull() ?: return null
+        return HolderSetBlockSoundTypeOverwrite(HolderSet.direct(block.builtInRegistryHolder()), this.soundOverwrite.immutable(), this.condition)
     }
 }
 
-fun BlockSoundGroupOverwrite.mutable(): MutableBlockSoundGroupOverwrite
-    = MutableBlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.mutable(), this.condition)
+//fun HolderSetBlockSoundTypeOverwrite.mutable(): MutableBlockSoundGroupOverwrite
+//    = MutableBlockSoundGroupOverwrite(this.blockId, this.soundOverwrite.mutable(), this.condition)
 
 
 data class MutableSoundType(
