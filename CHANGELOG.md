@@ -5,7 +5,9 @@ Make sure to clear after release
 Put changelog here:
 
 -----------------
-- Upgraded to Kotlin 2.1.0
-- Updated minimum Fabric Language Kotlin version to 1.13.0
-- Updated minimum FKE version to 1.1.3
-- Upgraded embedded FrozenLib to 1.9.6
+- Added Recipe Config
+  - Allows disabling recipes
+- Upgraded to Kotlin 2.2.0
+- Updated minimum Fabric Language Kotlin version to 1.13.2
+- Updated minimum FKE version to 1.1.5
+- Upgraded embedded FrozenLib to 2.1

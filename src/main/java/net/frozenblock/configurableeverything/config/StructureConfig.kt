@@ -10,13 +10,6 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.resources.ResourceLocation
 
-private val RESOURCE_LIST: TypedEntryType<MutableList<ResourceLocation>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        ResourceLocation.CODEC.mutListOf()
-    )
-)
-
 data class StructureConfig(
 
     @JvmField
