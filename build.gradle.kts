@@ -19,7 +19,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version("2.1.0")
+    kotlin("jvm") version("2.1.20")
     id("fabric-loom") version("+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
@@ -127,59 +127,44 @@ repositories {
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    maven {
-        url = uri("https://jitpack.io")
-    }
-    maven {
+    maven("https://jitpack.io")
+    maven("https://api.modrinth.com/maven") {
         name = "Modrinth"
-        url = uri("https://api.modrinth.com/maven")
 
         content {
             includeGroup("maven.modrinth")
         }
     }
-    maven {
-        url = uri("https://maven.terraformersmc.com")
-
+    maven("https://maven.terraformersmc.com") {
         content {
             includeGroup("com.terraformersmc")
         }
     }
-    maven {
-        url = uri("https://maven.shedaniel.me/")
-    }
+    maven("https://maven.shedaniel.me/")
     /*maven {
         name = "Siphalor's Maven"
         url = uri("https://maven.siphalor.de")
     }*/
-    maven {
-        url = uri("https://maven.flashyreese.me/releases")
-    }
-    maven {
-        url = uri("https://maven.flashyreese.me/snapshots")
-    }
-    maven {
-        url = uri("https://maven.minecraftforge.net/")
-    }
+    maven("https://maven.flashyreese.me/releases")
+    maven("https://maven.flashyreese.me/snapshots")
+    maven("https://maven.minecraftforge.net/")
     //maven("https://maven.parchmentmc.org")
-    maven {
+    maven("https://maven.quiltmc.org/repository/release") {
         name = "Quilt"
-        url = uri("https://maven.quiltmc.org/repository/release")
     }
-    maven {
-        url = uri("https://maven.jamieswhiteshirt.com/libs-release")
+    maven("https://maven.jamieswhiteshirt.com/libs-release") {
         content {
             includeGroup("com.jamieswhiteshirt")
         }
+    }
+    maven("https://maven.frozenblock.net/release") {
+        name = "FrozenBlock"
     }
 
     flatDir {
         dirs("libs")
     }
     mavenCentral()
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-        name = "sonatype-oss-snapshots"
-    }
 }
 
 dependencies {
@@ -215,8 +200,8 @@ dependencies {
     api(kotlin("scripting-dependencies"))
     api(kotlin("scripting-dependencies-maven"))
 
-    api("net.fabricmc:mapping-io:0.6.1")
-    api("net.fabricmc:tiny-remapper:0.10.4")
+    api("net.fabricmc:mapping-io:0.7.1")
+    api("net.fabricmc:tiny-remapper:0.11.0")
 
     // FrozenLib
     if (local_frozenlib)

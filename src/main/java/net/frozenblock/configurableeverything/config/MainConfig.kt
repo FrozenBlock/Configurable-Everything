@@ -64,6 +64,10 @@ Warning: It is important to check the contents of each config before enabling th
     var music: Boolean = false,
 
     @JvmField
+    @EntrySyncData("recipe")
+    var recipe: Boolean = false,
+
+    @JvmField
     @EntrySyncData("registry")
     var registry: Boolean = false,
 

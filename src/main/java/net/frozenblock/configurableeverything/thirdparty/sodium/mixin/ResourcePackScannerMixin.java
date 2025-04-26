@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.thirdparty.sodium.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import me.jellysquid.mods.sodium.client.compatibility.checks.ResourcePackScanner;
+import net.caffeinemc.mods.sodium.client.checks.ResourcePackScanner;
 import net.frozenblock.configurableeverything.config.thirdparty.SodiumConfig;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.Mixin;
