@@ -19,6 +19,8 @@
   "tooltip.configurable_everything.item": "Enable or disable the Item config.",
   "option.configurable_everything.loot": "Loot",
   "tooltip.configurable_everything.loot": "Enable or disable the Loot config.",
+  "option.configurable_everything.recipe": "Recipe",
+  "tooltip.configurable_everything.recipe": "Enable or disable the Recipe config.",
   "option.configurable_everything.registry": "Registry",
   "tooltip.configurable_everything.registry": "Enable or disable the Registry config.",
   "option.configurable_everything.scripting": "Scripting",
