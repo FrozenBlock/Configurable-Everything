@@ -25,4 +25,4 @@ accessible field net/minecraft/world/level/storage/loot/LootTable$Builder pools 
 accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;
 
 # Mod Protocol
-accessible field net/minecraft/network/chat/Component$Serializer GSON Lcom/google/gson/Gson;
+#accessible field net/minecraft/network/chat/Component$Serializer GSON Lcom/google/gson/Gson;

@@ -108,10 +108,9 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
         }
     }
 
-    private class BiomeTagProvider(output: FabricDataOutput?, registriesFuture: CompletableFuture<*>?) :
-        FrozenBiomeTagProvider(output, registriesFuture) {
+    private class BiomeTagProvider(output: FabricDataOutput?, registriesFuture: CompletableFuture<*>?) : FrozenBiomeTagProvider(output, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
-            getOrCreateTagBuilder(BLANK_TAG)
+            builder(BLANK_TAG)
         }
     }
 }

@@ -2,10 +2,6 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.JsonOps
 import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
-import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.configurableeverything.util.makeConfigPath
-import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
@@ -15,7 +11,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
 
 private fun toJson(component: Component): String {
-    return Component.Serializer.GSON.toJson(ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, component) )
+    return ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, component).orThrow.toString()
 }
 
 // source: https://github.com/QuiltMC/quilt-standard-libraries/blob/1.20.2/library/core/registry/src/main/java/org/quiltmc/qsl/registry/impl/RegistryConfig.java

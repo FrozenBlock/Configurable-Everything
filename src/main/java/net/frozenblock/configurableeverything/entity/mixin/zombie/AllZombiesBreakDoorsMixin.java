@@ -28,14 +28,14 @@ public class AllZombiesBreakDoorsMixin {
 		if (MainConfig.get().entity) {
 			if (!EntityConfig.get().zombie.allZombiesBreakDoors) {
 				if (GoalUtils.hasGroundPathNavigation(zombie)) {
-					((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.canBreakDoors);
+					zombie.getNavigation().setCanOpenDoors(this.canBreakDoors);
 				}
 			} else if (GoalUtils.hasGroundPathNavigation(zombie)) {
-				((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(true);
+				zombie.getNavigation().setCanOpenDoors(true);
 			}
 		} else {
 			if (GoalUtils.hasGroundPathNavigation(zombie)) {
-				((GroundPathNavigation) zombie.getNavigation()).setCanOpenDoors(this.canBreakDoors);
+				zombie.getNavigation().setCanOpenDoors(this.canBreakDoors);
 			}
 		}
 	}

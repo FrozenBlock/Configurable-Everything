@@ -1,6 +1,8 @@
 package net.frozenblock.configurableeverything.splash_text.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.MainConfig;
@@ -13,16 +15,14 @@ import org.spongepowered.asm.mixin.injection.At;
 @Environment(EnvType.CLIENT)
 public class SplashRendererMixin {
 
-    @ModifyExpressionValue(
+    @WrapOperation(
 		method = "render",
 		at = @At(
-			value = "CONSTANT",
-			args = {
-				"intValue=16776960"
-			}
+			value = "INVOKE",
+			target = "Lnet/minecraft/util/ARGB;color(FI)I"
 		))
-    private int changeColor(int original) {
+    private int changeColor(float f, int i, Operation<Integer> original) {
 		var modified = SplashTextConfig.get(false).splashColor;
-		return MainConfig.get().splash_text ? modified : original;
+		return MainConfig.get().splash_text ? modified : original.call(f, i);
     }
 }

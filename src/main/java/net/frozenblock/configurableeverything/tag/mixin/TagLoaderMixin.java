@@ -39,7 +39,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 	@Unique
 	private Registry<T> registry;
 
-	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lcom/google/gson/JsonParser;parseReader(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
+	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/StrictJsonParser;parse(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
 	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) ResourceLocation tag) {
         JsonObject json = (JsonObject) original.call(jsonReader);
 		if (!MainConfig.get().tag)
