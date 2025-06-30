@@ -17,7 +17,7 @@ public class DetectedVersionMixin {
         var config = GameConfig.get();
 		if (!MainConfig.get().game) return operation.call(version, series);
 		var versionSeries = config.versionSeries;
-		if (!series.isEmpty()) {
+		if (!versionSeries.isEmpty()) {
 			return operation.call(version, versionSeries);
 		}
 		return operation.call(version, series);
@@ -28,7 +28,7 @@ public class DetectedVersionMixin {
 		var config = GameConfig.get();
 		if (!MainConfig.get().game) return operation.call(version, series);
 		var versionSeries = config.versionSeries;
-		if (!series.isEmpty()) {
+		if (!versionSeries.isEmpty()) {
 			return operation.call(version, versionSeries);
 		}
 		return operation.call(version, series);
