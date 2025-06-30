@@ -15,6 +15,7 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.item.DyeColor
+import net.minecraft.world.level.material.MapColor
 
 @UnsyncableConfig
 data class SplashTextConfig(

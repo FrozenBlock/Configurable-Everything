@@ -8,10 +8,8 @@ import me.shedaniel.clothconfig2.api.Requirement
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.SplashTextConfig
-import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
-import net.frozenblock.lib.config.api.client.gui.Color
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
 
@@ -44,14 +42,15 @@ object SplashTextConfigGui {
             category.addEntry(this)
         }
 
-        val splashColor = EntryBuilder(text("splash_color"), Color(config.splashColor),
-            Color(defaultConfig.splashColor),
-            { newValue -> config.splashColor = newValue.color },
-            tooltip("splash_color"),
-            requirement = mainToggleReq,
-        ).build(entryBuilder).apply {
-            category.addEntry(this)
-        }
+        category.addEntry(
+            entryBuilder.startColorField(text("splash_color"), config.splashColor)
+                .setDefaultValue(defaultConfig.splashColor)
+                .setSaveConsumer { newValue -> config.splashColor = newValue }
+                .setTooltip(tooltip("splash_color"))
+                .setAlphaMode(true)
+                .setRequirement(mainToggleReq)
+                .build()
+        )
 
         val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla,
             defaultConfig.removeVanilla,
