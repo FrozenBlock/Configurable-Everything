@@ -227,7 +227,7 @@ tasks {
         val properties = HashMap<String, Any>()
         properties["mod_id"] = mod_id
         properties["version"] = version
-        properties["minecraft_version"] = minecraft_version
+        properties["minecraft_version"] = "~1.21-" //minecraft_version
         properties["fabric_kotlin_version"] = ">=$fabric_kotlin_version"
 
         properties.forEach { (a, b) -> inputs.property(a, b) }
