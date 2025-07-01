@@ -21,6 +21,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.item.Items
 
 private val configInstance = ItemConfig
 
@@ -52,18 +53,18 @@ private fun reachOverrides(
         { newValue -> config.reachOverrides = newValue },
         { element: ItemReachOverride?, _ ->
             val defaultOverride = ItemReachOverride(
-                BuiltInRegistries.BLOCK.getKey(Items.TRIDENT),
+                BuiltInRegistries.ITEM.getKey(Items.TRIDENT),
                 100.0,
             )
             val override: ItemReachOverride = element ?: defaultOverride
             multiElementEntry(
                 text("reach_overrides.reach_override"),
-                overwrite,
+                override,
                 true,
 
                 EntryBuilder(text("reach_overrides.item"), override.item.toString(),
                     vanillaId("").toString(),
-                    { newValue -> override.item = ResourceLocation(newValue) },
+                    { newValue -> override.item = ResourceLocation.parse(newValue) },
                     tooltip("reach_overrides.item")
                 ).build(entryBuilder),
 
