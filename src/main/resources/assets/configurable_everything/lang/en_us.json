@@ -343,6 +343,18 @@
   "option.configurable_everything.version_series": "Version Series",
   "tooltip.configurable_everything.version_series": "Changes Minecraft's version series. Is 'main' by default.\nLeave field empty to ignore.",
 
+  "option.configurable_everything.reach_overrides": "Reach Overrides",
+  "tooltip.configurable_everything.reach_overrides": "A list of reach overrides per item.",
+  "option.configurable_everything.reach_overrides.reach_override": "Reach Override",
+  "tooltip.configurable_everything.reach_overrides.reach_override": "An override for how far the player can reach\nwhilst holding a specific item.",
+  "option.configurable_everything.reach_overrides.item": "Item",
+  "tooltip.configurable_everything.reach_overrides.item": "The item to override reach distance of",
+  "option.configurable_everything.reach_overrides.reach": "Reach Distance",
+  "tooltip.configurable_everything.reach_overrides.reach": "The distance (in blocks) the player can reach whilst holding the entered item.",
+
+  "option.configurable_everything.removed_recipes": "Removed Recipes",
+  "tooltip.configurable_everything.removed_recipes": "A list of recipes to remove.\nPrevents matching recipes from loading.",
+
   "option.configurable_everything.screen_shake": "Screen Shake",
   "tooltip.configurable_everything.screen_shake": "Enable or disable the Screen Shake config.",
   "option.configurable_everything.sound_screen_shakes": "Sound-Based Screen Shakes",
@@ -376,6 +388,11 @@
   "tooltip.configurable_everything.remove_vanilla": "Removes all vanilla splash texts.",
 
   "option.configurable_everything.screenshake": "Screen Shaking",
+
+  "option.configurable_everything.removed_structures": "Removed Structures",
+  "tooltip.configurable_everything.removed_structures": "A list of structures to prevent from generating.",
+  "option.configurable_everything.removed_structure_sets": "Removed Structure Sets",
+  "tooltip.configurable_everything.removed_structure_sets": "A list of structure sets to prevent their contained structures from generating.",
 
   "option.configurable_everything.ignore_invalid_entries": "Ignore Invalid Entries",
   "tooltip.configurable_everything.ignore_invalid_entries": "Whether invalid entries in tags should be skipped instead of causing a failure.",

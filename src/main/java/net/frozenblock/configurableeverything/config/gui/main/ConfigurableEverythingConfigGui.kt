@@ -70,8 +70,14 @@ object ConfigurableEverythingConfigGui {
         val game = configBuilder.getOrCreateCategory(text("game"))
         GameConfigGui.setupEntries(game, entryBuilder)
 
+        val item = configBuilder.getOrCreateCategory(text("item"))
+        ItemConfigGui.setupEntries(item, entryBuilder)
+
         val mixins = configBuilder.getOrCreateCategory(text("mixins"))
         MixinsConfigGui.setupEntries(mixins, entryBuilder)
+
+        val recipe = configBuilder.getOrCreateCategory(text("recipe"))
+        RecipeConfigGui.setupEntries(recipe, entryBuilder)
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
         ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
@@ -81,6 +87,9 @@ object ConfigurableEverythingConfigGui {
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)
+
+        val structure = configBuilder.getOrCreateCategory(text("structure"))
+        StructureConfigGui.setupEntries(structure, entryBuilder)
 
         val tag = configBuilder.getOrCreateCategory(text("tag"))
         TagConfigGui.setupEntries(tag, entryBuilder)
