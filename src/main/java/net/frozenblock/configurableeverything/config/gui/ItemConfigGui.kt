@@ -32,7 +32,6 @@ object ItemConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
         val defaultConfig = configInstance.defaultInstance()
-        category.background = id("textures/config/item.png")
 
         category.addEntry(reachOverrides(entryBuilder, config, defaultConfig))
     }
