@@ -20,7 +20,7 @@ buildscript {
 
 plugins {
     kotlin("jvm") version("2.2.0")
-    id("fabric-loom") version("+")
+    id("fabric-loom") version("1.11.+")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
@@ -63,10 +63,6 @@ val release = findProperty("releaseType")?.equals("stable")
 
 loom {
     runtimeOnlyLog4j.set(true)
-
-    mixin {
-        defaultRefmapName.set("mixins.$mod_id.refmap.json")
-    }
 
     accessWidenerPath.set(file("src/main/resources/$mod_id.accesswidener"))
     interfaceInjection {
@@ -262,7 +258,7 @@ tasks {
 
     shadowJar {
         configurations = listOf(shadowInclude)
-        enableRelocation = true
+        enableAutoRelocation = true
         relocationPrefix = "net.frozenblock.configurableeverything.shadow"
     }
 
