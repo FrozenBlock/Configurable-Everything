@@ -206,13 +206,13 @@ dependencies {
         modApi("maven.modrinth:frozenlib:$frozenlib_version")?.also { include(it) }
 
     // Cloth Config
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+    modCompileOnlyApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
         exclude(group = "net.fabricmc.fabric-api")
         exclude(group = "com.terraformersmc")
     }
 
     // Mod Menu
-    modImplementation("com.terraformersmc:modmenu:${modmenu_version}")
+    modCompileOnly("com.terraformersmc:modmenu:${modmenu_version}")
 
     // Sodium
     modCompileOnly("maven.modrinth:sodium:$sodium_version")
