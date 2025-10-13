@@ -23,7 +23,7 @@ public class DetectedVersionMixin {
 		return operation.call(version, series);
     }
 
-	@WrapOperation(method = "createFromConstants", at = @At(value = "NEW", target = "(ILjava/lang/String;)Lnet/minecraft/world/level/storage/DataVersion;"))
+	@WrapOperation(method = "createBuiltIn(Ljava/lang/String;Ljava/lang/String;Z)Lnet/minecraft/WorldVersion;", at = @At(value = "NEW", target = "(ILjava/lang/String;)Lnet/minecraft/world/level/storage/DataVersion;"))
 	private static DataVersion createFromConstants(int version, String series, Operation<DataVersion> operation) {
 		var config = GameConfig.get();
 		if (!MainConfig.get().game) return operation.call(version, series);
