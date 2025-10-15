@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerExplosion.class)
 public class ExplosionMixin {
@@ -35,7 +36,7 @@ public class ExplosionMixin {
 	private Vec3 center;
 
 	@Inject(method = "explode", at = @At(value = "TAIL"))
-	public void finalizeExplosion(CallbackInfo ci) {
+	public void finalizeExplosion(CallbackInfoReturnable<Integer> cir) {
 		var config = ScreenShakeConfig.get();
 
 		if (!MainConfig.get().screen_shake || !config.explosionScreenShake)
