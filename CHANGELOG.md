@@ -5,8 +5,8 @@ Make sure to clear after release
 Put changelog here:
 
 -----------------
-- Added Cloth Config screens for the Item, Recipe, and Structure configs
-- Upgraded to Kotlin 2.2.20
-- Updated minimum Fabric Language Kotlin version to 1.13.6
-- Updated minimum FKE version to 1.1.7
-- Upgraded embedded FrozenLib to 2.2
+- Upgraded to Kotlin 2.2.21
+- Updated minimum Fabric Language Kotlin version to 1.13.7
+- Updated minimum FKE version to 1.1.8
+- Upgraded embedded FrozenLib to 2.2.3
+  - [FrozenLib](https://modrinth.com/mod/frozenlib) is no longer embedded in Configurable Everything
