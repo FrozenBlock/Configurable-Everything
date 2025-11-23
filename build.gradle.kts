@@ -19,8 +19,8 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version("2.2.20")
-    id("fabric-loom") version("1.11.+")
+    kotlin("jvm") version("2.2.21")
+    id("fabric-loom") version("1.13-SNAPSHOT")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
@@ -196,14 +196,17 @@ dependencies {
     api(kotlin("scripting-dependencies"))
     api(kotlin("scripting-dependencies-maven"))
 
-    api("net.fabricmc:mapping-io:0.7.1")
-    api("net.fabricmc:tiny-remapper:0.11.0")
+    api("net.fabricmc:mapping-io:0.8.0")
+    api("net.fabricmc:tiny-remapper:0.12.0")
 
     // FrozenLib
-    if (local_frozenlib)
-        api(project(":FrozenLib", configuration = "namedElements"))?.let { include(it) }
-    else
-        modApi("maven.modrinth:frozenlib:$frozenlib_version")?.also { include(it) }
+    if (local_frozenlib) {
+        api(project(":FrozenLib", configuration = "namedElements"))
+        modCompileOnly(project(":FrozenLib"))
+    }
+    else {
+        modApi("maven.modrinth:frozenlib:$frozenlib_version")
+    }
 
     // Cloth Config
     modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
@@ -487,10 +490,10 @@ modrinth {
     dependencies {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")
+        required.project("frozenlib")
         optional.project("fabric-kotlin-extensions")
         optional.project("modmenu")
         optional.project("cloth-config")
-        embedded.project("frozenlib")
     }
 }
 
