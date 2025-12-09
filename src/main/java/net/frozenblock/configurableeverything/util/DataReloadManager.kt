@@ -13,7 +13,7 @@ import net.frozenblock.configurableeverything.util.DataReloadManager.DataReloade
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
 import net.frozenblock.lib.config.api.instance.json.JsonType
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.GsonHelper
@@ -38,37 +38,37 @@ abstract class DataReloadManager<T : Any>(
 
     protected abstract fun apply(values: Collection<T>)
 
-    fun getPath(dataId: ResourceLocation, jsonType: JsonType): ResourceLocation =
-        ResourceLocation.fromNamespaceAndPath(dataId.namespace, "$directory/${dataId.path}.${jsonType.serializedName}")
+    fun getPath(dataId: Identifier, jsonType: JsonType): Identifier =
+        Identifier.fromNamespaceAndPath(dataId.namespace, "$directory/${dataId.path}.${jsonType.serializedName}")
 
-    protected var data: MutableMap<ResourceLocation, T>? = null
-    private val queuedData: MutableMap<ResourceLocation, T> = Object2ObjectOpenHashMap()
+    protected var data: MutableMap<Identifier, T>? = null
+    private val queuedData: MutableMap<Identifier, T> = Object2ObjectOpenHashMap()
 
     inline val values get() = `access$data`?.values?.toMutableList()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getValue(id: ResourceLocation?): T? = data?.get(id)
+    internal inline fun getValue(id: Identifier?): T? = data?.get(id)
 
     /**
-     * Adds a value with the specified [ResourceLocation]
+     * Adds a value with the specified [Identifier]
      */
-    internal fun add(key: ResourceLocation, value: T) {
+    internal fun add(key: Identifier, value: T) {
         queuedData[key] = value
     }
 
     override fun load(
-        manager: ResourceManager?,
-        executor: Executor?
+        manager: ResourceManager,
+        executor: Executor
     ): CompletableFuture<DataReloader<T>> {
         return CompletableFuture.supplyAsync({ DataReloader(this, manager) }, executor)
     }
 
     override fun apply(
-        prepared: DataReloader<T>?,
-        manager: ResourceManager?,
-        executor: Executor?
+        prepared: DataReloader<T>,
+        manager: ResourceManager,
+        executor: Executor
     ): CompletableFuture<Void> {
-        data = prepared?.data
+        data = prepared.data
         data?.putAll(queuedData)
         return CompletableFuture.runAsync {
             data?.values?.also {
@@ -77,11 +77,11 @@ abstract class DataReloadManager<T : Any>(
         }
     }
 
-    override fun getFabricId(): ResourceLocation
+    override fun getFabricId(): Identifier
         = id(this.id)
 
     class DataReloader<T : Any>(private val reloadManager: DataReloadManager<T>, private val manager: ResourceManager?) {
-        val data: MutableMap<ResourceLocation, T> = Object2ObjectOpenHashMap()
+        val data: MutableMap<Identifier, T> = Object2ObjectOpenHashMap()
 
         init {
             if (reloadManager.shouldApply) {
@@ -110,8 +110,8 @@ abstract class DataReloadManager<T : Any>(
         }
 
         private suspend fun loadData(json5: Boolean) = coroutineScope {
-            val resources = manager?.listResources(reloadManager.directory) { id: ResourceLocation -> id.path.endsWith(if (json5) ".json5" else ".json") }
-            val entrySet: Set<Map.Entry<ResourceLocation?, Resource?>>? = resources?.entries
+            val resources = manager?.listResources(reloadManager.directory) { id: Identifier -> id.path.endsWith(if (json5) ".json5" else ".json") }
+            val entrySet: Set<Map.Entry<Identifier?, Resource?>>? = resources?.entries
             entrySet?.forEach { (key, value) ->
                 launch {
                     if (key != null && value != null) {
@@ -121,7 +121,7 @@ abstract class DataReloadManager<T : Any>(
             }
         }
 
-        private fun addValue(id: ResourceLocation, resource: Resource, isJson5: Boolean) {
+        private fun addValue(id: Identifier, resource: Resource, isJson5: Boolean) {
             try {
                 resource.openAsReader()
             } catch (e: IOException) {
@@ -140,12 +140,12 @@ abstract class DataReloadManager<T : Any>(
                     reloadManager.logger.error("Unable to parse ${reloadManager.fileTypeName} file $id. \nReason: ${result.error().get().message()}")
                     return
                 }
-                val dataId = ResourceLocation.fromNamespaceAndPath(id.namespace, id.path.substring(("${reloadManager.directory}/").length))
+                val dataId = Identifier.fromNamespaceAndPath(id.namespace, id.path.substring(("${reloadManager.directory}/").length))
                 data[dataId] = result.result().orElseThrow().first
             }
         }
     }
 
     @PublishedApi
-    internal val `access$data`: MutableMap<ResourceLocation, T>? get() = data
+    internal val `access$data`: MutableMap<Identifier, T>? get() = data
 }

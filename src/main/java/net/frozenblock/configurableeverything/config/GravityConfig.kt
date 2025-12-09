@@ -31,7 +31,7 @@ data class GravityConfig(
                 Level.OVERWORLD,
                 mutableListOf(
                     GravityBelt(128.0, 319.0, AbsoluteGravityFunction(Vec3(0.0, 0.1, 0.0))),
-                    GravityBelt(500.0, Double.POSITIVE_INFINITY, AbsoluteGravityFunction(Vec3(0.0, 0.01, 0.0)))
+                    GravityBelt(500.0, Double.MAX_VALUE, AbsoluteGravityFunction(Vec3(0.0, 0.01, 0.0)))
                 )
             )
         )

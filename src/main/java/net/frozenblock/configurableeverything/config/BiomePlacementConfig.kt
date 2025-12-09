@@ -13,7 +13,7 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import blue.endless.jankson.Comment
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.world.level.biome.Climate.Parameter.span
@@ -52,7 +52,7 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 				BuiltinDimensionTypes.OVERWORLD,
 				mutableListOf(
 					BiomeParameters(
-						BLANK_BIOME.location(),
+						BLANK_BIOME.identifier(),
 						parameters(
 							Temperature.FULL_RANGE,
 							Humidity.FULL_RANGE,
@@ -69,7 +69,7 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 				BuiltinDimensionTypes.NETHER,
 				mutableListOf(
 					BiomeParameters(
-						BLANK_BIOME.location(),
+						BLANK_BIOME.identifier(),
 						parameters(
 							Temperature.FULL_RANGE,
 							Humidity.FULL_RANGE,

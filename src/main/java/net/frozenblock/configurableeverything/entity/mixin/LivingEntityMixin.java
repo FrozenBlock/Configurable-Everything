@@ -30,7 +30,7 @@ public abstract class LivingEntityMixin extends Entity {
 		if (MainConfig.get(false).entity == true && config.experienceOverrides != null && config.experienceOverrides.value() != null) {
 			var experienceOverrides = config.experienceOverrides.value();
 			for (var override : experienceOverrides) {
-				if (override.entity.location().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
+				if (override.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
 					return override.amount;
 				}
 			}

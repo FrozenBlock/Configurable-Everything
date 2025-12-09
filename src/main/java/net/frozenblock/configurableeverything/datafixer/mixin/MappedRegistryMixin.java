@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.WritableRegistry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +22,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 
 	@Shadow
 	@Final
-	private Map<ResourceLocation, Holder.Reference<T>> byLocation;
+	private Map<Identifier, Holder.Reference<T>> byLocation;
 
 	@Shadow
 	@Nullable
@@ -31,13 +31,13 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	}
 
 	@Inject(
-			method = "getValue(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/Object;",
+			method = "getValue(Lnet/minecraft/resources/Identifier;)Ljava/lang/Object;",
 			at = @At("RETURN"),
 			cancellable = true
 	)
-	private void fixedValue(@Nullable ResourceLocation name, CallbackInfoReturnable<@Nullable T> cir) {
+	private void fixedValue(@Nullable Identifier name, CallbackInfoReturnable<@Nullable T> cir) {
 		var original = cir.getReturnValue();
-		var fixed = convertResourceLocation(name, original);
+		var fixed = convertIdentifier(name, original);
 		if (fixed != original) {
 			cir.setReturnValue(fixed);
 		}
@@ -51,7 +51,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	private void fixedValue(@Nullable ResourceKey<T> key, CallbackInfoReturnable<@Nullable T> cir) {
 		if (key != null) {
 			var original = cir.getReturnValue();
-			var fixed = convertResourceLocation(key.location(), original);
+			var fixed = convertIdentifier(key.identifier(), original);
 			if (fixed != original) {
 				cir.setReturnValue(fixed);
 			}
@@ -66,7 +66,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	private void fixedHolder(ResourceKey<T> key, CallbackInfoReturnable<Holder.Reference<T>> cir) {
 		if (key != null) {
 			var original = cir.getReturnValue();
-			var fixed = convertResourceLocationHolder(key.location(), original);
+			var fixed = convertIdentifierHolder(key.identifier(), original);
 			if (fixed != original) {
 				cir.setReturnValue(fixed);
 			}
@@ -75,7 +75,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 
 	@Nullable
 	@Unique
-	private T convertResourceLocation(@Nullable ResourceLocation name, @Nullable T original) {
+	private T convertIdentifier(@Nullable Identifier name, @Nullable T original) {
 		if (MainConfig.get().datafixer
 			&& name != null) {
 			var fixed = RegistryFixer.getFixedValueInRegistry(this, name, original);
@@ -87,7 +87,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 
 	@Nullable
 	@Unique
-	private Holder.Reference<T> convertResourceLocationHolder(@Nullable ResourceLocation name, @Nullable Holder.Reference<T> original) {
+	private Holder.Reference<T> convertIdentifierHolder(@Nullable Identifier name, @Nullable Holder.Reference<T> original) {
 		if (MainConfig.get().datafixer
 			&& name != null) {
 			var fixed = RegistryFixer.getFixedValueInRegistry(this, name, original);

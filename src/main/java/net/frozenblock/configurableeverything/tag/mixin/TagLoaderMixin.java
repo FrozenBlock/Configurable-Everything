@@ -16,7 +16,7 @@ import net.frozenblock.configurableeverything.tag.util.TagModification;
 import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagEntry;
@@ -40,7 +40,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 	private Registry<T> registry;
 
 	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/StrictJsonParser;parse(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
-	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) ResourceLocation tag) {
+	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) Identifier tag) {
         JsonObject json = (JsonObject) original.call(jsonReader);
 		if (!MainConfig.get().tag)
 			return json;
@@ -49,11 +49,11 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 		JsonArray values = json.getAsJsonArray("values");
 
 		for (RegistryTagModification registryTagModification : config.tagModifications.value()) {
-			if (this.registry.key().location().toString().equals(registryTagModification.registry)) {
+			if (this.registry.key().identifier().toString().equals(registryTagModification.registry)) {
 				for (TagModification modification : registryTagModification.modifications) {
-					if (tag.equals(ResourceLocation.tryParse(modification.tag))) {
-						modification.removals.forEach(remove -> values.remove(new JsonPrimitive(ResourceLocation.parse(remove).toString())));
-						modification.additions.forEach(add -> values.add(ResourceLocation.parse(add).toString()));
+					if (tag.equals(Identifier.tryParse(modification.tag))) {
+						modification.removals.forEach(remove -> values.remove(new JsonPrimitive(Identifier.parse(remove).toString())));
+						modification.additions.forEach(add -> values.add(Identifier.parse(add).toString()));
 					}
 				}
 			}

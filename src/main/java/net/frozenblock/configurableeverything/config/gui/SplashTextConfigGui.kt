@@ -47,7 +47,6 @@ object SplashTextConfigGui {
                 .setDefaultValue(defaultConfig.splashColor)
                 .setSaveConsumer { newValue -> config.splashColor = newValue }
                 .setTooltip(tooltip("splash_color"))
-                .setAlphaMode(true)
                 .setRequirement(mainToggleReq)
                 .build()
         )

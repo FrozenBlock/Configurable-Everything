@@ -1,11 +1,11 @@
 package net.frozenblock.configurableeverything.datapack.util
 
+import blue.endless.jankson.JsonElement
 import com.mojang.serialization.Decoder
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.json.JanksonOps
-import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
 import net.minecraft.core.RegistrationInfo
 import net.minecraft.core.Registry
 import net.minecraft.core.WritableRegistry
@@ -48,8 +48,8 @@ object DatapackUtil {
         val fileToIdConverter = FileToIdConverter(directory, ".json5")
         val registryOps = RegistryOps.create(JanksonOps.INSTANCE, lookup)
 
-        for ((resourceLocation, resource) in fileToIdConverter.listMatchingResources(manager)) {
-            val resourceKey = ResourceKey.create(registryKey, fileToIdConverter.fileToId(resourceLocation))
+        for ((identifier, resource) in fileToIdConverter.listMatchingResources(manager)) {
+            val resourceKey = ResourceKey.create(registryKey, fileToIdConverter.fileToId(identifier))
             try {
                 val reader = resource.openAsReader()
                 try {
@@ -75,7 +75,7 @@ object DatapackUtil {
                     String.format(
                         Locale.ROOT,
                         "Failed to parse %s from pack %s",
-                        resourceLocation,
+                        identifier,
                         resource.sourcePackId()
                     ), e
                 )

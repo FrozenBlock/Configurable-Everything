@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.frozenblock.configurableeverything.config.LootConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.value
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable
 import net.minecraft.world.level.storage.loot.entries.LootItem
@@ -14,7 +14,7 @@ internal object LootConfigUtil {
     internal fun init() {
         LootTableEvents.MODIFY.register { key, tableBuilder, _, _ ->
             if (!MainConfig.get().loot) return@register
-            val id = key.location()
+            val id = key.identifier()
             val mods = LootConfig.get().lootModifications.value
             for (mod in mods) {
                 if (mod.id != id) continue
@@ -35,11 +35,11 @@ private fun LootTable.Builder.withPool(pool: LootPool): LootTable.Builder {
     return this
 }
 
-private fun LootTable.Builder.removeItems(items: Iterable<ResourceLocation?>) {
+private fun LootTable.Builder.removeItems(items: Iterable<Identifier?>) {
     for (pool in this.pools.build()) {
         for (entry in pool.entries) {
             if (entry is LootItem) {
-                val location = entry.item.unwrapKey().orElseThrow().location()
+                val location = entry.item.unwrapKey().orElseThrow().identifier()
                 if (items.any { it == location })
                     entry.disable()
             }

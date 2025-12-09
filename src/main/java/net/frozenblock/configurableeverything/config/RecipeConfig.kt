@@ -10,17 +10,17 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 @UnsyncableConfig
 data class RecipeConfig(
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var removedRecipes: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
+    var removedRecipes: TypedEntry<MutableList<Identifier>> = TypedEntry.create(
         RESOURCE_LIST,
         mutableListOf(
-            ResourceLocation.parse("acacia_boat")
+            Identifier.parse("acacia_boat")
         ),
     )
 ) {

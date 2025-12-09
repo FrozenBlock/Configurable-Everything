@@ -13,7 +13,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 object StructureConfigGui {
 
@@ -26,7 +26,7 @@ object StructureConfigGui {
 
         val removedStructures = EntryBuilder(text("removed_structures"), StringList(config.removedStructures.value().map { it.toString() }),
             StringList(defaultConfig.removedStructures.value().map { it.toString() }),
-            { newValue -> config.removedStructures.value = newValue.list.map { ResourceLocation.parse(it) }.toMutableList() },
+            { newValue -> config.removedStructures.value = newValue.list.map { Identifier.parse(it) }.toMutableList() },
             tooltip("removed_structures"),
             true,
             requirement = mainToggleReq,
@@ -36,7 +36,7 @@ object StructureConfigGui {
 
         val removedStructureSets = EntryBuilder(text("removed_structure_sets"), StringList(config.removedStructureSets.value().map { it.toString() }),
             StringList(defaultConfig.removedStructureSets.value().map { it.toString() }),
-            { newValue -> config.removedStructureSets.value = newValue.list.map { ResourceLocation.parse(it) }.toMutableList() },
+            { newValue -> config.removedStructureSets.value = newValue.list.map { Identifier.parse(it) }.toMutableList() },
             tooltip("removed_structure_sets"),
             true,
             requirement = mainToggleReq,

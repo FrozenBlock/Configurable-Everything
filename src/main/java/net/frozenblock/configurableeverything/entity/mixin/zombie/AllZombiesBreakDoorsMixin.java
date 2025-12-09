@@ -8,7 +8,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.util.GoalUtils;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +22,7 @@ public class AllZombiesBreakDoorsMixin {
 	@Shadow
 	public boolean canBreakDoors;
 
-	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;isUnderWaterConverting()Z", shift = At.Shift.BEFORE))
+	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/zombie/Zombie;isUnderWaterConverting()Z", shift = At.Shift.BEFORE))
 	public void tick(CallbackInfo callbackInfo) {
 		Zombie zombie = Zombie.class.cast(this);
 		if (MainConfig.get().entity) {
@@ -44,7 +44,7 @@ public class AllZombiesBreakDoorsMixin {
 	public void mcFixes$canBreakDoors(CallbackInfoReturnable<Boolean> info) {
 		if (MainConfig.get().entity) {
 			var zombie = EntityConfig.get().zombie;
-			if (zombie != null && zombie.allZombiesBreakDoors) {
+			if (zombie.allZombiesBreakDoors) {
 				info.setReturnValue(true);
 			}
 		}
@@ -69,7 +69,7 @@ public class AllZombiesBreakDoorsMixin {
 			);
 	}
 
-	@ModifyExpressionValue(method = "addAdditionalSaveData", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;canBreakDoors()Z"))
+	@ModifyExpressionValue(method = "addAdditionalSaveData", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/zombie/Zombie;canBreakDoors()Z"))
 	public boolean mcFixes$addAdditionalSaveData(boolean original) {
 		return MainConfig.get().entity ? this.canBreakDoors : original;
 	}

@@ -13,7 +13,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 object RecipeConfigGui {
 
@@ -26,7 +26,7 @@ object RecipeConfigGui {
 
         val removed = EntryBuilder(text("removed_recipes"), StringList(config.removedRecipes.value().map { it.toString() }),
             StringList(defaultConfig.removedRecipes.value().map { it.toString() }),
-            { newValue -> config.removedRecipes.value = newValue.list.map { ResourceLocation.parse(it) }.toMutableList() },
+            { newValue -> config.removedRecipes.value = newValue.list.map { Identifier.parse(it) }.toMutableList() },
             tooltip("removed_recipes"),
             true,
             requirement = mainToggleReq,

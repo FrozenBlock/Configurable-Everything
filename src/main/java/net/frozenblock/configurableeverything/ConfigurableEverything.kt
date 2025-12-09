@@ -18,11 +18,11 @@ import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigU
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
-import net.minecraft.FileUtil
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
+import net.minecraft.util.FileUtil
 import java.io.IOException
 import kotlin.system.measureNanoTime
 
@@ -128,7 +128,7 @@ class ConfigurableEverything : ModInitializer {
         @JvmField
         val EXPERIENCE_BOTTLE_FLYBY: SoundEvent = register(id("flyby.experience_bottle"), SoundEvent.createVariableRangeEvent(id("flyby.experience_bottle")))
 
-        private fun register(key: ResourceLocation, sound: SoundEvent) =
+        private fun register(key: Identifier, sound: SoundEvent) =
             Registry.register(BuiltInRegistries.SOUND_EVENT, key, sound)
     }
 

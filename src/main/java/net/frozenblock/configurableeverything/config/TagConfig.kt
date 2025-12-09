@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import blue.endless.jankson.Comment
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification
@@ -33,7 +33,7 @@ data class TagConfig(
         TAG_MODIFICATIONS,
         mutableListOf(
             RegistryTagModification(
-                BuiltInRegistries.ITEM.key().location().toString(),
+                BuiltInRegistries.ITEM.key().identifier().toString(),
                 mutableListOf(
                     TagModification(
                         "minecraft:piglin_loved",

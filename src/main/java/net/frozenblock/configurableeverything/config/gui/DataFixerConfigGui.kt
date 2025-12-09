@@ -23,7 +23,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 private val configInstance = DataFixerConfig
 
@@ -76,8 +76,8 @@ private fun schemas(
             "biome",
             mutableListOf(
                 Fixer(
-                    ResourceLocation.parse("example:example"),
-                    ResourceLocation.parse("minecraft:forest")
+                    Identifier.parse("example:example"),
+                    Identifier.parse("minecraft:forest")
                 )
             )
         ),
@@ -85,8 +85,8 @@ private fun schemas(
             "block",
             mutableListOf(
                 Fixer(
-                    ResourceLocation.parse("example:example"),
-                    ResourceLocation.parse("minecraft:deepslate")
+                    Identifier.parse("example:example"),
+                    Identifier.parse("minecraft:deepslate")
                 )
             )
         ),
@@ -94,8 +94,8 @@ private fun schemas(
             "entity",
             mutableListOf(
                 Fixer(
-                    ResourceLocation.parse("example:example"),
-                    ResourceLocation.parse("minecraft:cow")
+                    Identifier.parse("example:example"),
+                    Identifier.parse("minecraft:cow")
                 )
             )
         ),
@@ -103,8 +103,8 @@ private fun schemas(
             "item",
             mutableListOf(
                 Fixer(
-                    ResourceLocation.parse("example:example"),
-                    ResourceLocation.parse("minecraft:stone")
+                    Identifier.parse("example:example"),
+                    Identifier.parse("minecraft:stone")
                 )
             )
         )
@@ -160,7 +160,7 @@ private fun schemas(
                                 entryBuilder,
                                 text("datafixer.fixers"),
                                 entry::fixers,
-                                { mutableListOf(Fixer(ResourceLocation.withDefaultNamespace(""), ResourceLocation.withDefaultNamespace(""))) },
+                                { mutableListOf(Fixer(Identifier.withDefaultNamespace(""), Identifier.withDefaultNamespace(""))) },
                                 true,
                                 tooltip("datafixer.fixers"),
                                 { newValue -> entry.fixers = newValue },
@@ -174,7 +174,7 @@ private fun schemas(
                                             text("datafixer.old_id"),
                                             entry.oldId.toString(),
                                             "",
-                                            { newValue -> entry.oldId = ResourceLocation.parse(newValue) },
+                                            { newValue -> entry.oldId = Identifier.parse(newValue) },
                                             tooltip("datafixer.old_id")
                                         ).build(entryBuilder),
 
@@ -182,7 +182,7 @@ private fun schemas(
                                             text("datafixer.new_id"),
                                             entry.newId.toString(),
                                             "",
-                                            { newValue -> entry.newId = ResourceLocation.parse(newValue) },
+                                            { newValue -> entry.newId = Identifier.parse(newValue) },
                                             tooltip("datafixer.new_id")
                                         ).build(entryBuilder)
                                     )
@@ -218,11 +218,11 @@ private fun registryFixers(
 ): AbstractConfigListEntry<*> {
     val defaultFixers = mutableListOf(
         Fixer(
-            ResourceLocation.parse("examplemod:example_block"),
-            ResourceLocation.parse("minecraft:stone")
+            Identifier.parse("examplemod:example_block"),
+            Identifier.parse("minecraft:stone")
         )
     )
-    val defaultRegistryFixer = RegistryFixer(Registries.BLOCK.location(), defaultFixers)
+    val defaultRegistryFixer = RegistryFixer(Registries.BLOCK.identifier(), defaultFixers)
     return typedEntryList(
         entryBuilder,
         text("registry_fixers"),
@@ -243,7 +243,7 @@ private fun registryFixers(
                     text("registry_fixers.registry_key"),
                     registryFixer.registryKey.toString(),
                     "",
-                    { newValue -> registryFixer.registryKey = ResourceLocation.parse(newValue) },
+                    { newValue -> registryFixer.registryKey = Identifier.parse(newValue) },
                     tooltip("registry_fixers.registry_key")
                 ).build(entryBuilder).apply { registryKeyEntry = this as StringListEntry },
 
@@ -256,7 +256,7 @@ private fun registryFixers(
                     tooltip("datafixer.fixers"),
                     { newValue -> registryFixer.fixers = newValue },
                     { element: Fixer?, _ ->
-                        val entry = element ?: Fixer(ResourceLocation.withDefaultNamespace(""), ResourceLocation.withDefaultNamespace(""))
+                        val entry = element ?: Fixer(Identifier.withDefaultNamespace(""), Identifier.withDefaultNamespace(""))
                         lateinit var oldIdEntry: StringListEntry
                         multiElementEntry(
                             text("datafixer.fixer"),
@@ -267,7 +267,7 @@ private fun registryFixers(
                                 text("datafixer.old_id"),
                                 entry.oldId.toString(),
                                 "",
-                                { newValue -> entry.oldId = ResourceLocation.parse(newValue) },
+                                { newValue -> entry.oldId = Identifier.parse(newValue) },
                                 tooltip("datafixer.old_id")
                             ).build(entryBuilder).apply {
                                 oldIdEntry = this as StringListEntry
@@ -277,7 +277,7 @@ private fun registryFixers(
                                 text("datafixer.new_id"),
                                 entry.newId.toString(),
                                 "",
-                                { newValue -> entry.newId = ResourceLocation.parse(newValue) },
+                                { newValue -> entry.newId = Identifier.parse(newValue) },
                                 tooltip("datafixer.new_id"),
                                 requirement = Requirement.none(Requirement.matches(oldIdEntry) { null }, Requirement.matches(oldIdEntry) { "" })
                             ).build(entryBuilder)

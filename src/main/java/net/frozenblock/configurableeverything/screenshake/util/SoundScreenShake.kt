@@ -2,10 +2,10 @@ package net.frozenblock.configurableeverything.screenshake.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 data class SoundScreenShake(
-    @JvmField var sound: ResourceLocation,
+    @JvmField var sound: Identifier,
     @JvmField var intensity: Float,
     @JvmField var duration: Int,
     @JvmField var falloffStart: Int,
@@ -15,7 +15,7 @@ data class SoundScreenShake(
         @JvmField
 		val CODEC: Codec<SoundScreenShake> = RecordCodecBuilder.create { instance ->
             instance.group(
-                ResourceLocation.CODEC.fieldOf("sound").forGetter(SoundScreenShake::sound),
+                Identifier.CODEC.fieldOf("sound").forGetter(SoundScreenShake::sound),
                 Codec.FLOAT.fieldOf("intensity").forGetter(SoundScreenShake::intensity),
                 Codec.INT.fieldOf("duration").forGetter(SoundScreenShake::duration),
                 Codec.INT.fieldOf("falloffStart").forGetter(SoundScreenShake::falloffStart),

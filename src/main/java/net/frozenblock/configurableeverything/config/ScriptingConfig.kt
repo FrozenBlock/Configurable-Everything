@@ -9,7 +9,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import blue.endless.jankson.Comment
 
 @UnsyncableConfig
 data class ScriptingConfig(
@@ -31,7 +31,7 @@ data class ScriptingConfig(
         "net.minecraft.core.*",
         "net.minecraft.core.registries.*",
         "net.minecraft.resources.ResourceKey",
-        "net.minecraft.resources.ResourceLocation",
+        "net.minecraft.resources.Identifier",
         "net.minecraft.world.level.block.Block",
         "net.minecraft.world.level.block.state.BlockBehaviour",
         "net.minecraft.world.level.block.state.BlockBehaviour.Properties",

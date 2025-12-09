@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -15,9 +15,8 @@ public abstract class BabyZombieSprintMixin {
 	public boolean mcFixes$babyZombieSprint(boolean original) {
 		return original ||
 			(
-				MainConfig.get(false).entity == true
-				&& EntityConfig.get(false).zombie != null
-				&& EntityConfig.get(false).zombie.babyZombieSprintParticles == true
+				MainConfig.get(false).entity
+				&& EntityConfig.get(false).zombie.babyZombieSprintParticles
 				&& Entity.class.cast(this) instanceof Zombie zombie
 				&& zombie.isBaby()
 				&& (zombie.minorHorizontalCollision || !zombie.horizontalCollision)

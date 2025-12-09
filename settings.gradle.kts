@@ -27,7 +27,7 @@ pluginManagement {
 
 rootProject.name = "Configurable Everything"
 
-localRepository("FrozenLib", "maven.modrinth:frozenlib", kotlin = true, enabled = false)
+localRepository("FrozenLib", "maven.modrinth:frozenlib", kotlin = true, enabled = true)
 
 
 fun localRepository(repo: String, dependencySub: String, kotlin: Boolean, enabled: Boolean) {

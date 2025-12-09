@@ -23,7 +23,7 @@ import net.frozenblock.configurableeverything.util.getValue
 import net.frozenblock.configurableeverything.util.setValue
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 class MainWrapper internal constructor(config: MainConfig) : ConfigWrapper<MainConfig>(config) {
 
@@ -138,8 +138,8 @@ class SplashTextWrapper internal constructor(config: SplashTextConfig) : ConfigW
 
 class StructureWrapper internal constructor(config: StructureConfig) : ConfigWrapper<StructureConfig>(config) {
 
-    var removedStructures: MutableList<ResourceLocation> by config.removedStructures
-    var removedStructureSets: MutableList<ResourceLocation> by config.removedStructureSets
+    var removedStructures: MutableList<Identifier> by config.removedStructures
+    var removedStructureSets: MutableList<Identifier> by config.removedStructureSets
 }
 
 class SurfaceRuleWrapper internal constructor(config: SurfaceRuleConfig) : ConfigWrapper<SurfaceRuleConfig>(config) {

@@ -20,7 +20,7 @@ internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<
 
     val removedStructures = config.removedStructures.value
     for (entry in original) { launch {
-        val key = entry.structure.unwrapKey().orElseThrow().location()
+        val key = entry.structure.unwrapKey().orElseThrow().identifier()
         if (removedStructures.contains(key)) newList.remove(entry)
     } }
     return@runBlocking Collections.unmodifiableList(newList)
@@ -34,7 +34,7 @@ internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<
 
     val removedStructureSets = config.removedStructureSets.value
     for (set in original) { launch {
-        if (removedStructureSets.contains(set.unwrapKey().orElseThrow().location()))
+        if (removedStructureSets.contains(set.unwrapKey().orElseThrow().identifier()))
             newList.remove(set)
     } }
     return@runBlocking Collections.unmodifiableList(newList)

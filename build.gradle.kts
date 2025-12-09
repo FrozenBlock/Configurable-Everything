@@ -67,7 +67,7 @@ loom {
     accessWidenerPath.set(file("src/main/resources/$mod_id.accesswidener"))
     interfaceInjection {
         // When enabled, injected interfaces from dependencies will be applied.
-        enableDependencyInterfaceInjection.set(false)
+        enableDependencyInterfaceInjection.set(true)
     }
 }
 
@@ -239,6 +239,7 @@ tasks {
                 "**/lang/*.json",
                 "**/.cache/*",
                 "**/*.accesswidener",
+                "**/*.classtweaker",
                 "**/*.nbt",
                 "**/*.png",
                 "**/*.ogg",

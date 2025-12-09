@@ -11,8 +11,7 @@
   "client": [
     "client.ClientLevelDataMixin",
     "client.ClientLevelMixin",
-    "client.LevelRendererMixin",
-    "client.LevelTimeAccessMixin"
+    "client.LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

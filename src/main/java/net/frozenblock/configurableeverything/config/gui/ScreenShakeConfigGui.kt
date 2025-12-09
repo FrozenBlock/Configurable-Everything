@@ -16,7 +16,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
@@ -61,7 +61,7 @@ private fun soundScreenShakes(
         tooltip("sound_screen_shakes"),
         { newValue -> config.soundScreenShakes = newValue},
         { element: SoundScreenShake?, _ ->
-            val soundScreenShake = element ?: SoundScreenShake(ResourceLocation.withDefaultNamespace(""), 1F, 25, 1, 20F)
+            val soundScreenShake = element ?: SoundScreenShake(Identifier.withDefaultNamespace(""), 1F, 25, 1, 20F)
             multiElementEntry(
                 text("sound_screen_shakes.sound_screen_shake"),
                 soundScreenShake,
@@ -69,7 +69,7 @@ private fun soundScreenShakes(
 
                 EntryBuilder(text("sound_screen_shakes.sound"), soundScreenShake.sound.toString(),
                     "",
-                    { newValue -> soundScreenShake.sound = ResourceLocation.parse(newValue) },
+                    { newValue -> soundScreenShake.sound = Identifier.parse(newValue) },
                     tooltip("sound_screen_shakes.sound")
                 ).build(entryBuilder),
 

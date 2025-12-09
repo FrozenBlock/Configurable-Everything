@@ -6,7 +6,7 @@ import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import blue.endless.jankson.Comment
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
 

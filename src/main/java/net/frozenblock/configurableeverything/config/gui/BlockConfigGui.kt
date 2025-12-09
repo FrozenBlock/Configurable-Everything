@@ -19,7 +19,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 
@@ -74,7 +74,7 @@ private fun soundGroupOverwrites(
 
                 EntryBuilder(text("sound_group_overwrites.id"), overwrite.blockId.toString(),
                     "",
-                    { newValue -> overwrite.blockId = ResourceLocation.parse(newValue) },
+                    { newValue -> overwrite.blockId = Identifier.parse(newValue) },
                     tooltip("sound_group_overwrites.id")
                 ).build(entryBuilder),
 
@@ -138,5 +138,5 @@ private fun soundId(sound: SoundEvent?): String? {
 }
 
 private fun sound(id: String): SoundEvent? {
-    return BuiltInRegistries.SOUND_EVENT.getValue(ResourceLocation.parse(id))
+    return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse(id))
 }

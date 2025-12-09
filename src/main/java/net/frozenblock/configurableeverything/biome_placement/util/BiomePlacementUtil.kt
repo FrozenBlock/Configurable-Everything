@@ -2,8 +2,9 @@ package net.frozenblock.configurableeverything.biome_placement.util
 
 import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader
 import net.frozenblock.configurableeverything.config.MainConfig
+import net.frozenblock.configurableeverything.util.id
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
 import net.minecraft.core.HolderSet
@@ -22,8 +23,8 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator
 object BiomePlacementUtil {
 
     fun init() {
-        val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-        resourceLoader?.registerReloadListener(BiomePlacementChanges)
+        val resourceLoader = ResourceLoader.get(PackType.SERVER_DATA)
+        resourceLoader.registerReloader(id("biome_placement_changes"), BiomePlacementChanges)
     }
 
     @JvmStatic
@@ -41,7 +42,7 @@ object BiomePlacementUtil {
             if (biomeSource !is MultiNoiseBiomeSource) continue
 
             val extended = biomeSource as? BiomeSourceExtension
-            val parameters: Climate.ParameterList<Holder<Biome>>? = biomeSource.parameters()
+            val parameters: Climate.ParameterList<Holder<Biome>> = biomeSource.parameters()
             (parameters as? ParameterListExtension)?.`configurableEverything$updateBiomesList`(registryAccess, dimension)
 
             // remove biomes first to allow replacing biome parameters
@@ -78,9 +79,9 @@ object BiomePlacementUtil {
         }.toList()
         for (list in dimensionBiomes) {
             list?.biomes?.forEach { parameters ->
-                parameters?.biome?.apply {
+                parameters.biome.apply {
                     val location = this
-                    parameters.parameters?.toImmutable()?.apply {
+                    parameters.parameters.toImmutable()?.apply {
                         biomeAdditions.add(
                             this to registryAccess?.getOrThrow(ResourceKey.create(Registries.BIOME, location))
                         )
@@ -115,7 +116,7 @@ object BiomePlacementUtil {
                         registryAccess?.lookupOrThrow(Registries.BIOME)?.getOrThrow(it)
                     }
                     biomeSet?.forEach {
-                        it?.unwrapKey()?.orElseThrow()?.let { it1 -> biomeRemovals.add(it1) }
+                        it.unwrapKey().orElseThrow()?.let { it1 -> biomeRemovals.add(it1) }
                     }
                 }
             }

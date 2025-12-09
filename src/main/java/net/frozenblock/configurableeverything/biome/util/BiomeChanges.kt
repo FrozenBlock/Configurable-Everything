@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.biome.util
 import net.frozenblock.configurableeverything.biome.util.BiomeConfigUtil.applyModifications
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.DataReloadManager
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 @Suppress("NOTHING_TO_INLINE")
 object BiomeChanges : DataReloadManager<BiomeChange>(
@@ -21,10 +21,10 @@ object BiomeChanges : DataReloadManager<BiomeChange>(
     }
 
     /**
-     * Adds a biome change with the specified [ResourceLocation]
+     * Adds a biome change with the specified [Identifier]
      */
     internal inline fun add(
-        key: ResourceLocation,
+        key: Identifier,
         addedFeatures: MutableList<BiomePlacedFeatureList>,
         removedFeatures: MutableList<BiomePlacedFeatureList>,
         replacedFeatures: MutableList<BiomePlacedFeatureReplacementList>,

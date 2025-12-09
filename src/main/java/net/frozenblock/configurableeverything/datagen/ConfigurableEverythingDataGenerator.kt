@@ -15,6 +15,7 @@ import net.minecraft.data.worldgen.features.VegetationFeatures
 import net.minecraft.data.worldgen.placement.PlacementUtils
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
+import net.minecraft.world.attribute.EnvironmentAttributes
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Biome.BiomeBuilder
 import net.minecraft.world.level.biome.BiomeGenerationSettings
@@ -37,13 +38,13 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
 
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
         val pack = fabricDataGenerator.createPack()
-        pack.addProvider { output: FabricDataOutput?, registriesFuture: CompletableFuture<HolderLookup.Provider?>? ->
+        pack.addProvider { output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider> ->
             WorldgenProvider(
                 output,
                 registriesFuture
             )
         }
-        pack.addProvider { output: FabricDataOutput?, registriesFuture: CompletableFuture<HolderLookup.Provider?>? ->
+        pack.addProvider { output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider> ->
             BiomeTagProvider(
                 output,
                 registriesFuture
@@ -53,9 +54,9 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
 
     @Suppress("UNCHECKED_CAST")
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
-        registryBuilder.add(Registries.BIOME) { context: BootstrapContext<Biome?> ->
+        registryBuilder.add(Registries.BIOME) { context: BootstrapContext<Biome> ->
             context.register(
-                BLANK_BIOME as ResourceKey<Biome?>,
+                BLANK_BIOME as ResourceKey<Biome>,
                 BiomeBuilder()
                     .temperature(0.5f)
                     .downfall(0f)
@@ -64,18 +65,18 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
                         BiomeSpecialEffects.Builder()
                             .grassColorOverride(8421504)
                             .foliageColorOverride(8421504)
-                            .fogColor(0)
                             .waterColor(0)
-                            .waterFogColor(0)
-                            .skyColor(0)
                             .build()
                     )
+                    .setAttribute(EnvironmentAttributes.FOG_COLOR, 0)
+                    .setAttribute(EnvironmentAttributes.WATER_FOG_COLOR, 0)
+                    .setAttribute(EnvironmentAttributes.SKY_COLOR, 0)
                     .mobSpawnSettings(MobSpawnSettings.EMPTY)
                     .generationSettings(BiomeGenerationSettings.EMPTY)
                     .build()
             )
         }
-        registryBuilder.add(Registries.PLACED_FEATURE) { context: BootstrapContext<PlacedFeature?> ->
+        registryBuilder.add(Registries.PLACED_FEATURE) { context: BootstrapContext<PlacedFeature> ->
             PlacementUtils.register(
                 context,
                 BLANK_PLACED_FEATURE,
@@ -95,8 +96,8 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
     }
 
     private class WorldgenProvider(
-        output: FabricDataOutput?,
-        registriesFuture: CompletableFuture<HolderLookup.Provider?>?
+        output: FabricDataOutput,
+        registriesFuture: CompletableFuture<HolderLookup.Provider>
     ) : FabricDynamicRegistryProvider(output, registriesFuture) {
         override fun configure(registries: HolderLookup.Provider, entries: Entries) {
             entries.addAll(registries.lookupOrThrow(Registries.BIOME))

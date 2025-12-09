@@ -57,7 +57,7 @@ internal object EntityConfigUtil {
             val desiredEntityName = entityAttributeAmplifier.entityName
             val amplifiers = entityAttributeAmplifier.amplifiers
 
-            if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entityAccess.type)) return@launch
+            if (desiredEntity.identifier() != BuiltInRegistries.ENTITY_TYPE.getKey(entityAccess.type)) return@launch
 
             val desEntityNameComponent: Component = Component.literal(desiredEntityName)
             if (!(desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entityAccess.name)) return@launch

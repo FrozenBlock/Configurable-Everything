@@ -8,26 +8,26 @@ import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 data class StructureConfig(
 
     @JvmField
     @EntrySyncData("removedStructures")
-    var removedStructures: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
+    var removedStructures: TypedEntry<MutableList<Identifier>> = TypedEntry.create(
         RESOURCE_LIST,
         mutableListOf(
-            ResourceLocation.withDefaultNamespace("ancient_city"),
-            ResourceLocation.withDefaultNamespace("village_plains")
+            Identifier.withDefaultNamespace("ancient_city"),
+            Identifier.withDefaultNamespace("village_plains")
         )
     ),
 
     @JvmField
     @EntrySyncData("removedStructureSets")
-    var removedStructureSets: TypedEntry<MutableList<ResourceLocation>> = TypedEntry.create(
+    var removedStructureSets: TypedEntry<MutableList<Identifier>> = TypedEntry.create(
         RESOURCE_LIST,
         mutableListOf(
-            ResourceLocation.withDefaultNamespace("villages")
+            Identifier.withDefaultNamespace("villages")
         )
     )
 ) {

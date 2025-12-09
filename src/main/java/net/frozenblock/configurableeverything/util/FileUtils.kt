@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.util
 
-import net.minecraft.FileUtil
+import net.minecraft.util.FileUtil
 import java.io.*
 import java.net.URL
 import java.nio.file.Path

@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.recipe.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.RecipeConfig;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
@@ -25,11 +25,11 @@ public class RecipeManagerMixin {
 			target = "Ljava/util/ArrayList;<init>(I)V"
 		)
 	)
-	private void removeRecipes(ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfoReturnable<RecipeMap> cir, @Local SortedMap<ResourceLocation, Recipe<?>> map) {
+	private void removeRecipes(ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfoReturnable<RecipeMap> cir, @Local SortedMap<Identifier, Recipe<?>> map) {
 		RecipeConfig config = RecipeConfig.get();
 		if (!MainConfig.get().recipe) return;
 
-		for (ResourceLocation recipe : config.removedRecipes.value()) {
+		for (Identifier recipe : config.removedRecipes.value()) {
 			map.remove(recipe);
 		}
 	}

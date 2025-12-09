@@ -18,7 +18,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.item.Items
@@ -63,7 +63,7 @@ private fun reachOverrides(
 
                 EntryBuilder(text("reach_overrides.item"), override.item.toString(),
                     vanillaId("").toString(),
-                    { newValue -> override.item = ResourceLocation.parse(newValue) },
+                    { newValue -> override.item = Identifier.parse(newValue) },
                     tooltip("reach_overrides.item")
                 ).build(entryBuilder),
 

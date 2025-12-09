@@ -238,7 +238,7 @@ private fun musicReplacements(
             val biomeMusic: BiomeMusic = element ?: BiomeMusic(defaultBiome, defaultMusic)
             val biome: Either<ResourceKey<Biome>, TagKey<Biome>> = biomeMusic.biome
             val music: MutableMusic = biomeMusic.music
-            val sound: Holder<SoundEvent> = music.event ?: defaultSound
+            val sound: Holder<SoundEvent> = music.sound ?: defaultSound
             val minDelay: Int = music.minDelay ?: defaultMinDelay
             val maxDelay: Int = music.maxDelay ?: defaultMaxDelay
             val replaceCurrentMusic: Boolean = music.replaceCurrentMusic ?: defaultReplaceCurrentMusic
@@ -262,7 +262,7 @@ private fun musicReplacements(
 
                     EntryBuilder(text("music_replacements.sound"), sound.toStr(),
                         "",
-                        { newValue -> music.event = newValue.toHolder(BuiltInRegistries.SOUND_EVENT) },
+                        { newValue -> music.sound = newValue.toHolder(BuiltInRegistries.SOUND_EVENT) },
                         tooltip("music_replacements.sound"),
                         requiresRestart = true
                     ).build(entryBuilder),
@@ -356,8 +356,8 @@ private fun biomePlacedFeaturesElement(
                         .requireRestart()
                         .build(),
 
-                    entryBuilder.startStrList(text("$`lang`_features.placed_features"), placedFeatures.map { key -> key?.location().toString() })
-                        .setDefaultValue(defaultPlacedFeatures.map { key -> key.location().toString() })
+                    entryBuilder.startStrList(text("$`lang`_features.placed_features"), placedFeatures.map { key -> key?.identifier().toString() })
+                        .setDefaultValue(defaultPlacedFeatures.map { key -> key.identifier().toString() })
                         .setSaveConsumer { newValue -> decorationFeature.placedFeatures = newValue.map { it.toKey(Registries.PLACED_FEATURE) }.toMutableList() }
                         .setTooltip(tooltip("$`lang`_features.placed_features"))
                         .requireRestart()

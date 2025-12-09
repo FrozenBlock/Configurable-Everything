@@ -20,7 +20,7 @@ import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 private val configInstance = EntityConfig
 
@@ -199,16 +199,16 @@ private fun entityAttributeAmplifiers(
         tooltip("entity_attribute_amplifiers"),
         { newValue -> config.entityAttributeAmplifiers = newValue},
         { element: EntityAttributeAmplifier?, _ ->
-            val defaultEntity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.withDefaultNamespace(""))
-            val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.withDefaultNamespace("")), 1.5)))
+            val defaultEntity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace(""))
+            val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, Identifier.withDefaultNamespace("")), 1.5)))
             multiElementEntry(
                 text("entity_attribute_amplifiers.entity_attribute_amplifier"),
                 entityAttributeAmplifier,
                 true,
 
-                EntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.location().toString(),
+                EntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.identifier().toString(),
                     "",
-                    { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(newValue)) },
+                    { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.parse(newValue)) },
                     tooltip("entity_attribute_amplifiers.entity")
                 ).build(entryBuilder),
 
@@ -222,12 +222,12 @@ private fun entityAttributeAmplifiers(
                     entryBuilder,
                     text("entity_attribute_amplifiers.amplifiers"),
                     entityAttributeAmplifier::amplifiers,
-                    { mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.parse("minecraft:generic.movement_speed")), 1.0)) },
+                    { mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, Identifier.parse("minecraft:generic.movement_speed")), 1.0)) },
                     true,
                     tooltip("entity_attribute_amplifiers.amplifiers"),
                     { newValue -> entityAttributeAmplifier.amplifiers = newValue },
                     { amplifierElement: AttributeAmplifier?, _ ->
-                        val amplifier = amplifierElement ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.parse("")), 1.5)
+                        val amplifier = amplifierElement ?: AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, Identifier.parse("")), 1.5)
                         val attribute = amplifier.attribute
                         val numAmplifier = amplifier.amplifier
                         multiElementEntry(
@@ -235,9 +235,9 @@ private fun entityAttributeAmplifiers(
                             amplifier,
                             true,
 
-                            EntryBuilder(text("entity_attribute_amplifiers.attribute"), attribute.location().toString(),
+                            EntryBuilder(text("entity_attribute_amplifiers.attribute"), attribute.identifier().toString(),
                                 "minecraft:generic.movement_speed",
-                                { newValue -> amplifier.attribute = ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.parse(newValue)) },
+                                { newValue -> amplifier.attribute = ResourceKey.create(Registries.ATTRIBUTE, Identifier.parse(newValue)) },
                                 tooltip("entity_attribute_amplifiers.attribute")
                             ).build(entryBuilder),
 
@@ -275,14 +275,14 @@ private fun experienceOverrides(
         tooltip("entity_xp_overrides"),
         { newValue -> config.experienceOverrides = newValue},
         { element: ExperienceOverride?, _ ->
-            val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.withDefaultNamespace("")), 0)
+            val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("")), 0)
             multiElementEntry(
                 text("entity_xp_override"),
                 experienceOverride,
                 true,
-                EntryBuilder(text("entity_xp_override.entity"), experienceOverride.entity.location().toString(),
+                EntryBuilder(text("entity_xp_override.entity"), experienceOverride.entity.identifier().toString(),
                     "",
-                    { newValue -> experienceOverride.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(newValue)) },
+                    { newValue -> experienceOverride.entity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.parse(newValue)) },
                     tooltip("entity_xp_override.entity")
                 ).build(entryBuilder),
 
@@ -317,7 +317,7 @@ private fun entityFlyBySounds(
         tooltip("entity_flyby_sounds"),
         { newValue -> config.entityFlyBySounds = newValue},
         { element: EntityFlyBySound?, _ ->
-            val entityFlyBySound = element ?: EntityFlyBySound(ResourceLocation.withDefaultNamespace(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
+            val entityFlyBySound = element ?: EntityFlyBySound(Identifier.withDefaultNamespace(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
             multiElementEntry(
                 text("entity_flyby_sound"),
                 entityFlyBySound,
@@ -325,7 +325,7 @@ private fun entityFlyBySounds(
 
                 EntryBuilder(text("entity_flyby_sound.entity"), entityFlyBySound.entity.toString(),
                     "minecraft:",
-                    { newValue -> entityFlyBySound.entity = ResourceLocation.parse(newValue) },
+                    { newValue -> entityFlyBySound.entity = Identifier.parse(newValue) },
                     tooltip("entity_flyby_sound.entity"),
                     requiresRestart = true
                 ).build(entryBuilder),
@@ -344,7 +344,7 @@ private fun entityFlyBySounds(
 
                     EntryBuilder(text("entity_flyby_sound.sound"), entityFlyBySound.sound.sound.toString(),
                         string("flyby.arrow"),
-                        { newValue -> entityFlyBySound.sound.sound = ResourceLocation.parse(newValue) },
+                        { newValue -> entityFlyBySound.sound.sound = Identifier.parse(newValue) },
                         tooltip("entity_flyby_sound.sound"),
                         requiresRestart = true
                     ).build(entryBuilder),
@@ -391,14 +391,14 @@ private fun entityHurtEffects(
         tooltip("entity_hurt_effects"),
         { newValue -> config.entityHurtEffects = newValue},
         { element: EntityHurtEffects?, _ ->
-            val entityHurtEffect = element ?: EntityHurtEffects(ResourceLocation.withDefaultNamespace(""), "", mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation.parse("minecraft:speed")), 0, 0, true, true, true)))
+            val entityHurtEffect = element ?: EntityHurtEffects(Identifier.withDefaultNamespace(""), "", mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, Identifier.parse("minecraft:speed")), 0, 0, true, true, true)))
             multiElementEntry(
                 text("entity_hurt_effects.dropdown"),
                 entityHurtEffect,
                 true,
                 EntryBuilder(text("entity_hurt_effects.entity"), entityHurtEffect.entity.toString(),
                     "minecraft:",
-                    { newValue -> entityHurtEffect.entity = ResourceLocation.parse(newValue) },
+                    { newValue -> entityHurtEffect.entity = Identifier.parse(newValue) },
                     tooltip("entity_hurt_effects.entity")
                 ).build(entryBuilder),
 
@@ -412,7 +412,7 @@ private fun entityHurtEffects(
                     entryBuilder,
                     text("entity_hurt_effects.hurt_effects"),
                     entityHurtEffect::effects,
-                    { mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation.withDefaultNamespace("speed")), 5, 10, true, true, true)) },
+                    { mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, Identifier.withDefaultNamespace("speed")), 5, 10, true, true, true)) },
                     true,
                     tooltip("entity_hurt_effects.hurt_effects"),
                     { newValue -> entityHurtEffect.effects = newValue },
@@ -422,9 +422,9 @@ private fun entityHurtEffects(
                             effect,
                             true,
 
-                            EntryBuilder(text("entity_hurt_effects.effect"), effect.effect.location().toString(),
+                            EntryBuilder(text("entity_hurt_effects.effect"), effect.effect.identifier().toString(),
                                 "minecraft:speed",
-                                { newValue -> effect.effect = ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation.parse(newValue)) },
+                                { newValue -> effect.effect = ResourceKey.create(Registries.MOB_EFFECT, Identifier.parse(newValue)) },
                                 tooltip("entity_hurt_effects.effect")
                             ).build(entryBuilder),
 
@@ -486,22 +486,22 @@ private fun entitySpottingIcons(
         tooltip("entity_spotting_icons"),
         { newValue -> config.entitySpottingIcons = newValue},
         { element: EntitySpottingIcon?, _ ->
-            val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.withDefaultNamespace("example")), ResourceLocation.withDefaultNamespace("icon"), 5F, 8F)
+            val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")), Identifier.withDefaultNamespace("icon"), 5F, 8F)
             multiElementEntry(
                 text("entity_spotting_icons.spotting_icon"),
                 entitySpottingIcon,
                 true,
 
-                EntryBuilder(text("entity_spotting_icons.entity"), entitySpottingIcon.entity.location().toString(),
+                EntryBuilder(text("entity_spotting_icons.entity"), entitySpottingIcon.entity.identifier().toString(),
                     "",
-                    { newValue -> entitySpottingIcon.entity = ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(newValue)) },
+                    { newValue -> entitySpottingIcon.entity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.parse(newValue)) },
                     tooltip("entity_spotting_icons.entity"),
                     requiresRestart = true
                 ).build(entryBuilder),
 
                 EntryBuilder(text("entity_spotting_icons.texture"), entitySpottingIcon.texture.toString(),
                     "",
-                    { newValue -> entitySpottingIcon.texture = ResourceLocation.parse(newValue) },
+                    { newValue -> entitySpottingIcon.texture = Identifier.parse(newValue) },
                     tooltip("entity_spotting_icons.texture"),
                     requiresRestart = true
                 ).build(entryBuilder),

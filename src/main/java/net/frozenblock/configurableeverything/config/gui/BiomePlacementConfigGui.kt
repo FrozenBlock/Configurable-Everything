@@ -27,7 +27,7 @@ import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
@@ -69,7 +69,7 @@ private fun addedBiomes(
         { element: DimensionBiomeList?, _ ->
             val defaultParameters = mutableListOf(
                 BiomeParameters(
-                    ResourceLocation.withDefaultNamespace(""),
+                    Identifier.withDefaultNamespace(""),
                     Climate.parameters(
                         Temperature.NEUTRAL,
                         Humidity.NEUTRAL,
@@ -90,7 +90,7 @@ private fun addedBiomes(
 
                 EntryBuilder(
                     text("added_biomes.dimension"),
-                    dimensionBiomeList.dimension.location().toString(),
+                    dimensionBiomeList.dimension.identifier().toString(),
                     "",
                     { newValue -> dimensionBiomeList.dimension = newValue.toKey(Registries.DIMENSION_TYPE) },
                     tooltip("added_biomes.dimension")
@@ -114,7 +114,7 @@ private fun addedBiomes(
                                 text("added_biomes.biome"),
                                 biomeParameters.biome.toString(),
                                 "",
-                                { newValue -> biomeParameters.biome = ResourceLocation.parse(newValue) },
+                                { newValue -> biomeParameters.biome = Identifier.parse(newValue) },
                                 tooltip("added_biomes.biome"),
                             ).build(entryBuilder),
 
@@ -237,9 +237,9 @@ private fun removedBiomes(
 
                 EntryBuilder(
                     text("removed_biomes.dimension"),
-                    dimensionBiomeList.dimension.location().toString(),
+                    dimensionBiomeList.dimension.identifier().toString(),
                     "",
-                    { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.parse(newValue)) },
+                    { newValue -> dimensionBiomeList.dimension = ResourceKey.create(Registries.DIMENSION_TYPE, Identifier.parse(newValue)) },
                     tooltip("removed_biomes.dimension")
                 ).build(entryBuilder),
 

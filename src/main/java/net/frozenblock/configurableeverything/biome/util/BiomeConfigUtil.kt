@@ -4,10 +4,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.fabricmc.fabric.api.biome.v1.*
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.scripting.util.ConfigData
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.sound.api.asImmutable
@@ -22,8 +21,8 @@ internal object BiomeConfigUtil {
             val biomeChange = BiomeChange(config.addedFeatures.value, config.removedFeatures.value, config.replacedFeatures.value, config.musicReplacements.value)
             BiomeChanges.add(id("config"), biomeChange)
 
-            val resourceLoader = ResourceManagerHelper.get(PackType.SERVER_DATA)
-            resourceLoader?.registerReloadListener(BiomeChanges)
+            val resourceLoader = ResourceLoader.get(PackType.SERVER_DATA)
+            resourceLoader.registerReloader(id("biome_changes"), BiomeChanges)
         }
     }
 
@@ -165,7 +164,9 @@ internal object BiomeConfigUtil {
             val biome = musicReplacement.biome
             val music = musicReplacement.music.asImmutable ?: return@launch
             val consumer: Consumer<BiomeModificationContext> = Consumer<BiomeModificationContext> { context ->
-                context.effects.setMusic(music)
+                //context.attributes.set(EnvironmentAttributes.BACKGROUND_MUSIC, music)
+                //context.effects.setMusic(music)
+                // todo fix
             }
             biome.ifLeft { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.includeByKey(it), consumer) }
             biome.ifRight { modification.add(ModificationPhase.REPLACEMENTS, BiomeSelectors.tag(it), consumer) }

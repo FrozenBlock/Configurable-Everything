@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.frozenblock.lib.block.sound.impl.overwrite.HolderSetBlockSoundTypeOverwrite
 import net.minecraft.core.HolderSet
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
@@ -14,7 +14,7 @@ import kotlin.jvm.optionals.getOrNull
 
 @Suppress("UnstableApiUsage")
 data class MutableBlockSoundGroupOverwrite(
-    var blockId: ResourceLocation,
+    var blockId: Identifier,
     var soundOverwrite: MutableSoundType,
     var condition: BooleanSupplier
 ) {
@@ -22,7 +22,7 @@ data class MutableBlockSoundGroupOverwrite(
         @JvmField
         val CODEC: Codec<MutableBlockSoundGroupOverwrite> = RecordCodecBuilder.create { instance ->
             instance.group(
-                ResourceLocation.CODEC.fieldOf("id").forGetter(MutableBlockSoundGroupOverwrite::blockId),
+                Identifier.CODEC.fieldOf("id").forGetter(MutableBlockSoundGroupOverwrite::blockId),
                 MutableSoundType.CODEC.fieldOf("sound_type").forGetter(MutableBlockSoundGroupOverwrite::soundOverwrite)
             ).apply(instance) { id, soundType -> MutableBlockSoundGroupOverwrite(id, soundType) { true } }
         }

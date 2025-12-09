@@ -4,7 +4,7 @@ import net.frozenblock.configurableeverything.entity.util.zombie.ai.NewZombieBre
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.BreakDoorGoal;
 import net.minecraft.world.entity.ai.goal.DoorInteractGoal;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

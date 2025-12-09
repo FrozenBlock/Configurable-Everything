@@ -11,7 +11,7 @@ import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.tags.TagKey
 import java.util.function.BiFunction
 import java.util.function.Consumer
@@ -21,21 +21,21 @@ import kotlin.math.exp
 
 fun <T : Any> String.toEitherKeyOrTag(registry: ResourceKey<Registry<T>>): Either<ResourceKey<T>, TagKey<T>> {
     return if (this.startsWith('#'))
-        Either.right(TagKey.create(registry, ResourceLocation.parse(this.substring(1))))
+        Either.right(TagKey.create(registry, Identifier.parse(this.substring(1))))
     else
-        Either.left(ResourceKey.create(registry, ResourceLocation.parse(this)))
+        Either.left(ResourceKey.create(registry, Identifier.parse(this)))
 }
 
 fun <T : Any> Either<ResourceKey<T>, TagKey<T>>?.toStr(): String {
     var string = ""
-    this?.ifLeft { key -> string = key?.location().toString() }
+    this?.ifLeft { key -> string = key?.identifier().toString() }
     this?.ifRight { tag -> string = "#${tag?.location.toString()}" }
     return string
 }
 
-inline fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, ResourceLocation.parse(this))
+inline fun <T : Any> String.toKey(registry: ResourceKey<out Registry<T>>): ResourceKey<T> = ResourceKey.create(registry, Identifier.parse(this))
 
-inline fun <T : Any> ResourceKey<T>?.toStr(): String = this?.location()?.toString() ?: ""
+inline fun <T : Any> ResourceKey<T>?.toStr(): String = this?.identifier()?.toString() ?: ""
 
 inline fun <T : Any> String.toHolder(registry: Registry<T>): Holder<T>? = registry.get(this.toKey(registry.key())).getOrNull()
 

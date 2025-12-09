@@ -4,8 +4,8 @@ import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -29,7 +29,7 @@ public abstract class AbstractArrowMixin extends Projectile {
 
 	@Inject(method = "onHitBlock", at = @At("TAIL"))
 	private void onHitBlock(BlockHitResult result, CallbackInfo ci) {
-		if (MainConfig.get(false).entity == true && EntityConfig.get(false).flamingArrowsLightFire == true && AbstractArrow.class.cast(this).isOnFire()) {
+		if (MainConfig.get(false).entity && EntityConfig.get(false).flamingArrowsLightFire && AbstractArrow.class.cast(this).isOnFire()) {
 			BlockPos blockPos = result.getBlockPos();
 			BlockState blockState = this.level().getBlockState(blockPos);
 

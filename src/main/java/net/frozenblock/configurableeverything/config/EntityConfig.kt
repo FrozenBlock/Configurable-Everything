@@ -14,7 +14,7 @@ import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 private val ENTITY_ATTRIBUTE_AMPLIFIERS: TypedEntryType<MutableList<EntityAttributeAmplifier>> = ConfigRegistry.register(
     TypedEntryType(
@@ -58,11 +58,11 @@ data class EntityConfig(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         mutableListOf(
             EntityAttributeAmplifier(
-                ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.withDefaultNamespace("example")),
+                ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")),
                 "",
                 mutableListOf(
                     AttributeAmplifier(
-                        ResourceKey.create(Registries.ATTRIBUTE, ResourceLocation.withDefaultNamespace("generic.movement_speed")),
+                        ResourceKey.create(Registries.ATTRIBUTE, Identifier.withDefaultNamespace("generic.movement_speed")),
                         1.5
                     )
                 )
@@ -76,7 +76,7 @@ data class EntityConfig(
         EXPERIENCE_OVERRIDES,
         mutableListOf(
             ExperienceOverride(
-                ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.withDefaultNamespace("example")),
+                ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")),
                 5000
             )
         )
@@ -88,7 +88,7 @@ data class EntityConfig(
         ENTITY_FLYBY_SOUNDS,
         mutableListOf(
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:arrow"),
+                Identifier.parse("minecraft:arrow"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.arrow"),
@@ -97,7 +97,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:tipped_arrow"),
+                Identifier.parse("minecraft:tipped_arrow"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.arrow"),
@@ -106,7 +106,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:spectral"),
+                Identifier.parse("minecraft:spectral"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.arrow"),
@@ -115,7 +115,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:trident"),
+                Identifier.parse("minecraft:trident"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.trident"),
@@ -124,7 +124,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:egg"),
+                Identifier.parse("minecraft:egg"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.egg"),
@@ -133,7 +133,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:snowball"),
+                Identifier.parse("minecraft:snowball"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.snowball"),
@@ -142,7 +142,7 @@ data class EntityConfig(
                 )
             ),  //TODO: Burning flyby sound
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:fireball"),
+                Identifier.parse("minecraft:fireball"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.fireball"),
@@ -151,7 +151,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:potion"),
+                Identifier.parse("minecraft:potion"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.potion"),
@@ -160,7 +160,7 @@ data class EntityConfig(
                 )
             ),
             EntityFlyBySound(
-                ResourceLocation.parse("minecraft:experience_bottle"),
+                Identifier.parse("minecraft:experience_bottle"),
                 EntityFlyBySoundData(
                     "neutral",
                     id("flyby.experience_bottle"),
@@ -177,11 +177,11 @@ data class EntityConfig(
         ENTITY_HURT_EFFECTS,
         mutableListOf(
             EntityHurtEffects(
-                ResourceLocation.withDefaultNamespace("cow"),
+                Identifier.withDefaultNamespace("cow"),
                 "",
                 mutableListOf(
                     MobEffectHolder(
-                        ResourceKey.create(Registries.MOB_EFFECT, ResourceLocation.withDefaultNamespace("speed")),
+                        ResourceKey.create(Registries.MOB_EFFECT, Identifier.withDefaultNamespace("speed")),
                         5,
                         10,
                         true,
@@ -199,7 +199,7 @@ data class EntityConfig(
         SPOTTING_ICONS,
         mutableListOf(
             EntitySpottingIcon(
-                ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.withDefaultNamespace("example")),
+                ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")),
                 id("textures/spotting_icon/icon.png"),
                 5f,
                 8f

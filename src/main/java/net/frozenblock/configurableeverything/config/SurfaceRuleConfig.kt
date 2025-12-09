@@ -28,7 +28,7 @@ data class SurfaceRuleConfig(
         SURFACE_RULE_LIST,
         mutableListOf(
             FrozenDimensionBoundRuleSource(
-                BuiltinDimensionTypes.OVERWORLD.location(),
+                BuiltinDimensionTypes.OVERWORLD.identifier(),
                 SurfaceRules.sequence(
                     SurfaceRules.ifTrue(
                         SurfaceRules.isBiome(ConfigurableEverythingDataGenerator.BLANK_BIOME),

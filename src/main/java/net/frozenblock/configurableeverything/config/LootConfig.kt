@@ -31,7 +31,7 @@ data class LootConfig(
         LOOT_MODIFICATIONS,
         mutableListOf(
             LootModification(
-                BuiltInLootTables.ANCIENT_CITY.location(),
+                BuiltInLootTables.ANCIENT_CITY.identifier(),
                 LootPool.lootPool()
                     .add(
                         LootItem.lootTableItem(Items.DIAMOND_BLOCK)

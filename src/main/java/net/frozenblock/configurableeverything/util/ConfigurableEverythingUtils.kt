@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.util
 
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 // CONFIG
 internal inline fun text(key: String?): Component = Component.translatable("option.$MOD_ID.$key")
@@ -36,11 +36,11 @@ internal inline fun logError(string: String?, error: Throwable? = null, shouldLo
 
 // IDENTIFIERS
 
-internal inline fun id(path: String): ResourceLocation
-    = ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
+internal inline fun id(path: String): Identifier
+    = Identifier.fromNamespaceAndPath(MOD_ID, path)
 
-internal inline fun vanillaId(path: String): ResourceLocation
-    = ResourceLocation.fromNamespaceAndPath(ResourceLocation.DEFAULT_NAMESPACE, path)
+internal inline fun vanillaId(path: String): Identifier
+    = Identifier.fromNamespaceAndPath(Identifier.DEFAULT_NAMESPACE, path)
 
 internal inline fun string(path: String): String
     = id(path).toString()

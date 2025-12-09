@@ -12,7 +12,8 @@ import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import blue.endless.jankson.Comment
+import net.minecraft.world.attribute.EnvironmentAttributes
 import net.minecraft.world.level.biome.Biome.BiomeBuilder
 import net.minecraft.world.level.biome.BiomeGenerationSettings
 import net.minecraft.world.level.biome.BiomeSpecialEffects
@@ -50,12 +51,12 @@ data class RegistryConfig(
                         BiomeSpecialEffects.Builder()
                             .grassColorOverride(8421504)
                             .foliageColorOverride(8421504)
-                            .fogColor(0)
                             .waterColor(0)
-                            .waterFogColor(0)
-                            .skyColor(0)
                             .build()
                     )
+                    .setAttribute(EnvironmentAttributes.FOG_COLOR, 0)
+                    .setAttribute(EnvironmentAttributes.WATER_FOG_COLOR, 0)
+                    .setAttribute(EnvironmentAttributes.SKY_COLOR, 0)
                     .mobSpawnSettings(MobSpawnSettings.EMPTY)
                     .generationSettings(BiomeGenerationSettings.EMPTY)
                     .build()

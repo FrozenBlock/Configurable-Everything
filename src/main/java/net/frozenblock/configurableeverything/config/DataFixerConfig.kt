@@ -16,9 +16,9 @@ import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
+import blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
 private val SCHEMA_ENTRY_LIST: TypedEntryType<MutableList<SchemaEntry>> = ConfigRegistry.register(
     TypedEntryType(
@@ -80,8 +80,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "biome",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation.parse("examplemod:example_biome"),
-                                ResourceLocation.parse("minecraft:forest")
+                                Identifier.parse("examplemod:example_biome"),
+                                Identifier.parse("minecraft:forest")
                             )
                         )
                     ),
@@ -89,8 +89,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "block",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation.parse("examplemod:dark_stone"),
-                                ResourceLocation.parse("minecraft:deepslate")
+                                Identifier.parse("examplemod:dark_stone"),
+                                Identifier.parse("minecraft:deepslate")
                             )
                         )
                     ),
@@ -98,8 +98,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "entity",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation.parse("examplemod:example_entity"),
-                                ResourceLocation.parse("minecraft:cow")
+                                Identifier.parse("examplemod:example_entity"),
+                                Identifier.parse("minecraft:cow")
                             )
                         )
                     ),
@@ -107,8 +107,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "item",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation.parse("examplemod:example_item"),
-                                ResourceLocation.parse("minecraft:stone")
+                                Identifier.parse("examplemod:example_item"),
+                                Identifier.parse("minecraft:stone")
                             )
                         )
                     )
@@ -121,8 +121,8 @@ However, if the old id is still found in the registry, it will not be replaced.
                         "block",
                         mutableListOf(
                             Fixer(
-                                ResourceLocation.parse("examplemod:old_block"),
-                                ResourceLocation.parse("minecraft:grass_block")
+                                Identifier.parse("examplemod:old_block"),
+                                Identifier.parse("minecraft:grass_block")
                             )
                         )
                     )
@@ -145,29 +145,29 @@ However, if the old id is still found in the registry, it will not be replaced (
         REGISTRY_FIXER_LIST,
         mutableListOf(
             RegistryFixer(
-                Registries.BLOCK.location(),
+                Registries.BLOCK.identifier(),
                 mutableListOf(
                     Fixer(
-                        ResourceLocation.parse("examplemod:example_block"),
-                        ResourceLocation.parse("minecraft:stone")
+                        Identifier.parse("examplemod:example_block"),
+                        Identifier.parse("minecraft:stone")
                     )
                 )
             ),
             RegistryFixer(
-                Registries.ENTITY_TYPE.location(),
+                Registries.ENTITY_TYPE.identifier(),
                 mutableListOf(
                     Fixer(
-                        ResourceLocation.parse("examplemod:example_entity"),
-                        ResourceLocation.parse("minecraft:cow")
+                        Identifier.parse("examplemod:example_entity"),
+                        Identifier.parse("minecraft:cow")
                     )
                 )
             ),
             RegistryFixer(
-                Registries.ITEM.location(),
+                Registries.ITEM.identifier(),
                 mutableListOf(
                     Fixer(
-                        ResourceLocation.parse("examplemod:example_item"),
-                        ResourceLocation.parse("minecraft:stone")
+                        Identifier.parse("examplemod:example_item"),
+                        Identifier.parse("minecraft:stone")
                     )
                 )
             )

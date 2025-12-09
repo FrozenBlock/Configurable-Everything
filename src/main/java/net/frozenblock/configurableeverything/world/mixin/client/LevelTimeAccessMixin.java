@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.world.mixin.client;
+/*package net.frozenblock.configurableeverything.world.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.frozenblock.configurableeverything.config.MainConfig;
@@ -21,3 +21,4 @@ public interface LevelTimeAccessMixin {
 		return original;
 	}
 }
+*/

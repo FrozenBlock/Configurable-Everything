@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.datapack.util
 
 import com.mojang.logging.LogUtils
-import net.minecraft.FileUtil
+import net.minecraft.util.FileUtil
 import net.minecraft.network.chat.Component
 import net.minecraft.server.packs.PackLocationInfo
 import net.minecraft.server.packs.PackSelectionConfig
