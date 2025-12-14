@@ -20,7 +20,7 @@ buildscript {
 
 plugins {
     kotlin("jvm") version("2.2.21")
-    id("fabric-loom") version("1.13-SNAPSHOT")
+    id("fabric-loom") version("1.14-SNAPSHOT")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("com.modrinth.minotaur") version("+")
