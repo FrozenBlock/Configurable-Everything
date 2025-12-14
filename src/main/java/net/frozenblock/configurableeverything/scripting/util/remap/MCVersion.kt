@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.scripting.util.remap
 
-import blue.endless.jankson.Jankson
-import blue.endless.jankson.JsonObject
+import net.frozenblock.lib.shadow.blue.endless.jankson.Jankson
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonObject
 import net.frozenblock.configurableeverything.scripting.util.asInt
 import net.frozenblock.configurableeverything.scripting.util.asString
 import net.frozenblock.lib.config.api.instance.ConfigSerialization

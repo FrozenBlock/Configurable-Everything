@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.config
 
-import blue.endless.jankson.Comment
+import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import com.mojang.serialization.Codec
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.tag.util.TagModification

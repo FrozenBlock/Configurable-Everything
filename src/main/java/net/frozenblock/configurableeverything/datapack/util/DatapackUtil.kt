@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.datapack.util
 
-import blue.endless.jankson.JsonElement
+import net.frozenblock.lib.shadow.blue.endless.jankson.JsonElement
 import com.mojang.serialization.Decoder
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.log

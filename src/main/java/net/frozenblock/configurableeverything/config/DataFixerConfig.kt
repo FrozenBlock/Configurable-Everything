@@ -16,7 +16,7 @@ import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import blue.endless.jankson.Comment
+import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
 
