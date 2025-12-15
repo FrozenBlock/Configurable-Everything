@@ -318,7 +318,6 @@ java {
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
-    withJavadocJar()
 }
 
 tasks {
