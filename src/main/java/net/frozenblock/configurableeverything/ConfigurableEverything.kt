@@ -13,7 +13,6 @@ import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.loot.util.LootConfigUtil
 import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
-import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
 import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
 import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.*
@@ -24,6 +23,8 @@ import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.util.FileUtil
 import java.io.IOException
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.deleteRecursively
 import kotlin.system.measureNanoTime
 
 /**
@@ -31,6 +32,7 @@ import kotlin.system.measureNanoTime
  */
 class ConfigurableEverything : ModInitializer {
 
+    @OptIn(ExperimentalPathApi::class)
     override fun onInitialize() {
         val time = measureNanoTime {
             //ConfigurableEverythingIntegrations.init()
@@ -71,13 +73,16 @@ class ConfigurableEverything : ModInitializer {
                     ifClient {
                         FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
                     }
-                    FileUtil.createDirectoriesSafe(MAPPINGS_PATH)
+
+                    // Remove remapping remnants
+                    MAPPINGS_PATH.deleteRecursively()
+                    ORIGINAL_SOURCES_CACHE.deleteRecursively()
+                    REMAPPED_SOURCES_CACHE.deleteRecursively()
                 }
             } catch (e: IOException) {
                 throw RuntimeException("Unable to create Configurable Everything folders", e)
             }
             ifScriptingEnabled {
-                Remapping.remapCodebase()
                 ScriptingUtil.runScripts()
             }
 

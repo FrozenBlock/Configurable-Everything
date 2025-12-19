@@ -4,8 +4,6 @@ import kotlinx.coroutines.runBlocking
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.ScriptingConfig
-import net.frozenblock.configurableeverything.scripting.util.remap.Remapping
-import net.frozenblock.configurableeverything.scripting.util.remap.Remapping.ORIGINAL_SCRIPTS
 import net.frozenblock.configurableeverything.util.*
 import java.io.File
 import java.nio.file.Path
@@ -61,14 +59,6 @@ internal object ScriptingUtil {
             script.toScriptSource(),
             compilationConfiguration
         ).apply { this.logReports() }.valueOrNull() as? KJvmCompiledScript ?: error("Compiled script is not java or is null")
-        if (!DEV_ENV && ScriptingConfig.get().remapping) {
-            val file = ORIGINAL_SCRIPTS.resolve("${script.name}.jar").toFile()
-            BasicJvmScriptJarGenerator(file)(compiledScript, evaluationConfiguration)
-            val remappedFile: File = Remapping.remapScript(file)
-            val remappedScript: CompiledScript = remappedFile.loadScriptFromJar() ?: error("Remapped script is null")
-            if (addToBuffer) SCRIPTS_TO_EVAL[remappedScript] = remappedFile
-            return Pair(remappedScript, remappedFile)
-        }
         if (addToBuffer) SCRIPTS_TO_EVAL[compiledScript] = script
         return Pair(compiledScript, script)
     }
@@ -80,8 +70,6 @@ internal object ScriptingUtil {
             compileScripts(KOTLIN_CLIENT_SCRIPT_PATH, ScriptType.CLIENT)
         COMPILED_SCRIPTS?.clear(); COMPILED_SCRIPTS = null
 
-        // verify the scripts don't use remapped sources
-        REMAPPED_SOURCES_CACHE.toFile().recreateDir()
         runBlocking { evalScripts() }
 
         CEScript.POST_RUN_FUNS?.apply {
@@ -114,8 +102,12 @@ internal object ScriptingUtil {
         try {
             val result = BasicJvmScriptEvaluator()(script, CEScriptEvaluationConfig)
             result.logReports()
-        } catch (e: Exception) {
-            logError("Error while running script file $file")
+            val returnValue = result.valueOrNull()?.returnValue
+            if (returnValue is ResultValue.Error) {
+                logError("Script $file threw an error during execution", returnValue.error)
+            }
+        } catch (e: Throwable) {
+            logError("Error while running script file $file", e)
         }
     }
 

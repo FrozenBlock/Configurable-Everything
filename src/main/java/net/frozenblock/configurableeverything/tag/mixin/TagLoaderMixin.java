@@ -17,6 +17,7 @@ import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedC
 import net.minecraft.core.Registry;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagEntry;
@@ -37,7 +38,7 @@ import java.util.Map;
 public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 
 	@Unique
-	private Registry<T> registry;
+	private ResourceKey<? extends Registry<T>> registryKey;
 
 	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/StrictJsonParser;parse(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
 	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) Identifier tag) {
@@ -49,7 +50,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 		JsonArray values = json.getAsJsonArray("values");
 
 		for (RegistryTagModification registryTagModification : config.tagModifications.value()) {
-			if (this.registry.key().identifier().toString().equals(registryTagModification.registry)) {
+			if (this.registryKey.identifier().toString().equals(registryTagModification.registry)) {
 				for (TagModification modification : registryTagModification.modifications) {
 					if (tag.equals(Identifier.tryParse(modification.tag))) {
 						modification.removals.forEach(remove -> values.remove(new JsonPrimitive(Identifier.parse(remove).toString())));
@@ -74,7 +75,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 	}
 
 	@Override
-	public void configurableEverything$setRegistry(@NotNull Registry<T> registry) {
-		this.registry = registry;
+	public void configurableEverything$setRegistryKey(@NotNull ResourceKey<? extends Registry<T>> registry) {
+		this.registryKey = registry;
 	}
 }

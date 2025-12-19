@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.thirdparty.sodium.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+// TODO: Re-enable when sodium is unobfuscated
+/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.caffeinemc.mods.sodium.client.checks.ResourcePackScanner;
 import net.frozenblock.configurableeverything.config.thirdparty.SodiumConfig;
@@ -40,3 +41,4 @@ public abstract class ResourcePackScannerMixin {
 		}
 	}
 }
+*/

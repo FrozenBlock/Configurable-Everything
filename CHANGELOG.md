@@ -12,3 +12,5 @@ Put changelog here:
   - 2.0 on 26.1-snapshot-1
 - 26.1: Removed script remapping
   - The unobfuscation update makes script remapping obsolete
+- 26.1: Added a wrapper for adding blocks via scripts
+  - The wiki has been updated to show an example

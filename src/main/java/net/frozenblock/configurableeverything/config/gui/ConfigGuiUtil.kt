@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.config.gui
 
-import com.mojang.datafixers.util.Either
+// TODO: Re-enable when cloth config is unobfuscated
+/*import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
@@ -101,3 +102,4 @@ fun <T> nestedList(
         requirement
     )
 }
+*/

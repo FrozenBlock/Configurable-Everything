@@ -3,9 +3,8 @@
   "minVersion": "0.8.5",
   "package": "net.frozenblock.configurableeverything.thirdparty.sodium.mixin",
   "plugin": "net.frozenblock.configurableeverything.thirdparty.sodium.CESodiumMixinPlugin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "ResourcePackScannerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -2,7 +2,11 @@
 
 package net.frozenblock.configurableeverything.config.gui.main
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+
+// TODO: Re-enable when modmenu is unobfuscated
+/*import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -21,3 +25,4 @@ class ModMenuIntegration : ModMenuApi {
         } else ConfigScreenFactory { _ -> null }
     }
 }
+*/

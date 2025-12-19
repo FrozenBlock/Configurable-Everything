@@ -9,8 +9,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.ObjectShare
 import net.frozenblock.configurableeverything.config.ScriptingConfig
+import net.frozenblock.configurableeverything.util.INPUT_GAME_JARS
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_EXTENSION
-import net.frozenblock.configurableeverything.util.REMAPPED_SOURCES_CACHE
 import net.frozenblock.configurableeverything.util.asFileList
 import net.minecraft.client.Minecraft
 import net.minecraft.server.MinecraftServer
@@ -114,14 +114,15 @@ open class CEScriptCompilationConfig internal constructor(type: ScriptType) : Sc
         // and take jars with mentioned names to the compilation classpath via `dependencies` key.
 
         // Adds the remapped Minecraft and mod jars to the classpath
-        if (ScriptingConfig.get().remapping)
-            updateClasspath(REMAPPED_SOURCES_CACHE.asFileList!!)
+        //if (ScriptingConfig.get().remapping)
+        //    updateClasspath(REMAPPED_SOURCES_CACHE.asFileList!!)
+        updateClasspath(INPUT_GAME_JARS.map { it.toFile() })
 
         dependenciesFromCurrentContext(wholeClasspath = true)
     }
 
     compilerOptions(listOf(
-        "-jvm-target", "21",
+        "-jvm-target", "25",
         //"-language-version", "2.0",
     ))
     compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
