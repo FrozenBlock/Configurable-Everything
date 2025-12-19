@@ -1,6 +1,5 @@
-package net.frozenblock.configurableeverything.datapack.util
+package net.frozenblock.configurableeverything.scripting.util.conversion
 
-import com.mojang.serialization.Dynamic
 import com.mojang.serialization.DynamicOps
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
@@ -13,8 +12,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.mojang.serialization.JsonOps
 import net.frozenblock.lib.shadow.xjs.data.JsonValue as XjsValue
-import java.io.BufferedReader
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
@@ -36,7 +36,7 @@ object DatapackConversion {
         outputOps: DynamicOps<O>,
         inputExtension: String,
         outputExtension: String,
-        parseInput: (BufferedReader) -> I,
+        parseInput: (FileInputStream) -> I,
         writeOutput: (O) -> String
     ): ConversionResult {
         val errors = mutableListOf<ConversionError>()
@@ -78,7 +78,7 @@ object DatapackConversion {
 
                         // Convert data files with matching extension
                         relativePathStr.startsWith("data${File.separator}") && inputPath.extension == inputExtension -> {
-                            val result = convertFile(
+                            val result = FileConversion.convertFile(
                                 inputPath = inputPath,
                                 outputDirectory = outputDirectory,
                                 relativePath = relativePath,
@@ -87,7 +87,7 @@ object DatapackConversion {
                                 inputExtension = inputExtension,
                                 outputExtension = outputExtension,
                                 createInputBase = parseInput,
-                                serializeOutput = writeOutput
+                                writeOutput = writeOutput
                             )
                             if (result != null) {
                                 errors.add(result)
@@ -131,80 +131,33 @@ object DatapackConversion {
         )
     }
 
-    /**
-     * Converts a single data file from one format to another.
-     *
-     * @return A [ConversionError] if conversion failed, null otherwise
-     */
-    private fun <I : Any, O : Any> convertFile(
-        inputPath: Path,
-        outputDirectory: Path,
-        relativePath: Path,
-        inputOps: DynamicOps<I>,
-        outputOps: DynamicOps<O>,
-        inputExtension: String,
-        outputExtension: String,
-        createInputBase: (BufferedReader) -> I,
-        serializeOutput: (O) -> String
-    ): ConversionError? {
-        return try {
-            // Parse input file
-            val inputData: I = Files.newBufferedReader(inputPath).use { reader ->
-                createInputBase(reader)
-            }
-
-            // Convert using Dynamic
-            val dynamic = Dynamic(inputOps, inputData)
-            val converted: O = dynamic.convert(outputOps).value
-
-            // Calculate output path with new extension
-            val outputRelativePath = relativePath.toString().let { path ->
-                if (path.endsWith(".$inputExtension")) {
-                    path.dropLast(inputExtension.length + 1) + ".$outputExtension"
-                } else {
-                    path
-                }
-            }
-            val outputPath = outputDirectory.resolve(outputRelativePath)
-
-            // Write output file
-            Files.createDirectories(outputPath.parent)
-            val serialized = serializeOutput(converted)
-            Files.writeString(outputPath, serialized)
-
-            null
-        } catch (e: Exception) {
-            ConversionError(inputPath, "Failed to convert: ${e.message}")
-        }
-    }
+    @JvmField
+    val jsonParser: (FileInputStream) -> JsonElement =
+        { file -> JsonParser.parseReader(InputStreamReader(file)) }
 
     @JvmField
-    val jsonParser: (BufferedReader) -> JsonElement =
-        { reader -> JsonParser.parseReader(reader) }
+    val json5Parser: (FileInputStream) -> JanksonElement =
+        { file -> JANKSON.load(file) }
 
     @JvmField
-    val json5Parser: (BufferedReader) -> JanksonElement =
-        { reader -> JANKSON.load(reader.readText()) }
+    val djsParser: (FileInputStream) -> XjsValue =
+        { file -> Xjs.parse(file) }
 
     @JvmField
-    val djsParser: (BufferedReader) -> XjsValue =
-        { reader -> Xjs.parse(reader.readText()) }
+    val jsoncParser: (FileInputStream) -> XjsValue =
+        { file -> XjsContext.getParser("jsonc").parse(file) }
 
     @JvmField
-    val jsoncParser: (BufferedReader) -> XjsValue =
-        { reader -> XjsContext.getParser("jsonc").parse(reader) }
+    val hjsonParser: (FileInputStream) -> XjsValue =
+        { file -> XjsContext.getParser("hjson").parse(file) }
 
     @JvmField
-    val hjsonParser: (BufferedReader) -> XjsValue =
-        { reader -> XjsContext.getParser("hjson").parse(reader) }
+    val txtParser: (FileInputStream) -> XjsValue =
+        { file -> XjsContext.getParser("txt").parse(file) }
 
     @JvmField
-    val txtParser: (BufferedReader) -> XjsValue =
-        { reader -> XjsContext.getParser("txt").parse(reader) }
-
-    @JvmField
-    val ubjsonParser: (BufferedReader) -> XjsValue =
-        { reader -> XjsContext.getParser("ubjson").parse(reader) }
+    val ubjsonParser: (FileInputStream) -> XjsValue =
+        { file -> XjsContext.getParser("ubjson").parse(file) }
 
     @JvmField
     val jsonWriter: (JsonElement) -> String = { value -> GSON.toJson(value) }

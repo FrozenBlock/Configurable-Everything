@@ -11,17 +11,19 @@ import net.frozenblock.lib.config.api.instance.xjs.XjsOps
 import net.frozenblock.lib.shadow.xjs.data.serialization.JsonContext as XjsContext
 import net.frozenblock.lib.shadow.xjs.data.Json as Xjs
 import net.minecraft.core.Registry
-import net.minecraft.core.WritableRegistry
 import net.minecraft.resources.FileToIdConverter
+import net.minecraft.resources.Identifier
 import net.minecraft.resources.RegistryDataLoader
 import net.minecraft.resources.RegistryOps
 import net.minecraft.resources.RegistryOps.RegistryInfoLookup
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.util.thread.ParallelMapTransform
 import net.minecraft.world.level.validation.DirectoryValidator
 import java.io.BufferedReader
 import java.util.*
+import java.util.concurrent.Executor
 import kotlin.io.path.Path
 
 object DatapackUtil {
@@ -46,50 +48,33 @@ object DatapackUtil {
         lookup: RegistryInfoLookup,
         manager: ResourceManager,
         registryKey: ResourceKey<out Registry<E>>,
-        registry: WritableRegistry<E>,
+        loadedEntries: Map<Identifier, RegistryDataLoader.PendingRegistration<E>>,
         codec: Decoder<E>,
-        exceptions: MutableMap<ResourceKey<*>, Exception>,
+        executor: Executor,
         directory: String,
     ) {
-        /*CompletableFuture.supplyAsync({
-            val fileToIdConverter = FileToIdConverter(directory, ".json5")
-            fileToIdConverter.listMatchingResources(manager)
-        }, executor).thenCompose { registryResources ->
-            val ops = RegistryOps.create(JanksonOps.INSTANCE, lookup)
-            ParallelMapTransform.schedule(registryResources, { resourceId, resource ->
-                val elementKey = ResourceKey.create(registryKey, fileToIdConverter.fileToId(resourceId))
-                val registrationInfo = RegistryDataLoader.REGISTRATION_INFO_CACHE.apply(resource.knownPackInfo())
-                return@schedule RegistryDataLoader.PendingRegistration(
-                    elementKey,
-                    loadFromResource(codec, ops,
-                        { reader ->
-                            ConfigSerialization.createJankson("").load(reader.readText())
-                        },
-                        elementKey,
-                        resource
-                    ),
-                    registrationInfo
-                )
-            }, executor)
-        }.thenAcceptAsync({ loadedEntries ->
-
-        }, executor)*/
-        loadContents(lookup, manager, registryKey, registry, codec, exceptions, directory, "json5", JanksonOps.INSTANCE) { reader ->
+        loadContents(lookup, manager, registryKey, loadedEntries, codec,
+            executor, directory, "json5", JanksonOps.INSTANCE) { reader ->
             ConfigSerialization.createJankson("").load(reader.readText())
         }
-        loadContents(lookup, manager, registryKey, registry, codec, exceptions, directory, "djs", XjsOps.INSTANCE) { reader ->
+        loadContents(lookup, manager, registryKey, loadedEntries, codec,
+            executor, directory, "djs", XjsOps.INSTANCE) { reader ->
             Xjs.parse(reader.readText())
         }
-        loadContents(lookup, manager, registryKey, registry, codec, exceptions, directory, "jsonc", XjsOps.INSTANCE) { reader ->
+        loadContents(lookup, manager, registryKey, loadedEntries, codec,
+            executor, directory, "jsonc", XjsOps.INSTANCE) { reader ->
             XjsContext.getParser("jsonc").parse(reader)
         }
-        loadContents(lookup, manager, registryKey, registry, codec, exceptions, directory, "hjson", XjsOps.INSTANCE) { reader ->
+        loadContents(lookup, manager, registryKey, loadedEntries, codec,
+            executor, directory, "hjson", XjsOps.INSTANCE) { reader ->
             XjsContext.getParser("hjson").parse(reader)
         }
-        loadContents(lookup, manager, registryKey, registry, codec, exceptions, directory, "txt", XjsOps.INSTANCE) { reader ->
+        loadContents(lookup, manager, registryKey, loadedEntries, codec,
+            executor, directory, "txt", XjsOps.INSTANCE) { reader ->
             XjsContext.getParser("txt").parse(reader)
         }
-        loadContents(lookup, manager, registryKey, registry, codec, exceptions, directory, "ubjson", XjsOps.INSTANCE) { reader ->
+        loadContents(lookup, manager, registryKey, loadedEntries, codec,
+            executor, directory, "ubjson", XjsOps.INSTANCE) { reader ->
             XjsContext.getParser("ubjson").parse(reader)
         }
     }
@@ -99,9 +84,9 @@ object DatapackUtil {
         lookup: RegistryInfoLookup,
         manager: ResourceManager,
         registryKey: ResourceKey<out Registry<E>>,
-        registry: WritableRegistry<E>,
+        loadedEntries: Map<Identifier, RegistryDataLoader.PendingRegistration<E>>,
         codec: Decoder<E>,
-        exceptions: MutableMap<ResourceKey<*>, Exception>,
+        executor: Executor,
         directory: String,
         extension: String,
         ops: DynamicOps<R>,
@@ -110,24 +95,28 @@ object DatapackUtil {
         val fileToIdConverter = FileToIdConverter(directory, ".${extension}")
         val registryOps = RegistryOps.create(ops, lookup)
 
-        for ((identifier, resource) in fileToIdConverter.listMatchingResources(manager)) {
-            val resourceKey = ResourceKey.create(registryKey, fileToIdConverter.fileToId(identifier))
-            val bruh: Either<E, Exception> = loadFromResource(codec, registryOps,
-                createBase,
-                resourceKey,
-                resource
-            )
-            bruh.ifLeft {
-                registry.register(
-                    resourceKey,
-                    it,
-                    RegistryDataLoader.REGISTRATION_INFO_CACHE.apply(resource.knownPackInfo())
-                )
-            }
-            bruh.ifRight {
-                exceptions[resourceKey] = it
-            }
+        val map = ParallelMapTransform.schedule(
+            fileToIdConverter.listMatchingResources(manager),
+            { resourceId, thunk ->
+                val elementKey = ResourceKey.create(registryKey, fileToIdConverter.fileToId(resourceId))
+                val registrationInfo = RegistryDataLoader.REGISTRATION_INFO_CACHE.apply(thunk.knownPackInfo())
+                return@schedule RegistryDataLoader.PendingRegistration(elementKey, loadFromResource(codec, registryOps, createBase, elementKey, thunk), registrationInfo)
+            }, executor
+        )
+
+        // Convert the map's Identifier keys so their file extension is overridden as ".json"
+        val joined = map.join()
+        val transformed: Map<Identifier, RegistryDataLoader.PendingRegistration<E>> = joined.mapKeys { (id, _) ->
+            // Preserve namespace, replace path's file extension with .json (or append .json if none)
+            val ns = id.namespace
+            val path = id.path
+            val lastDot = path.lastIndexOf('.')
+            val newPath = if (lastDot == -1) "$path.json" else path.substring(0, lastDot) + ".json"
+            Identifier.fromNamespaceAndPath(ns, newPath)
         }
+
+        if (loadedEntries is HashMap)
+            loadedEntries.putAll(transformed)
     }
 
     fun <E : Any, R : Any> loadFromResource(
