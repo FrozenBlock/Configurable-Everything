@@ -10,3 +10,5 @@ Put changelog here:
 - Updated minimum Fabric Language Kotlin version to 1.13.8
 - Updated minimum FKE version to 1.1.9
   - 2.0 on 26.1-snapshot-1
+- 26.1: Removed script remapping
+  - The unobfuscation update makes script remapping obsolete
