@@ -26,10 +26,10 @@ public abstract class RegistryDataLoaderMixin {
 		ResourceManager resourceManager, RegistryOps.RegistryInfoLookup infoLookup, WritableRegistry<E> registry, Decoder<E> elementDecoder, Map<ResourceKey<?>, Exception> errors, CallbackInfo ci
     ) {
         var datapack = MainConfig.get(false).datapack;
-        if (datapack.json5Support) {
+        if (datapack.moreJsonSupport) {
             ResourceKey<? extends Registry<E>> registryKey = registry.key();
 			String directory = Registries.elementsDirPath(registryKey);
-            DatapackUtil.loadJson5Contents(infoLookup, resourceManager, registryKey, registry, elementDecoder, errors, directory);
+            DatapackUtil.loadJson5Contents(registry, infoLookup, resourceManager, registryKey, elementDecoder, directory);
         }
     }
 }

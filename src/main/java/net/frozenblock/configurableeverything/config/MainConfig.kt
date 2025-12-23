@@ -147,7 +147,7 @@ Warning: It is important to check the contents of each config before enabling th
 
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-        @Comment("Allows the usage of JSON5 files in datapacks.")
-        var json5Support: Boolean = true
+        @Comment("Allows the usage of json5, djs (this file), jsonc, hjson, txt, and ubjson files in datapacks.")
+        var moreJsonSupport: Boolean = true
     )
 }

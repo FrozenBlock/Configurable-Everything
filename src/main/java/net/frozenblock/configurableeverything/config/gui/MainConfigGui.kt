@@ -272,10 +272,10 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         true
     ).build(entryBuilder) as BooleanListEntry
 
-    val json5Support: BooleanListEntry = EntryBuilder(text("json5_support"), syncConfig.datapack.json5Support,
-        defaultConfig.datapack.json5Support,
-        { newValue -> config.datapack.json5Support = newValue },
-        tooltip("json5_support"),
+    val moreJsonSupport: BooleanListEntry = EntryBuilder(text("more_json_support"), syncConfig.datapack.moreJsonSupport,
+        defaultConfig.datapack.moreJsonSupport,
+        { newValue -> config.datapack.moreJsonSupport = newValue },
+        tooltip("more_json_support"),
         true
     ).build(entryBuilder) as BooleanListEntry
 
@@ -324,7 +324,7 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
 
         createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
-            applyDatapackFolders, datapackFolders, datapackBiome, datapackBiomePlacement, json5Support
+            applyDatapackFolders, datapackFolders, datapackBiome, datapackBiomePlacement, moreJsonSupport
         )
     }
 }

@@ -167,8 +167,8 @@
   "tooltip.configurable_everything.datapack_biome": "Enable or disable biome changes from datapacks.",
   "option.configurable_everything.datapack_biome_placement": "Biome Placement",
   "tooltip.configurable_everything.datapack_biome_placement": "Enable or disable biome placement changes from datapacks.",
-  "option.configurable_everything.json5_support": "JSON5 Support",
-  "tooltip.configurable_everything.json5_support": "Enable or disable support for JSON5 files in datapacks.",
+  "option.configurable_everything.more_json_support": "More JSON Support",
+  "tooltip.configurable_everything.more_json_support": "Enable or disable support for more types of files in datapacks.\n(JSON5, DJS, HJSON, JSONC, TXT, UBJSON)",
 
   "option.configurable_everything.apply_kotlin_scripts": "Apply Kotlin Scripts",
   "tooltip.configurable_everything.apply_kotlin_scripts": "Enable or disable the custom Kotlin scripts.",
