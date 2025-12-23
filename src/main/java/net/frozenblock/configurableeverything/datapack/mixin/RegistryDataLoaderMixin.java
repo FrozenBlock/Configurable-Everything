@@ -19,9 +19,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.log;
 
 @Mixin(RegistryDataLoader.ResourceManagerRegistryLoadTask.class)
 public abstract class RegistryDataLoaderMixin<T> extends RegistryDataLoader.RegistryLoadTask<T> {
@@ -33,9 +33,6 @@ public abstract class RegistryDataLoaderMixin<T> extends RegistryDataLoader.Regi
 	@Unique
 	private RegistryOps.RegistryInfoLookup context;
 
-	@Unique
-	private Executor executor;
-
 	public RegistryDataLoaderMixin(RegistryDataLoader.RegistryData<T> data, Lifecycle lifecycle, Map<ResourceKey<?>, Exception> loadingErrors) {
 		super(data, lifecycle, loadingErrors);
 	}
@@ -43,25 +40,20 @@ public abstract class RegistryDataLoaderMixin<T> extends RegistryDataLoader.Regi
 	@Inject(method = "load", at = @At("HEAD"))
 	private void setContext(RegistryOps.RegistryInfoLookup context, Executor executor, CallbackInfoReturnable<CompletableFuture<?>> cir) {
 		this.context = context;
-		this.executor = executor;
 	}
 
-	@ModifyVariable(method = "lambda$load$3", at = @At("HEAD"), ordinal = 0, argsOnly = true)
-    private Map<Identifier, RegistryDataLoader.PendingRegistration<T>> loadJson5Contents(
-		Map<Identifier, RegistryDataLoader.PendingRegistration<T>> value
-    ) {
-        var datapack = MainConfig.get(false).datapack;
-        if (datapack.moreJsonSupport) {
-            ResourceKey<? extends Registry<T>> registryKey = this.registryKey();
+	@Inject(method = "lambda$load$3", at = @At("HEAD"))
+	private void beforeRegisterElements(Map<Identifier, RegistryDataLoader.PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
+		var datapack = MainConfig.get(false).datapack;
+		if (datapack.moreJsonSupport) {
+			ResourceKey<? extends Registry<T>> registryKey = this.registryKey();
 			String directory = Registries.elementsDirPath(registryKey);
-            DatapackUtil.loadJson5Contents(this.context, this.resourceManager, registryKey, value, this.data.elementCodec(), this.executor, directory);
-        }
-		return value;
+			DatapackUtil.loadJson5Contents(this.registry, this.context, this.resourceManager, registryKey, loadedEntries, this.data.elementCodec(), directory);
+		}
 	}
 
 	@Inject(method = "lambda$load$3", at = @At("TAIL"))
-	private void removeContext(Map loadedEntries, CallbackInfo ci) {
+	private void removeContext(Map<Identifier, RegistryDataLoader.PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
 		this.context = null;
-		this.executor = null;
 	}
 }
