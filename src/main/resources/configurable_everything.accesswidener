@@ -12,6 +12,7 @@ accessible method net/minecraft/world/level/biome/MobSpawnSettings <init> (FLjav
 # Datapack
 accessible method net/minecraft/server/packs/repository/FolderRepositorySource nameFromPath (Ljava/nio/file/Path;)Ljava/lang/String;
 accessible field net/minecraft/server/packs/repository/FolderRepositorySource validator Lnet/minecraft/world/level/validation/DirectoryValidator;
+accessible field net/minecraft/resources/RegistryDataLoader REGISTRATION_INFO_CACHE Ljava/util/function/Function;
 
 # Scripting
 accessible method net/minecraft/resources/ResourceKey create (Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/resources/ResourceKey;

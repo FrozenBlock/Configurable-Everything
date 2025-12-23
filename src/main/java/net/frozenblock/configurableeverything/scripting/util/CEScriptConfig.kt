@@ -94,7 +94,29 @@ abstract class CEScript {
 }
 
 open class CEScriptCompilationConfig internal constructor(type: ScriptType) : ScriptCompilationConfiguration({
-    val defaultImports = ScriptingConfig.get().defaultImports
+    val defaultImports = buildList {
+        this.addAll(
+            listOf(
+                // who even needs to take these away, right?
+                "net.frozenblock.configurableeverything.scripting.util.*",
+                "net.frozenblock.configurableeverything.scripting.util.conversion.*",
+                "net.frozenblock.lib.config.api.instance.xjs.XjsOps",
+                "com.mojang.serialization.JsonOps",
+                "net.frozenblock.lib.config.api.instance.json.JanksonOps",
+                "net.frozenblock.lib.config.api.instance.ConfigModification",
+
+                "net.minecraft.core.*",
+                "net.minecraft.core.registries.*",
+                "net.minecraft.resources.ResourceKey",
+                "net.minecraft.resources.Identifier",
+                "net.minecraft.world.level.block.Block",
+                "net.minecraft.world.level.block.state.BlockBehaviour",
+                "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
+                "net.minecraft.world.level.dimension.DimensionType"
+            )
+        )
+        this.addAll(ScriptingConfig.get().defaultImports)
+    }
     defaultImports(defaultImports)
     defaultImports(
         DependsOn::class,
