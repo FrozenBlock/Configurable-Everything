@@ -272,13 +272,6 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
         true
     ).build(entryBuilder) as BooleanListEntry
 
-    val moreJsonSupport: BooleanListEntry = EntryBuilder(text("more_json_support"), syncConfig.datapack.moreJsonSupport,
-        defaultConfig.datapack.moreJsonSupport,
-        { newValue -> config.datapack.moreJsonSupport = newValue },
-        tooltip("more_json_support"),
-        true
-    ).build(entryBuilder) as BooleanListEntry
-
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         category.addEntry(biome)
 
@@ -324,7 +317,7 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val co
 
         createSubCategory(
             entryBuilder, category, text("datapack"), false, tooltip("datapack"),
-            applyDatapackFolders, datapackFolders, datapackBiome, datapackBiomePlacement, moreJsonSupport
+            applyDatapackFolders, datapackFolders, datapackBiome, datapackBiomePlacement
         )
     }
 }
