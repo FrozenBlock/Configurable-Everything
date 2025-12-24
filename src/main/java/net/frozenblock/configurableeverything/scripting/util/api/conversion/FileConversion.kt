@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.scripting.util.conversion
+package net.frozenblock.configurableeverything.scripting.util.api.conversion
 
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.DynamicOps

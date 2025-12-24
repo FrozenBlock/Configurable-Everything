@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.scripting.util
+package net.frozenblock.configurableeverything.scripting.util.api
 
 import net.frozenblock.configurableeverything.biome.util.BiomeMusic
 import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList
@@ -21,7 +21,6 @@ import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.util.getValue
 import net.frozenblock.configurableeverything.util.setValue
-import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.resources.Identifier
 
