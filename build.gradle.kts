@@ -64,7 +64,7 @@ val release = findProperty("releaseType")?.equals("stable")
 loom {
     runtimeOnlyLog4j.set(true)
 
-    accessWidenerPath.set(file("src/main/resources/$mod_id.accesswidener"))
+    accessWidenerPath.set(file("src/main/resources/$mod_id.classtweaker"))
     interfaceInjection {
         // When enabled, injected interfaces from dependencies will be applied.
         enableDependencyInterfaceInjection.set(false)

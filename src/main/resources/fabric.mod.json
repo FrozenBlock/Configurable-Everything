@@ -68,7 +68,7 @@
 
     "configurable_everything.sodium.mixins.json"
   ],
-  "accessWidener": "configurable_everything.accesswidener",
+  "accessWidener": "configurable_everything.classtweaker",
 
   "depends": {
     "frozenlib": ">=2.2.4-",
