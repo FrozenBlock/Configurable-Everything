@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.scripting.util
+package net.frozenblock.configurableeverything.scripting.util.api
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

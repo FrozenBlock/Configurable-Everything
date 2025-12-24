@@ -1,4 +1,4 @@
-classTweaker    v1    official
+classTweaker v1 named
 
 # Biome
 accessible method net/minecraft/world/level/biome/MultiNoiseBiomeSource parameters ()Lnet/minecraft/world/level/biome/Climate$ParameterList;
