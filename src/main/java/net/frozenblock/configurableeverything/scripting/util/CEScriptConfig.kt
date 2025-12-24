@@ -99,7 +99,8 @@ open class CEScriptCompilationConfig internal constructor(type: ScriptType) : Sc
             listOf(
                 // who even needs to take these away, right?
                 "net.frozenblock.configurableeverything.scripting.util.*",
-                "net.frozenblock.configurableeverything.scripting.util.conversion.*",
+                "net.frozenblock.configurableeverything.scripting.util.api.*",
+                "net.frozenblock.configurableeverything.scripting.util.api.conversion.*",
                 "net.frozenblock.lib.config.api.instance.xjs.XjsOps",
                 "com.mojang.serialization.JsonOps",
                 "net.frozenblock.lib.config.api.instance.json.JanksonOps",

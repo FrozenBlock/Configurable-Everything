@@ -1,4 +1,4 @@
-package net.frozenblock.configurableeverything.scripting.util
+package net.frozenblock.configurableeverything.scripting.util.api
 
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
