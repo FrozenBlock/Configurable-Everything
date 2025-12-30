@@ -185,10 +185,8 @@ fun CarvedPumpkinBlock(
 
 fun ChestBlock(
     blockEntityTypeSupplier: () -> BlockEntityType<out ChestBlockEntity>,
-    openSound: SoundEvent,
-    closeSound: SoundEvent,
     properties: BlockBehaviour.Properties,
-): ChestBlock = ChestBlock(blockEntityTypeSupplier, openSound, closeSound, properties)
+): ChestBlock = ChestBlock(blockEntityTypeSupplier, properties)
 
 fun ChorusFlowerBlock(
     plantBlock: Block,
