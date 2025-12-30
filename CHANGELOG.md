@@ -13,6 +13,7 @@ Put changelog here:
 - Added a wrapper for adding blocks via scripts
   - The wiki has been updated to show an example
 - Added wrappers to allow all types of blocks to be created via scripts
+- Updated included Kotlin metadata remapper from Fabric Loom
 - Fixed rare crash with entity attribute amplifiers
 - Fixed an issue where the default config causes a "No alpha allowed" error in the config GUI
 - Fixed major log spam when remapping is enabled
