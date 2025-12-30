@@ -272,7 +272,7 @@ Minecraft End User License Agreement available at https://account.mojang.com/doc
 
         for (dir in referenceDirs) {
             for (file in dir) {
-                log("Adding $file to remapping reference")
+                log("Adding $file to remapping reference", DEV_ENV)
                 remapper.readInputsAsync(remapper.createInputTag(), file.toPath())
             }
         }
@@ -475,14 +475,16 @@ Minecraft End User License Agreement available at https://account.mojang.com/doc
         val modsToRemap = config.modsToRemap
         if (modsToRemap.isEmpty()) return
 
+        // Expand configured mod ids to include all nested children recursively
+        val expandedMods = expandModsWithChildren(modsToRemap)
         log("Remapping mods")
         try {
             for (mod in FabricLoader.getInstance().allMods) {
                 val id = mod.metadata.id
 
                 when (filter) {
-                    ScriptingConfig.FilterOption.INCLUDED -> if (!modsToRemap.contains(id)) continue
-                    ScriptingConfig.FilterOption.EXCLUDED -> if (modsToRemap.contains(id)) continue
+                    ScriptingConfig.FilterOption.INCLUDED -> if (!expandedMods.contains(id)) continue
+                    ScriptingConfig.FilterOption.EXCLUDED -> if (expandedMods.contains(id)) continue
                 }
 
                 val file = getModFile(id)
