@@ -12,5 +12,12 @@ Put changelog here:
   - 2.0 on 26.1-snapshot-1
 - Added a wrapper for adding blocks via scripts
   - The wiki has been updated to show an example
+- Added wrappers to allow all types of blocks to be created via scripts
+- Fixed rare crash with entity attribute amplifiers
+- Fixed an issue where the default config causes a "No alpha allowed" error in the config GUI
+- 1.21.x: Removed json5 datapack support
+  - 26.1: Fixed json5 datapack support
+  - 26.1: Added support for djs, jsonc, hjson, txt, and ubjson files
+  - 26.1: Renamed config option from json5Support to moreJsonSuppport
 - 26.1: Removed script remapping
   - The unobfuscation update makes script remapping obsolete
