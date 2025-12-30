@@ -35,14 +35,12 @@ import net.minecraft.world.level.block.DecoratedPotBlock
 import net.minecraft.world.level.block.DirtPathBlock
 import net.minecraft.world.level.block.DispenserBlock
 import net.minecraft.world.level.block.DoorBlock
-import net.minecraft.world.level.block.DryVegetationBlock
 import net.minecraft.world.level.block.EnchantingTableBlock
 import net.minecraft.world.level.block.EndGatewayBlock
 import net.minecraft.world.level.block.EndPortalBlock
 import net.minecraft.world.level.block.EndRodBlock
 import net.minecraft.world.level.block.EnderChestBlock
 import net.minecraft.world.level.block.FarmBlock
-import net.minecraft.world.level.block.FlowerBedBlock
 import net.minecraft.world.level.block.FungusBlock
 import net.minecraft.world.level.block.FurnaceBlock
 import net.minecraft.world.level.block.GrindstoneBlock
@@ -75,7 +73,6 @@ import net.minecraft.world.level.block.SaplingBlock
 import net.minecraft.world.level.block.ScaffoldingBlock
 import net.minecraft.world.level.block.SeaPickleBlock
 import net.minecraft.world.level.block.SeagrassBlock
-import net.minecraft.world.level.block.ShortDryGrassBlock
 import net.minecraft.world.level.block.SkullBlock
 import net.minecraft.world.level.block.SmithingTableBlock
 import net.minecraft.world.level.block.SmokerBlock
@@ -88,7 +85,6 @@ import net.minecraft.world.level.block.StemBlock
 import net.minecraft.world.level.block.StructureBlock
 import net.minecraft.world.level.block.StructureVoidBlock
 import net.minecraft.world.level.block.SugarCaneBlock
-import net.minecraft.world.level.block.TallDryGrassBlock
 import net.minecraft.world.level.block.TallGrassBlock
 import net.minecraft.world.level.block.TorchBlock
 import net.minecraft.world.level.block.TransparentBlock
@@ -152,10 +148,6 @@ fun BlastFurnaceBlock(
     properties: BlockBehaviour.Properties,
 ): BlastFurnaceBlock = BlastFurnaceBlock(properties)
 
-fun BushBlock(
-    properties: BlockBehaviour.Properties,
-): BushBlock = BushBlock(properties)
-
 fun ButtonBlock(
     setType: BlockSetType,
     pressTicks: Int,
@@ -185,10 +177,8 @@ fun CarvedPumpkinBlock(
 
 fun ChestBlock(
     blockEntityTypeSupplier: () -> BlockEntityType<out ChestBlockEntity>,
-    openSound: SoundEvent,
-    closeSound: SoundEvent,
     properties: BlockBehaviour.Properties,
-): ChestBlock = ChestBlock(blockEntityTypeSupplier, openSound, closeSound, properties)
+): ChestBlock = ChestBlock(blockEntityTypeSupplier, properties)
 
 fun ChorusFlowerBlock(
     plantBlock: Block,
@@ -243,10 +233,6 @@ fun DoorBlock(
     properties: BlockBehaviour.Properties,
 ): DoorBlock = DoorBlock(blockSetType, properties)
 
-fun DryVegetationBlock(
-    properties: BlockBehaviour.Properties,
-): DryVegetationBlock = DryVegetationBlock(properties)
-
 fun EnchantingTableBlock(
     properties: BlockBehaviour.Properties,
 ): EnchantingTableBlock = EnchantingTableBlock(properties)
@@ -270,10 +256,6 @@ fun EnderChestBlock(
 fun FarmBlock(
     properties: BlockBehaviour.Properties,
 ): FarmBlock = FarmBlock(properties)
-
-fun FlowerBedBlock(
-    properties: BlockBehaviour.Properties,
-): FlowerBedBlock = FlowerBedBlock(properties)
 
 fun FungusBlock(
     featureKey: ResourceKey<ConfiguredFeature<*, *>>,
@@ -408,10 +390,6 @@ fun SeagrassBlock(
     properties: BlockBehaviour.Properties,
 ): SeagrassBlock = SeagrassBlock(properties)
 
-fun ShortDryGrassBlock(
-    properties: BlockBehaviour.Properties,
-): ShortDryGrassBlock = ShortDryGrassBlock(properties)
-
 fun SkullBlock(
     skullBlockType: SkullBlock.Type,
     properties: BlockBehaviour.Properties,
@@ -464,10 +442,6 @@ fun StructureVoidBlock(
 fun SugarCaneBlock(
     properties: BlockBehaviour.Properties,
 ): SugarCaneBlock = SugarCaneBlock(properties)
-
-fun TallDryGrassBlock(
-    properties: BlockBehaviour.Properties,
-): TallDryGrassBlock = TallDryGrassBlock(properties)
 
 fun TallGrassBlock(
     properties: BlockBehaviour.Properties,
