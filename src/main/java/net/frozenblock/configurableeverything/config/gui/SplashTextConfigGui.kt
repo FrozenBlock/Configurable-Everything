@@ -45,6 +45,7 @@ object SplashTextConfigGui {
         category.addEntry(
             entryBuilder.startColorField(text("splash_color"), config.splashColor)
                 .setDefaultValue(defaultConfig.splashColor)
+                .setAlphaMode(true)
                 .setSaveConsumer { newValue -> config.splashColor = newValue }
                 .setTooltip(tooltip("splash_color"))
                 .setAlphaMode(true)
