@@ -44,14 +44,16 @@ object SplashTextConfigGui {
             category.addEntry(this)
         }
 
-        val splashColor = EntryBuilder(text("splash_color"), Color(config.splashColor),
-            Color(defaultConfig.splashColor),
-            { newValue -> config.splashColor = newValue.color },
-            tooltip("splash_color"),
-            requirement = mainToggleReq,
-        ).build(entryBuilder).apply {
-            category.addEntry(this)
-        }
+        category.addEntry(
+            entryBuilder.startColorField(text("splash_color"), config.splashColor)
+                .setDefaultValue(defaultConfig.splashColor)
+                .setAlphaMode(true)
+                .setSaveConsumer { newValue -> config.splashColor = newValue }
+                .setTooltip(tooltip("splash_color"))
+                .setAlphaMode(true)
+                .setRequirement(mainToggleReq)
+                .build()
+        )
 
         val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla,
             defaultConfig.removeVanilla,
