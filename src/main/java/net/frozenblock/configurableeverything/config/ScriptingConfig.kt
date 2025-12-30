@@ -24,8 +24,6 @@ data class ScriptingConfig(
     var defaultImports: List<String> = arrayListOf(
         "kotlinx.coroutines.*",
         "net.frozenblock.configurableeverything.util.*",
-        "net.frozenblock.configurableeverything.scripting.util.*",
-        "net.frozenblock.lib.config.api.instance.ConfigModification",
 
         // minecraft
         "net.minecraft.core.*",
