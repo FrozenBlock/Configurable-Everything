@@ -400,7 +400,7 @@ Minecraft End User License Agreement available at https://account.mojang.com/doc
                 intermediaryFile,
                 "jar",
                 buildJar = true,
-                REMAPPED_SOURCES_CACHE.asFileList!!, ORIGINAL_SOURCES_CACHE.asFileList!!
+                REMAPPED_SOURCES_CACHE.asFileList!!
             )
 
             return intermediaryFile
@@ -498,7 +498,6 @@ Minecraft End User License Agreement available at https://account.mojang.com/doc
                     remappedFile,
                     "jar",
                     buildJar = true,
-                    ORIGINAL_SOURCES_CACHE.asFileList!!,
                     REMAPPED_SOURCES_CACHE.asFileList!!,
                 )
             }

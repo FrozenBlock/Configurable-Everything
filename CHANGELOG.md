@@ -15,6 +15,7 @@ Put changelog here:
 - Added wrappers to allow all types of blocks to be created via scripts
 - Fixed rare crash with entity attribute amplifiers
 - Fixed an issue where the default config causes a "No alpha allowed" error in the config GUI
+- Fixed major log spam when remapping is enabled
 - 1.21.x: Removed json5 datapack support
   - 26.1: Fixed json5 datapack support
   - 26.1: Added support for djs, jsonc, hjson, txt, and ubjson files
