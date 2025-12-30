@@ -98,13 +98,9 @@ import net.minecraft.world.level.block.WallTorchBlock
 import net.minecraft.world.level.block.WaterlilyBlock
 import net.minecraft.world.level.block.WaterloggedTransparentBlock
 import net.minecraft.world.level.block.WeatheringCopper
-import net.minecraft.world.level.block.WeatheringCopperBarsBlock
-import net.minecraft.world.level.block.WeatheringCopperChainBlock
 import net.minecraft.world.level.block.WeatheringCopperDoorBlock
 import net.minecraft.world.level.block.WeatheringCopperGrateBlock
 import net.minecraft.world.level.block.WeatheringCopperTrapDoorBlock
-import net.minecraft.world.level.block.WeatheringLanternBlock
-import net.minecraft.world.level.block.WeatheringLightningRodBlock
 import net.minecraft.world.level.block.WeightedPressurePlateBlock
 import net.minecraft.world.level.block.WetSpongeBlock
 import net.minecraft.world.level.block.WitherWallSkullBlock
@@ -509,16 +505,6 @@ fun WaterloggedTransparentBlock(
     properties: BlockBehaviour.Properties,
 ): WaterloggedTransparentBlock = WaterloggedTransparentBlock(properties)
 
-fun WeatheringCopperBarsBlock(
-    oxidizationLevel: WeatheringCopper.WeatherState,
-    properties: BlockBehaviour.Properties,
-): WeatheringCopperBarsBlock = WeatheringCopperBarsBlock(oxidizationLevel, properties)
-
-fun WeatheringCopperChainBlock(
-    oxidizationLevel: WeatheringCopper.WeatherState,
-    properties: BlockBehaviour.Properties,
-): WeatheringCopperChainBlock = WeatheringCopperChainBlock(oxidizationLevel, properties)
-
 fun WeatheringCopperDoorBlock(
     blockSetType: BlockSetType,
     oxidizationLevel: WeatheringCopper.WeatherState,
@@ -535,16 +521,6 @@ fun WeatheringCopperTrapDoorBlock(
     oxidizationLevel: WeatheringCopper.WeatherState,
     properties: BlockBehaviour.Properties,
 ): WeatheringCopperTrapDoorBlock = WeatheringCopperTrapDoorBlock(blockSetType, oxidizationLevel, properties)
-
-fun WeatheringLanternBlock(
-    oxidizationLevel: WeatheringCopper.WeatherState,
-    properties: BlockBehaviour.Properties,
-): WeatheringLanternBlock = WeatheringLanternBlock(oxidizationLevel, properties)
-
-fun WeatheringLightningRodBlock(
-    oxidizationLevel: WeatheringCopper.WeatherState,
-    properties: BlockBehaviour.Properties,
-): WeatheringLightningRodBlock = WeatheringLightningRodBlock(oxidizationLevel, properties)
 
 fun WeightedPressurePlateBlock(
     weight: Int,
