@@ -5,7 +5,6 @@
   "plugin": "net.frozenblock.configurableeverything.CEMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "RegistryDataLoaderMixin",
     "ServerPacksSourceMixin"
   ],
   "client": [
