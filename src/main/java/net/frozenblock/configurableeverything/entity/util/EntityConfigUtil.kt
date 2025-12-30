@@ -25,11 +25,11 @@ import kotlin.jvm.optionals.getOrNull
 
 internal object EntityConfigUtil {
 
-	internal fun init() = runBlocking {
+	internal fun init() {
         val config = EntityConfig.get()
         // only run this on client
-        if (!MainConfig.get().entity || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return@runBlocking
-        for (sound in config.entityFlyBySounds.value) { launch {
+        if (!MainConfig.get().entity || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return
+        for (sound in config.entityFlyBySounds.value) {
             val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
             if (optionalEntity.isPresent) {
                 val entity = optionalEntity.get()
@@ -43,39 +43,39 @@ internal object EntityConfigUtil {
                     FlyBySoundHub.AUTO_ENTITIES_AND_SOUNDS[entity] =
                         FlyBySoundHub.FlyBySound(data.pitch, data.volume, category, soundEvent)
             }
-        } }
+        }
     }
 
     @JvmStatic
-    internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) = runBlocking {
+    internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) {
         val config = EntityConfig.get()
-        if (!MainConfig.get().entity) return@runBlocking
-        if (entityAccess !is LivingEntity) return@runBlocking
+        if (!MainConfig.get().entity) return
+        if (entityAccess !is LivingEntity) return
 
-        for (entityAttributeAmplifier in config.entityAttributeAmplifiers.value) { launch {
+        for (entityAttributeAmplifier in config.entityAttributeAmplifiers.value) {
             val desiredEntity = entityAttributeAmplifier.entity
             val desiredEntityName = entityAttributeAmplifier.entityName
             val amplifiers = entityAttributeAmplifier.amplifiers
 
-            if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entityAccess.type)) return@launch
+            if (desiredEntity.location() != BuiltInRegistries.ENTITY_TYPE.getKey(entityAccess.type)) continue
 
             val desEntityNameComponent: Component = Component.literal(desiredEntityName)
-            if (!(desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entityAccess.name)) return@launch
+            if (!(desEntityNameComponent.string.isEmpty() || desEntityNameComponent == entityAccess.name)) continue
 
             val attributes: AttributeMap = entityAccess.attributes
-            for (amplifier in amplifiers) { launch {
+            for (amplifier in amplifiers) {
                 val amplifierAttribute = amplifier.attribute
                 val amplifierAmplifier = amplifier.amplifier
-                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute).getOrNull() ?: return@launch
+                val attributeHolder: Holder.Reference<Attribute> = BuiltInRegistries.ATTRIBUTE.get(amplifierAttribute).getOrNull() ?: continue
                 val attribute: AttributeInstance? = attributeHolder.let(attributes::getInstance)
                 attribute?.addTransientModifier(
                     AttributeModifier(
-                        id("entity_config_change_to_${entityAccess.id}_${entityAccess.random.nextFloat()}"),
+                        id("entity_config_change_to_${entityAccess.id}_${UUID.randomUUID().toString().replace('-', '_')}") ,
                         amplifierAmplifier - 1.0,
                         AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                     )
                 )
-            } }
-        } }
+            }
+        }
     }
 }

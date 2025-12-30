@@ -114,8 +114,12 @@ internal object ScriptingUtil {
         try {
             val result = BasicJvmScriptEvaluator()(script, CEScriptEvaluationConfig)
             result.logReports()
-        } catch (e: Exception) {
-            logError("Error while running script file $file")
+            val returnValue = result.valueOrNull()?.returnValue
+            if (returnValue is ResultValue.Error) {
+                logError("Script $file threw an error during execution", returnValue.error)
+            }
+        } catch (e: Throwable) {
+            logError("Error while running script file $file", e)
         }
     }
 
