@@ -111,6 +111,7 @@ open class CEScriptCompilationConfig internal constructor(type: ScriptType) : Sc
                 "net.minecraft.resources.ResourceKey",
                 "net.minecraft.resources.Identifier",
                 "net.minecraft.world.level.block.Block",
+                "net.minecraft.world.level.block.Blocks",
                 "net.minecraft.world.level.block.state.BlockBehaviour",
                 "net.minecraft.world.level.block.state.BlockBehaviour.Properties",
                 "net.minecraft.world.level.dimension.DimensionType"
