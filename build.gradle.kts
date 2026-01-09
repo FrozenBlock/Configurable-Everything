@@ -185,7 +185,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
 
     // Kotlin Metadata Remapping
-    api(files("libs/fabric-loom-1.9.local-kotlin-remapper.jar"))?.let { shadowInclude(it) }
+    api(files("libs/fabric-loom-1.14.local-kotlin-remapper.jar"))?.let { shadowInclude(it) }
 
     // get deps manually because FKE cant give them to compile classpath without an error
     api(kotlin("scripting-common"))
