@@ -15,7 +15,7 @@ fun <T : Block> registerBlock(id: String, block: (BlockBehaviour.Properties) -> 
     return Registry.register(
         BuiltInRegistries.BLOCK,
         id,
-        block(properties.setId(ResourceKey.create(Registries.BLOCK, id)))
+        block(properties)
     )
 }
 
