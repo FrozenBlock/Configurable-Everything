@@ -28,6 +28,7 @@ pluginManagement {
 rootProject.name = "Configurable Everything"
 
 localRepository("FrozenLib", "maven.modrinth:frozenlib", kotlin = true, enabled = false)
+localRepository("cloth-config", "me.shedaniel.cloth:cloth-config-fabric", kotlin = false, enabled = true)
 
 
 fun localRepository(repo: String, dependencySub: String, kotlin: Boolean, enabled: Boolean) {

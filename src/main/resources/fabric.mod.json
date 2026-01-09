@@ -71,19 +71,19 @@
   "accessWidener": "configurable_everything.classtweaker",
 
   "depends": {
-    "frozenlib": ">=2.2.4-",
+    "frozenlib": ">=2.3-",
     "fabric-language-kotlin": "${fabric_kotlin_version}",
-    "fabricloader": ">=0.18.1",
-    "fabric-api": ">=0.104.1",
+    "fabricloader": ">=0.18.3",
+    "fabric-api": ">=0.141.2",
     "minecraft": "${minecraft_version}"
   },
   "suggests": {
-    "fabric_kotlin_extensions": ">=1.1.9"
+    "fabric_kotlin_extensions": ">=2.0"
   },
   "breaks": {
     "configurabledatafixers": "*",
     "configurablesplashtexts": "*",
-    "fabric_kotlin_extensions": "<1.1.9"
+    "fabric_kotlin_extensions": "<2.0"
   },
   "custom": {
     "modmenu": {

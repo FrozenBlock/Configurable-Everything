@@ -1,7 +1,6 @@
 package net.frozenblock.configurableeverything.config.gui.main
 
-// TODO: Re-enable when cloth config is unobfuscated
-/*import me.shedaniel.clothconfig2.api.ConfigBuilder
+import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
@@ -101,4 +100,3 @@ object ConfigurableEverythingConfigGui {
         return configBuilder.build()
     }
 }
-*/

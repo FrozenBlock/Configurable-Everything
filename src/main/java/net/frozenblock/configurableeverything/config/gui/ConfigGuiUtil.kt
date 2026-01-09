@@ -1,24 +1,21 @@
 package net.frozenblock.configurableeverything.config.gui
 
-// TODO: Re-enable when cloth config is unobfuscated
-/*import com.mojang.datafixers.util.Either
+import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
 import me.shedaniel.clothconfig2.gui.entries.NestedListListEntry
-import net.frozenblock.lib.config.api.client.gui.*;
+import net.frozenblock.lib.config.api.client.gui.nestedList
+import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier
+import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
-import java.util.function.BiFunction
-import java.util.function.Consumer
 import java.util.function.Supplier
 import kotlin.jvm.optionals.getOrNull
-import kotlin.math.exp
 
 fun <T : Any> String.toEitherKeyOrTag(registry: ResourceKey<Registry<T>>): Either<ResourceKey<T>, TagKey<T>> {
     return if (this.startsWith('#'))
@@ -102,4 +99,3 @@ fun <T> nestedList(
         requirement
     )
 }
-*/

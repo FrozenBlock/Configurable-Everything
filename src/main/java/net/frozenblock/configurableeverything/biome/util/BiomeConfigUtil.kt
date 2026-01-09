@@ -22,7 +22,7 @@ internal object BiomeConfigUtil {
             BiomeChanges.add(id("config"), biomeChange)
 
             val resourceLoader = ResourceLoader.get(PackType.SERVER_DATA)
-            resourceLoader.registerReloader(id("biome_changes"), BiomeChanges)
+            resourceLoader.registerReloadListener(id("biome_changes"), BiomeChanges)
         }
     }
 

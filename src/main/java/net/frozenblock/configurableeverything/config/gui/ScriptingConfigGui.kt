@@ -2,11 +2,7 @@
 
 package net.frozenblock.configurableeverything.config.gui
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-
-// TODO: Re-enable when cloth config is unobfuscated
-/*import me.shedaniel.clothconfig2.api.ConfigCategory
+import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
@@ -52,43 +48,6 @@ object ScriptingConfigGui {
                 Requirement.isTrue(applyKotlinScripts),
             )
         ).build(entryBuilder))
-
-        category.addEntry(EntryBuilder(text("remapping"), config.remapping,
-            defaultConfig.remapping,
-            { newValue -> config.remapping = newValue },
-            tooltip("remapping"),
-            true,
-            requirement = Requirement.all(
-                mainToggleReq,
-                Requirement.isTrue { HAS_EXTENSIONS },
-                Requirement.isTrue(applyKotlinScripts)
-            )
-        ).build(entryBuilder))
-
-        category.addEntry(EntryBuilder(text("remapping_filter"), EnumEntry(ScriptingConfig.FilterOption::class, config.filter),
-            EnumEntry(ScriptingConfig.FilterOption::class, defaultConfig.filter),
-            { newValue -> config.filter = newValue.value },
-            tooltip("remapping_filter"),
-            true,
-            requirement = Requirement.all(
-                mainToggleReq,
-                Requirement.isTrue { HAS_EXTENSIONS },
-                Requirement.isTrue(applyKotlinScripts)
-            )
-        ).build(entryBuilder))
-
-        category.addEntry(EntryBuilder(text("mods_to_remap"), StringList(config.modsToRemap),
-            StringList(defaultConfig.modsToRemap),
-            { newValue -> config.modsToRemap = newValue.list },
-            tooltip("mods_to_remap"),
-            true,
-            requirement = Requirement.all(
-                mainToggleReq,
-                Requirement.isTrue { HAS_EXTENSIONS },
-                Requirement.isTrue(applyKotlinScripts)
-            )
-        ).build(entryBuilder))
     }
 
 }
-*/

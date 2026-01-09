@@ -2,11 +2,7 @@
 
 package net.frozenblock.configurableeverything.config.gui
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-
-// TODO: Re-enable when cloth config is unobfuscated
-/*import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
@@ -14,17 +10,13 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.ItemConfig
 import net.frozenblock.configurableeverything.item.util.ItemReachOverride
-import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.configurableeverything.util.vanillaId
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
-import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
-import net.minecraft.sounds.SoundEvent
-import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.item.Items
 
 private val configInstance = ItemConfig
@@ -82,4 +74,3 @@ private fun reachOverrides(
         this.requirement = mainToggleReq
     }
 }
-*/

@@ -2,7 +2,7 @@ package net.frozenblock.configurableeverything.datagen
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.datagen.api.FrozenBiomeTagProvider
@@ -38,18 +38,8 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
 
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
         val pack = fabricDataGenerator.createPack()
-        pack.addProvider { output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider> ->
-            WorldgenProvider(
-                output,
-                registriesFuture
-            )
-        }
-        pack.addProvider { output: FabricDataOutput, registriesFuture: CompletableFuture<HolderLookup.Provider> ->
-            BiomeTagProvider(
-                output,
-                registriesFuture
-            )
-        }
+        pack.addProvider(::WorldgenProvider)
+        pack.addProvider(::BiomeTagProvider)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -96,7 +86,7 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
     }
 
     private class WorldgenProvider(
-        output: FabricDataOutput,
+        output: FabricPackOutput,
         registriesFuture: CompletableFuture<HolderLookup.Provider>
     ) : FabricDynamicRegistryProvider(output, registriesFuture) {
         override fun configure(registries: HolderLookup.Provider, entries: Entries) {
@@ -109,7 +99,7 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
         }
     }
 
-    private class BiomeTagProvider(output: FabricDataOutput?, registriesFuture: CompletableFuture<*>?) : FrozenBiomeTagProvider(output, registriesFuture) {
+    private class BiomeTagProvider(output: FabricPackOutput, registriesFuture: CompletableFuture<HolderLookup.Provider>) : FrozenBiomeTagProvider(output, registriesFuture) {
         override fun addTags(arg: HolderLookup.Provider) {
             builder(BLANK_TAG)
         }

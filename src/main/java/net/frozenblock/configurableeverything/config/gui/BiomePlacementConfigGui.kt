@@ -3,11 +3,7 @@
 
 package net.frozenblock.configurableeverything.config.gui
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-
-// TODO: Re-enable when cloth config is unobfuscated
-/*import com.mojang.datafixers.util.Either
+import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
@@ -267,4 +263,3 @@ private fun removedBiomes(
         configInstance
     )
 }
-*/

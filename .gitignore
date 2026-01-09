@@ -40,6 +40,10 @@ runserver/
 /remappedSrc/
 /src/main/generated/.cache
 
+# github actions
+
+cloth-config/
+
 # java
 
 hs_err_*.log
