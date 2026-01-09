@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.metadata.ModOrigin
 import java.io.File
 import java.io.FileOutputStream
+import java.util.LinkedHashSet
 import java.util.jar.JarFile
 import kotlin.io.path.Path
 import kotlin.jvm.optionals.getOrNull
@@ -43,4 +44,35 @@ fun getNestedModFile(origin: ModOrigin): File? {
     }
 
     return newFile
+}
+
+fun expandModsWithChildren(rootIds: Collection<String>): Set<String> {
+    // Use a LinkedHashSet to preserve ordering similar to the previous implementation
+    val result: MutableSet<String> = LinkedHashSet(rootIds)
+
+    val allMods = FabricLoader.getInstance().allMods
+
+    // Recursive DFS visitor that finds nested children of the given parent id
+    fun visit(parentId: String) {
+        for (mod in allMods) {
+            try {
+                val origin = mod.origin
+                if (origin.kind == ModOrigin.Kind.NESTED && origin.parentModId == parentId) {
+                    val id = mod.metadata.id
+                    if (result.add(id)) {
+                        // Recurse into newly discovered child
+                        visit(id)
+                    }
+                }
+            } catch (_: Exception) {
+                // be defensive: some mod origins may be unusual; skip on error
+            }
+        }
+    }
+
+    for (root in rootIds) {
+        visit(root)
+    }
+
+    return result
 }
