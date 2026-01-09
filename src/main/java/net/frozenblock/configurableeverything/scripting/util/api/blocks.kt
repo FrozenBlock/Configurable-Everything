@@ -29,7 +29,6 @@ import net.minecraft.world.level.block.CoralFanBlock
 import net.minecraft.world.level.block.CoralPlantBlock
 import net.minecraft.world.level.block.CoralWallFanBlock
 import net.minecraft.world.level.block.CraftingTableBlock
-import net.minecraft.world.level.block.CreakingHeartBlock
 import net.minecraft.world.level.block.CropBlock
 import net.minecraft.world.level.block.DecoratedPotBlock
 import net.minecraft.world.level.block.DirtPathBlock
@@ -176,9 +175,9 @@ fun CarvedPumpkinBlock(
 ): CarvedPumpkinBlock = CarvedPumpkinBlock(properties)
 
 fun ChestBlock(
-    blockEntityTypeSupplier: () -> BlockEntityType<out ChestBlockEntity>,
     properties: BlockBehaviour.Properties,
-): ChestBlock = ChestBlock(blockEntityTypeSupplier, properties)
+    blockEntityTypeSupplier: () -> BlockEntityType<out ChestBlockEntity>,
+): ChestBlock = ChestBlock(properties, blockEntityTypeSupplier)
 
 fun ChorusFlowerBlock(
     plantBlock: Block,
@@ -207,10 +206,6 @@ fun CoralWallFanBlock(
 fun CraftingTableBlock(
     properties: BlockBehaviour.Properties,
 ): CraftingTableBlock = CraftingTableBlock(properties)
-
-fun CreakingHeartBlock(
-    properties: BlockBehaviour.Properties,
-): CreakingHeartBlock = CreakingHeartBlock(properties)
 
 fun CropBlock(
     properties: BlockBehaviour.Properties,
