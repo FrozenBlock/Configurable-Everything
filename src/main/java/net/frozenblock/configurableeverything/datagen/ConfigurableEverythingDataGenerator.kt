@@ -53,9 +53,9 @@ class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
 
     @Suppress("UNCHECKED_CAST")
     override fun buildRegistry(registryBuilder: RegistrySetBuilder) {
-        registryBuilder.add(Registries.BIOME) { context: BootstrapContext<Biome?> ->
+        registryBuilder.add(Registries.BIOME) { context: BootstrapContext<Biome> ->
             context.register(
-                BLANK_BIOME as ResourceKey<Biome?>,
+                BLANK_BIOME,
                 BiomeBuilder()
                     .temperature(0.5f)
                     .downfall(0f)

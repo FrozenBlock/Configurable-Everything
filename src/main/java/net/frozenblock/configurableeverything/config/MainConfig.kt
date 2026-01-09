@@ -144,10 +144,5 @@ Warning: It is important to check the contents of each config before enabling th
         @JvmField
         @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
         var biome_placement: Boolean = true,
-
-        @JvmField
-        @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-        @Comment("Allows the usage of JSON5 files in datapacks.")
-        var json5Support: Boolean = true
     )
 }
