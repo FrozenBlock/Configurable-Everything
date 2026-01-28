@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.world.mixin;
 
-import net.frozenblock.configurableeverything.config.MainConfig;
+// TODO 26.1 reimplement
+/*import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.WorldConfig;
 import net.minecraft.server.level.ServerLevel;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,3 +22,4 @@ public class ServerLevelMixin {
 		}
 	}
 }
+*/

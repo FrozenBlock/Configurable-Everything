@@ -1,6 +1,7 @@
 package net.frozenblock.configurableeverything.world.mixin.client;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+// TODO 26.1 reimplement
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.WorldConfig;
 import net.frozenblock.configurableeverything.world.impl.ClientLevelDataInterface;
@@ -48,3 +49,4 @@ public class ClientLevelMixin {
 		((ClientLevelDataInterface)this.clientLevelData).configurableEverything$setPreviousDayTime(time);
 	}
 }
+*/

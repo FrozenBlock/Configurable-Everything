@@ -14,12 +14,8 @@ import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 data class WorldConfig(
     @JvmField
     @EntrySyncData("dayTimeSpeedAmplifier")
-    @Comment("Does not modify tick rate. Only modifies daytime speed.")
+    @Comment("Does not modify tick rate. Only modifies daytime speed.\n26.1: Port is TODO")
     var dayTimeSpeedAmplifier: Long = 1,
-
-    @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
-    var fixSunMoonRotating: Boolean = false,
 
     @JvmField
     @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)

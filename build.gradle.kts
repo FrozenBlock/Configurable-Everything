@@ -186,7 +186,7 @@ dependencies {
     }
 
     // Mod Menu
-    compileOnly("com.terraformersmc:modmenu:${modmenu_version}")
+    implementation("com.terraformersmc:modmenu:${modmenu_version}")
 
     // Sodium
     //compileOnly("maven.modrinth:sodium:$sodium_version")

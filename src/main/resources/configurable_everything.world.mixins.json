@@ -5,12 +5,10 @@
   "plugin": "net.frozenblock.configurableeverything.CEMixinPlugin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "AbstractArrowMixin",
-    "ServerLevelMixin"
+    "AbstractArrowMixin"
   ],
   "client": [
     "client.ClientLevelDataMixin",
-    "client.ClientLevelMixin",
     "client.LevelRendererMixin"
   ],
   "injectors": {

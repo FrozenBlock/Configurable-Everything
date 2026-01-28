@@ -155,7 +155,6 @@ class TagWrapper internal constructor(config: TagConfig) : ConfigWrapper<TagConf
 class WorldWrapper internal constructor(config: WorldConfig) : ConfigWrapper<WorldConfig>(config) {
 
     var dayTimeSpeedAmplifier: Long by config::dayTimeSpeedAmplifier
-    var fixSunMoonRotating: Boolean by config::fixSunMoonRotating
     var sunSize: Int by config::sunSize
     var moonSize: Int by config::moonSize
     var disableExperimentalWarning: Boolean by config::disableExperimentalWarning

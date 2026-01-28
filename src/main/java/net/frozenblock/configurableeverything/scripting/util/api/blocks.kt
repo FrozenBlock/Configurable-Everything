@@ -3,6 +3,7 @@ package net.frozenblock.configurableeverything.scripting.util.api
 import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvent
+import net.minecraft.tags.TagKey
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.AttachedStemBlock
@@ -41,9 +42,8 @@ import net.minecraft.world.level.block.EndGatewayBlock
 import net.minecraft.world.level.block.EndPortalBlock
 import net.minecraft.world.level.block.EndRodBlock
 import net.minecraft.world.level.block.EnderChestBlock
-import net.minecraft.world.level.block.FarmBlock
+import net.minecraft.world.level.block.FarmlandBlock
 import net.minecraft.world.level.block.FlowerBedBlock
-import net.minecraft.world.level.block.FungusBlock
 import net.minecraft.world.level.block.FurnaceBlock
 import net.minecraft.world.level.block.GrindstoneBlock
 import net.minecraft.world.level.block.HalfTransparentBlock
@@ -56,9 +56,12 @@ import net.minecraft.world.level.block.KelpPlantBlock
 import net.minecraft.world.level.block.LadderBlock
 import net.minecraft.world.level.block.LecternBlock
 import net.minecraft.world.level.block.LeverBlock
+import net.minecraft.world.level.block.LilyPadBlock
 import net.minecraft.world.level.block.LiquidBlock
 import net.minecraft.world.level.block.LoomBlock
 import net.minecraft.world.level.block.MangroveRootsBlock
+import net.minecraft.world.level.block.NetherFungusBlock
+import net.minecraft.world.level.block.NetherRootsBlock
 import net.minecraft.world.level.block.NetherWartBlock
 import net.minecraft.world.level.block.NyliumBlock
 import net.minecraft.world.level.block.PlayerHeadBlock
@@ -70,7 +73,6 @@ import net.minecraft.world.level.block.RailBlock
 import net.minecraft.world.level.block.RedstoneTorchBlock
 import net.minecraft.world.level.block.RedstoneWallTorchBlock
 import net.minecraft.world.level.block.RepeaterBlock
-import net.minecraft.world.level.block.RootsBlock
 import net.minecraft.world.level.block.SaplingBlock
 import net.minecraft.world.level.block.ScaffoldingBlock
 import net.minecraft.world.level.block.SeaPickleBlock
@@ -95,7 +97,6 @@ import net.minecraft.world.level.block.TransparentBlock
 import net.minecraft.world.level.block.TrapDoorBlock
 import net.minecraft.world.level.block.WallSkullBlock
 import net.minecraft.world.level.block.WallTorchBlock
-import net.minecraft.world.level.block.WaterlilyBlock
 import net.minecraft.world.level.block.WaterloggedTransparentBlock
 import net.minecraft.world.level.block.WeatheringCopper
 import net.minecraft.world.level.block.WeatheringCopperBarsBlock
@@ -271,19 +272,20 @@ fun EnderChestBlock(
     properties: BlockBehaviour.Properties,
 ): EnderChestBlock = EnderChestBlock(properties)
 
-fun FarmBlock(
+fun FarmlandBlock(
     properties: BlockBehaviour.Properties,
-): FarmBlock = FarmBlock(properties)
+): FarmlandBlock = FarmlandBlock(properties)
 
 fun FlowerBedBlock(
     properties: BlockBehaviour.Properties,
 ): FlowerBedBlock = FlowerBedBlock(properties)
 
-fun FungusBlock(
+fun NetherFungusBlock(
     featureKey: ResourceKey<ConfiguredFeature<*, *>>,
     nyliumBlock: Block,
+    supportsTag: TagKey<Block>,
     properties: BlockBehaviour.Properties,
-): FungusBlock = FungusBlock(featureKey, nyliumBlock, properties)
+): NetherFungusBlock = NetherFungusBlock(featureKey, nyliumBlock, supportsTag, properties)
 
 fun FurnaceBlock(
     properties: BlockBehaviour.Properties,
@@ -391,9 +393,10 @@ fun RepeaterBlock(
     properties: BlockBehaviour.Properties,
 ): RepeaterBlock = RepeaterBlock(properties)
 
-fun RootsBlock(
+fun NetherRootsBlock(
+    supportsTag: TagKey<Block>,
     properties: BlockBehaviour.Properties,
-): RootsBlock = RootsBlock(properties)
+): NetherRootsBlock = NetherRootsBlock(supportsTag, properties)
 
 fun SaplingBlock(
     treeGenerator: TreeGrower,
@@ -501,9 +504,9 @@ fun WallTorchBlock(
     properties: BlockBehaviour.Properties,
 ): WallTorchBlock = WallTorchBlock(particle, properties)
 
-fun WaterlilyBlock(
+fun LilyPadBlock(
     properties: BlockBehaviour.Properties,
-): WaterlilyBlock = WaterlilyBlock(properties)
+): LilyPadBlock = LilyPadBlock(properties)
 
 fun WaterloggedTransparentBlock(
     properties: BlockBehaviour.Properties,

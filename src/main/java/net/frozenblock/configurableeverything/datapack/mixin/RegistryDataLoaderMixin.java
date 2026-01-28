@@ -10,8 +10,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryDataLoader;
+import net.minecraft.resources.RegistryLoadTask;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceManagerRegistryLoadTask;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,8 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.log;
 
-@Mixin(RegistryDataLoader.ResourceManagerRegistryLoadTask.class)
-public abstract class RegistryDataLoaderMixin<T> extends RegistryDataLoader.RegistryLoadTask<T> {
+@Mixin(ResourceManagerRegistryLoadTask.class)
+public abstract class RegistryDataLoaderMixin<T> extends RegistryLoadTask<T> {
 
 	@Shadow
 	@Final
@@ -43,7 +45,7 @@ public abstract class RegistryDataLoaderMixin<T> extends RegistryDataLoader.Regi
 	}
 
 	@Inject(method = "lambda$load$3", at = @At("HEAD"))
-	private void beforeRegisterElements(Map<Identifier, RegistryDataLoader.PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
+	private void beforeRegisterElements(Map<Identifier, PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
 		var datapack = MainConfig.get(false).datapack;
 		if (datapack.moreJsonSupport) {
 			ResourceKey<? extends Registry<T>> registryKey = this.registryKey();
@@ -53,7 +55,7 @@ public abstract class RegistryDataLoaderMixin<T> extends RegistryDataLoader.Regi
 	}
 
 	@Inject(method = "lambda$load$3", at = @At("TAIL"))
-	private void removeContext(Map<Identifier, RegistryDataLoader.PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
+	private void removeContext(Map<Identifier, PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
 		this.context = null;
 	}
 }

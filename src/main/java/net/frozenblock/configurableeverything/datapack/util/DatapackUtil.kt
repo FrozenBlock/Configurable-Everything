@@ -16,9 +16,11 @@ import net.minecraft.core.WritableRegistry
 import net.minecraft.resources.FileToIdConverter
 import net.minecraft.resources.Identifier
 import net.minecraft.resources.RegistryDataLoader
+import net.minecraft.resources.RegistryLoadTask
 import net.minecraft.resources.RegistryOps
 import net.minecraft.resources.RegistryOps.RegistryInfoLookup
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceManagerRegistryLoadTask
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.world.level.validation.DirectoryValidator
@@ -49,7 +51,7 @@ object DatapackUtil {
         lookup: RegistryInfoLookup,
         manager: ResourceManager,
         registryKey: ResourceKey<out Registry<E>>,
-        loadedEntries: Map<Identifier, RegistryDataLoader.PendingRegistration<E>>,
+        loadedEntries: Map<Identifier, RegistryLoadTask.PendingRegistration<E>>,
         codec: Decoder<E>,
         directory: String,
     ) {
@@ -85,7 +87,7 @@ object DatapackUtil {
         lookup: RegistryInfoLookup,
         manager: ResourceManager,
         registryKey: ResourceKey<out Registry<E>>,
-        loadedEntries: Map<Identifier, RegistryDataLoader.PendingRegistration<E>>,
+        loadedEntries: Map<Identifier, RegistryLoadTask.PendingRegistration<E>>,
         codec: Decoder<E>,
         directory: String,
         extension: String,
@@ -97,18 +99,18 @@ object DatapackUtil {
 
         val resources: Map<Identifier, Resource> = fileToIdConverter.listMatchingResources(manager)
 
-        val mutableLoaded = loadedEntries as? HashMap<Identifier, RegistryDataLoader.PendingRegistration<E>>
+        val mutableLoaded = loadedEntries as? HashMap<Identifier, RegistryLoadTask.PendingRegistration<E>>
 
         for ((resourceId, resource) in resources) {
             val elementKey = ResourceKey.create(registryKey, fileToIdConverter.fileToId(resourceId))
-            val registrationInfo = RegistryDataLoader.REGISTRATION_INFO_CACHE.apply(resource.knownPackInfo())
+            val registrationInfo = ResourceManagerRegistryLoadTask.REGISTRATION_INFO_CACHE.apply(resource.knownPackInfo())
 
             // Parse the resource
             val parsed = loadFromResource(codec, registryOps, createBase, elementKey, resource)
 
             if (mutableLoaded != null) {
                 val convertedId = convertToJsonExtension(resourceId)
-                mutableLoaded[convertedId] = RegistryDataLoader.PendingRegistration(elementKey, parsed, registrationInfo)
+                mutableLoaded[convertedId] = RegistryLoadTask.PendingRegistration(elementKey, parsed, registrationInfo)
             } else {
                 logError("Could not add to ${registry.key()} for $resourceId as the map is immutable")
                 if (parsed.left().isPresent) {

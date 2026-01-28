@@ -41,14 +41,6 @@ object WorldConfigGui {
             )
         )
         category.addEntry(
-            EntryBuilder(text("fix_sun_moon_rotating"), syncConfig.fixSunMoonRotating,
-                defaultConfig.fixSunMoonRotating,
-                { newValue -> config.fixSunMoonRotating = newValue },
-                tooltip("fix_sun_moon_rotating"),
-                requirement = mainToggleReq,
-            ).build(entryBuilder)
-        )
-        category.addEntry(
             entryBuilder.startIntSlider(text("sun_size"), syncConfig.sunSize, 10, 1000)
                 .setDefaultValue(defaultConfig.sunSize)
                 .setSaveConsumer { newValue: Int? -> config.sunSize = newValue!! }
