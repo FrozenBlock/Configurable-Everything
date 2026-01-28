@@ -43,7 +43,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 	@WrapOperation(method = "load", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/StrictJsonParser;parse(Ljava/io/Reader;)Lcom/google/gson/JsonElement;"))
 	private JsonElement modifyTags(Reader jsonReader, Operation<JsonElement> original, @Local(ordinal = 1) Identifier tag) {
         JsonObject json = (JsonObject) original.call(jsonReader);
-		if (!MainConfig.get().tag)
+		if (!MainConfig.tag.get())
 			return json;
 
 		TagConfig config = TagConfig.get();
@@ -65,7 +65,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 
 	@Inject(method = "tryBuildTag", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
 	private void ignoreInvalidTags(TagEntry.Lookup<T> lookup, List<TagLoader.EntryWithSource> list, CallbackInfoReturnable<Either<Collection<TagLoader.EntryWithSource>, Collection<T>>> cir, @Local(ordinal = 1) List<TagLoader.EntryWithSource> list2) {
-		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.get().tag) {
+		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.tag.get()) {
 			return;
 		}
 

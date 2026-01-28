@@ -17,7 +17,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.minecraft.resources.Identifier
-
+/*
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.screenShake)
 
@@ -102,3 +102,4 @@ private fun soundScreenShakes(
         this.requirement = mainToggleReq
     }
 }
+*/

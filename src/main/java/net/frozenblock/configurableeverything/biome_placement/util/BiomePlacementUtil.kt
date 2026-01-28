@@ -29,7 +29,7 @@ object BiomePlacementUtil {
 
     @JvmStatic
     fun serverInit(registryAccess: RegistryAccess) {
-        if (!MainConfig.get().biome_placement) return
+        if (!MainConfig.biome_placement.get()) return
         val biomeRegistry = registryAccess.lookupOrThrow(Registries.BIOME)
         val levelStemRegistry = registryAccess.lookupOrThrow(Registries.LEVEL_STEM)
 

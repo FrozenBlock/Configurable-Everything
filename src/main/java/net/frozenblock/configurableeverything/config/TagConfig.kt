@@ -10,8 +10,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 
 private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModification>> = ConfigRegistry.register(
@@ -23,12 +21,10 @@ private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModificatio
 
 data class TagConfig(
     @JvmField
-    @EntrySyncData("ignoreInvalidEntries")
     @Comment("Passes over invalid entries instead of failing to load the tag and any dependent tags")
     var ignoreInvalidEntries: Boolean = true,
 
     @JvmField
-    @EntrySyncData("tagModifications")
     var tagModifications: TypedEntry<MutableList<RegistryTagModification>> = TypedEntry.create(
         TAG_MODIFICATIONS,
         mutableListOf(
@@ -49,7 +45,7 @@ data class TagConfig(
         )
     )
 ) {
-    companion object : CEConfig<TagConfig>(
+    companion object : CESimpleConfig<TagConfig>(
         TagConfig::class,
         "tag"
     ) {

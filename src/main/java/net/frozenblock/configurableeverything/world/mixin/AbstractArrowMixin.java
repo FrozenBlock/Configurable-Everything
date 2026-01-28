@@ -29,7 +29,7 @@ public abstract class AbstractArrowMixin extends Projectile {
 
 	@Inject(method = "onHitBlock", at = @At("TAIL"))
 	private void onHitBlock(BlockHitResult result, CallbackInfo ci) {
-		if (MainConfig.get(false).entity && EntityConfig.get(false).flamingArrowsLightFire && AbstractArrow.class.cast(this).isOnFire()) {
+		if (MainConfig.entity.get() && EntityConfig.get(false).flamingArrowsLightFire && AbstractArrow.class.cast(this).isOnFire()) {
 			BlockPos blockPos = result.getBlockPos();
 			BlockState blockState = this.level().getBlockState(blockPos);
 

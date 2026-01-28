@@ -1,5 +1,6 @@
 package net.frozenblock.configurableeverything.util
 
+import net.frozenblock.lib.config.v2.registry.ID
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 
@@ -38,6 +39,9 @@ internal inline fun logError(string: String?, error: Throwable? = null, shouldLo
 
 internal inline fun id(path: String): Identifier
     = Identifier.fromNamespaceAndPath(MOD_ID, path)
+
+internal inline fun config(path: String): ID
+    = ID(MOD_ID, path)
 
 internal inline fun vanillaId(path: String): Identifier
     = Identifier.fromNamespaceAndPath(Identifier.DEFAULT_NAMESPACE, path)

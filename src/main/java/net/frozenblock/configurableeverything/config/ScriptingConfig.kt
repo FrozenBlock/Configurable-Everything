@@ -1,22 +1,20 @@
 package net.frozenblock.configurableeverything.config
 
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
-@UnsyncableConfig
+// UNSYNCABLE
 data class ScriptingConfig(
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Requires Fabric Kotlin Extensions")
     var applyKotlinScripts: Boolean = true,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var defaultImports: List<String> = arrayListOf(
         "kotlinx.coroutines.*",
         "net.frozenblock.configurableeverything.util.*",
@@ -33,7 +31,7 @@ data class ScriptingConfig(
     ),
 ) {
 
-    companion object : CEConfig<ScriptingConfig>(
+    companion object : CESimpleConfig<ScriptingConfig>(
         ScriptingConfig::class,
         "scripting"
     ) {

@@ -24,7 +24,7 @@ import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
-
+/*
 private val configInstance = DataFixerConfig
 
 private inline val mainToggleReq: Requirement
@@ -294,3 +294,4 @@ private fun registryFixers(
         configInstance
     )
 }
+*/

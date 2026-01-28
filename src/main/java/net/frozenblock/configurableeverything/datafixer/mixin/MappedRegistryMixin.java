@@ -76,7 +76,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	@Nullable
 	@Unique
 	private T convertIdentifier(@Nullable Identifier name, @Nullable T original) {
-		if (MainConfig.get().datafixer
+		if (MainConfig.datafixer.get()
 			&& name != null) {
 			var fixed = RegistryFixer.getFixedValueInRegistry(this, name, original);
 			if (fixed != null) // don't override if the "fixed" version is missing
@@ -88,7 +88,7 @@ public abstract class MappedRegistryMixin<T> implements WritableRegistry<T> {
 	@Nullable
 	@Unique
 	private Holder.Reference<T> convertIdentifierHolder(@Nullable Identifier name, @Nullable Holder.Reference<T> original) {
-		if (MainConfig.get().datafixer
+		if (MainConfig.datafixer.get()
 			&& name != null) {
 			var fixed = RegistryFixer.getFixedValueInRegistry(this, name, original);
 			if (fixed != null) // don't override if the "fixed" version is missing

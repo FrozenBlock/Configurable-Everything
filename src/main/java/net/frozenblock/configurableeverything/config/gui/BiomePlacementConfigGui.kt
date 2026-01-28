@@ -32,7 +32,7 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
-
+/*
 private val configInstance: Config<BiomePlacementConfig> = BiomePlacementConfig
 
 private inline val mainToggleReq: Requirement
@@ -44,11 +44,10 @@ private inline val mainToggleReq: Requirement
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
         val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
         val defaultConfig = configInstance.defaultInstance()
 
-        category.addEntry(addedBiomes(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(removedBiomes(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
+        category.addEntry(removedBiomes(entryBuilder, config, defaultConfig))
     }
 }
 
@@ -263,3 +262,4 @@ private fun removedBiomes(
         configInstance
     )
 }
+*/

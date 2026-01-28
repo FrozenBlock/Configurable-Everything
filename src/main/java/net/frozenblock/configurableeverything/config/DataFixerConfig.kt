@@ -5,7 +5,7 @@ import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry
 import net.frozenblock.configurableeverything.datafixer.util.Fixer
 import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
 import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
@@ -15,7 +15,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
@@ -36,7 +35,6 @@ private val REGISTRY_FIXER_LIST: TypedEntryType<MutableList<RegistryFixer>> = Co
 
 data class DataFixerConfig(
     @JvmField
-    @EntrySyncData("overrideRealEntries")
     @Comment(
 """
 Allows registry fixers (not schemas) to convert all IDs
@@ -48,7 +46,7 @@ WARNING: THIS CAN POTENTIALLY CAUSE UNWANTED EFFECTS TO YOUR WORLDS, USE WITH CA
     var overrideRealEntries: Boolean = false,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment(
 """
 The data fixer's main data version. Increment this when you add a new schema.
@@ -58,7 +56,7 @@ Any schemas with a data version higher than this will be ignored.
     var dataVersion: Int = 0,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment(
 """
 The list of schemas to use for data fixing.
@@ -132,7 +130,6 @@ However, if the old id is still found in the registry, it will not be replaced.
     ),
 
     @JvmField
-    @EntrySyncData("registryFixers")
     @Comment(
 """
 The list of registry fixers to use for data fixing.
@@ -174,7 +171,7 @@ However, if the old id is still found in the registry, it will not be replaced (
         )
 )
 ) {
-    companion object : CEConfig<DataFixerConfig>(
+    companion object : CESimpleConfig<DataFixerConfig>(
         DataFixerConfig::class,
         "datafixer"
     ) {

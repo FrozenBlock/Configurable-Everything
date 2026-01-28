@@ -46,8 +46,7 @@ public abstract class RegistryDataLoaderMixin<T> extends RegistryLoadTask<T> {
 
 	@Inject(method = "lambda$load$3", at = @At("HEAD"))
 	private void beforeRegisterElements(Map<Identifier, PendingRegistration<T>> loadedEntries, CallbackInfo ci) {
-		var datapack = MainConfig.get(false).datapack;
-		if (datapack.moreJsonSupport) {
+		if (MainConfig.moreJsonSupport.get()) {
 			ResourceKey<? extends Registry<T>> registryKey = this.registryKey();
 			String directory = Registries.elementsDirPath(registryKey);
 			DatapackUtil.loadJson5Contents(this.registry, this.context, this.resourceManager, registryKey, loadedEntries, this.data.elementCodec(), directory);

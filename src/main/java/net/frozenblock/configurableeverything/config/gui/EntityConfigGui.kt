@@ -21,7 +21,7 @@ import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier
-
+/*
 private val configInstance = EntityConfig
 
 private inline val mainToggleReq: Requirement
@@ -527,3 +527,4 @@ private fun entitySpottingIcons(
         this.requirement = mainToggleReq
     }
 }
+*/

@@ -1,11 +1,9 @@
 package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.JsonOps
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
@@ -15,10 +13,10 @@ private fun toJson(component: Component): String {
 }
 
 // source: https://github.com/QuiltMC/quilt-standard-libraries/blob/1.20.2/library/core/registry/src/main/java/org/quiltmc/qsl/registry/impl/RegistryConfig.java
-@UnsyncableConfig
+// UNSYNCABLE
 data class ModProtocolConfig(
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment(
 """
 Mod protocol is a feature allowing you to prevent clients with mismatched settings to join.
@@ -30,17 +28,17 @@ Protocol version. Needs to be the same on client and server. If it has value of 
     var modProtocolVersion: Int = -1,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Protocol id. It should be different for every modpack, to prevent joining with mismatched mods.")
     var modProtocolId: String = "my_configurable_everything_modpack",
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("A mod protocol name. Used for easier identification. Doesn't affect functionality")
     var modProtocolName: String = "My Configurable Everything Modpack",
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Message displayed for players joining with clients incompatible with Registry Sync. Supports strings and Minecraft's JSON text format.")
     var missingRegistrySyncMessage: String = toJson(
         Component.translatableWithFallback(
@@ -53,7 +51,7 @@ This server requires modded client to join!
     ),
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Top part of the message displayed for players joining with incompatible clients. Supports strings and Minecraft's JSON text format.")
     var mismatchedEntriesTopMessage: String = toJson(
         Component.translatableWithFallback(
@@ -66,27 +64,27 @@ This can happen when client's and server's mods don't match.
     ),
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Bottom part of the message displayed for players joining with incompatible clients. Supports strings and Minecraft's JSON text format.")
     var mismatchedEntriesBottomMessage: String = "",
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Shows some details about why client couldn't connect.")
     var mismatchedEntriesShowDetails: Boolean = true,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Disables the Mod Protocol sync on server list/initial query.")
     var disableModProtocolPing: Boolean = false,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Disables the Mod Protocol requirement. USE AT YOUR OWN RISK!")
     var disableModProtocol: Boolean = false,
 ) {
 
-    companion object : CEConfig<ModProtocolConfig>(
+    companion object : CESimpleConfig<ModProtocolConfig>(
         ModProtocolConfig::class,
         "mod_protocol",
         false

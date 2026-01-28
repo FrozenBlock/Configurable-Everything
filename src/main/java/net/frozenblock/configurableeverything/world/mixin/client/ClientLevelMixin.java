@@ -22,7 +22,7 @@ public class ClientLevelMixin {
 
 	@ModifyExpressionValue(method = "tickTime", at = @At(value = "FIELD", target = "Lnet/minecraft/client/multiplayer/ClientLevel;tickDayTime:Z"))
 	private boolean configurableEverything$tickTime(boolean original) {
-		if (!original && MainConfig.get().world && WorldConfig.get().fixSunMoonRotating) {
+		if (!original && MainConfig.world.get() && WorldConfig.get().fixSunMoonRotating) {
 			this.configurableEverything$setPreviousDayTime(this.clientLevelData.getDayTime());
 		}
 		return original;
@@ -30,7 +30,7 @@ public class ClientLevelMixin {
 
 	@ModifyArgs(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel$ClientLevelData;setDayTime(J)V"))
 	private void configurableEverything$tickTime(Args args) {
-		if (MainConfig.get().world) {
+		if (MainConfig.world.get()) {
 			long prevTime = ((long) args.get(0) - 1L);
 
 			if (WorldConfig.get().fixSunMoonRotating) {

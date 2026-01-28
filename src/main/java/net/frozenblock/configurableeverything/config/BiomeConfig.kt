@@ -12,8 +12,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.sound.api.asMutable
 import net.minecraft.sounds.Music
 import net.minecraft.sounds.SoundEvents
@@ -42,7 +40,6 @@ private val BIOME_MUSIC_LIST: TypedEntryType<MutableList<BiomeMusic>> = ConfigRe
 
 data class BiomeConfig(
 	@JvmField
-	@EntrySyncData("addedFeatures")
 	var addedFeatures: TypedEntry<MutableList<BiomePlacedFeatureList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_LIST,
 		mutableListOf(
@@ -72,7 +69,6 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	@EntrySyncData("removedFeatures")
 	var removedFeatures: TypedEntry<MutableList<BiomePlacedFeatureList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_LIST,
 		mutableListOf(
@@ -102,7 +98,6 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	@EntrySyncData("replacedFeatures")
 	var replacedFeatures: TypedEntry<MutableList<BiomePlacedFeatureReplacementList>> = TypedEntry.create(
 		BIOME_PLACED_FEATURE_REPLACEMENT_LIST,
 		mutableListOf(
@@ -138,7 +133,6 @@ data class BiomeConfig(
 	),
 
 	@JvmField
-	@EntrySyncData("musicReplacements")
 	var musicReplacements: TypedEntry<MutableList<BiomeMusic>> = TypedEntry.create(
 		BIOME_MUSIC_LIST,
 		mutableListOf(
@@ -163,7 +157,7 @@ data class BiomeConfig(
 		)
 	)
 ) {
-	companion object : CEConfig<BiomeConfig>(
+	companion object : CESimpleConfig<BiomeConfig>(
         BiomeConfig::class,
         "biome"
     ) {

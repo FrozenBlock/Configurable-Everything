@@ -9,7 +9,7 @@ class SkeletonFleeSunGoal(mob: PathfinderMob, speedModifier: Double) : FleeSunGo
     override fun canUse(): Boolean {
         val config = EntityConfig.get()
 
-        if (!MainConfig.get().entity)
+        if (!MainConfig.entity.get())
             return super.canUse()
 
         return config.skeleton.skeletonsAvoidSun && super.canUse()

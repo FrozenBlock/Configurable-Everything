@@ -33,7 +33,7 @@ public class TagManagerMixin {
 	) {
 		TagLoader<Holder<T>> loader = original.call(elementLookup, dataType);
 
-		if (!MainConfig.get().tag) {
+		if (!MainConfig.tag.get()) {
 			return loader;
 		}
 
@@ -44,7 +44,7 @@ public class TagManagerMixin {
 	private static <T> TagLoader<Holder<T>> setRegistry(TagLoader.ElementLookup<T> elementLookup, String dataType, Operation<TagLoader<Holder<T>>> original, @Local(argsOnly = true) Registry<T> registry) {
 		TagLoader<Holder<T>> loader = original.call(elementLookup, dataType);
 
-		if (!MainConfig.get().tag) {
+		if (!MainConfig.tag.get()) {
 			return loader;
 		}
 

@@ -20,7 +20,7 @@ import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.material.Fluids
-
+/*
 private val configInstance = FluidConfig
 
 private inline val mainToggleReq: Requirement
@@ -99,3 +99,4 @@ private fun fluidFlowSpeeds(
         configInstance
     )
 }
+*/

@@ -6,13 +6,12 @@ import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiom
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_BIOME
 import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator.Companion.BLANK_TAG
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.mutListOf
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.frozenblock.lib.worldgen.biome.api.mutable
 import net.frozenblock.lib.worldgen.biome.api.parameters.*
@@ -36,7 +35,6 @@ private val BIOME_PARAMETER_LIST: TypedEntryType<MutableList<DimensionBiomeList>
 
 data class BiomePlacementConfig(
 	@JvmField
-	@EntrySyncData("addedBiomes")
 	@Comment(
 """
 Add any biome to worldgen, with the parameters set.
@@ -86,7 +84,6 @@ Supports: Vanilla biomes, datapack biomes, modded biomes
 	),
 
 	@JvmField
-	@EntrySyncData("removedBiomes")
 	@Comment(
 """
 Remove any biome from worldgen
@@ -116,7 +113,7 @@ Does not support biomes added via TerraBlender
 		)
 	)
 ) {
-	companion object : CEConfig<BiomePlacementConfig>(
+	companion object : CESimpleConfig<BiomePlacementConfig>(
         BiomePlacementConfig::class,
         "biome_placement"
     ) {

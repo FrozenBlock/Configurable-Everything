@@ -24,31 +24,6 @@ import net.frozenblock.configurableeverything.util.setValue
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.resources.Identifier
 
-class MainWrapper internal constructor(config: MainConfig) : ConfigWrapper<MainConfig>(config) {
-
-    var biome: Boolean by config::biome
-    var biome_placement: Boolean by config::biome_placement
-    var block: Boolean by config::block
-    var datafixer: Boolean by config::datafixer
-    var entity: Boolean by config::entity
-    var fluid: Boolean by config::fluid
-    var game: Boolean by config::game
-    var gravity: Boolean by config::gravity
-    var item: Boolean by config::item
-    var loot: Boolean by config::loot
-    var music: Boolean by config::music
-    var registry: Boolean by config::registry
-    var screen_shake: Boolean by config::screen_shake
-    var scripting: Boolean by config::scripting
-    var sculk_spreading: Boolean by config::sculk_spreading
-    var splash_text: Boolean by config::splash_text
-    var structure: Boolean by config::structure
-    var surface_rule: Boolean by config::surface_rule
-    var tag: Boolean by config::tag
-    var world: Boolean by config::world
-    var datapack: MainConfig.DatapackConfig by config::datapack
-}
-
 class BiomeWrapper internal constructor(config: BiomeConfig) : ConfigWrapper<BiomeConfig>(config) {
 
     var addedFeatures: MutableList<BiomePlacedFeatureList> by config.addedFeatures

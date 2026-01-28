@@ -13,7 +13,7 @@ internal object LootConfigUtil {
 
     internal fun init() {
         LootTableEvents.MODIFY.register { key, tableBuilder, _, _ ->
-            if (!MainConfig.get().loot) return@register
+            if (!MainConfig.loot.get()) return@register
             val id = key.identifier()
             val mods = LootConfig.get().lootModifications.value
             for (mod in mods) {

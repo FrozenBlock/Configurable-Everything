@@ -32,11 +32,10 @@ object DatapackUtil {
 
     @JvmStatic
     fun addedRepositories(validator: DirectoryValidator?): List<CERepositorySource> {
-        val config = MainConfig.get().datapack
         if (validator == null) return emptyList()
-        if (config.applyDatapackFolders) {
+        if (MainConfig.applyDatapackFolders.get()) {
             val list: MutableList<CERepositorySource> = arrayListOf()
-            config.datapackFolders.forEach {
+            MainConfig.datapackFolders.get().forEach {
                 log("Adding datapack repository at $it")
                 list.add(CERepositorySource(Path(it), validator = validator))
             }

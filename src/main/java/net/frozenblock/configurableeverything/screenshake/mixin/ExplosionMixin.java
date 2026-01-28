@@ -39,7 +39,7 @@ public class ExplosionMixin {
 	public void finalizeExplosion(CallbackInfoReturnable<Integer> cir) {
 		var config = ScreenShakeConfig.get();
 
-		if (!MainConfig.get().screen_shake || !config.explosionScreenShake)
+		if (!MainConfig.screen_shake.get() || !config.explosionScreenShake)
 			return;
 
 		double x = this.center.x;

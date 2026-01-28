@@ -13,7 +13,7 @@ object FluidConfigUtil {
     @JvmStatic
     fun getTickDelay(original: Int, fluid: Fluid, level: LevelReader): Int {
         val config = FluidConfig.get()
-        if (MainConfig.get().fluid) {
+        if (MainConfig.fluid.get()) {
             for (flowSpeed in config.flowSpeeds.value) {
                 val fSfluid = flowSpeed.fluid
                 val flowTickDelay = flowSpeed.flowTickDelay

@@ -14,7 +14,7 @@ import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
 import net.minecraft.resources.Identifier
-
+/*
 object RecipeConfigGui {
 
     private inline val mainToggleReq: Requirement
@@ -35,3 +35,4 @@ object RecipeConfigGui {
         }
     }
 }
+*/

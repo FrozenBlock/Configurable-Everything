@@ -11,7 +11,7 @@ internal object RegistryConfigUtil {
 
     internal fun init() {
         val config = RegistryConfig.get()
-        if (!MainConfig.get().registry) return
+        if (!MainConfig.registry.get()) return
 
         RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
             runBlocking {

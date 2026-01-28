@@ -20,7 +20,7 @@ public class DragonRespawnAnimationMixin {
 		@Inject(method = "tick", at = @At("HEAD"))
 		private void startShaking(ServerLevel level, EnderDragonFight fight, List<EndCrystal> crystals, int time, CallbackInfo ci) {
 			var config = ScreenShakeConfig.get(false);
-			if (MainConfig.get().screen_shake) {
+			if (MainConfig.screen_shake.get()) {
 				if (time == 0 && config.dragonRespawnScreenShake) {
 					ScreenShakeManager.addScreenShake(level, 0.9F, 60, 0, 130, 0, 180);
 				}
@@ -34,7 +34,7 @@ public class DragonRespawnAnimationMixin {
 		@Inject(method = "tick", at = @At("TAIL"))
 		private void startShaking(ServerLevel world, EnderDragonFight fight, List<EndCrystal> crystals, int time, CallbackInfo ci) {
 			var config = ScreenShakeConfig.get();
-			if (MainConfig.get().screen_shake) {
+			if (MainConfig.screen_shake.get()) {
 				if (time == 0 && config.dragonRespawnScreenShake) {
 					ScreenShakeManager.addScreenShake(world, 1.9F, 140, 0, 130, 0, 180);
 				}

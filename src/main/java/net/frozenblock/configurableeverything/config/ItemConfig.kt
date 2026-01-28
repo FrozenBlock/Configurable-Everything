@@ -8,8 +8,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.item.Items
 
@@ -22,7 +20,6 @@ private val ITEM_REACH_OVERRIDES: TypedEntryType<MutableList<ItemReachOverride>>
 
 data class ItemConfig(
     @JvmField
-    @EntrySyncData("reachOverrides")
     var reachOverrides: TypedEntry<MutableList<ItemReachOverride>> = TypedEntry.create(
         ITEM_REACH_OVERRIDES,
         mutableListOf(
@@ -33,7 +30,7 @@ data class ItemConfig(
         )
     )
 ) {
-    companion object : CEConfig<ItemConfig>(
+    companion object : CESimpleConfig<ItemConfig>(
         ItemConfig::class,
         "item"
     ) {

@@ -8,8 +8,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.monster.warden.WardenAi
 
@@ -20,10 +18,10 @@ private val SOUND_SCREEN_SHAKE : TypedEntryType<MutableList<SoundScreenShake>> =
     )
 )
 
-@UnsyncableConfig
+// UNSYNCABLE
 data class ScreenShakeConfig(
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var soundScreenShakes: TypedEntry<MutableList<SoundScreenShake>> = TypedEntry.create(
         SOUND_SCREEN_SHAKE,
         mutableListOf(
@@ -80,14 +78,14 @@ data class ScreenShakeConfig(
     ),
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var dragonRespawnScreenShake: Boolean = true,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var explosionScreenShake: Boolean = true
 ) {
-    companion object : CEConfig<ScreenShakeConfig>(
+    companion object : CESimpleConfig<ScreenShakeConfig>(
         ScreenShakeConfig::class,
         "screen_shake"
     ) {

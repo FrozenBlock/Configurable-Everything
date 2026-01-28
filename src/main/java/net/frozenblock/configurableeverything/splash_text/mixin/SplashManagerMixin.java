@@ -19,7 +19,7 @@ public class SplashManagerMixin {
 
     @Inject(method = "apply(Ljava/util/List;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("HEAD"))
     private void apply(List<String> object, ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfo ci) {
-        if (MainConfig.get().splash_text && SplashTextConfig.get().removeVanilla) {
+        if (MainConfig.splash_text.get() && SplashTextConfig.get().removeVanilla) {
             object.clear();
         }
     }

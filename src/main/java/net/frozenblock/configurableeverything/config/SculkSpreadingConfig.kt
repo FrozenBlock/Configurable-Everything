@@ -7,8 +7,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.SculkShriekerBlock
@@ -23,7 +21,6 @@ private val SCULK_GROWTH_LIST: TypedEntryType<MutableList<SculkGrowth>> = Config
 data class SculkSpreadingConfig(
 
     @JvmField
-    @EntrySyncData("activators")
     @Comment("List of growth block states.")
     var growths: TypedEntry<MutableList<SculkGrowth>> = TypedEntry.create(
         SCULK_GROWTH_LIST,
@@ -34,7 +31,7 @@ data class SculkSpreadingConfig(
         ),
     )
 ) {
-    companion object : CEConfig<SculkSpreadingConfig>(
+    companion object : CESimpleConfig<SculkSpreadingConfig>(
         SculkSpreadingConfig::class,
         "sculk_spreading"
     ) {

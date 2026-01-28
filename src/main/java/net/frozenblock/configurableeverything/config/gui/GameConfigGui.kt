@@ -12,7 +12,7 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-
+/*
 object GameConfigGui {
 
     private inline val mainToggleReq: Requirement
@@ -40,3 +40,4 @@ object GameConfigGui {
     }
 
 }
+*/

@@ -22,7 +22,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
-
+/*
 private val configInstance = BlockConfig
 
 private inline val mainToggleReq: Requirement
@@ -140,3 +140,4 @@ private fun soundId(sound: SoundEvent?): String? {
 private fun sound(id: String): SoundEvent? {
     return BuiltInRegistries.SOUND_EVENT.getValue(Identifier.parse(id))
 }
+*/

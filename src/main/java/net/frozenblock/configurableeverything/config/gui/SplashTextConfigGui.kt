@@ -12,7 +12,7 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
-
+/*
 object SplashTextConfigGui {
 
     private inline val mainToggleReq: Requirement
@@ -62,3 +62,4 @@ object SplashTextConfigGui {
         }
     }
 }
+*/

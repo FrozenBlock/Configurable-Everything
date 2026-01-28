@@ -21,14 +21,12 @@ public abstract class EntityMixin {
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	public void init(EntityType<?> entityType, Level level, CallbackInfo ci) {
 		var config = EntityConfig.get(false);
-		if (MainConfig.get(false).entity == true) {
-			if (config.entitySpottingIcons != null && config.entitySpottingIcons.value() != null) {
-				var entitySpottingIcons = config.entitySpottingIcons.value();
-				for (EntitySpottingIcon spottingIcon : entitySpottingIcons) {
-					if (spottingIcon.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
-						((EntitySpottingIconInterface) Entity.class.cast(this)).getSpottingIconManager()
-							.setIcon(spottingIcon.texture, spottingIcon.startFade, spottingIcon.endFade, SpottingIconPredicate.DEFAULT_ID);
-					}
+		if (MainConfig.entity.get()) {
+			var entitySpottingIcons = config.entitySpottingIcons.value();
+			for (EntitySpottingIcon spottingIcon : entitySpottingIcons) {
+				if (spottingIcon.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
+					((EntitySpottingIconInterface) Entity.class.cast(this)).getSpottingIconManager()
+						.setIcon(spottingIcon.texture, spottingIcon.startFade, spottingIcon.endFade, SpottingIconPredicate.DEFAULT_ID);
 				}
 			}
 		}

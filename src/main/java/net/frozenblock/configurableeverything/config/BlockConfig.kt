@@ -12,8 +12,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.sounds.SoundEvents
 
 private val SOUND_GROUP_OVERWRITES: TypedEntryType<MutableList<MutableBlockSoundGroupOverwrite>> = ConfigRegistry.register(
@@ -25,7 +23,7 @@ private val SOUND_GROUP_OVERWRITES: TypedEntryType<MutableList<MutableBlockSound
 
 data class BlockConfig(
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var soundGroupOverwrites: TypedEntry<MutableList<MutableBlockSoundGroupOverwrite>> = TypedEntry.create(
         SOUND_GROUP_OVERWRITES,
         mutableListOf(
@@ -44,7 +42,7 @@ data class BlockConfig(
         )
     )
 ) {
-    companion object : CEConfig<BlockConfig>(
+    companion object : CESimpleConfig<BlockConfig>(
         BlockConfig::class,
         "block"
     ) {

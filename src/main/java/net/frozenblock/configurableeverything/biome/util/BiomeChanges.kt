@@ -14,7 +14,7 @@ object BiomeChanges : DataReloadManager<BiomeChange>(
     "biome change",
     BiomeChange.CODEC
 ) {
-    override val shouldApply: Boolean get() = MainConfig.get().datapack.biome
+    override val shouldApply: Boolean get() = MainConfig.datapackBiome.get()
 
     override fun apply(values: Collection<BiomeChange>) {
         applyModifications(values)

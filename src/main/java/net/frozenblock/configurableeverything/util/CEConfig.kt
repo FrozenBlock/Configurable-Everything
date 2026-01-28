@@ -2,11 +2,21 @@ package net.frozenblock.configurableeverything.util
 
 import net.frozenblock.lib.config.api.instance.ConfigSerialization
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
+import net.frozenblock.lib.config.v2.config.ConfigData
+import net.frozenblock.lib.config.v2.config.ConfigSettings
+import net.frozenblock.lib.config.v2.registry.ConfigV2Registry
+import net.frozenblock.lib.shadow.xjs.data.JsonValue
 import java.nio.file.Files
 import kotlin.io.path.deleteIfExists
 import kotlin.reflect.KClass
 
-open class CEConfig<T : Any>(
+open class CEConfig(name: String) : ConfigData<JsonValue>(config(name), ConfigSettings.DJS) {
+    init {
+        ConfigV2Registry.register(this, this.id())
+    }
+}
+
+open class CESimpleConfig<T : Any>(
     config: KClass<T>,
     private val configName: String,
     supportsModification: Boolean = true,

@@ -8,8 +8,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.storage.loot.BuiltInLootTables
 import net.minecraft.world.level.storage.loot.LootPool
@@ -26,7 +24,6 @@ private val LOOT_MODIFICATIONS: TypedEntryType<MutableList<LootModification>> = 
 
 data class LootConfig(
     @JvmField
-    @EntrySyncData("lootModifications")
     var lootModifications: TypedEntry<MutableList<LootModification>> = TypedEntry.create(
         LOOT_MODIFICATIONS,
         mutableListOf(
@@ -44,7 +41,7 @@ data class LootConfig(
         )
     )
 ) {
-    companion object : CEConfig<LootConfig>(
+    companion object : CESimpleConfig<LootConfig>(
         LootConfig::class,
         "loot"
     ) {

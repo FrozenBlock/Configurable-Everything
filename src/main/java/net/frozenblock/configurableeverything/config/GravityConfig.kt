@@ -7,8 +7,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.world.level.Level
@@ -23,7 +21,6 @@ private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<MutableList<DimensionGra
 
 data class GravityConfig(
     @JvmField
-    @EntrySyncData("gravityBelts")
     var gravityBelts: TypedEntry<MutableList<DimensionGravityBelt>> = TypedEntry.create(
         DIMENSION_GRAVITY_BELT_LIST,
         mutableListOf(
@@ -37,7 +34,7 @@ data class GravityConfig(
         )
     ),
 ) {
-    companion object : CEConfig<GravityConfig>(
+    companion object : CESimpleConfig<GravityConfig>(
         GravityConfig::class,
         "gravity"
     ) {

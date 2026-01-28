@@ -7,8 +7,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
@@ -23,7 +21,6 @@ private val SURFACE_RULE_LIST: TypedEntryType<MutableList<FrozenDimensionBoundRu
 
 data class SurfaceRuleConfig(
     @JvmField
-    @EntrySyncData("addedSurfaceRules")
     var addedSurfaceRules: TypedEntry<MutableList<FrozenDimensionBoundRuleSource>> = TypedEntry.create(
         SURFACE_RULE_LIST,
         mutableListOf(
@@ -42,7 +39,7 @@ data class SurfaceRuleConfig(
         )
     )
 ) {
-    companion object : CEConfig<SurfaceRuleConfig>(
+    companion object : CESimpleConfig<SurfaceRuleConfig>(
         SurfaceRuleConfig::class,
         "surface_rule"
     ) {

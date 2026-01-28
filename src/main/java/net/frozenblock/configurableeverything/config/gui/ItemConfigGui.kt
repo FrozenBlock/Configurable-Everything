@@ -18,7 +18,7 @@ import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.Items
-
+/*
 private val configInstance = ItemConfig
 
 private inline val mainToggleReq: Requirement
@@ -74,3 +74,4 @@ private fun reachOverrides(
         this.requirement = mainToggleReq
     }
 }
+*/

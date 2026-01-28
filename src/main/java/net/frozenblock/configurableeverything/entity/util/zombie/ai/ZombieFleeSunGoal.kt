@@ -8,7 +8,7 @@ import net.minecraft.world.entity.ai.goal.FleeSunGoal;
 class ZombieFleeSunGoal(mob: PathfinderMob, speedModifier: Double) : FleeSunGoal(mob, speedModifier) {
 
 	override fun canUse(): Boolean {
-		return if (!(MainConfig.get().entity && EntityConfig.get().zombie.zombiesAvoidSun))
+		return if (!(MainConfig.entity.get() && EntityConfig.get().zombie.zombiesAvoidSun))
 			false
 		else super.canUse()
 	}

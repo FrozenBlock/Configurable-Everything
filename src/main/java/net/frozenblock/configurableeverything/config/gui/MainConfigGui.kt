@@ -9,274 +9,181 @@ import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
 import me.shedaniel.clothconfig2.gui.entries.StringListListEntry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.frozenblock.configurableeverything.config.EarlyMainConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategory
 import net.frozenblock.lib.config.clothconfig.synced
 
-private val configInstance = MainConfig
-
-class MainConfigGui(private val entryBuilder: ConfigEntryBuilder, private val config: MainConfig, private val syncConfig: MainConfig, private val defaultConfig: MainConfig) {
+class MainConfigGui(private val entryBuilder: ConfigEntryBuilder) {
     companion object {
         var INSTANCE: MainConfigGui? = null
 
-        fun createInstance(entryBuilder: ConfigEntryBuilder, config: MainConfig, syncConfig: MainConfig, defaultConfig: MainConfig): MainConfigGui {
-            INSTANCE = MainConfigGui(entryBuilder, config, syncConfig, defaultConfig)
+        fun createInstance(entryBuilder: ConfigEntryBuilder): MainConfigGui {
+            INSTANCE = MainConfigGui(entryBuilder)
             return INSTANCE!!
         }
     }
 
-    val biome: BooleanListEntry = EntryBuilder(text("biome"), syncConfig.biome,
-        defaultConfig.biome,
-        { newValue -> config.biome = newValue },
+    val biome: BooleanListEntry = EntryBuilder(MainConfig.biome,
+        text("biome"),
         tooltip("biome"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "biome",
-        configInstance
-    ) as BooleanListEntry
-
-    val biomePlacement: BooleanListEntry = EntryBuilder(text("biome_placement"), syncConfig.biome_placement,
-        defaultConfig.biome_placement,
-        { newValue -> config.biome_placement = newValue },
-        tooltip("biome_placement"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "biome_placement",
-        configInstance
-    ) as BooleanListEntry
-
-    val block: BooleanListEntry = EntryBuilder(text("block"), syncConfig.block,
-        defaultConfig.block,
-        { newValue -> config.block = newValue },
-        tooltip("block"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "block",
-        configInstance
-    ) as BooleanListEntry
-
-    val datafixer: BooleanListEntry = EntryBuilder(text("datafixer"), syncConfig.datafixer,
-        defaultConfig.datafixer,
-        { newValue -> config.datafixer = newValue },
-        tooltip("datafixer"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "datafixer",
-        configInstance
-    ) as BooleanListEntry
-
-    val entity: BooleanListEntry = EntryBuilder(text("entity"), syncConfig.entity,
-        defaultConfig.entity,
-        { newValue -> config.entity = newValue },
-        tooltip("entity"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "entity",
-        configInstance
-    ) as BooleanListEntry
-
-    val fluid: BooleanListEntry = EntryBuilder(text("fluid"), syncConfig.fluid,
-        defaultConfig.fluid,
-        { newValue -> config.fluid = newValue },
-        tooltip("fluid"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "fluid",
-        configInstance
-    ) as BooleanListEntry
-
-    val game: BooleanListEntry = EntryBuilder(text("game"), syncConfig.game,
-        defaultConfig.game,
-        { newValue -> config.game = newValue },
-        tooltip("game"),
-        true
+        requiresRestart = true
     ).build(entryBuilder) as BooleanListEntry
 
-    val gravity: BooleanListEntry = EntryBuilder(text("gravity"), syncConfig.gravity,
-        defaultConfig.gravity,
-        { newValue -> config.gravity = newValue },
+    val biomePlacement: BooleanListEntry = EntryBuilder(MainConfig.biome_placement,
+        text("biome_placement"),
+        tooltip("biome_placement"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val block: BooleanListEntry = EntryBuilder(MainConfig.block,
+        text("block"),
+        tooltip("block"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val datafixer: BooleanListEntry = EntryBuilder(MainConfig.datafixer,
+        text("datafixer"),
+        tooltip("datafixer"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val entity: BooleanListEntry = EntryBuilder(MainConfig.entity,
+        text("entity"),
+        tooltip("entity"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val fluid: BooleanListEntry = EntryBuilder(MainConfig.fluid,
+        text("fluid"),
+        tooltip("fluid"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val game: BooleanListEntry = entryBuilder.startBooleanToggle(text("game"), EarlyMainConfig.instance().game)
+        .setDefaultValue(EarlyMainConfig.defaultInstance().game)
+        .setSaveConsumer { newValue -> EarlyMainConfig.instance().game = newValue }
+        .setTooltip(tooltip("game"))
+        .requireRestart()
+        .build()
+
+    val gravity: BooleanListEntry = EntryBuilder(MainConfig.gravity,
+        text("gravity"),
         tooltip("gravity"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "gravity",
-        configInstance
-    ) as BooleanListEntry
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
 
-    val item: BooleanListEntry = EntryBuilder(text("item"), syncConfig.item,
-        defaultConfig.item,
-        { newValue -> config.item = newValue },
+    val item: BooleanListEntry = EntryBuilder(MainConfig.item,
+        text("item"),
         tooltip("item")
-    ).build(entryBuilder).synced(
-        config::class,
-        "item",
-        configInstance
-    ) as BooleanListEntry
+    ).build(entryBuilder) as BooleanListEntry
 
-    val loot: BooleanListEntry = EntryBuilder(text("loot"), syncConfig.loot,
-        defaultConfig.loot,
-        { newValue -> config.loot = newValue },
+    val loot: BooleanListEntry = EntryBuilder(MainConfig.loot,
+        text("loot"),
         tooltip("loot")
-    ).build(entryBuilder).synced(
-        config::class,
-        "loot",
-        configInstance
-    ) as BooleanListEntry
+    ).build(entryBuilder) as BooleanListEntry
 
     val music: BooleanListEntry? = ifExperimental {
-        EntryBuilder(text("music"), config.music,
-            defaultConfig.music,
-            { newValue -> config.music = newValue },
+        EntryBuilder(MainConfig.music,
+            text("music"),
             tooltip("music")
         ).build(entryBuilder) as BooleanListEntry
     }
 
-    val recipe: BooleanListEntry = EntryBuilder(text("recipe"), syncConfig.recipe,
-        defaultConfig.recipe,
-        { newValue -> config.recipe = newValue },
+    val recipe: BooleanListEntry = EntryBuilder(MainConfig.recipe,
+        text("recipe"),
         tooltip("recipe"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "registry",
-        configInstance
-    ) as BooleanListEntry
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
 
-    val registry: BooleanListEntry = EntryBuilder(text("registry"), syncConfig.registry,
-        defaultConfig.registry,
-        { newValue -> config.registry = newValue },
+    val registry: BooleanListEntry = EntryBuilder(MainConfig.registry,
+        text("registry"),
         tooltip("registry"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "registry",
-        configInstance
-    ) as BooleanListEntry
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
 
-    val screenShake: BooleanListEntry = EntryBuilder(text("screen_shake"), syncConfig.screen_shake,
-        defaultConfig.screen_shake,
-        { newValue -> config.screen_shake = newValue },
+    val screenShake: BooleanListEntry = EntryBuilder(MainConfig.screen_shake,
+        text("screen_shake"),
         tooltip("screen_shake"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "screen_shake",
-        configInstance
-    ) as BooleanListEntry
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
 
-    val scripting: BooleanListEntry = EntryBuilder(text("scripting"), syncConfig.scripting,
-        defaultConfig.scripting,
-        { newValue -> config.scripting = newValue },
+    val scripting: BooleanListEntry = EntryBuilder(MainConfig.scripting,
+        text("scripting"),
         tooltip("scripting"),
-        true,
+        requiresRestart = true,
         requirement = Requirement.isTrue { HAS_EXTENSIONS }
     ).build(entryBuilder) as BooleanListEntry
 
-    val sculkSpreading: BooleanListEntry = EntryBuilder(text("sculk_spreading"), syncConfig.sculk_spreading,
-        defaultConfig.sculk_spreading,
-        { newValue -> config.sculk_spreading = newValue },
+    val sculkSpreading: BooleanListEntry = EntryBuilder(MainConfig.sculk_spreading,
+        text("sculk_spreading"),
         tooltip("sculk_spreading"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "sculk_spreading",
-        configInstance
-    ) as BooleanListEntry
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
 
-    val splashText: BooleanListEntry = EntryBuilder(text("splash_text"), syncConfig.splash_text,
-        defaultConfig.splash_text,
-        { newValue -> config.splash_text = newValue },
+    val splashText: BooleanListEntry = EntryBuilder(MainConfig.splash_text,
+        text("splash_text"),
         tooltip("splash_text"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val structure: BooleanListEntry = EntryBuilder(MainConfig.structure,
+        text("structure"),
+        tooltip("structure"),
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
+
+    val surfaceRule: BooleanListEntry = EntryBuilder(MainConfig.surface_rule,
+        text("surface_rule"),
+        tooltip("surface_rule"),
         true
     ).build(entryBuilder) as BooleanListEntry
 
-    val structure: BooleanListEntry = EntryBuilder(text("structure"), syncConfig.structure,
-        defaultConfig.structure,
-        { newValue -> config.structure = newValue },
-        tooltip("structure"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "structure",
-        configInstance
-    ) as BooleanListEntry
-
-    val surfaceRule: BooleanListEntry = EntryBuilder(text("surface_rule"), syncConfig.surface_rule,
-        defaultConfig.surface_rule,
-        { newValue -> config.surface_rule = newValue },
-        tooltip("surface_rule"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "surface_rule",
-        configInstance
-    ) as BooleanListEntry
-
-    val tag: BooleanListEntry = EntryBuilder(text("tag"), syncConfig.tag,
-        defaultConfig.tag,
-        { newValue -> config.tag = newValue },
+    val tag: BooleanListEntry = EntryBuilder(MainConfig.tag,
+        text("tag"),
         tooltip("tag"),
         true
-    ).build(entryBuilder).synced(
-        config::class,
-        "tag",
-        configInstance
-    ) as BooleanListEntry
+    ).build(entryBuilder) as BooleanListEntry
 
-    val world: BooleanListEntry = EntryBuilder(text("world"), syncConfig.world,
-        defaultConfig.world,
-        { newValue -> config.world = newValue },
+    val world: BooleanListEntry = EntryBuilder(MainConfig.world,
+        text("world"),
         tooltip("world"),
-        true
-    ).build(entryBuilder).synced(
-        config::class,
-        "world",
-        configInstance
-    ) as BooleanListEntry
+        requiresRestart = true
+    ).build(entryBuilder) as BooleanListEntry
 
     // datapack
 
-    val applyDatapackFolders: BooleanListEntry = EntryBuilder(text("apply_datapack_folders"), syncConfig.datapack.applyDatapackFolders,
-        defaultConfig.datapack.applyDatapackFolders,
-        { newValue -> config.datapack.applyDatapackFolders = newValue },
+    val applyDatapackFolders: BooleanListEntry = EntryBuilder(MainConfig.applyDatapackFolders,
+        text("apply_datapack_folders"),
         tooltip("apply_datapack_folders"),
-        true
+        requiresRestart = true
     ).build(entryBuilder) as BooleanListEntry
 
-    val datapackFolders: StringListListEntry = entryBuilder.startStrList(text("datapack_folders"), syncConfig.datapack.datapackFolders)
-        .setDefaultValue(defaultConfig.datapack.datapackFolders)
-        .setSaveConsumer { newValue -> config.datapack.datapackFolders = newValue }
+    val datapackFolders: StringListListEntry = entryBuilder.startStrList(text("datapack_folders"), MainConfig.datapackFolders.actual)
+        .setDefaultValue(MainConfig.datapackFolders.defaultValue())
+        .setSaveConsumer(MainConfig.datapackFolders::setValue)
         .setTooltip(tooltip("datapack_folders"))
         .requireRestart()
         .build()
 
-    val datapackBiome: BooleanListEntry = EntryBuilder(text("datapack_biome"), syncConfig.datapack.biome,
-        defaultConfig.datapack.biome,
-        { newValue -> config.datapack.biome = newValue },
+    val datapackBiome: BooleanListEntry = EntryBuilder(MainConfig.datapackBiome,
+        text("datapack_biome"),
         tooltip("datapack_biome"),
-        true
+        requiresRestart = true
     ).build(entryBuilder) as BooleanListEntry
 
-    val datapackBiomePlacement: BooleanListEntry = EntryBuilder(text("datapack_biome_placement"), syncConfig.datapack.biome_placement,
-        defaultConfig.datapack.biome_placement,
-        { newValue -> config.datapack.biome_placement = newValue },
+    val datapackBiomePlacement: BooleanListEntry = EntryBuilder(MainConfig.datapackBiomePlacement,
+        text("datapack_biome_placement"),
         tooltip("datapack_biome_placement"),
-        true
+        requiresRestart = true
     ).build(entryBuilder) as BooleanListEntry
 
-    val moreJsonSupport: BooleanListEntry = EntryBuilder(text("more_json_support"), syncConfig.datapack.moreJsonSupport,
-        defaultConfig.datapack.moreJsonSupport,
-        { newValue -> config.datapack.moreJsonSupport = newValue },
+    val moreJsonSupport: BooleanListEntry = EntryBuilder(MainConfig.moreJsonSupport,
+        text("more_json_support"),
         tooltip("more_json_support"),
-        true
+        requiresRestart = true
     ).build(entryBuilder) as BooleanListEntry
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {

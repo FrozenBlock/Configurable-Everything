@@ -9,7 +9,7 @@ object BlockConfigUtil {
 
     fun init() {
         val config = BlockConfig.get()
-        if (!MainConfig.get().block) return
+        if (!MainConfig.block.get()) return
         for (overwrite in config.soundGroupOverwrites.value) {
             BlockSoundTypeOverwrites.addBlock(
                 overwrite.blockId,

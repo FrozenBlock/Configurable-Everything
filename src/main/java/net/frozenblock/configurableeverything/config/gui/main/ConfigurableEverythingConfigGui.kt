@@ -47,55 +47,55 @@ object ConfigurableEverythingConfigGui {
         }
 
         val main = configBuilder.getOrCreateCategory(text("main"))
-        MainConfigGui.createInstance(entryBuilder, MainConfig.get(true), MainConfig.configWithSync(), MainConfig.defaultInstance()).setupEntries(main, entryBuilder)
+        MainConfigGui.createInstance(entryBuilder).setupEntries(main, entryBuilder)
 
         val biome = configBuilder.getOrCreateCategory(text("biome"))
-        BiomeConfigGui.setupEntries(biome, entryBuilder)
+        //BiomeConfigGui.setupEntries(biome, entryBuilder)
 
         val biomePlacement = configBuilder.getOrCreateCategory(text("biome_placement"))
-        BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
+        //BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
 
         val block = configBuilder.getOrCreateCategory(text("block"))
-        BlockConfigGui.setupEntries(block, entryBuilder)
+        //BlockConfigGui.setupEntries(block, entryBuilder)
 
         val datafixer = configBuilder.getOrCreateCategory(text("datafixer"))
-        DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
+        //DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
 
         val entity = configBuilder.getOrCreateCategory(text("entity"))
-        EntityConfigGui.setupEntries(entity, entryBuilder)
+        //EntityConfigGui.setupEntries(entity, entryBuilder)
 
         val fluid = configBuilder.getOrCreateCategory(text("fluid"))
-        FluidConfigGui.setupEntries(fluid, entryBuilder)
+        //FluidConfigGui.setupEntries(fluid, entryBuilder)
 
         val game = configBuilder.getOrCreateCategory(text("game"))
-        GameConfigGui.setupEntries(game, entryBuilder)
+        //GameConfigGui.setupEntries(game, entryBuilder)
 
         val item = configBuilder.getOrCreateCategory(text("item"))
-        ItemConfigGui.setupEntries(item, entryBuilder)
+        //ItemConfigGui.setupEntries(item, entryBuilder)
 
         val mixins = configBuilder.getOrCreateCategory(text("mixins"))
-        MixinsConfigGui.setupEntries(mixins, entryBuilder)
+        //MixinsConfigGui.setupEntries(mixins, entryBuilder)
 
         val recipe = configBuilder.getOrCreateCategory(text("recipe"))
-        RecipeConfigGui.setupEntries(recipe, entryBuilder)
+        //RecipeConfigGui.setupEntries(recipe, entryBuilder)
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
-        ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
+        //ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
 
         val scripting = configBuilder.getOrCreateCategory(text("scripting"))
-        ScriptingConfigGui.setupEntries(scripting, entryBuilder)
+        //ScriptingConfigGui.setupEntries(scripting, entryBuilder)
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
-        SplashTextConfigGui.setupEntries(splashText, entryBuilder)
+        //SplashTextConfigGui.setupEntries(splashText, entryBuilder)
 
         val structure = configBuilder.getOrCreateCategory(text("structure"))
-        StructureConfigGui.setupEntries(structure, entryBuilder)
+        //StructureConfigGui.setupEntries(structure, entryBuilder)
 
         val tag = configBuilder.getOrCreateCategory(text("tag"))
-        TagConfigGui.setupEntries(tag, entryBuilder)
+        //TagConfigGui.setupEntries(tag, entryBuilder)
 
         val world = configBuilder.getOrCreateCategory(text("world"))
-        WorldConfigGui.setupEntries(world, entryBuilder)
+        //WorldConfigGui.setupEntries(world, entryBuilder)
 
         return configBuilder.build()
     }

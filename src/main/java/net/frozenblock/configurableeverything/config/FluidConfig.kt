@@ -7,8 +7,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.material.Fluids
 
@@ -21,7 +19,6 @@ private val FLUID_FLOW_SPEEDS: TypedEntryType<MutableList<FluidFlowSpeed>> = Con
 
 data class FluidConfig(
     @JvmField
-    @EntrySyncData("flowSpeeds")
     var flowSpeeds: TypedEntry<MutableList<FluidFlowSpeed>> = TypedEntry.create(
         FLUID_FLOW_SPEEDS,
         mutableListOf(
@@ -38,7 +35,7 @@ data class FluidConfig(
         )
     )
 ) {
-    companion object : CEConfig<FluidConfig>(
+    companion object : CESimpleConfig<FluidConfig>(
         FluidConfig::class,
         "fluid"
     ) {

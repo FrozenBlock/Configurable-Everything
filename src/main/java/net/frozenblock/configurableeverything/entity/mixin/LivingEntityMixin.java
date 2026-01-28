@@ -27,7 +27,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@ModifyArg(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"), index = 2)
 	private int dropExperience(int amount) {
 		var config = EntityConfig.get(false);
-		if (MainConfig.get(false).entity == true && config.experienceOverrides != null && config.experienceOverrides.value() != null) {
+		if (MainConfig.entity.get()) {
 			var experienceOverrides = config.experienceOverrides.value();
 			for (var override : experienceOverrides) {
 				if (override.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
@@ -42,7 +42,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private void setLastHurtMob(Entity entity, CallbackInfo ci) {
 		var config = EntityConfig.get();
 
-		if (!MainConfig.get().entity)
+		if (!MainConfig.entity.get())
 			return;
 
 		if (entity instanceof LivingEntity livingEntity) {

@@ -15,7 +15,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.Slider
 import net.frozenblock.lib.config.api.client.gui.SliderType
 import net.frozenblock.lib.config.clothconfig.synced
-
+/*
 private val configInstance = WorldConfig
 
 private inline val mainToggleReq: Requirement
@@ -66,3 +66,4 @@ object WorldConfigGui {
         )
     }
 }
+*/

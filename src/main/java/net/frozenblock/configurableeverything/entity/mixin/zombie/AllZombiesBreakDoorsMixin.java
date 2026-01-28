@@ -25,7 +25,7 @@ public class AllZombiesBreakDoorsMixin {
 	@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/zombie/Zombie;isUnderWaterConverting()Z", shift = At.Shift.BEFORE))
 	public void tick(CallbackInfo callbackInfo) {
 		Zombie zombie = Zombie.class.cast(this);
-		if (MainConfig.get().entity) {
+		if (MainConfig.entity.get()) {
 			if (!EntityConfig.get().zombie.allZombiesBreakDoors) {
 				if (GoalUtils.hasGroundPathNavigation(zombie)) {
 					zombie.getNavigation().setCanOpenDoors(this.canBreakDoors);
@@ -42,7 +42,7 @@ public class AllZombiesBreakDoorsMixin {
 
 	@Inject(method = "canBreakDoors", at = @At("HEAD"), cancellable = true)
 	public void mcFixes$canBreakDoors(CallbackInfoReturnable<Boolean> info) {
-		if (MainConfig.get().entity) {
+		if (MainConfig.entity.get()) {
 			var zombie = EntityConfig.get().zombie;
 			if (zombie.allZombiesBreakDoors) {
 				info.setReturnValue(true);
@@ -52,7 +52,7 @@ public class AllZombiesBreakDoorsMixin {
 
 	@Inject(method = "addBehaviourGoals", at = @At("TAIL"))
 	public void mcFixes$addBehaviourGoals(CallbackInfo info) {
-		if (!MainConfig.get().entity)
+		if (!MainConfig.entity.get())
 			return;
 
 		Mob.class.cast(this).goalSelector
@@ -62,7 +62,7 @@ public class AllZombiesBreakDoorsMixin {
 					Mob.class.cast(this),
 					difficulty -> difficulty == Difficulty.HARD
 						|| (
-						MainConfig.get().entity
+						MainConfig.entity.get()
 							&& EntityConfig.get().zombie.ignoreDoorBreakDifficulty
 					)
 				)
@@ -71,6 +71,6 @@ public class AllZombiesBreakDoorsMixin {
 
 	@ModifyExpressionValue(method = "addAdditionalSaveData", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/zombie/Zombie;canBreakDoors()Z"))
 	public boolean mcFixes$addAdditionalSaveData(boolean original) {
-		return MainConfig.get().entity ? this.canBreakDoors : original;
+		return MainConfig.entity.get() ? this.canBreakDoors : original;
 	}
 }

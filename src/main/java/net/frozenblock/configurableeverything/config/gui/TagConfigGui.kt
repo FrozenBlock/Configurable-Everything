@@ -20,7 +20,7 @@ import net.frozenblock.lib.config.api.client.gui.StringList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
-
+/*
 private val configInstance: Config<TagConfig> = TagConfig
 
 private inline val mainToggleReq: Requirement
@@ -148,3 +148,4 @@ private fun addedBiomes(
         configInstance
     )
 }
+*/

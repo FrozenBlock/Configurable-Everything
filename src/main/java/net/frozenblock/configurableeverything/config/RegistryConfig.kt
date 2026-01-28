@@ -10,8 +10,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 import net.minecraft.world.attribute.EnvironmentAttributes
 import net.minecraft.world.level.biome.Biome.BiomeBuilder
@@ -35,7 +33,6 @@ private val PLACED_FEATURE_ADDITIONS: TypedEntryType<MutableList<PlacedFeatureAd
 
 data class RegistryConfig(
     @JvmField
-    @EntrySyncData("biomeAdditions")
     @Comment("Adds these biomes to the biome registry on datapack load.")
     var biomeAdditions: TypedEntry<MutableList<BiomeAddition>> = TypedEntry.create(
         BIOME_ADDITIONS,
@@ -65,14 +62,13 @@ data class RegistryConfig(
     ),
 
     @JvmField
-    @EntrySyncData("placedFeatureAdditions")
     @Comment("Adds these placed features to the placed feature registry on datapack load.")
     var placedFeatureAdditions: TypedEntry<MutableList<PlacedFeatureAddition>> = TypedEntry.create(
         PLACED_FEATURE_ADDITIONS,
         mutableListOf() // cant make an example bc it requires a holder and the registry is dynamic
     )
 ) {
-    companion object : CEConfig<RegistryConfig>(
+    companion object : CESimpleConfig<RegistryConfig>(
         RegistryConfig::class,
         "registry"
     ) {

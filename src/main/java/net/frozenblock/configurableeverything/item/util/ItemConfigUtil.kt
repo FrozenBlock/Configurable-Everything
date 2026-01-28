@@ -17,7 +17,7 @@ object ItemConfigUtil {
     @JvmStatic
     fun getReach(player: LivingEntity): Double? {
         val overrides = ItemConfig.get().reachOverrides.value
-        if (MainConfig.get().item) {
+        if (MainConfig.item.get()) {
             val item = player.getItemInHand(InteractionHand.MAIN_HAND)
             for (reachOverride in overrides) {
                 val itemOverrideLoc = reachOverride.item

@@ -4,19 +4,17 @@ package net.frozenblock.configurableeverything.config
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.resources.Identifier
 
-@UnsyncableConfig
+// UNSYNCABLE
 data class RecipeConfig(
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var removedRecipes: TypedEntry<MutableList<Identifier>> = TypedEntry.create(
         RESOURCE_LIST,
         mutableListOf(
@@ -24,7 +22,7 @@ data class RecipeConfig(
         ),
     )
 ) {
-    companion object : CEConfig<RecipeConfig>(
+    companion object : CESimpleConfig<RecipeConfig>(
         RecipeConfig::class,
         "recipe",
     ) {

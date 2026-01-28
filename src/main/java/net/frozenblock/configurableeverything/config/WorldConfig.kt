@@ -1,37 +1,34 @@
 package net.frozenblock.configurableeverything.config
 
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
 data class WorldConfig(
     @JvmField
-    @EntrySyncData("dayTimeSpeedAmplifier")
     @Comment("Does not modify tick rate. Only modifies daytime speed.\n26.1: Port is TODO")
     var dayTimeSpeedAmplifier: Long = 1,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Incompatible with mod Bedrockify.")
     var sunSize: Int = 300,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var moonSize: Int = 200,
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     @Comment("Disables the experimental warning screen when creating or loading worlds.")
     var disableExperimentalWarning: Boolean = false,
 ) {
-    companion object : CEConfig<WorldConfig>(
+    companion object : CESimpleConfig<WorldConfig>(
         WorldConfig::class,
         "world"
     ) {

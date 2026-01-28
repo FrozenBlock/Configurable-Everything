@@ -10,8 +10,6 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
-import net.frozenblock.lib.config.api.sync.annotation.EntrySyncData
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier
@@ -53,7 +51,6 @@ private val SPOTTING_ICONS: TypedEntryType<MutableList<EntitySpottingIcon>> = Co
 
 data class EntityConfig(
     @JvmField
-    @EntrySyncData("entityAttributeAmplifiers")
     var entityAttributeAmplifiers: TypedEntry<MutableList<EntityAttributeAmplifier>> = TypedEntry.create(
         ENTITY_ATTRIBUTE_AMPLIFIERS,
         mutableListOf(
@@ -71,7 +68,6 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @EntrySyncData("experienceOverrides")
     var experienceOverrides: TypedEntry<MutableList<ExperienceOverride>> = TypedEntry.create(
         EXPERIENCE_OVERRIDES,
         mutableListOf(
@@ -83,7 +79,6 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @EntrySyncData("entityFlyBySounds")
     var entityFlyBySounds: TypedEntry<MutableList<EntityFlyBySound>> = TypedEntry.create(
         ENTITY_FLYBY_SOUNDS,
         mutableListOf(
@@ -172,7 +167,6 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @EntrySyncData("entityHurtEffects")
     var entityHurtEffects: TypedEntry<MutableList<EntityHurtEffects>> = TypedEntry.create(
         ENTITY_HURT_EFFECTS,
         mutableListOf(
@@ -194,7 +188,7 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+    // UNSYNCABLE
     var entitySpottingIcons: TypedEntry<MutableList<EntitySpottingIcon>> = TypedEntry.create(
         SPOTTING_ICONS,
         mutableListOf(
@@ -208,7 +202,6 @@ data class EntityConfig(
     ),
 
     @JvmField
-    @EntrySyncData("flamingArrowsLightFire")
     var flamingArrowsLightFire: Boolean = false,
 
     @JvmField
@@ -220,7 +213,7 @@ data class EntityConfig(
     @JvmField
     var skeleton: SkeletonConfig = SkeletonConfig()
 ) {
-    companion object : CEConfig<EntityConfig>(
+    companion object : CESimpleConfig<EntityConfig>(
         EntityConfig::class,
         "entity"
     ) {
@@ -236,7 +229,6 @@ data class EntityConfig(
 
     data class PlayerConfig(
         @JvmField
-        @EntrySyncData("digSpeedAmplifier")
         var digSpeedAmplifier: Int = 100
     ) {
         inline val digSpeed: Double // acts as a getter method
@@ -248,37 +240,30 @@ data class EntityConfig(
 
     data class ZombieConfig(
         @JvmField
-        @EntrySyncData(behavior = SyncBehavior.UNSYNCABLE)
+        // UNSYNCABLE
 		var babyZombieSprintParticles: Boolean = false,
 
         @JvmField
-        @EntrySyncData("zombiesAvoidSun")
 		var zombiesAvoidSun: Boolean = false,
 
         @JvmField
-        @EntrySyncData("ignoreDoorBreakDifficulty")
 		var ignoreDoorBreakDifficulty: Boolean = false,
 
         @JvmField
-        @EntrySyncData("allZombiesBreakDoors")
 		var allZombiesBreakDoors: Boolean = false,
 
         @JvmField
-        @EntrySyncData("ignoreReinforcementDifficulty")
         var ignoreReinforcementDifficulty: Boolean = false,
 
         @JvmField
-        @EntrySyncData("fullReinforcementChance")
 		var fullReinforcementChance: Boolean = false
     )
 
     data class SkeletonConfig(
         @JvmField
-        @EntrySyncData("skeletonAccuracyIgnoresDifficulty")
 		var skeletonAccuracyIgnoresDifficulty: Boolean = false,
 
         @JvmField
-        @EntrySyncData("skeletonsAvoidSun")
 		var skeletonsAvoidSun: Boolean = true
     )
 }

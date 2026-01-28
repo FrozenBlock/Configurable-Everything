@@ -1,16 +1,14 @@
 package net.frozenblock.configurableeverything.config
 
-import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.CESimpleConfig
 import net.frozenblock.configurableeverything.util.CONFIG_FORMAT
 import net.frozenblock.configurableeverything.util.MOD_ID
 import net.frozenblock.configurableeverything.util.makeConfigPath
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.annotation.UnsyncableConfig
 import net.frozenblock.lib.shadow.blue.endless.jankson.Comment
 
 @Suppress("PropertyName", "SpellCheckingInspection")
-@UnsyncableConfig
 data class MixinsConfig(
     @Comment(
 """
@@ -75,7 +73,7 @@ Warning: Functionality will be lost if these are disabled.
     @JvmField
     var world_client: Boolean = true
 ) {
-    companion object : CEConfig<MixinsConfig>(
+    companion object : CESimpleConfig<MixinsConfig>(
         MixinsConfig::class,
         "mixins",
         false // horrible idea to support modification of this config

@@ -10,7 +10,7 @@ import net.frozenblock.configurableeverything.config.MixinsConfig
 import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-
+/*
 @Environment(EnvType.CLIENT)
 object MixinsConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
@@ -126,3 +126,4 @@ object MixinsConfigGui {
         ).build(entryBuilder))
     }
 }
+*/
