@@ -17,13 +17,11 @@ import kotlin.io.path.pathString
 object MainConfig : CEConfig("main") {
     // ignore property name warnings because the goal is to match the config file name
     @JvmField
-    @Comment(
+    var biome: ConfigEntry<Boolean> = this.entry("biome", EntryType.BOOL, false,
 """
 Enabled configs
 Warning: It is important to check the contents of each config before enabling them here.
-"""
-    )
-    var biome: ConfigEntry<Boolean> = this.entry("biome", EntryType.BOOL, false)
+""")
 
     @JvmField
     var biome_placement: ConfigEntry<Boolean> = this.entry("biome_placement", EntryType.BOOL, false)
@@ -50,7 +48,6 @@ Warning: It is important to check the contents of each config before enabling th
     var loot: ConfigEntry<Boolean> = this.entry("loot", EntryType.BOOL, false)
 
     @JvmField
-    @SaveToggle(ENABLE_EXPERIMENTAL_FEATURES)
     var music: ConfigEntry<Boolean> = this.unsyncableEntryBuilder("music", EntryType.BOOL, false).visibilityPredicate(
         VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }
     ).build()
@@ -65,18 +62,16 @@ Warning: It is important to check the contents of each config before enabling th
     var screen_shake: ConfigEntry<Boolean> = this.entry("screen_shake", EntryType.BOOL, false)
 
     @JvmField
-    // UNSYNCABLE
-    @Comment("Requires Fabric Kotlin Extensions")
-    var scripting: ConfigEntry<Boolean> = this.unsyncableEntry("scripting", EntryType.BOOL, false)
+    var scripting: ConfigEntry<Boolean> = this.unsyncableEntry("scripting", EntryType.BOOL, false,
+        "Requires Fabric Kotlin Extensions")
 
     @JvmField
     var sculk_spreading: ConfigEntry<Boolean> = this.entry("sculk_spreading", EntryType.BOOL, false)
 
     @JvmField
     @Environment(EnvType.CLIENT) // not working idk why
-    // UNSYNCABLE
-    @Comment("Client only")
-    var splash_text: ConfigEntry<Boolean> = this.unsyncableEntry("splash_text", EntryType.BOOL, false)
+    var splash_text: ConfigEntry<Boolean> = this.unsyncableEntry("splash_text", EntryType.BOOL, false,
+        "Client only")
 
     @JvmField
     var structure: ConfigEntry<Boolean> = this.entry("structure", EntryType.BOOL, false)
@@ -93,26 +88,21 @@ Warning: It is important to check the contents of each config before enabling th
     // DATAPACK
 
     @JvmField
-    // UNSYNCABLE
-    var applyDatapackFolders: ConfigEntry<Boolean> = unsyncableEntry("datapack/applyDatapackFolders", EntryType.BOOL, true)
+    var applyDatapackFolders: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/applyDatapackFolders", EntryType.BOOL, true)
 
     @JvmField
-    // UNSYNCABLE
-    var datapackFolders: ConfigEntry<List<String>> = unsyncableEntry("datapack/datapackFolders", EntryType.STRING.asList(), arrayListOf(
+    var datapackFolders: ConfigEntry<List<String>> = this.unsyncableEntry("datapack/datapackFolders", EntryType.STRING.asList(), arrayListOf(
         DATAPACKS_PATH.pathString.replace('\\', '/'), // make it readable
         "./datapacks"
     ))
 
     @JvmField
-    // UNSYNCABLE
     var datapackBiome: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/biome", EntryType.BOOL, true)
 
     @JvmField
-    // UNSYNCABLE
     var datapackBiomePlacement: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/biome_placement", EntryType.BOOL, true)
 
     @JvmField
-    // UNSYNCABLE
-    @Comment("Allows the usage of json5, djs (this file), jsonc, hjson, txt, and ubjson files in datapacks.")
-    var moreJsonSupport: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/moreJsonSupport", EntryType.BOOL, true)
+    var moreJsonSupport: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/moreJsonSupport", EntryType.BOOL, true,
+        "Allows the usage of json5, djs (this file), jsonc, hjson, txt, and ubjson files in datapacks.")
 }
