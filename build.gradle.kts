@@ -149,6 +149,9 @@ repositories {
     maven("https://maven.frozenblock.net/release") {
         name = "FrozenBlock"
     }
+    maven("https://maven.frozenblock.net/snapshot") {
+        name = "FrozenBlock Snapshot"
+    }
 
     flatDir {
         dirs("libs")
@@ -177,7 +180,8 @@ dependencies {
     api(kotlin("scripting-dependencies-maven"))
 
     // FrozenLib
-    api("maven.modrinth:frozenlib:$frozenlib_version")
+    //api("maven.modrinth:frozenlib:$frozenlib_version")
+    api("net.frozenblock:frozenlib:2.4-mc26.1-snapshot-4-SNAPSHOT")
 
     // Cloth Config
     api("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
