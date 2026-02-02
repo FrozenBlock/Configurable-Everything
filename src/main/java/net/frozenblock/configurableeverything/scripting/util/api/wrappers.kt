@@ -79,14 +79,6 @@ class SculkSpreadingWrapper internal constructor(config: SculkSpreadingConfig) :
     var growths: MutableList<SculkGrowth> by config.growths
 }
 
-class SplashTextWrapper internal constructor(config: SplashTextConfig) : ConfigWrapper<SplashTextConfig>(config) {
-
-    var addedSplashes: MutableList<String> by config::addedSplashes
-    var removedSplashes: MutableList<String> by config::removedSplashes
-    var splashColor: Int by config::splashColor
-    var removeVanilla: Boolean by config::removeVanilla
-}
-
 class StructureWrapper internal constructor(config: StructureConfig) : ConfigWrapper<StructureConfig>(config) {
 
     var removedStructures: MutableList<Identifier> by config.removedStructures

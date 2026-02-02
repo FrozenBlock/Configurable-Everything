@@ -14,16 +14,15 @@ import net.frozenblock.lib.menu.api.SplashTextAPI
 object SplashTextConfigUtil {
 
     fun init() = runBlocking {
-        val config = SplashTextConfig.get()
         if (!MainConfig.splash_text.get()) return@runBlocking
 
-        for (string in config.addedSplashes) {
+        for (string in SplashTextConfig.addedSplashes.get()) {
             launch {
                 SplashTextAPI.add(string)
                 log("Added $string to splash texts.", UNSTABLE_LOGGING)
             }
         }
-        for (string in config.removedSplashes) {
+        for (string in SplashTextConfig.removedSplashes.get()) {
             launch {
                 SplashTextAPI.remove(string)
                 log("Removed $string from splash texts.", UNSTABLE_LOGGING)

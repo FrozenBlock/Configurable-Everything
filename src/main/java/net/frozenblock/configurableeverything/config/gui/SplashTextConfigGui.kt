@@ -12,30 +12,31 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
-/*
+
 object SplashTextConfigGui {
 
     private inline val mainToggleReq: Requirement
         get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.splashText)
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = SplashTextConfig.get(real = true)
-        val defaultConfig = SplashTextConfig.defaultInstance()
-
-        val added = EntryBuilder(text("added_splashes"), StringList(config.addedSplashes),
-            StringList(defaultConfig.addedSplashes),
-            { newValue -> config.addedSplashes = newValue.list.toMutableList() },
+        val added = EntryBuilder(SplashTextConfig.addedSplashes,
+            text("added_splashes"),
             tooltip("added_splashes"),
+            StringList(SplashTextConfig.addedSplashes.actual),
+            StringList(SplashTextConfig.addedSplashes.defaultValue()),
+            { newValue -> SplashTextConfig.addedSplashes.setValue((newValue as StringList).list.toMutableList()) },
             true,
             requirement = mainToggleReq,
         ).build(entryBuilder).apply {
             category.addEntry(this)
         }
 
-        val removed = EntryBuilder(text("removed_splashes"), StringList(config.removedSplashes),
-            StringList(defaultConfig.removedSplashes),
-            { newValue -> config.removedSplashes = newValue.list.toMutableList() },
+        val removed = EntryBuilder(SplashTextConfig.removedSplashes,
+            text("removed_splashes"),
             tooltip("removed_splashes"),
+            StringList(SplashTextConfig.removedSplashes.actual),
+            StringList(SplashTextConfig.removedSplashes.defaultValue()),
+            { newValue -> SplashTextConfig.removedSplashes.setValue((newValue as StringList).list.toMutableList()) },
             true,
             requirement = mainToggleReq,
         ).build(entryBuilder).apply {
@@ -43,18 +44,17 @@ object SplashTextConfigGui {
         }
 
         category.addEntry(
-            entryBuilder.startColorField(text("splash_color"), config.splashColor)
-                .setDefaultValue(defaultConfig.splashColor)
+            entryBuilder.startColorField(text("splash_color"), SplashTextConfig.splashColor.actual)
+                .setDefaultValue(SplashTextConfig.splashColor.defaultValue())
                 .setAlphaMode(true)
-                .setSaveConsumer { newValue -> config.splashColor = newValue }
+                .setSaveConsumer(SplashTextConfig.splashColor::setValue)
                 .setTooltip(tooltip("splash_color"))
                 .setRequirement(mainToggleReq)
                 .build()
         )
 
-        val removeVanilla = EntryBuilder(text("remove_vanilla"), config.removeVanilla,
-            defaultConfig.removeVanilla,
-            { newValue -> config.removeVanilla = newValue },
+        val removeVanilla = EntryBuilder(SplashTextConfig.removeVanilla,
+            text("remove_vanilla"),
             tooltip("remove_vanilla"),
             requirement = mainToggleReq,
         ).build(entryBuilder).apply {
@@ -62,4 +62,3 @@ object SplashTextConfigGui {
         }
     }
 }
-*/

@@ -39,7 +39,7 @@ object ScriptingConfigGui {
         category.addEntry(EntryBuilder(ScriptingConfig.defaultImports,
             text("default_imports"),
             tooltip("default_imports"),
-            StringList(ScriptingConfig.defaultImports.get()),
+            StringList(ScriptingConfig.defaultImports.actual),
             StringList(ScriptingConfig.defaultImports.defaultValue()),
             { newValue -> ScriptingConfig.defaultImports.setValue((newValue as StringList).list) },
             requirement = Requirement.all(

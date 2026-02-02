@@ -79,12 +79,6 @@ sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : Con
             ConfigRegistry.register(SculkSpreadingConfig, ConfigModification { modification(SculkSpreadingWrapper(it)) })
         }
     }
-    @Environment(EnvType.CLIENT)
-    data object SPLASH_TEXT : StableConfigV1Data<SplashTextConfig, SplashTextWrapper>(SplashTextConfig) {
-        override fun modify(modification: (SplashTextWrapper) -> Unit) {
-            ConfigRegistry.register(SplashTextConfig, ConfigModification { modification(SplashTextWrapper(it)) })
-        }
-    }
     data object STRUCTURE : StableConfigV1Data<StructureConfig, StructureWrapper>(StructureConfig) {
         override fun modify(modification: (StructureWrapper) -> Unit) {
             ConfigRegistry.register(StructureConfig, ConfigModification { modification(StructureWrapper(it)) })

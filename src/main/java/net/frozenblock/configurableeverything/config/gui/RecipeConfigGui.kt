@@ -26,7 +26,7 @@ object RecipeConfigGui {
         val removed = EntryBuilder(RecipeConfig.removedRecipes,
             text("removed_recipes"),
             tooltip("removed_recipes"),
-            StringList(RecipeConfig.removedRecipes.get().map { it.toString() }),
+            StringList(RecipeConfig.removedRecipes.actual.map { it.toString() }),
             StringList(RecipeConfig.removedRecipes.defaultValue().map { it.toString() }),
             { newValue -> RecipeConfig.removedRecipes.setValue((newValue as StringList).list.map { Identifier.parse(it) }.toMutableList()) },
             true,

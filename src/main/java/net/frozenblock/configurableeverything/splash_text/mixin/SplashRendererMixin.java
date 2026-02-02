@@ -48,7 +48,7 @@ public class SplashRendererMixin {
 
 	@Unique
 	private void changeColor() {
-		var modified = SplashTextConfig.get(false).splashColor;
+		var modified = SplashTextConfig.splashColor.get();
 		if (MainConfig.splash_text.get()) {
 			StyleMutator.class.cast(this.splash.getStyle()).configurableEverything$setTextColor(modified);
 			this.wasLastModified = true;
