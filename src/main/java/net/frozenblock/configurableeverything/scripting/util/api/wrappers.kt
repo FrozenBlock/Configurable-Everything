@@ -26,12 +26,6 @@ class SculkSpreadingWrapper internal constructor(config: SculkSpreadingConfig) :
     var growths: MutableList<SculkGrowth> by config.growths
 }
 
-class StructureWrapper internal constructor(config: StructureConfig) : ConfigWrapper<StructureConfig>(config) {
-
-    var removedStructures: MutableList<Identifier> by config.removedStructures
-    var removedStructureSets: MutableList<Identifier> by config.removedStructureSets
-}
-
 class SurfaceRuleWrapper internal constructor(config: SurfaceRuleConfig) : ConfigWrapper<SurfaceRuleConfig>(config) {
 
     var addedSurfaceRules: MutableList<FrozenDimensionBoundRuleSource> by config.addedSurfaceRules

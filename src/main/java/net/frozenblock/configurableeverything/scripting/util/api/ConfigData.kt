@@ -54,11 +54,6 @@ sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : Con
             ConfigRegistry.register(SculkSpreadingConfig, ConfigModification { modification(SculkSpreadingWrapper(it)) })
         }
     }
-    data object STRUCTURE : StableConfigV1Data<StructureConfig, StructureWrapper>(StructureConfig) {
-        override fun modify(modification: (StructureWrapper) -> Unit) {
-            ConfigRegistry.register(StructureConfig, ConfigModification { modification(StructureWrapper(it)) })
-        }
-    }
     data object SURFACE_RULE : StableConfigV1Data<SurfaceRuleConfig, SurfaceRuleWrapper>(SurfaceRuleConfig) {
         override fun modify(modification: (SurfaceRuleWrapper) -> Unit) {
             ConfigRegistry.register(SurfaceRuleConfig, ConfigModification { modification(SurfaceRuleWrapper(it)) })

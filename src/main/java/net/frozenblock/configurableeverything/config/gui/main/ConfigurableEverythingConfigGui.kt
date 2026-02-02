@@ -18,6 +18,7 @@ import net.frozenblock.configurableeverything.config.gui.RecipeConfigGui
 import net.frozenblock.configurableeverything.config.gui.ScreenShakeConfigGui
 import net.frozenblock.configurableeverything.config.gui.ScriptingConfigGui
 import net.frozenblock.configurableeverything.config.gui.SplashTextConfigGui
+import net.frozenblock.configurableeverything.config.gui.StructureConfigGui
 import net.frozenblock.configurableeverything.config.gui.TagConfigGui
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
 import net.frozenblock.configurableeverything.util.text
@@ -104,7 +105,7 @@ object ConfigurableEverythingConfigGui {
         SplashTextConfigGui.setupEntries(splashText, entryBuilder)
 
         val structure = configBuilder.getOrCreateCategory(text("structure"))
-        //StructureConfigGui.setupEntries(structure, entryBuilder)
+        StructureConfigGui.setupEntries(structure, entryBuilder)
 
         val tag = configBuilder.getOrCreateCategory(text("tag"))
         TagConfigGui.setupEntries(tag, entryBuilder)

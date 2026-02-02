@@ -13,12 +13,11 @@ import net.minecraft.world.level.levelgen.structure.StructureSet.StructureSelect
 import java.util.*
 
 internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<StructureSelectionEntry> = runBlocking {
-    val config = StructureConfig.get()
     if (!MainConfig.structure.get()) return@runBlocking original
     val newList: MutableList<StructureSelectionEntry> = mutableListOf()
     newList.addAll(original)
 
-    val removedStructures = config.removedStructures.value
+    val removedStructures = StructureConfig.removedStructures.get()
     for (entry in original) { launch {
         val key = entry.structure.unwrapKey().orElseThrow().identifier()
         if (removedStructures.contains(key)) newList.remove(entry)
@@ -27,12 +26,11 @@ internal fun modifyStructureList(original: List<StructureSelectionEntry>): List<
 }
 
 internal fun modifyStructureSetList(original: List<Holder<StructureSet>>): List<Holder<StructureSet>> = runBlocking {
-    val config = StructureConfig.get()
     if (!MainConfig.structure.get()) return@runBlocking original
     val newList: MutableList<Holder<StructureSet>> = mutableListOf()
     newList.addAll(original)
 
-    val removedStructureSets = config.removedStructureSets.value
+    val removedStructureSets = StructureConfig.removedStructureSets.get()
     for (set in original) { launch {
         if (removedStructureSets.contains(set.unwrapKey().orElseThrow().identifier()))
             newList.remove(set)
