@@ -43,14 +43,6 @@ class BlockWrapper internal constructor(config: BlockConfig) : ConfigWrapper<Blo
     var soundGroupOverwrites: MutableList<MutableBlockSoundGroupOverwrite> by config.soundGroupOverwrites
 }
 
-class DataFixerWrapper internal constructor(config: DataFixerConfig) : ConfigWrapper<DataFixerConfig>(config) {
-
-    var overrideRealEntries: Boolean by config::overrideRealEntries
-    var dataVersion: Int by config::dataVersion
-    var registryFixers: MutableList<RegistryFixer> by config.registryFixers
-    var schemas: MutableList<SchemaEntry> by config.schemas
-}
-
 class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<EntityConfig>(config) {
 
     var entityAttributeAmplifiers: MutableList<EntityAttributeAmplifier> by config.entityAttributeAmplifiers

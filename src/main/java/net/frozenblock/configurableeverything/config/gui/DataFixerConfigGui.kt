@@ -20,55 +20,43 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
+import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
-/*
-private val configInstance = DataFixerConfig
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.datafixer)
 
 object DataFixerConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
-        val defaultConfig = configInstance.defaultInstance()
-
         val overrideRealEntries = EntryBuilder(
+            DataFixerConfig.overrideRealEntries,
             text("override_real_entries"),
-            syncConfig.overrideRealEntries,
-            defaultConfig.overrideRealEntries,
-            { newValue -> config.overrideRealEntries = newValue },
             tooltip("override_real_entries"),
-            true,
+            requiresRestart = true,
             requirement = mainToggleReq
-        ).build(entryBuilder).synced(
-            config::class,
-            "overrideRealEntries",
-            configInstance
-        ).apply { category.addEntry(this) }
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
         val dataVersion = EntryBuilder(
+            DataFixerConfig.dataVersion,
             text("data_version"),
-            config.dataVersion,
-            defaultConfig.dataVersion,
-            { newValue -> config.dataVersion = newValue },
             tooltip("data_version"),
-            true,
+            requiresRestart = true,
             requirement = mainToggleReq
         ).build(entryBuilder).apply { category.addEntry(this) }
 
-        category.addEntry(schemas(entryBuilder, config, defaultConfig, dataVersion as IntegerListEntry))
-        category.addEntry(registryFixers(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(schemas(entryBuilder, dataVersion as IntegerListEntry))
+        category.addEntry(registryFixers(entryBuilder))
     }
 }
 
 private fun schemas(
     entryBuilder: ConfigEntryBuilder,
-    config: DataFixerConfig,
-    defaultConfig: DataFixerConfig,
     dataVersion: IntegerListEntry
 ): AbstractConfigListEntry<*> {
     val defaultFixEntryList = mutableListOf(
@@ -110,14 +98,12 @@ private fun schemas(
         )
     )
     val defaultSchema = SchemaEntry(1, defaultFixEntryList)
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("schemas"),
-        config::schemas,
-        { defaultConfig.schemas },
+        DataFixerConfig.schemas,
         false,
         tooltip("schemas"),
-        { newValue -> config.schemas = newValue },
         { element: SchemaEntry?, _ ->
             val schema = element ?: defaultSchema
             lateinit var versionEntry: IntegerListEntry
@@ -126,7 +112,7 @@ private fun schemas(
                 schema,
                 true,
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("schemas.version"),
                     schema.version,
                     0,
@@ -148,7 +134,7 @@ private fun schemas(
                             entry,
                             true,
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("schemas.type"),
                                 entry.type,
                                 "",
@@ -170,7 +156,7 @@ private fun schemas(
                                         entry,
                                         true,
 
-                                        EntryBuilder(
+                                        SimpleEntryBuilder(
                                             text("datafixer.old_id"),
                                             entry.oldId.toString(),
                                             "",
@@ -178,7 +164,7 @@ private fun schemas(
                                             tooltip("datafixer.old_id")
                                         ).build(entryBuilder),
 
-                                        EntryBuilder(
+                                        SimpleEntryBuilder(
                                             text("datafixer.new_id"),
                                             entry.newId.toString(),
                                             "",
@@ -212,9 +198,6 @@ private fun schemas(
 
 private fun registryFixers(
     entryBuilder: ConfigEntryBuilder,
-    config: DataFixerConfig,
-    syncConfig: DataFixerConfig,
-    defaultConfig: DataFixerConfig
 ): AbstractConfigListEntry<*> {
     val defaultFixers = mutableListOf(
         Fixer(
@@ -223,14 +206,12 @@ private fun registryFixers(
         )
     )
     val defaultRegistryFixer = RegistryFixer(Registries.BLOCK.identifier(), defaultFixers)
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("registry_fixers"),
-        syncConfig::registryFixers,
-        { defaultConfig.registryFixers },
+        DataFixerConfig.registryFixers,
         false,
         tooltip("registry_fixers"),
-        { newValue -> config.registryFixers = newValue },
         { element: RegistryFixer?, _ ->
             val registryFixer = element ?: defaultRegistryFixer
             lateinit var registryKeyEntry: StringListEntry
@@ -239,7 +220,7 @@ private fun registryFixers(
                 registryFixer,
                 true,
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("registry_fixers.registry_key"),
                     registryFixer.registryKey.toString(),
                     "",
@@ -263,7 +244,7 @@ private fun registryFixers(
                             entry,
                             true,
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("datafixer.old_id"),
                                 entry.oldId.toString(),
                                 "",
@@ -273,7 +254,7 @@ private fun registryFixers(
                                 oldIdEntry = this as StringListEntry
                             },
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("datafixer.new_id"),
                                 entry.newId.toString(),
                                 "",
@@ -288,10 +269,5 @@ private fun registryFixers(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "registryFixers",
-        configInstance
-    )
+    }
 }
-*/

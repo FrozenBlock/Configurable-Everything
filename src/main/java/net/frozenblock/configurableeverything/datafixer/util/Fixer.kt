@@ -2,6 +2,8 @@ package net.frozenblock.configurableeverything.datafixer.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.Identifier
 
 data class Fixer(
@@ -16,5 +18,12 @@ data class Fixer(
                 Identifier.CODEC.fieldOf("new_id").forGetter(Fixer::newId)
             ).apply(instance, ::Fixer)
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, Fixer> = StreamCodec.composite(
+            Identifier.STREAM_CODEC, Fixer::oldId,
+            Identifier.STREAM_CODEC, Fixer::newId,
+            ::Fixer
+        )
     }
 }

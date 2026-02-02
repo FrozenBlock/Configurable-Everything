@@ -54,11 +54,6 @@ sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : Con
             ConfigRegistry.register(BlockConfig, ConfigModification { modification(BlockWrapper(it)) })
         }
     }
-    data object DATAFIXER : StableConfigV1Data<DataFixerConfig, DataFixerWrapper>(DataFixerConfig) {
-        override fun modify(modification: (DataFixerWrapper) -> Unit) {
-            ConfigRegistry.register(DataFixerConfig, ConfigModification { modification(DataFixerWrapper(it)) })
-        }
-    }
     data object ENTITY : StableConfigV1Data<EntityConfig, EntityWrapper>(EntityConfig) {
         override fun modify(modification: (EntityWrapper) -> Unit) {
             ConfigRegistry.register(EntityConfig, ConfigModification { modification(EntityWrapper(it)) })

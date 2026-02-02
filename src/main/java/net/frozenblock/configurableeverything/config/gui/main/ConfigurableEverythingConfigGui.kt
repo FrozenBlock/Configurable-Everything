@@ -4,6 +4,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
+import net.frozenblock.configurableeverything.config.gui.DataFixerConfigGui
 import net.frozenblock.configurableeverything.config.gui.FluidConfigGui
 import net.frozenblock.configurableeverything.config.gui.GameConfigGui
 import net.frozenblock.configurableeverything.config.gui.ItemConfigGui
@@ -64,7 +65,7 @@ object ConfigurableEverythingConfigGui {
         //BlockConfigGui.setupEntries(block, entryBuilder)
 
         val datafixer = configBuilder.getOrCreateCategory(text("datafixer"))
-        //DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
+        DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
 
         val entity = configBuilder.getOrCreateCategory(text("entity"))
         //EntityConfigGui.setupEntries(entity, entryBuilder)

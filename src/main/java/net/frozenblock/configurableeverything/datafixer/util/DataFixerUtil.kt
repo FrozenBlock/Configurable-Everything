@@ -21,22 +21,21 @@ object DataFixerUtil {
 
     @JvmField
     val SCHEMAS: MutableList<SchemaEntry> = mutableListOf<SchemaEntry>().apply {
-        this.addAll(DataFixerConfig.get().schemas.value)
+        this.addAll(DataFixerConfig.schemas.get())
     }
 
     @JvmField
     val REGISTRY_FIXERS: MutableList<RegistryFixer> = mutableListOf<RegistryFixer>().apply {
-        this.addAll(DataFixerConfig.get().registryFixers.value)
+        this.addAll(DataFixerConfig.registryFixers.get())
     }
 
     // doesn't need JvmStatic because it's never called in Java
 	internal fun applyDataFixes(mod: ModContainer?) {
         if (mod == null) return
-        val config = DataFixerConfig.get()
         if (MainConfig.datafixer.get()) {
             log("Applying Configurable Everything's data fixes", UNSTABLE_LOGGING)
             val schemas = SCHEMAS
-            val dataVersion = config.dataVersion
+            val dataVersion = DataFixerConfig.dataVersion.get()
             val builder = QuiltDataFixerBuilder(dataVersion)
             var maxSchema = 0
             val addedSchemas: MutableList<Schema> = ArrayList()
