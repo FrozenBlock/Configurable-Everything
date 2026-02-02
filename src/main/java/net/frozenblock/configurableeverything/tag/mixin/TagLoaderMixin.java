@@ -46,10 +46,9 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 		if (!MainConfig.tag.get())
 			return json;
 
-		TagConfig config = TagConfig.get();
 		JsonArray values = json.getAsJsonArray("values");
 
-		for (RegistryTagModification registryTagModification : config.tagModifications.value()) {
+		for (RegistryTagModification registryTagModification : TagConfig.tagModifications.get()) {
 			if (this.registryKey.identifier().toString().equals(registryTagModification.registry)) {
 				for (TagModification modification : registryTagModification.modifications) {
 					if (tag.equals(Identifier.tryParse(modification.tag))) {
@@ -69,7 +68,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 			return;
 		}
 
-		if (TagConfig.get().ignoreInvalidEntries) {
+		if (TagConfig.ignoreInvalidEntries.get()) {
 			list2.clear();
 		}
 	}

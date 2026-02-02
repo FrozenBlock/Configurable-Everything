@@ -16,12 +16,12 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
+import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
-/*
-private val configInstance: Config<TagConfig> = TagConfig
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.tag)
@@ -31,40 +31,28 @@ private inline val mainToggleReq: Requirement
  */
 object TagConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
-        val defaultConfig = configInstance.defaultInstance()
-
-        EntryBuilder(text("ignore_invalid_entries"), syncConfig.ignoreInvalidEntries,
-            defaultConfig.ignoreInvalidEntries,
-            { newValue -> config.ignoreInvalidEntries = newValue },
+        EntryBuilder(TagConfig.ignoreInvalidEntries,
+            text("ignore_invalid_entries"),
             tooltip("ignore_invalid_entries"),
-            true,
+            requiresRestart = true,
             requirement = mainToggleReq
-        ).build(entryBuilder).synced(
-            config::class,
-            "ignoreInvalidEntries",
-            configInstance
-        ).apply { category.addEntry(this) }
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        }
 
-        category.addEntry(addedBiomes(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(addedBiomes(entryBuilder))
     }
 }
 
 private fun addedBiomes(
     entryBuilder: ConfigEntryBuilder,
-    config: TagConfig,
-    syncConfig: TagConfig,
-    defaultConfig: TagConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("tag_modifications"),
-        syncConfig::tagModifications,
-        { defaultConfig.tagModifications },
+        TagConfig.tagModifications,
         false,
         tooltip("tag_modifications"),
-        { newValue -> config.tagModifications = newValue },
         { element: RegistryTagModification?, _ ->
             val defaultRegistry = "minecraft:item"
             val defaultTag = "minecraft:piglin_loved"
@@ -90,7 +78,7 @@ private fun addedBiomes(
                 registryTagModification,
                 true,
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("tag_modifications.registry"),
                     registryTagModification.registry,
                     "",
@@ -112,7 +100,7 @@ private fun addedBiomes(
                             modification,
                             true,
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("tag_modifications.tag"),
                                 modification.tag,
                                 "",
@@ -120,7 +108,7 @@ private fun addedBiomes(
                                 tooltip("tag_modifications.tag")
                             ).build(entryBuilder),
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("tag_modifications.additions"),
                                 StringList(modification.additions),
                                 StringList(listOf()),
@@ -128,7 +116,7 @@ private fun addedBiomes(
                                 tooltip("tag_modifications.additions")
                             ).build(entryBuilder),
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("tag_modifications.removals"),
                                 StringList(modification.removals),
                                 StringList(listOf()),
@@ -142,10 +130,5 @@ private fun addedBiomes(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "tagModifications",
-        configInstance
-    )
+    }
 }
-*/

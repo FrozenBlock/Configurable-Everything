@@ -2,7 +2,10 @@ package net.frozenblock.configurableeverything.tag.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.frozenblock.configurableeverything.util.mutListOf
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 
 data class TagModification(
     @JvmField var tag: String,
@@ -18,5 +21,13 @@ data class TagModification(
                 Codec.STRING.mutListOf().fieldOf("removals").forGetter(TagModification::removals)
             ).apply(instance, ::TagModification)
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, TagModification> = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, TagModification::tag,
+            ByteBufCodecs.list<ByteBuf, String>().apply(ByteBufCodecs.STRING_UTF8), TagModification::additions,
+            ByteBufCodecs.list<ByteBuf, String>().apply(ByteBufCodecs.STRING_UTF8), TagModification::removals,
+            ::TagModification
+        )
     }
 }

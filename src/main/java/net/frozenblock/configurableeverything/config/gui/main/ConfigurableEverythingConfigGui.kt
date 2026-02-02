@@ -13,6 +13,7 @@ import net.frozenblock.configurableeverything.config.gui.MixinsConfigGui
 import net.frozenblock.configurableeverything.config.gui.RecipeConfigGui
 import net.frozenblock.configurableeverything.config.gui.ScriptingConfigGui
 import net.frozenblock.configurableeverything.config.gui.SplashTextConfigGui
+import net.frozenblock.configurableeverything.config.gui.TagConfigGui
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
@@ -101,7 +102,7 @@ object ConfigurableEverythingConfigGui {
         //StructureConfigGui.setupEntries(structure, entryBuilder)
 
         val tag = configBuilder.getOrCreateCategory(text("tag"))
-        //TagConfigGui.setupEntries(tag, entryBuilder)
+        TagConfigGui.setupEntries(tag, entryBuilder)
 
         val world = configBuilder.getOrCreateCategory(text("world"))
         WorldConfigGui.setupEntries(world, entryBuilder)

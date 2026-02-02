@@ -89,11 +89,6 @@ sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : Con
             ConfigRegistry.register(SurfaceRuleConfig, ConfigModification { modification(SurfaceRuleWrapper(it)) })
         }
     }
-    data object TAG : StableConfigV1Data<TagConfig, TagWrapper>(TagConfig) {
-        override fun modify(modification: (TagWrapper) -> Unit) {
-            ConfigRegistry.register(TagConfig, ConfigModification { modification(TagWrapper(it)) })
-        }
-    }
 
     abstract fun modify(modification: (C) -> Unit)
 

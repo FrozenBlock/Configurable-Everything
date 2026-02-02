@@ -10,23 +10,26 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.core.registries.BuiltInRegistries
 
-private val TAG_MODIFICATIONS: TypedEntryType<MutableList<RegistryTagModification>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        RegistryTagModification.CODEC.mutListOf()
-    )
+private val TAG_MODIFICATIONS: EntryType<RegistryTagModification> = EntryType.create(
+    RegistryTagModification.CODEC,
+    RegistryTagModification.STREAM_CODEC,
 )
 
-data class TagConfig(
+object TagConfig : CEConfig("tag") {
     @JvmField
-    @Comment("Passes over invalid entries instead of failing to load the tag and any dependent tags")
-    var ignoreInvalidEntries: Boolean = true,
+    var ignoreInvalidEntries: ConfigEntry<Boolean> = this.entry("ignoreInvalidEntries",
+        EntryType.BOOL,
+        true,
+        "Passes over invalid entries instead of failing to load the tag and any dependent tags"
+    )
 
     @JvmField
-    var tagModifications: TypedEntry<MutableList<RegistryTagModification>> = TypedEntry.create(
-        TAG_MODIFICATIONS,
+    var tagModifications: ConfigEntry<MutableList<RegistryTagModification>> = this.entry("tagModifications",
+        TAG_MODIFICATIONS.asList(),
         mutableListOf(
             RegistryTagModification(
                 BuiltInRegistries.ITEM.key().identifier().toString(),
@@ -44,18 +47,4 @@ data class TagConfig(
             )
         )
     )
-) {
-    companion object : CESimpleConfig<TagConfig>(
-        TagConfig::class,
-        "tag"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): TagConfig = if (real) this.instance() else this.config()
-    }
 }

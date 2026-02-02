@@ -89,9 +89,3 @@ class SurfaceRuleWrapper internal constructor(config: SurfaceRuleConfig) : Confi
 
     var addedSurfaceRules: MutableList<FrozenDimensionBoundRuleSource> by config.addedSurfaceRules
 }
-
-class TagWrapper internal constructor(config: TagConfig) : ConfigWrapper<TagConfig>(config) {
-
-    var ignoreInvalidEntries: Boolean by config::ignoreInvalidEntries
-    var tagModifications: MutableList<RegistryTagModification> by config.tagModifications
-}
