@@ -12,20 +12,19 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.sounds.SoundEvents
 
-private val SOUND_GROUP_OVERWRITES: TypedEntryType<MutableList<MutableBlockSoundGroupOverwrite>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        MutableBlockSoundGroupOverwrite.CODEC.mutListOf()
-    )
+private val SOUND_GROUP_OVERWRITES: EntryType<MutableBlockSoundGroupOverwrite> = EntryType.create(
+    MutableBlockSoundGroupOverwrite.CODEC,
+    MutableBlockSoundGroupOverwrite.STREAM_CODEC,
 )
 
-data class BlockConfig(
+object BlockConfig : CEConfig("block") {
     @JvmField
-    // UNSYNCABLE
-    var soundGroupOverwrites: TypedEntry<MutableList<MutableBlockSoundGroupOverwrite>> = TypedEntry.create(
-        SOUND_GROUP_OVERWRITES,
+    var soundGroupOverwrites: ConfigEntry<MutableList<MutableBlockSoundGroupOverwrite>> = this.unsyncableEntry("soundGroupOverwrites",
+        SOUND_GROUP_OVERWRITES.asList(),
         mutableListOf(
             MutableBlockSoundGroupOverwrite(
                 vanillaId("grass_block"),
@@ -41,18 +40,4 @@ data class BlockConfig(
             ) { true }
         )
     )
-) {
-    companion object : CESimpleConfig<BlockConfig>(
-        BlockConfig::class,
-        "block"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): BlockConfig = if (real) this.instance() else this.config()
-    }
 }

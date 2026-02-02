@@ -39,11 +39,6 @@ sealed class StableConfigV1Data<T : Any, C>(override val config: Config<T>): Con
  */
 @Suppress("unused", "ClassName")
 sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : ConfigWrapper<T> {
-    data object BLOCK : StableConfigV1Data<BlockConfig, BlockWrapper>(BlockConfig) {
-        override fun modify(modification: (BlockWrapper) -> Unit) {
-            ConfigRegistry.register(BlockConfig, ConfigModification { modification(BlockWrapper(it)) })
-        }
-    }
     data object ENTITY : StableConfigV1Data<EntityConfig, EntityWrapper>(EntityConfig) {
         override fun modify(modification: (EntityWrapper) -> Unit) {
             ConfigRegistry.register(EntityConfig, ConfigModification { modification(EntityWrapper(it)) })

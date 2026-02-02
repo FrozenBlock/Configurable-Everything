@@ -15,11 +15,6 @@ import net.frozenblock.configurableeverything.util.setValue
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.resources.Identifier
 
-class BlockWrapper internal constructor(config: BlockConfig) : ConfigWrapper<BlockConfig>(config) {
-
-    var soundGroupOverwrites: MutableList<MutableBlockSoundGroupOverwrite> by config.soundGroupOverwrites
-}
-
 class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<EntityConfig>(config) {
 
     var entityAttributeAmplifiers: MutableList<EntityAttributeAmplifier> by config.entityAttributeAmplifiers

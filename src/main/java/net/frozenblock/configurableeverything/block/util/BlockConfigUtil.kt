@@ -8,9 +8,8 @@ import net.frozenblock.lib.block.sound.api.BlockSoundTypeOverwrites
 object BlockConfigUtil {
 
     fun init() {
-        val config = BlockConfig.get()
         if (!MainConfig.block.get()) return
-        for (overwrite in config.soundGroupOverwrites.value) {
+        for (overwrite in BlockConfig.soundGroupOverwrites.get()) {
             BlockSoundTypeOverwrites.addBlock(
                 overwrite.blockId,
                 overwrite.soundOverwrite.immutable(),

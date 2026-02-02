@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.BiomeConfigGui
 import net.frozenblock.configurableeverything.config.gui.BiomePlacementConfigGui
+import net.frozenblock.configurableeverything.config.gui.BlockConfigGui
 import net.frozenblock.configurableeverything.config.gui.DataFixerConfigGui
 import net.frozenblock.configurableeverything.config.gui.FluidConfigGui
 import net.frozenblock.configurableeverything.config.gui.GameConfigGui
@@ -69,7 +70,7 @@ object ConfigurableEverythingConfigGui {
         BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
 
         val block = configBuilder.getOrCreateCategory(text("block"))
-        //BlockConfigGui.setupEntries(block, entryBuilder)
+        BlockConfigGui.setupEntries(block, entryBuilder)
 
         val datafixer = configBuilder.getOrCreateCategory(text("datafixer"))
         DataFixerConfigGui.setupEntries(datafixer, entryBuilder)

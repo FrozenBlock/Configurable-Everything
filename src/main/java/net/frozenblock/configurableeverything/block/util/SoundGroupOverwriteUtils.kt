@@ -2,9 +2,14 @@ package net.frozenblock.configurableeverything.block.util;
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
+import net.frozenblock.lib.block.sound.api.SoundTypeCodecs
 import net.frozenblock.lib.block.sound.impl.overwrite.HolderSetBlockSoundTypeOverwrite
 import net.minecraft.core.HolderSet
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.level.block.Block
@@ -26,6 +31,13 @@ data class MutableBlockSoundGroupOverwrite(
                 MutableSoundType.CODEC.fieldOf("sound_type").forGetter(MutableBlockSoundGroupOverwrite::soundOverwrite)
             ).apply(instance) { id, soundType -> MutableBlockSoundGroupOverwrite(id, soundType) { true } }
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, MutableBlockSoundGroupOverwrite> = StreamCodec.composite(
+            Identifier.STREAM_CODEC, MutableBlockSoundGroupOverwrite::blockId,
+            MutableSoundType.STREAM_CODEC, MutableBlockSoundGroupOverwrite::soundOverwrite,
+            { id, soundOverwrite -> MutableBlockSoundGroupOverwrite(id, soundOverwrite) { true } }
+        )
     }
 
     fun immutable(): HolderSetBlockSoundTypeOverwrite? {
@@ -62,12 +74,17 @@ data class MutableSoundType(
             ).apply(instance, ::MutableSoundType)
         }
 
-        //@JvmField
-        //val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, MutableSoundType> = StreamCodec.composite(
-        //    ByteBufCodecs.FLOAT, MutableSoundType::volume,
-        //    ByteBufCodecs.FLOAT, MutableSoundType::pitch,
-        //    SoundTypeCodecs.SOUND_TYPE
-        //)
+        @JvmField
+        val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, MutableSoundType> = StreamCodec.composite(
+            ByteBufCodecs.FLOAT, MutableSoundType::volume,
+            ByteBufCodecs.FLOAT, MutableSoundType::pitch,
+            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::breakSound,
+            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::stepSound,
+            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::placeSound,
+            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::hitSound,
+            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::fallSound,
+            ::MutableSoundType
+        )
     }
 
     fun immutable(): SoundType
