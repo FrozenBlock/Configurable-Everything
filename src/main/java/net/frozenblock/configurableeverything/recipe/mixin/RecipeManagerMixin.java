@@ -26,10 +26,9 @@ public class RecipeManagerMixin {
 		)
 	)
 	private void removeRecipes(ResourceManager resourceManager, ProfilerFiller profiler, CallbackInfoReturnable<RecipeMap> cir, @Local SortedMap<Identifier, Recipe<?>> map) {
-		RecipeConfig config = RecipeConfig.get();
 		if (!MainConfig.recipe.get()) return;
 
-		for (Identifier recipe : config.removedRecipes.value()) {
+		for (Identifier recipe : RecipeConfig.removedRecipes.get()) {
 			map.remove(recipe);
 		}
 	}

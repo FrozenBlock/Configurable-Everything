@@ -4,35 +4,20 @@ package net.frozenblock.configurableeverything.config
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.frozenblock.configurableeverything.util.CESimpleConfig
-import net.frozenblock.lib.config.api.entry.TypedEntry
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.resources.Identifier
 
 // UNSYNCABLE
-data class RecipeConfig(
+object RecipeConfig : CEConfig("recipe") {
 
     @JvmField
     // UNSYNCABLE
-    var removedRecipes: TypedEntry<MutableList<Identifier>> = TypedEntry.create(
-        RESOURCE_LIST,
+    var removedRecipes: ConfigEntry<MutableList<Identifier>> = this.unsyncableEntry("removedRecipes",
+        EntryType.IDENTIFIER.asList(),
         mutableListOf(
             Identifier.parse("acacia_boat")
         ),
     )
-) {
-    companion object : CESimpleConfig<RecipeConfig>(
-        RecipeConfig::class,
-        "recipe",
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): RecipeConfig = if (real) this.instance() else this.config()
-    }
 }

@@ -10,6 +10,7 @@ import net.frozenblock.configurableeverything.config.gui.GameConfigGui
 import net.frozenblock.configurableeverything.config.gui.ItemConfigGui
 import net.frozenblock.configurableeverything.config.gui.MainConfigGui
 import net.frozenblock.configurableeverything.config.gui.MixinsConfigGui
+import net.frozenblock.configurableeverything.config.gui.RecipeConfigGui
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
@@ -83,7 +84,7 @@ object ConfigurableEverythingConfigGui {
         MixinsConfigGui.setupEntries(mixins, entryBuilder)
 
         val recipe = configBuilder.getOrCreateCategory(text("recipe"))
-        //RecipeConfigGui.setupEntries(recipe, entryBuilder)
+        RecipeConfigGui.setupEntries(recipe, entryBuilder)
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
         //ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)

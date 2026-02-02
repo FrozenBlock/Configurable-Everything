@@ -12,22 +12,23 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
 import net.minecraft.resources.Identifier
-/*
+
 object RecipeConfigGui {
 
     private inline val mainToggleReq: Requirement
         get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.recipe)
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = RecipeConfig.get(real = true)
-        val defaultConfig = RecipeConfig.defaultInstance()
 
-        val removed = EntryBuilder(text("removed_recipes"), StringList(config.removedRecipes.value().map { it.toString() }),
-            StringList(defaultConfig.removedRecipes.value().map { it.toString() }),
-            { newValue -> config.removedRecipes.value = newValue.list.map { Identifier.parse(it) }.toMutableList() },
+        val removed = EntryBuilder(RecipeConfig.removedRecipes,
+            text("removed_recipes"),
             tooltip("removed_recipes"),
+            StringList(RecipeConfig.removedRecipes.get().map { it.toString() }),
+            StringList(RecipeConfig.removedRecipes.defaultValue().map { it.toString() }),
+            { newValue -> RecipeConfig.removedRecipes.setValue((newValue as StringList).list.map { Identifier.parse(it) }.toMutableList()) },
             true,
             requirement = mainToggleReq,
         ).build(entryBuilder).apply {
@@ -35,4 +36,3 @@ object RecipeConfigGui {
         }
     }
 }
-*/
