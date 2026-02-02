@@ -1,28 +1,23 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.gravity.util.DimensionGravityBelt
-import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.lib.config.api.entry.TypedEntry
-import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.frozenblock.lib.gravity.api.GravityBelt
 import net.frozenblock.lib.gravity.api.functions.AbsoluteGravityFunction
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
 
-private val DIMENSION_GRAVITY_BELT_LIST: TypedEntryType<MutableList<DimensionGravityBelt>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        DimensionGravityBelt.CODEC.mutListOf()
-    )
+private val DIMENSION_GRAVITY_BELT_LIST: EntryType<DimensionGravityBelt> = EntryType.create(
+    DimensionGravityBelt.CODEC,
+    DimensionGravityBelt.STREAM_CODEC,
 )
 
-data class GravityConfig(
+object GravityConfig : CEConfig("gravity") {
     @JvmField
-    var gravityBelts: TypedEntry<MutableList<DimensionGravityBelt>> = TypedEntry.create(
-        DIMENSION_GRAVITY_BELT_LIST,
+    var gravityBelts: ConfigEntry<MutableList<DimensionGravityBelt>> = this.entry("gravityBelts",
+        DIMENSION_GRAVITY_BELT_LIST.asList(),
         mutableListOf(
             DimensionGravityBelt(
                 Level.OVERWORLD,
@@ -32,19 +27,5 @@ data class GravityConfig(
                 )
             )
         )
-    ),
-) {
-    companion object : CESimpleConfig<GravityConfig>(
-        GravityConfig::class,
-        "gravity"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): GravityConfig = if (real) this.instance() else this.config()
-    }
+    )
 }

@@ -14,10 +14,9 @@ import net.minecraft.world.level.Level
 internal object GravityConfigUtil {
 
     internal fun init() = runBlocking {
-        val config = GravityConfig.get()
         if (!MainConfig.gravity.get()) return@runBlocking
 
-        val dimensionGravityBelts = config.gravityBelts.value
+        val dimensionGravityBelts = GravityConfig.gravityBelts.get()
         for (dimensionGravityBelt in dimensionGravityBelts) { launch {
             val dimension: ResourceKey<Level> = dimensionGravityBelt.dimension
             val gravityBelts: List<GravityBelt<AbsoluteGravityFunction>> = dimensionGravityBelt.gravityBelts

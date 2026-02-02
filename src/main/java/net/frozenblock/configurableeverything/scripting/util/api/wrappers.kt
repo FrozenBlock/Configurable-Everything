@@ -64,11 +64,6 @@ class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<E
     var skeleton: EntityConfig.SkeletonConfig by config::skeleton
 }
 
-class GravityWrapper internal constructor(config: GravityConfig) : ConfigWrapper<GravityConfig>(config) {
-
-    var gravityBelts: MutableList<DimensionGravityBelt> by config.gravityBelts
-}
-
 class ItemWrapper internal constructor(config: ItemConfig) : ConfigWrapper<ItemConfig>(config) {
 
     var reachOverrideds: MutableList<ItemReachOverride> by config.reachOverrides

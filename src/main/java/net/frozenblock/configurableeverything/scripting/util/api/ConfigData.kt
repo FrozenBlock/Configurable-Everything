@@ -64,11 +64,6 @@ sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : Con
             ConfigRegistry.register(EntityConfig, ConfigModification { modification(EntityWrapper(it)) })
         }
     }
-    data object GRAVITY : StableConfigV1Data<GravityConfig, GravityWrapper>(GravityConfig) {
-        override fun modify(modification: (GravityWrapper) -> Unit) {
-            ConfigRegistry.register(GravityConfig, ConfigModification { modification(GravityWrapper(it)) })
-        }
-    }
     data object ITEM : StableConfigV1Data<ItemConfig, ItemWrapper>(ItemConfig) {
         override fun modify(modification: (ItemWrapper) -> Unit) {
             ConfigRegistry.register(ItemConfig, ConfigModification { modification(ItemWrapper(it)) })
