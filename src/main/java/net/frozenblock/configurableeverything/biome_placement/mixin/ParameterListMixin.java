@@ -36,6 +36,7 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 		if (registryAccess == null) return;
 		var addedBiomes = BiomePlacementUtil.biomeAdditions(registryAccess.lookupOrThrow(Registries.BIOME), dimension);
 		var removedBiomes = BiomePlacementUtil.biomeRemovals(registryAccess, dimension);
+		var replacedBiomes = BiomePlacementUtil.biomeReplacements(dimension);
 
 		try {
 			var biomeValues = (List) this.values;
@@ -47,6 +48,16 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 					removedBiomes.contains(pair.getSecond().unwrapKey().orElseThrow())
 				).toList()
 			);
+
+			int i = 0;
+			while (i < newParameters.size()) {
+				var pair = newParameters.get(i);
+				var key = pair.getSecond().unwrapKey().orElseThrow();
+				if (replacedBiomes.containsKey(key)) {
+					newParameters.set(i, Pair.of(pair.getFirst(), registryAccess.lookupOrThrow(Registries.BIOME).getOrThrow(replacedBiomes.get(key))));
+				}
+				i++;
+			}
 
 			newParameters.addAll(addedBiomes);
 

@@ -21,7 +21,8 @@ object BiomePlacementChanges : DataReloadManager<BiomePlacementChange>(
         if (MainConfig.biome_placement.get()) {
             val addedBiomes = config.addedBiomes.value
             val removedBiomes = config.removedBiomes.value
-            val placementChange = BiomePlacementChange(addedBiomes, removedBiomes)
+            val replacedBiomes = config.replacedBiomes.value
+            val placementChange = BiomePlacementChange(addedBiomes, removedBiomes, replacedBiomes)
 
             this.data?.put(id("config"), placementChange)
             this.add(id("config"), placementChange)

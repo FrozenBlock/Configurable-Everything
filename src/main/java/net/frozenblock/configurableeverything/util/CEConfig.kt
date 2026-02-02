@@ -6,6 +6,7 @@ import net.frozenblock.lib.config.v2.config.ConfigData
 import net.frozenblock.lib.config.v2.config.ConfigSettings
 import net.frozenblock.lib.config.v2.entry.ConfigEntry
 import net.frozenblock.lib.config.v2.entry.EntryType
+import net.frozenblock.lib.config.v2.entry.property.EntryProperties
 import net.frozenblock.lib.config.v2.entry.property.VisibilityPredicate
 import net.frozenblock.lib.config.v2.registry.ConfigV2Registry
 import net.frozenblock.lib.shadow.xjs.data.JsonValue
@@ -18,44 +19,96 @@ open class CEConfig(name: String) : ConfigData<JsonValue>(config(name), ConfigSe
         ConfigV2Registry.register(this, this.id())
     }
 
+    fun <T> entry(id: String, entry: ConfigEntry<T>): ConfigEntry<T> {
+        return this.entries().computeIfAbsent(id) { id1: String ->
+            entry
+        } as ConfigEntry<T>
+    }
+
     fun <B> entry(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).comment(comment).build()
+        return this.entry(id, this.entryBuilder(id, type, defaultValue).comment(comment).build())
     }
 
     fun <B> unsyncableEntry(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
-        return this.unsyncableEntryBuilder(id, type, defaultValue).comment(comment).build()
+        return this.entry(id,
+            this.unsyncableEntryBuilder(id, type, defaultValue)
+                .comment(comment)
+                .build()
+        )
     }
 
     fun <B> staticEntry(id: String, type: EntryType<B>, defaultValue: B): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).syncable(false).modifiable(false).build()
+        return this.entry(id,
+            this.entryBuilder(id, type, defaultValue)
+                .syncable(false)
+                .modifiable(false)
+                .build()
+        )
     }
 
     fun <B> staticEntry(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).syncable(false).modifiable(false).comment(comment).build()
+        return this.entry(id,
+            this.entryBuilder(id, type, defaultValue)
+                .syncable(false)
+                .modifiable(false)
+                .comment(comment)
+                .build()
+        )
     }
 
     fun <B> experimental(id: String, type: EntryType<B>, defaultValue: B): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }).build()
+        return this.entry(id,
+            this.entryBuilder(id, type, defaultValue)
+                .visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES })
+                .build()
+        )
     }
 
     fun <B> experimental(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }).comment(comment).build()
+        return this.entry(id,
+            this.entryBuilder(id, type, defaultValue)
+                .visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES })
+                .comment(comment)
+                .build()
+        )
     }
 
     fun <B> unsyncableExperimental(id: String, type: EntryType<B>, defaultValue: B): ConfigEntry<B> {
-        return this.unsyncableEntryBuilder(id, type, defaultValue).visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }).build()
+        return this.entry(id,
+            this.unsyncableEntryBuilder(id, type, defaultValue)
+                .visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES })
+                .build()
+        )
     }
 
     fun <B> unsyncableExperimental(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
-        return this.unsyncableEntryBuilder(id, type, defaultValue).visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }).comment(comment).build()
+        return this.entry(id,
+            this.unsyncableEntryBuilder(id, type, defaultValue)
+                .visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES })
+                .comment(comment)
+                .build()
+        )
     }
 
     fun <B> staticExperimental(id: String, type: EntryType<B>, defaultValue: B): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).syncable(false).modifiable(false).visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }).build()
+        return this.entry(id,
+            this.entryBuilder(id, type, defaultValue)
+                .syncable(false)
+                .modifiable(false)
+                .visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES })
+                .build()
+        )
     }
 
     fun <B> staticExperimental(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
-        return this.entryBuilder(id, type, defaultValue).syncable(false).modifiable(false).visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES }).comment(comment).build()
+        return this.entry(id,
+            this.entryBuilder(id, type, defaultValue)
+                .syncable(false)
+                .modifiable(false)
+                .visibilityPredicate(VisibilityPredicate.of { ENABLE_EXPERIMENTAL_FEATURES })
+                .comment(comment)
+                .build()
+        )
     }
 }
 

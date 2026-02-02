@@ -6,14 +6,16 @@ import net.frozenblock.configurableeverything.util.mutListOf
 
 data class BiomePlacementChange(
 	@JvmField var addedBiomes: MutableList<DimensionBiomeList>,
-	@JvmField var removedBiomes: MutableList<DimensionBiomeKeyList>
+	@JvmField var removedBiomes: MutableList<DimensionBiomeKeyList>,
+    @JvmField var replacedBiomes: MutableList<DimensionBiomeKeyMap>,
 ) {
 	companion object {
         @JvmField
 		val CODEC: Codec<BiomePlacementChange> = RecordCodecBuilder.create { instance ->
 			instance.group(
 				DimensionBiomeList.CODEC.mutListOf().fieldOf("addedBiomes").forGetter(BiomePlacementChange::addedBiomes),
-				DimensionBiomeKeyList.CODEC.mutListOf().fieldOf("removedBiomes").forGetter(BiomePlacementChange::removedBiomes)
+				DimensionBiomeKeyList.CODEC.mutListOf().fieldOf("removedBiomes").forGetter(BiomePlacementChange::removedBiomes),
+                DimensionBiomeKeyMap.CODEC.mutListOf().fieldOf("replacedBiomes").forGetter(BiomePlacementChange::replacedBiomes),
 			).apply(instance, ::BiomePlacementChange)
 		}
 	}

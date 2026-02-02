@@ -62,8 +62,8 @@ object BiomePlacementUtil {
 
     @JvmStatic
     fun biomeAdditions(
-        registryAccess: HolderGetter<Biome>?,
-        dimension: ResourceKey<DimensionType>?
+        registryAccess: HolderGetter<Biome>,
+        dimension: ResourceKey<DimensionType>
     ): List<Pair<ParameterPoint?, Holder<Biome>>> {
         val biomeAdditions: MutableList<Pair<ParameterPoint?, Holder<Biome>>> = ArrayList()
         val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.values
@@ -83,7 +83,7 @@ object BiomePlacementUtil {
                     val location = this
                     parameters.parameters.toImmutable()?.apply {
                         biomeAdditions.add(
-                            this to registryAccess?.getOrThrow(ResourceKey.create(Registries.BIOME, location))
+                            this to registryAccess.getOrThrow(ResourceKey.create(Registries.BIOME, location))
                         )
                     }
                 }
@@ -94,17 +94,17 @@ object BiomePlacementUtil {
 
     @JvmStatic
     fun biomeRemovals(
-        registryAccess: RegistryAccess?,
-        dimension: ResourceKey<DimensionType>?
+        registryAccess: RegistryAccess,
+        dimension: ResourceKey<DimensionType>
     ): List<ResourceKey<Biome>?> {
         val biomeRemovals: MutableList<ResourceKey<Biome>?> = ArrayList()
-        val changes: List<BiomePlacementChange?>? = BiomePlacementChanges.values
-        val removedBiomes: MutableList<DimensionBiomeKeyList?> = ArrayList()
+        val changes: List<BiomePlacementChange>? = BiomePlacementChanges.values
+        val removedBiomes: MutableList<DimensionBiomeKeyList> = ArrayList()
         changes?.forEach {
-            it?.removedBiomes?.let { it1 -> removedBiomes.addAll(it1) }
+            it.removedBiomes.let { it1 -> removedBiomes.addAll(it1) }
         }
 
-        val dimensionBiomes = removedBiomes.stream().filter { list: DimensionBiomeKeyList? -> list?.dimension == dimension }.toList()
+        val dimensionBiomes = removedBiomes.stream().filter { list: DimensionBiomeKeyList -> list.dimension == dimension }.toList()
         for (list in dimensionBiomes) {
             val biomes: List<Either<ResourceKey<Biome>, TagKey<Biome>>?> = list?.biomes ?: continue
             for (biome in biomes) {
@@ -113,7 +113,7 @@ object BiomePlacementUtil {
                 }
                 biome?.ifRight { tag ->
                     val biomeSet: HolderSet.Named<Biome>? = tag?.let {
-                        registryAccess?.lookupOrThrow(Registries.BIOME)?.getOrThrow(it)
+                        registryAccess.lookupOrThrow(Registries.BIOME)?.getOrThrow(it)
                     }
                     biomeSet?.forEach {
                         it.unwrapKey().orElseThrow()?.let { it1 -> biomeRemovals.add(it1) }
@@ -122,6 +122,24 @@ object BiomePlacementUtil {
             }
         }
         return biomeRemovals
+    }
+
+    @JvmStatic
+    fun biomeReplacements(
+        dimension: ResourceKey<DimensionType>,
+    ): Map<ResourceKey<Biome>, ResourceKey<Biome>> {
+        val biomeReplacements: MutableMap<String, Holder<Biome>> = mutableMapOf()
+        val changes: List<BiomePlacementChange>? = BiomePlacementChanges.values
+        val replacedBiomes: MutableMap<ResourceKey<Biome>, ResourceKey<Biome>> = mutableMapOf()
+        changes?.forEach {
+            it.replacedBiomes.forEach { keyMap ->
+                if (keyMap.dimension == dimension) {
+                    replacedBiomes.putAll(keyMap.biomes)
+                }
+            }
+        }
+
+        return replacedBiomes
     }
 }
 
