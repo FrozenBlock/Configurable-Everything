@@ -11,6 +11,7 @@ import net.frozenblock.configurableeverything.config.gui.ItemConfigGui
 import net.frozenblock.configurableeverything.config.gui.MainConfigGui
 import net.frozenblock.configurableeverything.config.gui.MixinsConfigGui
 import net.frozenblock.configurableeverything.config.gui.RecipeConfigGui
+import net.frozenblock.configurableeverything.config.gui.ScriptingConfigGui
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
@@ -90,7 +91,7 @@ object ConfigurableEverythingConfigGui {
         //ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
 
         val scripting = configBuilder.getOrCreateCategory(text("scripting"))
-        //ScriptingConfigGui.setupEntries(scripting, entryBuilder)
+        ScriptingConfigGui.setupEntries(scripting, entryBuilder)
 
         val splashText = configBuilder.getOrCreateCategory(text("splash_text"))
         //SplashTextConfigGui.setupEntries(splashText, entryBuilder)

@@ -16,32 +16,32 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.EnumEntry
 import net.frozenblock.lib.config.api.client.gui.StringList
-/*
+
 object ScriptingConfigGui {
 
     private inline val mainToggleReq: Requirement
         get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.scripting)
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = ScriptingConfig.get(real = true)
-        val defaultConfig = ScriptingConfig.defaultInstance()
 
-        val applyKotlinScripts: BooleanListEntry = EntryBuilder(text("apply_kotlin_scripts"), config.applyKotlinScripts,
-            defaultConfig.applyKotlinScripts,
-            { newValue -> config.applyKotlinScripts = newValue },
+        val applyKotlinScripts: BooleanListEntry = EntryBuilder(ScriptingConfig.applyKotlinScripts,
+            text("apply_kotlin_scripts"),
             tooltip("apply_kotlin_scripts"),
-            true,
+            requiresRestart = true,
             requirement = Requirement.all(
                 mainToggleReq,
                 Requirement.isTrue { HAS_EXTENSIONS }
             )
-        ).build(entryBuilder) as BooleanListEntry
-        category.addEntry(applyKotlinScripts)
+        ).build(entryBuilder).apply {
+            category.addEntry(this)
+        } as BooleanListEntry
 
-        category.addEntry(EntryBuilder(text("default_imports"), StringList(config.defaultImports),
-            StringList(defaultConfig.defaultImports),
-            { newValue -> config.defaultImports = newValue.list },
+        category.addEntry(EntryBuilder(ScriptingConfig.defaultImports,
+            text("default_imports"),
             tooltip("default_imports"),
+            StringList(ScriptingConfig.defaultImports.get()),
+            StringList(ScriptingConfig.defaultImports.defaultValue()),
+            { newValue -> ScriptingConfig.defaultImports.setValue((newValue as StringList).list) },
             requirement = Requirement.all(
                 mainToggleReq,
                 Requirement.isTrue { HAS_EXTENSIONS },
@@ -51,4 +51,3 @@ object ScriptingConfigGui {
     }
 
 }
-*/

@@ -117,7 +117,7 @@ open class CEScriptCompilationConfig internal constructor(type: ScriptType) : Sc
                 "net.minecraft.world.level.dimension.DimensionType"
             )
         )
-        this.addAll(ScriptingConfig.get().defaultImports)
+        this.addAll(ScriptingConfig.defaultImports.get())
     }
     defaultImports(defaultImports)
     defaultImports(
