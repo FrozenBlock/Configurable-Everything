@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.FluidConfigGui
 import net.frozenblock.configurableeverything.config.gui.GameConfigGui
+import net.frozenblock.configurableeverything.config.gui.ItemConfigGui
 import net.frozenblock.configurableeverything.config.gui.MainConfigGui
 import net.frozenblock.configurableeverything.config.gui.MixinsConfigGui
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
@@ -75,7 +76,7 @@ object ConfigurableEverythingConfigGui {
         GameConfigGui.setupEntries(game, entryBuilder)
 
         val item = configBuilder.getOrCreateCategory(text("item"))
-        //ItemConfigGui.setupEntries(item, entryBuilder)
+        ItemConfigGui.setupEntries(item, entryBuilder)
 
         val mixins = configBuilder.getOrCreateCategory(text("mixins"))
         MixinsConfigGui.setupEntries(mixins, entryBuilder)

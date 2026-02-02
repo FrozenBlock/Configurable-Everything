@@ -64,11 +64,6 @@ class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<E
     var skeleton: EntityConfig.SkeletonConfig by config::skeleton
 }
 
-class ItemWrapper internal constructor(config: ItemConfig) : ConfigWrapper<ItemConfig>(config) {
-
-    var reachOverrideds: MutableList<ItemReachOverride> by config.reachOverrides
-}
-
 class LootWrapper internal constructor(config: LootConfig) : ConfigWrapper<LootConfig>(config) {
 
     var lootModifications: MutableList<LootModification> by config.lootModifications

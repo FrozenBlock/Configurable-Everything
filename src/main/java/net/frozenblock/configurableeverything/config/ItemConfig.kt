@@ -8,20 +8,20 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.item.Items
 
-private val ITEM_REACH_OVERRIDES: TypedEntryType<MutableList<ItemReachOverride>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        ItemReachOverride.CODEC.mutListOf()
-    )
+private val ITEM_REACH_OVERRIDES: EntryType<ItemReachOverride> = EntryType.create(
+    ItemReachOverride.CODEC,
+    ItemReachOverride.STREAM_CODEC,
 )
 
-data class ItemConfig(
+object ItemConfig : CEConfig("item") {
     @JvmField
-    var reachOverrides: TypedEntry<MutableList<ItemReachOverride>> = TypedEntry.create(
-        ITEM_REACH_OVERRIDES,
+    var reachOverrides: ConfigEntry<MutableList<ItemReachOverride>> = this.entry("reachOverrides",
+        ITEM_REACH_OVERRIDES.asList(),
         mutableListOf(
             ItemReachOverride(
                 BuiltInRegistries.ITEM.getKey(Items.TRIDENT),
@@ -29,18 +29,4 @@ data class ItemConfig(
             )
         )
     )
-) {
-    companion object : CESimpleConfig<ItemConfig>(
-        ItemConfig::class,
-        "item"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): ItemConfig = if (real) this.instance() else this.config()
-    }
 }

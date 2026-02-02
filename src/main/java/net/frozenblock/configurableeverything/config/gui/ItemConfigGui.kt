@@ -14,38 +14,31 @@ import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.configurableeverything.util.vanillaId
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
+import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.Items
-/*
-private val configInstance = ItemConfig
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.item)
 
 object ItemConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val defaultConfig = configInstance.defaultInstance()
-
-        category.addEntry(reachOverrides(entryBuilder, config, defaultConfig))
+        category.addEntry(reachOverrides(entryBuilder))
     }
 }
 
 private fun reachOverrides(
     entryBuilder: ConfigEntryBuilder,
-    config: ItemConfig,
-    defaultConfig: ItemConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("reach_overrides"),
-        config::reachOverrides,
-        { defaultConfig.reachOverrides },
+        ItemConfig.reachOverrides,
         false,
         tooltip("reach_overrides"),
-        { newValue -> config.reachOverrides = newValue },
         { element: ItemReachOverride?, _ ->
             val defaultOverride = ItemReachOverride(
                 BuiltInRegistries.ITEM.getKey(Items.TRIDENT),
@@ -57,13 +50,13 @@ private fun reachOverrides(
                 override,
                 true,
 
-                EntryBuilder(text("reach_overrides.item"), override.item.toString(),
+                SimpleEntryBuilder(text("reach_overrides.item"), override.item.toString(),
                     vanillaId("").toString(),
                     { newValue -> override.item = Identifier.parse(newValue) },
                     tooltip("reach_overrides.item")
                 ).build(entryBuilder),
 
-                EntryBuilder(text("reach_overrides.reach"), override.reach,
+                SimpleEntryBuilder(text("reach_overrides.reach"), override.reach,
                     3.0,
                     { newValue -> override.reach = newValue },
                     tooltip("reach_overrides.reach")
@@ -74,4 +67,3 @@ private fun reachOverrides(
         this.requirement = mainToggleReq
     }
 }
-*/
