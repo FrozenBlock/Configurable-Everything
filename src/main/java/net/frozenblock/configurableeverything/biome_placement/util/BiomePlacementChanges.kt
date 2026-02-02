@@ -17,11 +17,10 @@ object BiomePlacementChanges : DataReloadManager<BiomePlacementChange>(
     override val shouldApply: Boolean
         get() = MainConfig.datapackBiomePlacement.get()
     override fun apply(values: Collection<BiomePlacementChange>) {
-        val config = BiomePlacementConfig.get()
         if (MainConfig.biome_placement.get()) {
-            val addedBiomes = config.addedBiomes.value
-            val removedBiomes = config.removedBiomes.value
-            val replacedBiomes = config.replacedBiomes.value
+            val addedBiomes = BiomePlacementConfig.addedBiomes.get()
+            val removedBiomes = BiomePlacementConfig.removedBiomes.get()
+            val replacedBiomes = BiomePlacementConfig.replacedBiomes.get()
             val placementChange = BiomePlacementChange(addedBiomes, removedBiomes, replacedBiomes)
 
             this.data?.put(id("config"), placementChange)

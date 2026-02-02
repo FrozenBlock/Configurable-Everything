@@ -15,12 +15,6 @@ import net.frozenblock.configurableeverything.util.setValue
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.resources.Identifier
 
-class BiomePlacementWrapper internal constructor(config: BiomePlacementConfig) : ConfigWrapper<BiomePlacementConfig>(config) {
-
-    var addedBiomes: MutableList<DimensionBiomeList> by config.addedBiomes
-    var removedBiomes: MutableList<DimensionBiomeKeyList> by config.removedBiomes
-}
-
 class BlockWrapper internal constructor(config: BlockConfig) : ConfigWrapper<BlockConfig>(config) {
 
     var soundGroupOverwrites: MutableList<MutableBlockSoundGroupOverwrite> by config.soundGroupOverwrites

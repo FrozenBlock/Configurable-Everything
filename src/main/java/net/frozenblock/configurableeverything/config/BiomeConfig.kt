@@ -31,7 +31,7 @@ private val BIOME_MUSIC: EntryType<BiomeMusic> = EntryType.create(
 
 object BiomeConfig : CEConfig("biome") {
     @JvmField
-    var addedFeatures: ConfigEntry<MutableList<BiomePlacedFeatureList>> = this.unsyncableEntry("addedFeatures",
+    var addedFeatures: ConfigEntry<MutableList<BiomePlacedFeatureList>> = this.entry("addedFeatures",
         BIOME_PLACED_FEATURE.asList(),
         mutableListOf(
             BiomePlacedFeatureList(
@@ -60,7 +60,7 @@ object BiomeConfig : CEConfig("biome") {
     )
 
     @JvmField
-    var removedFeatures: ConfigEntry<MutableList<BiomePlacedFeatureList>> = this.unsyncableEntry("removedFeatures",
+    var removedFeatures: ConfigEntry<MutableList<BiomePlacedFeatureList>> = this.entry("removedFeatures",
         BIOME_PLACED_FEATURE.asList(),
         mutableListOf(
             BiomePlacedFeatureList(
@@ -89,7 +89,7 @@ object BiomeConfig : CEConfig("biome") {
     )
 
     @JvmField
-    var replacedFeatures: ConfigEntry<MutableList<BiomePlacedFeatureReplacementList>> = this.unsyncableEntry("replacedFeatures",
+    var replacedFeatures: ConfigEntry<MutableList<BiomePlacedFeatureReplacementList>> = this.entry("replacedFeatures",
         BIOME_PLACED_FEATURE_REPLACEMENT.asList(),
         mutableListOf(
             BiomePlacedFeatureReplacementList(
@@ -124,7 +124,7 @@ object BiomeConfig : CEConfig("biome") {
     )
 
     @JvmField
-    var musicReplacements: ConfigEntry<MutableList<BiomeMusic>> = this.unsyncableEntry("musicReplacements",
+    var musicReplacements: ConfigEntry<MutableList<BiomeMusic>> = this.entry("musicReplacements",
         BIOME_MUSIC.asList(),
         mutableListOf(
             BiomeMusic(

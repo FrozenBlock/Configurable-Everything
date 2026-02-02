@@ -3,8 +3,11 @@ package net.frozenblock.configurableeverything.biome_placement.util
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.frozenblock.configurableeverything.util.mutListOf
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
@@ -22,5 +25,17 @@ data class DimensionBiomeKeyList(
 				Codec.either(ResourceKey.codec(Registries.BIOME), TagKey.hashedCodec(Registries.BIOME)).mutListOf().fieldOf("biomes").forGetter(DimensionBiomeKeyList::biomes)
 			).apply(instance, ::DimensionBiomeKeyList)
 		}
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, DimensionBiomeKeyList> = StreamCodec.composite(
+            ResourceKey.streamCodec(Registries.DIMENSION_TYPE),
+            DimensionBiomeKeyList::dimension,
+            ByteBufCodecs.list<ByteBuf, Either<ResourceKey<Biome>, TagKey<Biome>>>().apply(ByteBufCodecs.either(
+                ResourceKey.streamCodec(Registries.BIOME),
+                TagKey.streamCodec(Registries.BIOME)
+            )),
+            DimensionBiomeKeyList::biomes,
+            ::DimensionBiomeKeyList
+        )
 	}
 }

@@ -19,6 +19,8 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
+import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
@@ -32,8 +34,6 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Climate
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
-/*
-private val configInstance: Config<BiomePlacementConfig> = BiomePlacementConfig
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biomePlacement)
@@ -43,28 +43,20 @@ private inline val mainToggleReq: Requirement
  */
 object BiomePlacementConfigGui {
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val defaultConfig = configInstance.defaultInstance()
-
-        category.addEntry(addedBiomes(entryBuilder, config, defaultConfig))
-        category.addEntry(removedBiomes(entryBuilder, config, defaultConfig))
+        category.addEntry(addedBiomes(entryBuilder))
+        category.addEntry(removedBiomes(entryBuilder))
     }
 }
 
 private fun addedBiomes(
     entryBuilder: ConfigEntryBuilder,
-    config: BiomePlacementConfig,
-    syncConfig: BiomePlacementConfig,
-    defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("added_biomes"),
-        syncConfig::addedBiomes,
-        { defaultConfig.addedBiomes },
+        BiomePlacementConfig.addedBiomes,
         false,
         tooltip("added_biomes"),
-        { newValue -> config.addedBiomes = newValue },
         { element: DimensionBiomeList?, _ ->
             val defaultParameters = mutableListOf(
                 BiomeParameters(
@@ -87,7 +79,7 @@ private fun addedBiomes(
                 dimensionBiomeList,
                 true,
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("added_biomes.dimension"),
                     dimensionBiomeList.dimension.identifier().toString(),
                     "",
@@ -109,7 +101,7 @@ private fun addedBiomes(
                             biomeParameters,
                             true,
 
-                            EntryBuilder(
+                            SimpleEntryBuilder(
                                 text("added_biomes.biome"),
                                 biomeParameters.biome.toString(),
                                 "",
@@ -176,7 +168,7 @@ private fun addedBiomes(
                                     makeParameter(biomeParameters.parameters.weirdness, false),
                                 ) as AbstractConfigListEntry<out Any>,
 
-                                EntryBuilder(
+                                SimpleEntryBuilder(
                                     text("added_biomes.offset"),
                                     biomeParameters.parameters.offset,
                                     0L,
@@ -191,16 +183,12 @@ private fun addedBiomes(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "addedBiomes",
-        configInstance
-    )
+    }
 }
 
 private fun makeParameter(parameter: MutableParameter?, min: Boolean): AbstractConfigListEntry<out Any> {
     val title = if (min) "added_biomes.min_value" else "added_biomes.max_value"
-    return EntryBuilder(
+    return SimpleEntryBuilder(
         text(title),
         (if (min) (parameter?.min ?: 0L) else (parameter?.max ?: 0L)),
         0L,
@@ -211,18 +199,13 @@ private fun makeParameter(parameter: MutableParameter?, min: Boolean): AbstractC
 
 private fun removedBiomes(
     entryBuilder: ConfigEntryBuilder,
-    config: BiomePlacementConfig,
-    syncConfig: BiomePlacementConfig,
-    defaultConfig: BiomePlacementConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("removed_biomes"),
-        syncConfig::removedBiomes,
-        { defaultConfig.removedBiomes },
+        BiomePlacementConfig.removedBiomes,
         false,
         tooltip("removed_biomes"),
-        { newValue -> config.removedBiomes = newValue },
         { element: DimensionBiomeKeyList?, _ ->
             val defaultBiomes: MutableList<Either<ResourceKey<Biome>, TagKey<Biome>>> = mutableListOf(
                 Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
@@ -234,7 +217,7 @@ private fun removedBiomes(
                 dimensionBiomeList,
                 true,
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("removed_biomes.dimension"),
                     dimensionBiomeList.dimension.identifier().toString(),
                     "",
@@ -256,10 +239,5 @@ private fun removedBiomes(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "removedBiomes",
-        configInstance
-    )
+    }
 }
-*/
