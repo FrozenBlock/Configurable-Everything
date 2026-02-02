@@ -59,11 +59,6 @@ sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : Con
             ConfigRegistry.register(RegistryConfig, ConfigModification { modification(RegistryWrapper(it)) })
         }
     }
-    data object SCREEN_SHAKE : StableConfigV1Data<ScreenShakeConfig, ScreenShakeWrapper>(ScreenShakeConfig) {
-        override fun modify(modification: (ScreenShakeWrapper) -> Unit) {
-            ConfigRegistry.register(ScreenShakeConfig, ConfigModification { modification(ScreenShakeWrapper(it)) })
-        }
-    }
     data object SCULK_SPREADING : StableConfigV1Data<SculkSpreadingConfig, SculkSpreadingWrapper>(SculkSpreadingConfig) {
         override fun modify(modification: (SculkSpreadingWrapper) -> Unit) {
             ConfigRegistry.register(SculkSpreadingConfig, ConfigModification { modification(SculkSpreadingWrapper(it)) })

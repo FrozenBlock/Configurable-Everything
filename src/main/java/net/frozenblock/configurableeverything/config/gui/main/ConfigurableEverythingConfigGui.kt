@@ -13,6 +13,7 @@ import net.frozenblock.configurableeverything.config.gui.ItemConfigGui
 import net.frozenblock.configurableeverything.config.gui.MainConfigGui
 import net.frozenblock.configurableeverything.config.gui.MixinsConfigGui
 import net.frozenblock.configurableeverything.config.gui.RecipeConfigGui
+import net.frozenblock.configurableeverything.config.gui.ScreenShakeConfigGui
 import net.frozenblock.configurableeverything.config.gui.ScriptingConfigGui
 import net.frozenblock.configurableeverything.config.gui.SplashTextConfigGui
 import net.frozenblock.configurableeverything.config.gui.TagConfigGui
@@ -92,7 +93,7 @@ object ConfigurableEverythingConfigGui {
         RecipeConfigGui.setupEntries(recipe, entryBuilder)
 
         val screenShake = configBuilder.getOrCreateCategory(text("screen_shake"))
-        //ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
+        ScreenShakeConfigGui.setupEntries(screenShake, entryBuilder)
 
         val scripting = configBuilder.getOrCreateCategory(text("scripting"))
         ScriptingConfigGui.setupEntries(scripting, entryBuilder)

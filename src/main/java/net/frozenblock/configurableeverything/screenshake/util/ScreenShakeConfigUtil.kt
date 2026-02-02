@@ -20,12 +20,11 @@ object ScreenShakeConfigUtil {
     // params are nullable bc it's called from Java which isn't very null safe
     @JvmStatic
     fun createScreenShake(level: Level?, x: Double?, y: Double?, z: Double?, sound: SoundEvent?) = runBlocking {
-        val config = ScreenShakeConfig.get()
         if (!MainConfig.screen_shake.get()) return@runBlocking
         if (level == null || x == null || y == null || z == null || sound == null) return@runBlocking
         val offset = 0.001
         val entities: List<Entity> = level.getEntities(null, AABB(x - offset, y - offset, z - offset, x + offset, y + offset, z + offset))
-        config.soundScreenShakes.value.apply {
+        ScreenShakeConfig.soundScreenShakes.get().apply {
             for (shake in this) { launch {
                 if (shake.sound == sound.location) {
                     if (entities.isEmpty()) { // apply to position if no entity is found

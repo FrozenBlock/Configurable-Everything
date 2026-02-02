@@ -8,22 +8,21 @@ import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.frozenblock.lib.config.api.sync.SyncBehavior
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.monster.warden.WardenAi
 
-private val SOUND_SCREEN_SHAKE : TypedEntryType<MutableList<SoundScreenShake>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        SoundScreenShake.CODEC.mutListOf()
-    )
+private val SOUND_SCREEN_SHAKE : EntryType<SoundScreenShake> = EntryType.create(
+    SoundScreenShake.CODEC,
+    SoundScreenShake.STREAM_CODEC,
 )
 
 // UNSYNCABLE
-data class ScreenShakeConfig(
+object ScreenShakeConfig : CEConfig("screen_shake") {
     @JvmField
-    // UNSYNCABLE
-    var soundScreenShakes: TypedEntry<MutableList<SoundScreenShake>> = TypedEntry.create(
-        SOUND_SCREEN_SHAKE,
+    var soundScreenShakes: ConfigEntry<MutableList<SoundScreenShake>> = this.unsyncableEntry("soundScreenShakes",
+        SOUND_SCREEN_SHAKE.asList(),
         mutableListOf(
             SoundScreenShake(
                 SoundEvents.ENDER_DRAGON_GROWL.location,
@@ -75,27 +74,11 @@ data class ScreenShakeConfig(
                 18f
             )
         )
-    ),
+    )
 
     @JvmField
-    // UNSYNCABLE
-    var dragonRespawnScreenShake: Boolean = true,
+    var dragonRespawnScreenShake: ConfigEntry<Boolean> = this.unsyncableEntry("dragonRespawnScreenShake", EntryType.BOOL, true)
 
     @JvmField
-    // UNSYNCABLE
-    var explosionScreenShake: Boolean = true
-) {
-    companion object : CESimpleConfig<ScreenShakeConfig>(
-        ScreenShakeConfig::class,
-        "screen_shake"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): ScreenShakeConfig = if (real) this.instance() else this.config()
-    }
+    var explosionScreenShake: ConfigEntry<Boolean> = this.unsyncableEntry("explosionScreenShake", EntryType.BOOL, true)
 }

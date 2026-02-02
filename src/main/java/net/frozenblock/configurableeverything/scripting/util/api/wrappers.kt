@@ -44,13 +44,6 @@ class RegistryWrapper internal constructor(config: RegistryConfig) : ConfigWrapp
     var placedFeatureAdditions: MutableList<PlacedFeatureAddition> by config.placedFeatureAdditions
 }
 
-class ScreenShakeWrapper internal constructor(config: ScreenShakeConfig) : ConfigWrapper<ScreenShakeConfig>(config) {
-
-    var soundScreenShakes: MutableList<SoundScreenShake> by config.soundScreenShakes
-    var dragonRespawnScreenShake: Boolean by config::dragonRespawnScreenShake
-    var explosionScreenShake: Boolean by config::explosionScreenShake
-}
-
 class SculkSpreadingWrapper internal constructor(config: SculkSpreadingConfig) : ConfigWrapper<SculkSpreadingConfig>(config) {
 
     var growths: MutableList<SculkGrowth> by config.growths

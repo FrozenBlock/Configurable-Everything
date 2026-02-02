@@ -37,9 +37,8 @@ public class ExplosionMixin {
 
 	@Inject(method = "explode", at = @At(value = "TAIL"))
 	public void finalizeExplosion(CallbackInfoReturnable<Integer> cir) {
-		var config = ScreenShakeConfig.get();
 
-		if (!MainConfig.screen_shake.get() || !config.explosionScreenShake)
+		if (!MainConfig.screen_shake.get() || !ScreenShakeConfig.explosionScreenShake.get())
 			return;
 
 		double x = this.center.x;
