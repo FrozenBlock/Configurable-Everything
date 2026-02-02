@@ -86,21 +86,21 @@ Warning: It is important to check the contents of each config before enabling th
     // DATAPACK
 
     @JvmField
-    var applyDatapackFolders: ConfigEntry<Boolean> = this.unsyncableEntry("datapack.applyDatapackFolders", EntryType.BOOL, true)
+    var applyDatapackFolders: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/applyDatapackFolders", EntryType.BOOL, true)
 
     @JvmField
-    var datapackFolders: ConfigEntry<List<String>> = this.unsyncableEntry("datapack.datapackFolders", EntryType.STRING.asList(), arrayListOf(
+    var datapackFolders: ConfigEntry<List<String>> = this.unsyncableEntry("datapack/datapackFolders", EntryType.STRING.asList(), arrayListOf(
         DATAPACKS_PATH.pathString.replace('\\', '/'), // make it readable
         "./datapacks"
     ))
 
     @JvmField
-    var datapackBiome: ConfigEntry<Boolean> = this.unsyncableEntry("datapack.biome", EntryType.BOOL, true)
+    var datapackBiome: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/biome", EntryType.BOOL, true)
 
     @JvmField
-    var datapackBiomePlacement: ConfigEntry<Boolean> = this.unsyncableEntry("datapack.biome_placement", EntryType.BOOL, true)
+    var datapackBiomePlacement: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/biome_placement", EntryType.BOOL, true)
 
     @JvmField
-    var moreJsonSupport: ConfigEntry<Boolean> = this.unsyncableEntry("datapack.moreJsonSupport", EntryType.BOOL, true,
+    var moreJsonSupport: ConfigEntry<Boolean> = this.unsyncableEntry("datapack/moreJsonSupport", EntryType.BOOL, true,
         "Allows the usage of json5, djs (this file), jsonc, hjson, txt, and ubjson files in datapacks.")
 }

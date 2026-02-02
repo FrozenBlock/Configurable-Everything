@@ -19,12 +19,6 @@ open class CEConfig(name: String) : ConfigData<JsonValue>(config(name), ConfigSe
         ConfigV2Registry.register(this, this.id())
     }
 
-    fun <T> entry(id: String, entry: ConfigEntry<T>): ConfigEntry<T> {
-        return this.entries().computeIfAbsent(id) { id1: String ->
-            entry
-        } as ConfigEntry<T>
-    }
-
     fun <B> entry(id: String, type: EntryType<B>, defaultValue: B, comment: String): ConfigEntry<B> {
         return this.entry(id, this.entryBuilder(id, type, defaultValue).comment(comment).build())
     }

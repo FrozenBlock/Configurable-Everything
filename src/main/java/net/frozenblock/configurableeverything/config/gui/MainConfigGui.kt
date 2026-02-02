@@ -11,10 +11,13 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.EarlyMainConfig
 import net.frozenblock.configurableeverything.config.MainConfig
-import net.frozenblock.configurableeverything.util.*
+import net.frozenblock.configurableeverything.util.HAS_EXTENSIONS
+import net.frozenblock.configurableeverything.util.ifExperimental
+import net.frozenblock.configurableeverything.util.text
+import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategory
-import net.frozenblock.lib.config.clothconfig.synced
+import net.frozenblock.lib.config.frozenlib_config.gui.FrozenLibConfigGui
 
 class MainConfigGui(private val entryBuilder: ConfigEntryBuilder) {
     companion object {
@@ -66,6 +69,7 @@ class MainConfigGui(private val entryBuilder: ConfigEntryBuilder) {
         .setDefaultValue(EarlyMainConfig.defaultInstance().game)
         .setSaveConsumer { newValue -> EarlyMainConfig.instance().game = newValue }
         .setTooltip(tooltip("game"))
+        .setYesNoTextSupplier { FrozenLibConfigGui.text(it.toString()) }
         .requireRestart()
         .build()
 
