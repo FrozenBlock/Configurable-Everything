@@ -13,14 +13,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(SculkBlock.class)
 public class SculkBlockMixin {
 
-	@SuppressWarnings("IfStatementWithIdenticalBranches")
-    @ModifyVariable(
+	@ModifyVariable(
 		method = "getRandomGrowthState",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/level/block/state/BlockState;hasProperty(Lnet/minecraft/world/level/block/state/properties/Property;)Z"
 		),
-		ordinal = 0
+		name = "state"
 	)
 	private BlockState growthState(BlockState original, LevelAccessor level, BlockPos pos, RandomSource random, boolean isWorldGeneration) {
 		return SculkSpreadingConfigUtil.INSTANCE.growthState(original, random, isWorldGeneration);
