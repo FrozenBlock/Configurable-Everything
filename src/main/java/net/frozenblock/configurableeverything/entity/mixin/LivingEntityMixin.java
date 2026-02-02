@@ -26,9 +26,8 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyArg(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"), index = 2)
 	private int dropExperience(int amount) {
-		var config = EntityConfig.get(false);
 		if (MainConfig.entity.get()) {
-			var experienceOverrides = config.experienceOverrides.value();
+			var experienceOverrides = EntityConfig.experienceOverrides.get();
 			for (var override : experienceOverrides) {
 				if (override.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
 					return override.amount;
@@ -40,13 +39,11 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "setLastHurtMob", at = @At("TAIL"))
 	private void setLastHurtMob(Entity entity, CallbackInfo ci) {
-		var config = EntityConfig.get();
-
 		if (!MainConfig.entity.get())
 			return;
 
 		if (entity instanceof LivingEntity livingEntity) {
-			var entityHurtEffects = config.entityHurtEffects.value();
+			var entityHurtEffects = EntityConfig.entityHurtEffects.get();
 			for (EntityHurtEffects hurtEffects : entityHurtEffects) {
 				if (hurtEffects.entity.equals(BuiltInRegistries.ENTITY_TYPE.getKey(this.getType()))) {
 					var name = hurtEffects.entityName;

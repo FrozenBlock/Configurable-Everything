@@ -2,7 +2,10 @@ package net.frozenblock.configurableeverything.entity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier
 import net.minecraft.world.entity.EntityType
@@ -23,5 +26,14 @@ data class EntitySpottingIcon(
                 Codec.FLOAT.fieldOf("endFade").forGetter(EntitySpottingIcon::endFade)
             ).apply(instance, ::EntitySpottingIcon)
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, EntitySpottingIcon> = StreamCodec.composite(
+            ResourceKey.streamCodec(Registries.ENTITY_TYPE), EntitySpottingIcon::entity,
+            Identifier.STREAM_CODEC, EntitySpottingIcon::texture,
+            ByteBufCodecs.FLOAT, EntitySpottingIcon::startFade,
+            ByteBufCodecs.FLOAT, EntitySpottingIcon::endFade,
+            ::EntitySpottingIcon
+        )
     }
 }

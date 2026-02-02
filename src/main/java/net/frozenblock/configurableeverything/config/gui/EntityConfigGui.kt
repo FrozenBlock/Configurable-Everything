@@ -21,7 +21,7 @@ import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier
-/*
+
 private val configInstance = EntityConfig
 
 private inline val mainToggleReq: Requirement
@@ -30,28 +30,20 @@ private inline val mainToggleReq: Requirement
 object EntityConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
-        val defaultConfig = configInstance.defaultInstance()
+        category.addEntry(entityAttributeAmplifiers(entryBuilder))
+        category.addEntry(experienceOverrides(entryBuilder))
+        category.addEntry(entityFlyBySounds(entryBuilder))
+        category.addEntry(entityHurtEffects(entryBuilder))
+        category.addEntry(entitySpottingIcons(entryBuilder))
 
-        category.addEntry(entityAttributeAmplifiers(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(experienceOverrides(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(entityFlyBySounds(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(entityHurtEffects(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(entitySpottingIcons(entryBuilder, config, syncConfig, defaultConfig))
-
-        val player = config.player
-        val syncPlayer = syncConfig.player
-        val digSpeedAmplifier = EntryBuilder(text("dig_speed_amplifier"), Slider(syncPlayer.digSpeedAmplifier, 1, 5000, SliderType.INT),
-            Slider(defaultConfig.player.digSpeedAmplifier, 1, 5000, SliderType.INT),
-            { newValue -> player.digSpeedAmplifier = newValue.value.toInt() },
+        val digSpeedAmplifier = EntryBuilder(EntityConfig.digSpeedAmplifier,
+            text("dig_speed_amplifier"),
             tooltip("dig_speed_amplifier"),
+            Slider(EntityConfig.digSpeedAmplifier.withSync, 1, 5000, SliderType.INT),
+            Slider(EntityConfig.digSpeedAmplifier.defaultValue(), 1, 5000, SliderType.INT),
+            { newValue -> EntityConfig.digSpeedAmplifier.setValue((newValue as Slider<*>).value.toInt()) },
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            player::class,
-            "digSpeedAmplifier",
-            configInstance
-        )
+        ).build(entryBuilder)
 
         val playerCategory = FrozenClothConfig.createSubCategory(
             entryBuilder, category, text("player"),
@@ -60,69 +52,42 @@ object EntityConfigGui {
             digSpeedAmplifier
         )
 
-        val zombie = config.zombie
-        val syncZombie = syncConfig.zombie
-        val babyZombieSprint = EntryBuilder(text("baby_zombie_sprint_particles"), syncZombie.babyZombieSprintParticles,
-            defaultConfig.zombie.babyZombieSprintParticles,
-            { newValue -> zombie.babyZombieSprintParticles = newValue },
+        val babyZombieSprint = EntryBuilder(
+            EntityConfig.babyZombieSprintParticles,
+            text("baby_zombie_sprint_particles"),
             tooltip("baby_zombie_sprint_particles"),
             requirement = mainToggleReq,
         ).build(entryBuilder)
 
-        val zombiesAvoidSun = EntryBuilder(text("zombies_avoid_sun"), syncZombie.zombiesAvoidSun,
-            defaultConfig.zombie.zombiesAvoidSun,
-            { newValue -> zombie.zombiesAvoidSun = newValue },
+        val zombiesAvoidSun = EntryBuilder(EntityConfig.zombiesAvoidSun,
+            text("zombies_avoid_sun"),
             tooltip("zombies_avoid_sun"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            zombie::class,
-            "zombiesAvoidSun",
-            configInstance
-        )
+        ).build(entryBuilder)
 
-        val ignoreZombieDoorBreakDifficulty = EntryBuilder(text("ignore_zombie_door_break_difficulty"), syncZombie.ignoreDoorBreakDifficulty,
-            defaultConfig.zombie.ignoreDoorBreakDifficulty,
-            { newValue -> zombie.ignoreDoorBreakDifficulty = newValue },
+        val ignoreZombieDoorBreakDifficulty = EntryBuilder(EntityConfig.ignoreDoorBreakDifficulty,
+            text("ignore_zombie_door_break_difficulty"),
             tooltip("ignore_zombie_door_break_difficulty"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            zombie::class,
-            "ignoreDoorBreakDifficulty",
-            configInstance
-        )
+        ).build(entryBuilder)
 
-        val allZombiesBreakDoors = EntryBuilder(text("all_zombies_break_doors"), syncZombie.allZombiesBreakDoors,
-            defaultConfig.zombie.allZombiesBreakDoors,
-            { newValue -> zombie.allZombiesBreakDoors = newValue },
+        val allZombiesBreakDoors = EntryBuilder(EntityConfig.allZombiesBreakDoors,
+            text("all_zombies_break_doors"),
             tooltip("all_zombies_break_doors"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            zombie::class,
-            "allZombiesBreakDoors",
-            configInstance
-        )
+        ).build(entryBuilder)
 
-        val ignoreZombieReinforcementDifficulty = EntryBuilder(text("ignore_zombie_reinforcement_difficulty"), syncZombie.ignoreReinforcementDifficulty,
-            defaultConfig.zombie.ignoreReinforcementDifficulty,
-            { newValue -> zombie.ignoreReinforcementDifficulty = newValue },
+        val ignoreZombieReinforcementDifficulty = EntryBuilder(EntityConfig.ignoreReinforcementDifficulty,
+            text("ignore_zombie_reinforcement_difficulty"),
             tooltip("ignore_zombie_reinforcement_difficulty"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            zombie::class,
-            "ignoreReinforcementDifficulty",
-            configInstance
-        )
+        ).build(entryBuilder)
 
-        val fullZombieReinforcementChance = EntryBuilder(text("full_zombie_reinforcement_chance"), syncZombie.fullReinforcementChance,
-            defaultConfig.zombie.fullReinforcementChance,
-            { newValue -> zombie.fullReinforcementChance = newValue },
+        val fullZombieReinforcementChance = EntryBuilder(EntityConfig.fullReinforcementChance,
+            text("full_zombie_reinforcement_chance"),
             tooltip("full_zombie_reinforcement_chance"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            zombie::class,
-            "fullReinforcementChance",
-            configInstance
-        )
+        ).build(entryBuilder)
 
         val zombieCategory = FrozenClothConfig.createSubCategory(
             entryBuilder,
@@ -138,29 +103,17 @@ object EntityConfigGui {
             fullZombieReinforcementChance
         )
 
-        val skeleton = config.skeleton
-        val syncSkeleton = syncConfig.skeleton
-        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(text("skeleton_accuracy_ignores_difficulty"), syncSkeleton.skeletonAccuracyIgnoresDifficulty,
-            defaultConfig.skeleton.skeletonAccuracyIgnoresDifficulty,
-            { newValue -> skeleton.skeletonAccuracyIgnoresDifficulty = newValue },
+        val skeletonAccuracyIgnoresDifficulty = EntryBuilder(EntityConfig.skeletonAccuracyIgnoresDifficulty,
+            text("skeleton_accuracy_ignores_difficulty"),
             tooltip("skeleton_accuracy_ignores_difficulty"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            skeleton::class,
-            "skeletonAccuracyIgnoresDifficulty",
-            configInstance
-        )
+        ).build(entryBuilder)
 
-        val skeletonsAvoidSun = EntryBuilder(text("skeletons_avoid_sun"), syncSkeleton.skeletonsAvoidSun,
-            defaultConfig.skeleton.skeletonsAvoidSun,
-            { newValue -> skeleton.skeletonsAvoidSun = newValue },
+        val skeletonsAvoidSun = EntryBuilder(EntityConfig.skeletonsAvoidSun,
+            text("skeletons_avoid_sun"),
             tooltip("skeletons_avoid_sun"),
             requirement = mainToggleReq,
-        ).build(entryBuilder).synced(
-            skeleton::class,
-            "skeletonsAvoidSun",
-            configInstance
-        )
+        ).build(entryBuilder)
 
         val skeletonCategory = FrozenClothConfig.createSubCategory(
             entryBuilder, category, text("skeleton"),
@@ -169,35 +122,25 @@ object EntityConfigGui {
             skeletonAccuracyIgnoresDifficulty, skeletonsAvoidSun
         )
 
-        val flamingArrowsLightFire = EntryBuilder(text("flaming_arrows_light_fire"), syncConfig.flamingArrowsLightFire,
-            defaultConfig.flamingArrowsLightFire,
-            { newValue -> config.flamingArrowsLightFire = newValue },
+        val flamingArrowsLightFire = EntryBuilder(EntityConfig.flamingArrowsLightFire,
+            text("flaming_arrows_light_fire"),
             tooltip("flaming_arrows_light_fire"),
             requirement = mainToggleReq,
         ).build(entryBuilder).apply {
             category.addEntry(this)
-        }.synced(
-            config::class,
-            "flamingArrowsLightFire",
-            configInstance
-        )
+        }
     }
 }
 
 private fun entityAttributeAmplifiers(
     entryBuilder: ConfigEntryBuilder,
-    config: EntityConfig,
-    syncConfig: EntityConfig,
-    defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("entity_attribute_amplifiers"),
-        syncConfig::entityAttributeAmplifiers,
-        { defaultConfig.entityAttributeAmplifiers },
+        EntityConfig.entityAttributeAmplifiers,
         false,
         tooltip("entity_attribute_amplifiers"),
-        { newValue -> config.entityAttributeAmplifiers = newValue},
         { element: EntityAttributeAmplifier?, _ ->
             val defaultEntity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace(""))
             val entityAttributeAmplifier = element ?: EntityAttributeAmplifier(defaultEntity, "", mutableListOf(AttributeAmplifier(ResourceKey.create(Registries.ATTRIBUTE, Identifier.withDefaultNamespace("")), 1.5)))
@@ -206,13 +149,13 @@ private fun entityAttributeAmplifiers(
                 entityAttributeAmplifier,
                 true,
 
-                EntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.identifier().toString(),
+                SimpleEntryBuilder(text("entity_attribute_amplifiers.entity"), entityAttributeAmplifier.entity.identifier().toString(),
                     "",
                     { newValue -> entityAttributeAmplifier.entity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.parse(newValue)) },
                     tooltip("entity_attribute_amplifiers.entity")
                 ).build(entryBuilder),
 
-                EntryBuilder(text("entity_attribute_amplifiers.entity_name"), entityAttributeAmplifier.entityName,
+                SimpleEntryBuilder(text("entity_attribute_amplifiers.entity_name"), entityAttributeAmplifier.entityName,
                     "",
                     { newValue-> entityAttributeAmplifier.entityName = newValue },
                     tooltip("entity_attribute_amplifiers.entity_name")
@@ -235,13 +178,13 @@ private fun entityAttributeAmplifiers(
                             amplifier,
                             true,
 
-                            EntryBuilder(text("entity_attribute_amplifiers.attribute"), attribute.identifier().toString(),
+                            SimpleEntryBuilder(text("entity_attribute_amplifiers.attribute"), attribute.identifier().toString(),
                                 "minecraft:generic.movement_speed",
                                 { newValue -> amplifier.attribute = ResourceKey.create(Registries.ATTRIBUTE, Identifier.parse(newValue)) },
                                 tooltip("entity_attribute_amplifiers.attribute")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_attribute_amplifiers.amplifier"), numAmplifier,
+                            SimpleEntryBuilder(text("entity_attribute_amplifiers.amplifier"), numAmplifier,
                                 1.0,
                                 { newValue -> amplifier.amplifier = newValue },
                                 tooltip("entity_attribute_amplifiers.amplifier")
@@ -253,40 +196,31 @@ private fun entityAttributeAmplifiers(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "entityAttributeAmplifiers",
-        configInstance
-    )
+    }
 }
 
 private fun experienceOverrides(
     entryBuilder: ConfigEntryBuilder,
-    config: EntityConfig,
-    syncConfig: EntityConfig,
-    defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("entity_xp_overrides"),
-        syncConfig::experienceOverrides,
-        { defaultConfig.experienceOverrides },
+        EntityConfig.experienceOverrides,
         false,
         tooltip("entity_xp_overrides"),
-        { newValue -> config.experienceOverrides = newValue},
         { element: ExperienceOverride?, _ ->
             val experienceOverride = element ?: ExperienceOverride(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("")), 0)
             multiElementEntry(
                 text("entity_xp_override"),
                 experienceOverride,
                 true,
-                EntryBuilder(text("entity_xp_override.entity"), experienceOverride.entity.identifier().toString(),
+                SimpleEntryBuilder(text("entity_xp_override.entity"), experienceOverride.entity.identifier().toString(),
                     "",
                     { newValue -> experienceOverride.entity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.parse(newValue)) },
                     tooltip("entity_xp_override.entity")
                 ).build(entryBuilder),
 
-                EntryBuilder(text("entity_xp_override.amount"), experienceOverride.amount,
+                SimpleEntryBuilder(text("entity_xp_override.amount"), experienceOverride.amount,
                     0,
                     { newValue -> experienceOverride.amount = newValue },
                     tooltip("entity_xp_override.amount")
@@ -295,27 +229,18 @@ private fun experienceOverrides(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "experienceOverrides",
-        configInstance
-    )
+    }
 }
 
 private fun entityFlyBySounds(
     entryBuilder: ConfigEntryBuilder,
-    config: EntityConfig,
-    syncConfig: EntityConfig,
-    defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("entity_flyby_sounds"),
-        syncConfig::entityFlyBySounds,
-        { defaultConfig.entityFlyBySounds },
+        EntityConfig.entityFlyBySounds,
         false,
         tooltip("entity_flyby_sounds"),
-        { newValue -> config.entityFlyBySounds = newValue},
         { element: EntityFlyBySound?, _ ->
             val entityFlyBySound = element ?: EntityFlyBySound(Identifier.withDefaultNamespace(""), EntityFlyBySoundData("neutral", id("flyby.arrow"), 0.6F, 1F))
             multiElementEntry(
@@ -323,7 +248,7 @@ private fun entityFlyBySounds(
                 entityFlyBySound,
                 true,
 
-                EntryBuilder(text("entity_flyby_sound.entity"), entityFlyBySound.entity.toString(),
+                SimpleEntryBuilder(text("entity_flyby_sound.entity"), entityFlyBySound.entity.toString(),
                     "minecraft:",
                     { newValue -> entityFlyBySound.entity = Identifier.parse(newValue) },
                     tooltip("entity_flyby_sound.entity"),
@@ -335,28 +260,28 @@ private fun entityFlyBySounds(
                     entityFlyBySound.sound,
                     true,
 
-                    EntryBuilder(text("entity_flyby_sound.category"), entityFlyBySound.sound.category,
+                    SimpleEntryBuilder(text("entity_flyby_sound.category"), entityFlyBySound.sound.category,
                         "neutral",
                         { newValue -> entityFlyBySound.sound.category = newValue },
                         tooltip("entity_flyby_sound.category"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(text("entity_flyby_sound.sound"), entityFlyBySound.sound.sound.toString(),
+                    SimpleEntryBuilder(text("entity_flyby_sound.sound"), entityFlyBySound.sound.sound.toString(),
                         string("flyby.arrow"),
                         { newValue -> entityFlyBySound.sound.sound = Identifier.parse(newValue) },
                         tooltip("entity_flyby_sound.sound"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(text("entity_flyby_sound.volume"), entityFlyBySound.sound.volume,
+                    SimpleEntryBuilder(text("entity_flyby_sound.volume"), entityFlyBySound.sound.volume,
                         0.6F,
                         { newValue -> entityFlyBySound.sound.volume = newValue },
                         tooltip("entity_flyby_sound.volume"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(text("entity_flyby_sound.pitch"), entityFlyBySound.sound.pitch,
+                    SimpleEntryBuilder(text("entity_flyby_sound.pitch"), entityFlyBySound.sound.pitch,
                         1.0F,
                         { newValue -> entityFlyBySound.sound.pitch = newValue },
                         tooltip("entity_flyby_sound.pitch"),
@@ -369,40 +294,31 @@ private fun entityFlyBySounds(
         requiresRestart = true
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "entityFlyBySounds",
-        configInstance
-    )
+    }
 }
 
 private fun entityHurtEffects(
     entryBuilder: ConfigEntryBuilder,
-    config: EntityConfig,
-    syncConfig: EntityConfig,
-    defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("entity_hurt_effects"),
-        syncConfig::entityHurtEffects,
-        { defaultConfig.entityHurtEffects },
+        EntityConfig.entityHurtEffects,
         false,
         tooltip("entity_hurt_effects"),
-        { newValue -> config.entityHurtEffects = newValue},
         { element: EntityHurtEffects?, _ ->
             val entityHurtEffect = element ?: EntityHurtEffects(Identifier.withDefaultNamespace(""), "", mutableListOf(MobEffectHolder(ResourceKey.create(Registries.MOB_EFFECT, Identifier.parse("minecraft:speed")), 0, 0, true, true, true)))
             multiElementEntry(
                 text("entity_hurt_effects.dropdown"),
                 entityHurtEffect,
                 true,
-                EntryBuilder(text("entity_hurt_effects.entity"), entityHurtEffect.entity.toString(),
+                SimpleEntryBuilder(text("entity_hurt_effects.entity"), entityHurtEffect.entity.toString(),
                     "minecraft:",
                     { newValue -> entityHurtEffect.entity = Identifier.parse(newValue) },
                     tooltip("entity_hurt_effects.entity")
                 ).build(entryBuilder),
 
-                EntryBuilder(text("entity_hurt_effects.entity_name"), entityHurtEffect.entityName,
+                SimpleEntryBuilder(text("entity_hurt_effects.entity_name"), entityHurtEffect.entityName,
                     "",
                     { newValue-> entityHurtEffect.entityName = newValue },
                     tooltip("entity_hurt_effects.entity_name")
@@ -422,37 +338,37 @@ private fun entityHurtEffects(
                             effect,
                             true,
 
-                            EntryBuilder(text("entity_hurt_effects.effect"), effect.effect.identifier().toString(),
+                            SimpleEntryBuilder(text("entity_hurt_effects.effect"), effect.effect.identifier().toString(),
                                 "minecraft:speed",
                                 { newValue -> effect.effect = ResourceKey.create(Registries.MOB_EFFECT, Identifier.parse(newValue)) },
                                 tooltip("entity_hurt_effects.effect")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.duration"), effect.duration,
+                            SimpleEntryBuilder(text("entity_hurt_effects.duration"), effect.duration,
                                 0,
                                 { newValue -> effect.duration = newValue },
                                 tooltip("entity_hurt_effects.duration")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.amplifier"), effect.amplifier,
+                            SimpleEntryBuilder(text("entity_hurt_effects.amplifier"), effect.amplifier,
                                 0,
                                 { newValue -> effect.amplifier = newValue },
                                 tooltip("entity_hurt_effects.amplifier")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.ambient"), effect.ambient,
+                            SimpleEntryBuilder(text("entity_hurt_effects.ambient"), effect.ambient,
                                 true,
                                 { newValue -> effect.ambient = newValue },
                                 tooltip("entity_hurt_effects.ambient")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.visible"), effect.visible,
+                            SimpleEntryBuilder(text("entity_hurt_effects.visible"), effect.visible,
                                 true,
                                 { newValue -> effect.visible = newValue },
                                 tooltip("entity_hurt_effects.visible")
                             ).build(entryBuilder),
 
-                            EntryBuilder(text("entity_hurt_effects.show_icon"), effect.showIcon,
+                            SimpleEntryBuilder(text("entity_hurt_effects.show_icon"), effect.showIcon,
                                 true,
                                 { newValue -> effect.showIcon = newValue },
                                 tooltip("entity_hurt_effects.show_icon")
@@ -464,27 +380,18 @@ private fun entityHurtEffects(
         },
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "entityHurtEffects",
-        configInstance
-    )
+    }
 }
 
 private fun entitySpottingIcons(
     entryBuilder: ConfigEntryBuilder,
-    config: EntityConfig,
-    syncConfig: EntityConfig,
-    defaultConfig: EntityConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("entity_spotting_icons"),
-        config::entitySpottingIcons,
-        { defaultConfig.entitySpottingIcons },
+        EntityConfig.entitySpottingIcons,
         false,
         tooltip("entity_spotting_icons"),
-        { newValue -> config.entitySpottingIcons = newValue},
         { element: EntitySpottingIcon?, _ ->
             val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")), Identifier.withDefaultNamespace("icon"), 5F, 8F)
             multiElementEntry(
@@ -492,28 +399,28 @@ private fun entitySpottingIcons(
                 entitySpottingIcon,
                 true,
 
-                EntryBuilder(text("entity_spotting_icons.entity"), entitySpottingIcon.entity.identifier().toString(),
+                SimpleEntryBuilder(text("entity_spotting_icons.entity"), entitySpottingIcon.entity.identifier().toString(),
                     "",
                     { newValue -> entitySpottingIcon.entity = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.parse(newValue)) },
                     tooltip("entity_spotting_icons.entity"),
                     requiresRestart = true
                 ).build(entryBuilder),
 
-                EntryBuilder(text("entity_spotting_icons.texture"), entitySpottingIcon.texture.toString(),
+                SimpleEntryBuilder(text("entity_spotting_icons.texture"), entitySpottingIcon.texture.toString(),
                     "",
                     { newValue -> entitySpottingIcon.texture = Identifier.parse(newValue) },
                     tooltip("entity_spotting_icons.texture"),
                     requiresRestart = true
                 ).build(entryBuilder),
 
-                EntryBuilder(text("entity_spotting_icons.start_fade"), entitySpottingIcon.startFade,
+                SimpleEntryBuilder(text("entity_spotting_icons.start_fade"), entitySpottingIcon.startFade,
                     5F,
                     { newValue -> entitySpottingIcon.startFade = newValue },
                     tooltip("entity_spotting_icons.start_fade"),
                     requiresRestart = true
                 ).build(entryBuilder),
 
-                EntryBuilder(text("entity_spotting_icons.end_fade"), entitySpottingIcon.endFade,
+                SimpleEntryBuilder(text("entity_spotting_icons.end_fade"), entitySpottingIcon.endFade,
                     8F,
                     { newValue -> entitySpottingIcon.endFade = newValue },
                     tooltip("entity_spotting_icons.end_fade"),
@@ -527,4 +434,3 @@ private fun entitySpottingIcons(
         this.requirement = mainToggleReq
     }
 }
-*/

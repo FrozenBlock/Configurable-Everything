@@ -16,7 +16,7 @@ public abstract class BabyZombieSprintMixin {
 		return original ||
 			(
 				MainConfig.entity.get()
-				&& EntityConfig.get(false).zombie.babyZombieSprintParticles
+				&& EntityConfig.babyZombieSprintParticles.get()
 				&& Entity.class.cast(this) instanceof Zombie zombie
 				&& zombie.isBaby()
 				&& (zombie.minorHorizontalCollision || !zombie.horizontalCollision)

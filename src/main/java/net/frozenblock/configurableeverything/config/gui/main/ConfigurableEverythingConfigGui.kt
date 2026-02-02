@@ -8,6 +8,7 @@ import net.frozenblock.configurableeverything.config.gui.BiomeConfigGui
 import net.frozenblock.configurableeverything.config.gui.BiomePlacementConfigGui
 import net.frozenblock.configurableeverything.config.gui.BlockConfigGui
 import net.frozenblock.configurableeverything.config.gui.DataFixerConfigGui
+import net.frozenblock.configurableeverything.config.gui.EntityConfigGui
 import net.frozenblock.configurableeverything.config.gui.FluidConfigGui
 import net.frozenblock.configurableeverything.config.gui.GameConfigGui
 import net.frozenblock.configurableeverything.config.gui.ItemConfigGui
@@ -76,7 +77,7 @@ object ConfigurableEverythingConfigGui {
         DataFixerConfigGui.setupEntries(datafixer, entryBuilder)
 
         val entity = configBuilder.getOrCreateCategory(text("entity"))
-        //EntityConfigGui.setupEntries(entity, entryBuilder)
+        EntityConfigGui.setupEntries(entity, entryBuilder)
 
         val fluid = configBuilder.getOrCreateCategory(text("fluid"))
         FluidConfigGui.setupEntries(fluid, entryBuilder)

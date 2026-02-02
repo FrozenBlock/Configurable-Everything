@@ -2,6 +2,9 @@ package net.frozenblock.configurableeverything.entity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.Identifier
 
 data class EntityFlyBySoundData(
@@ -20,5 +23,14 @@ data class EntityFlyBySoundData(
                 Codec.FLOAT.fieldOf("pitch").forGetter(EntityFlyBySoundData::pitch)
             ).apply(instance, ::EntityFlyBySoundData)
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, EntityFlyBySoundData> = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, EntityFlyBySoundData::category,
+            Identifier.STREAM_CODEC, EntityFlyBySoundData::sound,
+            ByteBufCodecs.FLOAT, EntityFlyBySoundData::volume,
+            ByteBufCodecs.FLOAT, EntityFlyBySoundData::pitch,
+            ::EntityFlyBySoundData
+        )
     }
 }

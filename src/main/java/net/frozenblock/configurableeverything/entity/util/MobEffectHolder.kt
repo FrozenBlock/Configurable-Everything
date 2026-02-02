@@ -2,7 +2,10 @@ package net.frozenblock.configurableeverything.entity.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.effect.MobEffect
 
@@ -26,5 +29,16 @@ data class MobEffectHolder(
                 Codec.BOOL.fieldOf("showIcon").forGetter(MobEffectHolder::showIcon)
             ).apply(instance, ::MobEffectHolder)
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, MobEffectHolder> = StreamCodec.composite(
+            ResourceKey.streamCodec(Registries.MOB_EFFECT), MobEffectHolder::effect,
+            ByteBufCodecs.INT, MobEffectHolder::duration,
+            ByteBufCodecs.INT, MobEffectHolder::amplifier,
+            ByteBufCodecs.BOOL, MobEffectHolder::ambient,
+            ByteBufCodecs.BOOL, MobEffectHolder::visible,
+            ByteBufCodecs.BOOL, MobEffectHolder::showIcon,
+            ::MobEffectHolder
+        )
     }
 }

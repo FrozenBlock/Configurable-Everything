@@ -20,9 +20,8 @@ public abstract class EntityMixin {
 
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
 	public void init(EntityType<?> entityType, Level level, CallbackInfo ci) {
-		var config = EntityConfig.get(false);
 		if (MainConfig.entity.get()) {
-			var entitySpottingIcons = config.entitySpottingIcons.value();
+			var entitySpottingIcons = EntityConfig.entitySpottingIcons.get();
 			for (EntitySpottingIcon spottingIcon : entitySpottingIcons) {
 				if (spottingIcon.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
 					((EntitySpottingIconInterface) Entity.class.cast(this)).getSpottingIconManager()

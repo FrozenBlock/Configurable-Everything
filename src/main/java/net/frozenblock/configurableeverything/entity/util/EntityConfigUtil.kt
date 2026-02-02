@@ -26,10 +26,9 @@ import kotlin.jvm.optionals.getOrNull
 internal object EntityConfigUtil {
 
 	internal fun init() {
-        val config = EntityConfig.get()
         // only run this on client
         if (!MainConfig.entity.get() || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return
-        for (sound in config.entityFlyBySounds.value) {
+        for (sound in EntityConfig.entityFlyBySounds.get()) {
             val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
             if (optionalEntity.isPresent) {
                 val entity = optionalEntity.get()
@@ -48,11 +47,10 @@ internal object EntityConfigUtil {
 
     @JvmStatic
     internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) {
-        val config = EntityConfig.get()
         if (!MainConfig.entity.get()) return
         if (entityAccess !is LivingEntity) return
 
-        for (entityAttributeAmplifier in config.entityAttributeAmplifiers.value) {
+        for (entityAttributeAmplifier in EntityConfig.entityAttributeAmplifiers.get()) {
             val desiredEntity = entityAttributeAmplifier.entity
             val desiredEntityName = entityAttributeAmplifier.entityName
             val amplifiers = entityAttributeAmplifier.amplifiers

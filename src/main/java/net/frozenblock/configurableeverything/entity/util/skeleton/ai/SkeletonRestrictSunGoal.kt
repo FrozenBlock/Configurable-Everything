@@ -7,11 +7,9 @@ import net.minecraft.world.entity.ai.goal.RestrictSunGoal
 
 class SkeletonRestrictSunGoal(mob: PathfinderMob) : RestrictSunGoal(mob) {
     override fun canUse(): Boolean {
-        val config = EntityConfig.get()
-
         if (!MainConfig.entity.get())
             return super.canUse()
 
-        return config.skeleton.skeletonsAvoidSun && super.canUse()
+        return EntityConfig.skeletonsAvoidSun.get() && super.canUse()
     }
 }

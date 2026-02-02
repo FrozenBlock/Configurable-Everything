@@ -13,7 +13,7 @@ public class ZombieRestrictSunGoal extends RestrictSunGoal {
 
 	@Override
 	public boolean canUse() {
-		if (!(MainConfig.entity.get() && EntityConfig.get().zombie.zombiesAvoidSun)) {
+		if (!(MainConfig.entity.get() && EntityConfig.zombiesAvoidSun.get())) {
 			return false;
 		}
 		return super.canUse();

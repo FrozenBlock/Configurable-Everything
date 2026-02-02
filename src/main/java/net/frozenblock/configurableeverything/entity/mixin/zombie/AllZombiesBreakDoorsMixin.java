@@ -26,7 +26,7 @@ public class AllZombiesBreakDoorsMixin {
 	public void tick(CallbackInfo callbackInfo) {
 		Zombie zombie = Zombie.class.cast(this);
 		if (MainConfig.entity.get()) {
-			if (!EntityConfig.get().zombie.allZombiesBreakDoors) {
+			if (!EntityConfig.allZombiesBreakDoors.get()) {
 				if (GoalUtils.hasGroundPathNavigation(zombie)) {
 					zombie.getNavigation().setCanOpenDoors(this.canBreakDoors);
 				}
@@ -43,8 +43,7 @@ public class AllZombiesBreakDoorsMixin {
 	@Inject(method = "canBreakDoors", at = @At("HEAD"), cancellable = true)
 	public void mcFixes$canBreakDoors(CallbackInfoReturnable<Boolean> info) {
 		if (MainConfig.entity.get()) {
-			var zombie = EntityConfig.get().zombie;
-			if (zombie.allZombiesBreakDoors) {
+			if (EntityConfig.allZombiesBreakDoors.get()) {
 				info.setReturnValue(true);
 			}
 		}
@@ -63,7 +62,7 @@ public class AllZombiesBreakDoorsMixin {
 					difficulty -> difficulty == Difficulty.HARD
 						|| (
 						MainConfig.entity.get()
-							&& EntityConfig.get().zombie.ignoreDoorBreakDifficulty
+							&& EntityConfig.ignoreDoorBreakDifficulty.get()
 					)
 				)
 			);
