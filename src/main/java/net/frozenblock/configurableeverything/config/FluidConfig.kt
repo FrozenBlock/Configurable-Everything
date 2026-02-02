@@ -7,20 +7,20 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.material.Fluids
 
-private val FLUID_FLOW_SPEEDS: TypedEntryType<MutableList<FluidFlowSpeed>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        FluidFlowSpeed.CODEC.mutListOf()
-    )
+private val FLUID_FLOW_SPEEDS = EntryType.create(
+    FluidFlowSpeed.CODEC,
+    FluidFlowSpeed.STREAM_CODEC
 )
 
-data class FluidConfig(
+object FluidConfig : CEConfig("fluid") {
     @JvmField
-    var flowSpeeds: TypedEntry<MutableList<FluidFlowSpeed>> = TypedEntry.create(
-        FLUID_FLOW_SPEEDS,
+    var flowSpeeds: ConfigEntry<MutableList<FluidFlowSpeed>> = this.entry("flowSpeeds",
+        FLUID_FLOW_SPEEDS.asList(),
         mutableListOf(
             FluidFlowSpeed(
                 BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow(),
@@ -34,18 +34,4 @@ data class FluidConfig(
             )
         )
     )
-) {
-    companion object : CESimpleConfig<FluidConfig>(
-        FluidConfig::class,
-        "fluid"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): FluidConfig = if (real) this.instance() else this.config()
-    }
 }

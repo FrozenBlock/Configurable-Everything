@@ -64,11 +64,6 @@ class EntityWrapper internal constructor(config: EntityConfig) : ConfigWrapper<E
     var skeleton: EntityConfig.SkeletonConfig by config::skeleton
 }
 
-class FluidWrapper internal constructor(config: FluidConfig) : ConfigWrapper<FluidConfig>(config) {
-
-    var flowSpeeds: MutableList<FluidFlowSpeed> by config.flowSpeeds
-}
-
 class GravityWrapper internal constructor(config: GravityConfig) : ConfigWrapper<GravityConfig>(config) {
 
     var gravityBelts: MutableList<DimensionGravityBelt> by config.gravityBelts

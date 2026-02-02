@@ -10,17 +10,16 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.FluidConfig
 import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
-import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
-import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
+import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
-import net.frozenblock.lib.config.api.client.gui.typedEntryList
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.level.material.Fluids
-/*
+
 private val configInstance = FluidConfig
 
 private inline val mainToggleReq: Requirement
@@ -29,34 +28,24 @@ private inline val mainToggleReq: Requirement
 object FluidConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
-        val defaultConfig = configInstance.defaultInstance()
-
-        category.addEntry(fluidFlowSpeeds(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(fluidFlowSpeeds(entryBuilder))
     }
 }
 
 private fun fluidFlowSpeeds(
-    entryBuilder: ConfigEntryBuilder,
-    config: FluidConfig,
-    syncConfig: FluidConfig,
-    defaultConfig: FluidConfig
+    entryBuilder: ConfigEntryBuilder
 ): AbstractConfigListEntry<*> {
     val defaultFluid = BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).orElseThrow()
     val defaultUltraWarmFlowTickDelay: Int = 5
     val defaultTickDelay: Int = 5
-    val defaultFlowSpeed: FluidFlowSpeed = FluidFlowSpeed(defaultFluid, defaultUltraWarmFlowTickDelay, defaultTickDelay)
-    val defaultFlowSpeeds: List<FluidFlowSpeed> = listOf(defaultFlowSpeed)
-    return typedEntryList(
+    val defaultFlowSpeed = FluidFlowSpeed(defaultFluid, defaultUltraWarmFlowTickDelay, defaultTickDelay)
+    return configEntryList(
         entryBuilder,
         text("fluid_flow_speeds"),
-        syncConfig::flowSpeeds,
-        { defaultConfig.flowSpeeds },
+        FluidConfig.flowSpeeds,
         false,
         tooltip("fluid_flow_speeds"),
-        { newValue -> config.flowSpeeds = newValue },
-        { element: FluidFlowSpeed, _ ->
+        { element: FluidFlowSpeed?, _ ->
             val fluidFlowSpeed = element ?: defaultFlowSpeed
             val ultraWarm = fluidFlowSpeed.ultraWarmFlowTickDelay
             val tickDelay = fluidFlowSpeed.flowTickDelay
@@ -66,7 +55,7 @@ private fun fluidFlowSpeeds(
                 fluidFlowSpeed,
                 true,
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("fluid_flow_speeds.fluid"),
                     fluidFlowSpeed.fluid.toStr(),
                     "",
@@ -74,7 +63,7 @@ private fun fluidFlowSpeeds(
                     tooltip("fluid_flow_speeds.fluid")
                 ).build(entryBuilder),
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("fluid_flow_speeds.ultra_warm_flow_tick_speed"),
                     ultraWarm,
                     10,
@@ -82,7 +71,7 @@ private fun fluidFlowSpeeds(
                     tooltip("fluid_flow_speeds.ultra_warm_flow_tick_speed")
                 ).build(entryBuilder),
 
-                EntryBuilder(
+                SimpleEntryBuilder(
                     text("fluid_flow_speeds.tick_delay"),
                     tickDelay,
                     5,
@@ -93,10 +82,5 @@ private fun fluidFlowSpeeds(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "flowSpeeds",
-        configInstance
-    )
+    }.synced(FluidConfig.flowSpeeds)
 }
-*/

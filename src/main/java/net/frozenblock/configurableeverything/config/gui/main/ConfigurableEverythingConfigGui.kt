@@ -4,7 +4,9 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.config.gui.*
+import net.frozenblock.configurableeverything.config.gui.FluidConfigGui
+import net.frozenblock.configurableeverything.config.gui.MainConfigGui
+import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
 import net.frozenblock.configurableeverything.util.text
 import net.minecraft.client.gui.screens.Screen
 
@@ -65,7 +67,7 @@ object ConfigurableEverythingConfigGui {
         //EntityConfigGui.setupEntries(entity, entryBuilder)
 
         val fluid = configBuilder.getOrCreateCategory(text("fluid"))
-        //FluidConfigGui.setupEntries(fluid, entryBuilder)
+        FluidConfigGui.setupEntries(fluid, entryBuilder)
 
         val game = configBuilder.getOrCreateCategory(text("game"))
         //GameConfigGui.setupEntries(game, entryBuilder)
