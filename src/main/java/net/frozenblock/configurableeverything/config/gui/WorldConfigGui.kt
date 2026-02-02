@@ -15,8 +15,6 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.Slider
 import net.frozenblock.lib.config.api.client.gui.SliderType
 import net.frozenblock.lib.config.clothconfig.synced
-/*
-private val configInstance = WorldConfig
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.world)
@@ -24,46 +22,38 @@ private inline val mainToggleReq: Requirement
 object WorldConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
-        val defaultConfig = configInstance.defaultInstance()
-
         category.addEntry(
-            EntryBuilder(text("day_time_speed"), Slider(syncConfig.dayTimeSpeedAmplifier, 1, 100, SliderType.LONG),
-                Slider(defaultConfig.dayTimeSpeedAmplifier, 0, 0, SliderType.LONG),
-                { newValue -> config.dayTimeSpeedAmplifier = newValue.value.toLong() },
+            EntryBuilder(WorldConfig.dayTimeSpeedAmplifier,
+                text("day_time_speed"),
                 tooltip("day_time_speed"),
+                Slider(WorldConfig.dayTimeSpeedAmplifier.withSync, 1, 100, SliderType.LONG),
+                Slider(WorldConfig.dayTimeSpeedAmplifier.defaultValue(), 0, 0, SliderType.LONG),
+                { newValue -> WorldConfig.dayTimeSpeedAmplifier.setValue((newValue as Slider<*>).value.toLong()) },
                 requirement = mainToggleReq
-            ).build(entryBuilder).synced(
-                config::class,
-                "dayTimeSpeedAmplifier",
-                configInstance
-            )
+            ).build(entryBuilder)
         )
         category.addEntry(
-            entryBuilder.startIntSlider(text("sun_size"), syncConfig.sunSize, 10, 1000)
-                .setDefaultValue(defaultConfig.sunSize)
-                .setSaveConsumer { newValue: Int? -> config.sunSize = newValue!! }
+            entryBuilder.startIntSlider(text("sun_size"), WorldConfig.sunSize.withSync, 10, 1000)
+                .setDefaultValue(WorldConfig.sunSize.defaultValue())
+                .setSaveConsumer(WorldConfig.sunSize::setValue)
                 .setTooltip(tooltip("sun_size"))
                 .setRequirement(mainToggleReq)
                 .build()
         )
         category.addEntry(
-            entryBuilder.startIntSlider(text("moon_size"), syncConfig.moonSize, 10, 1000)
-                .setDefaultValue(defaultConfig.moonSize)
-                .setSaveConsumer { newValue: Int? -> config.moonSize = newValue!! }
+            entryBuilder.startIntSlider(text("moon_size"), WorldConfig.moonSize.withSync, 10, 1000)
+                .setDefaultValue(WorldConfig.moonSize.defaultValue())
+                .setSaveConsumer(WorldConfig.moonSize::setValue)
                 .setTooltip(tooltip("moon_size"))
                 .setRequirement(mainToggleReq)
                 .build()
         )
         category.addEntry(
-            EntryBuilder(text("disable_experimental_warning"), syncConfig.disableExperimentalWarning,
-                defaultConfig.disableExperimentalWarning,
-                { newValue -> config.disableExperimentalWarning = newValue },
+            EntryBuilder(WorldConfig.disableExperimentalWarning,
+                text("disable_experimental_warning"),
                 tooltip("disable_experimental_warning"),
                 requirement = mainToggleReq,
             ).build(entryBuilder)
         )
     }
 }
-*/

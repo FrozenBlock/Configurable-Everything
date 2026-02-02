@@ -22,7 +22,7 @@ public class LevelRendererMixin {
 	)
 	private float changeSunSize(float original) {
 		if (!MainConfig.world.get()) return original;
-		return WorldConfig.getSunSize();
+		return WorldConfig.sunSize();
 	}
 
 	@ModifyExpressionValue(
@@ -36,6 +36,6 @@ public class LevelRendererMixin {
 	)
 	private float changeMoonSize(float original) {
 		if (!MainConfig.world.get()) return original;
-		return WorldConfig.getMoonSize();
+		return WorldConfig.moonSize();
 	}
 }

@@ -126,11 +126,3 @@ class TagWrapper internal constructor(config: TagConfig) : ConfigWrapper<TagConf
     var ignoreInvalidEntries: Boolean by config::ignoreInvalidEntries
     var tagModifications: MutableList<RegistryTagModification> by config.tagModifications
 }
-
-class WorldWrapper internal constructor(config: WorldConfig) : ConfigWrapper<WorldConfig>(config) {
-
-    var dayTimeSpeedAmplifier: Long by config::dayTimeSpeedAmplifier
-    var sunSize: Int by config::sunSize
-    var moonSize: Int by config::moonSize
-    var disableExperimentalWarning: Boolean by config::disableExperimentalWarning
-}

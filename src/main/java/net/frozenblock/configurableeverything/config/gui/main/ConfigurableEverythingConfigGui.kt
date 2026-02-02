@@ -95,7 +95,7 @@ object ConfigurableEverythingConfigGui {
         //TagConfigGui.setupEntries(tag, entryBuilder)
 
         val world = configBuilder.getOrCreateCategory(text("world"))
-        //WorldConfigGui.setupEntries(world, entryBuilder)
+        WorldConfigGui.setupEntries(world, entryBuilder)
 
         return configBuilder.build()
     }
