@@ -39,11 +39,6 @@ sealed class StableConfigV1Data<T : Any, C>(override val config: Config<T>): Con
  */
 @Suppress("unused", "ClassName")
 sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : ConfigWrapper<T> {
-    data object BIOME : StableConfigV1Data<BiomeConfig, BiomeWrapper>(BiomeConfig) {
-        override fun modify(modification: (BiomeWrapper) -> Unit) {
-            ConfigRegistry.register(BiomeConfig, ConfigModification { modification(BiomeWrapper(it)) })
-        }
-    }
     data object BIOME_PLACEMENT : StableConfigV1Data<BiomePlacementConfig, BiomePlacementWrapper>(BiomePlacementConfig) {
         override fun modify(modification: (BiomePlacementWrapper) -> Unit) {
             ConfigRegistry.register(BiomePlacementConfig, ConfigModification { modification(BiomePlacementWrapper(it)) })

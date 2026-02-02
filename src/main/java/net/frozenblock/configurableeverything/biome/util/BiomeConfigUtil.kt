@@ -16,9 +16,13 @@ import java.util.function.Consumer
 internal object BiomeConfigUtil {
 
 	internal fun init() {
-        val config = BiomeConfig.get()
         if (MainConfig.biome.get()) {
-            val biomeChange = BiomeChange(config.addedFeatures.value, config.removedFeatures.value, config.replacedFeatures.value, config.musicReplacements.value)
+            val biomeChange = BiomeChange(
+                BiomeConfig.addedFeatures.get(),
+                BiomeConfig.removedFeatures.get(),
+                BiomeConfig.replacedFeatures.get(),
+                BiomeConfig.musicReplacements.get()
+            )
             BiomeChanges.add(id("config"), biomeChange)
 
             val resourceLoader = ResourceLoader.get(PackType.SERVER_DATA)

@@ -2,8 +2,9 @@ package net.frozenblock.configurableeverything.biome.util
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.frozenblock.configurableeverything.util.mutListOf
+import io.netty.buffer.ByteBuf
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
@@ -19,5 +20,12 @@ data class PlacedFeatureReplacement(
 				DecorationStepPlacedFeature.CODEC.fieldOf("replacement").forGetter(PlacedFeatureReplacement::replacement)
 			).apply(instance, ::PlacedFeatureReplacement)
 		}
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, PlacedFeatureReplacement> = StreamCodec.composite(
+            ResourceKey.streamCodec(Registries.PLACED_FEATURE), PlacedFeatureReplacement::original,
+            DecorationStepPlacedFeature.STREAM_CODEC, PlacedFeatureReplacement::replacement,
+            ::PlacedFeatureReplacement
+        )
 	}
 }

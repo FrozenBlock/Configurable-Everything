@@ -61,6 +61,13 @@ data class MutableSoundType(
                 soundCodec.fieldOf("fall_sound").forGetter(MutableSoundType::fallSound)
             ).apply(instance, ::MutableSoundType)
         }
+
+        //@JvmField
+        //val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, MutableSoundType> = StreamCodec.composite(
+        //    ByteBufCodecs.FLOAT, MutableSoundType::volume,
+        //    ByteBufCodecs.FLOAT, MutableSoundType::pitch,
+        //    SoundTypeCodecs.SOUND_TYPE
+        //)
     }
 
     fun immutable(): SoundType

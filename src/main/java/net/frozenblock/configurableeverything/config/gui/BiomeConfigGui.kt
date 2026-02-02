@@ -3,11 +3,7 @@
 
 package net.frozenblock.configurableeverything.config.gui
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-
-// TODO: port
-/*import com.mojang.datafixers.util.Either
+import com.mojang.datafixers.util.Either
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
@@ -22,6 +18,8 @@ import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
+import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
+import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
@@ -37,92 +35,63 @@ import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration
 import net.minecraft.world.level.levelgen.placement.PlacedFeature
 
-private val configInstance: Config<BiomeConfig> = BiomeConfig
-
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.biome)
 
 object BiomeConfigGui {
 
     fun setupEntries(category: ConfigCategory, entryBuilder: ConfigEntryBuilder) {
-        val config = configInstance.instance()
-        val syncConfig = configInstance.configWithSync()
-        val defaultConfig = configInstance.defaultInstance()
-
-        category.addEntry(addedFeatures(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(removedFeatures(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(replacedFeatures(entryBuilder, config, syncConfig, defaultConfig))
-        category.addEntry(musicReplacements(entryBuilder, config, syncConfig, defaultConfig))
+        category.addEntry(addedFeatures(entryBuilder))
+        category.addEntry(removedFeatures(entryBuilder))
+        category.addEntry(replacedFeatures(entryBuilder))
+        category.addEntry(musicReplacements(entryBuilder))
     }
 }
 
 private fun addedFeatures(
     entryBuilder: ConfigEntryBuilder,
-    config: BiomeConfig,
-    syncConfig: BiomeConfig,
-    defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("added_features"),
-        syncConfig::addedFeatures,
-        { defaultConfig.addedFeatures },
+        BiomeConfig.addedFeatures,
         false,
         tooltip("added_features"),
-        { newValue -> config.addedFeatures = newValue},
         { element: BiomePlacedFeatureList?, _ ->
             biomePlacedFeaturesElement(entryBuilder, element, "added")
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "addedFeatures",
-        configInstance
-    )
+    }
 }
 
 private fun removedFeatures(
     entryBuilder: ConfigEntryBuilder,
-    config: BiomeConfig,
-    syncConfig: BiomeConfig,
-    defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("removed_features"),
-        syncConfig::removedFeatures,
-        { defaultConfig.removedFeatures },
+        BiomeConfig.removedFeatures,
         false,
         tooltip("removed_features"),
-        { newValue -> config.removedFeatures = newValue },
         { element: BiomePlacedFeatureList?, _ ->
             biomePlacedFeaturesElement(entryBuilder, element, "removed")
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "removedFeatures",
-        configInstance
-    )
+    }
 }
 
 @Suppress("NAME_SHADOWING")
 private fun replacedFeatures(
     entryBuilder: ConfigEntryBuilder,
-    config: BiomeConfig,
-    syncConfig: BiomeConfig,
-    defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("replaced_features"),
-        syncConfig::replacedFeatures,
-        { defaultConfig.replacedFeatures },
+        BiomeConfig.replacedFeatures,
         false,
         tooltip("replaced_features"),
-        { newValue -> config.replacedFeatures = newValue },
         { element: BiomePlacedFeatureReplacementList?, _ ->
             val defaultBiome: Either<ResourceKey<Biome>, TagKey<Biome>> = Either.left(BLANK_BIOME)
             val defaultOriginal: ResourceKey<PlacedFeature> = BLANK_PLACED_FEATURE
@@ -148,7 +117,7 @@ private fun replacedFeatures(
                 biomeReplacementList,
                 true,
 
-                EntryBuilder(text("replaced_features.biome"), biomeReplacementList.biome.toStr(),
+                SimpleEntryBuilder(text("replaced_features.biome"), biomeReplacementList.biome.toStr(),
                     "",
                     { newValue -> biomeReplacementList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
                     tooltip("replaced_features.biome"),
@@ -175,7 +144,7 @@ private fun replacedFeatures(
                             featureReplacement,
                             true,
 
-                            EntryBuilder(text("replaced_features.original"), original.toStr(),
+                            SimpleEntryBuilder(text("replaced_features.original"), original.toStr(),
                                 "",
                                 { newValue -> featureReplacement.original = newValue.toKey(Registries.PLACED_FEATURE) },
                                 tooltip("replaced_features.original"),
@@ -211,27 +180,18 @@ private fun replacedFeatures(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "replacedFeatures",
-        configInstance
-    )
+    }
 }
 
 private fun musicReplacements(
     entryBuilder: ConfigEntryBuilder,
-    config: BiomeConfig,
-    syncConfig: BiomeConfig,
-    defaultConfig: BiomeConfig
 ): AbstractConfigListEntry<*> {
-    return typedEntryList(
+    return configEntryList(
         entryBuilder,
         text("music_replacements"),
-        syncConfig::musicReplacements,
-        { defaultConfig.musicReplacements },
+        BiomeConfig.musicReplacements,
         false,
         tooltip("music_replacements"),
-        { newValue -> config.musicReplacements = newValue },
         { element: BiomeMusic?, _ ->
             val defaultSound: Holder<SoundEvent> = SoundEvents.MUSIC_BIOME_DEEP_DARK
             val defaultMinDelay = 12000
@@ -252,7 +212,7 @@ private fun musicReplacements(
                 biomeMusic,
                 true,
 
-                EntryBuilder(text("music_replacements.biome"), biome.toStr(),
+                SimpleEntryBuilder(text("music_replacements.biome"), biome.toStr(),
                     "",
                     { newValue -> biomeMusic.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
                     tooltip("music_replacements.biome"),
@@ -264,28 +224,28 @@ private fun musicReplacements(
                     music,
                     true,
 
-                    EntryBuilder(text("music_replacements.sound"), sound.toStr(),
+                    SimpleEntryBuilder(text("music_replacements.sound"), sound.toStr(),
                         "",
-                        { newValue -> music.sound = newValue.toHolder(BuiltInRegistries.SOUND_EVENT) },
+                        { newValue -> music.sound = newValue.toHolder(BuiltInRegistries.SOUND_EVENT)!! },
                         tooltip("music_replacements.sound"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(text("music_replacements.min_delay"), minDelay,
+                    SimpleEntryBuilder(text("music_replacements.min_delay"), minDelay,
                         defaultMinDelay,
                         { newValue -> music.minDelay = newValue },
                         tooltip("music_replacements.min_delay"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(text("music_replacements.max_delay"), maxDelay,
+                    SimpleEntryBuilder(text("music_replacements.max_delay"), maxDelay,
                         defaultMaxDelay,
                         { newValue -> music.maxDelay = newValue },
                         tooltip("music_replacements.max_delay"),
                         requiresRestart = true
                     ).build(entryBuilder),
 
-                    EntryBuilder(text("music_replacements.replace_current_music"), replaceCurrentMusic,
+                    SimpleEntryBuilder(text("music_replacements.replace_current_music"), replaceCurrentMusic,
                         defaultReplaceCurrentMusic,
                         { newValue -> music.replaceCurrentMusic = newValue },
                         tooltip("music_replacements.replace_current_music"),
@@ -298,11 +258,7 @@ private fun musicReplacements(
         }
     ).apply {
         this.requirement = mainToggleReq
-    }.synced(
-        config::class,
-        "musicReplacements",
-        configInstance
-    )
+    }
 }
 
 @Suppress("NAME_SHADOWING")
@@ -329,7 +285,7 @@ private fun biomePlacedFeaturesElement(
         biomePlacedFeatureList,
         true,
 
-        EntryBuilder(text("$`lang`_features.biome"), biomePlacedFeatureList.biome.toStr(),
+        SimpleEntryBuilder(text("$`lang`_features.biome"), biomePlacedFeatureList.biome.toStr(),
             "",
             { newValue -> biomePlacedFeatureList.biome = newValue.toEitherKeyOrTag(Registries.BIOME) },
             tooltip("$`lang`_features.biome"),
@@ -373,4 +329,3 @@ private fun biomePlacedFeaturesElement(
         requiresRestart = true
     )
 }
-*/

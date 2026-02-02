@@ -3,8 +3,11 @@ package net.frozenblock.configurableeverything.biome.util
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.frozenblock.configurableeverything.util.mutListOf
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.tags.TagKey
 import net.minecraft.world.level.biome.Biome
@@ -23,5 +26,17 @@ data class BiomePlacedFeatureList(
                 DecorationStepPlacedFeature.CODEC.mutListOf().fieldOf("placed_features").forGetter(BiomePlacedFeatureList::features)
             ).apply(instance, ::BiomePlacedFeatureList)
         }
+
+        @JvmField
+        val STREAM_CODEC: StreamCodec<ByteBuf, BiomePlacedFeatureList> = StreamCodec.composite(
+            ByteBufCodecs.either(
+                ResourceKey.streamCodec(Registries.BIOME),
+                TagKey.streamCodec(Registries.BIOME)
+            ),
+            BiomePlacedFeatureList::biome,
+            ByteBufCodecs.list<ByteBuf, DecorationStepPlacedFeature>().apply(DecorationStepPlacedFeature.STREAM_CODEC),
+            BiomePlacedFeatureList::features,
+            ::BiomePlacedFeatureList
+        )
     }
 }

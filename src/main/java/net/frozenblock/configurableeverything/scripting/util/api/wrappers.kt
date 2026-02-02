@@ -1,36 +1,19 @@
 package net.frozenblock.configurableeverything.scripting.util.api
 
-import net.frozenblock.configurableeverything.biome.util.BiomeMusic
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureList
-import net.frozenblock.configurableeverything.biome.util.BiomePlacedFeatureReplacementList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
 import net.frozenblock.configurableeverything.block.util.MutableBlockSoundGroupOverwrite
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.configurableeverything.datafixer.util.RegistryFixer
-import net.frozenblock.configurableeverything.datafixer.util.SchemaEntry
 import net.frozenblock.configurableeverything.entity.util.*
-import net.frozenblock.configurableeverything.fluid.util.FluidFlowSpeed
-import net.frozenblock.configurableeverything.gravity.util.DimensionGravityBelt
-import net.frozenblock.configurableeverything.item.util.ItemReachOverride
 import net.frozenblock.configurableeverything.loot.util.LootModification
 import net.frozenblock.configurableeverything.registry.util.BiomeAddition
 import net.frozenblock.configurableeverything.registry.util.PlacedFeatureAddition
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
-import net.frozenblock.configurableeverything.tag.util.RegistryTagModification
 import net.frozenblock.configurableeverything.util.getValue
 import net.frozenblock.configurableeverything.util.setValue
 import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
 import net.minecraft.resources.Identifier
-
-class BiomeWrapper internal constructor(config: BiomeConfig) : ConfigWrapper<BiomeConfig>(config) {
-
-    var addedFeatures: MutableList<BiomePlacedFeatureList> by config.addedFeatures
-    var removedFeatures: MutableList<BiomePlacedFeatureList> by config.removedFeatures
-    var replacedFeatures: MutableList<BiomePlacedFeatureReplacementList> by config.replacedFeatures
-    var musicReplacements: MutableList<BiomeMusic> by config.musicReplacements
-}
 
 class BiomePlacementWrapper internal constructor(config: BiomePlacementConfig) : ConfigWrapper<BiomePlacementConfig>(config) {
 

@@ -4,6 +4,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
+import net.frozenblock.configurableeverything.config.gui.BiomeConfigGui
 import net.frozenblock.configurableeverything.config.gui.DataFixerConfigGui
 import net.frozenblock.configurableeverything.config.gui.FluidConfigGui
 import net.frozenblock.configurableeverything.config.gui.GameConfigGui
@@ -60,7 +61,7 @@ object ConfigurableEverythingConfigGui {
         MainConfigGui.createInstance(entryBuilder).setupEntries(main, entryBuilder)
 
         val biome = configBuilder.getOrCreateCategory(text("biome"))
-        //BiomeConfigGui.setupEntries(biome, entryBuilder)
+        BiomeConfigGui.setupEntries(biome, entryBuilder)
 
         val biomePlacement = configBuilder.getOrCreateCategory(text("biome_placement"))
         //BiomePlacementConfigGui.setupEntries(biomePlacement, entryBuilder)
