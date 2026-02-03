@@ -226,7 +226,7 @@ private fun musicReplacements(
 
                     SimpleEntryBuilder(text("music_replacements.sound"), sound.toStr(),
                         "",
-                        { newValue -> music.sound = newValue.toHolder(BuiltInRegistries.SOUND_EVENT)!! },
+                        { newValue -> newValue.toHolder(BuiltInRegistries.SOUND_EVENT)?.apply { music.sound = this } },
                         tooltip("music_replacements.sound"),
                         requiresRestart = true
                     ).build(entryBuilder),
