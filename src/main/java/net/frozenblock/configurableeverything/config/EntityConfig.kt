@@ -219,7 +219,7 @@ object EntityConfig : CEConfig("entity") {
     )
 
     @JvmField
-    val zombiesAvoidSun: ConfigEntry<Boolean> = this.entry("zombies/zombiesAvoidSun",
+    val zombiesAvoidSun: ConfigEntry<Boolean> = this.entry("zombie/zombiesAvoidSun",
         EntryType.BOOL,
         false
     )
