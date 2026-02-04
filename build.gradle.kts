@@ -181,7 +181,7 @@ dependencies {
 
     // FrozenLib
     //api("maven.modrinth:frozenlib:$frozenlib_version")
-    api("net.frozenblock:frozenlib:2.4-mc26.1-snapshot-4-SNAPSHOT")
+    api("net.frozenblock:frozenlib:$frozenlib_version-SNAPSHOT")
 
     // Cloth Config
     api("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
