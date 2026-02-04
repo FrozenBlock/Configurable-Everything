@@ -2,6 +2,7 @@ package net.frozenblock.configurableeverything.biome_placement.mixin;
 
 import com.mojang.datafixers.DataFixer;
 import java.net.Proxy;
+import java.util.Optional;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtil;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
@@ -23,7 +24,7 @@ public abstract class MinecraftServerMixin {
 	public abstract RegistryAccess.Frozen registryAccess();
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(Thread thread, LevelStorageSource.LevelStorageAccess levelStorageAccess, PackRepository packRepository, WorldStem worldStem, Proxy proxy, DataFixer dataFixer, Services services, LevelLoadListener levelLoadListener, CallbackInfo ci) {
+	private void init(Thread serverThread, LevelStorageSource.LevelStorageAccess storageSource, PackRepository packRepository, WorldStem worldStem, Optional gameRules, Proxy proxy, DataFixer fixerUpper, Services services, LevelLoadListener levelLoadListener, CallbackInfo ci) {
 		BiomePlacementUtil.serverInit(this.registryAccess());
 	}
 }
