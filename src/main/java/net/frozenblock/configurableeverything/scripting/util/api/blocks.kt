@@ -82,7 +82,7 @@ import net.minecraft.world.level.block.SkullBlock
 import net.minecraft.world.level.block.SmithingTableBlock
 import net.minecraft.world.level.block.SmokerBlock
 import net.minecraft.world.level.block.SnowLayerBlock
-import net.minecraft.world.level.block.SnowyDirtBlock
+import net.minecraft.world.level.block.SnowyBlock
 import net.minecraft.world.level.block.SpawnerBlock
 import net.minecraft.world.level.block.SpongeBlock
 import net.minecraft.world.level.block.StairBlock
@@ -436,9 +436,9 @@ fun SnowLayerBlock(
     properties: BlockBehaviour.Properties,
 ): SnowLayerBlock = SnowLayerBlock(properties)
 
-fun SnowyDirtBlock(
+fun SnowyBlock(
     properties: BlockBehaviour.Properties,
-): SnowyDirtBlock = SnowyDirtBlock(properties)
+): SnowyBlock = SnowyBlock(properties)
 
 fun SpawnerBlock(
     properties: BlockBehaviour.Properties,
