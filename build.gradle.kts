@@ -138,8 +138,6 @@ repositories {
         name = "Siphalor's Maven"
         url = uri("https://maven.siphalor.de")
     }*/
-    maven("https://maven.flashyreese.me/releases")
-    maven("https://maven.flashyreese.me/snapshots")
     maven("https://maven.minecraftforge.net/")
     maven("https://maven.jamieswhiteshirt.com/libs-release") {
         content {
@@ -181,7 +179,7 @@ dependencies {
 
     // FrozenLib
     //api("maven.modrinth:frozenlib:$frozenlib_version")
-    api("net.frozenblock:frozenlib:$frozenlib_version-SNAPSHOT")
+    api("net.frozenblock:frozenlib:$frozenlib_version")
 
     // Cloth Config
     api("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
