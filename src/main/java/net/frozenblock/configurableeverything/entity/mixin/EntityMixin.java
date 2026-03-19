@@ -24,7 +24,7 @@ public abstract class EntityMixin {
 			var entitySpottingIcons = EntityConfig.entitySpottingIcons.get();
 			for (EntitySpottingIcon spottingIcon : entitySpottingIcons) {
 				if (spottingIcon.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
-					((EntitySpottingIconInterface) Entity.class.cast(this)).getSpottingIconManager()
+					Entity.class.cast(this).frozenLib$getSpottingIconManager()
 						.setIcon(spottingIcon.texture, spottingIcon.startFade, spottingIcon.endFade, SpottingIconPredicate.DEFAULT_ID);
 				}
 			}

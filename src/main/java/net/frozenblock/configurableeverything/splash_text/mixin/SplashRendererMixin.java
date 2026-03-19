@@ -6,7 +6,7 @@ import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.SplashTextConfig;
 import net.frozenblock.configurableeverything.splash_text.util.StyleMutator;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
@@ -39,10 +39,10 @@ public class SplashRendererMixin {
 	}
 
     @Inject(
-		method = "render",
+		method = "extractRenderState",
 		at = @At("HEAD")
 	)
-    private void changeColor(GuiGraphics guiGraphics, int i, Font font, float f, CallbackInfo ci) {
+    private void changeColor(GuiGraphicsExtractor graphics, int screenWidth, Font font, float alpha, CallbackInfo ci) {
 		this.changeColor();
     }
 
