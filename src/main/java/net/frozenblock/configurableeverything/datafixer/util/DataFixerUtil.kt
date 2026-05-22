@@ -94,7 +94,7 @@ object DataFixerUtil {
         val newId = fixer.newId
         val fixName = "fix_" + oldId + "_to_" + newId
         when (entry.type) {
-            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, mapOf(oldId to newId), schema)
+            "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, oldId, newId, schema)
             "block" -> SimpleFixes.addBlockRenameFix(builder, fixName, oldId, newId, schema)
             "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
             "item" -> {

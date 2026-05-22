@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.SplashTextConfig;
-import net.frozenblock.configurableeverything.splash_text.util.StyleMutator;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.SplashRenderer;
@@ -12,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 public class SplashRendererMixin {
 
+	@Mutable
 	@Shadow
 	@Final
 	private Component splash;
@@ -50,10 +51,10 @@ public class SplashRendererMixin {
 	private void changeColor() {
 		var modified = SplashTextConfig.splashColor.get();
 		if (MainConfig.splash_text.get()) {
-			StyleMutator.class.cast(this.splash.getStyle()).configurableEverything$setTextColor(modified);
+			this.splash = this.splash.copy().withColor(modified);
 			this.wasLastModified = true;
 		} else if (this.wasLastModified) {
-			StyleMutator.class.cast(this.splash.getStyle()).configurableEverything$setTextColor(this.originalColor);
+			this.splash = this.splash.copy().withColor(this.originalColor.getValue());
 			this.wasLastModified = false;
 		}
 	}
