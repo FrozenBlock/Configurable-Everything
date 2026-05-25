@@ -475,6 +475,6 @@ publishMods {
 }
 
 val publishMod by tasks.register("publishMod") {
-    dependsOn(tasks.publishMods)
     dependsOn(tasks.publish)
+    dependsOn(tasks.publishMods)
 }
