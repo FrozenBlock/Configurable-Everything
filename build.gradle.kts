@@ -7,15 +7,6 @@ import java.io.FileNotFoundException
 import java.nio.file.Files
 import java.util.*
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("org.kohsuke:github-api:1.316")
-    }
-}
-
 plugins {
     kotlin("jvm") version("2.3.21")
     id("net.fabricmc.fabric-loom") version("1.16-SNAPSHOT")
@@ -479,6 +470,7 @@ publishMods {
         repository.set("FrozenBlock/Configurable-Everything")
         accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
         commitish.set(getBranch())
+        additionalFiles.from(sourcesJar.archiveFile.get().asFile, javadocJar.archiveFile.get().asFile)
     }
 }
 
