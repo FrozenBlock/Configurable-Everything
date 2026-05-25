@@ -459,6 +459,8 @@ publishMods {
         projectSlug.set("configurable-everything")
         accessToken.set(providers.environmentVariable("CURSEFORGE_TOKEN"))
         minecraftVersions.add(minecraft_version)
+        requires("fabric-api")
+        requires("frozenlib")
         requires("fabric-language-kotlin")
         optional("fabric-kotlin-extensions")
     }
@@ -467,6 +469,8 @@ publishMods {
         projectId.set(modrinth_id)
         accessToken.set(providers.environmentVariable("MODRINTH_TOKEN"))
         minecraftVersions.add(minecraft_version)
+        requires("fabric-api")
+        requires("frozenlib")
         requires("fabric-language-kotlin")
         optional("fabric-kotlin-extensions")
     }
