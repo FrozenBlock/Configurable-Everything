@@ -10,8 +10,8 @@ import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingData
 import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.lib.config.v2.entry.ConfigEntry
 import net.frozenblock.lib.config.v2.entry.EntryType
-import net.frozenblock.lib.worldgen.biome.api.mutable
-import net.frozenblock.lib.worldgen.biome.api.parameters.*
+import net.frozenblock.lib.levelgen.biome.api.mutable
+import net.frozenblock.lib.levelgen.biome.api.parameters.*
 import net.minecraft.world.level.biome.Biomes
 import net.minecraft.world.level.biome.Climate.Parameter.span
 import net.minecraft.world.level.biome.Climate.parameters

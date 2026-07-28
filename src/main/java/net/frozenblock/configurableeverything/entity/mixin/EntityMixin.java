@@ -3,8 +3,8 @@ package net.frozenblock.configurableeverything.entity.mixin;
 import net.frozenblock.configurableeverything.config.EntityConfig;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.entity.util.EntitySpottingIcon;
-import net.frozenblock.lib.spotting_icons.api.SpottingIconPredicate;
-import net.frozenblock.lib.spotting_icons.impl.EntitySpottingIconInterface;
+import net.frozenblock.lib.entity.api.spottingicon.SpottingIcon;
+import net.frozenblock.lib.entity.api.spottingicon.SpottingIcons;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,8 +24,12 @@ public abstract class EntityMixin {
 			var entitySpottingIcons = EntityConfig.entitySpottingIcons.get();
 			for (EntitySpottingIcon spottingIcon : entitySpottingIcons) {
 				if (spottingIcon.entity.identifier().equals(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))) {
-					Entity.class.cast(this).frozenLib$getSpottingIconManager()
-						.setIcon(spottingIcon.texture, spottingIcon.startFade, spottingIcon.endFade, SpottingIconPredicate.DEFAULT_ID);
+					SpottingIcons.set(Entity.class.cast(this), SpottingIcon.builder()
+						.texture(spottingIcon.texture)
+						.fader(spottingIcon.startFadeDistance, spottingIcon.endFadeDistance, spottingIcon.startFade, spottingIcon.endFade)
+						.build()
+					);
+					// TODO potentially expand spotting icon config
 				}
 			}
 		}

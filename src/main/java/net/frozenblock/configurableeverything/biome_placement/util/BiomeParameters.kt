@@ -3,7 +3,7 @@ package net.frozenblock.configurableeverything.biome_placement.util
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import io.netty.buffer.ByteBuf
-import net.frozenblock.lib.worldgen.biome.api.MutableParameterPoint
+import net.frozenblock.lib.levelgen.biome.api.MutableParameterPoint
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.Identifier
 

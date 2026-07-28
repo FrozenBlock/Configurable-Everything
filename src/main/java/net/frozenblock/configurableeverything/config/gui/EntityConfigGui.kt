@@ -16,7 +16,7 @@ import net.frozenblock.configurableeverything.util.string
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.*
-import net.frozenblock.lib.config.clothconfig.FrozenClothConfig
+import net.frozenblock.lib.config.clothconfig.FrozenLibClothConfigGuiHelper
 import net.frozenblock.lib.config.clothconfig.synced
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -45,7 +45,7 @@ object EntityConfigGui {
             requirement = mainToggleReq,
         ).build(entryBuilder)
 
-        val playerCategory = FrozenClothConfig.createSubCategory(
+        val playerCategory = FrozenLibClothConfigGuiHelper.createSubCategory(
             entryBuilder, category, text("player"),
             false,
             tooltip("player"),
@@ -89,7 +89,7 @@ object EntityConfigGui {
             requirement = mainToggleReq,
         ).build(entryBuilder)
 
-        val zombieCategory = FrozenClothConfig.createSubCategory(
+        val zombieCategory = FrozenLibClothConfigGuiHelper.createSubCategory(
             entryBuilder,
             category,
             text("zombie"),
@@ -115,7 +115,7 @@ object EntityConfigGui {
             requirement = mainToggleReq,
         ).build(entryBuilder)
 
-        val skeletonCategory = FrozenClothConfig.createSubCategory(
+        val skeletonCategory = FrozenLibClothConfigGuiHelper.createSubCategory(
             entryBuilder, category, text("skeleton"),
             false,
             tooltip("skeleton"),
@@ -393,7 +393,7 @@ private fun entitySpottingIcons(
         false,
         tooltip("entity_spotting_icons"),
         { element: EntitySpottingIcon?, _ ->
-            val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")), Identifier.withDefaultNamespace("icon"), 5F, 8F)
+            val entitySpottingIcon = element ?: EntitySpottingIcon(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")), Identifier.withDefaultNamespace("icon"), 5F, 8F, 1.0F, 0.0F)
             multiElementEntry(
                 text("entity_spotting_icons.spotting_icon"),
                 entitySpottingIcon,

@@ -1,27 +1,35 @@
 package net.frozenblock.configurableeverything.block.util;
 
+import com.mojang.datafixers.util.Function7
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import io.netty.buffer.ByteBuf
-import net.frozenblock.lib.block.sound.api.SoundTypeCodecs
-import net.frozenblock.lib.block.sound.impl.overwrite.HolderSetBlockSoundTypeOverwrite
+import net.frozenblock.lib.block.api.sound.SoundTypeCodecs
+import net.frozenblock.lib.block.impl.sound.SoundTypeOverride
+import net.frozenblock.lib.config.v2.entry.predicates.ConfigPredicate
+import net.minecraft.core.Holder
 import net.minecraft.core.HolderSet
+import net.minecraft.core.IdMap
+import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.VarInt
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.Identifier
+import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
-import java.util.function.BooleanSupplier
+import java.util.*
+import java.util.function.Function
 import kotlin.jvm.optionals.getOrNull
 
 @Suppress("UnstableApiUsage")
 data class MutableBlockSoundGroupOverwrite(
     var blockId: Identifier,
     var soundOverwrite: MutableSoundType,
-    var condition: BooleanSupplier
+    var condition: Optional<ConfigPredicate>
 ) {
     companion object {
         @JvmField
@@ -29,20 +37,20 @@ data class MutableBlockSoundGroupOverwrite(
             instance.group(
                 Identifier.CODEC.fieldOf("id").forGetter(MutableBlockSoundGroupOverwrite::blockId),
                 MutableSoundType.CODEC.fieldOf("sound_type").forGetter(MutableBlockSoundGroupOverwrite::soundOverwrite)
-            ).apply(instance) { id, soundType -> MutableBlockSoundGroupOverwrite(id, soundType) { true } }
+            ).apply(instance) { id, soundType -> MutableBlockSoundGroupOverwrite(id, soundType, Optional.empty()) } // TODO EXPLORE CONFIG PREDICATES
         }
 
         @JvmField
         val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, MutableBlockSoundGroupOverwrite> = StreamCodec.composite(
             Identifier.STREAM_CODEC, MutableBlockSoundGroupOverwrite::blockId,
             MutableSoundType.STREAM_CODEC, MutableBlockSoundGroupOverwrite::soundOverwrite,
-            { id, soundOverwrite -> MutableBlockSoundGroupOverwrite(id, soundOverwrite) { true } }
+            { id, soundOverwrite -> MutableBlockSoundGroupOverwrite(id, soundOverwrite, Optional.empty()) }
         )
     }
 
-    fun immutable(): HolderSetBlockSoundTypeOverwrite? {
+    fun immutable(): SoundTypeOverride? {
         val block: Block = BuiltInRegistries.BLOCK.getOptional(this.blockId).getOrNull() ?: return null
-        return HolderSetBlockSoundTypeOverwrite(HolderSet.direct(block.builtInRegistryHolder()), this.soundOverwrite.immutable(), this.condition)
+        return SoundTypeOverride(HolderSet.direct(block.builtInRegistryHolder()), this.soundOverwrite.immutable(), this.condition)
     }
 }
 
@@ -78,11 +86,11 @@ data class MutableSoundType(
         val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, MutableSoundType> = StreamCodec.composite(
             ByteBufCodecs.FLOAT, MutableSoundType::volume,
             ByteBufCodecs.FLOAT, MutableSoundType::pitch,
-            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::breakSound,
-            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::stepSound,
-            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::placeSound,
-            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::hitSound,
-            SoundTypeCodecs.SOUND_EVENT_STREAM_CODEC, MutableSoundType::fallSound,
+            SOUND_EVENT_STREAM_CODEC, MutableSoundType::breakSound,
+            SOUND_EVENT_STREAM_CODEC, MutableSoundType::stepSound,
+            SOUND_EVENT_STREAM_CODEC, MutableSoundType::placeSound,
+            SOUND_EVENT_STREAM_CODEC, MutableSoundType::hitSound,
+            SOUND_EVENT_STREAM_CODEC, MutableSoundType::fallSound,
             ::MutableSoundType
         )
     }
@@ -93,3 +101,65 @@ data class MutableSoundType(
 
 fun SoundType.mutable(): MutableSoundType
     = MutableSoundType(volume, pitch, breakSound, stepSound, placeSound, hitSound, fallSound)
+
+
+// TODO REMOVE ALL THIS STUFF ONCE FROZENLIB IS UPDATED
+val SOUND_EVENT_STREAM_CODEC = holderValue(
+    Registries.SOUND_EVENT,
+    SoundEvent.DIRECT_STREAM_CODEC
+)
+val SOUND_TYPE_STREAM_CODEC =
+    StreamCodec.composite(
+        ByteBufCodecs.FLOAT, { obj: SoundType? -> obj!!.getVolume() },
+        ByteBufCodecs.FLOAT, { obj: SoundType? -> obj!!.getPitch() },
+        SOUND_EVENT_STREAM_CODEC, { obj: SoundType? -> obj!!.breakSound },
+        SOUND_EVENT_STREAM_CODEC, { obj: SoundType? -> obj!!.stepSound },
+        SOUND_EVENT_STREAM_CODEC, { obj: SoundType? -> obj!!.placeSound },
+        SOUND_EVENT_STREAM_CODEC, { obj: SoundType? -> obj!!.hitSound },
+        SOUND_EVENT_STREAM_CODEC, { obj: SoundType? -> obj!!.fallSound },
+        { volume: Float?, pitch: Float?, breakSound: SoundEvent?, stepSound: SoundEvent?, placeSound: SoundEvent?, hitSound: SoundEvent?, fallSound: SoundEvent? ->
+            SoundType(
+                volume!!,
+                pitch!!,
+                breakSound!!,
+                stepSound!!,
+                placeSound!!,
+                hitSound!!,
+                fallSound!!
+            )
+        }
+    )
+
+fun <T : Any> holderValue(
+    registryKey: ResourceKey<out Registry<T>>, directCodec: StreamCodec<in RegistryFriendlyByteBuf, T>
+): StreamCodec<RegistryFriendlyByteBuf, T> {
+    return object : StreamCodec<RegistryFriendlyByteBuf, T> {
+        private val DIRECT_HOLDER_ID = 0
+
+        fun getRegistryOrThrow(input: RegistryFriendlyByteBuf): IdMap<Holder<T>> {
+            return input.registryAccess().lookupOrThrow<T>(registryKey).asHolderIdMap()
+        }
+
+        override fun decode(input: RegistryFriendlyByteBuf): T {
+            val id = VarInt.read(input)
+            return if (id == DIRECT_HOLDER_ID) directCodec.decode(input) else this.getRegistryOrThrow(input)
+                .byIdOrThrow(id - 1).value()
+        }
+
+        override fun encode(output: RegistryFriendlyByteBuf, value: T) {
+            val lookup = output.registryAccess().lookupOrThrow<T>(registryKey)
+            val holder = lookup.wrapAsHolder(value)
+            when (holder.kind()) {
+                Holder.Kind.REFERENCE -> {
+                    val id = this.getRegistryOrThrow(output).getIdOrThrow(holder)
+                    VarInt.write(output, id + 1)
+                }
+
+                Holder.Kind.DIRECT -> {
+                    VarInt.write(output, DIRECT_HOLDER_ID)
+                    directCodec.encode(output, holder.value())
+                }
+            }
+        }
+    }
+}

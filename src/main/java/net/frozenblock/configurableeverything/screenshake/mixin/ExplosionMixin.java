@@ -2,7 +2,8 @@ package net.frozenblock.configurableeverything.screenshake.mixin;
 
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
-import net.frozenblock.lib.screenshake.api.ScreenShakeManager;
+import net.frozenblock.lib.screenshake.api.ScreenShake;
+import net.frozenblock.lib.screenshake.api.ScreenShakes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -45,7 +46,15 @@ public class ExplosionMixin {
 		double y = this.center.y;
 		double z = this.center.z;
 
-		ScreenShakeManager.addScreenShake(this.level, (float) ((0.5F + (blockInteraction != Explosion.BlockInteraction.KEEP ? 0.2F : 0) + radius * 0.1) / 2F), (int) ((radius * 5) + 3), 1, x, y, z, radius * 2);
+		ScreenShakes.add(
+			this.level,
+			ScreenShake.builder(this.level, new Vec3(x, y, z))
+				.intensity((float) ((0.5F + (blockInteraction != Explosion.BlockInteraction.KEEP ? 0.2F : 0) + radius * 0.1) / 2F))
+				.duration((int) ((radius * 5) + 3))
+				.falloffStartDuration(1)
+				.maxDistance(radius * 2)
+				.build()
+		);
 	}
 
 }

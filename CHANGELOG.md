@@ -5,10 +5,10 @@ Make sure to clear after release
 Put changelog here:
 
 -----------------
-- Updated FrozenLib compatibility to 2.4+
-- Updated to FrozenLib's Config V2
-  - Config modifications will now only run when configs are saved
-    - Saves usually happen from cloth config GUI
-  - Performance fixes
-- Added replacedBiomes to biome placement config
-  - Replaces a biome or biome tag with a singular replacement biome
+- Ported to 26.2
+- Fixed text color issue with FancyMenu
+- Updated FrozenLib compatibility to 2.5+
+- Updated to Kotlin 2.4.10
+  - Scripts will be able to use new Kotlin APIs
+- Updated minimum Fabric Language Kotlin version to 1.13.13
+- Updated minimum FKE version to 2.0.3

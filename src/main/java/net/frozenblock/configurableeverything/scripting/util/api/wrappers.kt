@@ -7,7 +7,7 @@ import net.frozenblock.configurableeverything.registry.util.PlacedFeatureAdditio
 import net.frozenblock.configurableeverything.sculk_spreading.util.SculkGrowth
 import net.frozenblock.configurableeverything.util.getValue
 import net.frozenblock.configurableeverything.util.setValue
-import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
+import net.frozenblock.lib.levelgen.surface.api.DimensionBoundRuleSource
 import net.minecraft.resources.Identifier
 
 class LootWrapper internal constructor(config: LootConfig) : ConfigWrapper<LootConfig>(config) {
@@ -28,5 +28,5 @@ class SculkSpreadingWrapper internal constructor(config: SculkSpreadingConfig) :
 
 class SurfaceRuleWrapper internal constructor(config: SurfaceRuleConfig) : ConfigWrapper<SurfaceRuleConfig>(config) {
 
-    var addedSurfaceRules: MutableList<FrozenDimensionBoundRuleSource> by config.addedSurfaceRules
+    var addedSurfaceRules: MutableList<DimensionBoundRuleSource> by config.addedSurfaceRules
 }

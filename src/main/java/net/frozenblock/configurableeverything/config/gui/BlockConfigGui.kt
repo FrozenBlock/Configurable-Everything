@@ -23,6 +23,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
+import java.util.Optional
 
 private inline val mainToggleReq: Requirement
     get() = Requirement.isTrue(MainConfigGui.INSTANCE!!.block)
@@ -53,8 +54,9 @@ private fun soundGroupOverwrites(
                     SoundEvents.HORSE_DEATH,
                     SoundEvents.HORSE_DEATH,
                     SoundEvents.HORSE_DEATH
-                )
-            ) { true }
+                ),
+                Optional.empty()
+            )
             val overwrite: MutableBlockSoundGroupOverwrite = element ?: defaultOverwrite
             val soundOverwrite = overwrite.soundOverwrite
             multiElementEntry(

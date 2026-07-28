@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
 
 	@Inject(method = "addEntity", at = @At(value = "RETURN", ordinal = 1))
-	private void addEntity(T entityAccess, boolean worldGenSpawned, CallbackInfoReturnable<Boolean> cir) {
-		EntityConfigUtil.addAttributeAmplifiers$ConfigurableEverything(entityAccess);
+	private void addEntity(T entity, boolean loaded, CallbackInfoReturnable<Boolean> cir) {
+		EntityConfigUtil.addAttributeAmplifiers$net_frozenblock_ConfigurableEverything(entity);
 	}
 }

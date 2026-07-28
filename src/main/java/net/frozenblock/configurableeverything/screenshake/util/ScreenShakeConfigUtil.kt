@@ -5,8 +5,8 @@ import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.configurableeverything.util.value
-import net.frozenblock.lib.screenshake.api.ScreenShakeManager
-import net.frozenblock.lib.screenshake.api.client.ScreenShaker
+import net.frozenblock.lib.screenshake.api.ScreenShake
+import net.frozenblock.lib.screenshake.api.ScreenShakes
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.entity.Entity
@@ -44,30 +44,15 @@ object ScreenShakeConfigUtil {
         shake: SoundScreenShake,
         pos: Vec3
     ) {
-        if (level.isClientSide) {
-            ScreenShaker.SCREEN_SHAKES.add(
-                ScreenShaker.ClientScreenShake(
-                    level as ClientLevel,
-                    shake.intensity,
-                    shake.duration,
-                    shake.falloffStart,
-                    pos,
-                    shake.maxDistance,
-                    0
-                )
-            )
-        } else {
-            ScreenShakeManager.addScreenShake(
-                level,
-                shake.intensity,
-                shake.duration,
-                shake.falloffStart,
-                pos.x,
-                pos.y,
-                pos.z,
-                shake.maxDistance
-            )
-        }
+        ScreenShakes.add(
+            level,
+            ScreenShake.builder(level, Vec3(pos.x, pos.y, pos.z))
+                .intensity(shake.intensity)
+                .duration(shake.duration)
+                .falloffStartDuration(shake.falloffStart)
+                .maxDistance(shake.maxDistance)
+                .build()
+        )
     }
 
     @JvmStatic
@@ -76,25 +61,14 @@ object ScreenShakeConfigUtil {
         entity: Entity,
         shake: SoundScreenShake
     ) {
-        if (level.isClientSide) {
-            ScreenShaker.SCREEN_SHAKES.add(
-                ScreenShaker.ClientEntityScreenShake(
-                    entity,
-                    shake.intensity,
-                    shake.duration,
-                    shake.falloffStart,
-                    shake.maxDistance,
-                    0
-                )
-            )
-        } else {
-            ScreenShakeManager.addEntityScreenShake(
-                entity,
-                shake.intensity,
-                shake.duration,
-                shake.falloffStart,
-                shake.maxDistance
-            )
-        }
+        ScreenShakes.add(
+            entity,
+            ScreenShake.builder(entity)
+                .intensity(shake.intensity)
+                .duration(shake.duration)
+                .falloffStartDuration(shake.falloffStart)
+                .maxDistance(shake.maxDistance)
+                .build()
+        )
     }
 }

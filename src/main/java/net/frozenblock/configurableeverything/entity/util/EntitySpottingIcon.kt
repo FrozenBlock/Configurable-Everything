@@ -13,6 +13,8 @@ import net.minecraft.world.entity.EntityType
 data class EntitySpottingIcon(
 	@JvmField var entity: ResourceKey<EntityType<*>>,
 	@JvmField var texture: Identifier,
+    @JvmField var startFadeDistance: Float,
+    @JvmField var endFadeDistance: Float,
 	@JvmField var startFade: Float,
 	@JvmField var endFade: Float
 ) {
@@ -22,6 +24,8 @@ data class EntitySpottingIcon(
             instance.group(
                 ResourceKey.codec(Registries.ENTITY_TYPE).fieldOf("entity").forGetter(EntitySpottingIcon::entity),
                 Identifier.CODEC.fieldOf("texture").forGetter(EntitySpottingIcon::texture),
+                Codec.FLOAT.fieldOf("startFadeDistance").forGetter(EntitySpottingIcon::startFadeDistance),
+                Codec.FLOAT.fieldOf("endFadeDistance").forGetter(EntitySpottingIcon::endFadeDistance),
                 Codec.FLOAT.fieldOf("startFade").forGetter(EntitySpottingIcon::startFade),
                 Codec.FLOAT.fieldOf("endFade").forGetter(EntitySpottingIcon::endFade)
             ).apply(instance, ::EntitySpottingIcon)
@@ -31,6 +35,8 @@ data class EntitySpottingIcon(
         val STREAM_CODEC: StreamCodec<ByteBuf, EntitySpottingIcon> = StreamCodec.composite(
             ResourceKey.streamCodec(Registries.ENTITY_TYPE), EntitySpottingIcon::entity,
             Identifier.STREAM_CODEC, EntitySpottingIcon::texture,
+            ByteBufCodecs.FLOAT, EntitySpottingIcon::startFadeDistance,
+            ByteBufCodecs.FLOAT, EntitySpottingIcon::endFadeDistance,
             ByteBufCodecs.FLOAT, EntitySpottingIcon::startFade,
             ByteBufCodecs.FLOAT, EntitySpottingIcon::endFade,
             ::EntitySpottingIcon

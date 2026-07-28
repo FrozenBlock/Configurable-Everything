@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.lib.datagen.api.FrozenBiomeTagProvider
+import net.frozenblock.lib.data.api.FrozenBiomeTagProvider
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.RegistrySetBuilder

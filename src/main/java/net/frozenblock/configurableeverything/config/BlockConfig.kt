@@ -15,6 +15,7 @@ import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.v2.entry.ConfigEntry
 import net.frozenblock.lib.config.v2.entry.EntryType
 import net.minecraft.sounds.SoundEvents
+import java.util.Optional
 
 private val SOUND_GROUP_OVERWRITES: EntryType<MutableBlockSoundGroupOverwrite> = EntryType.create(
     MutableBlockSoundGroupOverwrite.CODEC,
@@ -36,8 +37,9 @@ object BlockConfig : CEConfig("block") {
                     SoundEvents.HORSE_DEATH,
                     SoundEvents.HORSE_DEATH,
                     SoundEvents.HORSE_DEATH
-                )
-            ) { true }
+                ),
+                Optional.empty()
+            )
         )
     )
 }

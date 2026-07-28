@@ -24,9 +24,9 @@ import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.config.api.instance.Config
 import net.frozenblock.lib.config.clothconfig.synced
-import net.frozenblock.lib.worldgen.biome.api.MutableParameter
-import net.frozenblock.lib.worldgen.biome.api.mutable
-import net.frozenblock.lib.worldgen.biome.api.parameters.*
+import net.frozenblock.lib.levelgen.biome.api.MutableParameter
+import net.frozenblock.lib.levelgen.biome.api.mutable
+import net.frozenblock.lib.levelgen.biome.api.parameters.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier

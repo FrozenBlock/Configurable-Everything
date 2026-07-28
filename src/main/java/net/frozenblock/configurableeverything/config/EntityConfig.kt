@@ -185,7 +185,9 @@ object EntityConfig : CEConfig("entity") {
                 ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("example")),
                 id("textures/spotting_icon/icon.png"),
                 5f,
-                8f
+                8f,
+                1.0F,
+                0.0F
             )
         )
     )

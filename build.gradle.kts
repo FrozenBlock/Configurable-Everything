@@ -8,8 +8,8 @@ import java.nio.file.Files
 import java.util.*
 
 plugins {
-    kotlin("jvm") version("2.3.21")
-    id("net.fabricmc.fabric-loom") version("1.16-SNAPSHOT")
+    kotlin("jvm") version("2.4.10")
+    id("net.fabricmc.fabric-loom") version("1.17-SNAPSHOT")
     id("dev.yumi.gradle.licenser") version("+")
     id("org.ajoberstar.grgit") version("+")
     id("me.modmuss50.mod-publish-plugin") version("+")
@@ -188,7 +188,7 @@ tasks {
         val properties = HashMap<String, Any>()
         properties["mod_id"] = mod_id
         properties["version"] = version
-        properties["minecraft_version"] = "~26.1-" //minecraft_version
+        properties["minecraft_version"] = "~26.2-" //minecraft_version
         properties["fabric_kotlin_version"] = ">=$fabric_kotlin_version"
 
         properties.forEach { (a, b) -> inputs.property(a, b) }
@@ -445,6 +445,8 @@ publishMods {
     //additionalFiles.from(sourcesJar.archiveFile, javadocJar.archiveFile)
 
     curseforge {
+        client = true
+        server = true
         version.set(modrinth_version)
         projectId.set(curseforge_id)
         projectSlug.set("configurable-everything")

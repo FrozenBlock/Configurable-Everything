@@ -16,7 +16,7 @@ import net.frozenblock.configurableeverything.util.ifExperimental
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.clothconfig.FrozenClothConfig.createSubCategory
+import net.frozenblock.lib.config.clothconfig.FrozenLibClothConfigGuiHelper.createSubCategory
 import net.frozenblock.lib.config.frozenlib_config.gui.FrozenLibConfigGui
 
 class MainConfigGui(private val entryBuilder: ConfigEntryBuilder) {

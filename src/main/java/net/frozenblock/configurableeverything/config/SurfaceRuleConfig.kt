@@ -7,32 +7,29 @@ import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.config.api.entry.TypedEntryType
 import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.worldgen.surface.api.FrozenDimensionBoundRuleSource
+import net.frozenblock.lib.levelgen.surface.api.DimensionBoundRuleSource
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
-private val SURFACE_RULE_LIST: TypedEntryType<MutableList<FrozenDimensionBoundRuleSource>> = ConfigRegistry.register(
+private val SURFACE_RULE_LIST: TypedEntryType<MutableList<DimensionBoundRuleSource>> = ConfigRegistry.register(
     TypedEntryType(
         MOD_ID,
-        FrozenDimensionBoundRuleSource.CODEC.mutListOf()
+        DimensionBoundRuleSource.CODEC.mutListOf()
     )
 )
 
 data class SurfaceRuleConfig(
     @JvmField
-    var addedSurfaceRules: TypedEntry<MutableList<FrozenDimensionBoundRuleSource>> = TypedEntry.create(
+    var addedSurfaceRules: TypedEntry<MutableList<DimensionBoundRuleSource>> = TypedEntry.create(
         SURFACE_RULE_LIST,
         mutableListOf(
-            FrozenDimensionBoundRuleSource(
+            DimensionBoundRuleSource(
                 BuiltinDimensionTypes.OVERWORLD.identifier(),
                 SurfaceRules.sequence(
                     SurfaceRules.ifTrue(
-                        SurfaceRules.isBiome(ConfigurableEverythingDataGenerator.BLANK_BIOME),
-                        SurfaceRules.ifTrue(
-                            SurfaceRules.abovePreliminarySurface(),
-                            SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
-                        )
+                        SurfaceRules.abovePreliminarySurface(),
+                        SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
                     )
                 )
             )
