@@ -31,6 +31,14 @@ jobs:
         with:
           repository: EthanRStokes/cloth-config
           path: cloth-config
+      - name: Checkout FrozenLib
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          repository: FrozenBlock/FrozenLib
+          ref: master
+          submodules: recursive
+          path: FrozenLib
       - name: Setup JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
@@ -53,4 +61,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ConfigurableEverything-Artifacts-${{ steps.ref.outputs.branch }}
-          path: build/libs/
+          path: |
+            fabric/build/libs/
+            neoforge/build/libs/

@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="GPL-3.0"
+issueTrackerURL="https://github.com/FrozenBlock/Configurable-Everything/issues"
+
+[[mods]]
+    modId="configurable_everything"
+    version="${mod_version}"
+    displayName="Configurable Everything"
+    displayURL="https://modrinth.com/mod/configurable-everything"
+    logoFile="assets/configurable_everything/icon.png"
+    authors="FrozenBlock"
+    description='''
+Makes various aspects of Minecraft configurable.
+    '''
+
+[[ dependencies.configurable_everything ]]
+    modId="neoforge"
+    type="required"
+    versionRange="[~26.2-,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[ dependencies.configurable_everything ]]
+    modId="minecraft"
+    type="required"
+    versionRange="[~26.2-,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[ dependencies.configurable_everything ]]
+    modId="frozenlib"
+    type="required"
+    versionRange="[3.0,)"
+    ordering="NONE"
+    side="BOTH"

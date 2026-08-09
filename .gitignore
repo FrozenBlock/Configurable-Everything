@@ -32,17 +32,20 @@ bin/
 
 target/
 
-# fabric
+# fabric / neoforge
 
 run/
 runclient/
 runserver/
+/fabric/run
+/neoforge/run
 /remappedSrc/
-/src/main/generated/.cache
+/common/src/generated/resources/.cache
 
 # github actions
 
 cloth-config/
+/FrozenLib/
 
 # java
 

@@ -1,482 +1,210 @@
-import groovy.xml.XmlSlurper
-import org.codehaus.groovy.runtime.ResourceGroovyMethods
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.nio.file.Files
-import java.util.*
+import com.possible_triangle.gradle.features.enableKotlin
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
 
 plugins {
-    kotlin("jvm") version("2.4.10")
-    id("net.fabricmc.fabric-loom") version("1.17-SNAPSHOT")
-    id("dev.yumi.gradle.licenser") version("+")
-    id("org.ajoberstar.grgit") version("+")
-    id("me.modmuss50.mod-publish-plugin") version("+")
-    id("com.gradleup.shadow") version("+")
-    eclipse
-    idea
-    `java-library`
-    java
-    `maven-publish`
+    id("net.frozenblock.triangle.core") version("+")
+    id("net.frozenblock.triangle.common") version("+") apply(false)
+    id("net.frozenblock.triangle.fabric") version("+") apply(false)
+    id("net.frozenblock.triangle.neoforge") version("+") apply(false)
+    id("net.mehvahdjukaar.candlelight") version("+") apply(false)
+    id("com.gradleup.shadow") version("+") apply(false)
 }
 
-val minecraft_version: String by project
-val loader_version: String by project
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.kohsuke:github-api:1.326")
+    }
+}
 
-val mod_id: String by project
-val mod_version: String by project
-val maven_group: String by project
-val archives_base_name: String by project
-
-val fabric_version: String by project
-val fabric_kotlin_version: String by project
+val min_fabric_loader_version: String by project
 val frozenlib_version: String by project
+val fabric_kotlin_version: String by project
 
-val cloth_config_version: String by project
-val modmenu_version: String by project
-
-val sodium_version: String by project
-
-base {
-    archivesName.set(archives_base_name)
+mod {
+    additional.add("fabric_loader_version", ">=$min_fabric_loader_version")
+    additional.add("minecraft_version", "~26.2-")
+    additional.add("frozenlib_version", ">=${frozenlib_version.split('-').firstOrNull()}-")
+    additional.add("fabric_kotlin_version", fabric_kotlin_version)
 }
 
-version = getModVersion()
-group = maven_group
-
-val release = findProperty("releaseType")?.equals("stable")
-
-loom {
-    runtimeOnlyLog4j.set(true)
-
-    accessWidenerPath.set(file("src/main/resources/$mod_id.classtweaker"))
-    interfaceInjection {
-        // When enabled, injected interfaces from dependencies will be applied.
-        enableDependencyInterfaceInjection.set(true)
-    }
+val changelogText = run {
+    val split = file("CHANGELOG.md").readText().split("-----------------")
+    check(split.size == 2) { "Malformed changelog" }
+    split[1].trim()
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs("src/main/generated")
-        }
-    }
-}
+fun mainJarTask(project: Project) =
+    if (project.tasks.names.contains("shadowJar")) project.tasks.named("shadowJar")
+    else project.tasks.named("jar")
 
-loom {
-    runs {
-        register("datagen") {
-            client()
-            name("Data Generation")
-            vmArg("-Dfabric-api.datagen")
-            vmArg("-Dfabric-api.datagen.output-dir=${file("src/main/generated")}")
-            // vmArg("-Dfabric-api.datagen.strict-validation")
-            vmArg("-Dfabric-api.datagen.modid=$mod_id")
+val githubRelease by tasks.registering {
+    val fabricJar = mainJarTask(project(":ce-fabric"))
+    val neoforgeJar = mainJarTask(project(":ce-neoforge"))
+    dependsOn(fabricJar, neoforgeJar)
 
-            ideConfigGenerated(true)
-            runDir = "build/datagen"
-        }
+    val token = env["GITHUB_TOKEN"]
+    val repository = mod.repository.get()
+    val tag = project(":ce-fabric").version.toString()
+    val releaseTitle = "Configurable Everything $tag"
+    val isPrerelease = mod.releaseType.get() != "release"
+    val commitish = env["GITHUB_SHA"]
 
-        named("client") {
-            ideConfigGenerated(true)
-        }
-        named("server") {
-            ideConfigGenerated(true)
-        }
+    onlyIf { !token.isNullOrEmpty() }
+
+    doLast {
+        val github = GitHub.connectUsingOAuth(token)
+        val repo = github.getRepository(repository)
+
+        repo.getReleaseByTagName(tag)?.delete()
+
+        val releaseBuilder = GHReleaseBuilder(repo, tag)
+        releaseBuilder.name(releaseTitle)
+        releaseBuilder.body(changelogText)
+        releaseBuilder.prerelease(isPrerelease)
+        if (commitish != null) releaseBuilder.commitish(commitish)
+
+        val release = releaseBuilder.create()
+        release.uploadAsset(fabricJar.get().outputs.files.singleFile, "application/java-archive")
+        release.uploadAsset(neoforgeJar.get().outputs.files.singleFile, "application/java-archive")
     }
 }
 
-val includeApi: Configuration by configurations.creating
-val includeImplementation: Configuration by configurations.creating
-val shadowInclude: Configuration by configurations.creating
-
-configurations {
-    include {
-        extendsFrom(includeImplementation)
-        extendsFrom(includeApi)
-    }
-    implementation {
-        extendsFrom(includeImplementation)
-    }
-    api {
-        extendsFrom(includeApi)
-    }
+val publishMod by tasks.registering {
+    dependsOn(tasks.named("upload"))
+    dependsOn(githubRelease)
 }
 
-repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    maven("https://jitpack.io")
-    maven("https://api.modrinth.com/maven") {
-        name = "Modrinth"
+subprojects {
+    apply(plugin = "net.frozenblock.triangle.core")
+    apply(plugin = "net.mehvahdjukaar.candlelight")
 
-        content {
-            includeGroup("maven.modrinth")
-        }
-    }
-    maven("https://maven.terraformersmc.com") {
-        content {
-            includeGroup("com.terraformersmc")
-        }
-    }
-    maven("https://maven.shedaniel.me/")
-    /*maven {
-        name = "Siphalor's Maven"
-        url = uri("https://maven.siphalor.de")
-    }*/
-    maven("https://maven.minecraftforge.net/")
-    maven("https://maven.jamieswhiteshirt.com/libs-release") {
-        content {
-            includeGroup("com.jamieswhiteshirt")
-        }
-    }
-    maven("https://maven.frozenblock.net/release") {
-        name = "FrozenBlock"
-    }
-    maven("https://maven.frozenblock.net/snapshot") {
-        name = "FrozenBlock Snapshot"
-    }
-
-    flatDir {
-        dirs("libs")
-    }
-    mavenCentral()
-}
-
-dependencies {
-    // To change the versions see the gradle.properties file
-    minecraft("com.mojang:minecraft:${minecraft_version}")
-    implementation("net.fabricmc:fabric-loader:${loader_version}")
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
-
-    // Fabric Language Kotlin. Required for Kotlin support.
-    implementation("net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}")
-
-    // get deps manually because FKE cant give them to compile classpath without an error
-    api(kotlin("scripting-common"))
-    api(kotlin("scripting-jvm"))
-    api(kotlin("scripting-jsr223"))
-    api(kotlin("scripting-jvm-host"))
-    api(kotlin("scripting-compiler-embeddable"))
-    api(kotlin("scripting-dependencies"))
-    api(kotlin("scripting-dependencies-maven"))
-
-    // FrozenLib
-    //api("maven.modrinth:frozenlib:$frozenlib_version")
-    api("net.frozenblock:frozenlib:$frozenlib_version")
-
-    // Cloth Config
-    api("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
-        exclude(group = "net.fabricmc.fabric-api")
-        exclude(group = "com.terraformersmc")
-    }
-
-    // Mod Menu
-    implementation("com.terraformersmc:modmenu:${modmenu_version}")
-
-    // Sodium
-    //compileOnly("maven.modrinth:sodium:$sodium_version")
-}
-
-tasks {
-    processResources {
-        val properties = HashMap<String, Any>()
-        properties["mod_id"] = mod_id
-        properties["version"] = version
-        properties["minecraft_version"] = "~26.2-" //minecraft_version
-        properties["fabric_kotlin_version"] = ">=$fabric_kotlin_version"
-
-        properties.forEach { (a, b) -> inputs.property(a, b) }
-
-        filesNotMatching(
-            listOf(
-                "**/*.java",
-                "**/*.kt",
-                "**/sounds.json",
-                "**/lang/*.json",
-                "**/.cache/*",
-                "**/*.accesswidener",
-                "**/*.classtweaker",
-                "**/*.nbt",
-                "**/*.png",
-                "**/*.ogg",
-                "**/*.mixins.json"
-            )
-        ) {
-            expand(properties)
-        }
-    }
-
-    //license {
-    //    rule(project.file("codeformat/HEADER"))
-
-    //    include("**/*.java")
-    //}
-
-    test {
-        useJUnitPlatform()
-    }
-
-    shadowJar {
-        archiveClassifier = ""
-        configurations = listOf(shadowInclude)
-        enableAutoRelocation = true
-        relocationPrefix = "net.frozenblock.configurableeverything.shadow"
-    }
-
-    register("javadocJar", Jar::class) {
-        dependsOn(javadoc)
-        archiveClassifier.set("javadoc")
-        from(javadoc.get().destinationDir)
-    }
-
-    register("sourcesJar", Jar::class) {
-        dependsOn(classes)
-        archiveClassifier.set("sources")
-        from(sourceSets.main.get().allSource)
-    }
-
-    withType(JavaCompile::class) {
-        options.encoding = "UTF-8"
-        // Minecraft 26.1 (26.1-snapshot-1) upwards uses Java 25.
-        options.release.set(25)
-        options.isFork = true
-        options.isIncremental = true
-    }
-
-    withType(KotlinCompile::class) {
-        compilerOptions {
-            // Minecraft 26.1 (26.1-snapshot-1) upwards uses Java 25.
-            jvmTarget.set(JvmTarget.JVM_25)
-        }
-    }
-
-    withType(Test::class) {
-        maxParallelForks = Runtime.getRuntime().availableProcessors().div(2)
-    }
-}
-
-val test: Task by tasks
-val runClient: Task by tasks
-val runDatagen: Task by tasks
-
-val jar: Jar by tasks
-val sourcesJar: Jar by tasks
-val javadocJar: Jar by tasks
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
-
-    // Loom will automatically attach sourcesJar to a SourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
-}
-
-tasks {
-    jar {
-        from("LICENSE") {
-            rename { "${it}_${base.archivesName}" }
-        }
-    }
-}
-
-artifacts {
-    archives(sourcesJar)
-    archives(javadocJar)
-}
-
-fun getModVersion(): String {
-    var version = "$mod_version-mc$minecraft_version"
-
-    //if (release != null && !release) {
-    //    version += "-unstable"
-    //}
-
-    return version
-}
-
-if (!(release == true || System.getenv("GITHUB_ACTIONS") == "true")) {
-    test.dependsOn(runDatagen)
-    runClient.dependsOn(runDatagen)
-}
-
-val env: MutableMap<String, String> = System.getenv()
-
-publishing {
     val mavenUrl = env["MAVEN_URL"]
     val mavenUsername = env["MAVEN_USERNAME"]
     val mavenPassword = env["MAVEN_PASSWORD"]
 
-    val release = mavenUrl?.contains("release")
-    val snapshot = mavenUrl?.contains("snapshot")
-
-    val publishingValid = rootProject == project &&
-        !mavenUrl.isNullOrEmpty() &&
-        !mavenUsername.isNullOrEmpty() &&
-        !mavenPassword.isNullOrEmpty()
-
-    val publishVersion = makeModrinthVersion(mod_version)
-    val snapshotPublishVersion = publishVersion + if (snapshot == true) "-SNAPSHOT" else ""
-
-    val publishGroup = rootProject.group.toString().trim(' ')
-
-    val hash = if (grgit.branch != null && grgit.branch.current() != null) grgit.branch.current().fullName else ""
-
-    publications {
-        var publish = true
-        if (publishingValid) {
-            try {
-                try {
-                    val xml = ResourceGroovyMethods.getText(
-                        uri(
-                            "$mavenUrl/${publishGroup.replace('.', '/')}/$snapshotPublishVersion/$publishVersion.pom"
-                        ).toURL()
-                    )
-                    val metadata = XmlSlurper().parseText(xml)
-
-                    if (metadata.getProperty("hash").equals(hash)) {
-                        publish = false
-                    }
-                } catch (ignored: FileNotFoundException) {
-                    // No existing version was published, so we can publish
-                }
-            } catch (_: Exception) {
-                publish = false
-            }
-        } else {
-            publish = false
-        }
-
-        if (publish) {
-            create<MavenPublication>("mavenJava") {
-                from(components["java"])
-
-                artifact(javadocJar)
-
-                pom {
-                    groupId = publishGroup
-                    artifactId = rootProject.base.archivesName.get().lowercase()
-                    version = publishVersion
-                    withXml {
-                        asNode().appendNode("properties").appendNode("hash", hash)
-                    }
-                }
-            }
-        }
-    }
-    repositories {
-
-        if (publishingValid) {
+    if (mavenUrl != null && mavenUsername != null && mavenPassword != null) {
+        upload {
             maven {
-                url = uri(mavenUrl)
-
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
+                repositories {
+                    maven(mavenUrl) {
+                        name = "FrozenBlock"
+                        credentials {
+                            username = mavenUsername
+                            password = mavenPassword
+                        }
+                    }
                 }
             }
-        } else {
-            mavenLocal()
         }
     }
-}
 
-extra {
-    val properties = Properties()
-    properties.load(FileInputStream(file("gradle/publishing.properties")))
-    properties.forEach { (a, b) ->
-        project.extra[a as String] = b as String
-    }
-}
-
-val modrinth_id: String by extra
-val curseforge_id: String by extra
-val release_type: String by extra
-val changelog_file: String by extra
-
-val modrinth_version = makeModrinthVersion(mod_version)
-val display_name = makeName(mod_version)
-val changelog_text = getChangelog(file(changelog_file))
-
-fun makeName(version: String): String {
-    return "$version (${minecraft_version})"
-}
-
-fun makeModrinthVersion(version: String): String {
-    return "$version-mc${minecraft_version}"
-}
-
-fun getChangelog(changelogFile: File): String {
-    val text = Files.readString(changelogFile.toPath())
-    val split = text.split("-----------------")
-    if (split.size != 2)
-        throw IllegalStateException("Malformed changelog")
-    return split[1].trim()
-}
-
-fun getBranch(): String {
-    val env = System.getenv()
-    var branch = env["GITHUB_REF"]
-    if (branch != null && branch != "") {
-        return branch.substring(branch.lastIndexOf("/") + 1)
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.addAll(listOf("-Xmaxerrs", "4000"))
+        options.release.set(25)
     }
 
-    if (grgit == null) {
-        return "unknown"
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 
-    branch = grgit.branch.current().name
-    return branch.substring(branch.lastIndexOf("/") + 1)
-}
+    enableKotlin()
 
-publishMods {
-    version.set(modrinth_version)
-    file.set(jar.archiveFile)
-    changelog.set(changelog_text)
-    type.set(STABLE)
-    modLoaders.add("fabric")
-    //additionalFiles.from(sourcesJar.archiveFile, javadocJar.archiveFile)
+    dependencies {
+        compileOnly("net.mehvahdjukaar:candlelight:+")
+        compileOnly("net.frozenblock:frozenlib-common:${frozenlib_version}")
+    }
 
-    curseforge {
-        client = true
-        server = true
-        version.set(modrinth_version)
-        projectId.set(curseforge_id)
-        projectSlug.set("configurable-everything")
-        accessToken.set(providers.environmentVariable("CURSEFORGE_TOKEN"))
-        minecraftVersions.add(minecraft_version)
-        requires("fabric-api")
-        requires("frozenlib")
-        requires("fabric-language-kotlin")
-        optional("fabric-kotlin-extensions")
+    if (project.name != "ce-common") {
+        afterEvaluate {
+            tasks.findByName("compileJava")?.dependsOn(":ce-common:candleLightTransform")
+        }
     }
-    modrinth {
-        version.set(modrinth_version)
-        projectId.set(modrinth_id)
-        accessToken.set(providers.environmentVariable("MODRINTH_TOKEN"))
-        minecraftVersions.add(minecraft_version)
-        requires("fabric-api")
-        requires("frozenlib")
-        requires("fabric-language-kotlin")
-        optional("fabric-kotlin-extensions")
-    }
-    github {
-        version.set(modrinth_version)
-        repository.set("FrozenBlock/Configurable-Everything")
-        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
-        commitish.set(getBranch())
-        additionalFiles.from(sourcesJar.archiveFile.get().asFile, javadocJar.archiveFile.get().asFile)
-    }
-}
 
-val publishMod by tasks.register("publishMod") {
-    dependsOn(tasks.publish)
-    dependsOn(tasks.publishMods)
+    repositories {
+        maven("https://maven.frozenblock.net/release") {
+            name = "FrozenBlock"
+        }
+        maven("https://maven.frozenblock.net/snapshot") {
+            name = "FrozenBlock Snapshot"
+        }
+
+        exclusiveContent {
+            forRepository {
+                maven("https://repo.spongepowered.org/repository/maven-public") {
+                    name = "Sponge"
+                }
+            }
+            filter { includeGroupAndSubgroups("org.spongepowered") }
+        }
+        maven("https://maven.minecraftforge.net/") {
+            name = "Forge"
+        }
+        maven("https://thedarkcolour.github.io/KotlinForForge/") {
+            name = "KotlinForForge"
+            content {
+                includeGroup("thedarkcolour")
+            }
+        }
+        maven("https://registry.somethingcatchy.net/repository/maven-releases/") { // Candlelight & Triangle
+            name = "SomethingCatchy (MehVahdJukaar)"
+        }
+
+        maven("https://maven.quiltmc.org/repository/release") {
+            name = "Quilt"
+        }
+        maven("https://maven.blamejared.com") {
+            name = "BlameJared"
+        }
+        maven("https://maven.jamieswhiteshirt.com/libs-release") {
+            name = "JamiesWhiteShirt"
+            content {
+                includeGroup("com.jamieswhiteshirt")
+            }
+        }
+        maven("https://maven.shedaniel.me/") {
+            name = "Shedaniel"
+        }
+        maven("https://maven.caffeinemc.net/releases") {
+            name = "CaffeineMC"
+        }
+        maven("https://maven.terraformersmc.com") {
+            name = "TerraformersMC"
+            content {
+                includeGroup("com.terraformersmc")
+            }
+        }
+
+        exclusiveContent {
+            forRepository {
+                maven("https://api.modrinth.com/maven") {
+                    name = "Modrinth"
+                }
+            }
+            filter {
+                includeGroup("maven.modrinth")
+            }
+        }
+        maven("https://jitpack.io") {
+            name = "Jitpack"
+        }
+        mavenCentral()
+    }
+
+    tasks {
+        withType(JavaCompile::class) {
+            options.encoding = "UTF-8"
+            options.release.set(25)
+            options.isFork = true
+            options.isIncremental = true
+        }
+
+        withType(Test::class) {
+            maxParallelForks = Runtime.getRuntime().availableProcessors().div(2)
+        }
+    }
 }
