@@ -36,7 +36,8 @@ jobs:
         with:
           fetch-depth: 0
           repository: FrozenBlock/FrozenLib
-          ref: master
+          # todo: change once ML becomes master
+          ref: 26.2
           submodules: recursive
           path: FrozenLib
       - name: Setup JDK ${{ matrix.java }}
