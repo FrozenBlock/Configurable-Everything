@@ -1,7 +1,6 @@
 package net.frozenblock.configurableeverything.config.thirdparty
 
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
 import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import blue.endless.jankson.Comment
 

@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.resource.v1.ResourceLoader
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.sound.api.asImmutable
 import net.minecraft.server.packs.PackType
 import java.util.function.Consumer

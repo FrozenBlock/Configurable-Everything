@@ -2,12 +2,8 @@ package net.frozenblock.configurableeverything.config
 
 import com.mojang.serialization.JsonOps
 import net.frozenblock.configurableeverything.util.CEConfig
-import net.frozenblock.configurableeverything.util.CESimpleConfig
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
-import net.frozenblock.lib.config.api.sync.SyncBehavior
 import net.frozenblock.lib.config.v2.entry.ConfigEntry
 import net.frozenblock.lib.config.v2.entry.EntryType
-import blue.endless.jankson.Comment
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
 

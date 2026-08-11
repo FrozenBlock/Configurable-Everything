@@ -15,7 +15,6 @@ import net.minecraft.core.Registry
 import net.minecraft.core.WritableRegistry
 import net.minecraft.resources.FileToIdConverter
 import net.minecraft.resources.Identifier
-import net.minecraft.resources.RegistryDataLoader
 import net.minecraft.resources.RegistryLoadTask
 import net.minecraft.resources.RegistryOps
 import net.minecraft.resources.RegistryOps.RegistryInfoLookup

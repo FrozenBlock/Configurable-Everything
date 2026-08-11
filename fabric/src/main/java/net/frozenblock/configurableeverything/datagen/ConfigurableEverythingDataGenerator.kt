@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
-import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.lib.data.api.FrozenBiomeTagProvider
 import net.minecraft.core.BlockPos
 import net.minecraft.core.HolderLookup
@@ -13,8 +12,6 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.data.worldgen.BootstrapContext
 import net.minecraft.data.worldgen.features.VegetationFeatures
 import net.minecraft.data.worldgen.placement.PlacementUtils
-import net.minecraft.resources.ResourceKey
-import net.minecraft.tags.TagKey
 import net.minecraft.world.attribute.EnvironmentAttributes
 import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.biome.Biome.BiomeBuilder
@@ -27,14 +24,6 @@ import net.minecraft.world.level.levelgen.placement.*
 import java.util.concurrent.CompletableFuture
 
 class ConfigurableEverythingDataGenerator : DataGeneratorEntrypoint {
-    companion object {
-        @JvmField
-        val BLANK_BIOME: ResourceKey<Biome> = ResourceKey.create(Registries.BIOME, id("blank_biome"))
-        @JvmField
-        val BLANK_PLACED_FEATURE: ResourceKey<PlacedFeature> = ResourceKey.create(Registries.PLACED_FEATURE, id("blank_placed_feature"))
-        @JvmField
-        val BLANK_TAG: TagKey<Biome> = TagKey.create(Registries.BIOME, id("blank_tag"))
-    }
 
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
         val pack = fabricDataGenerator.createPack()

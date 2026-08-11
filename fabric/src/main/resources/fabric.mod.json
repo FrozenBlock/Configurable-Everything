@@ -27,7 +27,7 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "ConfigurableEverythingFabric"
+        "value": "net.frozenblock.configurableeverything.ConfigurableEverythingFabric"
       }
     ],
     "frozenlib:events": [

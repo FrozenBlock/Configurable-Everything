@@ -10,11 +10,9 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.ScriptingConfig
 import net.frozenblock.configurableeverything.util.HAS_EXTENSIONS
-import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
-import net.frozenblock.lib.config.api.client.gui.EnumEntry
 import net.frozenblock.lib.config.api.client.gui.StringList
 
 object ScriptingConfigGui {

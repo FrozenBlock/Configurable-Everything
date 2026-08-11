@@ -28,6 +28,16 @@ dependencies {
     kapt("io.github.llamalad7:mixinextras-common:0.5.3")
 
     compileOnly("me.shedaniel.cloth:cloth-config:${cloth_config_version}")
+
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    compileOnly(kotlin("scripting-common"))
+    compileOnly(kotlin("scripting-jvm"))
+    compileOnly(kotlin("scripting-jsr223"))
+    compileOnly(kotlin("scripting-jvm-host"))
+    compileOnly(kotlin("scripting-compiler-embeddable"))
+    compileOnly(kotlin("scripting-dependencies"))
+    compileOnly(kotlin("scripting-dependencies-maven"))
+
     testImplementation(kotlin("test"))
 }
 

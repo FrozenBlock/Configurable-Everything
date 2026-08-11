@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import static net.frozenblock.configurableeverything.util.ConfigurableEverythingUtilsKt.log;
+import static net.frozenblock.configurableeverything.util.CEUtilsKt.log;
 
 @Mixin(ResourceManagerRegistryLoadTask.class)
 public abstract class RegistryDataLoaderMixin<T> extends RegistryLoadTask<T> {

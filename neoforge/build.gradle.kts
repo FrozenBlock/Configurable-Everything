@@ -25,6 +25,7 @@ tasks.jar {
 }
 
 repositories {
+    maven("https://repo.nyon.dev/releases")
     maven("https://maven.neoforged.net/releases") { name = "NeoForged" }
     if (!neoforgeSnapshotMaven.isNullOrBlank()) {
         maven(neoforgeSnapshotMaven) { name = "NeoForge Snapshots" }
@@ -84,6 +85,17 @@ dependencies {
         accessTransformers(it)
         interfaceInjectionData(it)
     }
+
+    api("dev.nyon:KotlinLangForge:2.12.1-k2.4.10-3.1+neoforge")
+
+    // get deps manually because KLF cant give them to compile classpath without an error
+    api(kotlin("scripting-common"))
+    api(kotlin("scripting-jvm"))
+    api(kotlin("scripting-jsr223"))
+    api(kotlin("scripting-jvm-host"))
+    api(kotlin("scripting-compiler-embeddable"))
+    api(kotlin("scripting-dependencies"))
+    api(kotlin("scripting-dependencies-maven"))
 }
 
 java {

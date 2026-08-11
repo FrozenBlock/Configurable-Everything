@@ -14,16 +14,13 @@ import net.frozenblock.configurableeverything.biome_placement.util.BiomeParamete
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
 import net.frozenblock.configurableeverything.config.BiomePlacementConfig
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator
-import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.configurableeverything.datagen.BLANK_BIOME
+import net.frozenblock.configurableeverything.datagen.BLANK_TAG
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
-import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
 import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
-import net.frozenblock.lib.config.api.instance.Config
-import net.frozenblock.lib.config.clothconfig.synced
 import net.frozenblock.lib.levelgen.biome.api.MutableParameter
 import net.frozenblock.lib.levelgen.biome.api.mutable
 import net.frozenblock.lib.levelgen.biome.api.parameters.*
@@ -208,8 +205,8 @@ private fun removedBiomes(
         tooltip("removed_biomes"),
         { element: DimensionBiomeKeyList?, _ ->
             val defaultBiomes: MutableList<Either<ResourceKey<Biome>, TagKey<Biome>>> = mutableListOf(
-                Either.left(ConfigurableEverythingDataGenerator.BLANK_BIOME),
-                Either.right(ConfigurableEverythingDataGenerator.BLANK_TAG)
+                Either.left(BLANK_BIOME),
+                Either.right(BLANK_TAG)
             )
             val dimensionBiomeList = element ?: DimensionBiomeKeyList(BuiltinDimensionTypes.OVERWORLD, defaultBiomes)
             multiElementEntry(

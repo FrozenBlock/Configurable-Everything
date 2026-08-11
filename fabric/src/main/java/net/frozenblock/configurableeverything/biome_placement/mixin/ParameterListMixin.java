@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomePlacementUtil;
 import net.frozenblock.configurableeverything.biome_placement.util.ParameterListExtension;
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
+import static net.frozenblock.configurableeverything.datagen.BlankRegistryEntries.BLANK_BIOME;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -65,7 +65,7 @@ public class ParameterListMixin<T> implements ParameterListExtension {
 				newParameters.add(
 					Pair.of(
 						Climate.parameters(0F, 0F, 0F, 0F, 0F, 0F, 0F),
-						registryAccess.lookupOrThrow(Registries.BIOME).getOrThrow(ConfigurableEverythingDataGenerator.BLANK_BIOME)
+						registryAccess.lookupOrThrow(Registries.BIOME).getOrThrow(BLANK_BIOME)
 					)
 				);
 			}

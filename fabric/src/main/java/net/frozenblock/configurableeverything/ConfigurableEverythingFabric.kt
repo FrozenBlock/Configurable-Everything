@@ -34,57 +34,20 @@ class ConfigurableEverythingFabric : ModInitializer {
 
     @OptIn(ExperimentalPathApi::class)
     override fun onInitialize() {
+        ConfigurableEverything.init()
+        ConfigurableEverything.setup()
         val time = measureNanoTime {
             //ConfigurableEverythingIntegrations.init()
 
             // init configs
-            MainConfig
-            BiomeConfig
-            BiomePlacementConfig
-            BlockConfig
-            DataFixerConfig
-            EntityConfig
-            FluidConfig
             GameConfig
-            GravityConfig
-            ItemConfig
-            LootConfig
             ModProtocolConfig
             RecipeConfig
-            RegistryConfig
-            ScreenShakeConfig
-            ScriptingConfig
-            SculkSpreadingConfig
-            ifClient {
-                SplashTextConfig
-            }
-            SurfaceRuleConfig
-            StructureConfig
-            TagConfig
-            WorldConfig
 
             if (FabricLoader.getInstance().isModLoaded("sodium"))
                 SodiumConfig
 
-            try {
-                FileUtil.createDirectoriesSafe(DATAPACKS_PATH)
-                ifExtended {
-                    FileUtil.createDirectoriesSafe(KOTLIN_SCRIPT_PATH)
-                    ifClient {
-                        FileUtil.createDirectoriesSafe(KOTLIN_CLIENT_SCRIPT_PATH)
-                    }
 
-                    // Remove remapping remnants
-                    MAPPINGS_PATH.deleteRecursively()
-                    ORIGINAL_SOURCES_CACHE.deleteRecursively()
-                    REMAPPED_SOURCES_CACHE.deleteRecursively()
-                }
-            } catch (e: IOException) {
-                throw RuntimeException("Unable to create Configurable Everything folders", e)
-            }
-            ifScriptingEnabled {
-                ScriptingUtil.runScripts()
-            }
 
             // run functionality AFTER scripts have run
             BiomeConfigUtil.init()
@@ -102,7 +65,7 @@ class ConfigurableEverythingFabric : ModInitializer {
             WorldConfigUtil.init()
         }
 
-        log("Configurable Everything took $time nanoseconds")
+        log("Configurable Everything Fabric took $time nanoseconds")
     }
 
     companion object {

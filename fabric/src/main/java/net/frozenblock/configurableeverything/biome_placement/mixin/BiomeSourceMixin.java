@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeSourceExtension;
-import net.frozenblock.configurableeverything.datagen.ConfigurableEverythingDataGenerator;
+import static net.frozenblock.configurableeverything.datagen.BlankRegistryEntries.BLANK_BIOME;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -33,7 +33,7 @@ public class BiomeSourceMixin implements BiomeSourceExtension {
 		biomeList.removeAll(biomesToRemove);
 		biomeList.addAll(biomesToAdd);
 
-		if (biomeList.isEmpty()) biomeList.add(registryAccess.lookupOrThrow(Registries.BIOME).getOrThrow(ConfigurableEverythingDataGenerator.BLANK_BIOME));
+		if (biomeList.isEmpty()) biomeList.add(registryAccess.lookupOrThrow(Registries.BIOME).getOrThrow(BLANK_BIOME));
 		this.possibleBiomes = () -> new ObjectLinkedOpenHashSet<>(biomeList);
 	}
 }

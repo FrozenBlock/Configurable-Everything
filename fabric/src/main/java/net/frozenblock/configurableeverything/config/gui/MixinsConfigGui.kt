@@ -7,9 +7,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.MixinsConfig
-import net.frozenblock.configurableeverything.util.id
 import net.frozenblock.configurableeverything.util.text
-import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
 
 @Environment(EnvType.CLIENT)

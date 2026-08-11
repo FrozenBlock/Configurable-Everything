@@ -10,7 +10,6 @@ import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.StructureConfig
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
-import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
 import net.minecraft.resources.Identifier

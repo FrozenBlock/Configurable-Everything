@@ -6,7 +6,6 @@ import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.entity.util.zombie.ai.NewZombieBreakDoorGoal;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.util.GoalUtils;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import org.spongepowered.asm.mixin.Mixin;

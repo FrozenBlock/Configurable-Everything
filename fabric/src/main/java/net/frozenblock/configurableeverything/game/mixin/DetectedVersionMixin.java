@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.frozenblock.configurableeverything.config.EarlyMainConfig;
 import net.frozenblock.configurableeverything.config.GameConfig;
-import net.frozenblock.configurableeverything.config.MainConfig;
 import net.minecraft.DetectedVersion;
 import net.minecraft.world.level.storage.DataVersion;
 import org.spongepowered.asm.mixin.Mixin;

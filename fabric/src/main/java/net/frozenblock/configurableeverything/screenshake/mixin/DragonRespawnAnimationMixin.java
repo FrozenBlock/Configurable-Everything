@@ -3,7 +3,6 @@ package net.frozenblock.configurableeverything.screenshake.mixin;
 import java.util.List;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig;
-import net.frozenblock.configurableeverything.screenshake.util.ScreenShakeConfigUtil;
 import net.frozenblock.lib.screenshake.api.ScreenShake;
 import net.frozenblock.lib.screenshake.api.ScreenShakes;
 import net.minecraft.server.level.ServerLevel;

@@ -13,13 +13,10 @@ import net.frozenblock.configurableeverything.config.TagConfig;
 import net.frozenblock.configurableeverything.tag.util.RegistryTagModification;
 import net.frozenblock.configurableeverything.tag.util.TagLoaderExtension;
 import net.frozenblock.configurableeverything.tag.util.TagModification;
-import net.frozenblock.configurableeverything.util.ConfigurableEverythingSharedConstantsKt;
+import net.frozenblock.configurableeverything.util.CEConstantsKt;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagLoader;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Mixin(TagLoader.class)
 public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
@@ -64,7 +60,7 @@ public class TagLoaderMixin<T> implements TagLoaderExtension<T> {
 
 	@Inject(method = "tryBuildTag", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
 	private void ignoreInvalidTags(TagEntry.Lookup<T> lookup, List<TagLoader.EntryWithSource> list, CallbackInfoReturnable<Either<Collection<TagLoader.EntryWithSource>, Collection<T>>> cir, @Local(ordinal = 1) List<TagLoader.EntryWithSource> list2) {
-		if (!ConfigurableEverythingSharedConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.tag.get()) {
+		if (!CEConstantsKt.ENABLE_EXPERIMENTAL_FEATURES || !MainConfig.tag.get()) {
 			return;
 		}
 

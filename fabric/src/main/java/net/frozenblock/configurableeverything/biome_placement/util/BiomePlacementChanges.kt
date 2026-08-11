@@ -4,7 +4,6 @@ import net.frozenblock.configurableeverything.config.BiomePlacementConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.DataReloadManager
 import net.frozenblock.configurableeverything.util.id
-import net.frozenblock.configurableeverything.util.value
 
 object BiomePlacementChanges : DataReloadManager<BiomePlacementChange>(
     "biome_placement_change_reloader",

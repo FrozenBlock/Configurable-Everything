@@ -4,10 +4,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
-import net.frozenblock.configurableeverything.util.value
 import net.frozenblock.lib.screenshake.api.ScreenShake
 import net.frozenblock.lib.screenshake.api.ScreenShakes
-import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.Level
