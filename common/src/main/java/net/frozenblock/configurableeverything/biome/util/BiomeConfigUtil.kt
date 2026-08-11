@@ -3,11 +3,15 @@ package net.frozenblock.configurableeverything.biome.util
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import net.fabricmc.fabric.api.biome.v1.*
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader
 import net.frozenblock.configurableeverything.config.BiomeConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.levelgen.biome.api.BiomeSelectors
+import net.frozenblock.lib.levelgen.biome.api.modifications.BiomeModification
+import net.frozenblock.lib.levelgen.biome.api.modifications.BiomeModificationContext
+import net.frozenblock.lib.levelgen.biome.api.modifications.BiomeModifications
+import net.frozenblock.lib.levelgen.biome.api.modifications.ModificationPhase
+import net.frozenblock.lib.resource.api.ResourceLoaderHelper
 import net.frozenblock.lib.sound.api.asImmutable
 import net.minecraft.server.packs.PackType
 import java.util.function.Consumer
@@ -24,8 +28,9 @@ internal object BiomeConfigUtil {
             )
             BiomeChanges.add(id("config"), biomeChange)
 
-            val resourceLoader = ResourceLoader.get(PackType.SERVER_DATA)
-            resourceLoader.registerReloadListener(id("biome_changes"), BiomeChanges)
+            ResourceLoaderHelper.registerReloadListener(PackType.SERVER_DATA,
+                id("biome_changes"), BiomeChanges
+            )
         }
     }
 

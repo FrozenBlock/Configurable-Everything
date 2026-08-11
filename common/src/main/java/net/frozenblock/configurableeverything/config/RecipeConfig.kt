@@ -1,12 +1,11 @@
-@file:Environment(EnvType.CLIENT)
+@file:ClientOnly
 
 package net.frozenblock.configurableeverything.config
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.util.CEConfig
 import net.frozenblock.lib.config.v2.entry.ConfigEntry
 import net.frozenblock.lib.config.v2.entry.EntryType
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.minecraft.resources.Identifier
 
 // UNSYNCABLE

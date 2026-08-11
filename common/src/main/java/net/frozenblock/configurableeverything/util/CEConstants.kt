@@ -10,9 +10,8 @@ import org.slf4j.LoggerFactory
 import java.nio.file.Path
 import kotlin.io.path.Path
 
-@PublishedApi
-internal const val MOD_ID = "configurable_everything"
-internal const val MOD_NAME = "Configurable Everything"
+const val MOD_ID = "configurable_everything"
+const val MOD_NAME = "Configurable Everything"
 
 /**
  * Enables update 1.5
@@ -21,9 +20,8 @@ const val ENABLE_EXPERIMENTAL_FEATURES = false
 
 val DEV_ENV = ModLoader.isDevelopmentEnvironment()
 
-@PublishedApi
 @JvmField
-internal val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
+val LOGGER: Logger? = LoggerFactory.getLogger(MOD_NAME)
 
 @JvmField
 var DEV_LOGGING = false
@@ -36,9 +34,8 @@ var DEV_LOGGING = false
 @JvmField
 var UNSTABLE_LOGGING: Boolean = ModLoader.isDevelopmentEnvironment()
 
-@PublishedApi
 @JvmField
-internal val ENVIRONMENT: String = ifClient { "client" } ?: "server"
+val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 
 @JvmField
 val HAS_EXTENSIONS: Boolean = ModLoader.isModLoaded("ethans_kotlin_extensions")

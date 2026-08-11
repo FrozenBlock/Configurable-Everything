@@ -14,6 +14,15 @@ issueTrackerURL="https://github.com/FrozenBlock/Configurable-Everything/issues"
 Makes various aspects of Minecraft configurable.
     '''
 
+[[mixins]]
+config="configurable_everything.biome_placement.mixins.json"
+
+[[mixins]]
+config="configurable_everything.datafixer.mixins.json"
+
+[[mixins]]
+config="configurable_everything.datapack.mixins.json"
+
 [[ dependencies.configurable_everything ]]
     modId="neoforge"
     type="required"

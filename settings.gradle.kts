@@ -25,9 +25,6 @@ pluginManagement {
 		mavenCentral()
 		gradlePluginPortal()
 	}
-    plugins {
-        kotlin("kapt") version "2.4.10"
-    }
 }
 
 val neoforgeSnapshotMaven = settings.providers.gradleProperty("neoforge_snapshot_maven").orNull

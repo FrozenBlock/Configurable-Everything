@@ -1,8 +1,7 @@
 package net.frozenblock.configurableeverything
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.MixinsConfig
+import net.frozenblock.lib.platform.ModLoader
 import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo
@@ -13,7 +12,7 @@ class CEMixinPlugin : IMixinConfigPlugin {
 
     override fun shouldApplyMixin(targetClassName: String, mixinClassName: String): Boolean {
         val config = MixinsConfig.get()
-        val isClient = FabricLoader.getInstance().environmentType === EnvType.CLIENT
+        val isClient = ModLoader.isClient()
         if (mixinClassName.contains("biome_placement.mixin")) return config.biome_placement
         if (mixinClassName.contains("datafixer.mixin")) return config.datafixer
         if (mixinClassName.contains("datapack.mixin")) return config.datapack

@@ -2,9 +2,9 @@ package net.frozenblock.configurableeverything.biome_placement.util
 
 import com.mojang.datafixers.util.Either
 import com.mojang.datafixers.util.Pair
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.resource.api.ResourceLoaderHelper
 import net.minecraft.core.Holder
 import net.minecraft.core.HolderGetter
 import net.minecraft.core.HolderSet
@@ -23,8 +23,9 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator
 object BiomePlacementUtil {
 
     fun init() {
-        val resourceLoader = ResourceLoader.get(PackType.SERVER_DATA)
-        resourceLoader.registerReloadListener(id("biome_placement_changes"), BiomePlacementChanges)
+        ResourceLoaderHelper.registerReloadListener(PackType.SERVER_DATA,
+            id("biome_placement_changes"), BiomePlacementChanges
+        )
     }
 
     @JvmStatic

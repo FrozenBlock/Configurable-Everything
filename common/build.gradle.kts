@@ -2,7 +2,6 @@ import com.possible_triangle.gradle.features.enableKotlin
 
 plugins {
     id("net.frozenblock.triangle.common")
-    kotlin("kapt")
 }
 
 val frozenlib_version: String by project
@@ -25,7 +24,6 @@ dependencies {
     compileOnly("net.fabricmc:sponge-mixin:0.17.3+mixin.0.8.7")
     compileOnly("io.github.llamalad7:mixinextras-common:0.5.3")
     annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.3")
-    kapt("io.github.llamalad7:mixinextras-common:0.5.3")
 
     compileOnly("me.shedaniel.cloth:cloth-config:${cloth_config_version}")
 
