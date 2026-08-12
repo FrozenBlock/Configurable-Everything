@@ -1,9 +1,8 @@
 package net.frozenblock.configurableeverything.splash_text.mixin;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.frozenblock.configurableeverything.config.MainConfig;
 import net.frozenblock.configurableeverything.config.SplashTextConfig;
+import net.mehvahdjukaar.candlelight.api.ClientOnly;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.SplashRenderer;
@@ -19,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SplashRenderer.class)
-@Environment(EnvType.CLIENT)
+@ClientOnly
 public class SplashRendererMixin {
 
 	@Mutable
@@ -28,15 +27,15 @@ public class SplashRendererMixin {
 	private Component splash;
 
 	@Unique
-	private TextColor originalColor;
+	private TextColor configurableEverything$originalColor;
 
 	@Unique
-	private boolean wasLastModified = false;
+	private boolean configurableEverything$wasLastModified = false;
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void changeColor(Component component, CallbackInfo ci) {
-		this.originalColor = this.splash.getStyle().getColor();
-		this.changeColor();
+	private void changeColor(Component splash, CallbackInfo ci) {
+		this.configurableEverything$originalColor = this.splash.getStyle().getColor();
+		this.configurableEverything$changeColor();
 	}
 
     @Inject(
@@ -44,18 +43,18 @@ public class SplashRendererMixin {
 		at = @At("HEAD")
 	)
     private void changeColor(GuiGraphicsExtractor graphics, int screenWidth, Font font, float alpha, CallbackInfo ci) {
-		this.changeColor();
+		this.configurableEverything$changeColor();
     }
 
 	@Unique
-	private void changeColor() {
+	private void configurableEverything$changeColor() {
 		var modified = SplashTextConfig.splashColor.get();
 		if (MainConfig.splash_text.get()) {
 			this.splash = this.splash.copy().withColor(modified);
-			this.wasLastModified = true;
-		} else if (this.wasLastModified) {
-			this.splash = this.splash.copy().withColor(this.originalColor.getValue());
-			this.wasLastModified = false;
+			this.configurableEverything$wasLastModified = true;
+		} else if (this.configurableEverything$wasLastModified) {
+			this.splash = this.splash.copy().withColor(this.configurableEverything$originalColor.getValue());
+			this.configurableEverything$wasLastModified = false;
 		}
 	}
 }

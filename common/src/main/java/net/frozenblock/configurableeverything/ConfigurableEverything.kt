@@ -27,7 +27,13 @@ import net.frozenblock.configurableeverything.config.TagConfig
 import net.frozenblock.configurableeverything.config.WorldConfig
 import net.frozenblock.configurableeverything.config.thirdparty.SodiumConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
+import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
+import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
+import net.frozenblock.configurableeverything.loot.util.LootConfigUtil
+import net.frozenblock.configurableeverything.registry.util.RegistryConfigUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
+import net.frozenblock.configurableeverything.splash_text.util.SplashTextConfigUtil
+import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfigUtil
 import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
 import net.frozenblock.configurableeverything.util.KOTLIN_CLIENT_SCRIPT_PATH
 import net.frozenblock.configurableeverything.util.KOTLIN_SCRIPT_PATH
@@ -40,6 +46,7 @@ import net.frozenblock.configurableeverything.util.ifClient
 import net.frozenblock.configurableeverything.util.ifExtended
 import net.frozenblock.configurableeverything.util.ifScriptingEnabled
 import net.frozenblock.configurableeverything.util.log
+import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.frozenblock.lib.platform.ModLoader
 import net.frozenblock.lib.platform.api.registry.FrozenDeferredRegister
 import net.frozenblock.lib.platform.api.registry.FrozenHolder
@@ -111,6 +118,15 @@ object ConfigurableEverything {
             BiomePlacementUtil.init()
             BlockConfigUtil.init()
             DataFixerUtil.applyDataFixes()
+            EntityConfigUtil.init()
+            GravityConfigUtil.init()
+            LootConfigUtil.init()
+            RegistryConfigUtil.init()
+            ifClient {
+                SplashTextConfigUtil.init()
+            }
+            SurfaceRuleConfigUtil.init()
+            WorldConfigUtil.init()
         }
         log("Configurable Everything init took $time nanoseconds")
     }

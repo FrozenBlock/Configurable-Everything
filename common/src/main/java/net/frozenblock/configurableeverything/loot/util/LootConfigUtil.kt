@@ -1,9 +1,9 @@
 package net.frozenblock.configurableeverything.loot.util
 
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents
 import net.frozenblock.configurableeverything.config.LootConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.value
+import net.frozenblock.lib.item.api.loot.LootTableEvents
 import net.minecraft.resources.Identifier
 import net.minecraft.world.level.storage.loot.LootPool
 import net.minecraft.world.level.storage.loot.LootTable

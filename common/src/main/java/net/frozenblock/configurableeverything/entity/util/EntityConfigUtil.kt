@@ -1,10 +1,9 @@
 package net.frozenblock.configurableeverything.entity.util
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.loader.api.FabricLoader
 import net.frozenblock.configurableeverything.config.EntityConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.id
+import net.frozenblock.lib.platform.ModLoader
 import net.frozenblock.lib.sound.client.impl.FlyBySoundHub
 import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
@@ -24,7 +23,7 @@ internal object EntityConfigUtil {
 
 	internal fun init() {
         // only run this on client
-        if (!MainConfig.entity.get() || FabricLoader.getInstance().environmentType != EnvType.CLIENT) return
+        if (!MainConfig.entity.get() || !ModLoader.isClient()) return
         for (sound in EntityConfig.entityFlyBySounds.get()) {
             val optionalEntity = BuiltInRegistries.ENTITY_TYPE.getOptional(sound.entity)
             if (optionalEntity.isPresent) {
@@ -43,6 +42,7 @@ internal object EntityConfigUtil {
     }
 
     @JvmStatic
+    @JvmName("addAttributeAmplifiers")
     internal fun <T : EntityAccess> addAttributeAmplifiers(entityAccess: T) {
         if (!MainConfig.entity.get()) return
         if (entityAccess !is LivingEntity) return
