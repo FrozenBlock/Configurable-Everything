@@ -24,7 +24,7 @@
   "option.configurable_everything.registry": "Registry",
   "tooltip.configurable_everything.registry": "Enable or disable the Registry config.",
   "option.configurable_everything.scripting": "Scripting",
-  "tooltip.configurable_everything.scripting": "Enable or disable the Scripting config.\nOnly available with Fabric Kotlin Extensions",
+  "tooltip.configurable_everything.scripting": "Enable or disable the Scripting config.\nOnly available with Ethan's Kotlin Extensions",
   "option.configurable_everything.sculk_spreading": "Sculk Spreading",
   "tooltip.configurable_everything.sculk_spreading": "Enable or disable the Sculk Spreading config.",
   "option.configurable_everything.structure": "Structure",

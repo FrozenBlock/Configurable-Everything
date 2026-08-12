@@ -53,7 +53,7 @@ Warning: It is important to check the contents of each config before enabling th
 
     @JvmField
     var scripting: ConfigEntry<Boolean> = this.unsyncableEntry("scripting", EntryType.BOOL, false,
-        "Requires Fabric Kotlin Extensions")
+        "Requires Ethan's Kotlin Extensions")
 
     @JvmField
     var sculk_spreading: ConfigEntry<Boolean> = this.entry("sculk_spreading", EntryType.BOOL, false)

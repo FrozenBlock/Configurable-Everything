@@ -37,8 +37,8 @@ var UNSTABLE_LOGGING: Boolean = ModLoader.isDevelopmentEnvironment()
 @JvmField
 val ENVIRONMENT: String = ifClient { "client" } ?: "server"
 
-@JvmField
-val HAS_EXTENSIONS: Boolean = ModLoader.isModLoaded("ethans_kotlin_extensions")
+inline val HAS_EXTENSIONS: Boolean
+    get() = ModLoader.isModLoaded("ethans_kotlin_extensions")
 
 inline val SCRIPTING_ENABLED
     get() = HAS_EXTENSIONS && MainConfig.scripting.get() && ScriptingConfig.applyKotlinScripts.get()

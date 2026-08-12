@@ -14,7 +14,7 @@ import kotlin.script.experimental.jvmhost.JvmScriptCompiler
 @Suppress("unused")
 private object InvalidChecker {
     init {
-        check(HAS_EXTENSIONS) { "Attempted to access scripting functionality without Fabric Kotlin Extensions mod!" }
+        check(HAS_EXTENSIONS) { "Attempted to access scripting functionality without Ethan's Kotlin Extensions mod!" }
     }
 }
 

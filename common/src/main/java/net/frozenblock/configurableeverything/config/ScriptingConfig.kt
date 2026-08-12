@@ -10,7 +10,7 @@ object ScriptingConfig : CEConfig("scripting") {
 
     @JvmField
     // UNSYNCABLE
-    @Comment("Requires Fabric Kotlin Extensions")
+    @Comment("Requires Ethan's Kotlin Extensions")
     var applyKotlinScripts: ConfigEntry<Boolean> = this.unsyncableEntry("applyKotlinScripts", EntryType.BOOL, true)
 
     @JvmField
@@ -19,6 +19,7 @@ object ScriptingConfig : CEConfig("scripting") {
         arrayListOf(
             "kotlinx.coroutines.*",
             "net.frozenblock.configurableeverything.util.*",
+            "net.frozenblock.lib.platform.*",
 
             // minecraft
             "net.minecraft.core.*",
