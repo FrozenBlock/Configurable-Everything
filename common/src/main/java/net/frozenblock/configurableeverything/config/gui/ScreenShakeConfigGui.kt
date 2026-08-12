@@ -1,4 +1,4 @@
-@file:Environment(EnvType.CLIENT)
+@file:ClientOnly
 
 package net.frozenblock.configurableeverything.config.gui
 
@@ -6,8 +6,6 @@ import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.ScreenShakeConfig
 import net.frozenblock.configurableeverything.screenshake.util.SoundScreenShake
 import net.frozenblock.configurableeverything.util.text
@@ -16,6 +14,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
 import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.minecraft.resources.Identifier
 
 private inline val mainToggleReq: Requirement

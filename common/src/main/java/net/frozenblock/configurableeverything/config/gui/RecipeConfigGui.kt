@@ -1,17 +1,15 @@
-@file:Environment(EnvType.CLIENT)
-
+@file:ClientOnly
 package net.frozenblock.configurableeverything.config.gui
 
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.RecipeConfig
 import net.frozenblock.configurableeverything.util.text
 import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.StringList
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.minecraft.resources.Identifier
 
 object RecipeConfigGui {

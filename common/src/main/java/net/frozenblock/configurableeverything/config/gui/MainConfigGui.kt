@@ -1,4 +1,4 @@
-@file:Environment(EnvType.CLIENT)
+@file:ClientOnly
 
 package net.frozenblock.configurableeverything.config.gui
 
@@ -7,8 +7,6 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry
 import me.shedaniel.clothconfig2.gui.entries.StringListListEntry
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.EarlyMainConfig
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.HAS_EXTENSIONS
@@ -18,6 +16,7 @@ import net.frozenblock.configurableeverything.util.tooltip
 import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.clothconfig.FrozenLibClothConfigGuiHelper.createSubCategory
 import net.frozenblock.lib.config.frozenlib_config.gui.FrozenLibConfigGui
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 
 class MainConfigGui(private val entryBuilder: ConfigEntryBuilder) {
     companion object {

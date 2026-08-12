@@ -1,11 +1,6 @@
 package net.frozenblock.configurableeverything
 
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.loader.api.FabricLoader
-import net.frozenblock.configurableeverything.config.GameConfig
-import net.frozenblock.configurableeverything.config.ModProtocolConfig
-import net.frozenblock.configurableeverything.config.RecipeConfig
-import net.frozenblock.configurableeverything.config.thirdparty.SodiumConfig
 import net.frozenblock.configurableeverything.entity.util.EntityConfigUtil
 import net.frozenblock.configurableeverything.gravity.util.GravityConfigUtil
 import net.frozenblock.configurableeverything.loot.util.LootConfigUtil
@@ -15,7 +10,6 @@ import net.frozenblock.configurableeverything.surface_rule.util.SurfaceRuleConfi
 import net.frozenblock.configurableeverything.util.ifClient
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.system.measureNanoTime
 
 /**
@@ -23,17 +17,11 @@ import kotlin.system.measureNanoTime
  */
 class ConfigurableEverythingFabric : ModInitializer {
 
-    @OptIn(ExperimentalPathApi::class)
     override fun onInitialize() {
         ConfigurableEverything.init()
         ConfigurableEverything.setup()
         val time = measureNanoTime {
             //ConfigurableEverythingIntegrations.init()
-
-            if (FabricLoader.getInstance().isModLoaded("sodium"))
-                SodiumConfig
-
-
 
             // run functionality AFTER scripts have run
             EntityConfigUtil.init()

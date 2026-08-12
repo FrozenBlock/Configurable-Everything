@@ -4,11 +4,10 @@ import net.frozenblock.configurableeverything.util.CEConstantsKt;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
-@SuppressWarnings("KotlinInternalInJava")
 @Mod(CEConstantsKt.MOD_ID)
-public class ConfigurableEverythingNeoForge {
+public class CENeoForge {
 
-	public ConfigurableEverythingNeoForge(IEventBus modBus) {
+	public CENeoForge(IEventBus modBus) {
 		ConfigurableEverything.INSTANCE.init();
 	}
 }

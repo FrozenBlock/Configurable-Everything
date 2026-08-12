@@ -1,4 +1,4 @@
-@file:Environment(EnvType.CLIENT)
+@file:ClientOnly
 @file:Suppress("UnstableApiUsage")
 
 package net.frozenblock.configurableeverything.config.gui
@@ -8,8 +8,6 @@ import me.shedaniel.clothconfig2.api.AbstractConfigListEntry
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.biome_placement.util.BiomeParameters
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeKeyList
 import net.frozenblock.configurableeverything.biome_placement.util.DimensionBiomeList
@@ -24,6 +22,7 @@ import net.frozenblock.lib.config.api.client.gui.multiElementEntry
 import net.frozenblock.lib.levelgen.biome.api.MutableParameter
 import net.frozenblock.lib.levelgen.biome.api.mutable
 import net.frozenblock.lib.levelgen.biome.api.parameters.*
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.Identifier

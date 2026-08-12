@@ -1,4 +1,4 @@
-@file:Environment(EnvType.CLIENT)
+@file:ClientOnly
 @file:Suppress("UnstableApiUsage", "COMPATIBILITY_WARNING")
 
 package net.frozenblock.configurableeverything.config.gui
@@ -9,8 +9,6 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
 import me.shedaniel.clothconfig2.api.Requirement
 import me.shedaniel.clothconfig2.gui.entries.IntegerListEntry
 import me.shedaniel.clothconfig2.gui.entries.StringListEntry
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.DataFixerConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixEntry
 import net.frozenblock.configurableeverything.datafixer.util.Fixer
@@ -22,6 +20,7 @@ import net.frozenblock.lib.config.api.client.gui.EntryBuilder
 import net.frozenblock.lib.config.api.client.gui.SimpleEntryBuilder
 import net.frozenblock.lib.config.api.client.gui.configEntryList
 import net.frozenblock.lib.config.api.client.gui.multiElementEntry
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
 

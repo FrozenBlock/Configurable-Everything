@@ -25,6 +25,7 @@ import net.frozenblock.configurableeverything.config.StructureConfig
 import net.frozenblock.configurableeverything.config.SurfaceRuleConfig
 import net.frozenblock.configurableeverything.config.TagConfig
 import net.frozenblock.configurableeverything.config.WorldConfig
+import net.frozenblock.configurableeverything.config.thirdparty.SodiumConfig
 import net.frozenblock.configurableeverything.datafixer.util.DataFixerUtil
 import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil
 import net.frozenblock.configurableeverything.util.DATAPACKS_PATH
@@ -39,6 +40,7 @@ import net.frozenblock.configurableeverything.util.ifClient
 import net.frozenblock.configurableeverything.util.ifExtended
 import net.frozenblock.configurableeverything.util.ifScriptingEnabled
 import net.frozenblock.configurableeverything.util.log
+import net.frozenblock.lib.platform.ModLoader
 import net.frozenblock.lib.platform.api.registry.FrozenDeferredRegister
 import net.frozenblock.lib.platform.api.registry.FrozenHolder
 import net.minecraft.core.registries.Registries
@@ -80,6 +82,9 @@ object ConfigurableEverything {
             StructureConfig
             TagConfig
             WorldConfig
+
+            if (ModLoader.isModLoaded("sodium"))
+                SodiumConfig
 
             try {
                 FileUtil.createDirectoriesSafe(DATAPACKS_PATH)

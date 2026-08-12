@@ -1,8 +1,6 @@
 package net.frozenblock.configurableeverything.config.gui.main
 
 import me.shedaniel.clothconfig2.api.ConfigBuilder
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.frozenblock.configurableeverything.config.*
 import net.frozenblock.configurableeverything.config.gui.BiomeConfigGui
 import net.frozenblock.configurableeverything.config.gui.BiomePlacementConfigGui
@@ -22,12 +20,13 @@ import net.frozenblock.configurableeverything.config.gui.StructureConfigGui
 import net.frozenblock.configurableeverything.config.gui.TagConfigGui
 import net.frozenblock.configurableeverything.config.gui.WorldConfigGui
 import net.frozenblock.configurableeverything.util.text
+import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.minecraft.client.gui.screens.Screen
 
 /**
  * A utility object for building Configurable Everything's config GUI.
  */
-@Environment(EnvType.CLIENT)
+@ClientOnly
 object ConfigurableEverythingConfigGui {
 
     /**
