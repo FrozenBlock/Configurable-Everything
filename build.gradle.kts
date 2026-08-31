@@ -7,7 +7,7 @@ plugins {
     id("net.frozenblock.triangle.common") version("+") apply(false)
     id("net.frozenblock.triangle.fabric") version("+") apply(false)
     id("net.frozenblock.triangle.neoforge") version("+") apply(false)
-    id("net.mehvahdjukaar.candlelight") version("+") apply(false)
+    id("net.frozenblock.candlelight") version("+") apply(false)
     id("com.gradleup.shadow") version("+") apply(false)
 }
 
@@ -80,7 +80,7 @@ val publishMod by tasks.registering {
 
 subprojects {
     apply(plugin = "net.frozenblock.triangle.core")
-    apply(plugin = "net.mehvahdjukaar.candlelight")
+    apply(plugin = "net.frozenblock.candlelight")
 
     val mavenUrl = env["MAVEN_URL"]
     val mavenUsername = env["MAVEN_USERNAME"]
@@ -115,14 +115,8 @@ subprojects {
     enableKotlin()
 
     dependencies {
-        compileOnly("net.mehvahdjukaar:candlelight:+")
+        compileOnly("net.frozenblock:candlelight:+")
         compileOnly("net.frozenblock:frozenlib-common:${frozenlib_version}")
-    }
-
-    if (project.name != "ce-common") {
-        afterEvaluate {
-            tasks.findByName("compileJava")?.dependsOn(":ce-common:candleLightTransform")
-        }
     }
 
     repositories {
@@ -169,7 +163,7 @@ subprojects {
         maven("https://maven.shedaniel.me/") {
             name = "Shedaniel"
         }
-        maven("https://maven.caffeinemc.net/releases") {
+        maven("https://maven.frozenblock.net/caffeinemc") {
             name = "CaffeineMC"
         }
         maven("https://maven.terraformersmc.com") {

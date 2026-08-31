@@ -2,8 +2,8 @@ package net.frozenblock.configurableeverything.util
 
 import net.frozenblock.lib.config.api.entry.TypedEntry
 import net.frozenblock.lib.platform.ModLoader
-import net.frozenblock.lib.platform.api.ServerOnly
 import net.mehvahdjukaar.candlelight.api.ClientOnly
+import net.mehvahdjukaar.candlelight.api.ServerOnly
 import net.mehvahdjukaar.candlelight.api.PlatformImpl
 import java.nio.file.Path
 import kotlin.io.path.Path

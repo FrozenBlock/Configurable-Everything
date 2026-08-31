@@ -48,8 +48,8 @@ import net.frozenblock.configurableeverything.util.ifScriptingEnabled
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.configurableeverything.world.util.WorldConfigUtil
 import net.frozenblock.lib.platform.ModLoader
-import net.frozenblock.lib.platform.api.registry.FrozenDeferredRegister
-import net.frozenblock.lib.platform.api.registry.FrozenHolder
+import net.frozenblock.lib.platform.api.registry.DeferredRegister
+import net.frozenblock.lib.platform.api.registry.DeferredHolder
 import net.minecraft.core.registries.Registries
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.util.FileUtil
@@ -133,55 +133,55 @@ object ConfigurableEverything {
 
     fun setup() {}
 
-    private val REGISTER = FrozenDeferredRegister.create(
+    private val REGISTER = DeferredRegister.create(
         Registries.SOUND_EVENT,
         MOD_ID
     )
 
     @JvmField
-    val ARROW_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.arrow") {
+    val ARROW_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.arrow") {
         SoundEvent.createVariableRangeEvent(
             id("flyby.arrow")
         )
     }
 
     @JvmField
-    val TIPPED_ARROW_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.tipped_arrow") {
+    val TIPPED_ARROW_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.tipped_arrow") {
         SoundEvent.createVariableRangeEvent(id("flyby.tipped_arrow"))
     }
 
     @JvmField
-    val SPECTRAL_ARROW_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.spectral_arrow") {
+    val SPECTRAL_ARROW_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.spectral_arrow") {
         SoundEvent.createVariableRangeEvent(id("flyby.spectral_arrow"))
     }
 
     @JvmField
-    val TRIDENT_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.trident") {
+    val TRIDENT_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.trident") {
         SoundEvent.createVariableRangeEvent(id("flyby.trident"))
     }
 
     @JvmField
-    val EGG_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.egg") {
+    val EGG_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.egg") {
         SoundEvent.createVariableRangeEvent(id("flyby.egg"))
     }
 
     @JvmField
-    val SNOWBALL_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.snowball") {
+    val SNOWBALL_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.snowball") {
         SoundEvent.createVariableRangeEvent(id("flyby.snowball"))
     }
 
     @JvmField
-    val FIREBALL_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.fireball") {
+    val FIREBALL_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.fireball") {
         SoundEvent.createVariableRangeEvent(id("flyby.fireball"))
     }
 
     @JvmField
-    val POTION_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.potion") {
+    val POTION_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.potion") {
         SoundEvent.createVariableRangeEvent(id("flyby.potion"))
     }
 
     @JvmField
-    val EXPERIENCE_BOTTLE_FLYBY: FrozenHolder<SoundEvent, SoundEvent> = register("flyby.experience_bottle") {
+    val EXPERIENCE_BOTTLE_FLYBY: DeferredHolder<SoundEvent, SoundEvent> = register("flyby.experience_bottle") {
         SoundEvent.createVariableRangeEvent(id("flyby.experience_bottle"))
     }
 
@@ -189,6 +189,6 @@ object ConfigurableEverything {
         REGISTER.register()
     }
 
-        private fun register(key: String, sound: Supplier<SoundEvent>): FrozenHolder<SoundEvent, SoundEvent> =
+        private fun register(key: String, sound: Supplier<SoundEvent>): DeferredHolder<SoundEvent, SoundEvent> =
             REGISTER.register(key, sound)
 }

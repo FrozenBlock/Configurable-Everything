@@ -12,9 +12,9 @@ import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.configurableeverything.util.logError
 import net.minecraft.resources.Identifier
 import net.minecraft.util.datafix.schemas.NamespacedSchema
-import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixerBuilder
-import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.QuiltDataFixes
-import org.quiltmc.qsl.frozenblock.misc.datafixerupper.api.SimpleFixes
+import net.fabricmc.frozenblock.datafixer.api.FabricDataFixerBuilder
+import net.fabricmc.frozenblock.datafixer.api.FabricDataFixes
+import net.fabricmc.frozenblock.datafixer.api.SimpleFixes
 
 object DataFixerUtil {
 
@@ -35,11 +35,11 @@ object DataFixerUtil {
             log("Applying Configurable Everything's data fixes", UNSTABLE_LOGGING)
             val schemas = SCHEMAS
             val dataVersion = DataFixerConfig.dataVersion.get()
-            val builder = QuiltDataFixerBuilder(dataVersion)
+            val builder = FabricDataFixerBuilder(dataVersion)
             var maxSchema = 0
             val addedSchemas: MutableList<Schema> = ArrayList()
             if (schemas.isNotEmpty()) {
-                val base = builder.addSchema(0, QuiltDataFixes.BASE_SCHEMA)
+                val base = builder.addSchema(0, FabricDataFixes.BASE_SCHEMA)
                 addedSchemas.add(base)
             }
             for (fix in schemas) {
@@ -76,7 +76,7 @@ object DataFixerUtil {
                     logError("Invalid data fix version: $version")
                 }
             }
-            QuiltDataFixes.buildAndRegisterFixer(modId, builder)
+            FabricDataFixes.buildAndRegisterFixer(modId, builder)
             log(
                 """
                     Finished applying configurable data fixes

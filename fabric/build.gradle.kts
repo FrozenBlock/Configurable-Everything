@@ -123,7 +123,7 @@ dependencies {
     implementation("com.terraformersmc:modmenu:${modmenu_version}")
 
     // Sodium
-    //compileOnly("maven.modrinth:sodium:$sodium_version")
+    compileOnly("maven.modrinth:sodium:$sodium_version")
 }
 
 tasks {

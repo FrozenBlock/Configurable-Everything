@@ -36,6 +36,16 @@ if (!neoforgeSnapshotMaven.isNullOrBlank()) {
     }
 }
 
+localPluginRepository(
+    "GradleHelper",
+    enabled = true
+)
+
+localPluginRepository(
+    "candlelight",
+    enabled = true
+)
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("+")
     id("net.frozenblock.triangle.helper") version("+")
@@ -71,13 +81,13 @@ localRepository("FrozenLib",
     "net.frozenblock:frozenlib",
     prefix = "flib",
     multi = true,
-    candlelight = true,
     enabled = true
 )
 
-localPluginRepository(
-    "GradleHelper",
-    enabled = true
+localRepository("KotlinLangForge",
+    "dev.nyon:KotlinLangForge",
+    multi = false,
+    enabled = false
 )
 
 fun localPluginRepository(repo: String, enabled: Boolean = true) {

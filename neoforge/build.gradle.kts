@@ -9,6 +9,7 @@ val archives_base_name: String by project
 
 val frozenlib_version: String by project
 val cloth_config_version: String by project
+val kotlinlangforge_version: String by project
 
 val neoforgeSnapshotMaven = findProperty("neoforge_snapshot_maven") as String?
 
@@ -87,7 +88,8 @@ dependencies {
         interfaceInjectionData(it)
     }
 
-    api("dev.nyon:KotlinLangForge:2.12.1-k2.4.10-3.1+neoforge")
+    api("dev.nyon:KotlinLangForge:$kotlinlangforge_version")
+    //api("maven.modrinth:kotlin-lang-forge:$kotlinlangforge_version")
 
     api("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
 
