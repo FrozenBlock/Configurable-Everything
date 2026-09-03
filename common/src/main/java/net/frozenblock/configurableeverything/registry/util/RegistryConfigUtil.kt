@@ -10,13 +10,12 @@ import org.quiltmc.qsl.frozenblock.core.registry.api.event.RegistryEvents
 internal object RegistryConfigUtil {
 
     internal fun init() {
-        val config = RegistryConfig.get()
         if (!MainConfig.registry.get()) return
 
         RegistryEvents.DYNAMIC_REGISTRY_SETUP.register { setupContext ->
             runBlocking {
                 launch {
-                    config.placedFeatureAdditions.value.apply {
+                    RegistryConfig.placedFeatureAdditions.get().apply {
                         for (placedFeatureAddition in this) {
                             placedFeatureAddition.register(setupContext)
                         }
@@ -24,7 +23,7 @@ internal object RegistryConfigUtil {
                 }
 
                 launch {
-                    config.biomeAdditions.value.apply {
+                    RegistryConfig.biomeAdditions.get().apply {
                         for (biomeAddition in this) {
                             biomeAddition.register(setupContext)
                         }

@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config.thirdparty
 
 import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v1.registry.BasicConfigRegistry
 import blue.endless.jankson.Comment
 
 // Unsyncable
@@ -15,11 +15,10 @@ data class SodiumConfig(
     companion object : CESimpleConfig<SodiumConfig>(
         SodiumConfig::class,
         "sodium",
-        false,
-        true
+        false
     ) {
         init {
-            ConfigRegistry.register(this)
+            BasicConfigRegistry.register(this)
         }
 
         @JvmStatic

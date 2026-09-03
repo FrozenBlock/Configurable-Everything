@@ -8,10 +8,9 @@ import net.frozenblock.lib.levelgen.surface.api.SurfaceRuleEvents
 internal object SurfaceRuleConfigUtil {
 
     internal fun init() {
-        val config = SurfaceRuleConfig.get();
         if (MainConfig.surface_rule.get()) {
             SurfaceRuleEvents.MODIFY_GENERIC.register { biomes, sourceHolders ->
-                sourceHolders.addAll(config.addedSurfaceRules.value)
+                sourceHolders.addAll(SurfaceRuleConfig.addedSurfaceRules.get())
             }
         }
     }

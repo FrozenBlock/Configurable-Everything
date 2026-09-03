@@ -76,6 +76,15 @@ private fun schemas(
             )
         ),
         DataFixEntry(
+            "block_entity",
+            mutableListOf(
+                Fixer(
+                    Identifier.parse("example:example"),
+                    Identifier.parse("minecraft:chest")
+                )
+            )
+        ),
+        DataFixEntry(
             "entity",
             mutableListOf(
                 Fixer(

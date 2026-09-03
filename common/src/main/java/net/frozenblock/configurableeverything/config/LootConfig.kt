@@ -1,11 +1,11 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.loot.util.LootModification
-import net.frozenblock.configurableeverything.util.*
-import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.lib.config.api.entry.TypedEntry
-import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.configurableeverything.util.CEConfig
+import net.frozenblock.configurableeverything.util.mutListOf
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
+import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.storage.loot.BuiltInLootTables
 import net.minecraft.world.level.storage.loot.LootPool
@@ -13,16 +13,14 @@ import net.minecraft.world.level.storage.loot.entries.LootItem
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator
 
-private val LOOT_MODIFICATIONS: TypedEntryType<MutableList<LootModification>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        LootModification.CODEC.mutListOf()
-    )
+private val LOOT_MODIFICATIONS: EntryType<MutableList<LootModification>> = EntryType.create(
+    LootModification.CODEC.mutListOf(),
+    LootModification.STREAM_CODEC.apply(ByteBufCodecs.list())
 )
 
-data class LootConfig(
+object LootConfig : CEConfig("loot") {
     @JvmField
-    var lootModifications: TypedEntry<MutableList<LootModification>> = TypedEntry.create(
+    var lootModifications: ConfigEntry<MutableList<LootModification>> = this.entry("lootModifications",
         LOOT_MODIFICATIONS,
         mutableListOf(
             LootModification(
@@ -38,18 +36,4 @@ data class LootConfig(
             )
         )
     )
-) {
-    companion object : CESimpleConfig<LootConfig>(
-        LootConfig::class,
-        "loot"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): LootConfig = if (real) this.instance() else this.config()
-    }
 }

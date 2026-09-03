@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CESimpleConfig
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v1.registry.BasicConfigRegistry
 
 data class EarlyMainConfig(
     @JvmField
@@ -14,7 +14,7 @@ data class EarlyMainConfig(
     ) {
 
         init {
-            ConfigRegistry.register(this)
+            BasicConfigRegistry.register(this)
         }
 
         @JvmStatic

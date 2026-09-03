@@ -7,7 +7,7 @@ import me.shedaniel.clothconfig2.api.Requirement
 import me.shedaniel.clothconfig2.gui.entries.NestedListListEntry
 import net.frozenblock.lib.config.api.client.gui.nestedList
 import net.frozenblock.lib.config.api.client.gui.typedEntryList
-import net.frozenblock.lib.config.api.entry.TypedEntry
+import net.frozenblock.lib.config.v1.entry.TypedEntry
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component

@@ -9,14 +9,11 @@ import net.minecraft.world.level.block.state.BlockState
 object SculkSpreadingConfigUtil {
 
     fun growthState(original: BlockState, random: RandomSource, isWorldGeneration: Boolean): BlockState {
-        val config = SculkSpreadingConfig.get()
         if (!MainConfig.sculk_spreading.get()) return original
 
-        val list = config.growths.value
-        for (growth in list) {
-            if (growth.restrictedToWorldgen && !isWorldGeneration) continue
-            val rarity = growth.rarity ?: continue
-            val newState = growth.blockState ?: continue
+        val list = SculkSpreadingConfig.growths.get()
+        for ((restrictedToWorldgen, rarity, newState) in list) {
+            if (restrictedToWorldgen && !isWorldGeneration) continue
 
             if (rarity == 0 || random.nextInt(rarity) == 0) {
                 return newState

@@ -95,6 +95,7 @@ object DataFixerUtil {
         when (entry.type) {
             "biome" -> SimpleFixes.addBiomeRenameFix(builder, fixName, oldId, newId, schema)
             "block" -> SimpleFixes.addBlockRenameFix(builder, fixName, oldId, newId, schema)
+            "block_entity" -> SimpleFixes.addBlockEntityRenameFix(builder, fixName, oldId, newId, schema)
             "entity" -> SimpleFixes.addEntityRenameFix(builder, fixName, oldId, newId, schema)
             "item" -> {
                 SimpleFixes.addItemRenameFix(builder, fixName, oldId, newId, schema)

@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.util
 
-import net.frozenblock.lib.config.api.instance.ConfigSerialization
-import net.frozenblock.lib.config.api.instance.xjs.XjsConfig
+import net.frozenblock.lib.config.v1.instance.BasicConfigSerialization
+import net.frozenblock.lib.config.v1.instance.xjs.XjsBasicConfig
 import net.frozenblock.lib.config.v2.config.ConfigData
 import net.frozenblock.lib.config.v2.config.ConfigSettings
 import net.frozenblock.lib.config.v2.entry.ConfigEntry
@@ -108,14 +108,12 @@ open class CEConfig(name: String) : ConfigData<JsonValue>(config(name), ConfigSe
 open class CESimpleConfig<T : Any>(
     config: KClass<T>,
     private val configName: String,
-    supportsModification: Boolean = true,
     private val thirdParty: Boolean = false
-) : XjsConfig<T>(
+) : XjsBasicConfig<T>(
     MOD_ID,
     config.java,
     if (thirdParty) makeThirdPartyConfigPath(configName) else makeConfigPath(configName),
     CONFIG_FORMAT,
-    supportsModification
 ) {
     init {
         if (this.load()) {
@@ -134,7 +132,7 @@ open class CESimpleConfig<T : Any>(
 
         val legacy = if (thirdParty) makeLegacyThirdPartyConfigPath(configName) else makeLegacyConfigPath(configName)
         if (Files.exists(legacy)) {
-            val jankson = ConfigSerialization.createJankson(MOD_ID)
+            val jankson = BasicConfigSerialization.createJankson(MOD_ID)
             this.setConfig(jankson.fromJson(jankson.load(legacy.toFile()), this.configClass()))
             legacy.deleteIfExists()
         }

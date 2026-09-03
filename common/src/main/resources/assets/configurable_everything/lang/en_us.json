@@ -196,7 +196,7 @@
   "tooltip.configurable_everything.data_version": "The data fixer's main data version.\nIncrement this when you add a new schema.\nAny schemas with a data version higher than this will be ignored.",
 
   "option.configurable_everything.schemas": "Schemas",
-  "tooltip.configurable_everything.schemas": "The list of schemas to use for data fixing.\nEach schema has a data version and a list of data fix entries.\nEach data fix entry has a type and a list of fixers.\nThe four types are \"biome\", \"block\", \"entity\", and \"item\".\nAlthough, it is recommended to use a registry fixer for items instead of a schema fixer.\nEach fixer contains an old id and a new id, and will replace all instances of the old id with the new id.\nHowever, if the old id is still found in the registry, it will not be replaced.",
+  "tooltip.configurable_everything.schemas": "The list of schemas to use for data fixing.\nEach schema has a data version and a list of data fix entries.\nEach data fix entry has a type and a list of fixers.\nThe five types are \"biome\", \"block\", \"block_entity\", \"entity\", and \"item\".\nAlthough, it is recommended to use a registry fixer for items instead of a schema fixer.\nEach fixer contains an old id and a new id, and will replace all instances of the old id with the new id.\nHowever, if the old id is still found in the registry, it will not be replaced.",
   "option.configurable_everything.schemas.schema": "Schema",
   "option.configurable_everything.schemas.version": "Version",
   "tooltip.configurable_everything.schemas.version": "The data version of the schema.",
@@ -204,7 +204,7 @@
   "tooltip.configurable_everything.schemas.entries": "The list of data fix entries to use for this schema.",
   "option.configurable_everything.schemas.entry": "DataFix Entry",
   "option.configurable_everything.schemas.type": "Type",
-  "tooltip.configurable_everything.schemas.type": "The type of data fix entry.\nThe four types are \"biome\", \"block\", \"entity\", and \"item\".",
+  "tooltip.configurable_everything.schemas.type": "The type of data fix entry.\nThe five types are \"biome\", \"block\", \"block_entity\", \"entity\", and \"item\".",
 
   "option.configurable_everything.registry_fixers": "Registry Fixers",
   "tooltip.configurable_everything.registry_fixers": "The list of registry fixers to use for data fixing.\nEach registry fixer has a registry key and a list of fixers.",

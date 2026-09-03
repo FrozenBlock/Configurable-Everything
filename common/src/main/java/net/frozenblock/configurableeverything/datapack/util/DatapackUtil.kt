@@ -6,9 +6,9 @@ import com.mojang.serialization.DynamicOps
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.util.log
 import net.frozenblock.configurableeverything.util.logError
-import net.frozenblock.lib.config.api.instance.ConfigSerialization
-import net.frozenblock.lib.config.api.instance.json.JanksonOps
-import net.frozenblock.lib.config.api.instance.xjs.XjsOps
+import net.frozenblock.lib.config.v1.instance.BasicConfigSerialization
+import net.frozenblock.lib.config.v1.instance.json.JanksonOps
+import net.frozenblock.lib.config.v1.instance.xjs.XjsOps
 import xjs.data.serialization.JsonContext as XjsContext
 import xjs.data.Json as Xjs
 import net.minecraft.core.Registry
@@ -55,7 +55,7 @@ object DatapackUtil {
     ) {
         loadContents(registry, lookup, manager, registryKey, loadedEntries, codec,
             directory, "json5", JanksonOps.INSTANCE) { reader ->
-            ConfigSerialization.createJankson("").load(reader.readText())
+            BasicConfigSerialization.createJankson("").load(reader.readText())
         }
         loadContents(registry, lookup, manager, registryKey, loadedEntries, codec,
             directory, "djs", XjsOps.INSTANCE) { reader ->

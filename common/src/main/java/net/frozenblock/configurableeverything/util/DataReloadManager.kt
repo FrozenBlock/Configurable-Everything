@@ -8,10 +8,9 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import net.frozenblock.configurableeverything.util.DataReloadManager.DataReloader
-import net.frozenblock.lib.config.api.instance.ConfigSerialization
-import net.frozenblock.lib.config.api.instance.json.JanksonOps
-import net.frozenblock.lib.config.api.instance.json.JsonType
+import net.frozenblock.lib.config.v1.instance.BasicConfigSerialization
+import net.frozenblock.lib.config.v1.instance.json.JanksonOps
+import net.frozenblock.lib.config.v1.instance.json.JsonType
 import net.minecraft.resources.Identifier
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.Resource
@@ -125,7 +124,7 @@ abstract class DataReloadManager<T : Any>(
                 return
             }.use { reader ->
                 val result: DataResult<out Pair<T, *>> = if (isJson5) {
-                    val json5 = reader.let { ConfigSerialization.createJankson("").load(it.readText()) }
+                    val json5 = reader.let { BasicConfigSerialization.createJankson("").load(it.readText()) }
                     reloadManager.codec.decode(JanksonOps.INSTANCE, json5)
                 } else {
                     val json = reader.let { GsonHelper.parse(it) }

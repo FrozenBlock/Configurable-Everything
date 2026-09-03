@@ -2,24 +2,25 @@ package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.*
 import net.frozenblock.configurableeverything.util.MOD_ID
-import net.frozenblock.lib.config.api.entry.TypedEntry
-import net.frozenblock.lib.config.api.entry.TypedEntryType
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v1.entry.TypedEntry
+import net.frozenblock.lib.config.v1.entry.TypedEntryType
+import net.frozenblock.lib.config.v1.registry.BasicConfigRegistry
+import net.frozenblock.lib.config.v2.entry.ConfigEntry
+import net.frozenblock.lib.config.v2.entry.EntryType
 import net.frozenblock.lib.levelgen.surface.api.DimensionBoundRuleSource
+import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes
 import net.minecraft.world.level.levelgen.SurfaceRules
 
-private val SURFACE_RULE_LIST: TypedEntryType<MutableList<DimensionBoundRuleSource>> = ConfigRegistry.register(
-    TypedEntryType(
-        MOD_ID,
-        DimensionBoundRuleSource.CODEC.mutListOf()
-    )
+private val SURFACE_RULE_LIST: EntryType<MutableList<DimensionBoundRuleSource>> = EntryType.create(
+    DimensionBoundRuleSource.CODEC.mutListOf(),
+    DimensionBoundRuleSource.STREAM_CODEC.apply(ByteBufCodecs.list())
 )
 
-data class SurfaceRuleConfig(
+object SurfaceRuleConfig : CEConfig("surface_rule") {
     @JvmField
-    var addedSurfaceRules: TypedEntry<MutableList<DimensionBoundRuleSource>> = TypedEntry.create(
+    var addedSurfaceRules: ConfigEntry<MutableList<DimensionBoundRuleSource>> = this.entry("addedSurfaceRules",
         SURFACE_RULE_LIST,
         mutableListOf(
             DimensionBoundRuleSource(
@@ -33,18 +34,4 @@ data class SurfaceRuleConfig(
             )
         )
     )
-) {
-    companion object : CESimpleConfig<SurfaceRuleConfig>(
-        SurfaceRuleConfig::class,
-        "surface_rule"
-    ) {
-
-        init {
-            ConfigRegistry.register(this)
-        }
-
-        @JvmStatic
-        @JvmOverloads
-        fun get(real: Boolean = false): SurfaceRuleConfig = if (real) this.instance() else this.config()
-    }
 }

@@ -15,7 +15,7 @@ internal object LootConfigUtil {
         LootTableEvents.MODIFY.register { key, tableBuilder, _, _ ->
             if (!MainConfig.loot.get()) return@register
             val id = key.identifier()
-            val mods = LootConfig.get().lootModifications.value
+            val mods = LootConfig.lootModifications.get()
             for (mod in mods) {
                 if (mod.id != id) continue
                 val pool = mod.pool

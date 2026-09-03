@@ -1,6 +1,6 @@
 package net.frozenblock.configurableeverything.util
 
-import net.frozenblock.lib.config.api.entry.TypedEntry
+import net.frozenblock.lib.config.v1.entry.TypedEntry
 import net.frozenblock.lib.platform.ModLoader
 import net.mehvahdjukaar.candlelight.api.ClientOnly
 import net.mehvahdjukaar.candlelight.api.ServerOnly

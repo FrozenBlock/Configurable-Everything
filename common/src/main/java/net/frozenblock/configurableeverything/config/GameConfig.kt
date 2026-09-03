@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CESimpleConfig
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v1.registry.BasicConfigRegistry
 import blue.endless.jankson.Comment
 
 // UNSYNCABLE
@@ -27,7 +27,7 @@ The default version series is "main".
     ) {
 
         init {
-            ConfigRegistry.register(this)
+            BasicConfigRegistry.register(this)
         }
 
         @JvmStatic

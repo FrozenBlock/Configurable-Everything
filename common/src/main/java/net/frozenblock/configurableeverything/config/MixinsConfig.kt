@@ -1,7 +1,7 @@
 package net.frozenblock.configurableeverything.config
 
 import net.frozenblock.configurableeverything.util.CESimpleConfig
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
+import net.frozenblock.lib.config.v1.registry.BasicConfigRegistry
 import blue.endless.jankson.Comment
 
 @Suppress("PropertyName", "SpellCheckingInspection")
@@ -76,7 +76,7 @@ Warning: Functionality will be lost if these are disabled.
     ) {
 
         init {
-            ConfigRegistry.register(this)
+            BasicConfigRegistry.register(this)
         }
 
         @JvmStatic

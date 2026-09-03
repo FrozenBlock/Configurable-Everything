@@ -2,8 +2,8 @@ package net.frozenblock.configurableeverything.util
 
 import net.frozenblock.configurableeverything.config.MainConfig
 import net.frozenblock.configurableeverything.config.ScriptingConfig
-import net.frozenblock.lib.config.api.instance.json.JsonType
-import net.frozenblock.lib.config.api.instance.xjs.XjsFormat
+import net.frozenblock.lib.config.v1.instance.json.JsonType
+import net.frozenblock.lib.config.v1.instance.xjs.XjsFormat
 import net.frozenblock.lib.platform.ModLoader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

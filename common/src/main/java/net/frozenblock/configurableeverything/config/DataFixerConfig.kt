@@ -65,6 +65,15 @@ object DataFixerConfig : CEConfig("datafixer") {
                         )
                     ),
                     DataFixEntry(
+                        "block_entity",
+                        mutableListOf(
+                            Fixer(
+                                Identifier.parse("examplemod:example_block_entity"),
+                                Identifier.parse("minecraft:chest")
+                            )
+                        )
+                    ),
+                    DataFixEntry(
                         "entity",
                         mutableListOf(
                             Fixer(
@@ -103,7 +112,7 @@ object DataFixerConfig : CEConfig("datafixer") {
         The list of schemas to use for data fixing.
         Each schema has a data version and a list of data fix entries.
         Each data fix entry has a type and a list of fixers.
-        The four types are "biome", "block", "entity", and "item".
+        The five types are "biome", "block", "block_entity", "entity", and "item".
         Although, it is recommended to use a registry fixer for items instead of a schema fixer.
         Each fixer contains an old id and a new id, and will replace all instances of the old id with the new id.
         However, if the old id is still found in the registry, it will not be replaced.

@@ -2,9 +2,9 @@ package net.frozenblock.configurableeverything.scripting.util.api.conversion
 
 import com.mojang.serialization.DynamicOps
 import net.frozenblock.configurableeverything.util.log
-import net.frozenblock.lib.config.api.instance.ConfigSerialization
-import net.frozenblock.lib.config.api.instance.json.JanksonOps
-import net.frozenblock.lib.config.api.instance.xjs.XjsOps
+import net.frozenblock.lib.config.v1.instance.BasicConfigSerialization
+import net.frozenblock.lib.config.v1.instance.json.JanksonOps
+import net.frozenblock.lib.config.v1.instance.xjs.XjsOps
 import xjs.data.Json as Xjs
 import xjs.data.serialization.JsonContext as XjsContext
 import com.google.gson.GsonBuilder
@@ -26,7 +26,7 @@ import blue.endless.jankson.JsonElement as JanksonElement
 object DatapackConversion {
 
     private val GSON = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-    private val JANKSON = ConfigSerialization.createJankson("")
+    private val JANKSON = BasicConfigSerialization.createJankson("")
 
     @JvmStatic
     fun <I : Any, O : Any> convertDatapack(

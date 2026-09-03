@@ -1,9 +1,6 @@
 package net.frozenblock.configurableeverything.scripting.util.api
 
 import net.frozenblock.configurableeverything.config.*
-import net.frozenblock.lib.config.api.instance.Config
-import net.frozenblock.lib.config.api.instance.ConfigModification
-import net.frozenblock.lib.config.api.registry.ConfigRegistry
 import net.mehvahdjukaar.candlelight.api.ClientOnly
 
 object ConfigData {
@@ -27,41 +24,3 @@ object ConfigData {
     val TAG = TagConfig
     val WORLD = WorldConfig
 }
-
-sealed class StableConfigV1Data<T : Any, C>(override val config: Config<T>): ConfigV1Data<T, C>(config) where C : ConfigWrapper<T> {
-    override fun get(): T = super.get()!!
-}
-
-/**
- * Simplified modification of CE configs
- * @since 1.1
- */
-@Suppress("unused", "ClassName")
-sealed class ConfigV1Data<T : Any, C>(open val config: Config<T>?) where C : ConfigWrapper<T> {
-    data object LOOT : StableConfigV1Data<LootConfig, LootWrapper>(LootConfig) {
-        override fun modify(modification: (LootWrapper) -> Unit) {
-            ConfigRegistry.register(LootConfig, ConfigModification { modification(LootWrapper(it)) })
-        }
-    }
-    data object REGISTRY : StableConfigV1Data<RegistryConfig, RegistryWrapper>(RegistryConfig) {
-        override fun modify(modification: (RegistryWrapper) -> Unit) {
-            ConfigRegistry.register(RegistryConfig, ConfigModification { modification(RegistryWrapper(it)) })
-        }
-    }
-    data object SCULK_SPREADING : StableConfigV1Data<SculkSpreadingConfig, SculkSpreadingWrapper>(SculkSpreadingConfig) {
-        override fun modify(modification: (SculkSpreadingWrapper) -> Unit) {
-            ConfigRegistry.register(SculkSpreadingConfig, ConfigModification { modification(SculkSpreadingWrapper(it)) })
-        }
-    }
-    data object SURFACE_RULE : StableConfigV1Data<SurfaceRuleConfig, SurfaceRuleWrapper>(SurfaceRuleConfig) {
-        override fun modify(modification: (SurfaceRuleWrapper) -> Unit) {
-            ConfigRegistry.register(SurfaceRuleConfig, ConfigModification { modification(SurfaceRuleWrapper(it)) })
-        }
-    }
-
-    abstract fun modify(modification: (C) -> Unit)
-
-    open fun get(): T? = config?.config()
-}
-
-open class ConfigWrapper<T : Any>(protected val config: T)
