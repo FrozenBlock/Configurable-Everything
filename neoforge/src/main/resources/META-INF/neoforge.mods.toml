@@ -8,7 +8,7 @@ issueTrackerURL="https://github.com/FrozenBlock/Configurable-Everything/issues"
     version="${mod_version}"
     displayName="Configurable Everything"
     displayURL="https://modrinth.com/mod/configurable-everything"
-    logoFile="assets/configurable_everything/icon.png"
+    iconFile="assets/configurable_everything/icon.png"
     authors="FrozenBlock"
     description='''
 Makes various aspects of Minecraft configurable.
